@@ -1,0 +1,845 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_hot_reload_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::HotReloadManager</compoundname>
+    <includes refid="hot__reload__manager_8h" local="no">hot_reload_manager.h</includes>
+    <innerclass refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config" prot="public">themis::modules::HotReloadManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_stats" prot="public">themis::modules::HotReloadManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot" prot="private">themis::modules::HotReloadManager::ModuleSlot</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1modules_1_1_hot_reload_manager_1aaed29382c55a0cf57486f619feb60961" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReloadPhase</name>
+        <qualifiedname>themis::modules::HotReloadManager::ReloadPhase</qualifiedname>
+        <enumvalue id="classthemis_1_1modules_1_1_hot_reload_manager_1aaed29382c55a0cf57486f619feb60961ad0d9b71c9f72a11f6c391ba59c14e5bc" prot="public">
+          <name>BEFORE_UNLOAD</name>
+          <briefdescription>
+<para>Old module about to be unloaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1modules_1_1_hot_reload_manager_1aaed29382c55a0cf57486f619feb60961a7f569ab702ed26cd5cd2468bfe905c31" prot="public">
+          <name>AFTER_UNLOAD</name>
+          <briefdescription>
+<para>Old module unloaded; new one not yet live. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1modules_1_1_hot_reload_manager_1aaed29382c55a0cf57486f619feb60961a36ff68bd5e4444b29a609826379210d1" prot="public">
+          <name>AFTER_LOAD</name>
+          <briefdescription>
+<para>New module live (reload succeeded). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1modules_1_1_hot_reload_manager_1aaed29382c55a0cf57486f619feb60961a2805522dd41e1b57da11967ac5fa258c" prot="public">
+          <name>ROLLBACK</name>
+          <briefdescription>
+<para>Rollback completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Lifecycle phase emitted during a hot-reload or rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="162" column="5" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="162" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1modules_1_1_hot_reload_manager_1a13efa84e41e4b11c0aba112e60031041" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;module_name, <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1aaed29382c55a0cf57486f619feb60961" kindref="member">ReloadPhase</ref> phase)&gt;</type>
+        <definition>using themis::modules::HotReloadManager::ReloadCallback = 
+std::function&lt;void(const std::string&amp; module_name, ReloadPhase phase)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReloadCallback</name>
+        <qualifiedname>themis::modules::HotReloadManager::ReloadCallback</qualifiedname>
+        <briefdescription>
+<para>Callback invoked at each reload phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="170" column="5" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1modules_1_1_hot_reload_manager_1a4f2d195b7dc8c02cad4a005baacf3739" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;module_name)&gt;</type>
+        <definition>using themis::modules::HotReloadManager::StateSaveCallback = 
+std::function&lt;std::string(const std::string&amp; module_name)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StateSaveCallback</name>
+        <qualifiedname>themis::modules::HotReloadManager::StateSaveCallback</qualifiedname>
+        <briefdescription>
+<para>Optional callback to save module state before unload. Returns serialised state string (empty = nothing to save). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="175" column="5" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1modules_1_1_hot_reload_manager_1a7fd38c8882c9db3791d26b9f8c7348ff" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;module_name, const std::string &amp;state)&gt;</type>
+        <definition>using themis::modules::HotReloadManager::StateRestoreCallback = 
+std::function&lt;bool(const std::string&amp; module_name, const std::string&amp; state)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StateRestoreCallback</name>
+        <qualifiedname>themis::modules::HotReloadManager::StateRestoreCallback</qualifiedname>
+        <briefdescription>
+<para>Optional callback to restore state after load. Returns true on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="180" column="5" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1a0ee33890a13f09b060b0e53bf705d67a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::modules::HotReloadManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::modules::HotReloadManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="357" column="12" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1a7f358f236ecbb75876269fa2397af76b" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::modules::HotReloadManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::modules::HotReloadManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="358" column="31" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1a3af46f83b70aa64b2ba8517285b4f725" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, ModuleSlot &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ModuleSlot&gt; themis::modules::HotReloadManager::slots_</definition>
+        <argsstring></argsstring>
+        <name>slots_</name>
+        <qualifiedname>themis::modules::HotReloadManager::slots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="360" column="24" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1aa3baf17a3381b5f1d3ce4a9204ac8e80" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::HotReloadManager::next_registration_id_</definition>
+        <argsstring></argsstring>
+        <name>next_registration_id_</name>
+        <qualifiedname>themis::modules::HotReloadManager::next_registration_id_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="361" column="14" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1af67aede8adbe8641c16644ecfbfd9d5b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a4f2d195b7dc8c02cad4a005baacf3739" kindref="member">StateSaveCallback</ref></type>
+        <definition>StateSaveCallback themis::modules::HotReloadManager::state_save_cb_</definition>
+        <argsstring></argsstring>
+        <name>state_save_cb_</name>
+        <qualifiedname>themis::modules::HotReloadManager::state_save_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="363" column="26" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1a2d45f9da997c22aaf2bcc098f0e3d35f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a7fd38c8882c9db3791d26b9f8c7348ff" kindref="member">StateRestoreCallback</ref></type>
+        <definition>StateRestoreCallback themis::modules::HotReloadManager::state_restore_cb_</definition>
+        <argsstring></argsstring>
+        <name>state_restore_cb_</name>
+        <qualifiedname>themis::modules::HotReloadManager::state_restore_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="364" column="26" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1ab06a7292116f0aa60b55e000b9600047" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a13efa84e41e4b11c0aba112e60031041" kindref="member">ReloadCallback</ref> &gt;</type>
+        <definition>std::vector&lt;ReloadCallback&gt; themis::modules::HotReloadManager::reload_cbs_</definition>
+        <argsstring></argsstring>
+        <name>reload_cbs_</name>
+        <qualifiedname>themis::modules::HotReloadManager::reload_cbs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="365" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1a6f6a9bae35361a031f49fc9893b00e8a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::modules::HotReloadManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::modules::HotReloadManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="367" column="11" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_hot_reload_manager_1a65a8b40affc3016b85a4cb1128794378" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref></type>
+        <definition>SpanEmitter themis::modules::HotReloadManager::span_emitter_</definition>
+        <argsstring></argsstring>
+        <name>span_emitter_</name>
+        <qualifiedname>themis::modules::HotReloadManager::span_emitter_</qualifiedname>
+        <briefdescription>
+<para>Wave D — injectable span emitter (default: no-op). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="370" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1aec587d3c65cdfc6aa5256b4c9b288ee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::HotReloadManager::HotReloadManager</definition>
+        <argsstring>()</argsstring>
+        <name>HotReloadManager</name>
+        <qualifiedname>themis::modules::HotReloadManager::HotReloadManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="187" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1afc8c26108f4e3c0ed5875a47dd947d5f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::HotReloadManager::HotReloadManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>HotReloadManager</name>
+        <qualifiedname>themis::modules::HotReloadManager::HotReloadManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="188" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a486328d6c393088bcbc2cd9d7e1e9e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::HotReloadManager::~HotReloadManager</definition>
+        <argsstring>()</argsstring>
+        <name>~HotReloadManager</name>
+        <qualifiedname>themis::modules::HotReloadManager::~HotReloadManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="189" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a022e07db7bf0037493940e47ff463c35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::HotReloadManager::HotReloadManager</definition>
+        <argsstring>(const HotReloadManager &amp;)=delete</argsstring>
+        <name>HotReloadManager</name>
+        <qualifiedname>themis::modules::HotReloadManager::HotReloadManager</qualifiedname>
+        <param>
+          <type>const HotReloadManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="191" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1af5d4b7b84e45ead72f19fcead2b7e70c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1aec587d3c65cdfc6aa5256b4c9b288ee1" kindref="member">HotReloadManager</ref> &amp;</type>
+        <definition>HotReloadManager &amp; themis::modules::HotReloadManager::operator=</definition>
+        <argsstring>(const HotReloadManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::HotReloadManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1aec587d3c65cdfc6aa5256b4c9b288ee1" kindref="member">HotReloadManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="192" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1ad6757b2d84501ddf45a161bff6728df4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::registerModule</definition>
+        <argsstring>(const std::string &amp;module_name, ModuleLoader &amp;loader)</argsstring>
+        <name>registerModule</name>
+        <qualifiedname>themis::modules::HotReloadManager::registerModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> &amp;</type>
+          <declname>loader</declname>
+        </param>
+        <briefdescription>
+<para>Register a module so it can be hot-reloaded later. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical name (e.g. &quot;themis_storage&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> that currently owns the module. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="204" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a9b9fceebc1d8b73bf0dfc16d3ec82023" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::unregisterModule</definition>
+        <argsstring>(const std::string &amp;module_name)</argsstring>
+        <name>unregisterModule</name>
+        <qualifiedname>themis::modules::HotReloadManager::unregisterModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a module and free any backup slots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical name previously passed to <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1ad6757b2d84501ddf45a161bff6728df4" kindref="member">registerModule()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="210" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a402b3f52fce8ba2070db2accec9f0945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref></type>
+        <definition>HotReloadResult themis::modules::HotReloadManager::reloadModule</definition>
+        <argsstring>(const std::string &amp;module_name, const std::string &amp;new_path)</argsstring>
+        <name>reloadModule</name>
+        <qualifiedname>themis::modules::HotReloadManager::reloadModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_path</declname>
+        </param>
+        <briefdescription>
+<para>Hot-reload a module from a new path without stopping the database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Steps:<orderedlist>
+<listitem><para>Optionally save state (if <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a4f2d195b7dc8c02cad4a005baacf3739" kindref="member">StateSaveCallback</ref> is set).</para>
+</listitem><listitem><para>Emit BEFORE_UNLOAD.</para>
+</listitem><listitem><para>Load new binary via the registered <ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref>.</para>
+</listitem><listitem><para>On success: unload old binary, emit AFTER_UNLOAD, emit AFTER_LOAD, optionally restore state.</para>
+</listitem><listitem><para>On failure: keep old binary running, return error result.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical module name (must be registered). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem path to the updated binary. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref> describing outcome, duration, and versions. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="231" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1aa49651b1890829b3086dfbd4d53af8d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref></type>
+        <definition>HotReloadResult themis::modules::HotReloadManager::rollback</definition>
+        <argsstring>(const std::string &amp;module_name)</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::modules::HotReloadManager::rollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Roll back to the previous version of a module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only available when enableRollback=true and a successful reload has already been performed (making the prior version the backup).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical module name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref> describing rollback outcome. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="243" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a77bade105105974d8feb4c27d631d4b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1modules_1_1_module_version" kindref="compound">ModuleVersion</ref> &gt;</type>
+        <definition>std::optional&lt; ModuleVersion &gt; themis::modules::HotReloadManager::getCurrentVersion</definition>
+        <argsstring>(const std::string &amp;module_name) const</argsstring>
+        <name>getCurrentVersion</name>
+        <qualifiedname>themis::modules::HotReloadManager::getCurrentVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Get the current version of a registered module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Version info, or std::nullopt if the module is not registered or not currently loaded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="254" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a3525da4c22bb09c1248efcee2a871d88" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::HotReloadManager::isRollbackAvailable</definition>
+        <argsstring>(const std::string &amp;module_name) const</argsstring>
+        <name>isRollbackAvailable</name>
+        <qualifiedname>themis::modules::HotReloadManager::isRollbackAvailable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a rollback is available for a module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="260" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1ad7c9f81ee42dad31e3d7be5eb471930a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::modules::HotReloadManager::registeredModules</definition>
+        <argsstring>() const</argsstring>
+        <name>registeredModules</name>
+        <qualifiedname>themis::modules::HotReloadManager::registeredModules</qualifiedname>
+        <briefdescription>
+<para>Return the list of all registered module names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="265" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1adfb69afb3d24399d757f040656f48799" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1modules_1_1_sandbox_stats" kindref="compound">SandboxStats</ref> &gt;</type>
+        <definition>std::optional&lt; SandboxStats &gt; themis::modules::HotReloadManager::getSandboxStats</definition>
+        <argsstring>(const std::string &amp;module_name) const</argsstring>
+        <name>getSandboxStats</name>
+        <qualifiedname>themis::modules::HotReloadManager::getSandboxStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Get sandbox resource-usage statistics for a loaded module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_sandbox_stats" kindref="compound">SandboxStats</ref> sampled from the active sandbox, or std::nullopt if sandboxing is not configured for this manager, or the module is not registered / not currently sandboxed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="274" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a6e1fbd0abfc55b71a949d1b2ffa1767b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::setStateSaveCallback</definition>
+        <argsstring>(StateSaveCallback cb)</argsstring>
+        <name>setStateSaveCallback</name>
+        <qualifiedname>themis::modules::HotReloadManager::setStateSaveCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a4f2d195b7dc8c02cad4a005baacf3739" kindref="member">StateSaveCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="281" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a1e404823e303af5f4c5b7691a3afaab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::setStateRestoreCallback</definition>
+        <argsstring>(StateRestoreCallback cb)</argsstring>
+        <name>setStateRestoreCallback</name>
+        <qualifiedname>themis::modules::HotReloadManager::setStateRestoreCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a7fd38c8882c9db3791d26b9f8c7348ff" kindref="member">StateRestoreCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="282" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a3e76088fc3d1eb1b395a5b19d7b31cca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::addReloadCallback</definition>
+        <argsstring>(ReloadCallback cb)</argsstring>
+        <name>addReloadCallback</name>
+        <qualifiedname>themis::modules::HotReloadManager::addReloadCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a13efa84e41e4b11c0aba112e60031041" kindref="member">ReloadCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="284" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a8b3b2ef210b0da833ce19d344ba0b2f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::clearReloadCallbacks</definition>
+        <argsstring>()</argsstring>
+        <name>clearReloadCallbacks</name>
+        <qualifiedname>themis::modules::HotReloadManager::clearReloadCallbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="285" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a456e3910d4bf8d7e434662f43991b389" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::setSpanEmitter</definition>
+        <argsstring>(SpanEmitter emitter)</argsstring>
+        <name>setSpanEmitter</name>
+        <qualifiedname>themis::modules::HotReloadManager::setSpanEmitter</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref></type>
+          <declname>emitter</declname>
+        </param>
+        <briefdescription>
+<para>Replace the span emitter used by <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a402b3f52fce8ba2070db2accec9f0945" kindref="member">reloadModule()</ref> and <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1aa49651b1890829b3086dfbd4d53af8d9" kindref="member">rollback()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The default emitter is a no-op; replace it with a collecting emitter in tests or with an OpenTelemetry adapter in production to capture spans.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>emitter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thread-safe callable that receives <computeroutput><ref refid="structthemis_1_1modules_1_1_span_event" kindref="compound">SpanEvent</ref></computeroutput> values. Must remain valid for the lifetime of this manager. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="300" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1adfb6df9ae47a4adad8c1e5150a63abb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref></type>
+        <definition>SpanEmitter themis::modules::HotReloadManager::spanEmitter</definition>
+        <argsstring>() const</argsstring>
+        <name>spanEmitter</name>
+        <qualifiedname>themis::modules::HotReloadManager::spanEmitter</qualifiedname>
+        <briefdescription>
+<para>Return the active span emitter by value (thread-safe snapshot). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned <computeroutput><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref></computeroutput> is a copy taken under a shared lock, so callers receive a stable, independently-owned value. Store the returned emitter by value and pass it by reference into <computeroutput><ref refid="classthemis_1_1modules_1_1_scoped_span" kindref="compound">ScopedSpan</ref></computeroutput>; do not bind it to a <computeroutput>const&amp;</computeroutput> or <computeroutput>auto&amp;</computeroutput> (that would dangle immediately).</para>
+<para>Returns the current span emitter by value (thread-safe read). Callers must not invoke <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a456e3910d4bf8d7e434662f43991b389" kindref="member">setSpanEmitter()</ref> concurrently with active reload/rollback operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="313" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1ad73e029c4de306bb608925e56dade585" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::modules::HotReloadManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::modules::HotReloadManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="331" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a680c924c8d2aa0c07eb07538a7fafe7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::modules::HotReloadManager::resetStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="332" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a79d4806b7b22dd48db0e4c9dc87a976e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::HotReloadManager::notify</definition>
+        <argsstring>(const std::string &amp;name, ReloadPhase phase)</argsstring>
+        <name>notify</name>
+        <qualifiedname>themis::modules::HotReloadManager::notify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1aaed29382c55a0cf57486f619feb60961" kindref="member">ReloadPhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="376" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1aeb210a176b81b4e3cbe01ff239272ae1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::HotReloadManager::saveState</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>saveState</name>
+        <qualifiedname>themis::modules::HotReloadManager::saveState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="377" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a3c10302d2a28427680a5154d11b1d1a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::HotReloadManager::restoreState</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;state)</argsstring>
+        <name>restoreState</name>
+        <qualifiedname>themis::modules::HotReloadManager::restoreState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="378" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_hot_reload_manager_1a7afaa8e99d91d063304753487257dc7e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_version" kindref="compound">ModuleVersion</ref></type>
+        <definition>static ModuleVersion themis::modules::HotReloadManager::versionFromLoader</definition>
+        <argsstring>(ModuleLoader &amp;loader, const std::string &amp;module_name)</argsstring>
+        <name>versionFromLoader</name>
+        <qualifiedname>themis::modules::HotReloadManager::versionFromLoader</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> &amp;</type>
+          <declname>loader</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="380" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages hot-reloading of ThemisDB modules without a database restart. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Key features:<itemizedlist>
+<listitem><para><bold>Atomic swap</bold>: the old module handle stays alive until the new one is fully initialised; failure keeps the old module running.</para>
+</listitem><listitem><para><bold>State preservation</bold>: optional save/restore callbacks allow stateful plugins to survive a reload.</para>
+</listitem><listitem><para><bold>Rollback</bold>: one backup slot is kept per module; calling <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1aa49651b1890829b3086dfbd4d53af8d9" kindref="member">rollback()</ref> re-activates the previous version.</para>
+</listitem><listitem><para><bold>Reload notifications</bold>: registered callbacks are invoked at each phase (BEFORE_UNLOAD, AFTER_UNLOAD, AFTER_LOAD, ROLLBACK).</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all public methods are thread-safe. Read-only queries hold a shared lock (std::shared_lock) to allow concurrent readers; write operations (reloadModule, rollback, registration) hold an exclusive lock (std::unique_lock) on the internal std::shared_mutex.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1aec587d3c65cdfc6aa5256b4c9b288ee1" kindref="member">HotReloadManager</ref><sp/>mgr;</highlight></codeline>
+<codeline><highlight class="normal">mgr.registerModule(</highlight><highlight class="stringliteral">&quot;themis_storage&quot;</highlight><highlight class="normal">,<sp/>loader);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Later,<sp/>when<sp/>a<sp/>new<sp/>build<sp/>arrives<sp/>on<sp/>disk:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.reloadModule(</highlight><highlight class="stringliteral">&quot;themis_storage&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/path/to/new.so&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;Reload<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>result.errorMessage);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>something<sp/>breaks,<sp/>roll<sp/>back:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.rollback(</highlight><highlight class="stringliteral">&quot;themis_storage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/hot_reload_manager.h" line="134" column="1" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="134" bodyend="382"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a3e76088fc3d1eb1b395a5b19d7b31cca" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>addReloadCallback</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a8b3b2ef210b0da833ce19d344ba0b2f5" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>clearReloadCallbacks</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a0ee33890a13f09b060b0e53bf705d67a" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a77bade105105974d8feb4c27d631d4b9" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1adfb69afb3d24399d757f040656f48799" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>getSandboxStats</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1ad73e029c4de306bb608925e56dade585" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1aec587d3c65cdfc6aa5256b4c9b288ee1" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>HotReloadManager</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1afc8c26108f4e3c0ed5875a47dd947d5f" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>HotReloadManager</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a022e07db7bf0037493940e47ff463c35" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>HotReloadManager</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a3525da4c22bb09c1248efcee2a871d88" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>isRollbackAvailable</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a7f358f236ecbb75876269fa2397af76b" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1aa3baf17a3381b5f1d3ce4a9204ac8e80" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>next_registration_id_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a79d4806b7b22dd48db0e4c9dc87a976e" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>notify</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1af5d4b7b84e45ead72f19fcead2b7e70c" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1ad7c9f81ee42dad31e3d7be5eb471930a" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>registeredModules</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1ad6757b2d84501ddf45a161bff6728df4" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>registerModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1ab06a7292116f0aa60b55e000b9600047" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>reload_cbs_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a13efa84e41e4b11c0aba112e60031041" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>ReloadCallback</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a402b3f52fce8ba2070db2accec9f0945" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>reloadModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1aaed29382c55a0cf57486f619feb60961" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>ReloadPhase</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a680c924c8d2aa0c07eb07538a7fafe7b" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a3c10302d2a28427680a5154d11b1d1a8" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>restoreState</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1aa49651b1890829b3086dfbd4d53af8d9" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1aeb210a176b81b4e3cbe01ff239272ae1" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>saveState</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a456e3910d4bf8d7e434662f43991b389" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>setSpanEmitter</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a1e404823e303af5f4c5b7691a3afaab1" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>setStateRestoreCallback</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a6e1fbd0abfc55b71a949d1b2ffa1767b" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>setStateSaveCallback</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a3af46f83b70aa64b2ba8517285b4f725" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>slots_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a65a8b40affc3016b85a4cb1128794378" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>span_emitter_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1adfb6df9ae47a4adad8c1e5150a63abb3" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>spanEmitter</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a2d45f9da997c22aaf2bcc098f0e3d35f" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>state_restore_cb_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1af67aede8adbe8641c16644ecfbfd9d5b" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>state_save_cb_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a7fd38c8882c9db3791d26b9f8c7348ff" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>StateRestoreCallback</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a4f2d195b7dc8c02cad4a005baacf3739" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>StateSaveCallback</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a6f6a9bae35361a031f49fc9893b00e8a" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a9b9fceebc1d8b73bf0dfc16d3ec82023" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>unregisterModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a7afaa8e99d91d063304753487257dc7e" prot="private" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>versionFromLoader</name></member>
+      <member refid="classthemis_1_1modules_1_1_hot_reload_manager_1a486328d6c393088bcbc2cd9d7e1e9e01" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager</scope><name>~HotReloadManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

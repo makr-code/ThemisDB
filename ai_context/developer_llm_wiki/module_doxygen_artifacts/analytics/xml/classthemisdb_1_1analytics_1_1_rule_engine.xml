@@ -1,0 +1,737 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_rule_engine" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::RuleEngine</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats" prot="public">themisdb::analytics::RuleEngine::RuleStats</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state" prot="private">themisdb::analytics::RuleEngine::RuleState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_rule_engine_1a716b41d4064cee4bfda60436c0a0fa9a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine" kindref="compound">CEPEngine</ref> *</type>
+        <definition>CEPEngine* themisdb::analytics::RuleEngine::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="927" column="15" bodyfile="include/analytics/cep_engine.h" bodystart="927" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_rule_engine_1afb925b9446691fda84e700980bf7f382" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, RuleState &gt;</type>
+        <definition>std::map&lt;std::string, RuleState&gt; themisdb::analytics::RuleEngine::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="937" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="937" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_rule_engine_1ad29d6a618c55e03c9ed5b7a2488d8e10" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::analytics::RuleEngine::rules_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rules_mutex_</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::rules_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="938" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="938" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1aa429426fee97b2751b7c78cfdfa8185c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::RuleEngine::RuleEngine</definition>
+        <argsstring>(CEPEngine *engine)</argsstring>
+        <name>RuleEngine</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleEngine</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine" kindref="compound">CEPEngine</ref> *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Rule Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="849" column="14" bodyfile="src/analytics/cep_engine.cpp" bodystart="1888" bodyend="1888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a5ccfbf8424f83675cf3b8677d9e7759d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::RuleEngine::~RuleEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~RuleEngine</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::~RuleEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="850" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a6c42f513ec7c7a80e015334b30a4246b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::RuleEngine::addRule</definition>
+        <argsstring>(const RuleConfig &amp;config)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::addRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Add Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), spdlog::warn(), addAggregation(), empty(), setGroupBy(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="857" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1897" bodyend="1920"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1ae131321698ccb17ee95f710392e557d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::RuleEngine::removeRule</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>removeRule</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::removeRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="864" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1928" bodyend="1931"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1aeef6780697309db9d08371ab64acfa03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::RuleEngine::setRuleEnabled</definition>
+        <argsstring>(const std::string &amp;rule_id, bool enabled)</argsstring>
+        <name>setRuleEnabled</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::setRuleEnabled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Rule Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="871" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1939" bodyend="1945"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a6d00cd8b30f9e8628a7ca2f87a9e1141" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref> &gt;</type>
+        <definition>std::optional&lt; RuleConfig &gt; themisdb::analytics::RuleEngine::getRule</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getRule</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::getRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="878" column="19" bodyfile="src/analytics/cep_engine.cpp" bodystart="1947" bodyend="1959"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a4819ab953d8434e9ac4ffb327141f594" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref> &gt;</type>
+        <definition>std::vector&lt; RuleConfig &gt; themisdb::analytics::RuleEngine::getRules</definition>
+        <argsstring>() const</argsstring>
+        <name>getRules</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::getRules</qualifiedname>
+        <briefdescription>
+<para>Get Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="884" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="1961" bodyend="1975"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a469c257bb04bf4abcd0ef18234e26bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_alert" kindref="compound">Alert</ref> &gt;</type>
+        <definition>std::vector&lt; Alert &gt; themisdb::analytics::RuleEngine::processEvent</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>processEvent</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::processEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Process <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), empty(), std::any_of(), begin(), end(), evaluateFilter(), std::chrono::steady_clock::now(), addEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="891" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="2069" bodyend="2182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a1a83c93944af2e6fcbf9e2998e0cc417" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats" kindref="compound">RuleStats</ref></type>
+        <definition>RuleEngine::RuleStats themisdb::analytics::RuleEngine::getRuleStats</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getRuleStats</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::getRuleStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Rule Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="912" column="15" bodyfile="src/analytics/cep_engine.cpp" bodystart="2652" bodyend="2664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a3e74dc87649d8dd3207f825ada2efad5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::RuleEngine::serializeMatcherStates</definition>
+        <argsstring>() const</argsstring>
+        <name>serializeMatcherStates</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::serializeMatcherStates</qualifiedname>
+        <briefdescription>
+<para>Serialize Matcher States. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="918" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="2666" bodyend="2685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a4c831c4357daf87a83015cb2dc5c6697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::RuleEngine::restoreMatcherStates</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>restoreMatcherStates</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::restoreMatcherStates</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Restore Matcher States. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lk(), iss(), std::getline(), rfind(), substr(), str(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="924" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2692" bodyend="2720"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1ae99dcf1403fddce6fc71f8e46ff2415c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref> &gt;</type>
+        <definition>std::optional&lt; RuleConfig &gt; themisdb::analytics::RuleEngine::parseEPL</definition>
+        <argsstring>(const std::string &amp;epl)</argsstring>
+        <name>parseEPL</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::parseEPL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>epl</declname>
+        </param>
+        <briefdescription>
+<para>Parse EPL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateId(), std::chrono::system_clock::now(), reserve(), size(), empty(), front(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="898" column="26" bodyfile="src/analytics/cep_engine.cpp" bodystart="2190" bodyend="2650"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a796612d25ed8c36100cb0539e9a62f9d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::RuleEngine::evaluateFilter</definition>
+        <argsstring>(const Event &amp;event, const std::string &amp;filter) const</argsstring>
+        <name>evaluateFilter</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::evaluateFilter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="946" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1977" bodyend="1991"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a8bba7beee8d577deead2fe644747b10f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::RuleEngine::evaluateHaving</definition>
+        <argsstring>(const std::map&lt; std::string, AggregationResult &gt; &amp;results, const std::string &amp;having) const</argsstring>
+        <name>evaluateHaving</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::evaluateHaving</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemisdb_1_1analytics_1_1_aggregation_result" kindref="compound">AggregationResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>having</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="947" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1993" bodyend="2005"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a1b889860e1d0b1c9caaf103750e5e32f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::RuleEngine::executeActions</definition>
+        <argsstring>(const RuleConfig &amp;config, const PatternMatch &amp;match)</argsstring>
+        <name>executeActions</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::executeActions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_pattern_match" kindref="compound">PatternMatch</ref> &amp;</type>
+          <declname>match</declname>
+        </param>
+        <briefdescription>
+<para>Execute Actions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">match</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">match</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::thread(), executeAction(), detach(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="954" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2050" bodyend="2061"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_rule_engine_1a95737ed7a9f4e142f2dda74f4c2d9280" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::RuleEngine::executeAction</definition>
+        <argsstring>(const ActionConfig &amp;action, const PatternMatch &amp;match, const RuleConfig &amp;rule)</argsstring>
+        <name>executeAction</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::executeAction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_action_config" kindref="compound">ActionConfig</ref> &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_pattern_match" kindref="compound">PatternMatch</ref> &amp;</type>
+          <declname>match</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Execute Action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">match</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">match</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::info(), size(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="961" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2014" bodyend="2042"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="842" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="842" bodyend="963"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a6c42f513ec7c7a80e015334b30a4246b" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>addRule</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a716b41d4064cee4bfda60436c0a0fa9a" prot="private" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>engine_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a796612d25ed8c36100cb0539e9a62f9d" prot="private" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>evaluateFilter</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a8bba7beee8d577deead2fe644747b10f" prot="private" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>evaluateHaving</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a95737ed7a9f4e142f2dda74f4c2d9280" prot="private" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>executeAction</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a1b889860e1d0b1c9caaf103750e5e32f" prot="private" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>executeActions</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a6d00cd8b30f9e8628a7ca2f87a9e1141" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>getRule</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a4819ab953d8434e9ac4ffb327141f594" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>getRules</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a1a83c93944af2e6fcbf9e2998e0cc417" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>getRuleStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1ae99dcf1403fddce6fc71f8e46ff2415c" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>parseEPL</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a469c257bb04bf4abcd0ef18234e26bf1" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>processEvent</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1ae131321698ccb17ee95f710392e557d3" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>removeRule</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a4c831c4357daf87a83015cb2dc5c6697" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>restoreMatcherStates</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1aa429426fee97b2751b7c78cfdfa8185c" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>RuleEngine</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1afb925b9446691fda84e700980bf7f382" prot="private" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>rules_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1ad29d6a618c55e03c9ed5b7a2488d8e10" prot="private" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>rules_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a3e74dc87649d8dd3207f825ada2efad5" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>serializeMatcherStates</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1aeef6780697309db9d08371ab64acfa03" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>setRuleEnabled</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_rule_engine_1a5ccfbf8424f83675cf3b8677d9e7759d" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine</scope><name>~RuleEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

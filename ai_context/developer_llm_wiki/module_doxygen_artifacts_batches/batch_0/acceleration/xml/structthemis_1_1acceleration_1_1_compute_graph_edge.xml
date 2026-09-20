@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_compute_graph_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ComputeGraphEdge</compoundname>
+    <includes refid="compute__graph_8h" local="no">compute_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_edge_1a81cc9ad94d1f54a22d1b512f7a21c0fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ComputeGraphEdge::from_node_id</definition>
+        <argsstring></argsstring>
+        <name>from_node_id</name>
+        <qualifiedname>themis::acceleration::ComputeGraphEdge::from_node_id</qualifiedname>
+        <briefdescription>
+<para>Source node ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="37" column="17" bodyfile="include/acceleration/compute_graph.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_edge_1a6a56385d0c3539928724371597259647" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ComputeGraphEdge::to_node_id</definition>
+        <argsstring></argsstring>
+        <name>to_node_id</name>
+        <qualifiedname>themis::acceleration::ComputeGraphEdge::to_node_id</qualifiedname>
+        <briefdescription>
+<para>Destination node ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="38" column="17" bodyfile="include/acceleration/compute_graph.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_edge_1a3af7cde0a25ef0b64ea774c3fefc517c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ComputeGraphEdge::data_buffer_id</definition>
+        <argsstring></argsstring>
+        <name>data_buffer_id</name>
+        <qualifiedname>themis::acceleration::ComputeGraphEdge::data_buffer_id</qualifiedname>
+        <briefdescription>
+<para>Shared buffer connecting these nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="39" column="17" bodyfile="include/acceleration/compute_graph.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_graph.h" line="36" column="1" bodyfile="include/acceleration/compute_graph.h" bodystart="36" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a3af7cde0a25ef0b64ea774c3fefc517c" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphEdge</scope><name>data_buffer_id</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a81cc9ad94d1f54a22d1b512f7a21c0fd" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphEdge</scope><name>from_node_id</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a6a56385d0c3539928724371597259647" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphEdge</scope><name>to_node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

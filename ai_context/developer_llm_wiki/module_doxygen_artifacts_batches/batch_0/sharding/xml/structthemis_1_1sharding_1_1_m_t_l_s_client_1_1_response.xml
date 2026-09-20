@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::MTLSClient::Response</compoundname>
+    <includes refid="mtls__client_8h" local="no">mtls_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a69e3abd39d19fe4b910a28f50638359c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::MTLSClient::Response::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::sharding::MTLSClient::Response::status_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="95" column="13" bodyfile="include/sharding/mtls_client.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a77ae0049187253759ceaeeacda4324ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Response::status_message</definition>
+        <argsstring></argsstring>
+        <name>status_message</name>
+        <qualifiedname>themis::sharding::MTLSClient::Response::status_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="96" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a679b4d4fad16aaa61e8cffc80f17ad7f" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::MTLSClient::Response::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::sharding::MTLSClient::Response::body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="97" column="24" bodyfile="include/sharding/mtls_client.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1aca2f97652a2aac36f13d2fe3d9b7fbd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Response::raw_body</definition>
+        <argsstring></argsstring>
+        <name>raw_body</name>
+        <qualifiedname>themis::sharding::MTLSClient::Response::raw_body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="98" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a381cf901f5dc08d823e8c10d3d1d9c38" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSClient::Response::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::MTLSClient::Response::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="99" column="14" bodyfile="include/sharding/mtls_client.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a127829d2d5ed06fdfe3934f7dd9f871c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Response::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::sharding::MTLSClient::Response::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="100" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HTTP request result </para>
+    </detaileddescription>
+    <location file="include/sharding/mtls_client.h" line="94" column="5" bodyfile="include/sharding/mtls_client.h" bodystart="94" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a679b4d4fad16aaa61e8cffc80f17ad7f" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Response</scope><name>body</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a127829d2d5ed06fdfe3934f7dd9f871c" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Response</scope><name>error</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1aca2f97652a2aac36f13d2fe3d9b7fbd5" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Response</scope><name>raw_body</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a69e3abd39d19fe4b910a28f50638359c" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Response</scope><name>status_code</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a77ae0049187253759ceaeeacda4324ad" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Response</scope><name>status_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response_1a381cf901f5dc08d823e8c10d3d1d9c38" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Response</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

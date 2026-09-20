@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rpc_1_1_0d262234261032064136356163245004115201221151067145" kind="namespace" language="C++">
+    <compoundname>themis::rpc::@262234261032064136356163245004115201221151067145</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/rpc/blob_transfer_handler.cpp" line="39" column="1"/>
+  </compounddef>
+</doxygen>

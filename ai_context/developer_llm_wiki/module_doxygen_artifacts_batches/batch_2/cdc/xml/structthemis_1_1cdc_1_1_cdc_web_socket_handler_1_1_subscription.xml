@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cdc::CdcWebSocketHandler::Subscription</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a12558dab624f3063a4357c82a48e61e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::CdcWebSocketHandler::Subscription::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::Subscription::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="75" column="21" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a51e0dec2563dfae53a8a21c068697071" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::CdcWebSocketHandler::Subscription::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::Subscription::key_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="76" column="21" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a3f2f9e970cbf92cf2dfafe97e8a6ad3b" prot="public" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref> &gt;</type>
+        <definition>std::set&lt;Changefeed::ChangeEventType&gt; themis::cdc::CdcWebSocketHandler::Subscription::event_types</definition>
+        <argsstring></argsstring>
+        <name>event_types</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::Subscription::event_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="77" column="18" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a844875b68f7d04b6f57a48a4865a77a7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::CdcWebSocketHandler::Subscription::last_acked_sequence</definition>
+        <argsstring></argsstring>
+        <name>last_acked_sequence</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::Subscription::last_acked_sequence</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="78" column="18" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a6fb057289bf5978d0c0d492046871b62" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::CdcWebSocketHandler::Subscription::last_sent_sequence</definition>
+        <argsstring></argsstring>
+        <name>last_sent_sequence</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::Subscription::last_sent_sequence</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="79" column="18" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1ae30bf9a766fa8b2ae814b3033d017d60" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; PendingEvent &gt;</type>
+        <definition>std::deque&lt;PendingEvent&gt; themis::cdc::CdcWebSocketHandler::Subscription::pending_ack</definition>
+        <argsstring></argsstring>
+        <name>pending_ack</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::Subscription::pending_ack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="80" column="20" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a6405d0a104525e73b63fc7fcad995239" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::CdcWebSocketHandler::Subscription::group_id</definition>
+        <argsstring></argsstring>
+        <name>group_id</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::Subscription::group_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="82" column="21" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a86f6ed7904c76b29e82e1650edad956c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::CdcWebSocketHandler::Subscription::consumer_id</definition>
+        <argsstring></argsstring>
+        <name>consumer_id</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::Subscription::consumer_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="83" column="21" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_ws_handler.h" line="74" column="5" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="74" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a86f6ed7904c76b29e82e1650edad956c" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::Subscription</scope><name>consumer_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a3f2f9e970cbf92cf2dfafe97e8a6ad3b" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::Subscription</scope><name>event_types</name></member>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a6405d0a104525e73b63fc7fcad995239" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::Subscription</scope><name>group_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a12558dab624f3063a4357c82a48e61e9" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::Subscription</scope><name>id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a51e0dec2563dfae53a8a21c068697071" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::Subscription</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a844875b68f7d04b6f57a48a4865a77a7" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::Subscription</scope><name>last_acked_sequence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1a6fb057289bf5978d0c0d492046871b62" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::Subscription</scope><name>last_sent_sequence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_subscription_1ae30bf9a766fa8b2ae814b3033d017d60" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::Subscription</scope><name>pending_ack</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

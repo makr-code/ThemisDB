@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::rag::delegate_eval::JsonDocumentEvaluator</compoundname>
+    <basecompoundref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" prot="public" virt="non-virtual">themis::rag::delegate_eval::IDomainEvaluator</basecompoundref>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a2ed8fad9bab89e278fe4748ea6ed14da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::delegate_eval::JsonDocumentEvaluator::JsonDocumentEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>JsonDocumentEvaluator</name>
+        <qualifiedname>themis::rag::delegate_eval::JsonDocumentEvaluator::JsonDocumentEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="376" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1acd0ffd5716d1529207adb0c78f5a9217" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref></type>
+        <definition>ReconstructionScore themis::rag::delegate_eval::JsonDocumentEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;original, const std::string &amp;recovered) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::delegate_eval::JsonDocumentEvaluator::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1ac2fea1fc81006d87b26d15705ed42f73">evaluate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recovered</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate JSON field-level fidelity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original JSON string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recovered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The recovered JSON string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RS in <computeroutput>[0.0, 1.0]</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="384" column="25" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="297" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a58ce78bb52760c992d466b70c6702143" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref></type>
+        <definition>DomainType themis::rag::delegate_eval::JsonDocumentEvaluator::domain</definition>
+        <argsstring>() const override</argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::rag::delegate_eval::JsonDocumentEvaluator::domain</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a3ece17ca6928803268fe59fd4380be8c">domain</reimplements>
+        <briefdescription>
+<para>Domain identifier for logging and diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="387" column="16" bodyfile="include/rag/delegate_evaluator.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>JSON document evaluator using field-level overlap. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>RS = <computeroutput>(total_fields − changed_fields) / total_fields</computeroutput>.</para>
+<para>&quot;Changed&quot; includes added, removed, and value-modified top-level keys. If the input is not valid JSON, it falls back to <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" kindref="compound">PlainTextEvaluator</ref></computeroutput>.</para>
+<para><simplesect kind="note"><para>Only top-level keys are compared; nested object diffing is left to future versions. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::rag::delegate_eval::IDomainEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::delegate_eval::JsonDocumentEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::delegate_eval::IDomainEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::delegate_eval::JsonDocumentEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/delegate_evaluator.h" line="374" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="374" bodyend="388"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a58ce78bb52760c992d466b70c6702143" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::JsonDocumentEvaluator</scope><name>domain</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1acd0ffd5716d1529207adb0c78f5a9217" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::JsonDocumentEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a2ed8fad9bab89e278fe4748ea6ed14da" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::JsonDocumentEvaluator</scope><name>JsonDocumentEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a38a888ec22474c19255361a3dafff5ed" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::JsonDocumentEvaluator</scope><name>~IDomainEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

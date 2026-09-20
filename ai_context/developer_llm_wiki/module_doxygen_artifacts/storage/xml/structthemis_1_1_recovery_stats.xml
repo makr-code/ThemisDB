@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_recovery_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RecoveryStats</compoundname>
+    <includes refid="backup__manager_8h" local="no">backup_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_recovery_stats_1ab41579402e4ac0b9a65d7ecd309a5e85" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::RecoveryStats::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::RecoveryStats::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="136" column="43" bodyfile="include/storage/backup_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_recovery_stats_1ad5150dc8f9a1106fe022e90bab703a88" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::RecoveryStats::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::RecoveryStats::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="137" column="43" bodyfile="include/storage/backup_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_recovery_stats_1a460f6123525593dbf39100f7b73cb703" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RecoveryStats::bytes_restored</definition>
+        <argsstring></argsstring>
+        <name>bytes_restored</name>
+        <qualifiedname>themis::RecoveryStats::bytes_restored</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="138" column="14" bodyfile="include/storage/backup_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_recovery_stats_1a6d26be4b5d3f83cc5cd9d3b2f0e434ef" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RecoveryStats::files_restored</definition>
+        <argsstring></argsstring>
+        <name>files_restored</name>
+        <qualifiedname>themis::RecoveryStats::files_restored</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="139" column="14" bodyfile="include/storage/backup_manager.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_recovery_stats_1aa730a91f022804853cf2ae5849deccc9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::RecoveryStats::rto_seconds</definition>
+        <argsstring></argsstring>
+        <name>rto_seconds</name>
+        <qualifiedname>themis::RecoveryStats::rto_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="140" column="14" bodyfile="include/storage/backup_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_recovery_stats_1a66deb2fbb0a49b855a6c7955d1d2384a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RecoveryStats::recovery_point</definition>
+        <argsstring></argsstring>
+        <name>recovery_point</name>
+        <qualifiedname>themis::RecoveryStats::recovery_point</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="141" column="17" bodyfile="include/storage/backup_manager.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated metrics produced by restore and PITR flows. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/backup_manager.h" line="135" column="1" bodyfile="include/storage/backup_manager.h" bodystart="135" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_recovery_stats_1a460f6123525593dbf39100f7b73cb703" prot="public" virt="non-virtual"><scope>themis::RecoveryStats</scope><name>bytes_restored</name></member>
+      <member refid="structthemis_1_1_recovery_stats_1ad5150dc8f9a1106fe022e90bab703a88" prot="public" virt="non-virtual"><scope>themis::RecoveryStats</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1_recovery_stats_1a6d26be4b5d3f83cc5cd9d3b2f0e434ef" prot="public" virt="non-virtual"><scope>themis::RecoveryStats</scope><name>files_restored</name></member>
+      <member refid="structthemis_1_1_recovery_stats_1a66deb2fbb0a49b855a6c7955d1d2384a" prot="public" virt="non-virtual"><scope>themis::RecoveryStats</scope><name>recovery_point</name></member>
+      <member refid="structthemis_1_1_recovery_stats_1aa730a91f022804853cf2ae5849deccc9" prot="public" virt="non-virtual"><scope>themis::RecoveryStats</scope><name>rto_seconds</name></member>
+      <member refid="structthemis_1_1_recovery_stats_1ab41579402e4ac0b9a65d7ecd309a5e85" prot="public" virt="non-virtual"><scope>themis::RecoveryStats</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

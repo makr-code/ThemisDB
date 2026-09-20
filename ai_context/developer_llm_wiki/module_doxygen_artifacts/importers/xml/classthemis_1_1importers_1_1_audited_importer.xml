@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_audited_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::AuditedImporter</compoundname>
+    <includes refid="audit__trail_8h" local="no">audit_trail.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_audited_importer_1_1_audit_event" prot="public">themis::importers::AuditedImporter::AuditEvent</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log" prot="public">themis::importers::AuditedImporter::ImmutableAuditLog</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EventType</name>
+        <qualifiedname>themis::importers::AuditedImporter::EventType</qualifiedname>
+        <enumvalue id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325ab6419ab52e7944ef95c7722e6f2d406e" prot="public">
+          <name>IMPORT_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325a728af2a1ea9d0e1e68b01b1125122df9" prot="public">
+          <name>SCHEMA_ANALYZED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325a01db6e111f21d42e3926f32f854436b9" prot="public">
+          <name>RELATIONSHIP_MAPPED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325a593a19d5a714d338929bf5d8235bf864" prot="public">
+          <name>DATA_VALIDATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325adc896ba9da604ccc07379a1a300eca73" prot="public">
+          <name>CONFLICT_RESOLVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325ab4baceea5bb44884ca2273727bef3680" prot="public">
+          <name>RECORD_IMPORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325a847d895a69457e59b2ecbfb9fb3c9e66" prot="public">
+          <name>IMPORT_COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325a4533e10caf8298123e3c419b950158d0" prot="public">
+          <name>ERROR_OCCURRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="103" column="5" bodyfile="include/importers/audit_trail.h" bodystart="103" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1a7785bc62a1d36cdeaf141e9674604ffa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::AuditedImporter::eventTypeToString</definition>
+        <argsstring>(EventType t)</argsstring>
+        <name>eventTypeToString</name>
+        <qualifiedname>themis::importers::AuditedImporter::eventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325" kindref="member">EventType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Event Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements eventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="119" column="24" bodyfile="src/importers/audit_trail.cpp" bodystart="35" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/audit_trail.h" line="98" column="1" bodyfile="include/importers/audit_trail.h" bodystart="98" bodyend="209"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1ab5ed91d353256a0362f3743159812325" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter</scope><name>EventType</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1a7785bc62a1d36cdeaf141e9674604ffa" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter</scope><name>eventTypeToString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

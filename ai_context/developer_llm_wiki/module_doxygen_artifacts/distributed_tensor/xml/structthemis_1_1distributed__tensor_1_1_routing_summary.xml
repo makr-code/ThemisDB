@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_routing_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::RoutingSummary</compoundname>
+    <includes refid="include_2distributed__tensor_2distributed__planner_8h" local="no">distributed_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_summary_1a2088bdf7621839e3f97cc437de25e9fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RoutingSummary::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::RoutingSummary::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="134" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_summary_1a32325f8fcd3214c699c396c73e5b04de" prot="public" static="no" mutable="no">
+        <type>tensor::SummaryFreshnessState</type>
+        <definition>tensor::SummaryFreshnessState themis::distributed_tensor::RoutingSummary::freshness_state</definition>
+        <argsstring></argsstring>
+        <name>freshness_state</name>
+        <qualifiedname>themis::distributed_tensor::RoutingSummary::freshness_state</qualifiedname>
+        <initializer>= tensor::SummaryFreshnessState::FRESH</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="135" column="31" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_summary_1a92173ef19a885e77a00eafaa5fa0aa9b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::RoutingSummary::shard_relevance</definition>
+        <argsstring></argsstring>
+        <name>shard_relevance</name>
+        <qualifiedname>themis::distributed_tensor::RoutingSummary::shard_relevance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="136" column="7" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_summary_1a6a7120888f5b77ea5089d61546eb459a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::RoutingSummary::routing_confidence</definition>
+        <argsstring></argsstring>
+        <name>routing_confidence</name>
+        <qualifiedname>themis::distributed_tensor::RoutingSummary::routing_confidence</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="137" column="7" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_summary_1a86347df188dece98d8f06b3b4787849c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RoutingSummary::routing_reason</definition>
+        <argsstring></argsstring>
+        <name>routing_reason</name>
+        <qualifiedname>themis::distributed_tensor::RoutingSummary::routing_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="138" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_summary_1af13019903148f6a0b0564984aa403360" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::RoutingSummary::rejected_as_stale</definition>
+        <argsstring></argsstring>
+        <name>rejected_as_stale</name>
+        <qualifiedname>themis::distributed_tensor::RoutingSummary::rejected_as_stale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="139" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_summary_1ad07bfcfbdd73fb79a68408caf8b4d186" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::RoutingSummary::rejected_as_unhealthy</definition>
+        <argsstring></argsstring>
+        <name>rejected_as_unhealthy</name>
+        <qualifiedname>themis::distributed_tensor::RoutingSummary::rejected_as_unhealthy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="140" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/distributed_planner.h" line="133" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="133" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a32325f8fcd3214c699c396c73e5b04de" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingSummary</scope><name>freshness_state</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1af13019903148f6a0b0564984aa403360" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingSummary</scope><name>rejected_as_stale</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1ad07bfcfbdd73fb79a68408caf8b4d186" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingSummary</scope><name>rejected_as_unhealthy</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a6a7120888f5b77ea5089d61546eb459a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingSummary</scope><name>routing_confidence</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a86347df188dece98d8f06b3b4787849c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingSummary</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a2088bdf7621839e3f97cc437de25e9fa" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingSummary</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a92173ef19a885e77a00eafaa5fa0aa9b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingSummary</scope><name>shard_relevance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

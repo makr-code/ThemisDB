@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cdn_cache_middleware_test" kind="class" language="C++" prot="public">
+    <compoundname>CdnCacheMiddlewareTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cdn_cache_middleware_test_1a6f8d4fe9281930f9cbf33fe260c9e4c9" prot="protected" static="no" mutable="no">
+        <type>CdnCacheMiddleware</type>
+        <definition>CdnCacheMiddleware CdnCacheMiddlewareTest::cdn</definition>
+        <argsstring></argsstring>
+        <name>cdn</name>
+        <qualifiedname>CdnCacheMiddlewareTest::cdn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_cdn_cache_middleware.cpp" line="82" column="24" bodyfile="tests/network/test_cdn_cache_middleware.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CdnCacheMiddlewareTest</label>
+        <link refid="class_cdn_cache_middleware_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CdnCacheMiddlewareTest</label>
+        <link refid="class_cdn_cache_middleware_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_cdn_cache_middleware.cpp" line="80" column="1" bodyfile="tests/network/test_cdn_cache_middleware.cpp" bodystart="80" bodyend="83"/>
+    <listofallmembers>
+      <member refid="class_cdn_cache_middleware_test_1a6f8d4fe9281930f9cbf33fe260c9e4c9" prot="protected" virt="non-virtual"><scope>CdnCacheMiddlewareTest</scope><name>cdn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_staleness_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StalenessPolicy</compoundname>
+    <includes refid="stale__artifact__detector_8h" local="no">stale_artifact_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_staleness_policy_1aa5860620618944c034c0261d5faf61ff" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StalenessPolicy::lag_threshold_slightly</definition>
+        <argsstring></argsstring>
+        <name>lag_threshold_slightly</name>
+        <qualifiedname>themis::distributed_tensor::StalenessPolicy::lag_threshold_slightly</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="68" column="12" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_staleness_policy_1adb6c01d251c5ccbd6d3b658009292492" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StalenessPolicy::lag_threshold_moderate</definition>
+        <argsstring></argsstring>
+        <name>lag_threshold_moderate</name>
+        <qualifiedname>themis::distributed_tensor::StalenessPolicy::lag_threshold_moderate</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="70" column="12" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a829a4956bfba07bb3b4c953dc3f5de41" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StalenessPolicy::lag_threshold_critical</definition>
+        <argsstring></argsstring>
+        <name>lag_threshold_critical</name>
+        <qualifiedname>themis::distributed_tensor::StalenessPolicy::lag_threshold_critical</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="72" column="12" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a6efcba33c4c63bec127636bb45cd8e6d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::StalenessPolicy::age_threshold_slightly_sec</definition>
+        <argsstring></argsstring>
+        <name>age_threshold_slightly_sec</name>
+        <qualifiedname>themis::distributed_tensor::StalenessPolicy::age_threshold_slightly_sec</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="74" column="11" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a7156f129464c53567fa342e58bc9b326" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::StalenessPolicy::age_threshold_moderate_sec</definition>
+        <argsstring></argsstring>
+        <name>age_threshold_moderate_sec</name>
+        <qualifiedname>themis::distributed_tensor::StalenessPolicy::age_threshold_moderate_sec</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="76" column="11" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a0fe61ee90c7fea1095be798174edfb87" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::StalenessPolicy::age_threshold_critical_sec</definition>
+        <argsstring></argsstring>
+        <name>age_threshold_critical_sec</name>
+        <qualifiedname>themis::distributed_tensor::StalenessPolicy::age_threshold_critical_sec</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="78" column="11" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a42845e365bd70c98bd66e3eda7d6eb35" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StalenessPolicy::cascade_invalidate_on_critical</definition>
+        <argsstring></argsstring>
+        <name>cascade_invalidate_on_critical</name>
+        <qualifiedname>themis::distributed_tensor::StalenessPolicy::cascade_invalidate_on_critical</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="80" column="8" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a6f1c70871ee6a768bba468db888719c0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref></type>
+        <definition>StalenessLevel themis::distributed_tensor::StalenessPolicy::fallback_threshold</definition>
+        <argsstring></argsstring>
+        <name>fallback_threshold</name>
+        <qualifiedname>themis::distributed_tensor::StalenessPolicy::fallback_threshold</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaff3bc4e39416ed55db783c9275b228df" kindref="member">StalenessLevel::MODERATELY_STALE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="82" column="18" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="67" column="1" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="67" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a0fe61ee90c7fea1095be798174edfb87" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StalenessPolicy</scope><name>age_threshold_critical_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a7156f129464c53567fa342e58bc9b326" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StalenessPolicy</scope><name>age_threshold_moderate_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a6efcba33c4c63bec127636bb45cd8e6d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StalenessPolicy</scope><name>age_threshold_slightly_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a42845e365bd70c98bd66e3eda7d6eb35" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StalenessPolicy</scope><name>cascade_invalidate_on_critical</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a6f1c70871ee6a768bba468db888719c0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StalenessPolicy</scope><name>fallback_threshold</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a829a4956bfba07bb3b4c953dc3f5de41" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StalenessPolicy</scope><name>lag_threshold_critical</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1adb6c01d251c5ccbd6d3b658009292492" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StalenessPolicy</scope><name>lag_threshold_moderate</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1aa5860620618944c034c0261d5faf61ff" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StalenessPolicy</scope><name>lag_threshold_slightly</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::GeoKernelDispatch</compoundname>
+    <includes refid="kernel__invocation_8h" local="no">kernel_invocation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a0f3faf63cb20ab2fa29a1721c0b2ba76" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1abce98041b9f3f9ba293687a6124e560a" kindref="member">GeoDistanceFn</ref></type>
+        <definition>GeoDistanceFn themis::acceleration::GeoKernelDispatch::launchDistance</definition>
+        <argsstring></argsstring>
+        <name>launchDistance</name>
+        <qualifiedname>themis::acceleration::GeoKernelDispatch::launchDistance</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Haversine / Vincenty distance kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="211" column="22" bodyfile="include/acceleration/kernel_invocation.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a6822f1c07d86788a76e887f2c61fb88e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1ac05580732b7e377a2535ad58ac1cadc2" kindref="member">GeoContainmentFn</ref></type>
+        <definition>GeoContainmentFn themis::acceleration::GeoKernelDispatch::launchContainment</definition>
+        <argsstring></argsstring>
+        <name>launchContainment</name>
+        <qualifiedname>themis::acceleration::GeoKernelDispatch::launchContainment</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Point-in-polygon kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="212" column="22" bodyfile="include/acceleration/kernel_invocation.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Geospatial kernel dispatch table — one per backend instance. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_invocation.h" line="210" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="210" bodyend="213"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a6822f1c07d86788a76e887f2c61fb88e" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelDispatch</scope><name>launchContainment</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a0f3faf63cb20ab2fa29a1721c0b2ba76" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelDispatch</scope><name>launchDistance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

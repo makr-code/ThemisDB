@@ -1,0 +1,367 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator" kind="class" language="C++" prot="public">
+    <compoundname>themis::RocksDBWrapper::SafeIterator</compoundname>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a1b2aa53533c6da838570239bffa9cc10" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class RocksDBWrapper</definition>
+        <argsstring></argsstring>
+        <name>RocksDBWrapper</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::RocksDBWrapper</qualifiedname>
+        <param>
+          <type>RocksDBWrapper</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="619" column="22" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="619" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a074539fdb6ca8a9dc64f1de5b0dcbb54" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classrocksdb_1_1_iterator" kindref="compound">rocksdb::Iterator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::Iterator&gt; themis::RocksDBWrapper::SafeIterator::iterator_</definition>
+        <argsstring></argsstring>
+        <name>iterator_</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::iterator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="626" column="25" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="626" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a3b12ed2580bed75748e58e45288f2744" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; OperationGuard &gt;</type>
+        <definition>std::unique_ptr&lt;OperationGuard&gt; themis::RocksDBWrapper::SafeIterator::guard_</definition>
+        <argsstring></argsstring>
+        <name>guard_</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::guard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="627" column="25" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="627" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::SafeIterator::SafeIterator</definition>
+        <argsstring>(SafeIterator &amp;&amp;other) noexcept=default</argsstring>
+        <name>SafeIterator</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::SafeIterator</qualifiedname>
+        <param>
+          <type>SafeIterator &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="585" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2b58403d55ec1641739bb5934bc6df68" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref> &amp;</type>
+        <definition>SafeIterator &amp; themis::RocksDBWrapper::SafeIterator::operator=</definition>
+        <argsstring>(SafeIterator &amp;&amp;other) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="586" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a633247f2383da7f520c2dacd7d1f9be2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::SafeIterator::SafeIterator</definition>
+        <argsstring>(const SafeIterator &amp;)=delete</argsstring>
+        <name>SafeIterator</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::SafeIterator</qualifiedname>
+        <param>
+          <type>const SafeIterator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="589" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1ab53ec6c187908db5ec5793cf1cd3225c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref> &amp;</type>
+        <definition>SafeIterator &amp; themis::RocksDBWrapper::SafeIterator::operator=</definition>
+        <argsstring>(const SafeIterator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="590" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1ab8a64b13e9a541f7cce15dd45cde919a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::SafeIterator::~SafeIterator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SafeIterator</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::~SafeIterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="592" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a026954c9e8854864f1521f2ba97b1e5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::SafeIterator::Seek</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>Seek</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::Seek</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Seek to a target key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Seek.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to seek to.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements Seek without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="596" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3309" bodyend="3313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a8dd8c07b0d3a4f83bd56a055feba54c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::SafeIterator::SeekToFirst</definition>
+        <argsstring>()</argsstring>
+        <name>SeekToFirst</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::SeekToFirst</qualifiedname>
+        <briefdescription>
+<para>Seek to the first key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Seek To First.</para>
+<para>Implements SeekToFirst without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="598" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3319" bodyend="3323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a3b07815fb96859ba165b8014b9903889" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::SafeIterator::SeekToLast</definition>
+        <argsstring>()</argsstring>
+        <name>SeekToLast</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::SeekToLast</qualifiedname>
+        <briefdescription>
+<para>Seek to the last key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Seek To Last.</para>
+<para>Implements SeekToLast without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="600" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3329" bodyend="3333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75f7ecfaa1036d9d3d6baaa6f6d4d970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::SafeIterator::Next</definition>
+        <argsstring>()</argsstring>
+        <name>Next</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::Next</qualifiedname>
+        <briefdescription>
+<para>Advance to the next key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Next.</para>
+<para>Implements Next without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="602" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3339" bodyend="3343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2dab0123bdfbfba5e282b6169221260b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::SafeIterator::Prev</definition>
+        <argsstring>()</argsstring>
+        <name>Prev</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::Prev</qualifiedname>
+        <briefdescription>
+<para>Move to the previous key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prev.</para>
+<para>Implements Prev without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="604" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3349" bodyend="3353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a719610a7e888c446f5cb55c07bfd3acd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::SafeIterator::Valid</definition>
+        <argsstring>() const</argsstring>
+        <name>Valid</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::Valid</qualifiedname>
+        <briefdescription>
+<para>Check whether the iterator is positioned at a valid entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when the iterator references a valid key-value pair. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="607" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3355" bodyend="3357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1aac789b388391bba08671d1f0d45ca356" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::RocksDBWrapper::SafeIterator::key</definition>
+        <argsstring>() const</argsstring>
+        <name>key</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::key</qualifiedname>
+        <briefdescription>
+<para>Get the current key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>View of the current key. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="610" column="26" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3359" bodyend="3365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1af8c5b00d44047351794b7b43798d1b94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::RocksDBWrapper::SafeIterator::value</definition>
+        <argsstring>() const</argsstring>
+        <name>value</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::value</qualifiedname>
+        <briefdescription>
+<para>Get the current value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>View of the current value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="613" column="26" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3367" bodyend="3373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a342203c5b2a7aa6d3df57cc0912dd982" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::SafeIterator::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="616" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="616" bodyend="616"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2564e15cda3904afa4785f5e7918077d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::SafeIterator::SafeIterator</definition>
+        <argsstring>(std::unique_ptr&lt; rocksdb::Iterator &gt; iter, std::unique_ptr&lt; OperationGuard &gt; guard)</argsstring>
+        <name>SafeIterator</name>
+        <qualifiedname>themis::RocksDBWrapper::SafeIterator::SafeIterator</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classrocksdb_1_1_iterator" kindref="compound">rocksdb::Iterator</ref> &gt;</type>
+          <declname>iter</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; OperationGuard &gt;</type>
+          <declname>guard</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="621" column="9" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="621" bodyend="624"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for safe iterator usage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Holds an OperationGuard so the database cannot be closed while the iterator is in use. </para>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="583" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="583" bodyend="628"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a3b12ed2580bed75748e58e45288f2744" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>guard_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a074539fdb6ca8a9dc64f1de5b0dcbb54" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>iterator_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1aac789b388391bba08671d1f0d45ca356" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>key</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75f7ecfaa1036d9d3d6baaa6f6d4d970" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>Next</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a342203c5b2a7aa6d3df57cc0912dd982" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2b58403d55ec1641739bb5934bc6df68" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1ab53ec6c187908db5ec5793cf1cd3225c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2dab0123bdfbfba5e282b6169221260b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>Prev</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a1b2aa53533c6da838570239bffa9cc10" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>RocksDBWrapper</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>SafeIterator</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a633247f2383da7f520c2dacd7d1f9be2" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>SafeIterator</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2564e15cda3904afa4785f5e7918077d" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>SafeIterator</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a026954c9e8854864f1521f2ba97b1e5b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>Seek</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a8dd8c07b0d3a4f83bd56a055feba54c2" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>SeekToFirst</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a3b07815fb96859ba165b8014b9903889" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>SeekToLast</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a719610a7e888c446f5cb55c07bfd3acd" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>Valid</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1af8c5b00d44047351794b7b43798d1b94" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>value</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1ab8a64b13e9a541f7cce15dd45cde919a" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::SafeIterator</scope><name>~SafeIterator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

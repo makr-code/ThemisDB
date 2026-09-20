@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::governance::AuditIntegrityManager::PerformanceMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics_1ad7979ab016ecf6a3ae56ff85c820b830" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::governance::AuditIntegrityManager::PerformanceMetrics::signing_times_us</definition>
+        <argsstring></argsstring>
+        <name>signing_times_us</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::PerformanceMetrics::signing_times_us</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="545" column="21" bodyfile="include/governance/governance_audit_integrity.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics_1ad579cfffc3adcfe632376437f73a1113" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::governance::AuditIntegrityManager::PerformanceMetrics::verification_times_us</definition>
+        <argsstring></argsstring>
+        <name>verification_times_us</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::PerformanceMetrics::verification_times_us</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="546" column="21" bodyfile="include/governance/governance_audit_integrity.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics_1af747ea818b960fcdc997661cea4555d3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditIntegrityManager::PerformanceMetrics::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::PerformanceMetrics::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="547" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics_1a3f2d3aa4fab1e537335ab231029dab4a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditIntegrityManager::PerformanceMetrics::total_tamper_checks</definition>
+        <argsstring></argsstring>
+        <name>total_tamper_checks</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::PerformanceMetrics::total_tamper_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="548" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="548" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_audit_integrity.h" line="544" column="5" bodyfile="include/governance/governance_audit_integrity.h" bodystart="544" bodyend="549"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics_1ad7979ab016ecf6a3ae56ff85c820b830" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager::PerformanceMetrics</scope><name>signing_times_us</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics_1af747ea818b960fcdc997661cea4555d3" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager::PerformanceMetrics</scope><name>total_entries</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics_1a3f2d3aa4fab1e537335ab231029dab4a" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager::PerformanceMetrics</scope><name>total_tamper_checks</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics_1ad579cfffc3adcfe632376437f73a1113" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager::PerformanceMetrics</scope><name>verification_times_us</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

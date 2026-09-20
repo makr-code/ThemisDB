@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_image_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::ImageMetadata</compoundname>
+    <includes refid="image__analysis__interface_8h" local="no">image_analysis_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_metadata_1a7856b1d2f45376cc32b5c45cb09d6472" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::ImageMetadata::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::plugins::image::ImageMetadata::width</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="79" column="9" bodyfile="include/plugins/image_analysis_interface.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_metadata_1adc99949dad16795599f8fa41a8f0faec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::ImageMetadata::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::plugins::image::ImageMetadata::height</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="80" column="9" bodyfile="include/plugins/image_analysis_interface.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_metadata_1abc53e2d37a51840a4784d673d00f9bd5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::ImageMetadata::channels</definition>
+        <argsstring></argsstring>
+        <name>channels</name>
+        <qualifiedname>themis::plugins::image::ImageMetadata::channels</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="81" column="9" bodyfile="include/plugins/image_analysis_interface.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_metadata_1ae7749477ad30f6c0ae9630b9aabddf50" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1" kindref="member">ImageFormat</ref></type>
+        <definition>ImageFormat themis::plugins::image::ImageMetadata::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::plugins::image::ImageMetadata::format</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ImageFormat::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="82" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_metadata_1aa0cd64bcd99736fde353a105a00c027a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::ImageMetadata::bits_per_channel</definition>
+        <argsstring></argsstring>
+        <name>bits_per_channel</name>
+        <qualifiedname>themis::plugins::image::ImageMetadata::bits_per_channel</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="83" column="9" bodyfile="include/plugins/image_analysis_interface.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_metadata_1ad039dfc002a3b1f93fdf657a85aa6051" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1image_1a839b0379ce6c20247f2227d0f3c8474c" kindref="member">json</ref></type>
+        <definition>json themis::plugins::image::ImageMetadata::exif</definition>
+        <argsstring></argsstring>
+        <name>exif</name>
+        <qualifiedname>themis::plugins::image::ImageMetadata::exif</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="86" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_metadata_1a1b6a3ff2f4bab3648bc50c7da93ca1e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::ImageMetadata::color_space</definition>
+        <argsstring></argsstring>
+        <name>color_space</name>
+        <qualifiedname>themis::plugins::image::ImageMetadata::color_space</qualifiedname>
+        <initializer>= &quot;sRGB&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="89" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Image Metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_interface.h" line="78" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="78" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_metadata_1aa0cd64bcd99736fde353a105a00c027a" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageMetadata</scope><name>bits_per_channel</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_metadata_1abc53e2d37a51840a4784d673d00f9bd5" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageMetadata</scope><name>channels</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_metadata_1a1b6a3ff2f4bab3648bc50c7da93ca1e3" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageMetadata</scope><name>color_space</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_metadata_1ad039dfc002a3b1f93fdf657a85aa6051" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageMetadata</scope><name>exif</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_metadata_1ae7749477ad30f6c0ae9630b9aabddf50" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageMetadata</scope><name>format</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_metadata_1adc99949dad16795599f8fa41a8f0faec" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageMetadata</scope><name>height</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_metadata_1a7856b1d2f45376cc32b5c45cb09d6472" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageMetadata</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

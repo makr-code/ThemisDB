@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_processor_chain_config" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::ProcessorChainConfig</compoundname>
+    <includes refid="processor__chain__config_8h" local="no">processor_chain_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref></type>
+        <definition>ContentTypePipelineConfig themis::content::ProcessorChainConfig::default_config</definition>
+        <argsstring></argsstring>
+        <name>default_config</name>
+        <qualifiedname>themis::content::ProcessorChainConfig::default_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/processor_chain_config.h" line="44" column="31" bodyfile="include/content/processor_chain_config.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_processor_chain_config_1a262b13cb4badf4592c860d6952a9c20f" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ContentTypePipelineConfig&gt; themis::content::ProcessorChainConfig::mime_type_configs</definition>
+        <argsstring></argsstring>
+        <name>mime_type_configs</name>
+        <qualifiedname>themis::content::ProcessorChainConfig::mime_type_configs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/processor_chain_config.h" line="46" column="24" bodyfile="include/content/processor_chain_config.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref>, <ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;ContentCategory, ContentTypePipelineConfig&gt; themis::content::ProcessorChainConfig::category_configs</definition>
+        <argsstring></argsstring>
+        <name>category_configs</name>
+        <qualifiedname>themis::content::ProcessorChainConfig::category_configs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/processor_chain_config.h" line="48" column="24" bodyfile="include/content/processor_chain_config.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref></type>
+        <definition>ContentTypePipelineConfig themis::content::ProcessorChainConfig::getEffectiveConfig</definition>
+        <argsstring>(const std::string &amp;mime_type, ContentCategory category) const</argsstring>
+        <name>getEffectiveConfig</name>
+        <qualifiedname>themis::content::ProcessorChainConfig::getEffectiveConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/processor_chain_config.h" line="50" column="31" bodyfile="include/content/processor_chain_config.h" bodystart="50" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ProcessorChainConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ProcessorChainConfig::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/processor_chain_config.h" line="143" column="10" bodyfile="include/content/processor_chain_config.h" bodystart="143" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref></type>
+        <definition>static ProcessorChainConfig themis::content::ProcessorChainConfig::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::content::ProcessorChainConfig::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_boolean(), is_object(), contains(), is_number_integer(), load_stage(), load_stage_cfg(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/processor_chain_config.h" line="76" column="33" bodyfile="include/content/processor_chain_config.h" bodystart="76" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_processor_chain_config_1a8e393d21274be2525041e5a79db13491" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt; &amp;</type>
+        <definition>static const std::unordered_map&lt; std::string, ContentCategory &gt; &amp; themis::content::ProcessorChainConfig::categoryNames</definition>
+        <argsstring>()</argsstring>
+        <name>categoryNames</name>
+        <qualifiedname>themis::content::ProcessorChainConfig::categoryNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/processor_chain_config.h" line="191" column="37" bodyfile="include/content/processor_chain_config.h" bodystart="191" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_processor_chain_config_1a1a43dc24d8cba5c31f27513834760329" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_map&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref>, std::string &gt; &amp;</type>
+        <definition>static const std::unordered_map&lt; ContentCategory, std::string &gt; &amp; themis::content::ProcessorChainConfig::categoryNameStrings</definition>
+        <argsstring>()</argsstring>
+        <name>categoryNameStrings</name>
+        <qualifiedname>themis::content::ProcessorChainConfig::categoryNameStrings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/processor_chain_config.h" line="207" column="37" bodyfile="include/content/processor_chain_config.h" bodystart="207" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::ContentTypePipelineConfig</label>
+        <link refid="structthemis_1_1content_1_1_content_type_pipeline_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>chunking</edgelabel>
+          <edgelabel>deduplication</edgelabel>
+          <edgelabel>embedding</edgelabel>
+          <edgelabel>extraction</edgelabel>
+          <edgelabel>storage</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::content::ProcessorChainConfig</label>
+        <link refid="classthemis_1_1content_1_1_processor_chain_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>default_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::content::StageConfig</label>
+        <link refid="structthemis_1_1content_1_1_stage_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/processor_chain_config.h" line="42" column="1" bodyfile="include/content/processor_chain_config.h" bodystart="42" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" prot="public" virt="non-virtual"><scope>themis::content::ProcessorChainConfig</scope><name>category_configs</name></member>
+      <member refid="classthemis_1_1content_1_1_processor_chain_config_1a8e393d21274be2525041e5a79db13491" prot="private" virt="non-virtual"><scope>themis::content::ProcessorChainConfig</scope><name>categoryNames</name></member>
+      <member refid="classthemis_1_1content_1_1_processor_chain_config_1a1a43dc24d8cba5c31f27513834760329" prot="private" virt="non-virtual"><scope>themis::content::ProcessorChainConfig</scope><name>categoryNameStrings</name></member>
+      <member refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" prot="public" virt="non-virtual"><scope>themis::content::ProcessorChainConfig</scope><name>default_config</name></member>
+      <member refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" prot="public" virt="non-virtual"><scope>themis::content::ProcessorChainConfig</scope><name>fromJson</name></member>
+      <member refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" prot="public" virt="non-virtual"><scope>themis::content::ProcessorChainConfig</scope><name>getEffectiveConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_processor_chain_config_1a262b13cb4badf4592c860d6952a9c20f" prot="public" virt="non-virtual"><scope>themis::content::ProcessorChainConfig</scope><name>mime_type_configs</name></member>
+      <member refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" prot="public" virt="non-virtual"><scope>themis::content::ProcessorChainConfig</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

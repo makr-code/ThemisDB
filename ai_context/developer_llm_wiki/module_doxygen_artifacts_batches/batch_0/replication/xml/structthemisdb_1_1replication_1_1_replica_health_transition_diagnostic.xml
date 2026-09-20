@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicaHealthTransitionDiagnostic</compoundname>
+    <includes refid="replication__failover__diagnostics_8h" local="no">replication_failover_diagnostics.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HealthStatus</name>
+        <qualifiedname>themisdb::replication::ReplicaHealthTransitionDiagnostic::HealthStatus</qualifiedname>
+        <enumvalue id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66af068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66a0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66a7438a7e4e4f36f04fda32fa100121e47" prot="public">
+          <name>UNHEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Previous health status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="200" column="5" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="200" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a1c8b5d33697fdc20ad98e1068e2276e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicaHealthTransitionDiagnostic::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::ReplicaHealthTransitionDiagnostic::node_id</qualifiedname>
+        <briefdescription>
+<para>Node ID of the replica. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="197" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1adf32d3aff328973214c7ec8dec80f1a6" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66" kindref="member">HealthStatus</ref></type>
+        <definition>HealthStatus themisdb::replication::ReplicaHealthTransitionDiagnostic::previous_status</definition>
+        <argsstring></argsstring>
+        <name>previous_status</name>
+        <qualifiedname>themisdb::replication::ReplicaHealthTransitionDiagnostic::previous_status</qualifiedname>
+        <initializer>{<ref refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">HealthStatus::UNKNOWN</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="206" column="18" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1acc6bb0f82a0ec69ec6e2074924d71e06" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66" kindref="member">HealthStatus</ref></type>
+        <definition>HealthStatus themisdb::replication::ReplicaHealthTransitionDiagnostic::new_status</definition>
+        <argsstring></argsstring>
+        <name>new_status</name>
+        <qualifiedname>themisdb::replication::ReplicaHealthTransitionDiagnostic::new_status</qualifiedname>
+        <initializer>{<ref refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">HealthStatus::UNKNOWN</ref>}</initializer>
+        <briefdescription>
+<para>New health status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="209" column="18" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1ab047c438bb8b103b31fa66ae9d3f3d35" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::ReplicaHealthTransitionDiagnostic::transitioned_at</definition>
+        <argsstring></argsstring>
+        <name>transitioned_at</name>
+        <qualifiedname>themisdb::replication::ReplicaHealthTransitionDiagnostic::transitioned_at</qualifiedname>
+        <briefdescription>
+<para>Timestamp of transition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="212" column="43" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a3b227f4bccc19988982b71b4aff32363" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicaHealthTransitionDiagnostic::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themisdb::replication::ReplicaHealthTransitionDiagnostic::reason</qualifiedname>
+        <briefdescription>
+<para>Reason for health change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="215" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a8fe1bc8e5c8e8bf4ec2c57e262ee550b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::optional&lt;std::chrono::milliseconds&gt; themisdb::replication::ReplicaHealthTransitionDiagnostic::duration_in_previous_state</definition>
+        <argsstring></argsstring>
+        <name>duration_in_previous_state</name>
+        <qualifiedname>themisdb::replication::ReplicaHealthTransitionDiagnostic::duration_in_previous_state</qualifiedname>
+        <briefdescription>
+<para>Time spent in previous state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="218" column="19" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a1bd3b4ac1412815c85c8a17ade1e40ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicaHealthTransitionDiagnostic::diagnostic_data</definition>
+        <argsstring></argsstring>
+        <name>diagnostic_data</name>
+        <qualifiedname>themisdb::replication::ReplicaHealthTransitionDiagnostic::diagnostic_data</qualifiedname>
+        <briefdescription>
+<para>Diagnostics data that triggered the transition (e.g., lag values). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="221" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostic information about replica health state changes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enables tracking of when and why replicas transition between health states, useful for diagnosing intermittent replica issues. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_failover_diagnostics.h" line="195" column="1" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="195" bodyend="222"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a1bd3b4ac1412815c85c8a17ade1e40ee" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaHealthTransitionDiagnostic</scope><name>diagnostic_data</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a8fe1bc8e5c8e8bf4ec2c57e262ee550b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaHealthTransitionDiagnostic</scope><name>duration_in_previous_state</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a9a1c5e9c21934b5632ec3ef7cfb02f66" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaHealthTransitionDiagnostic</scope><name>HealthStatus</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1acc6bb0f82a0ec69ec6e2074924d71e06" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaHealthTransitionDiagnostic</scope><name>new_status</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a1c8b5d33697fdc20ad98e1068e2276e7" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaHealthTransitionDiagnostic</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1adf32d3aff328973214c7ec8dec80f1a6" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaHealthTransitionDiagnostic</scope><name>previous_status</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1a3b227f4bccc19988982b71b4aff32363" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaHealthTransitionDiagnostic</scope><name>reason</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic_1ab047c438bb8b103b31fa66ae9d3f3d35" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaHealthTransitionDiagnostic</scope><name>transitioned_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

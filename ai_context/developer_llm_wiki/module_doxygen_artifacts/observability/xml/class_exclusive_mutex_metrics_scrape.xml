@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_exclusive_mutex_metrics_scrape" kind="class" language="C++" prot="public">
+    <compoundname>ExclusiveMutexMetricsScrape</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_exclusive_mutex_metrics_scrape_1af72d801f324eb76f04edad61c3d60f62" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex ExclusiveMutexMetricsScrape::mx_</definition>
+        <argsstring></argsstring>
+        <name>mx_</name>
+        <qualifiedname>ExclusiveMutexMetricsScrape::mx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_goals.cpp" line="304" column="24" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_exclusive_mutex_metrics_scrape_1a912c4f66427d99ef04a02c6f6bcfa173" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ExclusiveMutexMetricsScrape::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>ExclusiveMutexMetricsScrape::value_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_goals.cpp" line="305" column="12" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="305" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_exclusive_mutex_metrics_scrape_1aa771b923db29a45a14b83805600505d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ExclusiveMutexMetricsScrape::recordMetric</definition>
+        <argsstring>(double v)</argsstring>
+        <name>recordMetric</name>
+        <qualifiedname>ExclusiveMutexMetricsScrape::recordMetric</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_goals.cpp" line="295" column="10" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="295" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="class_exclusive_mutex_metrics_scrape_1a517c209cfe01a5ca1074d9b2eecf9b04" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double ExclusiveMutexMetricsScrape::scrape</definition>
+        <argsstring>() const</argsstring>
+        <name>scrape</name>
+        <qualifiedname>ExclusiveMutexMetricsScrape::scrape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_goals.cpp" line="299" column="12" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="299" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_goals.cpp" line="293" column="1" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="293" bodyend="306"/>
+    <listofallmembers>
+      <member refid="class_exclusive_mutex_metrics_scrape_1af72d801f324eb76f04edad61c3d60f62" prot="private" virt="non-virtual"><scope>ExclusiveMutexMetricsScrape</scope><name>mx_</name></member>
+      <member refid="class_exclusive_mutex_metrics_scrape_1aa771b923db29a45a14b83805600505d2" prot="public" virt="non-virtual"><scope>ExclusiveMutexMetricsScrape</scope><name>recordMetric</name></member>
+      <member refid="class_exclusive_mutex_metrics_scrape_1a517c209cfe01a5ca1074d9b2eecf9b04" prot="public" virt="non-virtual"><scope>ExclusiveMutexMetricsScrape</scope><name>scrape</name></member>
+      <member refid="class_exclusive_mutex_metrics_scrape_1a912c4f66427d99ef04a02c6f6bcfa173" prot="private" virt="non-virtual"><scope>ExclusiveMutexMetricsScrape</scope><name>value_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

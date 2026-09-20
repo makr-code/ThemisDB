@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1security_1_1_injection_finding" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::security::InjectionFinding</compoundname>
+    <includes refid="prompt__injection__detector_8h" local="no">prompt_injection_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_injection_finding_1a95cf4653f9f6f6004e7d02ad83c42566" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986" kindref="member">InjectionSeverity</ref></type>
+        <definition>InjectionSeverity themis::rag::security::InjectionFinding::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::rag::security::InjectionFinding::severity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986ab50339a10e1de285ac99d4c3990b8693" kindref="member">InjectionSeverity::NONE</ref></initializer>
+        <briefdescription>
+<para>Severity of this finding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="37" column="23" bodyfile="include/rag/prompt_injection_detector.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_injection_finding_1a8f3aa14fce53554c1392106e6a969a60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::security::InjectionFinding::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::rag::security::InjectionFinding::category</qualifiedname>
+        <briefdescription>
+<para>Short tag identifying the attack category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="40" column="23" bodyfile="include/rag/prompt_injection_detector.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_injection_finding_1ac6fc4642f879ab844f5740577bb8672e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::security::InjectionFinding::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::rag::security::InjectionFinding::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the finding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="43" column="23" bodyfile="include/rag/prompt_injection_detector.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_injection_finding_1afc03d00d3b4baf2e42460f047ff1b786" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::security::InjectionFinding::matched_fragment</definition>
+        <argsstring></argsstring>
+        <name>matched_fragment</name>
+        <qualifiedname>themis::rag::security::InjectionFinding::matched_fragment</qualifiedname>
+        <briefdescription>
+<para>The exact fragment that matched, or empty when pattern is positional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="46" column="23" bodyfile="include/rag/prompt_injection_detector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_injection_finding_1aeb52319d78a5e6921ba5d9e84221cb7c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::security::InjectionFinding::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::rag::security::InjectionFinding::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Character offset in the input text where the match starts (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="49" column="23" bodyfile="include/rag/prompt_injection_detector.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single detected injection finding. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/prompt_injection_detector.h" line="35" column="1" bodyfile="include/rag/prompt_injection_detector.h" bodystart="35" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_finding_1a8f3aa14fce53554c1392106e6a969a60" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionFinding</scope><name>category</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_finding_1ac6fc4642f879ab844f5740577bb8672e" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionFinding</scope><name>description</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_finding_1afc03d00d3b4baf2e42460f047ff1b786" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionFinding</scope><name>matched_fragment</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_finding_1aeb52319d78a5e6921ba5d9e84221cb7c" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionFinding</scope><name>offset</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_finding_1a95cf4653f9f6f6004e7d02ad83c42566" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionFinding</scope><name>severity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

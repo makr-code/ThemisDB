@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_network_audit_log_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::NetworkAuditLog::Config</compoundname>
+    <includes refid="network__audit__log_8h" local="no">network_audit_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_config_1a7cd3022c6b6e649378d53348c290c704" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::NetworkAuditLog::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Config::max_entries</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of events kept in the in-memory ring buffer. When the buffer is full the oldest entry is evicted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="105" column="16" bodyfile="include/network/network_audit_log.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_config_1a07049c174e68387b4c516778e99d7cab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::NetworkAuditLog::Config::enable_callback</definition>
+        <argsstring></argsstring>
+        <name>enable_callback</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Config::enable_callback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, every recorded event is also forwarded to the user-supplied callback (if one is registered). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="109" column="14" bodyfile="include/network/network_audit_log.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_network_audit_log_1_1_config_1a1451f7c142bc7f895789e23b70ce0457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkAuditLog::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="111" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/network_audit_log.h" line="102" column="5" bodyfile="include/network/network_audit_log.h" bodystart="102" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_config_1a1451f7c142bc7f895789e23b70ce0457" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_config_1a07049c174e68387b4c516778e99d7cab" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Config</scope><name>enable_callback</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_config_1a7cd3022c6b6e649378d53348c290c704" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Config</scope><name>max_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

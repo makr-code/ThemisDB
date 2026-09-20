@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1_function_signature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::FunctionSignature</compoundname>
+    <includes refid="function__registry_8h" local="no">function_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1a39ed964d31578b19457f1eae8c35cfbd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::FunctionSignature::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="99" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1aec587bbb28bcc1561d93c1d51e353508" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::FunctionSignature::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::category</qualifiedname>
+        <briefdescription>
+<para>String, Math, Array, Date, Geo, Vector, Graph, Document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="100" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1a89c9f67c162835b1e165bc2dcfcb9d6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::FunctionSignature::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="101" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1a53c9ca060f3569aca0a31ddf3ede77e7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec" kindref="compound">ArgSpec</ref> &gt;</type>
+        <definition>std::vector&lt;ArgSpec&gt; themis::query::functions::FunctionSignature::arguments</definition>
+        <argsstring></argsstring>
+        <name>arguments</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::arguments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="102" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1a8bec7a906655227200e6c6279b881b2b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19" kindref="member">ArgType</ref></type>
+        <definition>ArgType themis::query::functions::FunctionSignature::return_type</definition>
+        <argsstring></argsstring>
+        <name>return_type</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::return_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" kindref="member">ArgType::ANY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="103" column="13" bodyfile="include/query/functions/function_registry.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1ab86c2466a0ece42045a3560222ccd8c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::FunctionSignature::is_deterministic</definition>
+        <argsstring></argsstring>
+        <name>is_deterministic</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::is_deterministic</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Same input always produces same output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="104" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1ae83dad410ef463d519ccdeb5e00135a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::FunctionSignature::is_aggregate</definition>
+        <argsstring></argsstring>
+        <name>is_aggregate</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::is_aggregate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Aggregation function (works on multiple rows). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="105" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1a87185b0445242f0a03058926beef4ec8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::functions::FunctionSignature::examples</definition>
+        <argsstring></argsstring>
+        <name>examples</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::examples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="106" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_signature_1a4e33becf744fcfbeec6f7806e34ae5c8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost" kindref="compound">FunctionCost</ref></type>
+        <definition>FunctionCost themis::query::functions::FunctionSignature::cost</definition>
+        <argsstring></argsstring>
+        <name>cost</name>
+        <qualifiedname>themis::query::functions::FunctionSignature::cost</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1functions_1_1_function_cost" kindref="compound">FunctionCost</ref>{}</initializer>
+        <briefdescription>
+<para>Cost estimation for query planning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="109" column="18" bodyfile="include/query/functions/function_registry.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::functions::FunctionCost</label>
+        <link refid="structthemis_1_1query_1_1functions_1_1_function_cost"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::FunctionSignature</label>
+        <link refid="structthemis_1_1query_1_1functions_1_1_function_signature"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cost</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/function_registry.h" line="98" column="1" bodyfile="include/query/functions/function_registry.h" bodystart="98" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a53c9ca060f3569aca0a31ddf3ede77e7" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>arguments</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1aec587bbb28bcc1561d93c1d51e353508" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>category</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a4e33becf744fcfbeec6f7806e34ae5c8" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>cost</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a89c9f67c162835b1e165bc2dcfcb9d6b" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>description</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a87185b0445242f0a03058926beef4ec8" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>examples</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1ae83dad410ef463d519ccdeb5e00135a8" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>is_aggregate</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1ab86c2466a0ece42045a3560222ccd8c1" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>is_deterministic</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a39ed964d31578b19457f1eae8c35cfbd" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a8bec7a906655227200e6c6279b881b2b" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionSignature</scope><name>return_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="global__transaction__manager_8h" kind="file" language="C++">
+    <compoundname>global_transaction_manager.h</compoundname>
+    <includes local="yes">sharding/truetime.h</includes>
+    <includes local="yes">sharding/wal_manager.h</includes>
+    <includes refid="recoverable__two__phase__coordinator_8h" local="yes">transaction/recoverable_two_phase_coordinator.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="global__transaction__manager_8cpp" local="yes">src/transaction/global_transaction_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/transaction/global_transaction_manager.h</label>
+        <link refid="global__transaction__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>transaction/in_doubt_recovery_coordinator.h</label>
+        <link refid="in__doubt__recovery__coordinator_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+        <link refid="recoverable__two__phase__coordinator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>sharding/truetime.h</label>
+      </node>
+      <node id="3">
+        <label>sharding/wal_manager.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/transaction/global_transaction_manager.h</label>
+        <link refid="global__transaction__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/transaction/global_transaction_manager.cpp</label>
+        <link refid="global__transaction__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1transaction_1_1_i_global_region_participant" prot="public">themis::transaction::IGlobalRegionParticipant</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_global_txn_outcome" prot="public">themis::transaction::GlobalTxnOutcome</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_region_txn_record" prot="public">themis::transaction::RegionTxnRecord</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_global_txn_record" prot="public">themis::transaction::GlobalTxnRecord</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1_global_transaction_manager" prot="public">themis::transaction::GlobalTransactionManager</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config" prot="public">themis::transaction::GlobalTransactionManager::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Global<sp/>Transaction<sp/>Manager<sp/>—<sp/>multi-region<sp/>ACID<sp/>guarantees</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>a<sp/>single<sp/>coordinator<sp/>that<sp/>drives<sp/>ACID<sp/>transactions<sp/>spanning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>multiple<sp/>geographic<sp/>regions.<sp/><sp/>Each<sp/>region<sp/>exposes<sp/>an</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IGlobalRegionParticipant<sp/>interface;<sp/>the<sp/>manager<sp/>runs<sp/>a<sp/>two-phase<sp/>commit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>across<sp/>all<sp/>regions<sp/>that<sp/>participate<sp/>in<sp/>a<sp/>given<sp/>transaction<sp/>and<sp/>uses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TrueTime<sp/>to<sp/>assign<sp/>globally-monotone<sp/>commit<sp/>timestamps.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Protocol<sp/>Flow:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>beginTransaction()<sp/><sp/>–<sp/>register<sp/>regions,<sp/>obtain<sp/>a<sp/>global<sp/>TXN-ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>addOperation()<sp/><sp/><sp/><sp/><sp/><sp/>–<sp/>accumulate<sp/>per-region<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>commit()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>–<sp/>2PC<sp/>across<sp/>all<sp/>regions<sp/>with<sp/>TrueTime<sp/>wait</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>a.<sp/>Phase<sp/>1<sp/>PREPARE<sp/><sp/>–<sp/>each<sp/>region<sp/>locks<sp/>its<sp/>rows<sp/>and<sp/>votes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>b.<sp/>TrueTime<sp/>stamp<sp/><sp/><sp/>–<sp/>coordinator<sp/>waits<sp/>until<sp/>timestamp<sp/>is<sp/>past</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>c.<sp/>Phase<sp/>2<sp/>COMMIT<sp/><sp/><sp/>–<sp/>each<sp/>region<sp/>applies<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>abort()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>–<sp/>broadcast<sp/>ABORT<sp/>to<sp/>all<sp/>registered<sp/>regions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Recovery:<sp/>The<sp/>manager<sp/>writes<sp/>a<sp/>WAL<sp/>(BEGIN_TX<sp/>/<sp/>COMMIT_TX<sp/>/<sp/>ABORT_TX)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>so<sp/>that<sp/>an<sp/>in-doubt<sp/>transaction<sp/>can<sp/>be<sp/>re-driven<sp/>after<sp/>a<sp/>coordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>restart<sp/>by<sp/>calling<sp/>recoverInDoubtTransactions().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>GlobalTransactionManager<sp/>itself<sp/>is<sp/>thread-safe<sp/>for<sp/>concurrent<sp/>callers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>single<sp/>GlobalTransaction<sp/>handle<sp/>must<sp/>only<sp/>be<sp/>used<sp/>from<sp/>one<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>at<sp/>a<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/truetime.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/wal_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="recoverable__two__phase__coordinator_8h" kindref="compound">transaction/recoverable_two_phase_coordinator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">themis::transaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Region<sp/>participant<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1transaction_1_1_i_global_region_participant" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_i_global_region_participant" kindref="compound">IGlobalRegionParticipant</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a159a20d6be71fa52255327b948334ef5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a159a20d6be71fa52255327b948334ef5" kindref="member">~IGlobalRegionParticipant</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a744e6743aee3ad92bfc75da0bf64e288" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a744e6743aee3ad92bfc75da0bf64e288" kindref="member">prepare</ref>(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/>txn_id,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>ops</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a40e6823c864ae7b0e3cdc665218f1107" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a40e6823c864ae7b0e3cdc665218f1107" kindref="member">commit</ref>(</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>commit_timestamp</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1transaction_1_1_i_global_region_participant_1af531764b2028faa4328629202bdce279" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_global_region_participant_1af531764b2028faa4328629202bdce279" kindref="member">abort</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result<sp/>/<sp/>state<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3" kindref="member">GlobalTxnResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3a1c372d13f50af5ca9a935ebc78006e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a6b17f28399c363619d3424db07254398a1c372d13f50af5ca9a935ebc78006e82" kindref="member">COMMITTED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3a4e6c860e5da10e31c5fd9cb76ddc2025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a6b17f28399c363619d3424db07254398a4e6c860e5da10e31c5fd9cb76ddc2025" kindref="member">ABORTED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3abb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1transaction_1_1_global_txn_outcome" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome" kindref="compound">GlobalTxnOutcome</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a229ec583923cbcb505a63dccc0280cbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3" kindref="member">GlobalTxnResult</ref><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a229ec583923cbcb505a63dccc0280cbf" kindref="member">result</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">GlobalTxnResult::ERROR</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1transaction_1_1_global_txn_outcome_1ae29ceb52d6cb879dd14387df7afc1fae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome_1ae29ceb52d6cb879dd14387df7afc1fae" kindref="member">transaction_id</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1transaction_1_1_global_txn_outcome_1af7bcc92e4c816df92ac1bf421796b4b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome_1af7bcc92e4c816df92ac1bf421796b4b7" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a51d7491f3537d3365aa317bafb3b1588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a51d7491f3537d3365aa317bafb3b1588" kindref="member">commit_timestamp_ns</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a443b8197a57177f03cfc8fa1949cfcb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a443b8197a57177f03cfc8fa1949cfcb5" kindref="member">committed</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a229ec583923cbcb505a63dccc0280cbf" kindref="member">result</ref><sp/>==<sp/><ref refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3a1c372d13f50af5ca9a935ebc78006e82" kindref="member">GlobalTxnResult::COMMITTED</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761faf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761faf" kindref="member">GlobalTxnState</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafabd6a3a60251e4e52cdc9c393f33cbe10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a6b17f28399c363619d3424db07254398abd6a3a60251e4e52cdc9c393f33cbe10" kindref="member">PREPARING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa5362ee1dd301fffc11c24ae23d2f3547" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa5362ee1dd301fffc11c24ae23d2f3547" kindref="member">COMMIT_DECIDED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa8057750a59094e50a4152ce13577ded4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa8057750a59094e50a4152ce13577ded4" kindref="member">ABORT_DECIDED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1transaction_1_1_region_txn_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_region_txn_record" kindref="compound">RegionTxnRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1transaction_1_1_region_txn_record_1afcc3269b06934fead989ea0612dd10ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_region_txn_record_1afcc3269b06934fead989ea0612dd10ce" kindref="member">region_id</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1transaction_1_1_region_txn_record_1a41e3b075b642fed8258675c9deab5bdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_region_txn_record_1a41e3b075b642fed8258675c9deab5bdf" kindref="member">voted</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1transaction_1_1_region_txn_record_1a8a071594b2085981505105d61cdbb11d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_region_txn_record_1a8a071594b2085981505105d61cdbb11d" kindref="member">phase2_acked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1transaction_1_1_global_txn_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_global_txn_record" kindref="compound">GlobalTxnRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1transaction_1_1_global_txn_record_1a5a2cbbc2a340519e879768e5d0a2209e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_record_1a5a2cbbc2a340519e879768e5d0a2209e" kindref="member">transaction_id</ref>;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1transaction_1_1_global_txn_record_1a01eda976b6272f6283a54ce9f4d90299" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761faf" kindref="member">GlobalTxnState</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_record_1a01eda976b6272f6283a54ce9f4d90299" kindref="member">state</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa18ff74f43da410c5529f7d6fca84f115" kindref="member">GlobalTxnState::ACTIVE</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1transaction_1_1_global_txn_record_1a1b8c02db7443252f2f03e1d79d930fb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_record_1a1b8c02db7443252f2f03e1d79d930fb9" kindref="member">started_at</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1transaction_1_1_global_txn_record_1ac5cb71ffc7d675088b89bc860178047a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>nlohmann::json&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_record_1ac5cb71ffc7d675088b89bc860178047a" kindref="member">region_ops</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1transaction_1_1_global_txn_record_1a142f5039fcb7b5e02634dd19c25d474e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>RegionTxnRecord&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_record_1a142f5039fcb7b5e02634dd19c25d474e" kindref="member">region_records</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1transaction_1_1_global_txn_record_1a5169ca09a472030a19d26907c4a20d8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_record_1a5169ca09a472030a19d26907c4a20d8b" kindref="member">commit_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GlobalTransactionManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1transaction_1_1_global_transaction_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" kindref="member">GlobalTransactionManager</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" kindref="compound">IRecoverableTwoPhaseCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config_1acf1f71cbc58944909a83eb20bedf7061" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config_1acf1f71cbc58944909a83eb20bedf7061" kindref="member">wal_directory</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config_1a8cb3c73bd7e5cfb351e9396b0fb765bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config_1a8cb3c73bd7e5cfb351e9396b0fb765bb" kindref="member">sync_wal_writes</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" kindref="member">GlobalTransactionManager</ref>(</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator_id,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::sharding::TrueTime&gt;<sp/>truetime</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" kindref="member">GlobalTransactionManager</ref>(</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator_id,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::sharding::TrueTime&gt;<sp/>truetime,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a26166aa1649834f62dd051ae33e8e98e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a26166aa1649834f62dd051ae33e8e98e" kindref="member">~GlobalTransactionManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy;<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1transaction_1_1_global_transaction_manager_1adb44bf8b792660a78382312242210226" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1adb44bf8b792660a78382312242210226" kindref="member">GlobalTransactionManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" kindref="member">GlobalTransactionManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a299705d1aeaa9822cd990dfa8e463f70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" kindref="member">GlobalTransactionManager</ref>&amp;<sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a299705d1aeaa9822cd990dfa8e463f70" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" kindref="member">GlobalTransactionManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a8f21618d14473eb23a36aed1e0921021" kindref="member">registerRegion</ref>(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>region_id,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_i_global_region_participant" kindref="compound">IGlobalRegionParticipant</ref>*<sp/>participant</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1aeab2294bd00f14139aabc1f55334d9b3" kindref="member">unregisterRegion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>region_id);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1ab6eba46730e8bc12c7d51adaf49d97db" kindref="member">regionCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a6cc5237ee87bcb183ab7ed42c554bd9f" kindref="member">beginTransaction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>region_ids);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a565491edfba0c8803382ef251d279f09" kindref="member">addOperation</ref>(</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/>txn_id,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/>region_id,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>op</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome" kindref="compound">GlobalTxnOutcome</ref><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a517961bd68f1a1e56b2462eb064de1e8" kindref="member">commit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a9b5353abd6f26af7e24604d23d6f5d85" kindref="member">abort</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Recovery<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a243514ff91f17b59abf717932e186dde" kindref="member">recoverInDoubtTransactions</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a61bfb28c0e3584ac459972a1e96edeee" kindref="member">recoveryCoordinatorName</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af7086970f9643f9a73a902f97b1337a3" kindref="member">recoveryBackendName</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;RecoverableTwoPhaseTransaction&gt;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a5717bb4312d20054813cd8f84530e5ea" kindref="member">getRecoverableTransactions</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;GlobalTxnState&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a219b969b7d9f8b76a2aad6210b3eb1a1" kindref="member">getTransactionState</ref>(</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a4e6f09298a9320a91ea72927e6108c96" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator_id_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::sharding::TrueTime&gt;<sp/>truetime_;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>IGlobalRegionParticipant*&gt;<sp/>regions_;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>GlobalTxnRecord&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transactions_;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::sharding::WALManager&gt;<sp/>wal_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_transactions_{0};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_commits_{0};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_aborts_{0};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_errors_{0};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::steady_clock::time_point<sp/>start_time_{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now()</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>txn_counter_{0};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>runPhase1(GlobalTxnRecord&amp;<sp/>rec);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>runPhase2(GlobalTxnRecord&amp;<sp/>rec,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>do_commit);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logToWAL(</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::sharding::WALEntryType<sp/>type,</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>txn_id,</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateTransactionId();</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::transaction</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/global_transaction_manager.h"/>
+  </compounddef>
+</doxygen>

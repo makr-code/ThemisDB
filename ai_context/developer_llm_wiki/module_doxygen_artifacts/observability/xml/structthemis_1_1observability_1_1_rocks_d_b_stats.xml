@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_rocks_d_b_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::RocksDBStats</compoundname>
+    <includes refid="storage__profiler_8h" local="no">storage_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a08fcede28eee0a8917e4ae9f6e3edd84" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::RocksDBStats::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::RocksDBStats::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="68" column="43" bodyfile="include/observability/storage_profiler.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1ab3b09492d18215b19fc50972c1ec40ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::num_compactions</definition>
+        <argsstring></argsstring>
+        <name>num_compactions</name>
+        <qualifiedname>themis::observability::RocksDBStats::num_compactions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="71" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a9eb837c7058b88d18334ed4a7fb95f94" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::compaction_bytes_read</definition>
+        <argsstring></argsstring>
+        <name>compaction_bytes_read</name>
+        <qualifiedname>themis::observability::RocksDBStats::compaction_bytes_read</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="72" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a8b32561a8498914c7495ab523ebb6a8b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::compaction_bytes_written</definition>
+        <argsstring></argsstring>
+        <name>compaction_bytes_written</name>
+        <qualifiedname>themis::observability::RocksDBStats::compaction_bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="73" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a7ab0e9f1962b6fe15439890461b17f04" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::observability::RocksDBStats::total_compaction_time</definition>
+        <argsstring></argsstring>
+        <name>total_compaction_time</name>
+        <qualifiedname>themis::observability::RocksDBStats::total_compaction_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="74" column="31" bodyfile="include/observability/storage_profiler.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1ade85f3aaaedf35b94bfc5410133bee8f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::num_writes</definition>
+        <argsstring></argsstring>
+        <name>num_writes</name>
+        <qualifiedname>themis::observability::RocksDBStats::num_writes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="77" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa68842f8ae138efa2c6c9b5df7f0027b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themis::observability::RocksDBStats::bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="78" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1aaf5c28e1ffb922ab8ebab4ee82571c9b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::wal_bytes</definition>
+        <argsstring></argsstring>
+        <name>wal_bytes</name>
+        <qualifiedname>themis::observability::RocksDBStats::wal_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="79" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a0c7eecee76c42fda1bf9b7b12ae56559" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::memtable_writes</definition>
+        <argsstring></argsstring>
+        <name>memtable_writes</name>
+        <qualifiedname>themis::observability::RocksDBStats::memtable_writes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="80" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3dd67fb26745e499f4079d2ca5818ae8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::num_reads</definition>
+        <argsstring></argsstring>
+        <name>num_reads</name>
+        <qualifiedname>themis::observability::RocksDBStats::num_reads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="83" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa5ef2cd48054c1b5abaa39cfbc060d9b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::bytes_read</definition>
+        <argsstring></argsstring>
+        <name>bytes_read</name>
+        <qualifiedname>themis::observability::RocksDBStats::bytes_read</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="84" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a10882ed3846551fdebcbf2e75f52c6fd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::block_cache_hits</definition>
+        <argsstring></argsstring>
+        <name>block_cache_hits</name>
+        <qualifiedname>themis::observability::RocksDBStats::block_cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="85" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1aaf9ea10eba62f834729f2eacb16fe512" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::block_cache_misses</definition>
+        <argsstring></argsstring>
+        <name>block_cache_misses</name>
+        <qualifiedname>themis::observability::RocksDBStats::block_cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="86" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1a392e76973f8717b5deca098114a559" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::bloom_filter_hits</definition>
+        <argsstring></argsstring>
+        <name>bloom_filter_hits</name>
+        <qualifiedname>themis::observability::RocksDBStats::bloom_filter_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="87" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1c3934fc566e01a7ad1e1c81982b4a79" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::bloom_filter_misses</definition>
+        <argsstring></argsstring>
+        <name>bloom_filter_misses</name>
+        <qualifiedname>themis::observability::RocksDBStats::bloom_filter_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="88" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1a5d4089eeed20c71aa695de426f4555" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::num_sst_files</definition>
+        <argsstring></argsstring>
+        <name>num_sst_files</name>
+        <qualifiedname>themis::observability::RocksDBStats::num_sst_files</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="91" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1af5cc0d6539706264e17ef9c65f599018" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::total_sst_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_sst_size_bytes</name>
+        <qualifiedname>themis::observability::RocksDBStats::total_sst_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="92" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa83ce046a34e101e10646808ce1d0ee3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::num_levels</definition>
+        <argsstring></argsstring>
+        <name>num_levels</name>
+        <qualifiedname>themis::observability::RocksDBStats::num_levels</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="93" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a6042eec3b5e2a9dadc597f79151b682c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::observability::RocksDBStats::level_sizes</definition>
+        <argsstring></argsstring>
+        <name>level_sizes</name>
+        <qualifiedname>themis::observability::RocksDBStats::level_sizes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="94" column="17" bodyfile="include/observability/storage_profiler.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a6f1c2635af8165db628ad1e9df2a5b0c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::memtable_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>memtable_size_bytes</name>
+        <qualifiedname>themis::observability::RocksDBStats::memtable_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="97" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a63137898d191898b5b66e8dc97daf5ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::block_cache_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>block_cache_size_bytes</name>
+        <qualifiedname>themis::observability::RocksDBStats::block_cache_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="98" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1ad02ef381e7c2865a84076c19eb0c21a1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::block_cache_capacity</definition>
+        <argsstring></argsstring>
+        <name>block_cache_capacity</name>
+        <qualifiedname>themis::observability::RocksDBStats::block_cache_capacity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="99" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1aac8537b75952619edd4cf26b156d061f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::wal_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>wal_size_bytes</name>
+        <qualifiedname>themis::observability::RocksDBStats::wal_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="102" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a0f794d4dfc50106e546fb364d15190ef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBStats::wal_syncs</definition>
+        <argsstring></argsstring>
+        <name>wal_syncs</name>
+        <qualifiedname>themis::observability::RocksDBStats::wal_syncs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="103" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3acebc51ca814ff7a7dbb397bed60eaa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::RocksDBStats::write_amplification</definition>
+        <argsstring></argsstring>
+        <name>write_amplification</name>
+        <qualifiedname>themis::observability::RocksDBStats::write_amplification</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="106" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1ad52ba340b6476463c8829d82ec5c7689" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::RocksDBStats::read_amplification</definition>
+        <argsstring></argsstring>
+        <name>read_amplification</name>
+        <qualifiedname>themis::observability::RocksDBStats::read_amplification</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="107" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3410f6a36b9a7f721df7f277cabbf163" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::RocksDBStats::space_amplification</definition>
+        <argsstring></argsstring>
+        <name>space_amplification</name>
+        <qualifiedname>themis::observability::RocksDBStats::space_amplification</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="108" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_rocks_d_b_stats_1abfdb58e36513c9e42d0f96a91f873ce4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::RocksDBStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::RocksDBStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="110" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="58" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RocksDB statistics snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/storage_profiler.h" line="67" column="1" bodyfile="include/observability/storage_profiler.h" bodystart="67" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ad02ef381e7c2865a84076c19eb0c21a1" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>block_cache_capacity</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a10882ed3846551fdebcbf2e75f52c6fd" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>block_cache_hits</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aaf9ea10eba62f834729f2eacb16fe512" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>block_cache_misses</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a63137898d191898b5b66e8dc97daf5ab" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>block_cache_size_bytes</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1a392e76973f8717b5deca098114a559" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>bloom_filter_hits</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1c3934fc566e01a7ad1e1c81982b4a79" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>bloom_filter_misses</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa5ef2cd48054c1b5abaa39cfbc060d9b" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>bytes_read</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa68842f8ae138efa2c6c9b5df7f0027b" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>bytes_written</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a9eb837c7058b88d18334ed4a7fb95f94" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>compaction_bytes_read</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a8b32561a8498914c7495ab523ebb6a8b" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>compaction_bytes_written</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a6042eec3b5e2a9dadc597f79151b682c" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>level_sizes</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a6f1c2635af8165db628ad1e9df2a5b0c" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>memtable_size_bytes</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a0c7eecee76c42fda1bf9b7b12ae56559" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>memtable_writes</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ab3b09492d18215b19fc50972c1ec40ac" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>num_compactions</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa83ce046a34e101e10646808ce1d0ee3" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>num_levels</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3dd67fb26745e499f4079d2ca5818ae8" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>num_reads</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1a5d4089eeed20c71aa695de426f4555" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>num_sst_files</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ade85f3aaaedf35b94bfc5410133bee8f" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>num_writes</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ad52ba340b6476463c8829d82ec5c7689" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>read_amplification</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3410f6a36b9a7f721df7f277cabbf163" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>space_amplification</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a08fcede28eee0a8917e4ae9f6e3edd84" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1abfdb58e36513c9e42d0f96a91f873ce4" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a7ab0e9f1962b6fe15439890461b17f04" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>total_compaction_time</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1af5cc0d6539706264e17ef9c65f599018" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>total_sst_size_bytes</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aaf5c28e1ffb922ab8ebab4ee82571c9b" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>wal_bytes</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aac8537b75952619edd4cf26b156d061f" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>wal_size_bytes</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a0f794d4dfc50106e546fb364d15190ef" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>wal_syncs</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3acebc51ca814ff7a7dbb397bed60eaa" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBStats</scope><name>write_amplification</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

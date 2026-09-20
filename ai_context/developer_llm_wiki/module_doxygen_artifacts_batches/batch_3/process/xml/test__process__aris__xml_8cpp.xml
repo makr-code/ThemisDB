@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__process__aris__xml_8cpp" kind="file" language="C++">
+    <compoundname>test_process_aris_xml.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="epk__aris__xml__importer_8h" local="yes">process/epk_aris_xml_importer.h</includes>
+    <includes refid="process__model__manager_8h" local="yes">process/process_model_manager.h</includes>
+    <includes refid="process__agentic__rag_8h" local="yes">process/process_agentic_rag.h</includes>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>process/epk_aris_xml_importer.h</label>
+        <link refid="epk__aris__xml__importer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>process/process_agentic_rag.h</label>
+        <link refid="process__agentic__rag_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>process/process_api_contract.h</label>
+        <link refid="process__api__contract_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>process/process_diagnostics.h</label>
+        <link refid="process__diagnostics_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>process/process_graph_rag.h</label>
+        <link refid="process__graph__rag_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>process/process_linker.h</label>
+        <link refid="process__linker_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>process/process_model_manager.h</label>
+        <link refid="process__model__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/process/test_process_aris_xml.cpp</label>
+        <link refid="test__process__aris__xml_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>analytics/cep_engine.h</label>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="25">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>cstdint</label>
+      </node>
+      <node id="33">
+        <label>filesystem</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="22">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="31">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="32">
+        <label>rag/agentic_rag.h</label>
+      </node>
+      <node id="30">
+        <label>rag/knowledge_graph_retriever.h</label>
+      </node>
+      <node id="27">
+        <label>set</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="9">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="20">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="28">
+        <label>unordered_map</label>
+      </node>
+      <node id="29">
+        <label>unordered_set</label>
+      </node>
+      <node id="26">
+        <label>utility</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1process_1_1_aris_xml_manager_test" prot="public">themis::process::ArisXmlManagerTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>test_process_aris_xml.cpp</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>tests/</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>Unit<sp/>tests<sp/>for<sp/>EpkArisXmlImporter<sp/>and<sp/>ProcessModelManager::importArisXml()</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>Test<sp/>IDs:<sp/>EAX-01<sp/>…<sp/>EAX-10<sp/>(ARIS-XML<sp/>import)</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PAR-01<sp/>…<sp/>PAR-06<sp/><sp/>(ProcessAgenticRag<sp/>façade)</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="epk__aris__xml__importer_8h" kindref="compound">process/epk_aris_xml_importer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__model__manager_8h" kindref="compound">process/process_model_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__agentic__rag_8h" kindref="compound">process/process_agentic_rag.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{<sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kMinimalAml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">&lt;AML&gt;</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/>&lt;Group<sp/>Group.ID=&quot;g-001&quot;&gt;</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Model<sp/>Model.ID=&quot;m-bauantrag&quot;<sp/>Model.Type=&quot;EPK&quot;&gt;</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model.Name<sp/>LocaleId=&quot;19&quot;&gt;Bauantrag<sp/>Standardprozess&lt;/Model.Name&gt;</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-001&quot;<sp/>SymbolNum=&quot;14&quot;<sp/>ObjDef.IdRef=&quot;obj-001&quot;/&gt;</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-002&quot;<sp/>SymbolNum=&quot;1&quot;<sp/><sp/>ObjDef.IdRef=&quot;obj-002&quot;/&gt;</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-003&quot;<sp/>SymbolNum=&quot;14&quot;<sp/>ObjDef.IdRef=&quot;obj-003&quot;/&gt;</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;CxnOcc<sp/>CxnOcc.ID=&quot;cx-001&quot;<sp/>CxnDef.IdRef=&quot;cd-001&quot;</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FromObjOcc.IdRef=&quot;occ-001&quot;<sp/>ToObjOcc.IdRef=&quot;occ-002&quot;/&gt;</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;CxnOcc<sp/>CxnOcc.ID=&quot;cx-002&quot;<sp/>CxnDef.IdRef=&quot;cd-002&quot;</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FromObjOcc.IdRef=&quot;occ-002&quot;<sp/>ToObjOcc.IdRef=&quot;occ-003&quot;/&gt;</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/Model&gt;</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-001&quot;<sp/>TypeNum=&quot;14&quot;&gt;</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjDef.Name&gt;Antrag<sp/>eingegangen&lt;/ObjDef.Name&gt;</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-002&quot;<sp/>TypeNum=&quot;1&quot;&gt;</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjDef.Name&gt;Vollst&amp;#228;ndigkeit<sp/>pr&amp;#252;fen&lt;/ObjDef.Name&gt;</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-003&quot;<sp/>TypeNum=&quot;14&quot;&gt;</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjDef.Name&gt;Pr&amp;#252;fung<sp/>abgeschlossen&lt;/ObjDef.Name&gt;</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;CxnDef<sp/>CxnDef.ID=&quot;cd-001&quot;<sp/>TypeNum=&quot;2&quot;/&gt;</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;CxnDef<sp/>CxnDef.ID=&quot;cd-002&quot;<sp/>TypeNum=&quot;2&quot;/&gt;</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/>&lt;/Group&gt;</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral">&lt;/AML&gt;)&quot;;</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kMultiModelAml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral">&lt;AML&gt;</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/>&lt;Group<sp/>Group.ID=&quot;g-001&quot;&gt;</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Model<sp/>Model.ID=&quot;m-bpmn-ignored&quot;<sp/>Model.Type=&quot;BPMN&quot;&gt;</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model.Name&gt;Ignored<sp/>BPMN&lt;/Model.Name&gt;</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/Model&gt;</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Model<sp/>Model.ID=&quot;m-epk-1&quot;<sp/>Model.Type=&quot;EPK&quot;&gt;</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model.Name<sp/>LocaleId=&quot;19&quot;&gt;EPK<sp/>Prozess<sp/>1&lt;/Model.Name&gt;</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-A&quot;<sp/>SymbolNum=&quot;14&quot;<sp/>ObjDef.IdRef=&quot;obj-A&quot;/&gt;</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-B&quot;<sp/>SymbolNum=&quot;1&quot;<sp/><sp/>ObjDef.IdRef=&quot;obj-B&quot;/&gt;</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;CxnOcc<sp/>CxnOcc.ID=&quot;cx-AB&quot;<sp/>FromObjOcc.IdRef=&quot;occ-A&quot;<sp/>ToObjOcc.IdRef=&quot;occ-B&quot;/&gt;</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/Model&gt;</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Model<sp/>Model.ID=&quot;m-epk-2&quot;<sp/>Model.Type=&quot;EPK&quot;&gt;</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model.Name<sp/>LocaleId=&quot;19&quot;&gt;EPK<sp/>Prozess<sp/>2&lt;/Model.Name&gt;</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-C&quot;<sp/>SymbolNum=&quot;14&quot;<sp/>ObjDef.IdRef=&quot;obj-C&quot;/&gt;</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/Model&gt;</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-A&quot;<sp/>TypeNum=&quot;14&quot;&gt;&lt;ObjDef.Name&gt;Start<sp/>Ereignis&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-B&quot;<sp/>TypeNum=&quot;1&quot;&gt;&lt;ObjDef.Name&gt;Verarbeitung&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-C&quot;<sp/>TypeNum=&quot;14&quot;&gt;&lt;ObjDef.Name&gt;Ende&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/>&lt;/Group&gt;</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral">&lt;/AML&gt;)&quot;;</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kConnectorsAml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral">&lt;AML&gt;</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/>&lt;Group<sp/>Group.ID=&quot;g-conn&quot;&gt;</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Model<sp/>Model.ID=&quot;m-conn&quot;<sp/>Model.Type=&quot;EPK&quot;&gt;</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model.Name&gt;Konnektor<sp/>Prozess&lt;/Model.Name&gt;</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-and&quot;<sp/>SymbolNum=&quot;13&quot;<sp/>ObjDef.IdRef=&quot;obj-and&quot;/&gt;</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-or&quot;<sp/><sp/>SymbolNum=&quot;12&quot;<sp/>ObjDef.IdRef=&quot;obj-or&quot;/&gt;</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-xor&quot;<sp/>SymbolNum=&quot;11&quot;<sp/>ObjDef.IdRef=&quot;obj-xor&quot;/&gt;</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/Model&gt;</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-and&quot;<sp/>TypeNum=&quot;13&quot;&gt;&lt;ObjDef.Name&gt;UND<sp/>Split&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-or&quot;<sp/><sp/>TypeNum=&quot;12&quot;&gt;&lt;ObjDef.Name&gt;ODER<sp/>Split&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-xor&quot;<sp/>TypeNum=&quot;11&quot;&gt;&lt;ObjDef.Name&gt;XOR<sp/>Split&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/>&lt;/Group&gt;</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral">&lt;/AML&gt;)&quot;;</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-01:<sp/>Parse<sp/>well-formed<sp/>minimal<sp/>AML<sp/>–<sp/>ok,<sp/>correct<sp/>node<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX01_MinimalAml_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">EpkArisXmlImporter::importAml</ref>(kMinimalAml);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.process_id,<sp/></highlight><highlight class="stringliteral">&quot;m-bauantrag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.process_name,<sp/></highlight><highlight class="stringliteral">&quot;Bauantrag<sp/>Standardprozess&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.nodes.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.edges.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-02:<sp/>Node<sp/>types<sp/>mapped<sp/>from<sp/>ARIS<sp/>TypeNum<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX02_NodeTypesFromTypeNum)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">EpkArisXmlImporter::importAml</ref>(kMinimalAml);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>occ-001<sp/>(TypeNum<sp/>14<sp/>→<sp/>EVENT)<sp/>and<sp/>occ-002<sp/>(TypeNum<sp/>1<sp/>→<sp/>FUNCTION)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>event_count<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>function_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>result.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::holds_alternative&lt;EPKNodeType&gt;(n.node_type))<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>std::get&lt;EPKNodeType&gt;(n.node_type);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t<sp/>==<sp/>EPKNodeType::EVENT)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++event_count;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t<sp/>==<sp/>EPKNodeType::FUNCTION)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++function_count;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(event_count,<sp/><sp/><sp/><sp/>2);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(function_count,<sp/>1);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-03:<sp/>Edge<sp/>IDs<sp/>and<sp/>connectivity<sp/>from<sp/>CxnOcc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX03_EdgeConnectivity)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">EpkArisXmlImporter::importAml</ref>(kMinimalAml);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.edges.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>edge:<sp/>occ-001<sp/>→<sp/>occ-002</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_cx001<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>result.edges)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.from_node<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;occ-001&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>e.to_node<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;occ-002&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_cx001<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(e.edge_type,<sp/>ProcessEdgeType::CONTROL_FLOW);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_cx001)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Edge<sp/>occ-001→occ-002<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-04:<sp/>importAllAml<sp/>returns<sp/>only<sp/>EPK<sp/>models;<sp/>ignores<sp/>BPMN<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX04_ImportAll_FiltersNonEpk)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a43461adeab9d41a01ae43f3833b03b57" kindref="member">EpkArisXmlImporter::importAllAml</ref>(kMultiModelAml);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>2u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>2<sp/>EPK<sp/>models&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>&quot;m-bpmn-ignored&quot;<sp/>is<sp/>not<sp/>in<sp/>the<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(r.process_id,<sp/></highlight><highlight class="stringliteral">&quot;m-bpmn-ignored&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>EPK<sp/>should<sp/>have<sp/>2<sp/>nodes<sp/>and<sp/>1<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].nodes.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].edges.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-05:<sp/>Connector<sp/>TypeNums<sp/>(AND/OR/XOR)<sp/>mapped<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX05_ConnectorNodeTypes)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">EpkArisXmlImporter::importAml</ref>(kConnectorsAml);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.nodes.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>and_c<sp/>=<sp/>0,<sp/>or_c<sp/>=<sp/>0,<sp/>xor_c<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>result.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::holds_alternative&lt;EPKNodeType&gt;(n.node_type))<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>std::get&lt;EPKNodeType&gt;(n.node_type);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t<sp/>==<sp/>EPKNodeType::AND_CONNECTOR)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++and_c;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t<sp/>==<sp/>EPKNodeType::OR_CONNECTOR)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++or_c;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t<sp/>==<sp/>EPKNodeType::XOR_CONNECTOR)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++xor_c;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(and_c,<sp/>1);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(or_c,<sp/><sp/>1);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(xor_c,<sp/>1);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-06:<sp/>typeNumToEpkNodeType<sp/>round-trips<sp/>for<sp/>all<sp/>known<sp/>TypeNums</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX06_TypeNumRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(1),<sp/><sp/>EPKNodeType::FUNCTION);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(14),<sp/>EPKNodeType::EVENT);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(13),<sp/>EPKNodeType::AND_CONNECTOR);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(12),<sp/>EPKNodeType::OR_CONNECTOR);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(11),<sp/>EPKNodeType::XOR_CONNECTOR);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(18),<sp/>EPKNodeType::ORGANIZATIONAL_UNIT);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(15),<sp/>EPKNodeType::INFORMATION_OBJECT);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(40),<sp/>EPKNodeType::APPLICATION_SYSTEM);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(16),<sp/>EPKNodeType::PROCESS_PATH);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown<sp/>falls<sp/>back<sp/>to<sp/>FUNCTION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">EpkArisXmlImporter::typeNumToEpkNodeType</ref>(9999),<sp/>EPKNodeType::FUNCTION);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-07:<sp/>Empty<sp/>input<sp/>returns<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX07_EmptyInput_Fails)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">EpkArisXmlImporter::importAml</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.message.empty());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-08:<sp/>AML<sp/>with<sp/>no<sp/>EPK<sp/>model<sp/>returns<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX08_NoEpkModel_Fails)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>no_epk<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;AML&gt;&lt;Group<sp/>Group.ID=&quot;g1&quot;&gt;</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model<sp/>Model.ID=&quot;m1&quot;<sp/>Model.Type=&quot;BPMN&quot;&gt;</highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model.Name&gt;Not<sp/>EPK&lt;/Model.Name&gt;</highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/Model&gt;&lt;/Group&gt;&lt;/AML&gt;)&quot;;</highlight></codeline>
+<codeline lineno="236"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">EpkArisXmlImporter::importAml</ref>(no_epk);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-09:<sp/>Self-closing<sp/>ObjOcc<sp/>without<sp/>CxnOcc<sp/>still<sp/>produces<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(EpkArisXmlImporterTest,<sp/>EAX09_NodesWithoutEdges)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>xml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;AML&gt;</highlight></codeline>
+<codeline lineno="246"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Group<sp/>Group.ID=&quot;g1&quot;&gt;</highlight></codeline>
+<codeline lineno="247"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model<sp/>Model.ID=&quot;m-solo&quot;<sp/>Model.Type=&quot;EPK&quot;&gt;</highlight></codeline>
+<codeline lineno="248"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model.Name&gt;Solo&lt;/Model.Name&gt;</highlight></codeline>
+<codeline lineno="249"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-1&quot;<sp/>SymbolNum=&quot;14&quot;<sp/>ObjDef.IdRef=&quot;obj-1&quot;/&gt;</highlight></codeline>
+<codeline lineno="250"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-2&quot;<sp/>SymbolNum=&quot;1&quot;<sp/><sp/>ObjDef.IdRef=&quot;obj-2&quot;/&gt;</highlight></codeline>
+<codeline lineno="251"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/Model&gt;</highlight></codeline>
+<codeline lineno="252"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-1&quot;<sp/>TypeNum=&quot;14&quot;&gt;&lt;ObjDef.Name&gt;E1&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1process_1_1_aris_xml_manager_test" refkind="compound"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-2&quot;<sp/>TypeNum=&quot;1&quot;&gt;&lt;ObjDef.Name&gt;F1&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="254"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/Group&gt;</highlight></codeline>
+<codeline lineno="255"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/AML&gt;)&quot;;</highlight></codeline>
+<codeline lineno="256"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">EpkArisXmlImporter::importAml</ref>(xml);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.nodes.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.edges.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EAX-10:<sp/>ProcessModelManager::importArisXml<sp/>stores<sp/>model<sp/>in<sp/>DB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test" kindref="compound">ArisXmlManagerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a263860961354e4d18a4017ad1c691dc1" kindref="member">db_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;::themis::RocksDBWrapper&gt;<sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ProcessModelManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a9a201242d941a3760446dc52754fa5cb" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ProcessGraphManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1adb7a09b184c2f6b398938a997964cd13" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1aedc2eb2219e0eaaa8db8ac51d9bcac14" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a263860961354e4d18a4017ad1c691dc1" kindref="member">db_path_</ref><sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;test_aris_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>::themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a263860961354e4d18a4017ad1c691dc1" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;::themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1adb7a09b184c2f6b398938a997964cd13" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;ProcessGraphManager&gt;(*<ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a9a201242d941a3760446dc52754fa5cb" kindref="member">mgr_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;ProcessModelManager&gt;(*<ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ada3677dbf5529eb462a78f7a1c8d3d48" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a9a201242d941a3760446dc52754fa5cb" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1adb7a09b184c2f6b398938a997964cd13" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a263860961354e4d18a4017ad1c691dc1" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="namespacethemis_1_1process_1aa850d7ac6ab21898a59b430160ca0bb7" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1process_1_1_aris_xml_manager_test" kindref="compound">ArisXmlManagerTest</ref>,<sp/>EAX10_ImportArisXml_StoresModel)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;importArisXml(kMinimalAml);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.ok)<sp/>&lt;&lt;<sp/>res.message;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.model_id,<sp/></highlight><highlight class="stringliteral">&quot;m-bauantrag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>mgr_-&gt;load(</highlight><highlight class="stringliteral">&quot;m-bauantrag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.has_value());</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;notation,<sp/><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6a9cd3f2518446501a2af3b5bbe27ce9f0" kindref="member">ProcessNotation::EPK</ref>);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;name,<sp/></highlight><highlight class="stringliteral">&quot;Bauantrag<sp/>Standardprozess&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(loaded-&gt;raw_payload.empty());</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(loaded-&gt;normalized.is_null());</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normalized<sp/>graph<sp/>should<sp/>have<sp/>3<sp/>nodes<sp/>and<sp/>2<sp/>edges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded-&gt;normalized.contains(</highlight><highlight class="stringliteral">&quot;nodes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded-&gt;normalized.contains(</highlight><highlight class="stringliteral">&quot;edges&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;normalized[</highlight><highlight class="stringliteral">&quot;nodes&quot;</highlight><highlight class="normal">].size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;normalized[</highlight><highlight class="stringliteral">&quot;edges&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PAR-01:<sp/>ProcessAgenticConfig<sp/>default<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(ProcessAgenticRagTest,<sp/>PAR01_DefaultConfig)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_agentic_config" kindref="compound">ProcessAgenticConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_iterations,<sp/>4u);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.quality_threshold,<sp/>0.75);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.faithfulness_threshold,<sp/>0.80);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_total_documents,<sp/>40u);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PAR-02:<sp/>ProcessAgenticResult<sp/>default<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(ProcessAgenticRagTest,<sp/>PAR02_ResultDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_agentic_result" kindref="compound">ProcessAgenticResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.quality_satisfied);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.total_iterations,<sp/>0u);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.total_elapsed_ms.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.iteration_history.empty());</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.llm_prompt.empty());</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PAR-03:<sp/>typeNumToLabel<sp/>returns<sp/>non-empty<sp/>strings<sp/>for<sp/>known<sp/>TypeNums</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(ProcessAgenticRagTest,<sp/>PAR03_TypeNumLabels)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::string(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a99fcd1fbc42f3a9987a23af7fa74f7de" kindref="member">EpkArisXmlImporter::typeNumToLabel</ref>(1)).empty());</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::string(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a99fcd1fbc42f3a9987a23af7fa74f7de" kindref="member">EpkArisXmlImporter::typeNumToLabel</ref>(14)).empty());</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::string(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a99fcd1fbc42f3a9987a23af7fa74f7de" kindref="member">EpkArisXmlImporter::typeNumToLabel</ref>(13)).empty());</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::string(<ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a99fcd1fbc42f3a9987a23af7fa74f7de" kindref="member">EpkArisXmlImporter::typeNumToLabel</ref>(9999)).empty());</highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PAR-04:<sp/>importAllAml<sp/>on<sp/>empty<sp/>XML<sp/>returns<sp/>empty<sp/>vector<sp/>(no<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(ProcessAgenticRagTest,<sp/>PAR04_ImportAllEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a43461adeab9d41a01ae43f3833b03b57" kindref="member">EpkArisXmlImporter::importAllAml</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PAR-05:<sp/>importAml<sp/>with<sp/>XML<sp/>containing<sp/>numeric<sp/>character<sp/>escapes<sp/>decodes<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(ProcessAgenticRagTest,<sp/>PAR05_EntityEscapedNames)<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kMinimalAml<sp/>contains<sp/>&amp;#228;<sp/>(ä)<sp/>and<sp/>&amp;#252;<sp/>(ü)<sp/>in<sp/>&quot;Vollständigkeit<sp/>prüfen&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">EpkArisXmlImporter::importAml</ref>(kMinimalAml);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>three<sp/>nodes<sp/>should<sp/>have<sp/>non-empty<sp/>names.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>result.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(n.name.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Node<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>n.node_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>no<sp/>name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>FUNCTION<sp/>node<sp/>should<sp/>contain<sp/>the<sp/>decoded<sp/>German<sp/>characters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_vollstaendigkeit<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>result.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::holds_alternative&lt;EPKNodeType&gt;(n.node_type))<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::get&lt;EPKNodeType&gt;(n.node_type)<sp/>==<sp/>EPKNodeType::FUNCTION)<sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>decoding<sp/>&amp;#228;<sp/>→<sp/>ä<sp/>and<sp/>&amp;#252;<sp/>→<sp/>ü:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;Vollständigkeit<sp/>prüfen&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(n.name.find(</highlight><highlight class="stringliteral">&quot;ndig&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/></highlight><highlight class="comment">//<sp/>&quot;ständigkeit&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>decoded<sp/>German<sp/>name,<sp/>got:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>n.name;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_vollstaendigkeit<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_vollstaendigkeit);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PAR-06:<sp/>importArisXml<sp/>with<sp/>metadata<sp/>override<sp/>uses<sp/>provided<sp/>name<sp/>and<sp/>domain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><ref refid="namespacethemis_1_1process_1aa850d7ac6ab21898a59b430160ca0bb7" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1process_1_1_aris_xml_manager_test" kindref="compound">ArisXmlManagerTest</ref>,<sp/>PAR06_ImportArisXmlWithMetaOverride)<sp/>{</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1process_1_1_process_model_record_1a72f4aec96ca2f648f178f409d4244774" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;custom-id-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.name<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Custom<sp/>Process<sp/>Name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.domain<sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref>;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.owner<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;TestTeam&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;importArisXml(kMinimalAml,<sp/>meta);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.ok)<sp/>&lt;&lt;<sp/>res.message;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.model_id,<sp/></highlight><highlight class="stringliteral">&quot;custom-id-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>mgr_-&gt;load(</highlight><highlight class="stringliteral">&quot;custom-id-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.has_value());</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;name,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Custom<sp/>Process<sp/>Name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;domain,<sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref>);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;owner,<sp/><sp/></highlight><highlight class="stringliteral">&quot;TestTeam&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="411"><highlight class="normal">}<sp/>}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/process/test_process_aris_xml.cpp"/>
+  </compounddef>
+</doxygen>

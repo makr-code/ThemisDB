@@ -1,0 +1,412 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_http_server_1_1_session" kind="class" language="C++" prot="private">
+    <compoundname>themis::server::HttpServer::Session</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; Session &gt;</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_server_1_1_session_1a55d30cfc24b794938ba874c238a29abe" prot="private" static="no" mutable="no">
+        <type>tcp::socket</type>
+        <definition>tcp::socket themis::server::HttpServer::Session::socket_</definition>
+        <argsstring></argsstring>
+        <name>socket_</name>
+        <qualifiedname>themis::server::HttpServer::Session::socket_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="552" column="21" bodyfile="include/server/http_server.h" bodystart="552" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_server_1_1_session_1a244d6ed3d0bbe6f8898ac0bcf2217e3c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_http_server_1af47a7a3d74647ab3b55d5ccdcd97d31b" kindref="member">HttpServer</ref> *</type>
+        <definition>HttpServer* themis::server::HttpServer::Session::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>themis::server::HttpServer::Session::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="553" column="20" bodyfile="include/server/http_server.h" bodystart="553" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_server_1_1_session_1a472014deba86fdea0c756e7ce7b6aa44" prot="private" static="no" mutable="no">
+        <type>beast::flat_buffer</type>
+        <definition>beast::flat_buffer themis::server::HttpServer::Session::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::server::HttpServer::Session::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="554" column="28" bodyfile="include/server/http_server.h" bodystart="554" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_server_1_1_session_1a66627a79f917d585d4eea8c587acf5bc" prot="private" static="no" mutable="no">
+        <type>http::request&lt; http::string_body &gt;</type>
+        <definition>http::request&lt;http::string_body&gt; themis::server::HttpServer::Session::request_</definition>
+        <argsstring></argsstring>
+        <name>request_</name>
+        <qualifiedname>themis::server::HttpServer::Session::request_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="555" column="23" bodyfile="include/server/http_server.h" bodystart="555" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_server_1_1_session_1a2154be2f81a277d2a786ee2956399cdd" prot="private" static="no" mutable="no">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt;http::string_body&gt; themis::server::HttpServer::Session::response_</definition>
+        <argsstring></argsstring>
+        <name>response_</name>
+        <qualifiedname>themis::server::HttpServer::Session::response_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="556" column="24" bodyfile="include/server/http_server.h" bodystart="556" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_server_1_1_session_1ab85829f170588aa3ca1effdec94441fb" prot="private" static="no" mutable="no">
+        <type>net::steady_timer</type>
+        <definition>net::steady_timer themis::server::HttpServer::Session::read_timer_</definition>
+        <argsstring></argsstring>
+        <name>read_timer_</name>
+        <qualifiedname>themis::server::HttpServer::Session::read_timer_</qualifiedname>
+        <briefdescription>
+<para>I/O timeout timer: armed before async_read and async_write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="557" column="27" bodyfile="include/server/http_server.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1a853a0825b9ba8b42a0728dbad09b92d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HttpServer::Session::Session</definition>
+        <argsstring>(tcp::socket socket, HttpServer *server, bool connection_slot_reserved=false)</argsstring>
+        <name>Session</name>
+        <qualifiedname>themis::server::HttpServer::Session::Session</qualifiedname>
+        <param>
+          <type>tcp::socket</type>
+          <declname>socket</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_http_server_1af47a7a3d74647ab3b55d5ccdcd97d31b" kindref="member">HttpServer</ref> *</type>
+          <declname>server</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>connection_slot_reserved</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="510" column="9" bodyfile="src/server/http_server.cpp" bodystart="13952" bodyend="13960"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1a35e7df11d35a29282faca1b40432e986" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HttpServer::Session::~Session</definition>
+        <argsstring>()</argsstring>
+        <name>~Session</name>
+        <qualifiedname>themis::server::HttpServer::Session::~Session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="511" column="9" bodyfile="src/server/http_server.cpp" bodystart="13962" bodyend="13966"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1a01b288382377151c5cbf246bcd581e54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpServer::Session::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::server::HttpServer::Session::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: doRead(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="515" column="14" bodyfile="src/server/http_server.cpp" bodystart="14030" bodyend="14035"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1a6bafcb3945d2eaf21b47cf1d8a47718d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpServer::Session::doRead</definition>
+        <argsstring>()</argsstring>
+        <name>doRead</name>
+        <qualifiedname>themis::server::HttpServer::Session::doRead</qualifiedname>
+        <briefdescription>
+<para>Do Read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: armReadTimer(), <ulink url="http::async_read()">http::async_read()</ulink>, beast::bind_front_handler(), shared_from_this(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="521" column="14" bodyfile="src/server/http_server.cpp" bodystart="14041" bodyend="14054"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1a0a405d91ac60149b2f9d771106bc2220" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpServer::Session::onRead</definition>
+        <argsstring>(beast::error_code ec, std::size_t bytes_transferred)</argsstring>
+        <name>onRead</name>
+        <qualifiedname>themis::server::HttpServer::Session::onRead</qualifiedname>
+        <param>
+          <type>beast::error_code</type>
+          <declname>ec</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>bytes_transferred</declname>
+        </param>
+        <briefdescription>
+<para>On Read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_transferred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_transferred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: boost::ignore_unused(), cancelReadTimer(), shutdown(), THEMIS_ERROR(), message(), processRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="527" column="14" bodyfile="src/server/http_server.cpp" bodystart="14062" bodyend="14082"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1ab1a3434246961e63dc2cf0d0cf21c8e6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpServer::Session::processRequest</definition>
+        <argsstring>()</argsstring>
+        <name>processRequest</name>
+        <qualifiedname>themis::server::HttpServer::Session::processRequest</qualifiedname>
+        <briefdescription>
+<para>Process <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: websocket::is_upgrade(), ws_target(), target(), find(), substr(), api::WsChangeHandler::isChangeStreamPath(), ws_handler(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="531" column="14" bodyfile="src/server/http_server.cpp" bodystart="14088" bodyend="14264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1a8be88c40d2825c643389490102b95067" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpServer::Session::doWrite</definition>
+        <argsstring>()</argsstring>
+        <name>doWrite</name>
+        <qualifiedname>themis::server::HttpServer::Session::doWrite</qualifiedname>
+        <briefdescription>
+<para>Do Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: armReadTimer(), need_eof(), <ulink url="http::async_write()">http::async_write()</ulink>, beast::bind_front_handler(), shared_from_this(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="535" column="14" bodyfile="src/server/http_server.cpp" bodystart="14270" bodyend="14289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1a2a1f8488e0d56273caaeb7818c6924b1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpServer::Session::onWrite</definition>
+        <argsstring>(bool close, beast::error_code ec, std::size_t bytes_transferred)</argsstring>
+        <name>onWrite</name>
+        <qualifiedname>themis::server::HttpServer::Session::onWrite</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>close</declname>
+        </param>
+        <param>
+          <type>beast::error_code</type>
+          <declname>ec</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>bytes_transferred</declname>
+        </param>
+        <briefdescription>
+<para>On Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">close</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_transferred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">close</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_transferred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cancelReadTimer(), boost::ignore_unused(), THEMIS_ERROR(), message(), shutdown(), doRead(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="542" column="14" bodyfile="src/server/http_server.cpp" bodystart="14298" bodyend="14320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1aaf10a042c8587081b351e21b6b822bfa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpServer::Session::armReadTimer</definition>
+        <argsstring>()</argsstring>
+        <name>armReadTimer</name>
+        <qualifiedname>themis::server::HttpServer::Session::armReadTimer</qualifiedname>
+        <briefdescription>
+<para>Arm Read Timer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), expires_after(), std::chrono::milliseconds(), async_wait(), shared_from_this(), THEMIS_WARN(), boost::asio::write(), boost::asio::buffer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="546" column="14" bodyfile="src/server/http_server.cpp" bodystart="13972" bodyend="14016"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_server_1_1_session_1a6826f8a16b09af9cbd32b93b327c9047" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpServer::Session::cancelReadTimer</definition>
+        <argsstring>()</argsstring>
+        <name>cancelReadTimer</name>
+        <qualifiedname>themis::server::HttpServer::Session::cancelReadTimer</qualifiedname>
+        <briefdescription>
+<para>Cancel Read Timer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cancel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="550" column="14" bodyfile="src/server/http_server.cpp" bodystart="14022" bodyend="14024"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; Session &gt;</label>
+      </node>
+      <node id="1">
+        <label>themis::server::HttpServer::Session</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; Session &gt;</label>
+      </node>
+      <node id="1">
+        <label>themis::server::HttpServer::Session</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/http_server.h" line="508" column="5" bodyfile="include/server/http_server.h" bodystart="508" bodyend="558"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1aaf10a042c8587081b351e21b6b822bfa" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>armReadTimer</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a472014deba86fdea0c756e7ce7b6aa44" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a6826f8a16b09af9cbd32b93b327c9047" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>cancelReadTimer</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a6bafcb3945d2eaf21b47cf1d8a47718d" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>doRead</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a8be88c40d2825c643389490102b95067" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>doWrite</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a0a405d91ac60149b2f9d771106bc2220" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>onRead</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a2a1f8488e0d56273caaeb7818c6924b1" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>onWrite</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1ab1a3434246961e63dc2cf0d0cf21c8e6" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>processRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1ab85829f170588aa3ca1effdec94441fb" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>read_timer_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a66627a79f917d585d4eea8c587acf5bc" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>request_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a2154be2f81a277d2a786ee2956399cdd" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>response_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a244d6ed3d0bbe6f8898ac0bcf2217e3c" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>server_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a853a0825b9ba8b42a0728dbad09b92d1" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>Session</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a55d30cfc24b794938ba874c238a29abe" prot="private" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>socket_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a01b288382377151c5cbf246bcd581e54" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>start</name></member>
+      <member refid="classthemis_1_1server_1_1_http_server_1_1_session_1a35e7df11d35a29282faca1b40432e986" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Session</scope><name>~Session</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_o_z_g_data_field" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::OZGDataField</compoundname>
+    <includes refid="ozg__service__registry_8h" local="no">ozg_service_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_data_field_1a575cc1c57a5c79322ed1cde756f35210" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGDataField::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::importers::OZGDataField::id</qualifiedname>
+        <briefdescription>
+<para>Unique field identifier (e.g. &quot;F60000017&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="87" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_data_field_1aafc02d9dc87fff08ab6f59dcdadef970" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGDataField::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::OZGDataField::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable German label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="88" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_data_field_1ad219b9a82edf26931e7ec4e6e695388a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7a" kindref="member">OZGFieldType</ref></type>
+        <definition>OZGFieldType themis::importers::OZGDataField::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::importers::OZGDataField::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">OZGFieldType::TEXT</ref>}</initializer>
+        <briefdescription>
+<para>Semantic data type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="89" column="18" bodyfile="include/importers/ozg_service_registry.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_data_field_1a242340691c8957ce650c06ff065a528b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::OZGDataField::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::importers::OZGDataField::required</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether the field is mandatory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="90" column="10" bodyfile="include/importers/ozg_service_registry.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_data_field_1ae2f5ef5578b74084b37c5dd5de01f02d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGDataField::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::importers::OZGDataField::description</qualifiedname>
+        <briefdescription>
+<para>Extended description / tooltip text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="91" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_data_field_1a8d3162b87100433877dbd14ede5dda74" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGDataField::fim_reference</definition>
+        <argsstring></argsstring>
+        <name>fim_reference</name>
+        <qualifiedname>themis::importers::OZGDataField::fim_reference</qualifiedname>
+        <briefdescription>
+<para>Reference to FIM data-field catalogue entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="92" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_data_field_1a3c97162bc42bd3c7037761661b3d76db" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::OZGDataField::allowed_values</definition>
+        <argsstring></argsstring>
+        <name>allowed_values</name>
+        <qualifiedname>themis::importers::OZGDataField::allowed_values</qualifiedname>
+        <briefdescription>
+<para>Non-empty for ENUM fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="93" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/ozg_service_registry.h" line="86" column="1" bodyfile="include/importers/ozg_service_registry.h" bodystart="86" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a3c97162bc42bd3c7037761661b3d76db" prot="public" virt="non-virtual"><scope>themis::importers::OZGDataField</scope><name>allowed_values</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_data_field_1ae2f5ef5578b74084b37c5dd5de01f02d" prot="public" virt="non-virtual"><scope>themis::importers::OZGDataField</scope><name>description</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a8d3162b87100433877dbd14ede5dda74" prot="public" virt="non-virtual"><scope>themis::importers::OZGDataField</scope><name>fim_reference</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a575cc1c57a5c79322ed1cde756f35210" prot="public" virt="non-virtual"><scope>themis::importers::OZGDataField</scope><name>id</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_data_field_1aafc02d9dc87fff08ab6f59dcdadef970" prot="public" virt="non-virtual"><scope>themis::importers::OZGDataField</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a242340691c8957ce650c06ff065a528b" prot="public" virt="non-virtual"><scope>themis::importers::OZGDataField</scope><name>required</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_data_field_1ad219b9a82edf26931e7ec4e6e695388a" prot="public" virt="non-virtual"><scope>themis::importers::OZGDataField</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__aql__embedding__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_aql_embedding_bridge.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">aql/aql_fewshot_example_library.h</includes>
+    <includes local="yes">aql/llm_aql_embedding_bridge.h</includes>
+    <includes local="yes">aql/llm_aql_handler.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_aql_embedding_bridge.cpp</label>
+        <link refid="test__llm__aql__embedding__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>aql/aql_fewshot_example_library.h</label>
+      </node>
+      <node id="4">
+        <label>aql/llm_aql_embedding_bridge.h</label>
+      </node>
+      <node id="5">
+        <label>aql/llm_aql_handler.h</label>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_stub_embedding_provider" prot="public">StubEmbeddingProvider</innerclass>
+    <innerclass refid="class_throwing_embedding_provider" prot="public">ThrowingEmbeddingProvider</innerclass>
+    <innerclass refid="class_capturing_bridge" prot="public">CapturingBridge</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__aql__embedding__bridge_8cpp_1ae57d215c86c2bb3e5115d91def633d38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAQLEmbeddingBridge, EMB_01_DelegatesEmbedCall)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAQLEmbeddingBridge</type>
+        </param>
+        <param>
+          <type>EMB_01_DelegatesEmbedCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_embedding_bridge.cpp" line="97" column="1" bodyfile="tests/llm/test_llm_aql_embedding_bridge.cpp" bodystart="97" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__aql__embedding__bridge_8cpp_1a86f7e20858e291d9571946dd08b1568a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAQLEmbeddingBridge, EMB_02_EmptyTextReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAQLEmbeddingBridge</type>
+        </param>
+        <param>
+          <type>EMB_02_EmptyTextReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_embedding_bridge.cpp" line="117" column="1" bodyfile="tests/llm/test_llm_aql_embedding_bridge.cpp" bodystart="117" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__aql__embedding__bridge_8cpp_1acd72cbe9b5a539b7522e8d3331933ee5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAQLEmbeddingBridge, EMB_03_HandlerExceptionReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAQLEmbeddingBridge</type>
+        </param>
+        <param>
+          <type>EMB_03_HandlerExceptionReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_embedding_bridge.cpp" line="133" column="1" bodyfile="tests/llm/test_llm_aql_embedding_bridge.cpp" bodystart="133" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__aql__embedding__bridge_8cpp_1a4bb060649621bd999d731f6b3d1ea380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAQLEmbeddingBridge, EMB_04_FactoryReturnsUsableBridge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAQLEmbeddingBridge</type>
+        </param>
+        <param>
+          <type>EMB_04_FactoryReturnsUsableBridge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_embedding_bridge.cpp" line="167" column="1" bodyfile="tests/llm/test_llm_aql_embedding_bridge.cpp" bodystart="167" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__aql__embedding__bridge_8cpp_1a84c6bd66864b82f0b3d9264fdae0d922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAQLEmbeddingBridge, EMB_05_LibraryUsesBridgeForSemanticRanking)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAQLEmbeddingBridge</type>
+        </param>
+        <param>
+          <type>EMB_05_LibraryUsesBridgeForSemanticRanking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_embedding_bridge.cpp" line="180" column="1" bodyfile="tests/llm/test_llm_aql_embedding_bridge.cpp" bodystart="180" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Focused<sp/>regression<sp/>tests<sp/>for<sp/>LLMAQLEmbeddingBridge<sp/>(B-07<sp/>/<sp/>AQL<sp/>§8).</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Test<sp/>matrix:</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/>EMB_01<sp/><sp/>Bridge::embed()<sp/>delegates<sp/>to<sp/>handler::executeEmbed();<sp/>non-empty<sp/>result</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/><sp/>EMB_02<sp/><sp/>Bridge::embed(&quot;&quot;)<sp/>returns<sp/>empty<sp/>vector<sp/>without<sp/>calling<sp/>handler</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/>EMB_03<sp/><sp/>Bridge::embed()<sp/>returns<sp/>empty<sp/>vector<sp/>when<sp/>handler<sp/>throws</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/><sp/>EMB_04<sp/><sp/>makeEmbeddingBridge()<sp/>factory<sp/>returns<sp/>a<sp/>usable<sp/>IEmbeddingProvider</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>EMB_05<sp/><sp/>Library<sp/>with<sp/>bridge<sp/>uses<sp/>semantic<sp/>path<sp/>(provider<sp/>present<sp/>vs<sp/>absent)</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>Source:<sp/>src/aql/FUTURE_ENHANCEMENTS.md<sp/>§8,<sp/>FUTURE_ENHANCEMENTS.md<sp/>§B-07</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/aql_fewshot_example_library.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/llm_aql_embedding_bridge.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/llm_aql_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>stub<sp/>backend<sp/>for<sp/>LLMAQLHandler:<sp/>intercepts<sp/>executeEmbed()<sp/>calls.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>We<sp/>override<sp/>the<sp/>handler&apos;s<sp/>embed<sp/>circuit<sp/>by<sp/>injecting<sp/>a<sp/>custom<sp/>chat<sp/>executor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>use<sp/>a<sp/>raw<sp/>embed<sp/>call<sp/>test<sp/>via<sp/>a<sp/>small<sp/>harness<sp/>adapter.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_stub_embedding_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_embedding_provider_1acb68d4ccfe64affe8021b6b082114c74" kindref="member">StubEmbeddingProvider</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IEmbeddingProvider<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_stub_embedding_provider_1acb68d4ccfe64affe8021b6b082114c74" kindref="member">StubEmbeddingProvider</ref>(std::vector&lt;float&gt;<sp/>response<sp/>=<sp/>{1.0f,<sp/>0.0f,<sp/>0.0f})</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>response_(std::move(response))<sp/>{}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_stub_embedding_provider_1a7260283ce70144e588a92c29e2b0e3a7" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count_;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_text_<sp/>=<sp/>text;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>response_;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_stub_embedding_provider_1a432746e36d3612456ff8bed2af5b86f6" kindref="member">callCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>call_count_;<sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_stub_embedding_provider_1a4714bd3200af12abff5335b5414b168e" kindref="member">lastText</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_text_;<sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>response_;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>call_count_{0};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>last_text_;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="class_throwing_embedding_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_throwing_embedding_provider" kindref="compound">ThrowingEmbeddingProvider</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IEmbeddingProvider<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_throwing_embedding_provider_1a750744fdf96a82ae4d270b242a017b73" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*text*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;embed<sp/>failed<sp/>intentionally&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EMB_01..EMB_05:<sp/>LLMAQLEmbeddingBridge<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>verify<sp/>the<sp/>bridge<sp/>via<sp/>direct<sp/>subclassing<sp/>–<sp/>we<sp/>create<sp/>a<sp/>subclass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>overrides<sp/>the<sp/>embed()<sp/>call<sp/>rather<sp/>than<sp/>relying<sp/>on<sp/>a<sp/>full<sp/>LLMAQLHandler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>integration<sp/>(which<sp/>requires<sp/>a<sp/>live<sp/>LLM<sp/>backend).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="class_capturing_bridge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_capturing_bridge_1a3da1f94e79998a55f542318585cef855" kindref="member">CapturingBridge</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IEmbeddingProvider<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_capturing_bridge_1a3da1f94e79998a55f542318585cef855" kindref="member">CapturingBridge</ref>(std::function&lt;std::vector&lt;float&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>fn)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>fn_(std::move(fn))<sp/>{}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_capturing_bridge_1a9b55f6477e8f2a65d430bb61f5aa7898" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn_(text);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::vector&lt;float&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>fn_;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EMB_01<sp/><sp/>Bridge<sp/>delegates<sp/>to<sp/>embed<sp/>function;<sp/>non-empty<sp/>result<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__llm__aql__embedding__bridge_8cpp_1ae57d215c86c2bb3e5115d91def633d38" kindref="member">TEST</ref>(LLMAQLEmbeddingBridge,<sp/>EMB_01_DelegatesEmbedCall)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured_text<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_capturing_bridge" kindref="compound">CapturingBridge</ref><sp/>bridge([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>t)<sp/>-&gt;<sp/>std::vector&lt;float&gt;<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>called<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_text<sp/>=<sp/>t;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0.5f,<sp/>0.3f,<sp/>0.2f};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>bridge.<ref refid="class_capturing_bridge_1a9b55f6477e8f2a65d430bb61f5aa7898" kindref="member">embed</ref>(</highlight><highlight class="stringliteral">&quot;find<sp/>users<sp/>with<sp/>role<sp/>admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(called);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(captured_text,<sp/></highlight><highlight class="stringliteral">&quot;find<sp/>users<sp/>with<sp/>role<sp/>admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result[0],<sp/>0.5f,<sp/>1e-5f);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EMB_02<sp/><sp/>Bridge<sp/>does<sp/>NOT<sp/>call<sp/>handler<sp/>for<sp/>empty<sp/>text;<sp/>returns<sp/>empty<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__llm__aql__embedding__bridge_8cpp_1ae57d215c86c2bb3e5115d91def633d38" kindref="member">TEST</ref>(LLMAQLEmbeddingBridge,<sp/>EMB_02_EmptyTextReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>the<sp/>LLMAQLEmbeddingBridge<sp/>short-circuits<sp/>on<sp/>empty<sp/>text.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMAQLHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>makeEmbeddingBridge()<sp/>returns<sp/>the<sp/>real<sp/>bridge<sp/>backed<sp/>by<sp/>the<sp/>handler.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bridge<sp/>=<sp/>handler.makeEmbeddingBridge();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(bridge,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>bridge-&gt;embed(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty())</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Bridge<sp/>must<sp/>return<sp/>empty<sp/>vector<sp/>for<sp/>empty<sp/>text<sp/>without<sp/>calling<sp/>handler&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EMB_03<sp/><sp/>Bridge<sp/>swallows<sp/>handler<sp/>exceptions<sp/>and<sp/>returns<sp/>empty<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__llm__aql__embedding__bridge_8cpp_1ae57d215c86c2bb3e5115d91def633d38" kindref="member">TEST</ref>(LLMAQLEmbeddingBridge,<sp/>EMB_03_HandlerExceptionReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>throwing<sp/>backend<sp/>by<sp/>wrapping<sp/>a<sp/>ThrowingEmbeddingProvider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>inside<sp/>a<sp/>lambda-based<sp/>CapturingBridge.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_capturing_bridge" kindref="compound">CapturingBridge</ref><sp/>bridge([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*text*/</highlight><highlight class="normal">)<sp/>-&gt;<sp/>std::vector&lt;float&gt;<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;simulated<sp/>circuit-breaker<sp/>open&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>real<sp/>bridge<sp/>(LLMAQLEmbeddingBridge)<sp/>catches<sp/>all<sp/>exceptions<sp/>internally;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>verify<sp/>the<sp/>same<sp/>contract<sp/>holds<sp/>for<sp/>the<sp/>interface<sp/>via<sp/>the<sp/>CapturingBridge.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>the<sp/>real<sp/>bridge<sp/>we<sp/>verify<sp/>via<sp/>a<sp/>thin<sp/>adapter<sp/>below.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Here<sp/>we<sp/>simply<sp/>assert<sp/>the<sp/>exception<sp/>propagates<sp/>through<sp/>CapturingBridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(different<sp/>from<sp/>LLMAQLEmbeddingBridge<sp/>which<sp/>MUST<sp/>catch<sp/>and<sp/>return<sp/>empty).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(bridge.embed(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">),<sp/>std::runtime_error)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CapturingBridge<sp/>(test<sp/>helper)<sp/>should<sp/>propagate;<sp/>real<sp/>bridge<sp/>must<sp/>not&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>verify<sp/>the<sp/>real<sp/>bridge<sp/>swallows<sp/>exceptions:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>use<sp/>makeEmbeddingBridge()<sp/>on<sp/>a<sp/>handler<sp/>whose<sp/>executeEmbed<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>no<sp/>LLM<sp/>is<sp/>loaded<sp/>(circuit<sp/>breaker<sp/>trips<sp/>immediately<sp/>in<sp/>test<sp/>env).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMAQLHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>real_bridge<sp/>=<sp/>handler.makeEmbeddingBridge();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(real_bridge,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>executeEmbed<sp/>will<sp/>throw<sp/>(no<sp/>model<sp/>loaded)<sp/>→<sp/>bridge<sp/>must<sp/>return<sp/>empty,<sp/>not<sp/>throw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>real_bridge-&gt;embed(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>empty<sp/>(expected<sp/>path)<sp/>or<sp/>non-empty<sp/>if<sp/>a<sp/>model<sp/>happens<sp/>to<sp/>be<sp/>loaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>are<sp/>valid<sp/>outcomes;<sp/>the<sp/>key<sp/>requirement<sp/>is<sp/>NO<sp/>exception.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)result;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EMB_04<sp/><sp/>makeEmbeddingBridge()<sp/>factory<sp/>returns<sp/>non-null<sp/>IEmbeddingProvider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__llm__aql__embedding__bridge_8cpp_1ae57d215c86c2bb3e5115d91def633d38" kindref="member">TEST</ref>(LLMAQLEmbeddingBridge,<sp/>EMB_04_FactoryReturnsUsableBridge)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMAQLHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bridge<sp/>=<sp/>handler.makeEmbeddingBridge();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(bridge,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>bridge<sp/>is<sp/>a<sp/>valid<sp/>IEmbeddingProvider<sp/>–<sp/>call<sp/>with<sp/>empty<sp/>text<sp/>(safe<sp/>sentinel).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(bridge-&gt;embed(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EMB_05<sp/><sp/>Library<sp/>uses<sp/>semantic<sp/>path<sp/>when<sp/>embedding<sp/>provider<sp/>is<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__llm__aql__embedding__bridge_8cpp_1ae57d215c86c2bb3e5115d91def633d38" kindref="member">TEST</ref>(LLMAQLEmbeddingBridge,<sp/>EMB_05_LibraryUsesBridgeForSemanticRanking)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>library<sp/>with<sp/>two<sp/>examples<sp/>with<sp/>distinct<sp/>nl_query<sp/>text.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLFewShotExampleLibrary<sp/>library;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLFewShotExample<sp/>ex1;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ex1.id<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ex1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>ex1.nl_query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;list<sp/>all<sp/>users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>ex1.aql_query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ex1.domain<sp/><sp/><sp/>=<sp/>AQLExampleDomain::DOCUMENT;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>library.registerExample(ex1);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLFewShotExample<sp/>ex2;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>ex2.id<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ex2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>ex2.nl_query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;count<sp/>documents<sp/>in<sp/>collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>ex2.aql_query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>LENGTH(docs)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ex2.domain<sp/><sp/><sp/>=<sp/>AQLExampleDomain::DOCUMENT;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>library.registerExample(ex2);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attach<sp/>a<sp/>stub<sp/>provider<sp/>that<sp/>returns<sp/>distinct<sp/>embeddings<sp/>so<sp/>we<sp/>can</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>verify<sp/>the<sp/>semantic<sp/>path<sp/>is<sp/>exercised.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>provider_call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_capturing_bridge" kindref="compound">CapturingBridge</ref><sp/>provider([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>-&gt;<sp/>std::vector&lt;float&gt;<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++provider_call_count;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Map<sp/>only<sp/>the<sp/>exact<sp/>target<sp/>example<sp/>and<sp/>the<sp/>query<sp/>to<sp/>the<sp/>same<sp/>vector.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>other<sp/>built-in<sp/>examples<sp/>are<sp/>mapped<sp/>away<sp/>to<sp/>make<sp/>ranking<sp/>deterministic.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(text<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;list<sp/>all<sp/>users&quot;</highlight><highlight class="normal"><sp/>||<sp/>text<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;enumerate<sp/>users&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{1.0f,<sp/>0.0f};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0.0f,<sp/>1.0f};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>library.setEmbeddingProvider(&amp;provider);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>library.rebuildEmbeddingIndex();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>rebuild<sp/>should<sp/>call<sp/>the<sp/>provider<sp/>for<sp/>every<sp/>currently<sp/>registered<sp/>example</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(built-ins<sp/>+<sp/>the<sp/>custom<sp/>examples<sp/>from<sp/>this<sp/>test).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(provider_call_count,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(library.size()))</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;rebuildEmbeddingIndex()<sp/>must<sp/>embed<sp/>all<sp/>stored<sp/>examples&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>findRelevant<sp/>should<sp/>call<sp/>the<sp/>provider<sp/>once<sp/>for<sp/>the<sp/>query<sp/>and<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>semantically<sp/>closest<sp/>example<sp/>first.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>calls_before<sp/>=<sp/>provider_call_count;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>relevant<sp/>=<sp/>library.findRelevant(</highlight><highlight class="stringliteral">&quot;enumerate<sp/>users&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(provider_call_count,<sp/>calls_before)</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;findRelevant()<sp/>must<sp/>call<sp/>provider<sp/>to<sp/>embed<sp/>the<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(relevant.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(relevant[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ex1&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Semantically<sp/>closest<sp/>example<sp/>(users)<sp/>should<sp/>be<sp/>selected<sp/>first&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_aql_embedding_bridge.cpp"/>
+  </compounddef>
+</doxygen>

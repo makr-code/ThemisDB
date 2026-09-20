@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_parallel_executor_1_1_aggregate_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ParallelExecutor::AggregateSpec</compoundname>
+    <includes refid="parallel__executor_8h" local="no">parallel_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_aggregate_spec_1a47510ce6e1f27857ec20c63546869b7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ParallelExecutor::AggregateSpec::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::ParallelExecutor::AggregateSpec::field</qualifiedname>
+        <briefdescription>
+<para>Field to aggregate (ignored for Count). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="75" column="21" bodyfile="include/query/parallel_executor.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_aggregate_spec_1a58df9100c17fdd970550f4e122cc7dd9" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177" kindref="member">AggregateFunction</ref></type>
+        <definition>AggregateFunction themis::ParallelExecutor::AggregateSpec::function</definition>
+        <argsstring></argsstring>
+        <name>function</name>
+        <qualifiedname>themis::ParallelExecutor::AggregateSpec::function</qualifiedname>
+        <briefdescription>
+<para>Aggregation function. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="76" column="27" bodyfile="include/query/parallel_executor.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_aggregate_spec_1ac8dfc14c2a1bffea251f29429f84a25e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ParallelExecutor::AggregateSpec::group_by</definition>
+        <argsstring></argsstring>
+        <name>group_by</name>
+        <qualifiedname>themis::ParallelExecutor::AggregateSpec::group_by</qualifiedname>
+        <briefdescription>
+<para>Optional GROUP BY fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="77" column="21" bodyfile="include/query/parallel_executor.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/parallel_executor.h" line="74" column="5" bodyfile="include/query/parallel_executor.h" bodystart="74" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_parallel_executor_1_1_aggregate_spec_1a47510ce6e1f27857ec20c63546869b7c" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::AggregateSpec</scope><name>field</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_aggregate_spec_1a58df9100c17fdd970550f4e122cc7dd9" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::AggregateSpec</scope><name>function</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_aggregate_spec_1ac8dfc14c2a1bffea251f29429f84a25e" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::AggregateSpec</scope><name>group_by</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

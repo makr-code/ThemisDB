@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1_function_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::FunctionCost</compoundname>
+    <includes refid="function__registry_8h" local="no">function_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_cost_1a431c3f90af70fb24f43ddde05a479cea" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0" kindref="member">CostComplexity</ref></type>
+        <definition>CostComplexity themis::query::functions::FunctionCost::complexity</definition>
+        <argsstring></argsstring>
+        <name>complexity</name>
+        <qualifiedname>themis::query::functions::FunctionCost::complexity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a8d6b5cada83510220f59e00ce86d4d92" kindref="member">CostComplexity::CONSTANT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="90" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_cost_1aad9eddd2ee887d8f0640acc52dcef3ad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::FunctionCost::base_cost</definition>
+        <argsstring></argsstring>
+        <name>base_cost</name>
+        <qualifiedname>themis::query::functions::FunctionCost::base_cost</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Base cost in abstract units. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="91" column="12" bodyfile="include/query/functions/function_registry.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_cost_1ad584a009606f58f8f81726189f22e4a9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::FunctionCost::per_element_cost</definition>
+        <argsstring></argsstring>
+        <name>per_element_cost</name>
+        <qualifiedname>themis::query::functions::FunctionCost::per_element_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Additional cost per input element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="92" column="12" bodyfile="include/query/functions/function_registry.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_cost_1a62825566b61fce6f5324065c54b52891" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::FunctionCost::can_use_index</definition>
+        <argsstring></argsstring>
+        <name>can_use_index</name>
+        <qualifiedname>themis::query::functions::FunctionCost::can_use_index</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Can leverage database indexes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="93" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_cost_1a296fcdd28781a4e41985aec0c96da407" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::FunctionCost::is_parallelizable</definition>
+        <argsstring></argsstring>
+        <name>is_parallelizable</name>
+        <qualifiedname>themis::query::functions::FunctionCost::is_parallelizable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Can be parallelized across documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="94" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_function_cost_1a70e8e4226b4c473adca2d9664009797b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::FunctionCost::index_type</definition>
+        <argsstring></argsstring>
+        <name>index_type</name>
+        <qualifiedname>themis::query::functions::FunctionCost::index_type</qualifiedname>
+        <briefdescription>
+<para>Required index type (geo, vector, fulltext). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="95" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/function_registry.h" line="89" column="1" bodyfile="include/query/functions/function_registry.h" bodystart="89" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_cost_1aad9eddd2ee887d8f0640acc52dcef3ad" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionCost</scope><name>base_cost</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a62825566b61fce6f5324065c54b52891" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionCost</scope><name>can_use_index</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a431c3f90af70fb24f43ddde05a479cea" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionCost</scope><name>complexity</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a70e8e4226b4c473adca2d9664009797b" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionCost</scope><name>index_type</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a296fcdd28781a4e41985aec0c96da407" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionCost</scope><name>is_parallelizable</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_function_cost_1ad584a009606f58f8f81726189f22e4a9" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionCost</scope><name>per_element_cost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

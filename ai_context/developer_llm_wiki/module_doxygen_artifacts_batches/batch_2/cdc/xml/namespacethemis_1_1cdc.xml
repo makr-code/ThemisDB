@@ -1,0 +1,1701 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1cdc" kind="namespace" language="C++">
+    <compoundname>themis::cdc</compoundname>
+    <innerclass refid="structthemis_1_1cdc_1_1_aggregated_event" prot="public">themis::cdc::AggregatedEvent</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_batch_config" prot="public">themis::cdc::BatchConfig</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_batch_info" prot="public">themis::cdc::BatchInfo</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_c_d_c_admin" prot="public">themis::cdc::CDCAdmin</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_c_d_c_exception" prot="public">themis::cdc::CDCException</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_c_d_c_materialized_view_maintainer" prot="public">themis::cdc::CDCMaterializedViewMaintainer</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_c_d_c_metrics" prot="public">themis::cdc::CDCMetrics</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_cdc_schema_encoder" prot="public">themis::cdc::CdcSchemaEncoder</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_cdc_web_socket_handler" prot="public">themis::cdc::CdcWebSocketHandler</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_change_stream_compressor" prot="public">themis::cdc::ChangeStreamCompressor</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_compressed_batch" prot="public">themis::cdc::CompressedBatch</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_consumer_delivery_stats" prot="public">themis::cdc::ConsumerDeliveryStats</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_consumer_group_config" prot="public">themis::cdc::ConsumerGroupConfig</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_consumer_group_info" prot="public">themis::cdc::ConsumerGroupInfo</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_consumer_group_manager" prot="public">themis::cdc::ConsumerGroupManager</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_cross_collection_stream" prot="public">themis::cdc::CrossCollectionStream</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_dead_letter_queue" prot="public">themis::cdc::DeadLetterQueue</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_debezium_envelope" prot="public">themis::cdc::DebeziumEnvelope</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_debezium_formatter" prot="public">themis::cdc::DebeziumFormatter</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_debezium_source" prot="public">themis::cdc::DebeziumSource</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_delivery_tracker" prot="public">themis::cdc::DeliveryTracker</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_delivery_tracker_config" prot="public">themis::cdc::DeliveryTrackerConfig</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_diagnostics_info" prot="public">themis::cdc::DiagnosticsInfo</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_d_l_q_entry" prot="public">themis::cdc::DLQEntry</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_encoded_event" prot="public">themis::cdc::EncodedEvent</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_event_type_filter" prot="public">themis::cdc::EventTypeFilter</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_fan_in_event" prot="public">themis::cdc::FanInEvent</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result" prot="public">themis::cdc::GDPRRedactionResult</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_health_status" prot="public">themis::cdc::HealthStatus</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal" prot="public">themis::cdc::ICDCBackpressureSignal</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator" prot="public">themis::cdc::ICDCBatchCommitCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema" prot="public">themis::cdc::ICDCEventSchema</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in" prot="public">themis::cdc::ICDCFanIn</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline" prot="public">themis::cdc::ICDCFilterPipeline</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control" prot="public">themis::cdc::ICDCPauseControl</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller" prot="public">themis::cdc::ICDCReplayController</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" prot="public">themis::cdc::ICDCTransport</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config" prot="public">themis::cdc::IDeliveryGuaranteeConfig</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_event_filter" prot="public">themis::cdc::IEventFilter</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy" prot="public">themis::cdc::IFanInMergePolicy</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener" prot="public">themis::cdc::IIdempotentCDCListener</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_in_flight_stats" prot="public">themis::cdc::InFlightStats</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal" prot="public">themis::cdc::InMemoryBackpressureSignal</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator" prot="public">themis::cdc::InMemoryBatchCommitCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema" prot="public">themis::cdc::InMemoryCDCEventSchema</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" prot="public">themis::cdc::InMemoryDeliveryGuaranteeConfig</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_fan_in" prot="public">themis::cdc::InMemoryFanIn</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline" prot="public">themis::cdc::InMemoryFilterPipeline</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" prot="public">themis::cdc::InMemoryIdempotentListener</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_pause_control" prot="public">themis::cdc::InMemoryPauseControl</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_replay_controller" prot="public">themis::cdc::InMemoryReplayController</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_replay_session" prot="public">themis::cdc::InMemoryReplaySession</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_schema_registry_backend" prot="public">themis::cdc::InMemorySchemaRegistryBackend</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_replay_session" prot="public">themis::cdc::IReplaySession</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback" prot="public">themis::cdc::ISchemaEvolutionCallback</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_schema_registry_backend" prot="public">themis::cdc::ISchemaRegistryBackend</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" prot="public">themis::cdc::KafkaCDCProducer</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_kafka_producer_config" prot="public">themis::cdc::KafkaProducerConfig</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_kafka_producer_stats" prot="public">themis::cdc::KafkaProducerStats</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_key_prefix_filter" prot="public">themis::cdc::KeyPrefixFilter</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_latency_histogram" prot="public">themis::cdc::LatencyHistogram</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_outbox_record" prot="public">themis::cdc::OutboxRecord</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_outbox_relay" prot="public">themis::cdc::OutboxRelay</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_outbox_relay_config" prot="public">themis::cdc::OutboxRelayConfig</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_outbox_writer" prot="public">themis::cdc::OutboxWriter</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_predicate_filter" prot="public">themis::cdc::PredicateFilter</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_purge_result" prot="public">themis::cdc::PurgeResult</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_replay_options" prot="public">themis::cdc::ReplayOptions</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_retention_status" prot="public">themis::cdc::RetentionStatus</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_schema_conflict" prot="public">themis::cdc::SchemaConflict</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor" prot="public">themis::cdc::SchemaEvolutionDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_schema_info" prot="public">themis::cdc::SchemaInfo</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_schema_registry_client" prot="public">themis::cdc::SchemaRegistryClient</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_schema_registry_config" prot="public">themis::cdc::SchemaRegistryConfig</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_scoped_timer" prot="public">themis::cdc::ScopedTimer</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_tenant_buffer_manager" prot="public">themis::cdc::TenantBufferManager</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_tenant_config" prot="public">themis::cdc::TenantConfig</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_tenant_stats" prot="public">themis::cdc::TenantStats</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_throughput_tracker" prot="public">themis::cdc::ThroughputTracker</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_timestamp_merge_policy" prot="public">themis::cdc::TimestampMergePolicy</innerclass>
+    <innernamespace refid="namespacethemis_1_1cdc_1_1error">themis::cdc::error</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510c" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>CdcTransportFailureClass</name>
+        <qualifiedname>themis::cdc::CdcTransportFailureClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510cab1f023eff9a6b5308d6024e4c6b3d475" prot="public">
+          <name>Transient</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Transient connectivity loss; automatic retry is appropriate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510cad94018f883a83ef60a58a9b19798a7e0" prot="public">
+          <name>BackendUnreachable</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Target backend is fully unreachable; retry with backoff. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca6ade67ebabfc50290b43350e713a287d" prot="public">
+          <name>AuthFailure</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Authentication or authorisation to the transport endpoint failed; operator intervention required. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510caeb89cf735181361e04403ff1cf99d45e" prot="public">
+          <name>PayloadInvalid</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Event payload is malformed or exceeds size limits; must be dead-lettered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca6b35f70bda190ffb2b7032d24d4662bd" prot="public">
+          <name>BackpressureRequired</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transport capacity is exhausted (queue full, rate-limited); caller MUST apply back-pressure. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca33b241cb9c1618e22fd4217f653b1acc" prot="public">
+          <name>DuplicateEvent</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>Duplicate event detected by the transport; silently discard. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>Unclassified internal transport error; always fail-closed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical transport failure classes for CDC component diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All <ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" kindref="compound">ICDCTransport</ref> implementations and transport-dependent CDC components must map their internal error states to one of these classes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="121" column="1" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="121" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorSeverity</name>
+        <qualifiedname>themis::cdc::ErrorSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7a551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7a059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="39" column="1" bodyfile="include/cdc/cdc_error.h" bodystart="39" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorCode</name>
+        <qualifiedname>themis::cdc::ErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a14276f850462c24d75fcb30b8dd9828d" prot="public">
+          <name>SEQUENCE_GENERATION_FAILED</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a14201b854d594ebb9eb36af8ac946b94" prot="public">
+          <name>SEQUENCE_WRITE_FAILED</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a8dd8a4a6d6393b9d67a7f6b170374523" prot="public">
+          <name>SEQUENCE_READ_FAILED</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576abb24dd1a4d0205e5c30616e6d7463849" prot="public">
+          <name>EVENT_RECORD_FAILED</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a94ef2741b822b1ce3f3972b062c7dde1" prot="public">
+          <name>EVENT_SERIALIZATION_FAILED</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a0f63b6a373512d6df86ebcd36885121c" prot="public">
+          <name>EVENT_DESERIALIZATION_FAILED</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576ad16da6468727ed60c36298fb7bdad3d0" prot="public">
+          <name>EVENT_KEY_EMPTY</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a23d516f33da64e7e8b730622e378beb6" prot="public">
+          <name>EVENT_KEY_TOO_LONG</name>
+          <initializer>= 204</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a8ef397ed6bad9cf2874d18d230a7b1ae" prot="public">
+          <name>EVENT_PAYLOAD_TOO_LARGE</name>
+          <initializer>= 205</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576ad53c9f7d5b985bba6cb80cdf8ae665e4" prot="public">
+          <name>BUFFER_OVERFLOW</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a8896375e7f01a95f95215978ec536221" prot="public">
+          <name>BUFFER_FLUSH_FAILED</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a34fc2cf21b22aab153bab3e283b98fd6" prot="public">
+          <name>BUFFER_NOT_RUNNING</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a601c78552bed528404f5818cb02503a9" prot="public">
+          <name>BUFFER_ALREADY_RUNNING</name>
+          <initializer>= 303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a2b80bd0816ebdf43c510804dcab7183e" prot="public">
+          <name>COMPRESSION_FAILED</name>
+          <initializer>= 400</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a268cb300303d2d92f4991ed2106938b8" prot="public">
+          <name>DECOMPRESSION_FAILED</name>
+          <initializer>= 401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a0d3d60f480b681a045ccd1786a6c35bb" prot="public">
+          <name>COMPRESSION_RATIO_TOO_LOW</name>
+          <initializer>= 402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a7b2898093fb02be2c62d2cb18b7714c4" prot="public">
+          <name>RETRY_EXHAUSTED</name>
+          <initializer>= 500</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576ad1939c3ce8b6bce33b5a07dbbaa15769" prot="public">
+          <name>RETRY_TIMEOUT</name>
+          <initializer>= 501</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576ad5396b5bf47321267f6db180394b4582" prot="public">
+          <name>RATE_LIMIT_EXCEEDED</name>
+          <initializer>= 600</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576aac947e243c69d3dd91ae56a90a858a1f" prot="public">
+          <name>RATE_LIMIT_CONFIG_INVALID</name>
+          <initializer>= 601</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576ad41cf7288849e8fe7d53bda2e88ac47e" prot="public">
+          <name>RETENTION_CLEANUP_FAILED</name>
+          <initializer>= 700</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a374c5f3a5803e07914390f3a09b74591" prot="public">
+          <name>RETENTION_POLICY_INVALID</name>
+          <initializer>= 701</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a008c1203dc13aba74877a0b1098bf77d" prot="public">
+          <name>RETENTION_THREAD_FAILED</name>
+          <initializer>= 702</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a17ece2480214fad1450738ba43ab43b7" prot="public">
+          <name>DB_OPERATION_FAILED</name>
+          <initializer>= 800</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a2aed04aafcd86a1089bf69d1fb3c1d7c" prot="public">
+          <name>DB_ITERATOR_ERROR</name>
+          <initializer>= 801</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a1b635b4b8447c51be9658bd441f69cd6" prot="public">
+          <name>DB_WRITE_FAILED</name>
+          <initializer>= 802</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576af7b427b718c58601e44d51c67d9d286e" prot="public">
+          <name>DB_READ_FAILED</name>
+          <initializer>= 803</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a2a5c9364dca58538bdcc4fe4e9c412bf" prot="public">
+          <name>TENANT_NOT_FOUND</name>
+          <initializer>= 900</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a89eb667ff23ad9b323602d9bb16f7682" prot="public">
+          <name>TENANT_QUOTA_EXCEEDED</name>
+          <initializer>= 901</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576aff722d5785684eb6d26c91a14a92ce36" prot="public">
+          <name>TENANT_UNAUTHORIZED</name>
+          <initializer>= 902</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576af295a0c3e37c94f078e1c5476479132d" prot="public">
+          <name>INVALID_ARGUMENT</name>
+          <initializer>= 1000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a8c0d68af13898dae2b6cbbafd8fbac93" prot="public">
+          <name>INVALID_CONFIGURATION</name>
+          <initializer>= 1001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 1002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576a3e860a081575fc82cc7b6ed2ca602947" prot="public">
+          <name>NOT_IMPLEMENTED</name>
+          <initializer>= 1003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="46" column="1" bodyfile="include/cdc/cdc_error.h" bodystart="46" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1ad8c6d7fbb0f052116399df63d056f136" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>StreamCompressionAlgorithm</name>
+        <qualifiedname>themis::cdc::StreamCompressionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1ad8c6d7fbb0f052116399df63d056f136ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0x00</initializer>
+          <briefdescription>
+<para>Uncompressed (raw JSON bytes). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1ad8c6d7fbb0f052116399df63d056f136a8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+<para>Zstandard (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="67" column="1" bodyfile="include/cdc/change_stream_compressor.h" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DebeziumOp</name>
+        <qualifiedname>themis::cdc::DebeziumOp</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da294ce20cdefa29be3be0735cb62e715d" prot="public">
+          <name>CREATE</name>
+          <initializer>= &apos;c&apos;</initializer>
+          <briefdescription>
+<para>Document was inserted (no prior state). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da15a8022d0ed9cd9c2a2e756822703eb4" prot="public">
+          <name>UPDATE</name>
+          <initializer>= &apos;u&apos;</initializer>
+          <briefdescription>
+<para>Document was updated (before and after available). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <initializer>= &apos;d&apos;</initializer>
+          <briefdescription>
+<para>Document was deleted (only before available). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" prot="public">
+          <name>READ</name>
+          <initializer>= &apos;r&apos;</initializer>
+          <briefdescription>
+<para>Snapshot / initial read. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="66" column="1" bodyfile="include/cdc/debezium_format.h" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackpressureLevel</name>
+        <qualifiedname>themis::cdc::BackpressureLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Normal operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa28d0edd045e05cf5af64e35ae0c4c6ef" prot="public">
+          <name>Low</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Light congestion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa87f8a6ab85c9ced3702b4ea641ad4bb5" prot="public">
+          <name>Medium</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Moderate congestion; reduce batch sizes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa655d20c1ca69519ca647684edbb2db35" prot="public">
+          <name>High</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Severe congestion; add inter-batch delays. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa278d01e5af56273bae1bb99a98b370cd" prot="public">
+          <name>Critical</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Emergency; trigger automatic pause if configured. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="36" column="1" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="36" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a309e8b57d3ccf7e2fc51fd6b692f1d70" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AddEventResult</name>
+        <qualifiedname>themis::cdc::AddEventResult</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a309e8b57d3ccf7e2fc51fd6b692f1d70af29ddbfb905eb2593fdcdfb243f9af85" prot="public">
+          <name>Added</name>
+          <briefdescription>
+<para>Event was added to the open batch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a309e8b57d3ccf7e2fc51fd6b692f1d70a4c541c888c14579dfc136e84a7b376db" prot="public">
+          <name>NoBatchOpen</name>
+          <briefdescription>
+<para>No batch is currently open. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a309e8b57d3ccf7e2fc51fd6b692f1d70a04b15c03f3f8d523b85b4698e1bc56cb" prot="public">
+          <name>BatchFull</name>
+          <briefdescription>
+<para>Batch has reached max_batch_size. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="57" column="1" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="57" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a0c13367a75a093d44a77ac6aa5e2e2af" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CommitResult</name>
+        <qualifiedname>themis::cdc::CommitResult</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a0c13367a75a093d44a77ac6aa5e2e2afafd8f656590df4b2d2b217b060b7204d3" prot="public">
+          <name>Committed</name>
+          <briefdescription>
+<para>Batch was successfully committed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a0c13367a75a093d44a77ac6aa5e2e2afa4c541c888c14579dfc136e84a7b376db" prot="public">
+          <name>NoBatchOpen</name>
+          <briefdescription>
+<para>No batch is currently open. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a0c13367a75a093d44a77ac6aa5e2e2afa49df42a3a569ff9c1933d4116377255f" prot="public">
+          <name>AlreadyCommitted</name>
+          <briefdescription>
+<para>The batch with the given ID is already committed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a0c13367a75a093d44a77ac6aa5e2e2afae01daed8f2af5888e53470aff7955d86" prot="public">
+          <name>RolledBack</name>
+          <briefdescription>
+<para>Batch was previously rolled back; cannot commit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="65" column="1" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="65" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a4a312c3bd887396f558de3850c71f455" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RollbackResult</name>
+        <qualifiedname>themis::cdc::RollbackResult</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a4a312c3bd887396f558de3850c71f455ae01daed8f2af5888e53470aff7955d86" prot="public">
+          <name>RolledBack</name>
+          <briefdescription>
+<para>Batch was successfully rolled back. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a4a312c3bd887396f558de3850c71f455a4c541c888c14579dfc136e84a7b376db" prot="public">
+          <name>NoBatchOpen</name>
+          <briefdescription>
+<para>No batch is currently open. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="74" column="1" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1acd5130181ff942a86de9bbc6132a9ee6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BatchStatus</name>
+        <qualifiedname>themis::cdc::BatchStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1acd5130181ff942a86de9bbc6132a9ee6ae599161956d626eda4cb0a5ffb85271c" prot="public">
+          <name>Idle</name>
+          <briefdescription>
+<para>No open batch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1acd5130181ff942a86de9bbc6132a9ee6ac3bf447eabe632720a3aa1a7ce401274" prot="public">
+          <name>Open</name>
+          <briefdescription>
+<para>A batch is currently accumulating events. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1acd5130181ff942a86de9bbc6132a9ee6afd8f656590df4b2d2b217b060b7204d3" prot="public">
+          <name>Committed</name>
+          <briefdescription>
+<para>Current batch has been committed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1acd5130181ff942a86de9bbc6132a9ee6ae01daed8f2af5888e53470aff7955d86" prot="public">
+          <name>RolledBack</name>
+          <briefdescription>
+<para>Current batch was rolled back. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="89" column="1" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="89" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SchemaFormat</name>
+        <qualifiedname>themis::cdc::SchemaFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+<para>JSON Schema (draft-07 or later). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3aa532199ab6ec85848874430070002ccb" prot="public">
+          <name>AVRO</name>
+          <briefdescription>
+<para>Apache Avro schema definition (JSON encoding). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3ad938347008a2e932aaa4a568a3c3f2e7" prot="public">
+          <name>PROTOBUF</name>
+          <briefdescription>
+<para>Protocol Buffers .proto definition (text encoding). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+<para>Confluent JSON Schema (JSON bytes payload). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3aa532199ab6ec85848874430070002ccb" prot="public">
+          <name>AVRO</name>
+          <briefdescription>
+<para>Apache Avro binary encoding. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3ad938347008a2e932aaa4a568a3c3f2e7" prot="public">
+          <name>PROTOBUF</name>
+          <briefdescription>
+<para>Protocol Buffers binary encoding. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="46" column="1" bodyfile="include/cdc/icdc_event_schema.h" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a15621987fa97e60044a85667b62f61e7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SchemaCompatibility</name>
+        <qualifiedname>themis::cdc::SchemaCompatibility</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a15621987fa97e60044a85667b62f61e7ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No compatibility check. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a15621987fa97e60044a85667b62f61e7a6377b4908ae38f9a57fe9120cf179eb1" prot="public">
+          <name>BACKWARD</name>
+          <briefdescription>
+<para>New schema can read data written with the old schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a15621987fa97e60044a85667b62f61e7abfec72bb37910c61f36b6c29a1f7ec31" prot="public">
+          <name>FORWARD</name>
+          <briefdescription>
+<para>Old schema can read data written with the new schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a15621987fa97e60044a85667b62f61e7aba7de5bc6888294e5884b024a4c894f1" prot="public">
+          <name>FULL</name>
+          <briefdescription>
+<para>Both BACKWARD and FORWARD. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="54" column="1" bodyfile="include/cdc/icdc_event_schema.h" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a18d6b6fcd4f32f16828d55225d200114" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MigrationStrategy</name>
+        <qualifiedname>themis::cdc::MigrationStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a18d6b6fcd4f32f16828d55225d200114a105b296a83f9c105355403f3332af50f" prot="public">
+          <name>Pause</name>
+          <briefdescription>
+<para>Pause the stream until migration is complete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a18d6b6fcd4f32f16828d55225d200114a833eefdac351a9b80acdbb385f7cccde" prot="public">
+          <name>DropOldFormat</name>
+          <briefdescription>
+<para>Discard events that do not conform to the new schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a18d6b6fcd4f32f16828d55225d200114a6e265ecd62b62c13bb9457d46262fd2b" prot="public">
+          <name>CoerceOldFormat</name>
+          <briefdescription>
+<para>Attempt field-level coercion; drop on failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="63" column="1" bodyfile="include/cdc/icdc_event_schema.h" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FilterResult</name>
+        <qualifiedname>themis::cdc::FilterResult</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39ab9b57aae83585e17ede4570dcede353c" prot="public">
+          <name>Pass</name>
+          <briefdescription>
+<para>Forward the event to the next stage / subscriber. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39a3e679cff5b3a6f6f8f32aead541a0a12" prot="public">
+          <name>Drop</name>
+          <briefdescription>
+<para>Discard the event; do not deliver it. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="49" column="1" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="49" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1ad76461b742a6dba5b0a5ac1946ad6403" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PauseReason</name>
+        <qualifiedname>themis::cdc::PauseReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1ad76461b742a6dba5b0a5ac1946ad6403aadcb90df983aeade964da2256f763c66" prot="public">
+          <name>AdminRequest</name>
+          <briefdescription>
+<para>Explicitly paused by an administrative action. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1ad76461b742a6dba5b0a5ac1946ad6403a031f330b0c8cbe4e4a2b8c208d5a10a3" prot="public">
+          <name>Backpressure</name>
+          <briefdescription>
+<para>Paused because a Critical backpressure level was reached. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1ad76461b742a6dba5b0a5ac1946ad6403a943aec852f81abdaf1bb8c6cc9eacaf4" prot="public">
+          <name>SchemaEvolution</name>
+          <briefdescription>
+<para>Paused due to an incompatible schema change. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_pause_control.h" line="42" column="1" bodyfile="include/cdc/icdc_pause_control.h" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1af51ce8576b05dc980fed86cda156fda8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReplaySessionState</name>
+        <qualifiedname>themis::cdc::ReplaySessionState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1af51ce8576b05dc980fed86cda156fda8a4d3d769b812b6faa6b76e1a8abaece2d" prot="public">
+          <name>Active</name>
+          <briefdescription>
+<para>Session has more events available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1af51ce8576b05dc980fed86cda156fda8af92965e2c8a7afb3c1b9a5c09a263636" prot="public">
+          <name>Done</name>
+          <briefdescription>
+<para>All events within the replay window have been delivered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1af51ce8576b05dc980fed86cda156fda8aa149e85a44aeec9140e92733d9ed694e" prot="public">
+          <name>Cancelled</name>
+          <briefdescription>
+<para>Session was explicitly cancelled. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="70" column="1" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeliveryMode</name>
+        <qualifiedname>themis::cdc::DeliveryMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620af6d671c71857fbf356655879cd21f5ea" prot="public">
+          <name>AtLeastOnce</name>
+          <briefdescription>
+<para>Events may be delivered more than once on failure; consumer must be idempotent or tolerant. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" prot="public">
+          <name>ExactlyOnce</name>
+          <briefdescription>
+<para>Events are delivered exactly once; requires <ref refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener" kindref="compound">IIdempotentCDCListener</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="45" column="1" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a15334ba4925585a3bf9d69ed9b202171" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OutboxState</name>
+        <qualifiedname>themis::cdc::OutboxState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a15334ba4925585a3bf9d69ed9b202171ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Written to outbox; not yet forwarded to <ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a15334ba4925585a3bf9d69ed9b202171a8bc67a0b36a16f2162b37ca61ad99089" prot="public">
+          <name>PUBLISHED</name>
+          <briefdescription>
+<para>Successfully forwarded to <ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref> and marked done. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a15334ba4925585a3bf9d69ed9b202171ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Max relay attempts exhausted; record kept for inspection. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="63" column="1" bodyfile="include/cdc/outbox.h" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SchemaFormat</name>
+        <qualifiedname>themis::cdc::SchemaFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+<para>JSON Schema (draft-07 or later). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3aa532199ab6ec85848874430070002ccb" prot="public">
+          <name>AVRO</name>
+          <briefdescription>
+<para>Apache Avro schema definition (JSON encoding). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3ad938347008a2e932aaa4a568a3c3f2e7" prot="public">
+          <name>PROTOBUF</name>
+          <briefdescription>
+<para>Protocol Buffers .proto definition (text encoding). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+<para>Confluent JSON Schema (JSON bytes payload). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3aa532199ab6ec85848874430070002ccb" prot="public">
+          <name>AVRO</name>
+          <briefdescription>
+<para>Apache Avro binary encoding. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3ad938347008a2e932aaa4a568a3c3f2e7" prot="public">
+          <name>PROTOBUF</name>
+          <briefdescription>
+<para>Protocol Buffers binary encoding. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="67" column="1" bodyfile="include/cdc/schema_registry.h" bodystart="67" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1cdc_1ae9d91c3c0ac066458494fd2bb61299a3" prot="public" static="no">
+        <type><ref refid="struct_changefeed_1_1_compaction_result" kindref="compound">Changefeed::CompactionResult</ref></type>
+        <definition>using themis::cdc::CompactionResult = Changefeed::CompactionResult</definition>
+        <argsstring></argsstring>
+        <name>CompactionResult</name>
+        <qualifiedname>themis::cdc::CompactionResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="147" column="1" bodyfile="include/cdc/cdc_admin.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1cdc_1a36306083ac2fa0afda203aaf26622e52" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::cdc::BatchId = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>BatchId</name>
+        <qualifiedname>themis::cdc::BatchId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="53" column="1" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1cdc_1a5af31e7761367151e1668596b4d17d0f" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::cdc::CollectionId = std::string</definition>
+        <argsstring></argsstring>
+        <name>CollectionId</name>
+        <qualifiedname>themis::cdc::CollectionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="46" column="1" bodyfile="include/cdc/icdc_fan_in.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1cdc_1a359751b083f654be9919e7e6943cf812" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::cdc::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::cdc::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cdc/cdc_ws_handler.cpp" line="21" column="1" bodyfile="src/cdc/cdc_ws_handler.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a780dc7ccf89b9fa52a50891e6708429a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::kMaxEventSequence</definition>
+        <argsstring></argsstring>
+        <name>kMaxEventSequence</name>
+        <qualifiedname>themis::cdc::kMaxEventSequence</qualifiedname>
+        <initializer>= UINT64_MAX - 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum sequence number value. Overflow is not expected in production; if the sequence approaches this value the operator must take a manual snapshot and reset the stream. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="49" column="27" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a8054a96692f7626b1616bd423c51c251" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::kNoSequence</definition>
+        <argsstring></argsstring>
+        <name>kNoSequence</name>
+        <qualifiedname>themis::cdc::kNoSequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sequence value reserved to mean &quot;no sequence / not yet assigned&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="52" column="27" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1ad749e73881c4ae67af96837a484974d5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::kMaxEventKeyBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxEventKeyBytes</name>
+        <qualifiedname>themis::cdc::kMaxEventKeyBytes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted event key size in bytes. Keys exceeding this limit are rejected at recordEvent() time with an appropriate <ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="56" column="30" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a0d07b86115d71bb532397505ab64d679" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::kMaxEventValueBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxEventValueBytes</name>
+        <qualifiedname>themis::cdc::kMaxEventValueBytes</qualifiedname>
+        <initializer>= 64 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum accepted event value payload size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="59" column="30" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1adb0fbbf7e18134817008f9190ae8e6e6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::kDefaultAckTimeout</definition>
+        <argsstring></argsstring>
+        <name>kDefaultAckTimeout</name>
+        <qualifiedname>themis::cdc::kDefaultAckTimeout</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default acknowledgement timeout: an event unacknowledged within this window is eligible for redelivery. Callers MUST NOT assume a longer window without explicit per-request override via <ref refid="structthemis_1_1cdc_1_1_delivery_tracker_config" kindref="compound">DeliveryTrackerConfig</ref> or the timeout_override parameter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="72" column="44" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1ad0770eb555b8aa7233bebb2560210aac" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::kMaxAckTimeoutOverride</definition>
+        <argsstring></argsstring>
+        <name>kMaxAckTimeoutOverride</name>
+        <qualifiedname>themis::cdc::kMaxAckTimeoutOverride</qualifiedname>
+        <initializer>{300&apos;000}</initializer>
+        <briefdescription>
+<para>Maximum allowed per-request ack-timeout override. Values above this are clamped or rejected by the delivery layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="76" column="44" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1ae8a0fbe7b7025a49323816f88aa2b433" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::kDefaultMaxPendingPerConsumer</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxPendingPerConsumer</name>
+        <qualifiedname>themis::cdc::kDefaultMaxPendingPerConsumer</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum in-flight (unacknowledged) events tracked per consumer by default. Once reached, new trackDelivery() calls MUST return false to apply back- pressure; the caller MUST NOT silently drop events. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="81" column="30" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a03f0a4f30fd366e462af4a8f265394a4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::kDefaultMaxReplayEventsPerSession</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxReplayEventsPerSession</name>
+        <qualifiedname>themis::cdc::kDefaultMaxReplayEventsPerSession</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>An event acknowledged after expiry (max_redelivery_attempts exceeded) MUST be reported via <ref refid="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a84e8bb4e6c090390b1b76c51df0f91b3" kindref="member">ConsumerDeliveryStats::total_expired</ref>, NOT silently discarded. This rule ensures diagnostics are always accurate regardless of late ACKs. Maximum events per replay session when no explicit limit is set. Implementations MUST enforce this to avoid unbounded memory consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="103" column="30" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a550cf64a0e014d98fa00a1e3a07bd5cf" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::kDefaultReplayBatchSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultReplayBatchSize</name>
+        <qualifiedname>themis::cdc::kDefaultReplayBatchSize</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Default replay batch size: number of events returned per nextBatch() call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="106" column="30" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1aedf3f593dde98371ad5c23aade3b5122" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::kMaxConsumerGroupSize</definition>
+        <argsstring></argsstring>
+        <name>kMaxConsumerGroupSize</name>
+        <qualifiedname>themis::cdc::kMaxConsumerGroupSize</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum consumer count per group. Groups larger than this value are rejected at createGroup() time with a <ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="192" column="27" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1aaa01e0dbfb6d1ca5fa436b43bb2d319a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::kMaxConsumerGroupsPerChangefeed</definition>
+        <argsstring></argsstring>
+        <name>kMaxConsumerGroupsPerChangefeed</name>
+        <qualifiedname>themis::cdc::kMaxConsumerGroupsPerChangefeed</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum number of concurrent groups per <ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="195" column="27" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a1862359fa5bbdca5166d8a92753a2a0b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::kConsumerLagWarningThreshold</definition>
+        <argsstring></argsstring>
+        <name>kConsumerLagWarningThreshold</name>
+        <qualifiedname>themis::cdc::kConsumerLagWarningThreshold</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Lag threshold above which a consumer is considered lagging and diagnostics MUST be emitted. Implementations SHOULD emit a structured warning when the pending count for a consumer exceeds this value. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="213" column="30" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a31ab9a06ae52802b5a2337ac5e0bb872" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::kRedeliveryEscalationThreshold</definition>
+        <argsstring></argsstring>
+        <name>kRedeliveryEscalationThreshold</name>
+        <qualifiedname>themis::cdc::kRedeliveryEscalationThreshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum redelivery attempts before diagnostics escalate to ERROR severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="216" column="27" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a0fa1794e780c1608d0b7a1d0381ce21a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::cdc::kCdcBatchMagic[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>kCdcBatchMagic</name>
+        <qualifiedname>themis::cdc::kCdcBatchMagic</qualifiedname>
+        <initializer>= {0x43, 0x44, 0x43, 0x5A}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="62" column="26" bodyfile="include/cdc/change_stream_compressor.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a45a9f281f15de1cb82c247be9ec82502" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::cdc::kCdcBatchVersion</definition>
+        <argsstring></argsstring>
+        <name>kCdcBatchVersion</name>
+        <qualifiedname>themis::cdc::kCdcBatchVersion</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="63" column="26" bodyfile="include/cdc/change_stream_compressor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1a82108af4169e1f28b8454b203a8bce2c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::cdc::SCHEMA_REGISTRY_MAGIC_BYTE</definition>
+        <argsstring></argsstring>
+        <name>SCHEMA_REGISTRY_MAGIC_BYTE</name>
+        <qualifiedname>themis::cdc::SCHEMA_REGISTRY_MAGIC_BYTE</qualifiedname>
+        <initializer>= 0x00</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="401" column="19" bodyfile="include/cdc/schema_registry.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cdc_1aedbeb1dc3cd6a43f39631930a82bd03e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::SCHEMA_REGISTRY_HEADER_SIZE</definition>
+        <argsstring></argsstring>
+        <name>SCHEMA_REGISTRY_HEADER_SIZE</name>
+        <qualifiedname>themis::cdc::SCHEMA_REGISTRY_HEADER_SIZE</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="403" column="18" bodyfile="include/cdc/schema_registry.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1aacd550ead981690b666fd0148b2b19e8" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::isCdcFailClosedClass</definition>
+        <argsstring>(CdcTransportFailureClass fc) noexcept</argsstring>
+        <name>isCdcFailClosedClass</name>
+        <qualifiedname>themis::cdc::isCdcFailClosedClass</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510c" kindref="member">CdcTransportFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the transport failure class mandates fail-closed behaviour (dead-letter or halt, no automatic drop or advance). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transport failure class to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the event must be dead-lettered or delivery must halt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_delivery_contract.h" line="167" column="24" bodyfile="include/cdc/cdc_delivery_contract.h" bodystart="167" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1ac3bfee44882ecc1ae76c6cd62f7a96f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::debeziumOpString</definition>
+        <argsstring>(DebeziumOp op)</argsstring>
+        <name>debeziumOpString</name>
+        <qualifiedname>themis::cdc::debeziumOpString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" kindref="member">DebeziumOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>Debezium Op String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="79" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1adf197424e864a4ed0e22fa4abcdd0151" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::schemaFormatString</definition>
+        <argsstring>(SchemaFormat fmt)</argsstring>
+        <name>schemaFormatString</name>
+        <qualifiedname>themis::cdc::schemaFormatString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref></type>
+          <declname>fmt</declname>
+        </param>
+        <briefdescription>
+<para>Schema Format String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements schemaFormatString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="79" column="20" bodyfile="include/cdc/schema_registry.h" bodystart="79" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1ad022535d3fca10e2a6ac1e94a190b33b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::outboxStateToString</definition>
+        <argsstring>(OutboxState s)</argsstring>
+        <name>outboxStateToString</name>
+        <qualifiedname>themis::cdc::outboxStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a15334ba4925585a3bf9d69ed9b202171" kindref="member">OutboxState</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Outbox State To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements outboxStateToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cdc/outbox.cpp" line="39" column="20" bodyfile="src/cdc/outbox.cpp" bodystart="39" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1a7c30bbe405bd634e3cd941e9fd79ebb9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a15334ba4925585a3bf9d69ed9b202171" kindref="member">OutboxState</ref></type>
+        <definition>static OutboxState themis::cdc::outboxStateFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>outboxStateFromString</name>
+        <qualifiedname>themis::cdc::outboxStateFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Outbox State From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements outboxStateFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cdc/outbox.cpp" line="57" column="20" bodyfile="src/cdc/outbox.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1aa3e57747a6e0c997f827bbd7aa419f1e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::changeEventTypeToString</definition>
+        <argsstring>(Changefeed::ChangeEventType t)</argsstring>
+        <name>changeEventTypeToString</name>
+        <qualifiedname>themis::cdc::changeEventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Change Event Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements changeEventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cdc/outbox.cpp" line="73" column="20" bodyfile="src/cdc/outbox.cpp" bodystart="73" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1a71543463878ed92c5075635b27e41ae4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref></type>
+        <definition>static Changefeed::ChangeEventType themis::cdc::changeEventTypeFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>changeEventTypeFromString</name>
+        <qualifiedname>themis::cdc::changeEventTypeFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Change Event Type From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements changeEventTypeFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cdc/outbox.cpp" line="93" column="36" bodyfile="src/cdc/outbox.cpp" bodystart="93" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_admin.h" line="25" column="1"/>
+  </compounddef>
+</doxygen>

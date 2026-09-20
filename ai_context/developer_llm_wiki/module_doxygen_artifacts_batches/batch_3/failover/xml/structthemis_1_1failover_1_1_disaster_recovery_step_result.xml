@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_disaster_recovery_step_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::DisasterRecoveryStepResult</compoundname>
+    <includes refid="disaster__recovery__manager_8h" local="no">disaster_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_step_result_1a8027a0d6353f3c018f8773f725bc70ed" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kindref="member">DisasterRecoveryStep</ref></type>
+        <definition>DisasterRecoveryStep themis::failover::DisasterRecoveryStepResult::step</definition>
+        <argsstring></argsstring>
+        <name>step</name>
+        <qualifiedname>themis::failover::DisasterRecoveryStepResult::step</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="80" column="26" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_step_result_1ab7fce3053ddf9c1308f3f02e5748a6d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryStepResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::failover::DisasterRecoveryStepResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="81" column="10" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_step_result_1abaa9ced61f8dd8b70b50673f59b3a4a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::DisasterRecoveryStepResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::failover::DisasterRecoveryStepResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="82" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/disaster_recovery_manager.h" line="79" column="1" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="79" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1abaa9ced61f8dd8b70b50673f59b3a4a6" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryStepResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1a8027a0d6353f3c018f8773f725bc70ed" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryStepResult</scope><name>step</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1ab7fce3053ddf9c1308f3f02e5748a6d8" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryStepResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_debezium_formatter" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::DebeziumFormatter</compoundname>
+    <includes refid="debezium__format_8h" local="no">debezium_format.h</includes>
+    <innerclass refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" prot="public">themis::cdc::DebeziumFormatter::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_debezium_formatter_1a01355f4f378d5b6317e8a0bb7ec1e740" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::cdc::DebeziumFormatter::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="262" column="12" bodyfile="include/cdc/debezium_format.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_debezium_formatter_1a5e1bfa85fc2e0f658705578571deb77f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DebeziumFormatter::DebeziumFormatter</definition>
+        <argsstring>()=default</argsstring>
+        <name>DebeziumFormatter</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::DebeziumFormatter</qualifiedname>
+        <briefdescription>
+<para>Debezium Formatter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="205" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_debezium_formatter_1a3b949eeb0103845c0d594d2d90acd18e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DebeziumFormatter::DebeziumFormatter</definition>
+        <argsstring>(Config cfg)</argsstring>
+        <name>DebeziumFormatter</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::DebeziumFormatter</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="206" column="14" bodyfile="include/cdc/debezium_format.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_debezium_envelope" kindref="compound">DebeziumEnvelope</ref></type>
+        <definition>DebeziumEnvelope themis::cdc::DebeziumFormatter::toEnvelope</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event, const std::string &amp;collection=&quot;&quot;) const</argsstring>
+        <name>toEnvelope</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::toEnvelope</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="208" column="22" bodyfile="include/cdc/debezium_format.h" bodystart="208" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_debezium_formatter_1a670a4e50985a73d22beb297d33e02787" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::DebeziumFormatter::toJson</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event, const std::string &amp;collection=&quot;&quot;) const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::toJson</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="251" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="251" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_debezium_formatter_1acaf7883d867ac2ac63bd6b67c837744c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::DebeziumFormatter::toJsonWithSchema</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event, const std::string &amp;collection=&quot;&quot;) const</argsstring>
+        <name>toJsonWithSchema</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::toJsonWithSchema</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="256" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="256" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_debezium_formatter_1adcf03934a1c5184f33252e4018ee569c" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" kindref="member">DebeziumOp</ref></type>
+        <definition>static DebeziumOp themis::cdc::DebeziumFormatter::opFromEvent</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event)</argsstring>
+        <name>opFromEvent</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::opFromEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Op From Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="270" column="23" bodyfile="include/cdc/debezium_format.h" bodystart="270" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_debezium_formatter_1a80971c91a3f1ca618ebaaabbc4fe258c" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::DebeziumFormatter::collectionFromKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>collectionFromKey</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::collectionFromKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Collection From Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="289" column="24" bodyfile="include/cdc/debezium_format.h" bodystart="289" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_debezium_formatter_1af3c33151844b6608611fdd7eb6011094" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json themis::cdc::DebeziumFormatter::parseDocument</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>parseDocument</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::parseDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Parse Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="300" column="27" bodyfile="include/cdc/debezium_format.h" bodystart="300" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/debezium_format.h" line="193" column="1" bodyfile="include/cdc/debezium_format.h" bodystart="193" bodyend="307"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1a01355f4f378d5b6317e8a0bb7ec1e740" prot="private" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1a80971c91a3f1ca618ebaaabbc4fe258c" prot="private" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>collectionFromKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1a5e1bfa85fc2e0f658705578571deb77f" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>DebeziumFormatter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1a3b949eeb0103845c0d594d2d90acd18e" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>DebeziumFormatter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1adcf03934a1c5184f33252e4018ee569c" prot="private" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>opFromEvent</name></member>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1af3c33151844b6608611fdd7eb6011094" prot="private" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>parseDocument</name></member>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>toEnvelope</name></member>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1a670a4e50985a73d22beb297d33e02787" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1cdc_1_1_debezium_formatter_1acaf7883d867ac2ac63bd6b67c837744c" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter</scope><name>toJsonWithSchema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

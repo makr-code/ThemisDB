@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_retry_config" kind="struct" language="C++" prot="public">
+    <compoundname>RetryConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_retry_config_1a9f4153d8248692a8aa86ca612c9b39f0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RetryConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>RetryConfig::max_retries</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>Max additional attempts after first failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="60" column="9" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retry_config_1a3a0c2228f99e5799758a7c86bb714a8b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds RetryConfig::base_delay</definition>
+        <argsstring></argsstring>
+        <name>base_delay</name>
+        <qualifiedname>RetryConfig::base_delay</qualifiedname>
+        <initializer>{10ms}</initializer>
+        <briefdescription>
+<para>Base back-off interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="61" column="31" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retry_config_1af7618a922e9a76ef1937f4727d623253" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds RetryConfig::max_retry_time</definition>
+        <argsstring></argsstring>
+        <name>max_retry_time</name>
+        <qualifiedname>RetryConfig::max_retry_time</qualifiedname>
+        <initializer>{500ms}</initializer>
+        <briefdescription>
+<para>Total budget across all retries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="62" column="31" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retry_config_1a3ca7eab48bc1c31c529d8f47e998c6d0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RetryConfig::jitter_enabled</definition>
+        <argsstring></argsstring>
+        <name>jitter_enabled</name>
+        <qualifiedname>RetryConfig::jitter_enabled</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Add uniform random jitter to each delay. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="82" column="30" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retry_config_1ac5749cf9bab5d8a6e197ffcb840cb61f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t RetryConfig::jitter_seed</definition>
+        <argsstring></argsstring>
+        <name>jitter_seed</name>
+        <qualifiedname>RetryConfig::jitter_seed</qualifiedname>
+        <initializer>{kCanonicalSeed}</initializer>
+        <briefdescription>
+<para>Seed for jitter PRNG. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="83" column="30" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="class_retry_gate" kindref="compound">RetryGate</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase1_hardening.cpp" line="59" column="1" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="59" bodyend="63"/>
+    <listofallmembers>
+      <member refid="struct_retry_config_1a3a0c2228f99e5799758a7c86bb714a8b" prot="public" virt="non-virtual"><scope>RetryConfig</scope><name>base_delay</name></member>
+      <member refid="struct_retry_config_1a3ca7eab48bc1c31c529d8f47e998c6d0" prot="public" virt="non-virtual"><scope>RetryConfig</scope><name>jitter_enabled</name></member>
+      <member refid="struct_retry_config_1ac5749cf9bab5d8a6e197ffcb840cb61f" prot="public" virt="non-virtual"><scope>RetryConfig</scope><name>jitter_seed</name></member>
+      <member refid="struct_retry_config_1a9f4153d8248692a8aa86ca612c9b39f0" prot="public" virt="non-virtual"><scope>RetryConfig</scope><name>max_retries</name></member>
+      <member refid="struct_retry_config_1af7618a922e9a76ef1937f4727d623253" prot="public" virt="non-virtual"><scope>RetryConfig</scope><name>max_retry_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

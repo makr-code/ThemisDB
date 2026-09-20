@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_resource_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ResourceStats</compoundname>
+    <includes refid="resource__profiler_8h" local="no">resource_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a9accd2c8bf7609fd4c103406b9082efe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceStats::peak_gpu_memory</definition>
+        <argsstring></argsstring>
+        <name>peak_gpu_memory</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::peak_gpu_memory</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="96" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1af0c82581fe46921a68e837c3c62ddc13" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceStats::peak_cpu_memory</definition>
+        <argsstring></argsstring>
+        <name>peak_cpu_memory</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::peak_cpu_memory</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="97" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a2b243a8e4eb79df61c6cb65e5ae59f83" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceStats::avg_gpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>avg_gpu_utilization</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::avg_gpu_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="100" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a5955a43f755b3365b15192ec4ab08279" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceStats::avg_gpu_memory_utilization</definition>
+        <argsstring></argsstring>
+        <name>avg_gpu_memory_utilization</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::avg_gpu_memory_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="101" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1afe6387cd3cb99a825f911c80cb3cc91c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceStats::avg_samples_per_second</definition>
+        <argsstring></argsstring>
+        <name>avg_samples_per_second</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::avg_samples_per_second</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="104" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1ad480d726feadbd2b85b356602f2fe880" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceStats::avg_tokens_per_second</definition>
+        <argsstring></argsstring>
+        <name>avg_tokens_per_second</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::avg_tokens_per_second</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="105" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a71c14b157b1f5a299f82f4ae33553fe3" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::lora::ResourceStats::total_training_time</definition>
+        <argsstring></argsstring>
+        <name>total_training_time</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::total_training_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="108" column="26" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a6f4dc629e211e21c3773f3100f3031fe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceStats::num_snapshots</definition>
+        <argsstring></argsstring>
+        <name>num_snapshots</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::num_snapshots</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="111" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a615ae960ece724494f36fa7a6f12ec0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::ResourceStats::~ResourceStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ResourceStats</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::~ResourceStats</qualifiedname>
+        <briefdescription>
+<para>Resource Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="94" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_resource_stats_1ae443019fc8ac570e5cd64a528a1a52a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::ResourceStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::ResourceStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="113" column="10" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="113" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/resource_profiler.h" line="89" column="1" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="89" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a5955a43f755b3365b15192ec4ab08279" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>avg_gpu_memory_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a2b243a8e4eb79df61c6cb65e5ae59f83" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>avg_gpu_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1afe6387cd3cb99a825f911c80cb3cc91c" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>avg_samples_per_second</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1ad480d726feadbd2b85b356602f2fe880" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>avg_tokens_per_second</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a6f4dc629e211e21c3773f3100f3031fe" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>num_snapshots</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1af0c82581fe46921a68e837c3c62ddc13" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>peak_cpu_memory</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a9accd2c8bf7609fd4c103406b9082efe" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>peak_gpu_memory</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1ae443019fc8ac570e5cd64a528a1a52a8" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a71c14b157b1f5a299f82f4ae33553fe3" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceStats</scope><name>total_training_time</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_stats_1a615ae960ece724494f36fa7a6f12ec0a" prot="public" virt="virtual"><scope>themis::llm::lora::ResourceStats</scope><name>~ResourceStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

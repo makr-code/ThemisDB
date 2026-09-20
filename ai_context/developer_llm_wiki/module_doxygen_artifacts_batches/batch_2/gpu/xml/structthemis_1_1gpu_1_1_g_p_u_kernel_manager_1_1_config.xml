@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUKernelManager::Config</compoundname>
+    <includes refid="gpu__kernel__manager_8h" local="no">gpu_kernel_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a2b50d9a2b19851a83c821b5408e84aed" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUKernelManager::Config::block_size_x</definition>
+        <argsstring></argsstring>
+        <name>block_size_x</name>
+        <qualifiedname>themis::gpu::GPUKernelManager::Config::block_size_x</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="33" column="18" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1ab2f912ba4b9a965ebfb1c6dc391c43cd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUKernelManager::Config::block_size_y</definition>
+        <argsstring></argsstring>
+        <name>block_size_y</name>
+        <qualifiedname>themis::gpu::GPUKernelManager::Config::block_size_y</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="34" column="18" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1af9460fa0afb4fe28abb0b6970f6ed000" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUKernelManager::Config::block_size_z</definition>
+        <argsstring></argsstring>
+        <name>block_size_z</name>
+        <qualifiedname>themis::gpu::GPUKernelManager::Config::block_size_z</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="35" column="18" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a5659031854261229713a8d8e77a1c7e5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUKernelManager::Config::grid_size_x</definition>
+        <argsstring></argsstring>
+        <name>grid_size_x</name>
+        <qualifiedname>themis::gpu::GPUKernelManager::Config::grid_size_x</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="36" column="18" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1abced4989b07e5d425500c8bf550807df" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUKernelManager::Config::grid_size_y</definition>
+        <argsstring></argsstring>
+        <name>grid_size_y</name>
+        <qualifiedname>themis::gpu::GPUKernelManager::Config::grid_size_y</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="37" column="18" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1ada911fedb2638b471e3d2412827f0c21" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUKernelManager::Config::grid_size_z</definition>
+        <argsstring></argsstring>
+        <name>grid_size_z</name>
+        <qualifiedname>themis::gpu::GPUKernelManager::Config::grid_size_z</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="38" column="18" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a6f564165742f88ab2170a5a18a5d20a2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUKernelManager::Config::shared_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>shared_memory_bytes</name>
+        <qualifiedname>themis::gpu::GPUKernelManager::Config::shared_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="39" column="16" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1af1afeffd128e65b930386735c70acc3d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUKernelManager::Config::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::gpu::GPUKernelManager::Config::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="40" column="13" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_kernel_manager.h" line="32" column="5" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a2b50d9a2b19851a83c821b5408e84aed" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelManager::Config</scope><name>block_size_x</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1ab2f912ba4b9a965ebfb1c6dc391c43cd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelManager::Config</scope><name>block_size_y</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1af9460fa0afb4fe28abb0b6970f6ed000" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelManager::Config</scope><name>block_size_z</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a5659031854261229713a8d8e77a1c7e5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelManager::Config</scope><name>grid_size_x</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1abced4989b07e5d425500c8bf550807df" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelManager::Config</scope><name>grid_size_y</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1ada911fedb2638b471e3d2412827f0c21" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelManager::Config</scope><name>grid_size_z</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1af1afeffd128e65b930386735c70acc3d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelManager::Config</scope><name>priority</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a6f564165742f88ab2170a5a18a5d20a2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelManager::Config</scope><name>shared_memory_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

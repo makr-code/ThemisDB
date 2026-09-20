@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_mock_provider_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockProviderSet</compoundname>
+    <includes refid="mock__provider__factory_8h" local="no">mock_provider_factory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_set_1a9c6950b51445489ccdb6817b0d39bc1e" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker" kindref="compound">MockCallTracker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockCallTracker&gt; themis::aql::testing::MockProviderSet::tracker</definition>
+        <argsstring></argsstring>
+        <name>tracker</name>
+        <qualifiedname>themis::aql::testing::MockProviderSet::tracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="271" column="21" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_set_1a581d287369dfc3548e033bf128e12cc5" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1testing_1_1_mock_infer_provider" kindref="compound">MockInferProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockInferProvider&gt; themis::aql::testing::MockProviderSet::infer</definition>
+        <argsstring></argsstring>
+        <name>infer</name>
+        <qualifiedname>themis::aql::testing::MockProviderSet::infer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="272" column="22" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_set_1aec89e10e69a60f920bd4887fefa5f046" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1testing_1_1_mock_r_a_g_provider" kindref="compound">MockRAGProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockRAGProvider&gt; themis::aql::testing::MockProviderSet::rag</definition>
+        <argsstring></argsstring>
+        <name>rag</name>
+        <qualifiedname>themis::aql::testing::MockProviderSet::rag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="273" column="24" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_set_1acad124b86eda1739e04aac0b70c05f70" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider" kindref="compound">MockEmbedProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockEmbedProvider&gt; themis::aql::testing::MockProviderSet::embed</definition>
+        <argsstring></argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::aql::testing::MockProviderSet::embed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="274" column="22" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Create all three mock providers sharing a single call tracker. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/fixtures/mock_provider_factory.h" line="270" column="1" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="270" bodyend="275"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_set_1acad124b86eda1739e04aac0b70c05f70" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderSet</scope><name>embed</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_set_1a581d287369dfc3548e033bf128e12cc5" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderSet</scope><name>infer</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_set_1aec89e10e69a60f920bd4887fefa5f046" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderSet</scope><name>rag</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_set_1a9c6950b51445489ccdb6817b0d39bc1e" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderSet</scope><name>tracker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

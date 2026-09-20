@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_security_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>SecurityIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_security_integration_test_1aabc726ca78230660cbea79ad53630fd9" prot="protected" static="no" mutable="no">
+        <type>SecurityAuditLog</type>
+        <definition>SecurityAuditLog SecurityIntegrationTest::audit_log</definition>
+        <argsstring></argsstring>
+        <name>audit_log</name>
+        <qualifiedname>SecurityIntegrationTest::audit_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="381" column="22" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="381" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_security_integration_test_1a11256f0cd12ff3730e284348df656fa7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SecurityIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SecurityIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="383" column="10" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="383" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="class_security_integration_test_1a073ce10aa9e491f8c1a63a15fff02a40" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SecurityIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SecurityIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="387" column="10" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="387" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SecurityIntegrationTest</label>
+        <link refid="class_security_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SecurityIntegrationTest</label>
+        <link refid="class_security_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>audit_log</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:audit_log</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="379" column="1" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="379" bodyend="390"/>
+    <listofallmembers>
+      <member refid="class_security_integration_test_1aabc726ca78230660cbea79ad53630fd9" prot="protected" virt="non-virtual"><scope>SecurityIntegrationTest</scope><name>audit_log</name></member>
+      <member refid="class_security_integration_test_1a11256f0cd12ff3730e284348df656fa7" prot="protected" virt="non-virtual"><scope>SecurityIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_security_integration_test_1a073ce10aa9e491f8c1a63a15fff02a40" prot="protected" virt="non-virtual"><scope>SecurityIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

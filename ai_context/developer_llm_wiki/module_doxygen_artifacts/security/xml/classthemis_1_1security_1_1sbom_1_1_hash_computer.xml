@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1sbom_1_1_hash_computer" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::sbom::HashComputer</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1sbom_1_1_hash_computer_1a3ca80f6cf019e0e57805a112a60a5d11" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::sbom::HashComputer::compute_sha256</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>compute_sha256</name>
+        <qualifiedname>themis::security::sbom::HashComputer::compute_sha256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="23" column="24" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="23" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SHA256 hash computation (simplified for benchmark). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="21" column="1" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="21" bodyend="36"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1sbom_1_1_hash_computer_1a3ca80f6cf019e0e57805a112a60a5d11" prot="public" virt="non-virtual"><scope>themis::security::sbom::HashComputer</scope><name>compute_sha256</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

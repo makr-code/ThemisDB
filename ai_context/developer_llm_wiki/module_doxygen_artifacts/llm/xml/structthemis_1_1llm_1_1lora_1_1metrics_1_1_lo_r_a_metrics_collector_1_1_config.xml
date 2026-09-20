@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::metrics::LoRAMetricsCollector::Config</compoundname>
+    <includes refid="lora__metrics_8h" local="no">lora_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config_1a8a8faab819a4ff78b7ed070fc0d7c5cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::metrics::LoRAMetricsCollector::Config::namespace_prefix</definition>
+        <argsstring></argsstring>
+        <name>namespace_prefix</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::Config::namespace_prefix</qualifiedname>
+        <initializer>= &quot;themis_lora&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="55" column="21" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config_1a0ebb923c4556a05e79ab94440de9ef05" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::metrics::LoRAMetricsCollector::Config::enable_detailed_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_detailed_metrics</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::Config::enable_detailed_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="56" column="14" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config_1a5ccd5996fdb492d0e61c566b290a644e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::metrics::LoRAMetricsCollector::Config::enable_histograms</definition>
+        <argsstring></argsstring>
+        <name>enable_histograms</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::Config::enable_histograms</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="57" column="14" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_metrics.h" line="54" column="5" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="54" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config_1a0ebb923c4556a05e79ab94440de9ef05" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector::Config</scope><name>enable_detailed_metrics</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config_1a5ccd5996fdb492d0e61c566b290a644e" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector::Config</scope><name>enable_histograms</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config_1a8a8faab819a4ff78b7ed070fc0d7c5cb" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector::Config</scope><name>namespace_prefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

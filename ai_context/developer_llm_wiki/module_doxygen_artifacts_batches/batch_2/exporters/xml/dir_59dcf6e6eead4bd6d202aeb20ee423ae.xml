@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_59dcf6e6eead4bd6d202aeb20ee423ae" kind="dir">
+    <compoundname>include/exporters</compoundname>
+    <innerfile refid="aql__predicate__filter_8h">aql_predicate_filter.h</innerfile>
+    <innerfile refid="arrow__ipc__exporter_8h">arrow_ipc_exporter.h</innerfile>
+    <innerfile refid="data__augmentation_8h">data_augmentation.h</innerfile>
+    <innerfile refid="export__encryption_8h">export_encryption.h</innerfile>
+    <innerfile refid="export__format__registry_8h">export_format_registry.h</innerfile>
+    <innerfile refid="exporter__errors_8h">exporter_errors.h</innerfile>
+    <innerfile refid="exporter__interface_8h">exporter_interface.h</innerfile>
+    <innerfile refid="exporter__metrics_8h">exporter_metrics.h</innerfile>
+    <innerfile refid="exporters__api__contract_8h">exporters_api_contract.h</innerfile>
+    <innerfile refid="format__template_8h">format_template.h</innerfile>
+    <innerfile refid="huggingface__exporter_8h">huggingface_exporter.h</innerfile>
+    <innerfile refid="huggingface__hub__client_8h">huggingface_hub_client.h</innerfile>
+    <innerfile refid="incremental__exporter_8h">incremental_exporter.h</innerfile>
+    <innerfile refid="join__exporter_8h">join_exporter.h</innerfile>
+    <innerfile refid="jsonl__llm__exporter_8h">jsonl_llm_exporter.h</innerfile>
+    <innerfile refid="parquet__exporter_8h">parquet_exporter.h</innerfile>
+    <innerfile refid="pii__detector_8h">pii_detector.h</innerfile>
+    <innerfile refid="stream__writer_8h">stream_writer.h</innerfile>
+    <innerfile refid="streaming__exporter_8h">streaming_exporter.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d153070257330101352262072102017123072325166227054" kind="namespace" language="C++">
+    <compoundname>@153070257330101352262072102017123072325166227054</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FailureScenario</name>
+        <qualifiedname>@153070257330101352262072102017123072325166227054::FailureScenario</qualifiedname>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7a11920f43e2f3850f73435d9b14dec06f" prot="public">
+          <name>DEVICE_HANG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7a66d622eb4c7d8b74a22f653876ef209d" prot="public">
+          <name>KERNEL_TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7a5cd5516428d081129a4aea1db455272e" prot="public">
+          <name>DRIVER_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7ac56ddb8056b120c9d5fee05981f219c6" prot="public">
+          <name>OUT_OF_MEMORY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7a1a80b7a102f06ceea59da1c8e236b86f" prot="public">
+          <name>PARTIAL_DEVICE_FAIL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7ae4298182e52c2b757c6e980a84a72acf" prot="public">
+          <name>RESOURCE_EXHAUSTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7a71f80fd66d280f2d8068da2668a62466" prot="public">
+          <name>NETWORK_TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7ac063281d4adc16ebccfec66aa885b4dd" prot="public">
+          <name>INVALID_INPUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d153070257330101352262072102017123072325166227054_1a60125c96443b11d1bbd123b375ad5db7a36bbf106165fbeedfe72d957d73a31f4" prot="public">
+          <name>BACKEND_CRASH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration of failure scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="37" column="1" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="37" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

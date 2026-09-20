@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1telemetry_1_1defaults" kind="namespace" language="C++">
+    <compoundname>themis::observability::telemetry::defaults</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1defaults_1a2d2e47825fae12789c9965ed2e486a44" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::defaults::kAnnNoCorrelation</definition>
+        <argsstring></argsstring>
+        <name>kAnnNoCorrelation</name>
+        <qualifiedname>themis::observability::telemetry::defaults::kAnnNoCorrelation</qualifiedname>
+        <initializer>= &quot;ann-frontdoor:no-correlation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="40" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1defaults_1a591350c97e317fd30c2fa532d122d0a9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::defaults::kTensorRagNoSessionCorrelation</definition>
+        <argsstring></argsstring>
+        <name>kTensorRagNoSessionCorrelation</name>
+        <qualifiedname>themis::observability::telemetry::defaults::kTensorRagNoSessionCorrelation</qualifiedname>
+        <initializer>= &quot;tensor-rag:no-session&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="41" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/telemetry_keys.h" line="39" column="1"/>
+  </compounddef>
+</doxygen>

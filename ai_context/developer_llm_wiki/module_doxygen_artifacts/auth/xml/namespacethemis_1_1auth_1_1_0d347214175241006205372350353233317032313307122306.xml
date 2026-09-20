@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1auth_1_1_0d347214175241006205372350353233317032313307122306" kind="namespace" language="C++">
+    <compoundname>themis::auth::@347214175241006205372350353233317032313307122306</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/auth/rate_limiter_backend.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

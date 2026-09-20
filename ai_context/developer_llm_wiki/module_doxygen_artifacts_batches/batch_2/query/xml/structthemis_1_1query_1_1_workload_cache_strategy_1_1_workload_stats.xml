@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::WorkloadCacheStrategy::WorkloadStats</compoundname>
+    <includes refid="workload__cache__strategy_8h" local="no">workload_cache_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1adbe5709b9e894188a7bbc2f867940fe5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::query::WorkloadCacheStrategy::WorkloadStats::detected_type</definition>
+        <argsstring></argsstring>
+        <name>detected_type</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::detected_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadType::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="112" column="22" bodyfile="include/query/workload_cache_strategy.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a2472fcf792c4329f213ef4e60dbcb3f2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheStrategy::WorkloadStats::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::total_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="113" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a727d3e3e68de399af77318af4311075d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheStrategy::WorkloadStats::cached_queries</definition>
+        <argsstring></argsstring>
+        <name>cached_queries</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::cached_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="114" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aa28da0fbce3d3848092a5929f365d8ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheStrategy::WorkloadStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="115" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a0981d76542ed4969febeb221b5e09fe2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheStrategy::WorkloadStats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="116" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a22c060776d1442f73d4260050d585822" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::WorkloadCacheStrategy::WorkloadStats::avg_query_frequency</definition>
+        <argsstring></argsstring>
+        <name>avg_query_frequency</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::avg_query_frequency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="117" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1ac96126baa446151b5e9f791f90e247fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheStrategy::WorkloadStats::avg_result_size</definition>
+        <argsstring></argsstring>
+        <name>avg_result_size</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::avg_result_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="118" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aaf38ad5fbf583c4f9e2f44454d6f91df" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::WorkloadCacheStrategy::WorkloadStats::avg_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_execution_time_ms</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::avg_execution_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="119" column="17" bodyfile="include/query/workload_cache_strategy.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a060a3bbed6580772e6dc7aacf2ec84e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::WorkloadCacheStrategy::WorkloadStats::hit_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::hit_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="121" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a9fcfe6c438502ab6e1b760fafddf8fbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::WorkloadCacheStrategy::WorkloadStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="131" column="24" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="122" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/workload_cache_strategy.h" line="111" column="5" bodyfile="include/query/workload_cache_strategy.h" bodystart="111" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aaf38ad5fbf583c4f9e2f44454d6f91df" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>avg_execution_time_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a22c060776d1442f73d4260050d585822" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>avg_query_frequency</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1ac96126baa446151b5e9f791f90e247fa" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>avg_result_size</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aa28da0fbce3d3848092a5929f365d8ab" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a0981d76542ed4969febeb221b5e09fe2" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a727d3e3e68de399af77318af4311075d" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>cached_queries</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1adbe5709b9e894188a7bbc2f867940fe5" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>detected_type</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a060a3bbed6580772e6dc7aacf2ec84e7" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a9fcfe6c438502ab6e1b760fafddf8fbe" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a2472fcf792c4329f213ef4e60dbcb3f2" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::WorkloadStats</scope><name>total_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

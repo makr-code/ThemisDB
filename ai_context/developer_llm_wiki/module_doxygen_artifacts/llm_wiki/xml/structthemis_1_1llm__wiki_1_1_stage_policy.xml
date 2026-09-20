@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm__wiki_1_1_stage_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::StagePolicy</compoundname>
+    <includes refid="process__policy__manager_8h" local="no">process_policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_stage_policy_1a8f13e915606beb138aa862853f5f5fc8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::StagePolicy::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm_wiki::StagePolicy::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="68" column="10" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_stage_policy_1a34cd098575bff930b4269582999dfa1e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176" kindref="member">ProcessSchedule</ref></type>
+        <definition>ProcessSchedule themis::llm_wiki::StagePolicy::schedule</definition>
+        <argsstring></argsstring>
+        <name>schedule</name>
+        <qualifiedname>themis::llm_wiki::StagePolicy::schedule</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a680f20394e5d431b948f71b9243cfd90" kindref="member">ProcessSchedule::NearRealtime</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="69" column="21" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tunable stage policy extracted from YAML. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/process_policy_manager.h" line="67" column="1" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="67" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm__wiki_1_1_stage_policy_1a8f13e915606beb138aa862853f5f5fc8" prot="public" virt="non-virtual"><scope>themis::llm_wiki::StagePolicy</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_stage_policy_1a34cd098575bff930b4269582999dfa1e" prot="public" virt="non-virtual"><scope>themis::llm_wiki::StagePolicy</scope><name>schedule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

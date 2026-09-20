@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_mock_s_a_g_a_step" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::MockSAGAStep</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StepState</name>
+        <qualifiedname>themis::test::MockSAGAStep::StepState</qualifiedname>
+        <enumvalue id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9ac6e6064fdaf5aa9b04472acaffdcea5b" prot="public">
+          <name>EXECUTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9afd9f6519d3f45276829fe74eb2c4bb85" prot="public">
+          <name>SUCCEEDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9af7eb1a2119233b7d89c3c76589a10664" prot="public">
+          <name>COMPENSATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9a2df8d8245b6e73417307f431a21ae041" prot="public">
+          <name>COMPENSATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="39" column="5" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="39" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a61356f8d34c7b209e0f8743ff29587ab" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::test::MockSAGAStep::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::test::MockSAGAStep::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="63" column="17" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a83da14cb8ed1cf95a2818d0689b230fb" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockSAGAStep::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themis::test::MockSAGAStep::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="64" column="9" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1abde90a411ddd4c551cf6f1650babb9ac" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9" kindref="member">StepState</ref></type>
+        <definition>StepState themis::test::MockSAGAStep::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::test::MockSAGAStep::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="65" column="15" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1ab86d0ad68604d671412ad37a796b58ad" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockSAGAStep::execution_count_</definition>
+        <argsstring></argsstring>
+        <name>execution_count_</name>
+        <qualifiedname>themis::test::MockSAGAStep::execution_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="66" column="9" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a3e636a2239e09c204a9c9ab1cbe1eb18" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockSAGAStep::compensation_count_</definition>
+        <argsstring></argsstring>
+        <name>compensation_count_</name>
+        <qualifiedname>themis::test::MockSAGAStep::compensation_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="67" column="9" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1ae72acd2ef729eb39e77d446d27054e0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::MockSAGAStep::MockSAGAStep</definition>
+        <argsstring>(const std::string &amp;name, int node_id)</argsstring>
+        <name>MockSAGAStep</name>
+        <qualifiedname>themis::test::MockSAGAStep::MockSAGAStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="48" column="5" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a7d53955b39bd9f4c1067f9e3dc67f714" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::test::MockSAGAStep::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::test::MockSAGAStep::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="52" column="23" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aefccfc6fc13dc9606298fa4fe7cdd4fe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockSAGAStep::getNodeId</definition>
+        <argsstring>() const</argsstring>
+        <name>getNodeId</name>
+        <qualifiedname>themis::test::MockSAGAStep::getNodeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="53" column="9" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a7b5aa0650d876e12582f5fd0939ab0a3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9" kindref="member">StepState</ref></type>
+        <definition>StepState themis::test::MockSAGAStep::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::test::MockSAGAStep::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="54" column="15" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a09b288ee9db905198728eedad08c6a39" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockSAGAStep::getExecutionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getExecutionCount</name>
+        <qualifiedname>themis::test::MockSAGAStep::getExecutionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="55" column="9" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a9ff4f316b003536b90002669e29adda0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockSAGAStep::getCompensationCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompensationCount</name>
+        <qualifiedname>themis::test::MockSAGAStep::getCompensationCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="56" column="9" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a075417dda8024c706d0062ab9b87ea3d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockSAGAStep::setState</definition>
+        <argsstring>(StepState s)</argsstring>
+        <name>setState</name>
+        <qualifiedname>themis::test::MockSAGAStep::setState</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9" kindref="member">StepState</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="58" column="10" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a3e124d823dd833ab68d18e7c9fc44612" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockSAGAStep::incrementExecutionCount</definition>
+        <argsstring>()</argsstring>
+        <name>incrementExecutionCount</name>
+        <qualifiedname>themis::test::MockSAGAStep::incrementExecutionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="59" column="10" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aab41bd24deb62668739887b2c184a73f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockSAGAStep::incrementCompensationCount</definition>
+        <argsstring>()</argsstring>
+        <name>incrementCompensationCount</name>
+        <qualifiedname>themis::test::MockSAGAStep::incrementCompensationCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="60" column="10" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="37" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="37" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a3e636a2239e09c204a9c9ab1cbe1eb18" prot="private" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>compensation_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1ab86d0ad68604d671412ad37a796b58ad" prot="private" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>execution_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a9ff4f316b003536b90002669e29adda0" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>getCompensationCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a09b288ee9db905198728eedad08c6a39" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>getExecutionCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a7d53955b39bd9f4c1067f9e3dc67f714" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>getName</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aefccfc6fc13dc9606298fa4fe7cdd4fe" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>getNodeId</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a7b5aa0650d876e12582f5fd0939ab0a3" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>getState</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aab41bd24deb62668739887b2c184a73f" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>incrementCompensationCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a3e124d823dd833ab68d18e7c9fc44612" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>incrementExecutionCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1ae72acd2ef729eb39e77d446d27054e0d" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>MockSAGAStep</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a61356f8d34c7b209e0f8743ff29587ab" prot="private" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>name_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a83da14cb8ed1cf95a2818d0689b230fb" prot="private" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>node_id_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1a075417dda8024c706d0062ab9b87ea3d" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>setState</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1abde90a411ddd4c551cf6f1650babb9ac" prot="private" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>state_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_s_a_g_a_step_1aa8ba6c627eb18e7f870a654004f022a9" prot="public" virt="non-virtual"><scope>themis::test::MockSAGAStep</scope><name>StepState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

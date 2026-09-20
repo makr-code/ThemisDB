@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::RCCLVectorBackend::Config</compoundname>
+    <includes refid="rccl__vector__backend_8h" local="no">rccl_vector_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a71630f3c04a0010f4ac99bc32ce18520" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::RCCLVectorBackend::Config::worldSize</definition>
+        <argsstring></argsstring>
+        <name>worldSize</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::Config::worldSize</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="39" column="13" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1ab7ad123471d162e25432adc80b3e743b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::RCCLVectorBackend::Config::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::Config::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="40" column="13" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a933684b81c5fc41fb9a900ec30218868" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::acceleration::RCCLVectorBackend::Config::deviceIds</definition>
+        <argsstring></argsstring>
+        <name>deviceIds</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::Config::deviceIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="41" column="21" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a5da696ccee44f2e81002a3d1e231c6a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::Config::enableP2P</definition>
+        <argsstring></argsstring>
+        <name>enableP2P</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::Config::enableP2P</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="42" column="14" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a81a0b736ec7bf121d6faa525df89aa15" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::Config::enableXGMI</definition>
+        <argsstring></argsstring>
+        <name>enableXGMI</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::Config::enableXGMI</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="43" column="14" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a9a08318b6883f5b718f93919fe709c0f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::RCCLVectorBackend::Config::bufferSizeMB</definition>
+        <argsstring></argsstring>
+        <name>bufferSizeMB</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::Config::bufferSizeMB</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="44" column="16" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/rccl_vector_backend.h" line="38" column="5" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="38" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a9a08318b6883f5b718f93919fe709c0f" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend::Config</scope><name>bufferSizeMB</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a933684b81c5fc41fb9a900ec30218868" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend::Config</scope><name>deviceIds</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a5da696ccee44f2e81002a3d1e231c6a6" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend::Config</scope><name>enableP2P</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a81a0b736ec7bf121d6faa525df89aa15" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend::Config</scope><name>enableXGMI</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1ab7ad123471d162e25432adc80b3e743b" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend::Config</scope><name>rank</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config_1a71630f3c04a0010f4ac99bc32ce18520" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend::Config</scope><name>worldSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

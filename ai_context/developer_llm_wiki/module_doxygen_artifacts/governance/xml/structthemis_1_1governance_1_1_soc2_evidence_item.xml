@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_soc2_evidence_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::Soc2EvidenceItem</compoundname>
+    <includes refid="soc2__controls_8h" local="no">soc2_controls.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a356b34b5187d03247ad1e1f8ac7e2cf0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2EvidenceItem::evidence_id</definition>
+        <argsstring></argsstring>
+        <name>evidence_id</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::evidence_id</qualifiedname>
+        <briefdescription>
+<para>Unique evidence identifier (uuid-like). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="29" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a7368f28813e81195f003853570e55ecf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2EvidenceItem::control_id</definition>
+        <argsstring></argsstring>
+        <name>control_id</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::control_id</qualifiedname>
+        <briefdescription>
+<para>SOC 2 control this evidences (e.g., &quot;CC6.1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="30" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1adbb1601d8f4dfc5fea5eb1d8295ed969" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2EvidenceItem::evidence_type</definition>
+        <argsstring></argsstring>
+        <name>evidence_type</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::evidence_type</qualifiedname>
+        <briefdescription>
+<para>&quot;policy_rule&quot;, &quot;access_log&quot;, &quot;encryption_status&quot;, &quot;retention_policy&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="31" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a6faa109b8e60f4c361d57c23f577fa29" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::Soc2EvidenceItem::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Collection time (Unix epoch milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="32" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a4a1ac1529f5a9401f36ac8049032fe6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2EvidenceItem::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::resource</qualifiedname>
+        <briefdescription>
+<para>Resource covered by this evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="33" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a79698fb9aca1d27ecb4711929b0dde7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2EvidenceItem::principal</definition>
+        <argsstring></argsstring>
+        <name>principal</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::principal</qualifiedname>
+        <briefdescription>
+<para>Principal (user/role) involved, if applicable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="34" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a25ef3cca5b3ce16301546301cbb2ea73" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2EvidenceItem::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::action</qualifiedname>
+        <briefdescription>
+<para>Action performed, if applicable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="35" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1ae917f61235a4c4c1bc189df16f183245" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::Soc2EvidenceItem::control_met</definition>
+        <argsstring></argsstring>
+        <name>control_met</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::control_met</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the control was satisfied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="36" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a9cf288b45905d490a47ec4dcbf9c8048" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2EvidenceItem::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::detail</qualifiedname>
+        <briefdescription>
+<para>Human-readable evidence description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="37" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a1f1f119f545d1e20af2e5547cc7a5c32" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::Soc2EvidenceItem::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional structured metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="38" column="20" bodyfile="include/governance/soc2_controls.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_soc2_evidence_item_1a99d85d45fa2a2250ca38d0d66307f003" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::Soc2EvidenceItem::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::Soc2EvidenceItem::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="44" column="20" bodyfile="src/governance/soc2_controls.cpp" bodystart="38" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/soc2_controls.h" line="28" column="1" bodyfile="include/governance/soc2_controls.h" bodystart="28" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a25ef3cca5b3ce16301546301cbb2ea73" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>action</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a7368f28813e81195f003853570e55ecf" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>control_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1ae917f61235a4c4c1bc189df16f183245" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>control_met</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a9cf288b45905d490a47ec4dcbf9c8048" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>detail</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a356b34b5187d03247ad1e1f8ac7e2cf0" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>evidence_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1adbb1601d8f4dfc5fea5eb1d8295ed969" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>evidence_type</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a1f1f119f545d1e20af2e5547cc7a5c32" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a79698fb9aca1d27ecb4711929b0dde7b" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>principal</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a4a1ac1529f5a9401f36ac8049032fe6c" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>resource</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a6faa109b8e60f4c361d57c23f577fa29" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_evidence_item_1a99d85d45fa2a2250ca38d0d66307f003" prot="public" virt="non-virtual"><scope>themis::governance::Soc2EvidenceItem</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

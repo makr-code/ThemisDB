@@ -1,0 +1,1174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__udp__fast__path_8cpp" kind="file" language="C++">
+    <compoundname>test_udp_fast_path.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="udp__fast__path_8h" local="yes">network/udp_fast_path.h</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">arpa/inet.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>network/udp_fast_path.h</label>
+        <link refid="udp__fast__path_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_udp_fast_path.cpp</label>
+        <link refid="test__udp__fast__path_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>cstring</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a7a3c4b4c0f00cbeb959b43bba2f42d0b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; makeRequest</definition>
+        <argsstring>(uint8_t opcode, uint32_t request_id=42, const std::string &amp;payload=&quot;&quot;)</argsstring>
+        <name>makeRequest</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>opcode</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>request_id</declname>
+          <defval>42</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a minimal well-formed UDP fast-path request datagram. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="23" column="20" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="23" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ConfigDefaultPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ConfigDefaultPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="54" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a52937c38ffbe232709b1581821dd589b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ConfigDefaultHost)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ConfigDefaultHost</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="59" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a1f3999fa521a7f04c991250cb67b52b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ConfigDefaultMaxPacketSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ConfigDefaultMaxPacketSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="64" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a30f1c9277a6dc0915c5b0a4edf1b77cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ConfigDefaultRateLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ConfigDefaultRateLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="69" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1acba1089c8e66fb0adce3ad50c9dc49d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, RequestMagicBytes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>RequestMagicBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="78" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a5e47abce42b80802da63e7cec31c5888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ResponseMagicBytes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ResponseMagicBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="83" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a04077d67d6a0fc9ff2e2e87b5c05b620" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, VersionConstant)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>VersionConstant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="88" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a305bd7e12b9dfcc3cab1cf182d0edf20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, HeaderSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>HeaderSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="92" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a57169e761fb42ee4277c924dd2f1f9b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidatePingPacket)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidatePingPacket</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="100" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1afc64d40ffbf9f3db9968a617a7bf69f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidateGetPacket)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidateGetPacket</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="105" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="105" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1add95f9006c6529281ce37d7df891691f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidateTooShort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidateTooShort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="111" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1ae1eaa204b030c7ea4941d273dd12a91b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidateEmptyPacket)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidateEmptyPacket</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="117" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a407c9e870aa76bf45a5f870e17a09ddf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidateBadMagicFirst)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidateBadMagicFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="121" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1ae527194b02087b25c05910b158f28b8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidateBadMagicSecond)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidateBadMagicSecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="127" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="127" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a6f59b3d4ab168356f8f383ced7ec77bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidateBadVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidateBadVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="133" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="133" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a6fafb83db15200852ee687997f290b49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidatePayloadLengthMismatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidatePayloadLengthMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="139" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="139" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a3468569a09e44036f7f34062ef6d8fea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ReadOnlyGet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ReadOnlyGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="153" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="153" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a0f234367721c56f3f4845966b5e23116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ReadOnlyQueryAql)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ReadOnlyQueryAql</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="158" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="158" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a774aed639184c5993559d34df756b8c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ReadOnlyVectorSearch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ReadOnlyVectorSearch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="163" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a75d5fe449697e346fe628ef85882c371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ReadOnlyPing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ReadOnlyPing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="168" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1ad6468d7b53d8f70f442b99adfedfc0b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, RejectPutOpCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>RejectPutOpCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="173" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="173" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a9abdba8125780bb74978bc8bc66bbdf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, RejectDeleteOpCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>RejectDeleteOpCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="178" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="178" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1af7f272642cf52fc4c20e04e946d0b08f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, RejectUnknownOpCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>RejectUnknownOpCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="183" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="183" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a483ba24cd47a2439ef7915b1bceb9c72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponseMagic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponseMagic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="191" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="191" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1aa35836fb51af64c47042e1fcff6dafbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponseVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponseVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="198" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a1f7797958cbd2d5221ab644d70117232" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponseStatusOk)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponseStatusOk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="203" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="203" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a6f11a1e6e3b9651b9fed542eb1556922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponseStatusError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponseStatusError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="208" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="208" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a01ea694458d2ea343588b63c8181f6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponseStatusNotFound)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponseStatusNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="213" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="213" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1aecd340948edbc4b8acdd1a0902e6d3b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponseStatusRateLimited)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponseStatusRateLimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="218" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="218" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a15528001fad489b9020d2fc4827cd25e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponseRequestIdEchoed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponseRequestIdEchoed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="224" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="224" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a10c86dbc7a08a3899841b0664a30f174" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponsePayloadLength)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponsePayloadLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="233" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="233" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a094da11ca00a1ad7cf62366706b24cf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponsePayloadContent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponsePayloadContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="245" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="245" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1aa1bc75b86f16e84e66e87aeb98b8a362" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponseEmptyPayload)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponseEmptyPayload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="255" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="255" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1aaf1f09e3e3fbbd53b794080ec4c2102b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, BuildResponsePayloadIsValidJson)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>BuildResponsePayloadIsValidJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="270" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="270" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a1e5be892b4ba99debc9bd84d1ec8a6b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidateExactHeaderNoPayload)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidateExactHeaderNoPayload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="286" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="286" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a062fa0bc0894e16d2557e89951e88bb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, ValidateLargePayloadConsistentLength)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>ValidateLargePayloadConsistentLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="293" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="293" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a1ff467e08340763ffb7144d181c34f50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, InitialStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>InitialStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="303" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="303" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="test__udp__fast__path_8cpp_1a442aa57749b78ac35adfd8916b9d20d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UDPFastPath, NotRunningBeforeStart)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref></type>
+        </param>
+        <param>
+          <type>NotRunningBeforeStart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_udp_fast_path.cpp" line="323" column="1" bodyfile="tests/network/test_udp_fast_path.cpp" bodystart="323" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>tests<sp/>for<sp/>UDP<sp/>fast-path<sp/>(include/network/udp_fast_path.h).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>cover<sp/>packet<sp/>format<sp/>validation,<sp/>opcode<sp/>filtering,<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>construction,<sp/>and<sp/>configuration<sp/>defaults<sp/>without<sp/>requiring<sp/>a<sp/>live<sp/>socket.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="udp__fast__path_8h" kindref="compound">network/udp_fast_path.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>include<sp/>&lt;winsock2.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>include<sp/>&lt;arpa/inet.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>makeRequest(uint8_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opcode,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>request_id<sp/>=<sp/>42,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>plen<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(payload.size());</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>pkt;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt.reserve(<ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref><sp/>+<sp/>plen);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt.push_back(<ref refid="namespacethemis_1_1network_1afff0ebecba609d994089ecff70065d1d" kindref="member">kUdpFastPathReqMagic0</ref>);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt.push_back(<ref refid="namespacethemis_1_1network_1a0fdc81e994823ced52e1c098430b026d" kindref="member">kUdpFastPathReqMagic1</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt.push_back(<ref refid="namespacethemis_1_1network_1ac5f17282cf4d05fc59f1f78213155c56" kindref="member">kUdpFastPathVersion</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt.push_back(opcode);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>id_be<sp/>=<sp/>htonl(request_id);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt.insert(pkt.end(),</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;id_be),</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;id_be)<sp/>+<sp/>4);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>plen_be<sp/>=<sp/>htons(plen);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt.insert(pkt.end(),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;plen_be),</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;plen_be)<sp/>+<sp/>2);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt.insert(pkt.end(),<sp/>payload.begin(),<sp/>payload.end());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pkt;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ConfigDefaultPort)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" kindref="compound">UDPFastPath::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a9910b6cd9290f9126e305d56be49f885" kindref="member">port</ref>,<sp/>8769u);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ConfigDefaultHost)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" kindref="compound">UDPFastPath::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a87d19c1f0a0585aa97264811f27ade1a" kindref="member">host</ref>,<sp/></highlight><highlight class="stringliteral">&quot;0.0.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ConfigDefaultMaxPacketSize)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" kindref="compound">UDPFastPath::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1ac8f8718de97df2c0608f70c8cc1b8b8a" kindref="member">max_packet_size</ref>,<sp/><ref refid="namespacethemis_1_1network_1a493b81c8b89cb5cd3f54130a69fefe84" kindref="member">kUdpFastPathMaxPacketSize</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ConfigDefaultRateLimit)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" kindref="compound">UDPFastPath::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1accc26f50a85c4840d9d0f5ad38de496f" kindref="member">max_packets_per_second_per_ip</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Packet<sp/>magic<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>RequestMagicBytes)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1network_1afff0ebecba609d994089ecff70065d1d" kindref="member">kUdpFastPathReqMagic0</ref>,<sp/>0x54u);<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;T&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1network_1a0fdc81e994823ced52e1c098430b026d" kindref="member">kUdpFastPathReqMagic1</ref>,<sp/>0x55u);<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;U&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ResponseMagicBytes)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1network_1a02a9803f3005cd034c201790e80ef40b" kindref="member">kUdpFastPathRespMagic0</ref>,<sp/>0x54u);<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;T&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1network_1a2247b7de5ed6d0c44afbed9e6bde77eb" kindref="member">kUdpFastPathRespMagic1</ref>,<sp/>0x52u);<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;R&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>VersionConstant)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1network_1ac5f17282cf4d05fc59f1f78213155c56" kindref="member">kUdpFastPathVersion</ref>,<sp/>0x01u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>HeaderSize)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref>,<sp/>10u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Packet<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidatePingPacket)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>makeRequest(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" kindref="member">UdpOpCode::PING</ref>));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(pkt));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidateGetPacket)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>makeRequest(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a7528035a93ee69cedb1dbddb2f0bfcc8" kindref="member">UdpOpCode::GET</ref>),<sp/>1,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;key&quot;:&quot;users/alice&quot;})&quot;);</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(pkt));</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidateTooShort)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Packets<sp/>smaller<sp/>than<sp/>the<sp/>header<sp/>must<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>tiny<sp/>=<sp/>{0x54,<sp/>0x55,<sp/>0x01};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(tiny));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidateEmptyPacket)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>({}));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidateBadMagicFirst)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/><sp/><sp/><sp/>=<sp/>makeRequest(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" kindref="member">UdpOpCode::PING</ref>));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt[0]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x00;<sp/><sp/></highlight><highlight class="comment">//<sp/>corrupt<sp/>magic<sp/>byte<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(pkt));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidateBadMagicSecond)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>makeRequest(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" kindref="member">UdpOpCode::PING</ref>));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt[1]<sp/><sp/><sp/>=<sp/>0x00;<sp/><sp/></highlight><highlight class="comment">//<sp/>corrupt<sp/>magic<sp/>byte<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(pkt));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidateBadVersion)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>makeRequest(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" kindref="member">UdpOpCode::PING</ref>));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>pkt[2]<sp/><sp/><sp/>=<sp/>0x02;<sp/><sp/></highlight><highlight class="comment">//<sp/>unsupported<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(pkt));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidatePayloadLengthMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Declare<sp/>10<sp/>bytes<sp/>of<sp/>payload<sp/>but<sp/>provide<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>makeRequest(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" kindref="member">UdpOpCode::PING</ref>));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overwrite<sp/>payload-length<sp/>field<sp/>to<sp/>claim<sp/>10<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>fake_len<sp/>=<sp/>htons(10);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(pkt.data()<sp/>+<sp/>8,<sp/>&amp;fake_len,<sp/>2);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pkt<sp/>has<sp/>exactly<sp/>kUdpFastPathHeaderSize<sp/>bytes<sp/>(no<sp/>payload),<sp/>so<sp/>this<sp/>must<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(pkt));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Read-only<sp/>opcode<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ReadOnlyGet)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1ad6f800706ff1057762003ab0a764fcb2" kindref="member">UDPFastPath::isReadOnlyOpCode</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a7528035a93ee69cedb1dbddb2f0bfcc8" kindref="member">UdpOpCode::GET</ref>)));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ReadOnlyQueryAql)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1ad6f800706ff1057762003ab0a764fcb2" kindref="member">UDPFastPath::isReadOnlyOpCode</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a8e39e3d976c02a5a5e002795e11c076a" kindref="member">UdpOpCode::QUERY_AQL</ref>)));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ReadOnlyVectorSearch)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1ad6f800706ff1057762003ab0a764fcb2" kindref="member">UDPFastPath::isReadOnlyOpCode</ref>(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a4939a0c5f946aa98a33244d2f3cfef58" kindref="member">UdpOpCode::VECTOR_SEARCH</ref>)));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ReadOnlyPing)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1ad6f800706ff1057762003ab0a764fcb2" kindref="member">UDPFastPath::isReadOnlyOpCode</ref>(</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" kindref="member">UdpOpCode::PING</ref>)));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>RejectPutOpCode)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0x11<sp/>=<sp/>PUT<sp/>(write)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1ad6f800706ff1057762003ab0a764fcb2" kindref="member">UDPFastPath::isReadOnlyOpCode</ref>(0x11));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>RejectDeleteOpCode)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0x12<sp/>=<sp/>DELETE<sp/>(write)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1ad6f800706ff1057762003ab0a764fcb2" kindref="member">UDPFastPath::isReadOnlyOpCode</ref>(0x12));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>RejectUnknownOpCode)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1ad6f800706ff1057762003ab0a764fcb2" kindref="member">UDPFastPath::isReadOnlyOpCode</ref>(0x99));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Response<sp/>builder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponseMagic)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(1,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">UdpStatus::OK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(resp.size(),<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref>);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp[0],<sp/><ref refid="namespacethemis_1_1network_1a02a9803f3005cd034c201790e80ef40b" kindref="member">kUdpFastPathRespMagic0</ref>);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp[1],<sp/><ref refid="namespacethemis_1_1network_1a2247b7de5ed6d0c44afbed9e6bde77eb" kindref="member">kUdpFastPathRespMagic1</ref>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponseVersion)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(1,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">UdpStatus::OK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp[2],<sp/><ref refid="namespacethemis_1_1network_1ac5f17282cf4d05fc59f1f78213155c56" kindref="member">kUdpFastPathVersion</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponseStatusOk)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(1,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">UdpStatus::OK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp[3],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">UdpStatus::OK</ref>));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponseStatusError)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(1,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">UdpStatus::ERROR</ref>,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;error&quot;:&quot;x&quot;})&quot;);</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp[3],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">UdpStatus::ERROR</ref>));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponseStatusNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(99,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a8c02547a8a3b02382bac3557bcb2280d" kindref="member">UdpStatus::NOT_FOUND</ref>,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp[3],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a8c02547a8a3b02382bac3557bcb2280d" kindref="member">UdpStatus::NOT_FOUND</ref>));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponseStatusRateLimited)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(0,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">UdpStatus::RATE_LIMITED</ref>,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;error&quot;:&quot;rate<sp/>limited&quot;})&quot;);</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp[3],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">UdpStatus::RATE_LIMITED</ref>));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponseRequestIdEchoed)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/><sp/><sp/>=<sp/>0xDEADBEEFu;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">UdpStatus::OK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(resp.size(),<sp/>8u);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>echoed_be<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(&amp;echoed_be,<sp/>resp.data()<sp/>+<sp/>4,<sp/>4);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ntohl(echoed_be),<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponsePayloadLength)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;pong&quot;:true})&quot;;</highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(1,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">UdpStatus::OK</ref>,<sp/>payload);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(resp.size(),<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref>);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>plen_be;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(&amp;plen_be,<sp/>resp.data()<sp/>+<sp/>8,<sp/>2);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>plen<sp/>=<sp/>ntohs(plen_be);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plen,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(payload.size()));</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.size(),<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref><sp/>+<sp/>payload.size());</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponsePayloadContent)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;key&quot;:&quot;foo&quot;,&quot;value&quot;:&quot;bar&quot;})&quot;;</highlight></codeline>
+<codeline lineno="247"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(7,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">UdpStatus::OK</ref>,<sp/>payload);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(resp.size(),<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref><sp/>+<sp/>payload.size());</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extracted(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(resp.data()<sp/>+<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref>),</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>payload.size());</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(extracted,<sp/>payload);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponseEmptyPayload)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(3,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">UdpStatus::OK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.size(),<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref>);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>plen_be;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(&amp;plen_be,<sp/>resp.data()<sp/>+<sp/>8,<sp/>2);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ntohs(plen_be),<sp/>0u);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit-regression:<sp/>JSON-safe<sp/>error<sp/>serialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>buildResponse<sp/>must<sp/>produce<sp/>a<sp/>payload<sp/>that<sp/>is<sp/>valid<sp/>JSON<sp/>even<sp/>when<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>error<sp/>message<sp/>contains<sp/>JSON<sp/>special<sp/>characters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>BuildResponsePayloadIsValidJson)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Payload<sp/>must<sp/>round-trip<sp/>through<sp/>a<sp/>JSON<sp/>parser<sp/>without<sp/>errors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;error&quot;:&quot;some\u0022tricky\u0022<sp/>message&quot;})&quot;;</highlight></codeline>
+<codeline lineno="273"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">UDPFastPath::buildResponse</ref>(1,<sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">UdpStatus::ERROR</ref>,<sp/>payload);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(resp.size(),<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref>);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Payload<sp/>bytes<sp/>should<sp/>exactly<sp/>match<sp/>what<sp/>was<sp/>passed<sp/>in.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extracted(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(resp.data()<sp/>+<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref>),</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>payload.size());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(extracted,<sp/>payload);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit-regression:<sp/>validatePacket<sp/>boundary<sp/>conditions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Exact<sp/>header<sp/>size<sp/>with<sp/>zero<sp/>payload<sp/>must<sp/>be<sp/>accepted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidateExactHeaderNoPayload)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>makeRequest(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" kindref="member">UdpOpCode::PING</ref>));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(pkt.size(),<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref>);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(pkt));</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Packet<sp/>with<sp/>maximum<sp/>reasonable<sp/>payload<sp/>length<sp/>field<sp/>filled<sp/>correctly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>ValidateLargePayloadConsistentLength)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>big(200,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>makeRequest(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a7528035a93ee69cedb1dbddb2f0bfcc8" kindref="member">UdpOpCode::GET</ref>),<sp/>1,<sp/>big);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">UDPFastPath::validatePacket</ref>(pkt));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stats<sp/>initialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>InitialStats)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" kindref="compound">UDPFastPath::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a9910b6cd9290f9126e305d56be49f885" kindref="member">port</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>not<sp/>actually<sp/>bind</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref><sp/>server(cfg);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>server.getStats();</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.packets_received,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.packets_dropped,<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.packets_sent,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.bytes_received,<sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.bytes_sent,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.parse_errors,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.write_op_rejections,<sp/>0u);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.rate_limit_drops,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>isRunning<sp/>before<sp/>start</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="test__udp__fast__path_8cpp_1ad980c1fd2a7b125aa3a5e284b2575ebb" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref>,<sp/>NotRunningBeforeStart)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" kindref="compound">UDPFastPath::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a9910b6cd9290f9126e305d56be49f885" kindref="member">port</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path" kindref="compound">UDPFastPath</ref><sp/>server(cfg);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.isRunning());</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_udp_fast_path.cpp"/>
+  </compounddef>
+</doxygen>

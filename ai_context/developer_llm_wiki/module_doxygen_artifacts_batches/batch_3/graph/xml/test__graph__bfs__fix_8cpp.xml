@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__graph__bfs__fix_8cpp" kind="file" language="C++">
+    <compoundname>test_graph_bfs_fix.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/graph/test_graph_bfs_fix.cpp</label>
+        <link refid="test__graph__bfs__fix_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="5">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="4">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_graph_bfs_fix_test" prot="public">GraphBfsFixTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_LinearChain_VisitsAllNodes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_LinearChain_VisitsAllNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="80" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="80" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1a0fa8c310891274095a699a2af2194593" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_MaxDepthLimits_Traversal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_MaxDepthLimits_Traversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="96" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="96" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1aa30f3fd69dd204ba938581fdad918a8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_MaxDepthZero_ReturnsOnlyStart)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_MaxDepthZero_ReturnsOnlyStart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="113" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="113" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1a8ffbfd0d340dc7089fa8d480ef728880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_NoDuplicates_InResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_NoDuplicates_InResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="126" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="126" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1a171c20590252abb85385b17bed873046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_DisconnectedNode_NotReturned)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_DisconnectedNode_NotReturned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="142" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="142" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1afcc81b5b1c099534a27f94b146a1e2d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_Cycle_NoInfiniteLoop)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_Cycle_NoInfiniteLoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="155" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="155" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1a2e3f004d167c04cd65aab0007af248b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_EmptyStartVertex_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_EmptyStartVertex_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="177" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="177" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1a831515f4c3d9ceaaa4fb51328a6bfd17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_UnknownStartVertex_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_UnknownStartVertex_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="183" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="183" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1accb575110def9b4e70126b8ea634b34a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_TypeFilter_OnlyFollowsMatchingEdges)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_TypeFilter_OnlyFollowsMatchingEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="197" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="197" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__bfs__fix_8cpp_1a3c184fe717e31862ce5bb8465dd6cb2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphBfsFixTest, BFS_TypeFilter_EmptyType_FollowsAllEdges)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_TypeFilter_EmptyType_FollowsAllEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_bfs_fix.cpp" line="212" column="1" bodyfile="tests/graph/test_graph_bfs_fix.cpp" bodystart="212" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>BFS correctness regression tests for GraphIndexManager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These tests guard against regressions in the BFS implementation, particularly:<itemizedlist>
+<listitem><para>Correct depth-limited traversal (maxDepth respects hop count)</para>
+</listitem><listitem><para>No duplicate vertices in result set</para>
+</listitem><listitem><para>Disconnected vertices are not included</para>
+</listitem><listitem><para>Empty / degenerate graph edge cases (empty start vertex, maxDepth=0)</para>
+</listitem><listitem><para>Cycle handling (no infinite loop, no duplicate results)</para>
+</listitem><listitem><para>BFS with edge-type filtering returns only matching edges</para>
+</listitem><listitem><para>allVertices() fallback enumerates all known vertices </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">themis::BaseEntity;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">themis::GraphIndexManager;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">themis::RocksDBWrapper;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="class_graph_bfs_fix_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_bfs_fix_test_1ab26d73a058a3ca79a690abb678ae54fc" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_bfs_fix_test_1a5f2ca7707cfdaed832bdd5365dda946b" kindref="member">test_db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_bfs_fix_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_graph_bfs_fix_test_1a5f2ca7707cfdaed832bdd5365dda946b" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_graph_bfs_fix_test_1a5f2ca7707cfdaed832bdd5365dda946b" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_background_jobs<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_bfs_fix_test_1affd57f41f78fe938c2ecd7917b27dcf9" kindref="member">db_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_graph_bfs_fix_test_1affd57f41f78fe938c2ecd7917b27dcf9" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_bfs_fix_test_1a8f3d553b444855eb1a86e4aa665f0023" kindref="member">graph_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;GraphIndexManager&gt;(*<ref refid="class_graph_bfs_fix_test_1affd57f41f78fe938c2ecd7917b27dcf9" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_bfs_fix_test_1ac060e2097433ad6f6d43059efe3e0883" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_bfs_fix_test_1a8f3d553b444855eb1a86e4aa665f0023" kindref="member">graph_</ref>.reset();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_bfs_fix_test_1affd57f41f78fe938c2ecd7917b27dcf9" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_graph_bfs_fix_test_1a5f2ca7707cfdaed832bdd5365dda946b" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>add<sp/>a<sp/>directed<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_bfs_fix_test_1a1f5c885141981bad18a0ce5e10d02040" kindref="member">addEdge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>from);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>to);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>type);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_weight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_bfs_fix_test_1a8f3d553b444855eb1a86e4aa665f0023" kindref="member">graph_</ref>-&gt;addEdge(e);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_graph_bfs_fix_test_1a5f2ca7707cfdaed832bdd5365dda946b" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><ref refid="class_graph_bfs_fix_test_1affd57f41f78fe938c2ecd7917b27dcf9" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphIndexManager&gt;<sp/><ref refid="class_graph_bfs_fix_test_1a8f3d553b444855eb1a86e4aa665f0023" kindref="member">graph_</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>BFS<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_LinearChain_VisitsAllNodes)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>-&gt;<sp/>C<sp/>-&gt;<sp/>D</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>reachable<sp/>nodes<sp/>should<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">),<sp/>visited.end());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">),<sp/>visited.end());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">),<sp/>visited.end());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_MaxDepthLimits_Traversal)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>-&gt;<sp/>C<sp/>-&gt;<sp/>D<sp/>—<sp/>only<sp/>A<sp/>and<sp/>B<sp/>reachable<sp/>with<sp/>depth=1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">),<sp/>visited.end());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">),<sp/>visited.end())</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;C<sp/>should<sp/>NOT<sp/>be<sp/>reachable<sp/>at<sp/>depth<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">),<sp/>visited.end())</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;D<sp/>should<sp/>NOT<sp/>be<sp/>reachable<sp/>at<sp/>depth<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_MaxDepthZero_ReturnsOnlyStart)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B:<sp/>with<sp/>maxDepth=0<sp/>only<sp/>the<sp/>start<sp/>vertex<sp/>should<sp/>appear</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>may<sp/>return<sp/>just<sp/>start,<sp/>or<sp/>an<sp/>empty<sp/>list<sp/>—<sp/>no<sp/>B<sp/>in<sp/>any<sp/>case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">),<sp/>visited.end())</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;B<sp/>must<sp/>NOT<sp/>be<sp/>reachable<sp/>with<sp/>maxDepth=0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_NoDuplicates_InResult)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diamond:<sp/>A<sp/>-&gt;<sp/>B,<sp/>A<sp/>-&gt;<sp/>C,<sp/>B<sp/>-&gt;<sp/>D,<sp/>C<sp/>-&gt;<sp/>D<sp/><sp/>(D<sp/>reachable<sp/>via<sp/>two<sp/>paths)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>D<sp/>should<sp/>appear<sp/>exactly<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>d_count<sp/>=<sp/>std::count(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d_count,<sp/>1u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>&apos;D&apos;<sp/>in<sp/>BFS<sp/>result<sp/>—<sp/>deduplication<sp/>bug&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_DisconnectedNode_NotReturned)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B,<sp/>C<sp/>is<sp/>isolated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>isolated<sp/>node<sp/>C<sp/>—<sp/>no<sp/>edges;<sp/>just<sp/>ensure<sp/>it&apos;s<sp/>not<sp/>accidentally<sp/>visited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">),<sp/>visited.end())</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Disconnected<sp/>vertex<sp/>C<sp/>must<sp/>not<sp/>appear<sp/>in<sp/>BFS<sp/>from<sp/>A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_Cycle_NoInfiniteLoop)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>-&gt;<sp/>C<sp/>-&gt;<sp/>A<sp/>(cycle)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>back-edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>terminate<sp/>and<sp/>not<sp/>crash<sp/>/<sp/>hang</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>vertices<sp/>reachable<sp/>and<sp/>no<sp/>duplicates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>{</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">})<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(visited.begin(),<sp/>visited.end(),<sp/>v),<sp/>visited.end());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>duplicates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>sorted(visited);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(sorted.begin(),<sp/>sorted.end());</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>std::adjacent_find(sorted.begin(),<sp/>sorted.end());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(it,<sp/>sorted.end())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>vertices<sp/>in<sp/>BFS<sp/>cycle<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_EmptyStartVertex_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Empty<sp/>start<sp/>vertex<sp/>must<sp/>return<sp/>error<sp/>status&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(visited.empty());</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_UnknownStartVertex_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;NONEXISTENT&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>error<sp/>or<sp/>empty<sp/>result<sp/>—<sp/>must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!status.ok<sp/>||<sp/>visited.empty())</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BFS<sp/>from<sp/>unknown<sp/>vertex<sp/>must<sp/>return<sp/>empty<sp/>result<sp/>or<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BFS<sp/>with<sp/>edge-type<sp/>filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_TypeFilter_OnlyFollowsMatchingEdges)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>--[follows]--&gt;<sp/>B,<sp/>A<sp/>--[blocks]--&gt;<sp/>C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;blocks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>5,<sp/></highlight><highlight class="stringliteral">&quot;follows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">),<sp/>visited.end())</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;B<sp/>must<sp/>be<sp/>reachable<sp/>via<sp/>&apos;follows&apos;<sp/>edge&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">),<sp/>visited.end())</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;C<sp/>must<sp/>NOT<sp/>be<sp/>reachable<sp/>(edge<sp/>type<sp/>&apos;blocks&apos;<sp/>!=<sp/>&apos;follows&apos;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__graph__bfs__fix_8cpp_1a55811e805304eab398af228cc267e2eb" kindref="member">TEST_F</ref>(<ref refid="class_graph_bfs_fix_test" kindref="compound">GraphBfsFixTest</ref>,<sp/>BFS_TypeFilter_EmptyType_FollowsAllEdges)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>graph_-&gt;rebuildTopology();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>edge_type<sp/>means<sp/>&quot;all<sp/>types&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>visited]<sp/>=<sp/>graph_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">),<sp/>visited.end());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(visited.begin(),<sp/>visited.end(),<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">),<sp/>visited.end());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_graph_bfs_fix.cpp"/>
+  </compounddef>
+</doxygen>

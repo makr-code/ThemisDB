@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graceful_shutdown_tests" kind="class" language="C++" prot="public">
+    <compoundname>GracefulShutdownTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graceful_shutdown_tests_1aec4960a9532336e79613e94866bb5964" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_shutdown_state" kindref="compound">ShutdownState</ref></type>
+        <definition>ShutdownState GracefulShutdownTests::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>GracefulShutdownTests::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="325" column="19" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graceful_shutdown_tests_1a3a610751c329d598863f01b3df067196" prot="protected" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds GracefulShutdownTests::drain_timeout</definition>
+        <argsstring></argsstring>
+        <name>drain_timeout</name>
+        <qualifiedname>GracefulShutdownTests::drain_timeout</qualifiedname>
+        <initializer>{200ms}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="326" column="31" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="326" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GracefulShutdownTests</label>
+        <link refid="class_graceful_shutdown_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GracefulShutdownTests</label>
+        <link refid="class_graceful_shutdown_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>state</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ShutdownState</label>
+        <link refid="struct_shutdown_state"/>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_phase1_hardening.cpp" line="323" column="1" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="323" bodyend="327"/>
+    <listofallmembers>
+      <member refid="class_graceful_shutdown_tests_1a3a610751c329d598863f01b3df067196" prot="protected" virt="non-virtual"><scope>GracefulShutdownTests</scope><name>drain_timeout</name></member>
+      <member refid="class_graceful_shutdown_tests_1aec4960a9532336e79613e94866bb5964" prot="protected" virt="non-virtual"><scope>GracefulShutdownTests</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

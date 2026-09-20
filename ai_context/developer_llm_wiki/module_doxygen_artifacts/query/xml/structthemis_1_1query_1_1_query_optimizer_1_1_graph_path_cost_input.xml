@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer::GraphPathCostInput</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input_1a9ce88efe3291966e5802dda57460505c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::GraphPathCostInput::maxDepth</definition>
+        <argsstring></argsstring>
+        <name>maxDepth</name>
+        <qualifiedname>themis::query::QueryOptimizer::GraphPathCostInput::maxDepth</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="193" column="16" bodyfile="include/query/query_optimizer.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input_1a1d016237b8090934cbc23d0f0f0574d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::GraphPathCostInput::branchingFactor</definition>
+        <argsstring></argsstring>
+        <name>branchingFactor</name>
+        <qualifiedname>themis::query::QueryOptimizer::GraphPathCostInput::branchingFactor</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="194" column="16" bodyfile="include/query/query_optimizer.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input_1adde5869c3d49aa238444b5af45b7a968" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::GraphPathCostInput::hasSpatialConstraint</definition>
+        <argsstring></argsstring>
+        <name>hasSpatialConstraint</name>
+        <qualifiedname>themis::query::QueryOptimizer::GraphPathCostInput::hasSpatialConstraint</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="195" column="14" bodyfile="include/query/query_optimizer.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input_1a87aebfe90c0a2a37f77e078833060f31" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryOptimizer::GraphPathCostInput::spatialSelectivity</definition>
+        <argsstring></argsstring>
+        <name>spatialSelectivity</name>
+        <qualifiedname>themis::query::QueryOptimizer::GraphPathCostInput::spatialSelectivity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="196" column="16" bodyfile="include/query/query_optimizer.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_optimizer.h" line="192" column="5" bodyfile="include/query/query_optimizer.h" bodystart="192" bodyend="197"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input_1a1d016237b8090934cbc23d0f0f0574d0" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::GraphPathCostInput</scope><name>branchingFactor</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input_1adde5869c3d49aa238444b5af45b7a968" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::GraphPathCostInput</scope><name>hasSpatialConstraint</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input_1a9ce88efe3291966e5802dda57460505c" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::GraphPathCostInput</scope><name>maxDepth</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input_1a87aebfe90c0a2a37f77e078833060f31" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::GraphPathCostInput</scope><name>spatialSelectivity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::ConcernsContext::Config</compoundname>
+    <includes refid="concerns__context_8h" local="no">concerns_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1ac2642f0c595d83104913e69f782501d7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::logFile</definition>
+        <argsstring></argsstring>
+        <name>logFile</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::logFile</qualifiedname>
+        <initializer>= &quot;themisdb.log&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="40" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a824b2d4a3cfc1a2d7c43a4f82ac0eef9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::logLevel</definition>
+        <argsstring></argsstring>
+        <name>logLevel</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::logLevel</qualifiedname>
+        <initializer>= &quot;info&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="41" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a950d7c84b992199a0eb825f8934e5d58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::logPattern</definition>
+        <argsstring></argsstring>
+        <name>logPattern</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::logPattern</qualifiedname>
+        <initializer>= &quot;[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="42" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1af9475df5e152fda706a9932bb4d0a1c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::ConcernsContext::Config::jsonLogging</definition>
+        <argsstring></argsstring>
+        <name>jsonLogging</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::jsonLogging</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="43" column="14" bodyfile="include/core/concerns/concerns_context.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a972f30f551da389517aa12bfc941506b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::loggerAdapter</definition>
+        <argsstring></argsstring>
+        <name>loggerAdapter</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::loggerAdapter</qualifiedname>
+        <initializer>= &quot;spdlog&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="44" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a85482a547dd3d5c10ea3d23d6e878ebc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::ConcernsContext::Config::tracingEnabled</definition>
+        <argsstring></argsstring>
+        <name>tracingEnabled</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::tracingEnabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="47" column="14" bodyfile="include/core/concerns/concerns_context.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1aea61700f5c98dd77c351f62e33470cc1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::tracingServiceName</definition>
+        <argsstring></argsstring>
+        <name>tracingServiceName</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::tracingServiceName</qualifiedname>
+        <initializer>= &quot;themisdb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="48" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1abaedc164a558aabccbc0863e7f0c0cae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::tracingEndpoint</definition>
+        <argsstring></argsstring>
+        <name>tracingEndpoint</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::tracingEndpoint</qualifiedname>
+        <initializer>= &quot;http://localhost:4318&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="49" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1ab1a334c5946e3d23ea1862c314e9ef93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::tracerAdapter</definition>
+        <argsstring></argsstring>
+        <name>tracerAdapter</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::tracerAdapter</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="50" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a2daf14906ae65026e816d1502a2c27f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::ConcernsContext::Config::metricsEnabled</definition>
+        <argsstring></argsstring>
+        <name>metricsEnabled</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::metricsEnabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="53" column="14" bodyfile="include/core/concerns/concerns_context.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a38090d6cf8a7c38956b72e7505c02988" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ConcernsContext::Config::maxMetricCardinality</definition>
+        <argsstring></argsstring>
+        <name>maxMetricCardinality</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::maxMetricCardinality</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="54" column="16" bodyfile="include/core/concerns/concerns_context.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a97735a1e893dbafedd5c5e5627a20253" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::metricsAdapter</definition>
+        <argsstring></argsstring>
+        <name>metricsAdapter</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::metricsAdapter</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="55" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a5e64f0e1689b90f7b7c0c9be8cf533d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ConcernsContext::Config::cacheMaxSize</definition>
+        <argsstring></argsstring>
+        <name>cacheMaxSize</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::cacheMaxSize</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="58" column="16" bodyfile="include/core/concerns/concerns_context.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a3187b429a256552df0c4707318d190a5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::ConcernsContext::Config::cacheDefaultTTL</definition>
+        <argsstring></argsstring>
+        <name>cacheDefaultTTL</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::cacheDefaultTTL</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="59" column="18" bodyfile="include/core/concerns/concerns_context.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a1aedc3f8bf96b729ee4b92c8d3a02169" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::cacheAdapter</definition>
+        <argsstring></argsstring>
+        <name>cacheAdapter</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::cacheAdapter</qualifiedname>
+        <initializer>= &quot;inmemory&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="60" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a22a305dc858489d47b9c1685f4d66e25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::cacheRedisUrl</definition>
+        <argsstring></argsstring>
+        <name>cacheRedisUrl</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::cacheRedisUrl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="61" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1ac4481e59a1db95b15c122ff367f97c12" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::circuitBreakerAdapter</definition>
+        <argsstring></argsstring>
+        <name>circuitBreakerAdapter</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::circuitBreakerAdapter</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="64" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a8698ea3386e4aded898c39c029872a55" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ConcernsContext::Config::circuitBreakerFailureThreshold</definition>
+        <argsstring></argsstring>
+        <name>circuitBreakerFailureThreshold</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::circuitBreakerFailureThreshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="65" column="16" bodyfile="include/core/concerns/concerns_context.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a79d4a8989d078e841a4c62b9753a3ea4" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::core::concerns::ConcernsContext::Config::circuitBreakerTimeout</definition>
+        <argsstring></argsstring>
+        <name>circuitBreakerTimeout</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::circuitBreakerTimeout</qualifiedname>
+        <initializer>= std::chrono::seconds(30)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="66" column="30" bodyfile="include/core/concerns/concerns_context.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a1c947cac979ee4ae5154453ac3e9d66d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ConcernsContext::Config::circuitBreakerSuccessThreshold</definition>
+        <argsstring></argsstring>
+        <name>circuitBreakerSuccessThreshold</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::circuitBreakerSuccessThreshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="67" column="16" bodyfile="include/core/concerns/concerns_context.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a4c5daec8c9a7c7c33b2efc61df099866" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::core::concerns::ConcernsContext::Config::circuitBreakerFailureWindow</definition>
+        <argsstring></argsstring>
+        <name>circuitBreakerFailureWindow</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::circuitBreakerFailureWindow</qualifiedname>
+        <initializer>= std::chrono::seconds(60)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="68" column="30" bodyfile="include/core/concerns/concerns_context.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a3a6ce94640d5a2d1877b760046ddd664" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::featureFlagsAdapter</definition>
+        <argsstring></argsstring>
+        <name>featureFlagsAdapter</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::featureFlagsAdapter</qualifiedname>
+        <initializer>= &quot;inmemory&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="71" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a2bd666e54940e102920e64667b81d33f" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::core::concerns::ConcernsContext::Config::initialFeatureFlags</definition>
+        <argsstring></argsstring>
+        <name>initialFeatureFlags</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::initialFeatureFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="72" column="28" bodyfile="include/core/concerns/concerns_context.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a10785946d2ac59da72222ecbb337135f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::secretsAdapter</definition>
+        <argsstring></argsstring>
+        <name>secretsAdapter</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::secretsAdapter</qualifiedname>
+        <initializer>= &quot;noop&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="75" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1ad73d61510877dd58e84e34cfb75dcb31" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::core::concerns::ConcernsContext::Config::initialSecrets</definition>
+        <argsstring></argsstring>
+        <name>initialSecrets</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::initialSecrets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="76" column="18" bodyfile="include/core/concerns/concerns_context.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a7e5654a9fa01fdae636294ffdc8c7b17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::secretsEnvPrefix</definition>
+        <argsstring></argsstring>
+        <name>secretsEnvPrefix</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::secretsEnvPrefix</qualifiedname>
+        <initializer>= &quot;THEMIS_SECRET_&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="77" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1adf5999ccfc6f240061e7216b1da19072" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ConcernsContext::Config::auditAdapter</definition>
+        <argsstring></argsstring>
+        <name>auditAdapter</name>
+        <qualifiedname>themis::core::concerns::ConcernsContext::Config::auditAdapter</qualifiedname>
+        <initializer>= &quot;noop&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/concerns_context.h" line="80" column="21" bodyfile="include/core/concerns/concerns_context.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/concerns_context.h" line="38" column="5" bodyfile="include/core/concerns/concerns_context.h" bodystart="38" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1adf5999ccfc6f240061e7216b1da19072" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>auditAdapter</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a1aedc3f8bf96b729ee4b92c8d3a02169" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>cacheAdapter</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a3187b429a256552df0c4707318d190a5" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>cacheDefaultTTL</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a5e64f0e1689b90f7b7c0c9be8cf533d5" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>cacheMaxSize</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a22a305dc858489d47b9c1685f4d66e25" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>cacheRedisUrl</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1ac4481e59a1db95b15c122ff367f97c12" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>circuitBreakerAdapter</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a8698ea3386e4aded898c39c029872a55" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>circuitBreakerFailureThreshold</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a4c5daec8c9a7c7c33b2efc61df099866" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>circuitBreakerFailureWindow</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a1c947cac979ee4ae5154453ac3e9d66d" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>circuitBreakerSuccessThreshold</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a79d4a8989d078e841a4c62b9753a3ea4" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>circuitBreakerTimeout</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a3a6ce94640d5a2d1877b760046ddd664" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>featureFlagsAdapter</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a2bd666e54940e102920e64667b81d33f" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>initialFeatureFlags</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1ad73d61510877dd58e84e34cfb75dcb31" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>initialSecrets</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1af9475df5e152fda706a9932bb4d0a1c4" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>jsonLogging</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1ac2642f0c595d83104913e69f782501d7" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>logFile</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a972f30f551da389517aa12bfc941506b" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>loggerAdapter</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a824b2d4a3cfc1a2d7c43a4f82ac0eef9" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>logLevel</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a950d7c84b992199a0eb825f8934e5d58" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>logPattern</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a38090d6cf8a7c38956b72e7505c02988" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>maxMetricCardinality</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a97735a1e893dbafedd5c5e5627a20253" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>metricsAdapter</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a2daf14906ae65026e816d1502a2c27f1" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>metricsEnabled</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a10785946d2ac59da72222ecbb337135f" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>secretsAdapter</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a7e5654a9fa01fdae636294ffdc8c7b17" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>secretsEnvPrefix</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1ab1a334c5946e3d23ea1862c314e9ef93" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>tracerAdapter</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1a85482a547dd3d5c10ea3d23d6e878ebc" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>tracingEnabled</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1abaedc164a558aabccbc0863e7f0c0cae" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>tracingEndpoint</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_concerns_context_1_1_config_1aea61700f5c98dd77c351f62e33470cc1" prot="public" virt="non-virtual"><scope>themis::core::concerns::ConcernsContext::Config</scope><name>tracingServiceName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

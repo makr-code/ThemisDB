@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="break__even__validator_8h" kind="file" language="C++">
+    <compoundname>break_even_validator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="break__even__validator_8cc" local="yes">src/acceleration/break_even_validator.cc</includedby>
+    <includedby refid="break__even__validator__impl__fallback_8cpp" local="yes">src/acceleration/break_even_validator_impl_fallback.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/acceleration/break_even_validator.h</label>
+        <link refid="break__even__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/acceleration/break_even_validator.h</label>
+        <link refid="break__even__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/acceleration/break_even_validator.cc</label>
+        <link refid="break__even__validator_8cc"/>
+      </node>
+      <node id="3">
+        <label>src/acceleration/break_even_validator_impl_fallback.cpp</label>
+        <link refid="break__even__validator__impl__fallback_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1acceleration_1_1_workload_profile" prot="public">themis::acceleration::WorkloadProfile</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_break_even_decision" prot="public">themis::acceleration::BreakEvenDecision</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_break_even_validator" prot="public">themis::acceleration::BreakEvenValidator</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry" prot="private">themis::acceleration::BreakEvenValidator::CacheEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <briefdescription>
+<para>GPU Break-Even Decision Framework for ThemisDB Hybrid Retrieval. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-06</para>
+</simplesect>
+Provides deterministic, reproducible break-even thresholds for GPU acceleration decisions. Profiles CPU vs. GPU paths and caches decisions based on workload profile.</para>
+<para><simplesect kind="note"><para>Maturity: 🟡 BETA (Phase D1) </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Implementation in progress </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a0b643bb55f57969b437969794f8229b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a0b643bb55f57969b437969794f8229b5" kindref="member">kDistance</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a6d9b4cec0b040ed7998be645d95c819a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a6d9b4cec0b040ed7998be645d95c819a" kindref="member">kTopK</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a435ba2162508495127855c24f00140a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a435ba2162508495127855c24f00140a9" kindref="member">kBFS</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a5c5c9a4d20a1c6630ceb206089fcd5d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a5c5c9a4d20a1c6630ceb206089fcd5d1" kindref="member">kDijkstra</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a704696bab2dea7526fff17dc7b5f7a74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a704696bab2dea7526fff17dc7b5f7a74" kindref="member">kGeoDistance</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423afc7d882044a340561c48cfafbf0869fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423afc7d882044a340561c48cfafbf0869fb" kindref="member">kGeoContainment</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a25c2dc47991b3df171ed5192bcf70390" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a25c2dc47991b3df171ed5192bcf70390" kindref="member">kUnknown</ref><sp/>=<sp/>-1</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" kindref="member">DeviceType</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82aba43c01748e4e8c34ecc62f3ef35148d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82aba43c01748e4e8c34ecc62f3ef35148d" kindref="member">kNVIDIA_RTX</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a607cfa751184db21c06c95f109bd6a1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a607cfa751184db21c06c95f109bd6a1b" kindref="member">kNVIDIA_T4</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a0814dada8bb12fa6fc46b4d9396613d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a0814dada8bb12fa6fc46b4d9396613d4" kindref="member">kAMD_MI210</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82aac89a4d7d9851673dcaeec4bc3635983" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82aac89a4d7d9851673dcaeec4bc3635983" kindref="member">kIntel_Arc</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a2ce310327f474afc9f6774faa2f57903" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a2ce310327f474afc9f6774faa2f57903" kindref="member">kCPU</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a25c2dc47991b3df171ed5192bcf70390" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a25c2dc47991b3df171ed5192bcf70390" kindref="member">kUnknown</ref><sp/>=<sp/>-1</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1acceleration_1_1_workload_profile" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1acceleration_1_1_workload_profile_1aecd8f3472691e5117249e53f3dd04124" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1aecd8f3472691e5117249e53f3dd04124" kindref="member">kernel_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a25c2dc47991b3df171ed5192bcf70390" kindref="member">KernelType::kUnknown</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1acceleration_1_1_workload_profile_1a9a203552cc71431162e54473f7e7fb81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1a9a203552cc71431162e54473f7e7fb81" kindref="member">input_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1acceleration_1_1_workload_profile_1a1be72688552504606c0f5e5a273edb72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1a1be72688552504606c0f5e5a273edb72" kindref="member">output_selectivity</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1acceleration_1_1_workload_profile_1a07db9334c55dab57158e1b1acc0cd98c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1a07db9334c55dab57158e1b1acc0cd98c" kindref="member">vector_dimension</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1acceleration_1_1_workload_profile_1a28efbfb17af3288437e69f5c39688b63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" kindref="member">DeviceType</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1a28efbfb17af3288437e69f5c39688b63" kindref="member">device</ref><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a2ce310327f474afc9f6774faa2f57903" kindref="member">DeviceType::kCPU</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1acceleration_1_1_workload_profile_1a8593cfa03955c65be69cb36b94f52681" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;bool&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1a8593cfa03955c65be69cb36b94f52681" kindref="member">force_gpu</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1acceleration_1_1_workload_profile_1a34abe5ad2d7c2a68e97a7966286d100f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;bool&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1a34abe5ad2d7c2a68e97a7966286d100f" kindref="member">prefer_cpu</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1aaf7209e6b59a9be037670829ecd7414d" kindref="member">ToCacheKey</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile_1a79031086e36ae58361760e072e7e037d" kindref="member">ToString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1acceleration_1_1_break_even_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1acceleration_1_1_break_even_decision_1ab689b087ae615791421492fd9286771a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision_1ab689b087ae615791421492fd9286771a" kindref="member">use_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1acceleration_1_1_break_even_decision_1a565e78602d5b46b97670c777162def92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision_1a565e78602d5b46b97670c777162def92" kindref="member">speedup_ratio</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1acceleration_1_1_break_even_decision_1a55b229601214da3091ab798f229a730e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision_1a55b229601214da3091ab798f229a730e" kindref="member">cpu_time_ms</ref>{0};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1acceleration_1_1_break_even_decision_1a2d81f1285d1ae3269f96468ac883e3d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision_1a2d81f1285d1ae3269f96468ac883e3d6" kindref="member">gpu_time_ms</ref>{0};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1acceleration_1_1_break_even_decision_1a9689b431a6d9b3322f164edff4e32c17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision_1a9689b431a6d9b3322f164edff4e32c17" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1acceleration_1_1_break_even_decision_1a3e9af5cafbdaa2888523a9fc86aa0bfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision_1a3e9af5cafbdaa2888523a9fc86aa0bfe" kindref="member">from_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision_1a141b890099eba7906ccea270ea59cd7b" kindref="member">ToString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1acceleration_1_1_break_even_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a56bedc698b6aa14443d4aa8f3aa9b091" kindref="member">BreakEvenValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref><sp/>=<sp/>std::function&lt;std::optional&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1acceleration_1_1_break_even_validator_1a644ab7c2a982ae1bc2a9d02a48976f94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a644ab7c2a982ae1bc2a9d02a48976f94" kindref="member">MetricsSinkFn</ref><sp/>=<sp/>std::function&lt;void(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a56bedc698b6aa14443d4aa8f3aa9b091" kindref="member">BreakEvenValidator</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1ac153b35a61a9e854630dcb0bfe7d1ff5" kindref="member">~BreakEvenValidator</ref>();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a0544e8f33f052c724a4450a0d9e6f799" kindref="member">ShouldUseGPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref>&amp;<sp/>profile);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a5930f471ecb211784a2f476598fd6901" kindref="member">Profile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref>&amp;<sp/>profile);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a1d99fc7c4a21036a07e6f1345c91fd3a" kindref="member">SetSpeedupThreshold</ref>(<ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref><sp/>kernel,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>threshold);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a4bef4ebe6ccc118ed7aa99d0570a2cd8" kindref="member">GetSpeedupThreshold</ref>(<ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref><sp/>kernel)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1ad84db0b7fe55c09e74f1be8a175f53df" kindref="member">ClearCache</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a6aea55a6182f822df80a12700e26fc16" kindref="member">SetCacheValidityDuration</ref>(std::chrono::hours<sp/>duration);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1abb290a23a7f4e56ce4e9e39d276d6f54" kindref="member">SetCPUProfileFn</ref>(<ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af2bbf02abdaee4bff4c42ec725e6f8a7" kindref="member">SetGPUProfileFn</ref>(<ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a65ef300df988bd5243806de9bea87dc2" kindref="member">SetMetricsSink</ref>(<ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a644ab7c2a982ae1bc2a9d02a48976f94" kindref="member">MetricsSinkFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a72a2a37cfde5df93462746427ec9dbd0" kindref="member">GetLatestBreakEvenRatio</ref>(<ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref><sp/>kernel)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a6c7936b13a189abeab24e54ed58f7629" kindref="member">GetCacheHitCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1acb2d973cfc9cd45aefac065ed580de86" kindref="member">GetCacheMissCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a2898f7ab144955b8d89060d934a283a1" kindref="member">GetCacheSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1ae83a113377cffa323281d17570ae57a7" kindref="member">KernelTypeToString</ref>(<ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref><sp/>kernel);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a421fabcfd857f78c673b05cd4c6dc818" kindref="member">DeviceTypeToString</ref>(<ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" kindref="member">DeviceType</ref><sp/>device);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::milliseconds&gt;<sp/>ProfileCPU(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref>&amp;<sp/>profile);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::milliseconds&gt;<sp/>ProfileGPU(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref>&amp;<sp/>profile);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>RequiresVectorDimension(<ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref><sp/>kernel);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IsGpuCapableDevice(<ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" kindref="member">DeviceType</ref><sp/>device);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>EstimateWorkUnits(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref>&amp;<sp/>profile);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;std::chrono::milliseconds&gt;<sp/>MillisecondsFromEstimate(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>estimated_ms);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref><sp/>StringToKernelType(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" kindref="member">DeviceType</ref><sp/>StringToDeviceType(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CacheEntry<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref><sp/>decision;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>timestamp;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IsExpired(std::chrono::hours<sp/>ttl)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutable<sp/>state<sp/>protected<sp/>by<sp/>mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Decision<sp/>cache:<sp/>WorkloadProfile<sp/>cache<sp/>key<sp/>-&gt;<sp/>cached<sp/>decision<sp/>+<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>CacheEntry&gt;<sp/>decision_cache_;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-kernel<sp/>speedup<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>float&gt;<sp/>speedup_thresholds_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latest<sp/>speedup<sp/>ratio<sp/>per<sp/>kernel<sp/>(for<sp/>metrics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>float&gt;<sp/>latest_speedup_ratios_;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cache_hits_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cache_misses_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::hours<sp/>cache_validity_duration_;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>profiling/metrics<sp/>hooks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref><sp/>cpu_profile_fn_;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref><sp/>gpu_profile_fn_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a644ab7c2a982ae1bc2a9d02a48976f94" kindref="member">MetricsSinkFn</ref><sp/>metrics_sink_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/break_even_validator.h"/>
+  </compounddef>
+</doxygen>

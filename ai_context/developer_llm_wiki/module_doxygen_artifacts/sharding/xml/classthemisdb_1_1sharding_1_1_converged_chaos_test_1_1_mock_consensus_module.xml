@@ -1,0 +1,657 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module" kind="class" language="C++" prot="protected">
+    <compoundname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</compoundname>
+    <basecompoundref refid="classthemisdb_1_1sharding_1_1_consensus_module" prot="public" virt="non-virtual">themisdb::sharding::ConsensusModule</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(ConsensusType, getType,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a7072331bf9ce83ff94e404e752d0ffcb" kindref="member">getType</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="66" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1addb2ab4723d55ed63a574a989a8fe7d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, initialize,(const std::string &amp;, const std::vector&lt; std::string &gt; &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a83a2c537c9426f7ee018c5ab143b0ed7" kindref="member">initialize</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;, const std::vector&lt; std::string &gt; &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="67" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1abbb0573d59d1aaeaf2d6dd328f989c1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, start,(),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a5851d5f141f85e31b42f5fc0370bf723" kindref="member">start</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="68" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1aa8016ed38e265c0911effa6fa39236bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(void, stop,(),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1afbcf4f19b90bb6ada83b36ad470f4488" kindref="member">stop</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="69" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a2ac10b848d384fe7f54dc6604db747f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, isLeader,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a383eaf86a69a5fc663436aaaa78aaea0" kindref="member">isLeader</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="70" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a08804506796c7d0ae5cae91f3514a8cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(std::string, getLeaderId,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::string</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a3421abadc4205d3daaeaf86d964e40a1" kindref="member">getLeaderId</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="71" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a5defaf310716b4b72ba2e704fbafb2be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(ConsensusState, getState,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1ae8b42fa6c903fab2751e5603a477a278" kindref="member">getState</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="72" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1afb40c28d85271a6ddc616dbb333b05f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(std::optional&lt; uint64_t &gt;, propose,(const std::string &amp;, const nlohmann::json &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::optional&lt; uint64_t &gt;</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1adaf2b0f967c4c635d78c8123fefe80fc" kindref="member">propose</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;, const nlohmann::json &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="73" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a21db8206a260e2407310dbd6fb1baa6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, waitForCommit,(uint64_t, std::chrono::milliseconds),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a2c9b5927f506d55d5f6482046e771a39" kindref="member">waitForCommit</ref></type>
+        </param>
+        <param>
+          <type>(uint64_t, std::chrono::milliseconds)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="74" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a5e39945c698078cdf83e385030e5b39b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(std::vector&lt; ConsensusLogEntry &gt;, readLog,(uint64_t, std::optional&lt; uint64_t &gt;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &gt;</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1adf94c2f9a7bba429c7d0faaaee55e763" kindref="member">readLog</ref></type>
+        </param>
+        <param>
+          <type>(uint64_t, std::optional&lt; uint64_t &gt;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="75" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a862d7b75d012fcf8085c49947f6b40e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(uint64_t, getCommitIndex,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1acd6b4da71aa70374b3780bc1d957eeef" kindref="member">getCommitIndex</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="76" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1aed4e175f0a698b5cdf616815d59ec59a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(uint64_t, getLastLogIndex,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a9549840aa654b3d6858f12e42bd7ec7b" kindref="member">getLastLogIndex</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="77" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a3a9472e0963061d9196e0bda525f9461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, addNode,(const std::string &amp;, const std::string &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa3f3baf10ca603e105ffd09038868d2a" kindref="member">addNode</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;, const std::string &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="78" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a65b4121e951e2a6881802f801bd114aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, removeNode,(const std::string &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a0912ec311abb7769bcda991c9d042179" kindref="member">removeNode</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="79" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1ab3eb5bc469a624f4c29fec345df11af5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, transferLeadership,(const std::string &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1ab5d1da4f19a6f003c8610833c6256413" kindref="member">transferLeadership</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="80" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a00d255af63a9bd01931ed13c28bc3914" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, takeSnapshot,(const nlohmann::json &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6787d6aba6ba9b5d1c605ff8bf49b8f" kindref="member">takeSnapshot</ref></type>
+        </param>
+        <param>
+          <type>(const nlohmann::json &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="81" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a1b72eaea8cc58c772295c6a144e6f803" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, restoreSnapshot,(const nlohmann::json &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a1fcfa30acb35b9d6976c4d880327d370" kindref="member">restoreSnapshot</ref></type>
+        </param>
+        <param>
+          <type>(const nlohmann::json &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="82" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a496a3e08b93f88ab045bef30b89fd79e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(ConsensusStats, getStats,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats" kindref="compound">ConsensusStats</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1abbbbcfd0623ef2d7f77240a55663c1f3" kindref="member">getStats</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="83" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1acc16e3b61bb315ce0f1ed0a3252e3bda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(nlohmann::json, getStatus,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>nlohmann::json</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a872896a5ebf381b720a88448d0a31e07" kindref="member">getStatus</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="84" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a31a8a83bb30d709f9b3f2e09e5fafe18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(void, onCommit,(std::function&lt; void(const ConsensusLogEntry &amp;)&gt;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6d7a8f5129bf1b2cc98a240537a0884" kindref="member">onCommit</ref></type>
+        </param>
+        <param>
+          <type>(std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &amp;)&gt;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="85" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1ac74fef539dcdcbec3581bf281072b28d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(void, onStateChange,(std::function&lt; void(ConsensusState, ConsensusState)&gt;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aee56e58061ad88aa336bc576227c62e1" kindref="member">onStateChange</ref></type>
+        </param>
+        <param>
+          <type>(std::function&lt; void(<ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>, <ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>)&gt;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="86" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a177bb03dd42188de67bd44918e5ad5c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(void, onLeaderChange,(std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1af4e15a033c7c2064dfe930b0972406fd" kindref="member">onLeaderChange</ref></type>
+        </param>
+        <param>
+          <type>(std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="87" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::sharding::ConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_consensus_module"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::sharding::ConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_consensus_module"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_converged_chaos.cpp" line="64" column="5" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="64" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa3f3baf10ca603e105ffd09038868d2a" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>addNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1acd6b4da71aa70374b3780bc1d957eeef" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>getCommitIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a9549840aa654b3d6858f12e42bd7ec7b" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>getLastLogIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a3421abadc4205d3daaeaf86d964e40a1" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>getLeaderId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1ae8b42fa6c903fab2751e5603a477a278" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>getState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1abbbbcfd0623ef2d7f77240a55663c1f3" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a872896a5ebf381b720a88448d0a31e07" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>getStatus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a7072331bf9ce83ff94e404e752d0ffcb" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>getType</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a83a2c537c9426f7ee018c5ab143b0ed7" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a383eaf86a69a5fc663436aaaa78aaea0" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>isLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1addb2ab4723d55ed63a574a989a8fe7d5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1abbb0573d59d1aaeaf2d6dd328f989c1c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1aa8016ed38e265c0911effa6fa39236bb" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a2ac10b848d384fe7f54dc6604db747f5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a08804506796c7d0ae5cae91f3514a8cb" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a5defaf310716b4b72ba2e704fbafb2be" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1afb40c28d85271a6ddc616dbb333b05f6" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a21db8206a260e2407310dbd6fb1baa6c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a5e39945c698078cdf83e385030e5b39b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a862d7b75d012fcf8085c49947f6b40e6" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1aed4e175f0a698b5cdf616815d59ec59a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a3a9472e0963061d9196e0bda525f9461" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a65b4121e951e2a6881802f801bd114aa" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1ab3eb5bc469a624f4c29fec345df11af5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a00d255af63a9bd01931ed13c28bc3914" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a1b72eaea8cc58c772295c6a144e6f803" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a496a3e08b93f88ab045bef30b89fd79e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1acc16e3b61bb315ce0f1ed0a3252e3bda" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a31a8a83bb30d709f9b3f2e09e5fafe18" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1ac74fef539dcdcbec3581bf281072b28d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a177bb03dd42188de67bd44918e5ad5c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6d7a8f5129bf1b2cc98a240537a0884" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>onCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1af4e15a033c7c2064dfe930b0972406fd" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>onLeaderChange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aee56e58061ad88aa336bc576227c62e1" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>onStateChange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1adaf2b0f967c4c635d78c8123fefe80fc" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>propose</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1adf94c2f9a7bba429c7d0faaaee55e763" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>readLog</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a0912ec311abb7769bcda991c9d042179" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>removeNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a1fcfa30acb35b9d6976c4d880327d370" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>restoreSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a5851d5f141f85e31b42f5fc0370bf723" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1afbcf4f19b90bb6ada83b36ad470f4488" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6787d6aba6ba9b5d1c605ff8bf49b8f" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>takeSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1ab5d1da4f19a6f003c8610833c6256413" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>transferLeadership</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a2c9b5927f506d55d5f6482046e771a39" prot="public" virt="pure-virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>waitForCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aea7c50f32fbb821075e9854a52862816" prot="public" virt="virtual"><scope>themisdb::sharding::ConvergedChaosTest::MockConsensusModule</scope><name>~ConsensusModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

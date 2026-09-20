@@ -1,0 +1,834 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__simd__distance_8cpp" kind="file" language="C++">
+    <compoundname>test_simd_distance.cpp</compoundname>
+    <includes local="yes">utils/simd_distance.h</includes>
+    <includes refid="phase3_2feature__flags_8h" local="yes">performance/phase3/feature_flags.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>performance/phase3/feature_flags.h</label>
+        <link refid="phase3_2feature__flags_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/phase3/test_simd_distance.cpp</label>
+        <link refid="test__simd__distance_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>numeric</label>
+      </node>
+      <node id="10">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>utils/simd_distance.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_simd_distance_test" prot="public">SimdDistanceTest</innerclass>
+    <innerclass refid="class_l2_correctness_test" prot="public">L2CorrectnessTest</innerclass>
+    <innerclass refid="class_inner_product_test" prot="public">InnerProductTest</innerclass>
+    <innerclass refid="class_cosine_distance_test" prot="public">CosineDistanceTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1simd">themis::simd</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a49b7618fdb16ebaf5cb5c806ce8b3a7a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float ref_l2_sq</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>ref_l2_sq</name>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="28" column="14" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="28" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1af356a7dac6bab46c460479f340fc1f02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float ref_inner_product</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>ref_inner_product</name>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="37" column="14" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a02912de83ec7c834e349ad5af6704d09" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float ref_cosine_distance</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>ref_cosine_distance</name>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="45" column="14" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="45" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, L2DistanceZeroVector)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>L2DistanceZeroVector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="99" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a8d976ad5b1f60e1c94247a775ae419e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, L2DistanceIdenticalVectors)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>L2DistanceIdenticalVectors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="106" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="106" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a21b074750abb5aa1fdd177c3c1481037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, L2DistanceDim1)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>L2DistanceDim1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="112" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="112" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1ae7c9f5fb6edfc1952a93a26b7a0a1d8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, L2DistanceDim0)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>L2DistanceDim0</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="118" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1afa1fb68547b9907c1337c70e80cb31c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(L2CorrectnessTest, MatchesScalar)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_l2_correctness_test" kindref="compound">L2CorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>MatchesScalar</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="128" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="128" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a7b8bab979761e6b3f159aed12bb02792" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>INSTANTIATE_TEST_SUITE_P</definition>
+        <argsstring>(Dimensions, L2CorrectnessTest, ::testing::Values(1u, 3u, 8u, 15u, 16u, 17u, 32u, 63u, 64u, 128u, 256u, 511u, 512u, 513u, 768u, 1024u, 1536u))</argsstring>
+        <name>INSTANTIATE_TEST_SUITE_P</name>
+        <param>
+          <type>Dimensions</type>
+        </param>
+        <param>
+          <type><ref refid="class_l2_correctness_test" kindref="compound">L2CorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>::testing::Values(1u, 3u, 8u, 15u, 16u, 17u, 32u, 63u, 64u, 128u, 256u, 511u, 512u, 513u, 768u, 1024u, 1536u)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="141" column="1" declfile="tests/performance/phase3/test_simd_distance.cpp" declline="141" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1aae36ff90487ae6d5fba78990bff341f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, BatchL2ConsistentWithSingle)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>BatchL2ConsistentWithSingle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="149" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="149" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a582a7f82ea2afb5390d7c20dce173d5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(InnerProductTest, MatchesScalar)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_inner_product_test" kindref="compound">InnerProductTest</ref></type>
+        </param>
+        <param>
+          <type>MatchesScalar</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="174" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="174" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a26b40876941e16b4eb968a1c6e8c8faf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>INSTANTIATE_TEST_SUITE_P</definition>
+        <argsstring>(Dimensions, InnerProductTest, ::testing::Values(1u, 4u, 8u, 15u, 16u, 17u, 32u, 64u, 128u, 256u, 512u, 768u, 1024u, 1536u))</argsstring>
+        <name>INSTANTIATE_TEST_SUITE_P</name>
+        <param>
+          <type>Dimensions</type>
+        </param>
+        <param>
+          <type><ref refid="class_inner_product_test" kindref="compound">InnerProductTest</ref></type>
+        </param>
+        <param>
+          <type>::testing::Values(1u, 4u, 8u, 15u, 16u, 17u, 32u, 64u, 128u, 256u, 512u, 768u, 1024u, 1536u)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="184" column="1" declfile="tests/performance/phase3/test_simd_distance.cpp" declline="184" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a23b900dfd463b062362e33c11b476b2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, InnerProductOrthogonal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>InnerProductOrthogonal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="188" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="188" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a0cfac67763eb046559aad0fb50eecd83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, InnerProductSelfEqualsNormSq)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>InnerProductSelfEqualsNormSq</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="196" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="196" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a7ebb2f30aa7b073d7c91981ae3db3df0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(CosineDistanceTest, MatchesScalar)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_cosine_distance_test" kindref="compound">CosineDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>MatchesScalar</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="210" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="210" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1ac3ff9452a3bcb6f64422d5e026e4a698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>INSTANTIATE_TEST_SUITE_P</definition>
+        <argsstring>(Dimensions, CosineDistanceTest, ::testing::Values(1u, 4u, 8u, 16u, 32u, 64u, 128u, 256u, 512u, 768u, 1024u, 1536u))</argsstring>
+        <name>INSTANTIATE_TEST_SUITE_P</name>
+        <param>
+          <type>Dimensions</type>
+        </param>
+        <param>
+          <type><ref refid="class_cosine_distance_test" kindref="compound">CosineDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>::testing::Values(1u, 4u, 8u, 16u, 32u, 64u, 128u, 256u, 512u, 768u, 1024u, 1536u)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="220" column="1" declfile="tests/performance/phase3/test_simd_distance.cpp" declline="220" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a57273283df213c8850250ab09d0a7e30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, CosineDistanceIdenticalVectors)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>CosineDistanceIdenticalVectors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="224" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="224" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1af7552c387e1b5abe4a8b8fe8daf0384e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, CosineDistanceOppositeVectors)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>CosineDistanceOppositeVectors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="229" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="229" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1aed19f878021167421fc95d55c0aff41b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, CosineDistanceOrthogonal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>CosineDistanceOrthogonal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="238" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="238" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a23e165f072f894a4be7aa6b519a9cc69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SimdDistanceTest, CosineDistanceZeroNorm)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref></type>
+        </param>
+        <param>
+          <type>CosineDistanceZeroNorm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="245" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="245" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1af43409412eeca0a665d26ccfd76ca312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Avx512FeatureFlagTest, DefaultStateReflectsHardware)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Avx512FeatureFlagTest</type>
+        </param>
+        <param>
+          <type>DefaultStateReflectsHardware</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="257" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="257" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a612ae13b8e88bdfff1372ed73ea369c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Avx512FeatureFlagTest, RuntimeToggle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Avx512FeatureFlagTest</type>
+        </param>
+        <param>
+          <type>RuntimeToggle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="270" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="270" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="test__simd__distance_8cpp_1a59bc9517b2972331a592f22f2506f447" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Avx512FeatureFlagTest, MacroAccessible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Avx512FeatureFlagTest</type>
+        </param>
+        <param>
+          <type>MacroAccessible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="284" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="284" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>tests<sp/>for<sp/>SIMD<sp/>distance<sp/>computations<sp/>(Phase<sp/>3,<sp/>Issue<sp/>#1964)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>cover:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>L2<sp/>distance<sp/>(Euclidean)<sp/>correctness<sp/>vs.<sp/>scalar<sp/>reference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>L2<sp/>squared<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Batch<sp/>L2<sp/>squared<sp/>distances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Inner<sp/>product<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Cosine<sp/>distance<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Edge<sp/>cases:<sp/>dim=0,<sp/>dim=1,<sp/>dim<sp/>&lt;<sp/>SIMD<sp/>width,<sp/>dim<sp/>not<sp/>multiple<sp/>of<sp/>SIMD<sp/>width</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Numerical<sp/>accuracy<sp/>within<sp/>floating-point<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>AVX-512<sp/>feature<sp/>flag<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/simd_distance.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="phase3_2feature__flags_8h" kindref="compound">performance/phase3/feature_flags.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::simd;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3" kindref="compound">themis::performance::phase3</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reference<sp/>scalar<sp/>implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>ref_l2_sq(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/>std::size_t<sp/>dim)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>acc<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>dim;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>a[i]<sp/>-<sp/>b[i];</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acc<sp/>+=<sp/>d<sp/>*<sp/>d;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>acc;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>ref_inner_product(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/>std::size_t<sp/>dim)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>acc<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>dim;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>acc<sp/>+=<sp/>a[i]<sp/>*<sp/>b[i];</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>acc;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>ref_cosine_distance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/>std::size_t<sp/>dim)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>dot<sp/>=<sp/>0.0f,<sp/>na<sp/>=<sp/>0.0f,<sp/>nb<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>dim;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dot<sp/>+=<sp/>a[i]<sp/>*<sp/>b[i];</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>na<sp/><sp/>+=<sp/>a[i]<sp/>*<sp/>a[i];</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nb<sp/><sp/>+=<sp/>b[i]<sp/>*<sp/>b[i];</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>denom<sp/>=<sp/>std::sqrt(na)<sp/>*<sp/>std::sqrt(nb);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(denom<sp/>&lt;<sp/>1e-10f)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0f;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/>dot<sp/>/<sp/>denom;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sim<sp/>&gt;<sp/>1.0f)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sim<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sim<sp/>&lt;<sp/>-1.0f)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sim<sp/>=<sp/>-1.0f;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0f<sp/>-<sp/>sim;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="class_simd_distance_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tolerance<sp/>for<sp/>float<sp/>comparisons<sp/>(relative<sp/>to<sp/>magnitude)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_simd_distance_test_1aa50769f95b0bd314c8c7cdb9b5f91e9f" kindref="member">kTol</ref><sp/>=<sp/>1e-4f;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_simd_distance_test_1a201d7ae8e8ea0dbba8bf7ffd1468f5e9" kindref="member">make_vec</ref>(std::size_t<sp/>dim,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fill)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;(dim,<sp/>fill);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_simd_distance_test_1aa41b880ac0b6db22945b8bacfd47960c" kindref="member">make_rand</ref>(std::size_t<sp/>dim,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>42)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dist(-1.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(dim);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simd_distance_test_1a2c3973fd0232c8733360a485c664851f" kindref="member">expect_near</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>actual,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>expected,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>label)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>tol<sp/>=<sp/><ref refid="class_simd_distance_test_1aa50769f95b0bd314c8c7cdb9b5f91e9f" kindref="member">kTol</ref><sp/>*<sp/>(std::abs(expected)<sp/>+<sp/>1.0f);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(actual,<sp/>expected,<sp/>tol)<sp/>&lt;&lt;<sp/>label;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>L2<sp/>distance<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>L2DistanceZeroVector)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>make_vec(128,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>make_vec(128,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(l2_distance(a.data(),<sp/>b.data(),<sp/>128),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(l2_distance_sq(a.data(),<sp/>b.data(),<sp/>128),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>L2DistanceIdenticalVectors)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>make_rand(512,<sp/>7);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(l2_distance(a.data(),<sp/>a.data(),<sp/>512),<sp/>0.0f,<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(l2_distance_sq(a.data(),<sp/>a.data(),<sp/>512),<sp/>0.0f,<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>L2DistanceDim1)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>3.0f,<sp/>b<sp/>=<sp/>7.0f;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(l2_distance(&amp;a,<sp/>&amp;b,<sp/>1),<sp/>4.0f,<sp/>kTol);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(l2_distance_sq(&amp;a,<sp/>&amp;b,<sp/>1),<sp/>16.0f,<sp/>kTol);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>L2DistanceDim0)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>dummy<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(l2_distance(&amp;dummy,<sp/>&amp;dummy,<sp/>0),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(l2_distance_sq(&amp;dummy,<sp/>&amp;dummy,<sp/>0),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>against<sp/>scalar<sp/>for<sp/>various<sp/>dimensions<sp/>(including<sp/>non-multiples<sp/>of<sp/>SIMD<sp/>widths)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="class_l2_correctness_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_l2_correctness_test" kindref="compound">L2CorrectnessTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::WithParamInterface&lt;std::size_t&gt;<sp/>{};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1afa1fb68547b9907c1337c70e80cb31c6" kindref="member">TEST_P</ref>(<ref refid="class_l2_correctness_test" kindref="compound">L2CorrectnessTest</ref>,<sp/>MatchesScalar)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>dim<sp/>=<sp/>GetParam();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>make_rand(dim,<sp/>1);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>make_rand(dim,<sp/>2);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>expected_sq<sp/>=<sp/>ref_l2_sq(a.data(),<sp/>b.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>actual_sq<sp/><sp/><sp/>=<sp/>l2_distance_sq(a.data(),<sp/>b.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>expect_near(actual_sq,<sp/>expected_sq,<sp/></highlight><highlight class="stringliteral">&quot;l2_distance_sq&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>actual_dist<sp/>=<sp/>l2_distance(a.data(),<sp/>b.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>expect_near(actual_dist,<sp/>std::sqrt(expected_sq),<sp/></highlight><highlight class="stringliteral">&quot;l2_distance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1a7b8bab979761e6b3f159aed12bb02792" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(Dimensions,<sp/><ref refid="class_l2_correctness_test" kindref="compound">L2CorrectnessTest</ref>,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>::testing::Values(1u,<sp/>3u,<sp/>8u,<sp/>15u,<sp/>16u,<sp/>17u,<sp/>32u,<sp/>63u,<sp/>64u,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>128u,<sp/>256u,<sp/>511u,<sp/>512u,<sp/>513u,<sp/>768u,<sp/>1024u,<sp/>1536u));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>L2<sp/>distance<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>BatchL2ConsistentWithSingle)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>n<sp/>=<sp/>20,<sp/>dim<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>make_rand(dim,<sp/>99);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>db_flat(n<sp/>*<sp/>dim);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>make_rand(dim,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::copy(v.begin(),<sp/>v.end(),<sp/>db_flat.begin()<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::ptrdiff_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>dim));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>batch_dists(n);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>batch_l2_distance_sq(query.data(),<sp/>db_flat.data(),<sp/>n,<sp/>dim,<sp/>batch_dists.data());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>single<sp/>=<sp/>l2_distance_sq(query.data(),<sp/>db_flat.data()<sp/>+<sp/>i<sp/>*<sp/>dim,<sp/>dim);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(batch_dists[i],<sp/>single,<sp/>kTol<sp/>*<sp/>(single<sp/>+<sp/>1.0f))</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Mismatch<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inner<sp/>product<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="class_inner_product_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_inner_product_test" kindref="compound">InnerProductTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::WithParamInterface&lt;std::size_t&gt;<sp/>{};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1afa1fb68547b9907c1337c70e80cb31c6" kindref="member">TEST_P</ref>(<ref refid="class_inner_product_test" kindref="compound">InnerProductTest</ref>,<sp/>MatchesScalar)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>dim<sp/>=<sp/>GetParam();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>make_rand(dim,<sp/>10);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>make_rand(dim,<sp/>20);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>expected<sp/>=<sp/>ref_inner_product(a.data(),<sp/>b.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>actual<sp/><sp/><sp/>=<sp/>inner_product(a.data(),<sp/>b.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>expect_near(actual,<sp/>expected,<sp/></highlight><highlight class="stringliteral">&quot;inner_product&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1a7b8bab979761e6b3f159aed12bb02792" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(Dimensions,<sp/><ref refid="class_inner_product_test" kindref="compound">InnerProductTest</ref>,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>::testing::Values(1u,<sp/>4u,<sp/>8u,<sp/>15u,<sp/>16u,<sp/>17u,<sp/>32u,<sp/>64u,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>128u,<sp/>256u,<sp/>512u,<sp/>768u,<sp/>1024u,<sp/>1536u));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>InnerProductOrthogonal)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e1<sp/>and<sp/>e2<sp/>are<sp/>orthogonal:<sp/>dot<sp/>=<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>e1(16,<sp/>0.0f),<sp/>e2(16,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>e1[0]<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>e2[1]<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(inner_product(e1.data(),<sp/>e2.data(),<sp/>16),<sp/>0.0f,<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>InnerProductSelfEqualsNormSq)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>make_rand(256,<sp/>55);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>ip<sp/><sp/><sp/>=<sp/>inner_product(a.data(),<sp/>a.data(),<sp/>256);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>l2sq<sp/>=<sp/>l2_distance_sq(a.data(),<sp/>std::vector&lt;float&gt;(256,<sp/>0.0f).data(),<sp/>256);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(ip,<sp/>l2sq,<sp/>kTol<sp/>*<sp/>(ip<sp/>+<sp/>1.0f));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cosine<sp/>distance<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="class_cosine_distance_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_cosine_distance_test" kindref="compound">CosineDistanceTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::WithParamInterface&lt;std::size_t&gt;<sp/>{};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1afa1fb68547b9907c1337c70e80cb31c6" kindref="member">TEST_P</ref>(<ref refid="class_cosine_distance_test" kindref="compound">CosineDistanceTest</ref>,<sp/>MatchesScalar)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>dim<sp/>=<sp/>GetParam();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>make_rand(dim,<sp/>30);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>make_rand(dim,<sp/>40);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>expected<sp/>=<sp/>ref_cosine_distance(a.data(),<sp/>b.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>actual<sp/><sp/><sp/>=<sp/>cosine_distance(a.data(),<sp/>b.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>expect_near(actual,<sp/>expected,<sp/></highlight><highlight class="stringliteral">&quot;cosine_distance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1a7b8bab979761e6b3f159aed12bb02792" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(Dimensions,<sp/><ref refid="class_cosine_distance_test" kindref="compound">CosineDistanceTest</ref>,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>::testing::Values(1u,<sp/>4u,<sp/>8u,<sp/>16u,<sp/>32u,<sp/>64u,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>128u,<sp/>256u,<sp/>512u,<sp/>768u,<sp/>1024u,<sp/>1536u));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>CosineDistanceIdenticalVectors)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>make_rand(128,<sp/>77);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(cosine_distance(a.data(),<sp/>a.data(),<sp/>128),<sp/>0.0f,<sp/>kTol);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>CosineDistanceOppositeVectors)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>make_rand(128,<sp/>88);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>neg(128);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>128;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>neg[i]<sp/>=<sp/>-a[i];</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(cosine_distance(a.data(),<sp/>neg.data(),<sp/>128),<sp/>2.0f,<sp/>kTol);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>CosineDistanceOrthogonal)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>e1(16,<sp/>0.0f),<sp/>e2(16,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>e1[0]<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>e2[1]<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(cosine_distance(e1.data(),<sp/>e2.data(),<sp/>16),<sp/>1.0f,<sp/>kTol);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1ad1b004c40f7cb6b476e6888cbd826555" kindref="member">TEST_F</ref>(<ref refid="class_simd_distance_test" kindref="compound">SimdDistanceTest</ref>,<sp/>CosineDistanceZeroNorm)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>zeros<sp/>=<sp/>make_vec(32,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/><sp/><sp/><sp/><sp/>=<sp/>make_rand(32,<sp/>9);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zero-norm<sp/>vector:<sp/>function<sp/>should<sp/>return<sp/>1.0<sp/>without<sp/>dividing<sp/>by<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(cosine_distance(zeros.data(),<sp/>a.data(),<sp/>32),<sp/>1.0f);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(cosine_distance(a.data(),<sp/>zeros.data(),<sp/>32),<sp/>1.0f);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature<sp/>flag<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1af43409412eeca0a665d26ccfd76ca312" kindref="member">TEST</ref>(Avx512FeatureFlagTest,<sp/>DefaultStateReflectsHardware)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">Phase3FeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>flag<sp/>should<sp/>be<sp/>accessible<sp/>without<sp/>throwing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(flags.avx512_distance_enabled());</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__AVX512F__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>AVX-512-capable<sp/>hardware,<sp/>the<sp/>flag<sp/>defaults<sp/>to<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.avx512_distance_enabled());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>other<sp/>hardware,<sp/>the<sp/>flag<sp/>defaults<sp/>to<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flags.avx512_distance_enabled());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1af43409412eeca0a665d26ccfd76ca312" kindref="member">TEST</ref>(Avx512FeatureFlagTest,<sp/>RuntimeToggle)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">Phase3FeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initial<sp/>=<sp/>flags.avx512_distance_enabled();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_avx512_distance_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.avx512_distance_enabled());</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_avx512_distance_enabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flags.avx512_distance_enabled());</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_avx512_distance_enabled(initial);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="test__simd__distance_8cpp_1af43409412eeca0a665d26ccfd76ca312" kindref="member">TEST</ref>(Avx512FeatureFlagTest,<sp/>MacroAccessible)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>(void)<ref refid="phase3_2feature__flags_8h_1a87ffec742e1fac4617a9e870f4c3e473" kindref="member">THEMIS_PHASE3_AVX512_DISTANCE_ENABLED</ref>();<sp/>});</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/phase3/test_simd_distance.cpp"/>
+  </compounddef>
+</doxygen>

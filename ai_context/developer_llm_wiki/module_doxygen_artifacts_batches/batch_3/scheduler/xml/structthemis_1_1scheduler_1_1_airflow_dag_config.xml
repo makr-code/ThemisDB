@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_airflow_dag_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::AirflowDagConfig</compoundname>
+    <includes refid="external__scheduler__adapter_8h" local="no">external_scheduler_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1ad326574dc5763d7e25034b191cf115fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::AirflowDagConfig::dag_id</definition>
+        <argsstring></argsstring>
+        <name>dag_id</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::dag_id</qualifiedname>
+        <initializer>= &quot;themisdb_scheduled_tasks&quot;</initializer>
+        <briefdescription>
+<para>DAG identifier in Airflow (must be unique within the Airflow instance). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="74" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1af2a5be88e725c29743718714aa821d91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::AirflowDagConfig::owner</definition>
+        <argsstring></argsstring>
+        <name>owner</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::owner</qualifiedname>
+        <initializer>= &quot;themisdb&quot;</initializer>
+        <briefdescription>
+<para>DAG owner shown in the Airflow UI. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="77" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1af35df0cc09c3288befb4f6233a171524" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::AirflowDagConfig::start_date</definition>
+        <argsstring></argsstring>
+        <name>start_date</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::start_date</qualifiedname>
+        <initializer>= &quot;2026-01-01&quot;</initializer>
+        <briefdescription>
+<para>ISO-8601 start date used for the Airflow DAG, e.g. &quot;2026-01-01&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="80" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1a16d5062ff11e1fddd563e5618197ffc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::AirflowDagConfig::themisdb_base_url</definition>
+        <argsstring></argsstring>
+        <name>themisdb_base_url</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::themisdb_base_url</qualifiedname>
+        <briefdescription>
+<para>Base URL of the ThemisDB HTTP API, e.g. &quot;https://themisdb.example.com&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="83" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1a9cc7b98c83c216fbfa997cc0cef0b696" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::AirflowDagConfig::http_conn_id</definition>
+        <argsstring></argsstring>
+        <name>http_conn_id</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::http_conn_id</qualifiedname>
+        <initializer>= &quot;themisdb_default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Airflow HTTP connection ID that holds the ThemisDB base URL and credentials. Defaults to &quot;themisdb_default&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="87" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1a93e39529757f943ba17f806c93f22383" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::AirflowDagConfig::default_schedule</definition>
+        <argsstring></argsstring>
+        <name>default_schedule</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::default_schedule</qualifiedname>
+        <initializer>= &quot;@daily&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default cron schedule for the generated DAG when tasks have mixed schedules. Individual task schedules override this when they carry a cron expression. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="91" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1a350ddd29e54f1568e1f5851eb0b25111" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::AirflowDagConfig::is_paused_upon_creation</definition>
+        <argsstring></argsstring>
+        <name>is_paused_upon_creation</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::is_paused_upon_creation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the DAG is paused on creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="94" column="10" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1ae81bb0944e4162611de02817281b5bf0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::AirflowDagConfig::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::description</qualifiedname>
+        <initializer>= &quot;ThemisDB scheduled tasks exported via ExternalSchedulerAdapter&quot;</initializer>
+        <briefdescription>
+<para>Free-form description embedded in the generated DAG file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="97" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_airflow_dag_config_1a097cda943a0119e87ec540b1b7b5ad8a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scheduler::AirflowDagConfig::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::scheduler::AirflowDagConfig::tags</qualifiedname>
+        <briefdescription>
+<para>Additional tags added to the Airflow DAG. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="100" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration shared across all Airflow DAGs generated from ThemisDB tasks. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/external_scheduler_adapter.h" line="72" column="1" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="72" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1ad326574dc5763d7e25034b191cf115fb" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>dag_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a93e39529757f943ba17f806c93f22383" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>default_schedule</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1ae81bb0944e4162611de02817281b5bf0" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a9cc7b98c83c216fbfa997cc0cef0b696" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>http_conn_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a350ddd29e54f1568e1f5851eb0b25111" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>is_paused_upon_creation</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1af2a5be88e725c29743718714aa821d91" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>owner</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1af35df0cc09c3288befb4f6233a171524" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>start_date</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a097cda943a0119e87ec540b1b7b5ad8a" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>tags</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a16d5062ff11e1fddd563e5618197ffc0" prot="public" virt="non-virtual"><scope>themis::scheduler::AirflowDagConfig</scope><name>themisdb_base_url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

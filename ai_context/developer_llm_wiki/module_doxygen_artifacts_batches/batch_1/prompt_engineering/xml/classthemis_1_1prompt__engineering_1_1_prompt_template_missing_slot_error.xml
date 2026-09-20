@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptTemplateMissingSlotError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="prompt__template__compiler_8h" local="no">prompt_template_compiler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1a6b81e35f1767bf38d648e92fba810473" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptTemplateMissingSlotError::slot_name_</definition>
+        <argsstring></argsstring>
+        <name>slot_name_</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateMissingSlotError::slot_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="134" column="17" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1af543e516ed675458910aca09b297c2a8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptTemplateMissingSlotError::PromptTemplateMissingSlotError</definition>
+        <argsstring>(const std::string &amp;slot_name)</argsstring>
+        <name>PromptTemplateMissingSlotError</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateMissingSlotError::PromptTemplateMissingSlotError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="128" column="14" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1a43986cf27e711abad22928e5ba8546d4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::prompt_engineering::PromptTemplateMissingSlotError::slotName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>slotName</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateMissingSlotError::slotName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="132" column="23" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thrown by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a27ff3e34f688024856aff027d24516b4" kindref="member">CompiledPromptTemplate::render()</ref></computeroutput> when a required slot is missing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::PromptTemplateMissingSlotError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::PromptTemplateMissingSlotError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/prompt_template_compiler.h" line="126" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="126" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1af543e516ed675458910aca09b297c2a8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateMissingSlotError</scope><name>PromptTemplateMissingSlotError</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1a6b81e35f1767bf38d648e92fba810473" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateMissingSlotError</scope><name>slot_name_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1a43986cf27e711abad22928e5ba8546d4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateMissingSlotError</scope><name>slotName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_key_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::KeyFilter</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_key_filter_1a5624aa5d271ed4b4512f99e02d29cbd3" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::cache::KeyFilter::prefix</definition>
+        <argsstring></argsstring>
+        <name>prefix</name>
+        <qualifiedname>themis::cache::KeyFilter::prefix</qualifiedname>
+        <briefdescription>
+<para>Match keys starting with this prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="84" column="19" bodyfile="include/cache/cache_interfaces.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_key_filter_1ad03210d1ace1b4d698f1a624b7f530c0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::cache::KeyFilter::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::cache::KeyFilter::pattern</qualifiedname>
+        <briefdescription>
+<para>Match keys against this regex pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="85" column="19" bodyfile="include/cache/cache_interfaces.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_key_filter_1ab3339cfe4a5302c47310350435039381" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::KeyFilter::ttl_max_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_max_seconds</name>
+        <qualifiedname>themis::cache::KeyFilter::ttl_max_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="86" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_interfaces.h" line="83" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="83" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_key_filter_1ad03210d1ace1b4d698f1a624b7f530c0" prot="public" virt="non-virtual"><scope>themis::cache::KeyFilter</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1cache_1_1_key_filter_1a5624aa5d271ed4b4512f99e02d29cbd3" prot="public" virt="non-virtual"><scope>themis::cache::KeyFilter</scope><name>prefix</name></member>
+      <member refid="structthemis_1_1cache_1_1_key_filter_1ab3339cfe4a5302c47310350435039381" prot="public" virt="non-virtual"><scope>themis::cache::KeyFilter</scope><name>ttl_max_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

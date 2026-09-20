@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_batch_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::BatchInfo</compoundname>
+    <includes refid="icdc__batch__commit__coordinator_8h" local="no">icdc_batch_commit_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_batch_info_1a7868d9ba16d74378a262ef43d651dcf2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1acd5130181ff942a86de9bbc6132a9ee6" kindref="member">BatchStatus</ref></type>
+        <definition>BatchStatus themis::cdc::BatchInfo::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::cdc::BatchInfo::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cdc_1acd5130181ff942a86de9bbc6132a9ee6ae599161956d626eda4cb0a5ffb85271c" kindref="member">BatchStatus::Idle</ref></initializer>
+        <briefdescription>
+<para>Current lifecycle state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="99" column="17" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_batch_info_1a38f57fa785d62b80ea343fe45e655a6c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a36306083ac2fa0afda203aaf26622e52" kindref="member">BatchId</ref></type>
+        <definition>BatchId themis::cdc::BatchInfo::current_batch_id</definition>
+        <argsstring></argsstring>
+        <name>current_batch_id</name>
+        <qualifiedname>themis::cdc::BatchInfo::current_batch_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ID of the open batch (0 = none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="100" column="17" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_batch_info_1a49d398243036c9d110479f68b5fa4102" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::BatchInfo::pending_event_count</definition>
+        <argsstring></argsstring>
+        <name>pending_event_count</name>
+        <qualifiedname>themis::cdc::BatchInfo::pending_event_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events in the open batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="101" column="17" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_batch_info_1a3e95bacd00fa90849efe61b225a08aca" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::BatchInfo::total_committed_batches</definition>
+        <argsstring></argsstring>
+        <name>total_committed_batches</name>
+        <qualifiedname>themis::cdc::BatchInfo::total_committed_batches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime committed batches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="102" column="17" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_batch_info_1a1bba2ea0d0485f0e9718e4972fd26660" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::BatchInfo::total_rolled_back</definition>
+        <argsstring></argsstring>
+        <name>total_rolled_back</name>
+        <qualifiedname>themis::cdc::BatchInfo::total_rolled_back</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime rolled-back batches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="103" column="17" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/icdc_batch_commit_coordinator.h" line="98" column="1" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="98" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_batch_info_1a38f57fa785d62b80ea343fe45e655a6c" prot="public" virt="non-virtual"><scope>themis::cdc::BatchInfo</scope><name>current_batch_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_batch_info_1a49d398243036c9d110479f68b5fa4102" prot="public" virt="non-virtual"><scope>themis::cdc::BatchInfo</scope><name>pending_event_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_batch_info_1a7868d9ba16d74378a262ef43d651dcf2" prot="public" virt="non-virtual"><scope>themis::cdc::BatchInfo</scope><name>status</name></member>
+      <member refid="structthemis_1_1cdc_1_1_batch_info_1a3e95bacd00fa90849efe61b225a08aca" prot="public" virt="non-virtual"><scope>themis::cdc::BatchInfo</scope><name>total_committed_batches</name></member>
+      <member refid="structthemis_1_1cdc_1_1_batch_info_1a1bba2ea0d0485f0e9718e4972fd26660" prot="public" virt="non-virtual"><scope>themis::cdc::BatchInfo</scope><name>total_rolled_back</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_engine_bench" kind="class" language="C++" prot="public">
+    <compoundname>QueryEngineBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_query_engine_bench_1aaddce3cd2fe20834a45edb9dbb559500" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t QueryEngineBench::kNumEntities</definition>
+        <argsstring></argsstring>
+        <name>kNumEntities</name>
+        <qualifiedname>QueryEngineBench::kNumEntities</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="295" column="29" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_engine_bench_1aaec07c8da9014d13525561bc40bbe7f1" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string QueryEngineBench::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>QueryEngineBench::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="334" column="17" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_engine_bench_1a52dead587ac1c927b9ddfbf21c7c9ba1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; QueryEngineBench::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>QueryEngineBench::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="335" column="21" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_engine_bench_1a14577f420f47598f15f0aacb33e1e0f4" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; QueryEngineBench::keys_</definition>
+        <argsstring></argsstring>
+        <name>keys_</name>
+        <qualifiedname>QueryEngineBench::keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="336" column="17" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_query_engine_bench_1a1570b44d78da9fea6e8458150dcd7c74" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryEngineBench::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryEngineBench::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="297" column="10" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="297" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_engine_bench_1a0f3b127af5f83d4356e888f78e517b0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryEngineBench::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>QueryEngineBench::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="328" column="10" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="328" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryEngineBench</label>
+        <link refid="class_query_engine_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryEngineBench</label>
+        <link refid="class_query_engine_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/core/bench_core_performance.cpp" line="293" column="1" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="293" bodyend="337"/>
+    <listofallmembers>
+      <member refid="class_query_engine_bench_1a52dead587ac1c927b9ddfbf21c7c9ba1" prot="protected" virt="non-virtual"><scope>QueryEngineBench</scope><name>db_</name></member>
+      <member refid="class_query_engine_bench_1aaec07c8da9014d13525561bc40bbe7f1" prot="protected" virt="non-virtual"><scope>QueryEngineBench</scope><name>db_path_</name></member>
+      <member refid="class_query_engine_bench_1a14577f420f47598f15f0aacb33e1e0f4" prot="protected" virt="non-virtual"><scope>QueryEngineBench</scope><name>keys_</name></member>
+      <member refid="class_query_engine_bench_1aaddce3cd2fe20834a45edb9dbb559500" prot="public" virt="non-virtual"><scope>QueryEngineBench</scope><name>kNumEntities</name></member>
+      <member refid="class_query_engine_bench_1a1570b44d78da9fea6e8458150dcd7c74" prot="public" virt="non-virtual"><scope>QueryEngineBench</scope><name>SetUp</name></member>
+      <member refid="class_query_engine_bench_1a0f3b127af5f83d4356e888f78e517b0d" prot="public" virt="non-virtual"><scope>QueryEngineBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

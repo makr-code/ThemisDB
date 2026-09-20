@@ -1,0 +1,878 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1imggen_1_1_in_memory_s_d_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::imggen::InMemorySDGenerator</compoundname>
+    <basecompoundref refid="classthemis_1_1imggen_1_1_i_s_d_generator" prot="public" virt="non-virtual">themis::imggen::ISDGenerator</basecompoundref>
+    <derivedcompoundref refid="class_lo_r_a_failing_generator" prot="public" virt="non-virtual">LoRAFailingGenerator</derivedcompoundref>
+    <includes refid="sd__generator_8h" local="no">sd_generator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa50d35cb67b6f8487fae6e4dea1be43" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::imggen::InMemorySDGenerator::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="246" column="24" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa155fe8c37055ba2ab53c5b562ef323f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::InMemorySDGenerator::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::model_id_</qualifiedname>
+        <initializer>= &quot;inmemory&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="247" column="24" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a87802b1b5cab82489c9bffbf1df4072b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::imggen::InMemorySDGenerator::next_px_</definition>
+        <argsstring></argsstring>
+        <name>next_px_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::next_px_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="248" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a864bbc5bdd1e291970d037fef97797f3" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::next_w_</definition>
+        <argsstring></argsstring>
+        <name>next_w_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::next_w_</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="249" column="24" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1adb38b24d06a8ba7819f0b5eb62253216" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::next_h_</definition>
+        <argsstring></argsstring>
+        <name>next_h_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::next_h_</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="249" column="33" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a911d3e41281ee9e9d7e0af4af9951055" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::imggen::InMemorySDGenerator::next_seed_</definition>
+        <argsstring></argsstring>
+        <name>next_seed_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::next_seed_</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="250" column="24" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1acca896d25ffcc23b4595ce7b59d23caf" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::imggen::InMemorySDGenerator::img2img_called_</definition>
+        <argsstring></argsstring>
+        <name>img2img_called_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::img2img_called_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="252" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a8e0b10d61033db0d338112f0f440b671" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::imggen::InMemorySDGenerator::last_img2img_strength_</definition>
+        <argsstring></argsstring>
+        <name>last_img2img_strength_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_img2img_strength_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="253" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a63b2d25884950bd1473f0a70437ce6b1" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::last_img2img_input_w_</definition>
+        <argsstring></argsstring>
+        <name>last_img2img_input_w_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_img2img_input_w_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="254" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a9932058ad53407ed5e426d2b50ca88fe" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::last_img2img_input_h_</definition>
+        <argsstring></argsstring>
+        <name>last_img2img_input_h_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_img2img_input_h_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="255" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a119dd39d32aeae63888fbc51b53c5f2d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::last_control_width_</definition>
+        <argsstring></argsstring>
+        <name>last_control_width_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_control_width_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="256" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ab578ed9ea1b92bf8af1d37e866df5548" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::last_control_height_</definition>
+        <argsstring></argsstring>
+        <name>last_control_height_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_control_height_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="257" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a09a7452f4ac0988bd8dd45ec66212f95" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::imggen::InMemorySDGenerator::last_control_strength_</definition>
+        <argsstring></argsstring>
+        <name>last_control_strength_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_control_strength_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="258" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a4bf6762a81a24a85bddb2984a0b9ccac" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::InMemorySDGenerator::last_control_model_path_</definition>
+        <argsstring></argsstring>
+        <name>last_control_model_path_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_control_model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="259" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a120b1e4816000e696f8ccc1c52be9032" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::InMemorySDGenerator::last_lora_adapter_path_</definition>
+        <argsstring></argsstring>
+        <name>last_lora_adapter_path_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_lora_adapter_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="260" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad8a48cf990bd6af56665d24ef14a8d92" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::imggen::InMemorySDGenerator::last_lora_scale_</definition>
+        <argsstring></argsstring>
+        <name>last_lora_scale_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_lora_scale_</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="261" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a69da79a95f8dbb6f05a19454233373be" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::imggen::InMemorySDGenerator::apply_lora_should_succeed_</definition>
+        <argsstring></argsstring>
+        <name>apply_lora_should_succeed_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::apply_lora_should_succeed_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="262" column="10" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1af7c201061bffe06af6a14048cfaf4c51" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::InMemorySDGenerator::apply_lora_error_message_</definition>
+        <argsstring></argsstring>
+        <name>apply_lora_error_message_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::apply_lora_error_message_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="263" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ac8b45d225e318d0a258b1f9d88827361" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::InMemorySDGenerator::last_applied_lora_path_</definition>
+        <argsstring></argsstring>
+        <name>last_applied_lora_path_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_applied_lora_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="264" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1af0b31bb9d0e7a493d3f2943a9820003e" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::imggen::InMemorySDGenerator::last_applied_lora_scale_</definition>
+        <argsstring></argsstring>
+        <name>last_applied_lora_scale_</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::last_applied_lora_scale_</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="265" column="11" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a24995183683a0a58f919782f5b5b2cc5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::imggen::InMemorySDGenerator::setNextPixels</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; px, int w, int h, uint64_t seed=42)</argsstring>
+        <name>setNextPixels</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::setNextPixels</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;</type>
+          <declname>px</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>w</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="167" column="10" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="167" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a12322edbbe1257e39a1222747df5aa34" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::InMemorySDGenerator::initialize</definition>
+        <argsstring>(const SDConfig &amp;cfg) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ad0cd30841df2b1d5fd9b68cce018769a">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1imggen_1_1_s_d_config" kindref="compound">SDConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="175" column="10" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="175" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa5aea1f60935cfe3f8372479cc3b3c63" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::InMemorySDGenerator::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a9defb19fbe5f596d05a743283893b552">isInitialized</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="180" column="10" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a887bc4ec27621c306141f9ddf26a573d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::imggen::InMemorySDGenerator::setApplyLoraResult</definition>
+        <argsstring>(bool succeed, std::string error_message={})</argsstring>
+        <name>setApplyLoraResult</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::setApplyLoraResult</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>succeed</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>error_message</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="182" column="10" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa0dc65de7f562c9c9a5141e3a3061d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::imggen::InMemorySDGenerator::generate</definition>
+        <argsstring>(const std::string &amp;, const SDGenerationConfig &amp;cfg, int &amp;out_w, int &amp;out_h, uint64_t &amp;out_seed) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a4847d318384466186d1585c2bf00c741">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const SDGenerationConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_width</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_height</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out_seed</declname>
+        </param>
+        <briefdescription>
+<para>Generate raw RGB pixel data for a given prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sanitized text prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-request generation config. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual width of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual height of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed that was actually used (important for -1 random seeds). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raw RGB byte buffer (width * height * 3 bytes). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="187" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="187" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa7c67a8c5bd8573ecefaff6d37ad46e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::imggen::InMemorySDGenerator::generateImg2Img</definition>
+        <argsstring>(const std::string &amp;prompt, const Img2ImgConfig &amp;cfg, int &amp;out_w, int &amp;out_h, uint64_t &amp;out_seed) override</argsstring>
+        <name>generateImg2Img</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::generateImg2Img</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ac1e9e28534394283082f52bce24469c8">generateImg2Img</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const Img2ImgConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_width</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_height</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out_seed</declname>
+        </param>
+        <briefdescription>
+<para>Img2Img: generate raw RGB pixel data conditioned on an input image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation ignores the input image and delegates to <ref refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa0dc65de7f562c9c9a5141e3a3061d8" kindref="member">generate()</ref>. SDCppGenerator will override this with real denoising inference.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sanitized text prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Img2Img config (includes input_image_rgb, strength, mask). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual width of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual height of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed actually used. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raw RGB byte buffer (width * height * 3 bytes). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="203" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="203" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad5537399173326f479e9e4ceabc09d32" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::InMemorySDGenerator::applyLoRA</definition>
+        <argsstring>(const std::string &amp;lora_path, float scale, std::string &amp;error_out) override</argsstring>
+        <name>applyLoRA</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::applyLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a7482335dd5fecd46ccbb84c42654a01e">applyLoRA</reimplements>
+        <reimplementedby refid="class_lo_r_a_failing_generator_1aee8d8085ada739dec04ab6c0aafa5b87">applyLoRA</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Optionally apply a LoRA adapter for subsequent generation calls. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation is a no-op that succeeds for generators that do not support LoRA updates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to LoRA adapter (empty means clear LoRA state). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter scale factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detailed error text on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on validation/application failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="214" column="10" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="214" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a6c46912421ba42f6a45faf8948098c3e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::InMemorySDGenerator::img2imgCalled</definition>
+        <argsstring>() const</argsstring>
+        <name>img2imgCalled</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::img2imgCalled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="230" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ac890c79d882b577051ed1464605cb653" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::imggen::InMemorySDGenerator::lastImg2ImgStrength</definition>
+        <argsstring>() const</argsstring>
+        <name>lastImg2ImgStrength</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastImg2ImgStrength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="231" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a19a829bc52aa09fd9187faea354a9859" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::lastImg2ImgInputWidth</definition>
+        <argsstring>() const</argsstring>
+        <name>lastImg2ImgInputWidth</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastImg2ImgInputWidth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="232" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1adb49917eeff1582f1568c8871e0f528b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::lastImg2ImgInputHeight</definition>
+        <argsstring>() const</argsstring>
+        <name>lastImg2ImgInputHeight</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastImg2ImgInputHeight</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="233" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="233" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a63049e5dad30d742388488dd10a2acd9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::lastControlWidth</definition>
+        <argsstring>() const</argsstring>
+        <name>lastControlWidth</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastControlWidth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="234" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a16f963cd31a991c747e55d5fc99a3789" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::imggen::InMemorySDGenerator::lastControlHeight</definition>
+        <argsstring>() const</argsstring>
+        <name>lastControlHeight</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastControlHeight</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="235" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="235" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a4fdab95c4e75f338adca47d14661e0c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::imggen::InMemorySDGenerator::lastControlStrength</definition>
+        <argsstring>() const</argsstring>
+        <name>lastControlStrength</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastControlStrength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="236" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a3c590d331e87cb4ee6ecc4e9999c97d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::imggen::InMemorySDGenerator::lastControlModelPath</definition>
+        <argsstring>() const</argsstring>
+        <name>lastControlModelPath</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastControlModelPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="237" column="23" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a80e7541f3c68e66c85f1c4092db67d69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::imggen::InMemorySDGenerator::lastLoraAdapterPath</definition>
+        <argsstring>() const</argsstring>
+        <name>lastLoraAdapterPath</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastLoraAdapterPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="238" column="23" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad9493686e460da74c76f40e1d2d410f7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::imggen::InMemorySDGenerator::lastLoraScale</definition>
+        <argsstring>() const</argsstring>
+        <name>lastLoraScale</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastLoraScale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="239" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="239" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a7aae0a58a24f5b0ad96bb2a25d14e50c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::imggen::InMemorySDGenerator::lastAppliedLoraPath</definition>
+        <argsstring>() const</argsstring>
+        <name>lastAppliedLoraPath</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastAppliedLoraPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="240" column="23" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aeaf88bc264287ccbc0c969e8eab3fd77" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::imggen::InMemorySDGenerator::lastAppliedLoraScale</definition>
+        <argsstring>() const</argsstring>
+        <name>lastAppliedLoraScale</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::lastAppliedLoraScale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="241" column="12" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1abb5ca2e27fb8b3338a2d933cd6da04dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::InMemorySDGenerator::getModelId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::imggen::InMemorySDGenerator::getModelId</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a35a4c3fe7186b5c40f0b058c2421f60f">getModelId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="243" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="243" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory generator for unit tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers pre-set the next pixel buffer and dimensions. Supports both text-to-image and img2img paths; img2img records whether it was invoked so tests can verify the correct path was taken. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>LoRAFailingGenerator</label>
+        <link refid="class_lo_r_a_failing_generator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+      <node id="1">
+        <label>themis::imggen::InMemorySDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+      <node id="1">
+        <label>themis::imggen::InMemorySDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/stable_diffusion/sd_generator.h" line="165" column="1" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="165" bodyend="266"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1af7c201061bffe06af6a14048cfaf4c51" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>apply_lora_error_message_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a69da79a95f8dbb6f05a19454233373be" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>apply_lora_should_succeed_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad5537399173326f479e9e4ceabc09d32" prot="public" virt="virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>applyLoRA</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa0dc65de7f562c9c9a5141e3a3061d8" prot="public" virt="virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>generate</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa7c67a8c5bd8573ecefaff6d37ad46e8" prot="public" virt="virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>generateImg2Img</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1abb5ca2e27fb8b3338a2d933cd6da04dc" prot="public" virt="virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1acca896d25ffcc23b4595ce7b59d23caf" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>img2img_called_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a6c46912421ba42f6a45faf8948098c3e" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>img2imgCalled</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a12322edbbe1257e39a1222747df5aa34" prot="public" virt="virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa50d35cb67b6f8487fae6e4dea1be43" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa5aea1f60935cfe3f8372479cc3b3c63" prot="public" virt="virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ac8b45d225e318d0a258b1f9d88827361" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_applied_lora_path_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1af0b31bb9d0e7a493d3f2943a9820003e" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_applied_lora_scale_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ab578ed9ea1b92bf8af1d37e866df5548" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_control_height_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a4bf6762a81a24a85bddb2984a0b9ccac" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_control_model_path_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a09a7452f4ac0988bd8dd45ec66212f95" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_control_strength_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a119dd39d32aeae63888fbc51b53c5f2d" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_control_width_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a9932058ad53407ed5e426d2b50ca88fe" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_img2img_input_h_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a63b2d25884950bd1473f0a70437ce6b1" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_img2img_input_w_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a8e0b10d61033db0d338112f0f440b671" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_img2img_strength_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a120b1e4816000e696f8ccc1c52be9032" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_lora_adapter_path_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad8a48cf990bd6af56665d24ef14a8d92" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>last_lora_scale_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a7aae0a58a24f5b0ad96bb2a25d14e50c" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastAppliedLoraPath</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aeaf88bc264287ccbc0c969e8eab3fd77" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastAppliedLoraScale</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a16f963cd31a991c747e55d5fc99a3789" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastControlHeight</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a3c590d331e87cb4ee6ecc4e9999c97d1" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastControlModelPath</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a4fdab95c4e75f338adca47d14661e0c9" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastControlStrength</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a63049e5dad30d742388488dd10a2acd9" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastControlWidth</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1adb49917eeff1582f1568c8871e0f528b" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastImg2ImgInputHeight</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a19a829bc52aa09fd9187faea354a9859" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastImg2ImgInputWidth</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ac890c79d882b577051ed1464605cb653" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastImg2ImgStrength</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a80e7541f3c68e66c85f1c4092db67d69" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastLoraAdapterPath</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad9493686e460da74c76f40e1d2d410f7" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>lastLoraScale</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa155fe8c37055ba2ab53c5b562ef323f" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1adb38b24d06a8ba7819f0b5eb62253216" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>next_h_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a87802b1b5cab82489c9bffbf1df4072b" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>next_px_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a911d3e41281ee9e9d7e0af4af9951055" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>next_seed_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a864bbc5bdd1e291970d037fef97797f3" prot="private" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>next_w_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a887bc4ec27621c306141f9ddf26a573d" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>setApplyLoraResult</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a24995183683a0a58f919782f5b5b2cc5" prot="public" virt="non-virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>setNextPixels</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a1cac8c129aba6caccfa55ea79695d8f0" prot="public" virt="virtual"><scope>themis::imggen::InMemorySDGenerator</scope><name>~ISDGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

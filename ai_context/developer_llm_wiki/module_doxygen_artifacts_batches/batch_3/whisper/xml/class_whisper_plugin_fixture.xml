@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_whisper_plugin_fixture" kind="class" language="C++" prot="public">
+    <compoundname>WhisperPluginFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_whisper_plugin_fixture_1a40c0ba2273709f25701c6a31c28352c3" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WhisperPlugin&gt; WhisperPluginFixture::plugin</definition>
+        <argsstring></argsstring>
+        <name>plugin</name>
+        <qualifiedname>WhisperPluginFixture::plugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/whisper/bench_whisper_transcription.cpp" line="104" column="21" bodyfile="benchmarks/whisper/bench_whisper_transcription.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_whisper_plugin_fixture_1aa908266db474a5a7b6e4967f108f814b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; WhisperPluginFixture::pcm_1s</definition>
+        <argsstring></argsstring>
+        <name>pcm_1s</name>
+        <qualifiedname>WhisperPluginFixture::pcm_1s</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/whisper/bench_whisper_transcription.cpp" line="105" column="29" bodyfile="benchmarks/whisper/bench_whisper_transcription.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_whisper_plugin_fixture_1a59a223c9c37a2fe7884f0d02bb0d58c5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; WhisperPluginFixture::pcm_5s</definition>
+        <argsstring></argsstring>
+        <name>pcm_5s</name>
+        <qualifiedname>WhisperPluginFixture::pcm_5s</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/whisper/bench_whisper_transcription.cpp" line="106" column="29" bodyfile="benchmarks/whisper/bench_whisper_transcription.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_whisper_plugin_fixture_1a6d52387607c37fcf0dd1d7612d89966d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; WhisperPluginFixture::pcm_30s</definition>
+        <argsstring></argsstring>
+        <name>pcm_30s</name>
+        <qualifiedname>WhisperPluginFixture::pcm_30s</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/whisper/bench_whisper_transcription.cpp" line="107" column="29" bodyfile="benchmarks/whisper/bench_whisper_transcription.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_whisper_plugin_fixture_1a9a1d74516f990be96cdef2e5cfcf7f47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WhisperPluginFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>WhisperPluginFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/whisper/bench_whisper_transcription.cpp" line="84" column="10" bodyfile="benchmarks/whisper/bench_whisper_transcription.cpp" bodystart="84" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_plugin_fixture_1a60395457668bc4eddf892c78e102a787" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WhisperPluginFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>WhisperPluginFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/whisper/bench_whisper_transcription.cpp" line="100" column="10" bodyfile="benchmarks/whisper/bench_whisper_transcription.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WhisperPluginFixture</label>
+        <link refid="class_whisper_plugin_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WhisperPluginFixture</label>
+        <link refid="class_whisper_plugin_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/whisper/bench_whisper_transcription.cpp" line="82" column="1" bodyfile="benchmarks/whisper/bench_whisper_transcription.cpp" bodystart="82" bodyend="108"/>
+    <listofallmembers>
+      <member refid="class_whisper_plugin_fixture_1aa908266db474a5a7b6e4967f108f814b" prot="public" virt="non-virtual"><scope>WhisperPluginFixture</scope><name>pcm_1s</name></member>
+      <member refid="class_whisper_plugin_fixture_1a6d52387607c37fcf0dd1d7612d89966d" prot="public" virt="non-virtual"><scope>WhisperPluginFixture</scope><name>pcm_30s</name></member>
+      <member refid="class_whisper_plugin_fixture_1a59a223c9c37a2fe7884f0d02bb0d58c5" prot="public" virt="non-virtual"><scope>WhisperPluginFixture</scope><name>pcm_5s</name></member>
+      <member refid="class_whisper_plugin_fixture_1a40c0ba2273709f25701c6a31c28352c3" prot="public" virt="non-virtual"><scope>WhisperPluginFixture</scope><name>plugin</name></member>
+      <member refid="class_whisper_plugin_fixture_1a9a1d74516f990be96cdef2e5cfcf7f47" prot="public" virt="non-virtual"><scope>WhisperPluginFixture</scope><name>SetUp</name></member>
+      <member refid="class_whisper_plugin_fixture_1a60395457668bc4eddf892c78e102a787" prot="public" virt="non-virtual"><scope>WhisperPluginFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

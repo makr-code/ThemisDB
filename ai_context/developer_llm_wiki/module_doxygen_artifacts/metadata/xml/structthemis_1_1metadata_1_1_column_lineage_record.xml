@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_column_lineage_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::ColumnLineageRecord</compoundname>
+    <includes refid="column__lineage_8h" local="no">column_lineage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_record_1add880cdcf3680ecc190bf57dedae846e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref></type>
+        <definition>ColumnRef themis::metadata::ColumnLineageRecord::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::metadata::ColumnLineageRecord::column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="111" column="15" bodyfile="include/metadata/column_lineage.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_record_1ac92bdacf60ba3e20d53f07e3de6afbac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_lineage_entry" kindref="compound">ColumnLineageEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnLineageEntry&gt; themis::metadata::ColumnLineageRecord::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::metadata::ColumnLineageRecord::entries</qualifiedname>
+        <briefdescription>
+<para>All derivation entries where this column is the target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="112" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_lineage_record_1afa3f5ce0d6e8a7a7e344fe965843dcdb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::metadata::ColumnLineageRecord::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::ColumnLineageRecord::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this lineage record to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object containing the target column and its direct entries. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="118" column="20" bodyfile="src/metadata/column_lineage.cpp" bodystart="143" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Full lineage record for a single column: all recorded derivation entries and derived provenance information. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::metadata::ColumnLineageRecord</label>
+        <link refid="structthemis_1_1metadata_1_1_column_lineage_record"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>column</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::metadata::ColumnRef</label>
+        <link refid="structthemis_1_1metadata_1_1_column_ref"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/column_lineage.h" line="110" column="1" bodyfile="include/metadata/column_lineage.h" bodystart="110" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_record_1add880cdcf3680ecc190bf57dedae846e" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageRecord</scope><name>column</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_record_1ac92bdacf60ba3e20d53f07e3de6afbac" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageRecord</scope><name>entries</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_record_1afa3f5ce0d6e8a7a7e344fe965843dcdb" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageRecord</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

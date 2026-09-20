@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryManager::Stats</compoundname>
+    <includes refid="memory__manager_8h" local="no">memory_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats_1a963b917b8b680e60c1da658a361cf399" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::Stats::allocated_bytes</definition>
+        <argsstring></argsstring>
+        <name>allocated_bytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::Stats::allocated_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>current live VRAM usage </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="63" column="18" bodyfile="include/themis/gpu/memory_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats_1a88862070e90bb53f1e7b39a6cca88d15" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::Stats::peak_bytes</definition>
+        <argsstring></argsstring>
+        <name>peak_bytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::Stats::peak_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>high-water mark since construction </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="64" column="18" bodyfile="include/themis/gpu/memory_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats_1a708453e6b55361e45584d7bd73a2f6ee" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::Stats::allocation_count</definition>
+        <argsstring></argsstring>
+        <name>allocation_count</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::Stats::allocation_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>successful <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6a8c6904758037d6fd19bd2e583c87d2" kindref="member">TryAllocateGPU()</ref> calls </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="65" column="18" bodyfile="include/themis/gpu/memory_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats_1aa96db736455eab1385c15b9e0ffa2a3a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::Stats::deallocation_count</definition>
+        <argsstring></argsstring>
+        <name>deallocation_count</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::Stats::deallocation_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>successful <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aef4a9969e2a693ac8efbe4614a9c710c" kindref="member">DeallocateGPU()</ref> calls </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="66" column="18" bodyfile="include/themis/gpu/memory_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/memory_manager.h" line="62" column="5" bodyfile="include/themis/gpu/memory_manager.h" bodystart="62" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats_1a963b917b8b680e60c1da658a361cf399" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager::Stats</scope><name>allocated_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats_1a708453e6b55361e45584d7bd73a2f6ee" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager::Stats</scope><name>allocation_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats_1aa96db736455eab1385c15b9e0ffa2a3a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager::Stats</scope><name>deallocation_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats_1a88862070e90bb53f1e7b39a6cca88d15" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager::Stats</scope><name>peak_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

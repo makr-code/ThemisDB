@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ABTestInfo</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aedab4eb7729ab86cda217bf511a4613e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ABTestInfo::test_id</definition>
+        <argsstring></argsstring>
+        <name>test_id</name>
+        <qualifiedname>themis::rag::learning::ABTestInfo::test_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="107" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1afe6853beebd65d2bf4d625b11ba04904" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ABTestInfo::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::rag::learning::ABTestInfo::component</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="108" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a49aadd979031ff3c16d4106cbeedfde2" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::learning::ABTestInfo::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::rag::learning::ABTestInfo::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="109" column="43" bodyfile="include/rag/learning_metrics.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a6b9b00281b71bc006a2a33ab83a34e81" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ABTestInfo::control_samples</definition>
+        <argsstring></argsstring>
+        <name>control_samples</name>
+        <qualifiedname>themis::rag::learning::ABTestInfo::control_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="110" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1af865cebcab3951cf78d456ba71c6c48c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ABTestInfo::treatment_samples</definition>
+        <argsstring></argsstring>
+        <name>treatment_samples</name>
+        <qualifiedname>themis::rag::learning::ABTestInfo::treatment_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="111" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aa041c59b0327f471e8a5286ac7ad70f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestInfo::control_success_rate</definition>
+        <argsstring></argsstring>
+        <name>control_success_rate</name>
+        <qualifiedname>themis::rag::learning::ABTestInfo::control_success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="112" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a8bf4ab8c16e2ad6b4ca102f26538fb86" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestInfo::treatment_success_rate</definition>
+        <argsstring></argsstring>
+        <name>treatment_success_rate</name>
+        <qualifiedname>themis::rag::learning::ABTestInfo::treatment_success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="113" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aa80939a011209de8be04ab19730a9b07" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ABTestInfo::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themis::rag::learning::ABTestInfo::is_active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="114" column="10" bodyfile="include/rag/learning_metrics.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A/B test information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="106" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="106" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1afe6853beebd65d2bf4d625b11ba04904" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestInfo</scope><name>component</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a6b9b00281b71bc006a2a33ab83a34e81" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestInfo</scope><name>control_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aa041c59b0327f471e8a5286ac7ad70f2" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestInfo</scope><name>control_success_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aa80939a011209de8be04ab19730a9b07" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestInfo</scope><name>is_active</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a49aadd979031ff3c16d4106cbeedfde2" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestInfo</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aedab4eb7729ab86cda217bf511a4613e" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestInfo</scope><name>test_id</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1af865cebcab3951cf78d456ba71c6c48c" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestInfo</scope><name>treatment_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a8bf4ab8c16e2ad6b4ca102f26538fb86" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestInfo</scope><name>treatment_success_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

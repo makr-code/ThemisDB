@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1_i_flash_attention" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::attention::IFlashAttention</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_c_p_u" prot="public" virt="non-virtual">themis::llm::attention::FlashAttentionCPU</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a" prot="public" virt="non-virtual">themis::llm::attention::cuda::FlashAttentionCUDA</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p" prot="public" virt="non-virtual">themis::llm::attention::hip::FlashAttentionHIP</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan" prot="public" virt="non-virtual">themis::llm::attention::vulkan::FlashAttentionVulkan</derivedcompoundref>
+    <includes refid="flash__attention_8h" local="no">flash_attention.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1abe74ffe785c2ad56eb715030bf5bcc56" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::attention::IFlashAttention::~IFlashAttention</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFlashAttention</name>
+        <qualifiedname>themis::llm::attention::IFlashAttention::~IFlashAttention</qualifiedname>
+        <briefdescription>
+<para>IFlash Attention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a7c0913857f75209720e959517b5e5250" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>virtual Status themis::llm::attention::IFlashAttention::forward</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O, const KVCacheManager *kv_cache=nullptr)=0</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::attention::IFlashAttention::forward</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a_1af72b43e3729ce0c0c9b4a8bc746e6884">forward</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_c_p_u_1a38551ce0571d1abbb7516327a28e7b45">forward</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a081e573ab9bf106466e09d63f84665f5">forward</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1aec2629da2a0c18cd6b31cf22c7d849e2">forward</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager" kindref="compound">KVCacheManager</ref> *</type>
+          <declname>kv_cache</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="86" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a78d23c9d48d190ac8a03e078f2afe382" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>virtual Status themis::llm::attention::IFlashAttention::backward</definition>
+        <argsstring>(const Tensor &amp;dO, Tensor &amp;dQ, Tensor &amp;dK, Tensor &amp;dV)=0</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::attention::IFlashAttention::backward</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a_1a4d9d1a18dcd3293ce330112957369d72">backward</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_c_p_u_1a55d403a59144e96d20aa761a6b237a61">backward</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a1875bb9f3111b0beeb92d0881000026e">backward</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a155adcd160905b1710948679fd61af10">backward</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dO</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dQ</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dK</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dV</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dQ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dV</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="102" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a5efbd390b10ff2f4e6676fe9b3d7fe06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::attention::IFlashAttention::getBackendName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::llm::attention::IFlashAttention::getBackendName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a_1aa8fcaa37541f835830296d676d203bee">getBackendName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_c_p_u_1ae64db4057ec454b332d8866a9e85f8f7">getBackendName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a96ebaa78bb520ccfec08822eb28b26e9">getBackendName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1afe8f524526348e59841cf756261b5e81">getBackendName</reimplementedby>
+        <briefdescription>
+<para>Get <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="113" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1af771cc05c9302afde1122f4a88326951" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref></type>
+        <definition>virtual AttentionMemoryStats themis::llm::attention::IFlashAttention::getMemoryStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::attention::IFlashAttention::getMemoryStats</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a_1a4481cb542a95ded3e6f10021cc903127">getMemoryStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_c_p_u_1a208be8fe50ffb295890cca3f5f5f9f0e">getMemoryStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a56a3d77a7df0aede1f279e7be9b4cb86">getMemoryStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae3204490ca23a8f75a4d2918bf29919a">getMemoryStats</reimplementedby>
+        <briefdescription>
+<para>Get Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="119" column="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::attention::FlashAttentionCPU</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_c_p_u"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::attention::IFlashAttention</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::attention::cuda::FlashAttentionCUDA</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::attention::hip::FlashAttentionHIP</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::llm::attention::vulkan::FlashAttentionVulkan</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/attention/flash_attention.h" line="78" column="1" bodyfile="include/llm/attention/flash_attention.h" bodystart="78" bodyend="120"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a78d23c9d48d190ac8a03e078f2afe382" prot="public" virt="pure-virtual"><scope>themis::llm::attention::IFlashAttention</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a7c0913857f75209720e959517b5e5250" prot="public" virt="pure-virtual"><scope>themis::llm::attention::IFlashAttention</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a5efbd390b10ff2f4e6676fe9b3d7fe06" prot="public" virt="pure-virtual"><scope>themis::llm::attention::IFlashAttention</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1af771cc05c9302afde1122f4a88326951" prot="public" virt="pure-virtual"><scope>themis::llm::attention::IFlashAttention</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1abe74ffe785c2ad56eb715030bf5bcc56" prot="public" virt="virtual"><scope>themis::llm::attention::IFlashAttention</scope><name>~IFlashAttention</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

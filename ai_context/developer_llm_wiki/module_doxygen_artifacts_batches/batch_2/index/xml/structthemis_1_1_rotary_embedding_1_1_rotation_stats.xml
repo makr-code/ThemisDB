@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_rotary_embedding_1_1_rotation_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RotaryEmbedding::RotationStats</compoundname>
+    <includes refid="rotary__embeddings_8h" local="no">rotary_embeddings.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_1_1_rotation_stats_1a5fb5bea9eadd3b8273e247834629e2f1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RotaryEmbedding::RotationStats::total_rotated_entities</definition>
+        <argsstring></argsstring>
+        <name>total_rotated_entities</name>
+        <qualifiedname>themis::RotaryEmbedding::RotationStats::total_rotated_entities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="66" column="18" bodyfile="include/index/rotary_embeddings.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_1_1_rotation_stats_1aec56f0c10c83ee37923ba1eaaa596053" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RotaryEmbedding::RotationStats::total_relational_rotations</definition>
+        <argsstring></argsstring>
+        <name>total_relational_rotations</name>
+        <qualifiedname>themis::RotaryEmbedding::RotationStats::total_relational_rotations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="67" column="18" bodyfile="include/index/rotary_embeddings.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_1_1_rotation_stats_1a33f4c29fdcf85adbd5d4182f8312e341" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RotaryEmbedding::RotationStats::avg_rotation_time_us</definition>
+        <argsstring></argsstring>
+        <name>avg_rotation_time_us</name>
+        <qualifiedname>themis::RotaryEmbedding::RotationStats::avg_rotation_time_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="68" column="16" bodyfile="include/index/rotary_embeddings.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/rotary_embeddings.h" line="65" column="5" bodyfile="include/index/rotary_embeddings.h" bodystart="65" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_rotary_embedding_1_1_rotation_stats_1a33f4c29fdcf85adbd5d4182f8312e341" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding::RotationStats</scope><name>avg_rotation_time_us</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_1_1_rotation_stats_1aec56f0c10c83ee37923ba1eaaa596053" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding::RotationStats</scope><name>total_relational_rotations</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_1_1_rotation_stats_1a5fb5bea9eadd3b8273e247834629e2f1" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding::RotationStats</scope><name>total_rotated_entities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

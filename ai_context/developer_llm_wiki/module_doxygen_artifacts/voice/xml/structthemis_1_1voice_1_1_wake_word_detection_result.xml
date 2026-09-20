@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_wake_word_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::WakeWordDetectionResult</compoundname>
+    <includes refid="wake__word__detector_8h" local="no">wake_word_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_detection_result_1a885a2d2f70c0e5d4fb938a7e783766b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::WakeWordDetectionResult::detected</definition>
+        <argsstring></argsstring>
+        <name>detected</name>
+        <qualifiedname>themis::voice::WakeWordDetectionResult::detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when wake word is confirmed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="36" column="17" bodyfile="include/voice/wake_word_detector.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_detection_result_1a44da93bff87f87450d8a9fddb92f48e7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a2bcf38f228ebe648b92ae25077c5f8e4" kindref="member">WakeWordID</ref></type>
+        <definition>WakeWordID themis::voice::WakeWordDetectionResult::wake_word_id</definition>
+        <argsstring></argsstring>
+        <name>wake_word_id</name>
+        <qualifiedname>themis::voice::WakeWordDetectionResult::wake_word_id</qualifiedname>
+        <briefdescription>
+<para>Which wake word fired (empty if none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="37" column="17" bodyfile="include/voice/wake_word_detector.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_detection_result_1a3b75b0936966a2e854394e8c41a9a004" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::WakeWordDetectionResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::WakeWordDetectionResult::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Score in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="38" column="17" bodyfile="include/voice/wake_word_detector.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_detection_result_1acc9a84b5a5475935ae7594e21f503194" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::WakeWordDetectionResult::detection_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>detection_timestamp_ms</name>
+        <qualifiedname>themis::voice::WakeWordDetectionResult::detection_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock ms at detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="39" column="17" bodyfile="include/voice/wake_word_detector.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by processAudioChunk(). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/wake_word_detector.h" line="35" column="1" bodyfile="include/voice/wake_word_detector.h" bodystart="35" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a3b75b0936966a2e854394e8c41a9a004" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordDetectionResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a885a2d2f70c0e5d4fb938a7e783766b5" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordDetectionResult</scope><name>detected</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_detection_result_1acc9a84b5a5475935ae7594e21f503194" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordDetectionResult</scope><name>detection_timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a44da93bff87f87450d8a9fddb92f48e7" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordDetectionResult</scope><name>wake_word_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

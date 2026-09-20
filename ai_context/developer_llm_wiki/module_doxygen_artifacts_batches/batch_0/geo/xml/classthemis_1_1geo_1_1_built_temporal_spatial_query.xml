@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_built_temporal_spatial_query" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::BuiltTemporalSpatialQuery</compoundname>
+    <includes refid="temporal__spatial__query__builder_8h" local="no">temporal_spatial_query_builder.h</includes>
+    <innerclass refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint" prot="public">themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint" prot="public">themis::geo::BuiltTemporalSpatialQuery::SpatialConstraint</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SpatialType</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::SpatialType</qualifiedname>
+        <enumvalue id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726ca4ecebc88bc894442fa42362605b3ad34" prot="public">
+          <name>BBOX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726ca1a6e096e1e9b142e671245bf278b66a2" prot="public">
+          <name>PREDICATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="45" column="5" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a64de6dbee3deab0eb6117db621d51090" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint" kindref="compound">TemporalConstraint</ref></type>
+        <definition>TemporalConstraint themis::geo::BuiltTemporalSpatialQuery::temporal_</definition>
+        <argsstring></argsstring>
+        <name>temporal_</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::temporal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="84" column="24" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a0cfad4d58d69b51725d48993cdf05a9f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint" kindref="compound">SpatialConstraint</ref></type>
+        <definition>SpatialConstraint themis::geo::BuiltTemporalSpatialQuery::spatial_</definition>
+        <argsstring></argsstring>
+        <name>spatial_</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::spatial_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="85" column="24" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ac5cb25850f1af1d6d7dc48e807cc62f9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BuiltTemporalSpatialQuery::geo_field_</definition>
+        <argsstring></argsstring>
+        <name>geo_field_</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::geo_field_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="86" column="24" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1adf5cea3913f3218b9ccffae8e1d18b18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::BuiltTemporalSpatialQuery::BuiltTemporalSpatialQuery</definition>
+        <argsstring>(TemporalConstraint temporal, SpatialConstraint spatial, std::string geo_field)</argsstring>
+        <name>BuiltTemporalSpatialQuery</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::BuiltTemporalSpatialQuery</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint" kindref="compound">TemporalConstraint</ref></type>
+          <declname>temporal</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint" kindref="compound">SpatialConstraint</ref></type>
+          <declname>spatial</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>geo_field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="61" column="5" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a3b4c60ede269edcf0b60247d70705dc2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96" kindref="member">TimeWindowType</ref></type>
+        <definition>TimeWindowType themis::geo::BuiltTemporalSpatialQuery::windowType</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>windowType</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::windowType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="70" column="21" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ae49f2e2e5f70519493eb81e5c4576a4d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const MBR &amp;</type>
+        <definition>const MBR &amp; themis::geo::BuiltTemporalSpatialQuery::bbox</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bbox</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::bbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="74" column="16" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a4b9352deaadfeac010385b217d677563" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::geo::BuiltTemporalSpatialQuery::geoField</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>geoField</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::geoField</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="76" column="24" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ab1fa4b8c3da947b3c520e2b56fe10aab" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; themis::geo::BuiltTemporalSpatialQuery::execute</definition>
+        <argsstring>(const themisdb::temporal::SystemVersionedTable &amp;table) const</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::execute</qualifiedname>
+        <param>
+          <type>const themisdb::temporal::SystemVersionedTable &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="80" column="18" bodyfile="src/geo/temporal_spatial_query_builder.cpp" bodystart="32" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/temporal_spatial_query_builder.h" line="43" column="1" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="43" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ae49f2e2e5f70519493eb81e5c4576a4d" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>bbox</name></member>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1adf5cea3913f3218b9ccffae8e1d18b18" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>BuiltTemporalSpatialQuery</name></member>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ab1fa4b8c3da947b3c520e2b56fe10aab" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>execute</name></member>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ac5cb25850f1af1d6d7dc48e807cc62f9" prot="private" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>geo_field_</name></member>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a4b9352deaadfeac010385b217d677563" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>geoField</name></member>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a0cfad4d58d69b51725d48993cdf05a9f" prot="private" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>spatial_</name></member>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726c" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>SpatialType</name></member>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a64de6dbee3deab0eb6117db621d51090" prot="private" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>temporal_</name></member>
+      <member refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a3b4c60ede269edcf0b60247d70705dc2" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery</scope><name>windowType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

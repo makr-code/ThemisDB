@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_precedence_evaluation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PrecedenceEvaluation</compoundname>
+    <includes refid="policy__conflict__detector_8h" local="no">policy_conflict_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_precedence_evaluation_1a7ef0b62764869496c0b75c9e6d6e5a95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PrecedenceEvaluation::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::PrecedenceEvaluation::rule_id</qualifiedname>
+        <briefdescription>
+<para>Rule being evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="84" column="17" bodyfile="include/governance/policy_conflict_detector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_precedence_evaluation_1a6713053b94018e0ee7084b34266e0b4e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PrecedenceEvaluation::effective_priority</definition>
+        <argsstring></argsstring>
+        <name>effective_priority</name>
+        <qualifiedname>themis::governance::PrecedenceEvaluation::effective_priority</qualifiedname>
+        <briefdescription>
+<para>Computed priority. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="85" column="9" bodyfile="include/governance/policy_conflict_detector.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_precedence_evaluation_1aa36980d979780b71a4e35989d5bcd075" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PrecedenceEvaluation::has_explicit_precedence</definition>
+        <argsstring></argsstring>
+        <name>has_explicit_precedence</name>
+        <qualifiedname>themis::governance::PrecedenceEvaluation::has_explicit_precedence</qualifiedname>
+        <briefdescription>
+<para>Whether explicit ordering exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="86" column="10" bodyfile="include/governance/policy_conflict_detector.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_precedence_evaluation_1a295771ed6e3bdd589cf74ec144d88a7a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PrecedenceEvaluation::overrides</definition>
+        <argsstring></argsstring>
+        <name>overrides</name>
+        <qualifiedname>themis::governance::PrecedenceEvaluation::overrides</qualifiedname>
+        <briefdescription>
+<para>Rules this one overrides. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="87" column="17" bodyfile="include/governance/policy_conflict_detector.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_precedence_evaluation_1a56f6052104f8954b96bc15e1b41f5998" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PrecedenceEvaluation::overridden_by</definition>
+        <argsstring></argsstring>
+        <name>overridden_by</name>
+        <qualifiedname>themis::governance::PrecedenceEvaluation::overridden_by</qualifiedname>
+        <briefdescription>
+<para>Rules that override this one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="88" column="17" bodyfile="include/governance/policy_conflict_detector.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_precedence_evaluation_1ac08779607a9238c580f3572be9b3cb93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PrecedenceEvaluation::rationale</definition>
+        <argsstring></argsstring>
+        <name>rationale</name>
+        <qualifiedname>themis::governance::PrecedenceEvaluation::rationale</qualifiedname>
+        <briefdescription>
+<para>Explanation of priority decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="89" column="17" bodyfile="include/governance/policy_conflict_detector.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_precedence_evaluation_1a127d7258099990d335eb6bb8106ab809" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PrecedenceEvaluation::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PrecedenceEvaluation::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="95" column="20" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="80" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_conflict_detector.h" line="83" column="1" bodyfile="include/governance/policy_conflict_detector.h" bodystart="83" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_precedence_evaluation_1a6713053b94018e0ee7084b34266e0b4e" prot="public" virt="non-virtual"><scope>themis::governance::PrecedenceEvaluation</scope><name>effective_priority</name></member>
+      <member refid="structthemis_1_1governance_1_1_precedence_evaluation_1aa36980d979780b71a4e35989d5bcd075" prot="public" virt="non-virtual"><scope>themis::governance::PrecedenceEvaluation</scope><name>has_explicit_precedence</name></member>
+      <member refid="structthemis_1_1governance_1_1_precedence_evaluation_1a56f6052104f8954b96bc15e1b41f5998" prot="public" virt="non-virtual"><scope>themis::governance::PrecedenceEvaluation</scope><name>overridden_by</name></member>
+      <member refid="structthemis_1_1governance_1_1_precedence_evaluation_1a295771ed6e3bdd589cf74ec144d88a7a" prot="public" virt="non-virtual"><scope>themis::governance::PrecedenceEvaluation</scope><name>overrides</name></member>
+      <member refid="structthemis_1_1governance_1_1_precedence_evaluation_1ac08779607a9238c580f3572be9b3cb93" prot="public" virt="non-virtual"><scope>themis::governance::PrecedenceEvaluation</scope><name>rationale</name></member>
+      <member refid="structthemis_1_1governance_1_1_precedence_evaluation_1a7ef0b62764869496c0b75c9e6d6e5a95" prot="public" virt="non-virtual"><scope>themis::governance::PrecedenceEvaluation</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_precedence_evaluation_1a127d7258099990d335eb6bb8106ab809" prot="public" virt="non-virtual"><scope>themis::governance::PrecedenceEvaluation</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

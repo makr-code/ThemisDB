@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1llm" kind="namespace" language="C++">
+    <compoundname>themisdb::llm</compoundname>
+    <innerclass refid="structthemisdb_1_1llm_1_1_llama_cpp_config" prot="public">themisdb::llm::LlamaCppConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config" prot="public">themisdb::llm::LoRALayerConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1llm_1_1_training_step_result" prot="public">themisdb::llm::TrainingStepResult</innerclass>
+    <innerclass refid="structthemisdb_1_1llm_1_1_evaluation_result" prot="public">themisdb::llm::EvaluationResult</innerclass>
+    <innerclass refid="structthemisdb_1_1llm_1_1_checkpoint_data" prot="public">themisdb::llm::CheckpointData</innerclass>
+    <innerclass refid="classthemisdb_1_1llm_1_1_llama_cpp_training_backend" prot="public">themisdb::llm::LlamaCppTrainingBackend</innerclass>
+    <innerclass refid="classthemisdb_1_1llm_1_1_llama_cpp_backend_factory" prot="public">themisdb::llm::LlamaCppBackendFactory</innerclass>
+    <innernamespace refid="namespacethemisdb_1_1llm_1_1_target_modules">themisdb::llm::TargetModules</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llamacpp_training_backend.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

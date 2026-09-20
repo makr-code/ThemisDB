@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTimeSliceScheduler::TenantStats</compoundname>
+    <includes refid="time__slice__scheduler_8h" local="no">time_slice_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1aa48511bb73de26bb1e980eb8cb784f4d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUTimeSliceScheduler::TenantStats::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantStats::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="75" column="21" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a10ee2d6c27302086c70e6115826ed601" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::TenantStats::submitted</definition>
+        <argsstring></argsstring>
+        <name>submitted</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantStats::submitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Items submitted via <ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a53fef7a5a00deb10173900d209eb1d3a" kindref="member">submit()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="76" column="18" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a85311d41446581cd1420c98234b82464" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::TenantStats::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantStats::completed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Items executed to completion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="77" column="18" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1ae003efc5a90a7fd10d348cf7f15725e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::TenantStats::preempted</definition>
+        <argsstring></argsstring>
+        <name>preempted</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantStats::preempted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of times this tenant&apos;s slice expired with items remaining in the queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="78" column="18" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a0fab92a009d1dc14efb36e4115660c98" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUTimeSliceScheduler::TenantStats::total_elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>total_elapsed_ms</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantStats::total_elapsed_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cumulative wall-clock time in dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="79" column="18" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a1b595df94aa4d2cd5f32cb27675a56a1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUTimeSliceScheduler::TenantStats::slice_ms</definition>
+        <argsstring></argsstring>
+        <name>slice_ms</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantStats::slice_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Configured time quantum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="80" column="18" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1aef2dc63f5a3b11d976f8e1dbd0e6bcb6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::TenantStats::queue_depth</definition>
+        <argsstring></argsstring>
+        <name>queue_depth</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantStats::queue_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Items currently waiting in the queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="81" column="18" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/time_slice_scheduler.h" line="74" column="5" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="74" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a85311d41446581cd1420c98234b82464" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantStats</scope><name>completed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1ae003efc5a90a7fd10d348cf7f15725e1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantStats</scope><name>preempted</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1aef2dc63f5a3b11d976f8e1dbd0e6bcb6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantStats</scope><name>queue_depth</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a1b595df94aa4d2cd5f32cb27675a56a1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantStats</scope><name>slice_ms</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a10ee2d6c27302086c70e6115826ed601" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantStats</scope><name>submitted</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1aa48511bb73de26bb1e980eb8cb784f4d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantStats</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a0fab92a009d1dc14efb36e4115660c98" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantStats</scope><name>total_elapsed_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

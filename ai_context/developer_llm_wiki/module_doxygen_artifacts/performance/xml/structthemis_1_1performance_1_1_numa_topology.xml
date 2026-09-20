@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_numa_topology" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::NumaTopology</compoundname>
+    <includes refid="numa__topology_8h" local="no">numa_topology.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_numa_topology_1a0fcbbbd462a119affadd6b7b3148ad81" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1_numa_node" kindref="compound">NumaNode</ref> &gt;</type>
+        <definition>std::vector&lt;NumaNode&gt; themis::performance::NumaTopology::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::performance::NumaTopology::nodes</qualifiedname>
+        <briefdescription>
+<para>One entry per NUMA node (ordered by node_id). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="39" column="17" bodyfile="include/performance/numa_topology.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_numa_topology_1a9cc30423a37a3e1c8002701aae24fd1e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::NumaTopology::num_nodes</definition>
+        <argsstring></argsstring>
+        <name>num_nodes</name>
+        <qualifiedname>themis::performance::NumaTopology::num_nodes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="40" column="9" bodyfile="include/performance/numa_topology.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_numa_topology_1a80bf96ecba3cd21e50b08e8ee1149615" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::NumaTopology::num_cpus</definition>
+        <argsstring></argsstring>
+        <name>num_cpus</name>
+        <qualifiedname>themis::performance::NumaTopology::num_cpus</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total logical CPUs across all nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="41" column="9" bodyfile="include/performance/numa_topology.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_numa_topology_1a2d03db23641663730c7f34c45500cf3c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::NumaTopology::is_numa_available</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_numa_available</name>
+        <qualifiedname>themis::performance::NumaTopology::is_numa_available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="43" column="10" bodyfile="include/performance/numa_topology.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_numa_topology_1aeff5298e010cc3ff55e53d3c117bc3a5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::performance::NumaTopology::node_of_cpu</definition>
+        <argsstring>(int cpu_id) const noexcept</argsstring>
+        <name>node_of_cpu</name>
+        <qualifiedname>themis::performance::NumaTopology::node_of_cpu</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>cpu_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the node that owns <computeroutput>cpu_id</computeroutput>, or -1 if not found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="46" column="9" bodyfile="src/performance/numa_topology.cpp" bodystart="44" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_numa_topology_1af50e472c1a711aac80aa903f45a21321" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::performance::NumaTopology::local_node</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>local_node</name>
+        <qualifiedname>themis::performance::NumaTopology::local_node</qualifiedname>
+        <briefdescription>
+<para>Return a best-effort local node id for the calling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="49" column="9" bodyfile="src/performance/numa_topology.cpp" bodystart="55" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>System-wide NUMA topology snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/numa_topology.h" line="38" column="1" bodyfile="include/performance/numa_topology.h" bodystart="38" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_numa_topology_1a2d03db23641663730c7f34c45500cf3c" prot="public" virt="non-virtual"><scope>themis::performance::NumaTopology</scope><name>is_numa_available</name></member>
+      <member refid="structthemis_1_1performance_1_1_numa_topology_1af50e472c1a711aac80aa903f45a21321" prot="public" virt="non-virtual"><scope>themis::performance::NumaTopology</scope><name>local_node</name></member>
+      <member refid="structthemis_1_1performance_1_1_numa_topology_1aeff5298e010cc3ff55e53d3c117bc3a5" prot="public" virt="non-virtual"><scope>themis::performance::NumaTopology</scope><name>node_of_cpu</name></member>
+      <member refid="structthemis_1_1performance_1_1_numa_topology_1a0fcbbbd462a119affadd6b7b3148ad81" prot="public" virt="non-virtual"><scope>themis::performance::NumaTopology</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1performance_1_1_numa_topology_1a80bf96ecba3cd21e50b08e8ee1149615" prot="public" virt="non-virtual"><scope>themis::performance::NumaTopology</scope><name>num_cpus</name></member>
+      <member refid="structthemis_1_1performance_1_1_numa_topology_1a9cc30423a37a3e1c8002701aae24fd1e" prot="public" virt="non-virtual"><scope>themis::performance::NumaTopology</scope><name>num_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

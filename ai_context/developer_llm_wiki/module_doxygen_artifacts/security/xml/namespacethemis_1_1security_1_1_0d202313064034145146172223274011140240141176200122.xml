@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security_1_1_0d202313064034145146172223274011140240141176200122" kind="namespace" language="C++">
+    <compoundname>themis::security::@202313064034145146172223274011140240141176200122</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/confidential_computing.cpp" line="141" column="1"/>
+  </compounddef>
+</doxygen>

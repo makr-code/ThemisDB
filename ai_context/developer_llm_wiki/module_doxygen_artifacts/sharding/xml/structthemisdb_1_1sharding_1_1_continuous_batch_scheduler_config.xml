@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ContinuousBatchSchedulerConfig</compoundname>
+    <includes refid="continuous__batch__scheduler_8h" local="no">continuous_batch_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a8765003a2139c8f139b16ad37d231146" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ContinuousBatchSchedulerConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::max_batch_size</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="159" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1aaeef7ab81bdfef5d23065a038ec40b58" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ContinuousBatchSchedulerConfig::max_tokens_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_batch</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::max_tokens_per_batch</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="160" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a68570bc2c101d756440cac706742af7a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ContinuousBatchSchedulerConfig::chunked_prefill_size</definition>
+        <argsstring></argsstring>
+        <name>chunked_prefill_size</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::chunked_prefill_size</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="161" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a715025ac78242b57df2943af6532cee4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ContinuousBatchSchedulerConfig::max_pending_requests</definition>
+        <argsstring></argsstring>
+        <name>max_pending_requests</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::max_pending_requests</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="164" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a7d2b407dcd6d7c956f6b861fec3983a2" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ContinuousBatchSchedulerConfig::request_timeout</definition>
+        <argsstring></argsstring>
+        <name>request_timeout</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::request_timeout</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="165" column="31" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a7633e7f4a0865c957395abb0bbd70992" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ContinuousBatchSchedulerConfig::realtime_weight</definition>
+        <argsstring></argsstring>
+        <name>realtime_weight</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::realtime_weight</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="168" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1ab22b6e6822b0ec52f9bd395117442695" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ContinuousBatchSchedulerConfig::interactive_weight</definition>
+        <argsstring></argsstring>
+        <name>interactive_weight</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::interactive_weight</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="169" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a00e041f9444da6f834231203cdc8440d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ContinuousBatchSchedulerConfig::batch_weight</definition>
+        <argsstring></argsstring>
+        <name>batch_weight</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::batch_weight</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="170" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a72501dfbd575a0fed5f6176172c88b8b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ContinuousBatchSchedulerConfig::background_weight</definition>
+        <argsstring></argsstring>
+        <name>background_weight</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::background_weight</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="171" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a71ceca277fb5b9e0b534e0b51dc1dd18" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchSchedulerConfig::enable_preemption</definition>
+        <argsstring></argsstring>
+        <name>enable_preemption</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::enable_preemption</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="174" column="10" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a79b4ffb552c01bcbb7a2dfd656bff1ba" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ContinuousBatchSchedulerConfig::preemption_check_interval</definition>
+        <argsstring></argsstring>
+        <name>preemption_check_interval</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::preemption_check_interval</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="175" column="31" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a794baccfe5fc909cc418ce9b5311eb80" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchSchedulerConfig::enable_speculative_decoding</definition>
+        <argsstring></argsstring>
+        <name>enable_speculative_decoding</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::enable_speculative_decoding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="178" column="10" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1ab3528d65f06236672605b94b4048ccf7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ContinuousBatchSchedulerConfig::speculative_acceptance_threshold</definition>
+        <argsstring></argsstring>
+        <name>speculative_acceptance_threshold</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::speculative_acceptance_threshold</qualifiedname>
+        <initializer>= 0.65</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="179" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1ade862efac3749e9ac8fb38f89e338e57" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ContinuousBatchSchedulerConfig::max_speculative_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_speculative_tokens</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::max_speculative_tokens</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="180" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1adb2d5cea1df53495f2b04f3a167c9f71" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchSchedulerConfig::enable_chunked_prefill</definition>
+        <argsstring></argsstring>
+        <name>enable_chunked_prefill</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::enable_chunked_prefill</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="183" column="10" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a0bf8821682d03451310261fc4334f7e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchSchedulerConfig::enable_adaptive_batching</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_batching</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::enable_adaptive_batching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="186" column="10" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a6ed0a357dea4ecbb48158bb7d7b5f257" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ContinuousBatchSchedulerConfig::target_utilization</definition>
+        <argsstring></argsstring>
+        <name>target_utilization</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::target_utilization</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="187" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a0897d4b4caf61b48aca141e32d07319c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchSchedulerConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="189" column="10" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="189" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1adaa2feefeb5ebb5d19fdb3936297b06f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ContinuousBatchSchedulerConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchSchedulerConfig::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="197" column="20" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="197" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/continuous_batch_scheduler.h" line="157" column="1" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="157" bodyend="217"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a72501dfbd575a0fed5f6176172c88b8b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>background_weight</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a00e041f9444da6f834231203cdc8440d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>batch_weight</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a68570bc2c101d756440cac706742af7a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>chunked_prefill_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a0bf8821682d03451310261fc4334f7e1" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>enable_adaptive_batching</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1adb2d5cea1df53495f2b04f3a167c9f71" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>enable_chunked_prefill</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a71ceca277fb5b9e0b534e0b51dc1dd18" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>enable_preemption</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a794baccfe5fc909cc418ce9b5311eb80" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>enable_speculative_decoding</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1ab22b6e6822b0ec52f9bd395117442695" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>interactive_weight</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a0897d4b4caf61b48aca141e32d07319c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>isValid</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a8765003a2139c8f139b16ad37d231146" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a715025ac78242b57df2943af6532cee4" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>max_pending_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1ade862efac3749e9ac8fb38f89e338e57" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>max_speculative_tokens</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1aaeef7ab81bdfef5d23065a038ec40b58" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>max_tokens_per_batch</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a79b4ffb552c01bcbb7a2dfd656bff1ba" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>preemption_check_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a7633e7f4a0865c957395abb0bbd70992" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>realtime_weight</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a7d2b407dcd6d7c956f6b861fec3983a2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>request_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1ab3528d65f06236672605b94b4048ccf7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>speculative_acceptance_threshold</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1a6ed0a357dea4ecbb48158bb7d7b5f257" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>target_utilization</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config_1adaa2feefeb5ebb5d19fdb3936297b06f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchSchedulerConfig</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

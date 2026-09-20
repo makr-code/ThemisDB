@@ -1,0 +1,2798 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1modules" kind="namespace" language="C++">
+    <compoundname>themis::modules</compoundname>
+    <innerclass refid="classthemis_1_1modules_1_1_abi_checker_symbol_test" prot="public">themis::modules::AbiCheckerSymbolTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_abi_checker_version_test" prot="public">themis::modules::AbiCheckerVersionTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_advanced_dependency_test" prot="public">themis::modules::AdvancedDependencyTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" prot="public">themis::modules::BaseErrorTaxonomyTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_dependency_resolver_edge_test" prot="public">themis::modules::DependencyResolverEdgeTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_fail_closed_test" prot="public">themis::modules::FailClosedTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_multi_module_test" prot="public">themis::modules::MultiModuleTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_operator_diagnostics_test" prot="public">themis::modules::OperatorDiagnosticsTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_plugin_dependency_graph_edge_test" prot="public">themis::modules::PluginDependencyGraphEdgeTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_plugin_graph_extended_test" prot="public">themis::modules::PluginGraphExtendedTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_registry_config_validation_test" prot="public">themis::modules::RegistryConfigValidationTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_reload_phase_order_test" prot="public">themis::modules::ReloadPhaseOrderTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_reload_rollback_test" prot="public">themis::modules::ReloadRollbackTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_reload_stats_test" prot="public">themis::modules::ReloadStatsTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_sandbox_degraded_state_test" prot="public">themis::modules::SandboxDegradedStateTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_sandbox_wasm_isolation_test" prot="public">themis::modules::SandboxWasmIsolationTest</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_span_collector" prot="public">themis::modules::SpanCollector</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_state_save_restore_test" prot="public">themis::modules::StateSaveRestoreTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_tracing_integration_test" prot="public">themis::modules::TracingIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_wasm_fuel_budget_test" prot="public">themis::modules::WasmFuelBudgetTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_wasm_host_function_test" prot="public">themis::modules::WasmHostFunctionTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_wasm_module_info_test" prot="public">themis::modules::WasmModuleInfoTest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" prot="public">themis::modules::WasmSandboxValidationTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1modules_1_1_module_sandbox">themis::modules::ModuleSandbox</innernamespace>
+    <innernamespace refid="namespacethemis_1_1modules_1_1_module_security_verifier">themis::modules::ModuleSecurityVerifier</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1acaef1efca2ffa8c69c90dab7663b199a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kWasmMagic[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>kWasmMagic</name>
+        <qualifiedname>themis::modules::kWasmMagic</qualifiedname>
+        <initializer>= {0x00, 0x61, 0x73, 0x6d}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="35" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1a5986fcff74145478b90c13b2c5d30d99" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kWasmVersion[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>kWasmVersion</name>
+        <qualifiedname>themis::modules::kWasmVersion</qualifiedname>
+        <initializer>= {0x01, 0x00, 0x00, 0x00}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="36" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1a62a954bc29e6e277c2b3e189ad6b0215" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kSectionCustom</definition>
+        <argsstring></argsstring>
+        <name>kSectionCustom</name>
+        <qualifiedname>themis::modules::kSectionCustom</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="39" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1a520a9c8863c2d6ff087f7386e536e337" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kSectionImport</definition>
+        <argsstring></argsstring>
+        <name>kSectionImport</name>
+        <qualifiedname>themis::modules::kSectionImport</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="40" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1a4d4422329ac15ff99d61940e427a09a3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kSectionExport</definition>
+        <argsstring></argsstring>
+        <name>kSectionExport</name>
+        <qualifiedname>themis::modules::kSectionExport</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="41" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1aa4d7897fc746b3955337cbc3f8b0a319" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kExternalFunc</definition>
+        <argsstring></argsstring>
+        <name>kExternalFunc</name>
+        <qualifiedname>themis::modules::kExternalFunc</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="44" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1a619be2bee018a2b1d610991e95ac9834" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kExternalTable</definition>
+        <argsstring></argsstring>
+        <name>kExternalTable</name>
+        <qualifiedname>themis::modules::kExternalTable</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="45" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1a31dfa04da6984adb50bb74ac7d2649c2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kExternalMemory</definition>
+        <argsstring></argsstring>
+        <name>kExternalMemory</name>
+        <qualifiedname>themis::modules::kExternalMemory</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="46" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1a8315a0b4748adeb2f6d27c9cf665aeb6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::modules::kExternalGlobal</definition>
+        <argsstring></argsstring>
+        <name>kExternalGlobal</name>
+        <qualifiedname>themis::modules::kExternalGlobal</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="47" column="26" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1modules_1aac5c81b31f235b55bd9be95b156b4012" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::kWasmPageBytes</definition>
+        <argsstring></argsstring>
+        <name>kWasmPageBytes</name>
+        <qualifiedname>themis::modules::kWasmPageBytes</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="50" column="25" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a91d127e445ada6b76e3e28a185834241" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::modules::readUleb128</definition>
+        <argsstring>(const uint8_t *data, const uint8_t *end, uint64_t &amp;out) noexcept</argsstring>
+        <name>readUleb128</name>
+        <qualifiedname>themis::modules::readUleb128</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="56" column="15" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="56" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a627b296865288d98314b78540c3ae54b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::modules::readWasmName</definition>
+        <argsstring>(const uint8_t *data, const uint8_t *end, std::string &amp;out) noexcept</argsstring>
+        <name>readWasmName</name>
+        <qualifiedname>themis::modules::readWasmName</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/wasm_plugin_sandbox.cpp" line="75" column="15" bodyfile="src/base/wasm_plugin_sandbox.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a87fb44f84d0b4f6c5a09538026726308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AbiCheckerVersionTest, SameMajorMinorIsCompatible)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_abi_checker_version_test" kindref="compound">AbiCheckerVersionTest</ref></type>
+        </param>
+        <param>
+          <type>SameMajorMinorIsCompatible</type>
+        </param>
+        <briefdescription>
+<para>Same major and minor versions are compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="46" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="46" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a530951517f311d1b90ce24bf0fc3a922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AbiCheckerVersionTest, MajorMismatchIncompatible)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_abi_checker_version_test" kindref="compound">AbiCheckerVersionTest</ref></type>
+        </param>
+        <param>
+          <type>MajorMismatchIncompatible</type>
+        </param>
+        <briefdescription>
+<para>Major version mismatch renders the module incompatible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="58" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="58" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aa1b79bfbdd21136f36ae69a4ee4123c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AbiCheckerVersionTest, ModuleMinorAheadOfHostIncompatible)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_abi_checker_version_test" kindref="compound">AbiCheckerVersionTest</ref></type>
+        </param>
+        <param>
+          <type>ModuleMinorAheadOfHostIncompatible</type>
+        </param>
+        <briefdescription>
+<para>Module minor &gt; host minor is a forward-compatibility violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="71" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="71" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a346648a1f12704aad5d12f28cfdaef3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AbiCheckerVersionTest, ModuleMinorBehindHostCompatible)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_abi_checker_version_test" kindref="compound">AbiCheckerVersionTest</ref></type>
+        </param>
+        <param>
+          <type>ModuleMinorBehindHostCompatible</type>
+        </param>
+        <briefdescription>
+<para>Module minor ≤ host minor is backward-compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="84" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="84" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a832e26a8ac8b54efee6f002e95c90ced" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AbiCheckerVersionTest, PatchDifferenceDoesNotBreakCompat)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_abi_checker_version_test" kindref="compound">AbiCheckerVersionTest</ref></type>
+        </param>
+        <param>
+          <type>PatchDifferenceDoesNotBreakCompat</type>
+        </param>
+        <briefdescription>
+<para>Patch difference with matching major.minor is compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="97" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="97" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a95dce486bd0ff119344be8f70cf6414e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AbiCheckerSymbolTest, EmptyRequiredSymbolListPasses)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_abi_checker_symbol_test" kindref="compound">AbiCheckerSymbolTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyRequiredSymbolListPasses</type>
+        </param>
+        <briefdescription>
+<para>An empty required-symbol list always passes the symbol check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="115" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="115" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a7d67b0092620ad56f505f38e3db331fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AbiCheckerSymbolTest, DeprecatedSymbolCheckNullHandleNoThrow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_abi_checker_symbol_test" kindref="compound">AbiCheckerSymbolTest</ref></type>
+        </param>
+        <param>
+          <type>DeprecatedSymbolCheckNullHandleNoThrow</type>
+        </param>
+        <briefdescription>
+<para>A deprecated-symbol check on a null handle must not crash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="128" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a30ca0487816c6684a20e293adee116cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AbiCheckerSymbolTest, UseDefaultListsIsCallable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_abi_checker_symbol_test" kindref="compound">AbiCheckerSymbolTest</ref></type>
+        </param>
+        <param>
+          <type>UseDefaultListsIsCallable</type>
+        </param>
+        <briefdescription>
+<para>useDefaultLists() populates required symbols (check is callable after). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="138" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a5b7647584ab4833af96cfebce250c50d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmSandboxValidationTest, FreshSandboxDefaults)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" kindref="compound">WasmSandboxValidationTest</ref></type>
+        </param>
+        <param>
+          <type>FreshSandboxDefaults</type>
+        </param>
+        <briefdescription>
+<para>Fresh sandbox has no runtime, no module loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="163" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="163" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1af53b29a9c4055189a1568aed948b3d3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmSandboxValidationTest, ValidWasmBytesLoadSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" kindref="compound">WasmSandboxValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidWasmBytesLoadSucceeds</type>
+        </param>
+        <briefdescription>
+<para>Loading minimal valid WASM bytes succeeds in validation-only mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="173" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="173" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aeb260781a70d0310cf1f9c54d9bd95af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmSandboxValidationTest, EmptyBytesFailGracefully)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" kindref="compound">WasmSandboxValidationTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyBytesFailGracefully</type>
+        </param>
+        <briefdescription>
+<para>Loading empty bytes fails gracefully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="182" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="182" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a7e157a961b73dc7c3a627dcd6813d49d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmSandboxValidationTest, InvalidBytesFailGracefully)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" kindref="compound">WasmSandboxValidationTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidBytesFailGracefully</type>
+        </param>
+        <briefdescription>
+<para>Loading invalid (non-WASM) bytes fails gracefully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="191" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="191" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a96fedf2abfdd659abc64b1e3095b0a1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmSandboxValidationTest, CallExportWithoutRuntimeReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" kindref="compound">WasmSandboxValidationTest</ref></type>
+        </param>
+        <param>
+          <type>CallExportWithoutRuntimeReturnsError</type>
+        </param>
+        <briefdescription>
+<para>callExport without a runtime returns an error result (not a crash). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="201" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="201" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a5e9598b8d7fb735ba3d043cee6bb665a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmSandboxValidationTest, UnloadResetsLoadedState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" kindref="compound">WasmSandboxValidationTest</ref></type>
+        </param>
+        <param>
+          <type>UnloadResetsLoadedState</type>
+        </param>
+        <briefdescription>
+<para>unload() after a successful load resets isLoaded to false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="211" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="211" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a12934ed12c856066ce94f3e9be95def8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmSandboxValidationTest, RepeatedLoadUnloadCyclesSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" kindref="compound">WasmSandboxValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RepeatedLoadUnloadCyclesSafe</type>
+        </param>
+        <briefdescription>
+<para>Repeated load/unload cycles do not crash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="221" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="221" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a78cad6b6c544c709c4d10e66d158473b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmHostFunctionTest, InitialHostFunctionCountIsZero)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_host_function_test" kindref="compound">WasmHostFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>InitialHostFunctionCountIsZero</type>
+        </param>
+        <briefdescription>
+<para>hostFunctionCount() starts at zero. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="237" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="237" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a0637de6be925f7019368c52401eb8e23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmHostFunctionTest, AddHostFunctionIncrementsCount)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_host_function_test" kindref="compound">WasmHostFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>AddHostFunctionIncrementsCount</type>
+        </param>
+        <briefdescription>
+<para>Adding host functions increments the count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="243" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="243" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a6f0ac2aabefac3e1c5f5010a35c95bcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmHostFunctionTest, ClearHostFunctionsResetsCount)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_host_function_test" kindref="compound">WasmHostFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>ClearHostFunctionsResetsCount</type>
+        </param>
+        <briefdescription>
+<para>clearHostFunctions() resets count to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="268" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="268" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1abd984c1fd892e73b494158da788ee265" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmFuelBudgetTest, ZeroInstructionBudgetIsUnlimited)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_fuel_budget_test" kindref="compound">WasmFuelBudgetTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroInstructionBudgetIsUnlimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Zero max_instructions is treated as unlimited — callExport may still fail for no-runtime reasons but must not fail with a fuel-exhaustion message. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="299" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="299" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a93500f964ca7d43b39d1a0990cdd66cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmFuelBudgetTest, NonZeroBudgetDoesNotInterfereWithNoRuntimeError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_fuel_budget_test" kindref="compound">WasmFuelBudgetTest</ref></type>
+        </param>
+        <param>
+          <type>NonZeroBudgetDoesNotInterfereWithNoRuntimeError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A non-zero budget is set; callExport without runtime still fails for missing runtime, not for budget reasons (budget gate only applies when runtime is present). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="316" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="316" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1acbb6a39ce931b5c40b7588216eb9bd43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmModuleInfoTest, DefaultIsInvalid)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_module_info_test" kindref="compound">WasmModuleInfoTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultIsInvalid</type>
+        </param>
+        <briefdescription>
+<para>Default-constructed WasmModuleInfo is invalid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="338" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="338" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a757e5b92502186b5d7e89a8028a56886" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmModuleInfoTest, SummaryCallableOnInvalidInfo)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_module_info_test" kindref="compound">WasmModuleInfoTest</ref></type>
+        </param>
+        <param>
+          <type>SummaryCallableOnInvalidInfo</type>
+        </param>
+        <briefdescription>
+<para>summary() is callable on a default-constructed (invalid) info without crashing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="349" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="349" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a0a64c268ce768a5b1c6010f12287174e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(WasmModuleInfoTest, ModuleInfoValidAfterLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_wasm_module_info_test" kindref="compound">WasmModuleInfoTest</ref></type>
+        </param>
+        <param>
+          <type>ModuleInfoValidAfterLoad</type>
+        </param>
+        <briefdescription>
+<para>After loading a valid WASM binary, moduleInfo() reflects valid=true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="358" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="358" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a7db48e2250e168c63e6257f80480f986" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxWasmIsolationTest, WasmIsolationInactiveByDefault)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_wasm_isolation_test" kindref="compound">SandboxWasmIsolationTest</ref></type>
+        </param>
+        <param>
+          <type>WasmIsolationInactiveByDefault</type>
+        </param>
+        <briefdescription>
+<para>isWasmIsolationActive() is false by default (no wasm config). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="377" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="377" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a29c7811c1f5aa3b97ce12b0da2d1f4a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxWasmIsolationTest, WasmSandboxNullptrWhenNotActive)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_wasm_isolation_test" kindref="compound">SandboxWasmIsolationTest</ref></type>
+        </param>
+        <param>
+          <type>WasmSandboxNullptrWhenNotActive</type>
+        </param>
+        <briefdescription>
+<para>wasmSandbox() returns nullptr when wasm isolation is not active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="383" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="383" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ad8df0929441503234b8558ab2c5d9c6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxWasmIsolationTest, WasmIsolationConfigConstructable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_wasm_isolation_test" kindref="compound">SandboxWasmIsolationTest</ref></type>
+        </param>
+        <param>
+          <type>WasmIsolationConfigConstructable</type>
+        </param>
+        <briefdescription>
+<para>Config with enable_wasm_isolation=true can be constructed without crash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="389" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="389" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a58778ac52610acdc83fcdb958ba102d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AdvancedDependencyTest, DiamondDependencyResolvesCorrectly)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_advanced_dependency_test" kindref="compound">AdvancedDependencyTest</ref></type>
+        </param>
+        <param>
+          <type>DiamondDependencyResolvesCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Diamond dependency: A depends on B and C, both B and C depend on D. D must appear once in the load order and before B, C, and A. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="410" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="410" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a1c5e85357b1bb7f339a495dff5ea31b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AdvancedDependencyTest, MultiRootIndependentModulesResolve)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_advanced_dependency_test" kindref="compound">AdvancedDependencyTest</ref></type>
+        </param>
+        <param>
+          <type>MultiRootIndependentModulesResolve</type>
+        </param>
+        <briefdescription>
+<para>Multi-root: two independent modules with no shared dependencies resolve together. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="452" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="452" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ac2ce193f00372f33cd162062659b95e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AdvancedDependencyTest, ReRegisterModuleDoesNotDuplicate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_advanced_dependency_test" kindref="compound">AdvancedDependencyTest</ref></type>
+        </param>
+        <param>
+          <type>ReRegisterModuleDoesNotDuplicate</type>
+        </param>
+        <briefdescription>
+<para>Re-registering a module with the same name does not accumulate duplicates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="463" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="463" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a5d21765748ef5eaf0db0ddbea6fcbab0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AdvancedDependencyTest, FiveLevelChainCorrectOrder)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_advanced_dependency_test" kindref="compound">AdvancedDependencyTest</ref></type>
+        </param>
+        <param>
+          <type>FiveLevelChainCorrectOrder</type>
+        </param>
+        <briefdescription>
+<para>5-level deep chain resolves in the correct activation order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="477" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="477" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a28bfc51d3b357ee196e6a915f727fe8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(AdvancedDependencyTest, IndirectCycleDetected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_advanced_dependency_test" kindref="compound">AdvancedDependencyTest</ref></type>
+        </param>
+        <param>
+          <type>IndirectCycleDetected</type>
+        </param>
+        <briefdescription>
+<para>Indirect cycle (A→B→C→A) is detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="504" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="504" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a13bc7c0432704b022f0ce99f93d5450c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginGraphExtendedTest, FreshGraphIsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_graph_extended_test" kindref="compound">PluginGraphExtendedTest</ref></type>
+        </param>
+        <param>
+          <type>FreshGraphIsEmpty</type>
+        </param>
+        <briefdescription>
+<para>nodeCount() and edgeCount() are both 0 on a fresh graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="523" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="523" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ac3c44b148b669d1e2e2f1d8b3d88984b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginGraphExtendedTest, DuplicateAddModuleNoExtraNode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_graph_extended_test" kindref="compound">PluginGraphExtendedTest</ref></type>
+        </param>
+        <param>
+          <type>DuplicateAddModuleNoExtraNode</type>
+        </param>
+        <briefdescription>
+<para>Adding the same module twice does not create a duplicate node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="530" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="530" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a7030881da2a55c994d78e8087fa2e8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginGraphExtendedTest, AsciiExportNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_graph_extended_test" kindref="compound">PluginGraphExtendedTest</ref></type>
+        </param>
+        <param>
+          <type>AsciiExportNonEmpty</type>
+        </param>
+        <briefdescription>
+<para>ASCII export of a non-empty graph produces non-empty output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="538" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="538" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a7eb8b4ef26b0f60731735b48df4b75ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginGraphExtendedTest, AcyclicGraphHasNoCycles)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_graph_extended_test" kindref="compound">PluginGraphExtendedTest</ref></type>
+        </param>
+        <param>
+          <type>AcyclicGraphHasNoCycles</type>
+        </param>
+        <briefdescription>
+<para>detectCycles() on an acyclic graph returns an empty vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="549" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="549" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1add96c076b73f20792296f963ef5876c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginGraphExtendedTest, TopologicalOrderOnEmptyGraphSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_graph_extended_test" kindref="compound">PluginGraphExtendedTest</ref></type>
+        </param>
+        <param>
+          <type>TopologicalOrderOnEmptyGraphSafe</type>
+        </param>
+        <briefdescription>
+<para>topologicalOrder() on an empty graph returns empty vector without crash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="560" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="560" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a4a0fae0a5baa2ed75b9f7af19d6d773b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginGraphExtendedTest, TopologicalOrderOnCyclicGraphNoThrow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_graph_extended_test" kindref="compound">PluginGraphExtendedTest</ref></type>
+        </param>
+        <param>
+          <type>TopologicalOrderOnCyclicGraphNoThrow</type>
+        </param>
+        <briefdescription>
+<para>topologicalOrder() on a cyclic graph does not crash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="568" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="568" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aa5884684348dba9d25d677b9723d8036" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(OperatorDiagnosticsTest, FormatOutputHasBasePrefix)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>FormatOutputHasBasePrefix</type>
+        </param>
+        <briefdescription>
+<para>Every format() output must begin with &quot;[BASE_&quot; prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="588" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="588" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a37c9e5be7484e46a6e85216287ffc649" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(OperatorDiagnosticsTest, IsKnownCodeFalseForOutOfRange)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>IsKnownCodeFalseForOutOfRange</type>
+        </param>
+        <briefdescription>
+<para>isKnownCode returns false for out-of-range codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="603" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="603" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1af6fb10fdb6702713bcbfa701829968c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(OperatorDiagnosticsTest, IsKnownCodeTrueForAllTaxonomyCodes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>IsKnownCodeTrueForAllTaxonomyCodes</type>
+        </param>
+        <briefdescription>
+<para>isKnownCode returns true for all 24 taxonomy codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="612" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="612" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a47ce93907d3180d04d889df0447b8b9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(OperatorDiagnosticsTest, ResolveDescriptionEmptyForUnknownCode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>ResolveDescriptionEmptyForUnknownCode</type>
+        </param>
+        <briefdescription>
+<para>resolveDescription returns a stable fallback text for unknown codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="646" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="646" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ae7ed084a5484d31f3aa6e068d95af5a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(OperatorDiagnosticsTest, ResolveDescriptionConsistentWithStaticDescription)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>ResolveDescriptionConsistentWithStaticDescription</type>
+        </param>
+        <briefdescription>
+<para>resolveDescription is consistent with struct description() for all known codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="653" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="653" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a671cc72aec0ac48e4e90ef71d3d7c6cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(OperatorDiagnosticsTest, RegistryErrorFormatEmbedsBothArgs)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>RegistryErrorFormatEmbedsBothArgs</type>
+        </param>
+        <briefdescription>
+<para>format() output for registry error contains the module name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="672" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="672" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1adf1bab608cdc9a6e154eb931b77a0df0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(OperatorDiagnosticsTest, DependencyConflictFormatEmbedsBothModules)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>DependencyConflictFormatEmbedsBothModules</type>
+        </param>
+        <briefdescription>
+<para>format() for dependency conflict embeds the dependency name and both conflicting modules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="681" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="681" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ad5bc7eae8543467c299ba05861fb8020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadRollbackTest, RollbackUnregisteredModuleFails)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_rollback_test" kindref="compound">ReloadRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackUnregisteredModuleFails</type>
+        </param>
+        <briefdescription>
+<para>Rollback on an unregistered module name must fail gracefully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="64" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="64" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a91e30b355a51779b1ed269aae96881e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadRollbackTest, ReloadUnregisteredModuleFails)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_rollback_test" kindref="compound">ReloadRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ReloadUnregisteredModuleFails</type>
+        </param>
+        <briefdescription>
+<para>Reload on an unregistered module name must fail gracefully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="71" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a3f9299d1eefd9128cd68ce1b8051e35b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadRollbackTest, RollbackUnavailableWithNoBackup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_rollback_test" kindref="compound">ReloadRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackUnavailableWithNoBackup</type>
+        </param>
+        <briefdescription>
+<para>Rollback is unavailable when no successful reload has been performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="79" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="79" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a09b6e61a5d8513a1f70173df5cb8803a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadRollbackTest, ReloadFailurePreservesRegistrationState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_rollback_test" kindref="compound">ReloadRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ReloadFailurePreservesRegistrationState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reload failure (non-existent path) keeps the module registered and returns an error result; subsequent rollback is still unavailable (no prior success). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="89" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="89" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a84f9fdfafe5bb1c76505ecd4419f34fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadRollbackTest, IsRollbackAvailableOnUnknownReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_rollback_test" kindref="compound">ReloadRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>IsRollbackAvailableOnUnknownReturnsFalse</type>
+        </param>
+        <briefdescription>
+<para>isRollbackAvailable returns false for a module that was never registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="105" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a174fca445615f3f2a4a4c47c20b38e6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadRollbackTest, RollbackDisabledConfigNoBackupAvailable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_rollback_test" kindref="compound">ReloadRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackDisabledConfigNoBackupAvailable</type>
+        </param>
+        <briefdescription>
+<para>Reload disabled (enableRollback=false): rollback call must still not crash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="110" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="110" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a620a333d848272ca8581ce10ad631382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadPhaseOrderTest, FailedReloadEmitsOnlyBeforeUnload)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_phase_order_test" kindref="compound">ReloadPhaseOrderTest</ref></type>
+        </param>
+        <param>
+          <type>FailedReloadEmitsOnlyBeforeUnload</type>
+        </param>
+        <briefdescription>
+<para>On a failed reload (non-existent binary) only BEFORE_UNLOAD is emitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="146" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="146" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aa0c92bf8d7744852d10be14ed674151c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadPhaseOrderTest, MultipleCallbacksAllInvoked)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_phase_order_test" kindref="compound">ReloadPhaseOrderTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleCallbacksAllInvoked</type>
+        </param>
+        <briefdescription>
+<para>Multiple callbacks are all invoked for a reload attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="170" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="170" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aef80e95631d255c3fef1380432220657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadPhaseOrderTest, ClearCallbacksPreventsDispatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_phase_order_test" kindref="compound">ReloadPhaseOrderTest</ref></type>
+        </param>
+        <param>
+          <type>ClearCallbacksPreventsDispatch</type>
+        </param>
+        <briefdescription>
+<para>Callbacks can be cleared; after clearReloadCallbacks no callbacks fire. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="201" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="201" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a086368d0e9a1efe2df9c0618cf6059d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadPhaseOrderTest, CallbackUnregisterDuringReloadFailsCleanly)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_phase_order_test" kindref="compound">ReloadPhaseOrderTest</ref></type>
+        </param>
+        <param>
+          <type>CallbackUnregisterDuringReloadFailsCleanly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If a callback unregisters the module during BEFORE_UNLOAD, reload must fail cleanly without dereferencing stale slot storage. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="219" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="219" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a71e0760c4856f5d6482e4523eabd25dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadPhaseOrderTest, CallbackReregisterSameLoaderDuringReloadKeepsRegistration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_phase_order_test" kindref="compound">ReloadPhaseOrderTest</ref></type>
+        </param>
+        <param>
+          <type>CallbackReregisterSameLoaderDuringReloadKeepsRegistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If a callback unregisters and re-registers the same module with the same loader object during BEFORE_UNLOAD, reload must still fail cleanly and leave exactly one fresh registration behind. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="239" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="239" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a031057b58dfb8bad1a2b012f775c4aed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadPhaseOrderTest, CallbackReregisterSameLoaderAllowsFollowupReloadAttempt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_phase_order_test" kindref="compound">ReloadPhaseOrderTest</ref></type>
+        </param>
+        <param>
+          <type>CallbackReregisterSameLoaderAllowsFollowupReloadAttempt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Re-register race with the same loader must not poison manager state: after the re-registering callback runs once, a follow-up reload attempt still executes the normal registered-module failure path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="264" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="264" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a83ab8233a5580d0a71c5b5556c5ba953" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadPhaseOrderTest, RollbackPhaseEmittedOnRollbackAttempt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_phase_order_test" kindref="compound">ReloadPhaseOrderTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackPhaseEmittedOnRollbackAttempt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback phase callback: ROLLBACK must be emitted when rollback is called and the module has no backup (the rollback itself fails, but the phase must fire). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="291" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="291" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a200852393bab75dfd023236f3344c785" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadStatsTest, FailedReloadIncrementsCounts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_stats_test" kindref="compound">ReloadStatsTest</ref></type>
+        </param>
+        <param>
+          <type>FailedReloadIncrementsCounts</type>
+        </param>
+        <briefdescription>
+<para>Each failed reload increments failedReloads and totalReloads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="334" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="334" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a4c0033dc1628f590fb577037359672df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadStatsTest, ResetStatsClearsAllCounters)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_stats_test" kindref="compound">ReloadStatsTest</ref></type>
+        </param>
+        <param>
+          <type>ResetStatsClearsAllCounters</type>
+        </param>
+        <briefdescription>
+<para>resetStats() zeroes all counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="349" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="349" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a13f7c23bedaa346e38c146cc5abc7690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(ReloadStatsTest, StatsAdditiveAcrossMultipleModules)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_reload_stats_test" kindref="compound">ReloadStatsTest</ref></type>
+        </param>
+        <param>
+          <type>StatsAdditiveAcrossMultipleModules</type>
+        </param>
+        <briefdescription>
+<para>Stats are additive across multiple registered modules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="368" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="368" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a76bf8be664228d94804083b0ecb72053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(StateSaveRestoreTest, ThrowingStateSaveCallbackIsIsolated)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_state_save_restore_test" kindref="compound">StateSaveRestoreTest</ref></type>
+        </param>
+        <param>
+          <type>ThrowingStateSaveCallbackIsIsolated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A state-save callback that throws must not propagate the exception out of reloadModule(); the reload should still return a usable result. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="408" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="408" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ae2823437e9753c0c61b458591bf265e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(StateSaveRestoreTest, FalseReturningStateRestoreCallbackIsIsolated)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_state_save_restore_test" kindref="compound">StateSaveRestoreTest</ref></type>
+        </param>
+        <param>
+          <type>FalseReturningStateRestoreCallbackIsIsolated</type>
+        </param>
+        <briefdescription>
+<para>A state-restore callback that returns false does not crash the system. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="425" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="425" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a18b1466304cbab85ea2bf393aa4ecd2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(StateSaveRestoreTest, StateSaveCallbackInvokedDuringReload)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_state_save_restore_test" kindref="compound">StateSaveRestoreTest</ref></type>
+        </param>
+        <param>
+          <type>StateSaveCallbackInvokedDuringReload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>State-save callback producing non-empty state increments statesSaved when a reload succeeds (fast-fail case: save fires even if reload then fails). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="450" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="450" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a11b59b284a69d07a233c138c36a93ccd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(MultiModuleTest, TenModulesAllRegistered)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_multi_module_test" kindref="compound">MultiModuleTest</ref></type>
+        </param>
+        <param>
+          <type>TenModulesAllRegistered</type>
+        </param>
+        <briefdescription>
+<para>Registering 10 modules: registeredModules() returns all names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="487" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="487" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a6cf89caf5f773b099aac5125b3d8fefc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(MultiModuleTest, UnregisterOneDoesNotAffectOthers)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_multi_module_test" kindref="compound">MultiModuleTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisterOneDoesNotAffectOthers</type>
+        </param>
+        <briefdescription>
+<para>Unregistering one module does not affect the others. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="504" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="504" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aacc8a58813050bcb2c4ffe219e8592d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(MultiModuleTest, ReloadFailureOnOneModuleDoesNotAffectAnother)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_multi_module_test" kindref="compound">MultiModuleTest</ref></type>
+        </param>
+        <param>
+          <type>ReloadFailureOnOneModuleDoesNotAffectAnother</type>
+        </param>
+        <briefdescription>
+<para>Reload failure on one module does not affect rollback availability on another. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="527" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="527" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1afe912ceaef13fbea22531b3e37a4ef4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(DependencyResolverEdgeTest, LinearChainResolvesInOrder)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_dependency_resolver_edge_test" kindref="compound">DependencyResolverEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>LinearChainResolvesInOrder</type>
+        </param>
+        <briefdescription>
+<para>Linear chain resolves successfully with correct order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="544" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="544" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ac2359c02f54305d29ff8b6a91fdfd671" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(DependencyResolverEdgeTest, DirectCyclicDependencyDetected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_dependency_resolver_edge_test" kindref="compound">DependencyResolverEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>DirectCyclicDependencyDetected</type>
+        </param>
+        <briefdescription>
+<para>Direct circular dependency is detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="570" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="570" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a182f3b6ba758ebd6d7e4d297165eed28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(DependencyResolverEdgeTest, MissingRequiredDependencyReportsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_dependency_resolver_edge_test" kindref="compound">DependencyResolverEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>MissingRequiredDependencyReportsError</type>
+        </param>
+        <briefdescription>
+<para>A required dependency that is missing produces an error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="581" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="581" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1abb6c7e6f0d0ada3fe01b66a7e6ea76d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(DependencyResolverEdgeTest, VersionConstraintSatisfiedSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_dependency_resolver_edge_test" kindref="compound">DependencyResolverEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>VersionConstraintSatisfiedSucceeds</type>
+        </param>
+        <briefdescription>
+<para>Version-constrained dependency: compatible version satisfies constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="592" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="592" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a893f4666d75e16948366cf13693f4d2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(DependencyResolverEdgeTest, VersionConstraintViolationReportsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_dependency_resolver_edge_test" kindref="compound">DependencyResolverEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>VersionConstraintViolationReportsError</type>
+        </param>
+        <briefdescription>
+<para>Version-constrained dependency: incompatible version produces mismatch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="610" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="610" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a373e76079e1fe5b1e7cfd981ea52b141" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(DependencyResolverEdgeTest, MissingOptionalDependencyDoesNotFail)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_dependency_resolver_edge_test" kindref="compound">DependencyResolverEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>MissingOptionalDependencyDoesNotFail</type>
+        </param>
+        <briefdescription>
+<para>Optional dependency that is absent does not cause resolution failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="626" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="626" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a0b8e3986d195c21fb872d3c3c2511ecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(DependencyResolverEdgeTest, ClearResetsResolver)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_dependency_resolver_edge_test" kindref="compound">DependencyResolverEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>ClearResetsResolver</type>
+        </param>
+        <briefdescription>
+<para>clear() removes all registrations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="641" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="641" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ae71e82b0c964023ed57e0501eca9c211" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginDependencyGraphEdgeTest, BuildFromResolverPopulatesGraph)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_edge_test" kindref="compound">PluginDependencyGraphEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>BuildFromResolverPopulatesGraph</type>
+        </param>
+        <briefdescription>
+<para>buildFromResolver populates nodes and edges correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="659" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="659" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a81838919f421e7f5bb8e139455f1a6cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginDependencyGraphEdgeTest, CycleDetectionFindsDirectCycle)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_edge_test" kindref="compound">PluginDependencyGraphEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>CycleDetectionFindsDirectCycle</type>
+        </param>
+        <briefdescription>
+<para>Cycle detection in PluginDependencyGraph finds the cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="673" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="673" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1af6d354e7dff6fcdd895c0d964ebef538" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginDependencyGraphEdgeTest, TopologicalOrderOnAcyclicGraph)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_edge_test" kindref="compound">PluginDependencyGraphEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>TopologicalOrderOnAcyclicGraph</type>
+        </param>
+        <briefdescription>
+<para>Topological order on an acyclic graph is non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="685" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="685" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a2a6a31dc50d7758aade149093e4e29bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginDependencyGraphEdgeTest, ClearResetsGraph)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_edge_test" kindref="compound">PluginDependencyGraphEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>ClearResetsGraph</type>
+        </param>
+        <briefdescription>
+<para>clear() resets the graph to empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="711" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="711" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ae108f799a370c96d7369b6221e8dbb53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginDependencyGraphEdgeTest, HundredNodeChainBuildFromResolver)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_edge_test" kindref="compound">PluginDependencyGraphEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>HundredNodeChainBuildFromResolver</type>
+        </param>
+        <briefdescription>
+<para>100-node linear chain: buildFromResolver produces correct node count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="724" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="724" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a6896a611a998d848f32610b88ad14357" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginDependencyGraphEdgeTest, DotExportProducesNonEmptyString)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_edge_test" kindref="compound">PluginDependencyGraphEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>DotExportProducesNonEmptyString</type>
+        </param>
+        <briefdescription>
+<para>DOT export from a non-empty graph produces non-empty string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="744" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="744" bodyend="754"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a227df8d038ceac8b1e053b65af275757" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(PluginDependencyGraphEdgeTest, JsonExportContainsExpectedKeys)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_edge_test" kindref="compound">PluginDependencyGraphEdgeTest</ref></type>
+        </param>
+        <param>
+          <type>JsonExportContainsExpectedKeys</type>
+        </param>
+        <briefdescription>
+<para>JSON export contains expected keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="757" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="757" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aa7570ea094e4c6fddb2e8624ce0e9281" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxDegradedStateTest, StatsOnInactiveSandboxReturnsZeros)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_degraded_state_test" kindref="compound">SandboxDegradedStateTest</ref></type>
+        </param>
+        <param>
+          <type>StatsOnInactiveSandboxReturnsZeros</type>
+        </param>
+        <briefdescription>
+<para>stats() on an inactive sandbox returns zero-value struct without crashing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="776" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="776" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a18458296abd6f66a00ebc0c75c64e3ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxDegradedStateTest, LastErrorEmptyOnFreshSandbox)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_degraded_state_test" kindref="compound">SandboxDegradedStateTest</ref></type>
+        </param>
+        <param>
+          <type>LastErrorEmptyOnFreshSandbox</type>
+        </param>
+        <briefdescription>
+<para>lastError() is available immediately (empty on a fresh sandbox). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="791" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="791" bodyend="794"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a66b1f54176e6ac382864f64b9bc69884" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxDegradedStateTest, LaunchWarningsEmptyBeforeLaunch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_degraded_state_test" kindref="compound">SandboxDegradedStateTest</ref></type>
+        </param>
+        <param>
+          <type>LaunchWarningsEmptyBeforeLaunch</type>
+        </param>
+        <briefdescription>
+<para>launchWarnings() is empty before launch() is called. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="797" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="797" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a23f1e644714a3d79bb528455f1121b41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxDegradedStateTest, LaunchEmptyModuleNameDoesNotCrash)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_degraded_state_test" kindref="compound">SandboxDegradedStateTest</ref></type>
+        </param>
+        <param>
+          <type>LaunchEmptyModuleNameDoesNotCrash</type>
+        </param>
+        <briefdescription>
+<para>launch() with an empty module name does not crash and returns a bool result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="803" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="803" bodyend="812"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a50b7513f3d04480021ae4291f353e6d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxDegradedStateTest, SandboxStatsNulloptWhenNotConfigured)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_degraded_state_test" kindref="compound">SandboxDegradedStateTest</ref></type>
+        </param>
+        <param>
+          <type>SandboxStatsNulloptWhenNotConfigured</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HotReloadManager::getSandboxStats() returns nullopt when sandboxing is not configured (the default config). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="816" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="816" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a8f5b82aae822d1bc9e388347086a34cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(SandboxDegradedStateTest, SandboxStatsNulloptForUnknownModule)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_sandbox_degraded_state_test" kindref="compound">SandboxDegradedStateTest</ref></type>
+        </param>
+        <param>
+          <type>SandboxStatsNulloptForUnknownModule</type>
+        </param>
+        <briefdescription>
+<para>getSandboxStats() returns nullopt for an unregistered module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="834" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="834" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ac1635f9d84d5b4ba4a2e85f92b8e17d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(RegistryConfigValidationTest, DefaultConfigHasSaneDefaults)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_registry_config_validation_test" kindref="compound">RegistryConfigValidationTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultConfigHasSaneDefaults</type>
+        </param>
+        <briefdescription>
+<para>Default-constructed RegistryConfig has sane defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="853" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="853" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a358fdc1c1627d3d56ed709bb62972b77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(RegistryConfigValidationTest, RegistryConfigFieldAssignment)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_registry_config_validation_test" kindref="compound">RegistryConfigValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RegistryConfigFieldAssignment</type>
+        </param>
+        <briefdescription>
+<para>RegistryConfig fields can be assigned without throwing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="868" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="868" bodyend="886"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a96a974eb48617e70e98ec8bb37c2983e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(RegistryConfigValidationTest, ZeroTimeoutIsAssignable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_registry_config_validation_test" kindref="compound">RegistryConfigValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroTimeoutIsAssignable</type>
+        </param>
+        <briefdescription>
+<para>RegistryConfig: zero timeout is representable (edge value). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="889" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="889" bodyend="893"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a05b505f29791e95f29670b00cf45a8f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(RegistryConfigValidationTest, ZeroMaxRetriesIsAssignable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_registry_config_validation_test" kindref="compound">RegistryConfigValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroMaxRetriesIsAssignable</type>
+        </param>
+        <briefdescription>
+<para>RegistryConfig: zero max_retries is representable (edge value — no retry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="896" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="896" bodyend="900"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ae96b7729e5aee9514bd7135bc11e93d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(RegistryConfigValidationTest, RegistryConfigCopyEquivalent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_registry_config_validation_test" kindref="compound">RegistryConfigValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RegistryConfigCopyEquivalent</type>
+        </param>
+        <briefdescription>
+<para>RegistryConfig copy is value-equivalent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="903" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="903" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a0b96fbde30f0b167849b68290c5945cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(BaseErrorTaxonomyTest, AllCodesAreUnique)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" kindref="compound">BaseErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>AllCodesAreUnique</type>
+        </param>
+        <briefdescription>
+<para>All error codes are unique (no two taxonomy entries share a code). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="925" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="925" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a98ad929ad5203ba0d787e238a6732e99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(BaseErrorTaxonomyTest, CodesInCorrectRanges)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" kindref="compound">BaseErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>CodesInCorrectRanges</type>
+        </param>
+        <briefdescription>
+<para>All codes fall within their declared range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="960" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="960" bodyend="982"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a99783281a6e4c68969f55594bb530b5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(BaseErrorTaxonomyTest, AllDescriptionsNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" kindref="compound">BaseErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>AllDescriptionsNonEmpty</type>
+        </param>
+        <briefdescription>
+<para>All descriptions are non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="985" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="985" bodyend="1010"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a3ae2873d0bbb70907a4ba56706d784af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(BaseErrorTaxonomyTest, FormatOutputContainsCode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" kindref="compound">BaseErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>FormatOutputContainsCode</type>
+        </param>
+        <briefdescription>
+<para>format() output contains the error code as a substring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="1013" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="1013" bodyend="1018"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ab800c7c5d076cf7e2045f51d6e165b80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(BaseErrorTaxonomyTest, FormatOutputContainsModuleName)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" kindref="compound">BaseErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>FormatOutputContainsModuleName</type>
+        </param>
+        <briefdescription>
+<para>format() output contains the module name argument. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="1021" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="1021" bodyend="1024"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a640cab7ea2fe4975746726580ca1bad1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(BaseErrorTaxonomyTest, ResolveDescriptionCoversAllKnownCodes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" kindref="compound">BaseErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>ResolveDescriptionCoversAllKnownCodes</type>
+        </param>
+        <briefdescription>
+<para>resolveDescription returns a non-empty string for all known codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="1027" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="1027" bodyend="1062"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a42176e6232f97896b57b9f82eed36849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(BaseErrorTaxonomyTest, ResolveDescriptionUnknownCodeReturnsUnknown)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" kindref="compound">BaseErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>ResolveDescriptionUnknownCodeReturnsUnknown</type>
+        </param>
+        <briefdescription>
+<para>resolveDescription returns &quot;unknown error code&quot; for out-of-range values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="1065" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="1065" bodyend="1069"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a74336d726fb5bc1f56ba70db62b5adc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(BaseErrorTaxonomyTest, IsKnownCodeCorrect)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_base_error_taxonomy_test" kindref="compound">BaseErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>IsKnownCodeCorrect</type>
+        </param>
+        <briefdescription>
+<para>isKnownCode is true for every defined code and false for unknowns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="1072" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="1072" bodyend="1083"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a993585ab9a18f0d5ef0ab2133e67e922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(SoakTest, ReloadRollbackReregisterCycle)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>SoakTest</type>
+        </param>
+        <param>
+          <type>ReloadRollbackReregisterCycle</type>
+        </param>
+        <briefdescription>
+<para>Long-duration soak: simulated reload/rollback/re-register loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration:<orderedlist>
+<listitem><para>Attempt reloadModule() on a registered module with a nonexistent path (→ fails cleanly; failedReloads increments).</para>
+</listitem><listitem><para>Attempt rollback() with no backup (→ fails cleanly; rollbacks stays 0).</para>
+</listitem><listitem><para>Unregister and re-register the module.</para>
+</listitem></orderedlist>
+</para>
+<para>Invariants validated at the end:<itemizedlist>
+<listitem><para>totalReloads == failedReloads (all fail because path is nonexistent)</para>
+</listitem><listitem><para>totalReloads equals the configured iteration count</para>
+</listitem><listitem><para>rollbacks == 0 (no rollback ever had a backup)</para>
+</listitem><listitem><para>successfulReloads == 0 </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_soak.cpp" line="65" column="1" bodyfile="tests/base/test_base_soak.cpp" bodystart="65" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aa241565ee9f3ae6df72aae5519299b4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(SoakTest, StatsMonotonicity)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>SoakTest</type>
+        </param>
+        <param>
+          <type>StatsMonotonicity</type>
+        </param>
+        <briefdescription>
+<para>Soak: stats monotonicity — totalReloads never decreases. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs a smaller number of iterations and samples stats at each step to confirm that all counters are non-decreasing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_soak.cpp" line="106" column="1" bodyfile="tests/base/test_base_soak.cpp" bodystart="106" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ac5e1ef6a702b904acc0e6196325569be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(SoakTest, ConcurrentSoakLoops)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>SoakTest</type>
+        </param>
+        <param>
+          <type>ConcurrentSoakLoops</type>
+        </param>
+        <briefdescription>
+<para>Soak: concurrent soak with N threads each doing M iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validates that concurrent reload attempts against N independent modules do not corrupt the global stats counter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_soak.cpp" line="136" column="1" bodyfile="tests/base/test_base_soak.cpp" bodystart="136" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a83ee9e4c16746cb52b3d446f755aaade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(TracingIntegrationTest, UnregisteredModuleEmitsErrorSpan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_tracing_integration_test" kindref="compound">TracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisteredModuleEmitsErrorSpan</type>
+        </param>
+        <briefdescription>
+<para>reloadModule() on an unregistered module emits a start and error-end span. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="102" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="102" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1af9ffbe72499cfd1e2f271d9004c7f6b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(TracingIntegrationTest, RollbackNoBackupEmitsErrorSpan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_tracing_integration_test" kindref="compound">TracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackNoBackupEmitsErrorSpan</type>
+        </param>
+        <briefdescription>
+<para>rollback() on a module with no backup emits a start and error-end span. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="115" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="115" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ad2b5be42b45aefe88826315ff4d501d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(TracingDefaultEmitterTest, NoOpEmitterIsDefault)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>TracingDefaultEmitterTest</type>
+        </param>
+        <param>
+          <type>NoOpEmitterIsDefault</type>
+        </param>
+        <briefdescription>
+<para>The default no-op emitter produces no observable side-effects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="127" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="127" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a1e1fc215a1d63998f800755e2780bfff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(TracingEmitterReplacement, ReplacementTakesEffect)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>TracingEmitterReplacement</type>
+        </param>
+        <param>
+          <type>ReplacementTakesEffect</type>
+        </param>
+        <briefdescription>
+<para>setSpanEmitter() replaces the emitter; subsequent operations use the new one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="137" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="137" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a6aec0b209c564c3e088616a7ceffca9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(TracingEmitterAccessTest, SpanEmitterGetterNonNull)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>TracingEmitterAccessTest</type>
+        </param>
+        <param>
+          <type>SpanEmitterGetterNonNull</type>
+        </param>
+        <briefdescription>
+<para>spanEmitter() returns the currently installed emitter (non-null). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="152" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="152" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1adc5febe65d75d450288042794b90c49a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(HighCardinalityStressTest, ConcurrentUnregisteredReloads)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>HighCardinalityStressTest</type>
+        </param>
+        <param>
+          <type>ConcurrentUnregisteredReloads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>200 concurrent reloadModule() calls on unregistered modules must all fail cleanly, not crash, and each produce exactly one matching span pair. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="170" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="170" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a54864b9513ffc7a05037a058c000e00c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(HighCardinalityStressTest, ConcurrentRegistration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>HighCardinalityStressTest</type>
+        </param>
+        <param>
+          <type>ConcurrentRegistration</type>
+        </param>
+        <briefdescription>
+<para>500 concurrent registerModule() calls must not corrupt internal state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="197" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="197" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ac34f6eea81a2c1394b1edb9c21dadbf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(HighCardinalityStressTest, MixedConcurrentOperations)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>HighCardinalityStressTest</type>
+        </param>
+        <param>
+          <type>MixedConcurrentOperations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mixed concurrent load of registerModule + reloadModule + rollback does not crash and leaves stats consistent (total ≥ successful + failed). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="218" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="218" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a43f127d97cf7b20c8a9332cef60e40e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(FailClosedTest, FailedReloadDoesNotMutateSlot)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_fail_closed_test" kindref="compound">FailClosedTest</ref></type>
+        </param>
+        <param>
+          <type>FailedReloadDoesNotMutateSlot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>After a failed reloadModule(), the module slot retains the original loader (no partial-state mutation of the slot). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="268" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="268" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a79591ffe91136f085002c547709bfb8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST_F</definition>
+        <argsstring>(FailClosedTest, RollbackUnregisteredFailsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::modules::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_fail_closed_test" kindref="compound">FailClosedTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackUnregisteredFailsClosed</type>
+        </param>
+        <briefdescription>
+<para>rollback() on an unregistered module fails closed with no side-effects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="289" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="289" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a6dc1568f8a3b50d8f5a8b3e99da28102" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(FailClosedTaxonomyTest, LoaderPathNotFoundCodeAndDescription)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>FailClosedTaxonomyTest</type>
+        </param>
+        <param>
+          <type>LoaderPathNotFoundCodeAndDescription</type>
+        </param>
+        <briefdescription>
+<para>BASE_LOADER_PATH_NOT_FOUND: format and description are non-empty; code is 1100. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="297" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="297" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a7f2171c59abb690637c5f1e49b089858" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(FailClosedTaxonomyTest, SandboxDegradedCodeAndRemediationHint)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>FailClosedTaxonomyTest</type>
+        </param>
+        <param>
+          <type>SandboxDegradedCodeAndRemediationHint</type>
+        </param>
+        <briefdescription>
+<para>BASE_SANDBOX_DEGRADED: code is 1153 with non-empty remediation hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="309" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="309" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a5540157c0c1de6095acbf814d3396fae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(FailClosedTaxonomyTest, AllLoaderSandboxCodesKnown)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>FailClosedTaxonomyTest</type>
+        </param>
+        <param>
+          <type>AllLoaderSandboxCodesKnown</type>
+        </param>
+        <briefdescription>
+<para>All loader and sandbox codes are known to resolveDescription(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="316" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="316" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1aad3a13c26876b6731298fcbb9b128ec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(TraceContextTest, GenerateProducesValidContext)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>TraceContextTest</type>
+        </param>
+        <param>
+          <type>GenerateProducesValidContext</type>
+        </param>
+        <briefdescription>
+<para>generate() produces valid contexts with non-zero IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="341" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="341" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a8c932588f0be5fa8580fe628f66cb3a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(TraceContextTest, ChildSharesTraceId)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>TraceContextTest</type>
+        </param>
+        <param>
+          <type>ChildSharesTraceId</type>
+        </param>
+        <briefdescription>
+<para>child() shares the trace ID and sets parent_span_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="351" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="351" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1abc569caefc67afcf88c0c993f177cb77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(TraceContextTest, UniqueIds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>TraceContextTest</type>
+        </param>
+        <param>
+          <type>UniqueIds</type>
+        </param>
+        <briefdescription>
+<para>Successive generate() calls produce unique IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="361" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="361" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ab37402cbb957c38bb78a6c1303634455" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(ScopedSpanTest, EmitsStartAndEndEvents)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>ScopedSpanTest</type>
+        </param>
+        <param>
+          <type>EmitsStartAndEndEvents</type>
+        </param>
+        <briefdescription>
+<para>ScopedSpan emits a start event on construction and end event on destruction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="369" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="369" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1ab51a39509115cba75e781f3beb3f46e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(ScopedSpanTest, SetErrorPropagates)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>ScopedSpanTest</type>
+        </param>
+        <param>
+          <type>SetErrorPropagates</type>
+        </param>
+        <briefdescription>
+<para>ScopedSpan setError() propagates to the end event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="386" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="386" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1af895977a0378475d9b0eae5aa829f848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::TEST</definition>
+        <argsstring>(NoOpSpanEmitterTest, DoesNotThrow)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::modules::TEST</qualifiedname>
+        <param>
+          <type>NoOpSpanEmitterTest</type>
+        </param>
+        <param>
+          <type>DoesNotThrow</type>
+        </param>
+        <briefdescription>
+<para>noOpSpanEmitter does not throw and discards events silently. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="403" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="403" bodyend="412"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/base/ab_test_manager.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

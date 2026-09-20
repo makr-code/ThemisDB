@@ -1,0 +1,666 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__olap__lru__cache_8cpp" kind="file" language="C++">
+    <compoundname>test_olap_lru_cache.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="olap_8h" local="yes">analytics/olap.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>analytics/olap.h</label>
+        <link refid="olap_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_olap_lru_cache.cpp</label>
+        <link refid="test__olap__lru__cache_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1aa1974b24b81fb5eaab4e54818da984c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref></type>
+        <definition>static OLAPQuery makeSimpleQuery</definition>
+        <argsstring>(const std::string &amp;collection=&quot;sales&quot;)</argsstring>
+        <name>makeSimpleQuery</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;sales&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="12" column="18" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="12" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, CacheHitOnRepeatedQuery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>CacheHitOnRepeatedQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="31" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="31" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1a074e00315bc84df576baf80623a0e30f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, LRUEvictionOnCapacityOverflow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>LRUEvictionOnCapacityOverflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="52" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="52" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1acabb7545d854ba4ec576dadc2c8c4c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, TTLExpiryEvictsOnAccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>TTLExpiryEvictsOnAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="83" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="83" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1aaf518e89bed1325c75966f7fd114a06c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, CacheKeyNormalisationDifferentDimensionOrder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>CacheKeyNormalisationDifferentDimensionOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="103" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="103" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1ab502cb13550b257d02726e3fe7e5b82d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, CacheKeyNormalisationDifferentFilterOrder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>CacheKeyNormalisationDifferentFilterOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="145" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="145" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1ad2a1bf134da73cba56bfb0b7cdc5b861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, CacheDisabledWhenMaxEntriesZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>CacheDisabledWhenMaxEntriesZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="176" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="176" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1a47be883c131550fcb6ac61c9ddf9ab72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, BackgroundCleanupEvictsExpiredEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>BackgroundCleanupEvictsExpiredEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="192" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="192" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1a7e7fec6cdac7fddf0e5a5e427abbd10a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, DefaultConfigValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>DefaultConfigValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="212" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="212" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1aea196ba34b96791cb5d92b12ca1e0cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, ExportToParquetUsesInjectedFallbackBridge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>ExportToParquetUsesInjectedFallbackBridge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="218" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="218" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1a17b39a189617f01d6bbd73c4f7adf8a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, ExportCollectionToParquetUsesInjectedFallbackBridge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>ExportCollectionToParquetUsesInjectedFallbackBridge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="235" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="235" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__olap__lru__cache_8cpp_1a29bf5d89626e91931401a437c303fa12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPLRUCache, BoundedMemoryGrowthUnder10kUniqueQueries_Functional)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPLRUCache</type>
+        </param>
+        <param>
+          <type>BoundedMemoryGrowthUnder10kUniqueQueries_Functional</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_olap_lru_cache.cpp" line="327" column="1" bodyfile="tests/analytics/test_olap_lru_cache.cpp" bodystart="327" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="olap_8h" kindref="compound">analytics/olap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">themis::analytics</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>makeSimpleQuery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae1a52acf165c3f43f5c41b00f71ef7f5" kindref="member">grouping_mode</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a1fbb1e3943c2c6c560247ac8f9289780" kindref="member">OLAPQuery::GroupingMode::Simple</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref><sp/>d;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1analytics_1_1_dimension_1a537ec06565e6773b3f0e7a7c1fb88319" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1analytics_1_1_dimension_1adbf0d3aaa40029795e40d0723b23a5c9" kindref="member">include_in_grouping</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a64c088e5a0aea4537d770d231ca42695" kindref="member">dimensions</ref>.push_back(d);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref><sp/>m;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1a89f472b9c625c18c1de3ee7a90729efd" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1a4f018c3465506fa602cd686016a2e498" kindref="member">field</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1aba0bcfb20d39731c5f615ad0ee7249ee" kindref="member">function</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2aa0ec87054b5e5b7847d0d8780a01a3d5" kindref="member">Measure::Function::Sum</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1409e019af8ca60501dd36f95eec4682" kindref="member">measures</ref>.push_back(m);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>q;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-1:<sp/>Cache<sp/>hit<sp/>on<sp/>second<sp/>identical<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>CacheHitOnRepeatedQuery)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60&apos;000;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r1<sp/>=<sp/>engine.execute(q);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r2<sp/>=<sp/>engine.execute(q);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>results<sp/>must<sp/>be<sp/>structurally<sp/>identical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>,<sp/>r2.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a4981e63a7e9920b0febd7230b648cfb7" kindref="member">rows</ref>.size(),<sp/>r2.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a4981e63a7e9920b0febd7230b648cfb7" kindref="member">rows</ref>.size());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>second<sp/>call<sp/>must<sp/>be<sp/>at<sp/>least<sp/>as<sp/>fast<sp/>(cache<sp/>hit<sp/>—<sp/>no<sp/>re-execution<sp/>cost)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>just<sp/>assert<sp/>it<sp/>did<sp/>not<sp/>throw<sp/>and<sp/>returned<sp/>coherent<sp/>data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>LRU<sp/>eviction<sp/>—<sp/>oldest<sp/>entry<sp/>is<sp/>dropped<sp/>when<sp/>capacity<sp/>is<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>LRUEvictionOnCapacityOverflow)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60&apos;000;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>3<sp/>distinct<sp/>queries<sp/>to<sp/>fill<sp/>the<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q<sp/>=<sp/>makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine.execute(q);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-access<sp/>entry<sp/>0<sp/>and<sp/>1<sp/>to<sp/>promote<sp/>them<sp/>(LRU<sp/>order:<sp/>2<sp/>is<sp/>now<sp/>LRU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.execute(makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.execute(makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>4th<sp/>query<sp/>—<sp/>should<sp/>evict<sp/>col_2<sp/>(LRU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.execute(makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>col_0<sp/>and<sp/>col_1<sp/>were<sp/>recently<sp/>accessed;<sp/>executing<sp/>them<sp/>again<sp/>should<sp/>hit<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(i.e.,<sp/>execution_time_ms<sp/>from<sp/>cache<sp/>should<sp/>be<sp/>smaller<sp/>than<sp/>a<sp/>fresh<sp/>query<sp/>—<sp/>we</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>simply<sp/>verify<sp/>they<sp/>do<sp/>not<sp/>throw<sp/>and<sp/>return<sp/>valid<sp/>results<sp/>here)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r0<sp/>=<sp/>engine.execute(makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r1<sp/>=<sp/>engine.execute(makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r0.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.empty()<sp/>||<sp/>!r0.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>valid<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r1.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.empty()<sp/>||<sp/>!r1.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.empty());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-3:<sp/>TTL<sp/>expiry<sp/>—<sp/>expired<sp/>entries<sp/>are<sp/>evicted<sp/>on<sp/>next<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>TTLExpiryEvictsOnAccess)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>ms<sp/>TTL<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q<sp/>=<sp/>makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;ttl_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.execute(q);<sp/><sp/></highlight><highlight class="comment">//<sp/>populates<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>TTL<sp/>to<sp/>expire</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>re-execute<sp/>(cache<sp/>miss<sp/>due<sp/>to<sp/>TTL)<sp/>without<sp/>throwing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r<sp/>=<sp/>engine.execute(q);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.empty()<sp/>||<sp/>!r.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.empty());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-4:<sp/>Cache-key<sp/>normalisation<sp/>—<sp/>different<sp/>dimension<sp/>order<sp/>→<sp/>same<sp/>cache<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>CacheKeyNormalisationDifferentDimensionOrder)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60&apos;000;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>A:<sp/>dimensions<sp/>in<sp/>order<sp/>[region,<sp/>product]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>qa;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae1a52acf165c3f43f5c41b00f71ef7f5" kindref="member">grouping_mode</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a1fbb1e3943c2c6c560247ac8f9289780" kindref="member">OLAPQuery::GroupingMode::Simple</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref><sp/>d1;<sp/>d1.<ref refid="structthemis_1_1analytics_1_1_dimension_1a537ec06565e6773b3f0e7a7c1fb88319" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">;<sp/><sp/>d1.<ref refid="structthemis_1_1analytics_1_1_dimension_1adbf0d3aaa40029795e40d0723b23a5c9" kindref="member">include_in_grouping</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref><sp/>d2;<sp/>d2.<ref refid="structthemis_1_1analytics_1_1_dimension_1a537ec06565e6773b3f0e7a7c1fb88319" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;product&quot;</highlight><highlight class="normal">;<sp/>d2.<ref refid="structthemis_1_1analytics_1_1_dimension_1adbf0d3aaa40029795e40d0723b23a5c9" kindref="member">include_in_grouping</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a64c088e5a0aea4537d770d231ca42695" kindref="member">dimensions</ref><sp/>=<sp/>{d1,<sp/>d2};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref><sp/>m;<sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1a89f472b9c625c18c1de3ee7a90729efd" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">;<sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1a4f018c3465506fa602cd686016a2e498" kindref="member">field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">;<sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1aba0bcfb20d39731c5f615ad0ee7249ee" kindref="member">function</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2aa0ec87054b5e5b7847d0d8780a01a3d5" kindref="member">Measure::Function::Sum</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1409e019af8ca60501dd36f95eec4682" kindref="member">measures</ref>.push_back(m);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>B:<sp/>same<sp/>dimensions<sp/>in<sp/>reversed<sp/>order<sp/>[product,<sp/>region]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>qb;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae1a52acf165c3f43f5c41b00f71ef7f5" kindref="member">grouping_mode</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a1fbb1e3943c2c6c560247ac8f9289780" kindref="member">OLAPQuery::GroupingMode::Simple</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref><sp/>d1;<sp/>d1.<ref refid="structthemis_1_1analytics_1_1_dimension_1a537ec06565e6773b3f0e7a7c1fb88319" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;product&quot;</highlight><highlight class="normal">;<sp/>d1.<ref refid="structthemis_1_1analytics_1_1_dimension_1adbf0d3aaa40029795e40d0723b23a5c9" kindref="member">include_in_grouping</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref><sp/>d2;<sp/>d2.<ref refid="structthemis_1_1analytics_1_1_dimension_1a537ec06565e6773b3f0e7a7c1fb88319" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">;<sp/><sp/>d2.<ref refid="structthemis_1_1analytics_1_1_dimension_1adbf0d3aaa40029795e40d0723b23a5c9" kindref="member">include_in_grouping</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a64c088e5a0aea4537d770d231ca42695" kindref="member">dimensions</ref><sp/>=<sp/>{d1,<sp/>d2};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref><sp/>m;<sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1a89f472b9c625c18c1de3ee7a90729efd" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">;<sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1a4f018c3465506fa602cd686016a2e498" kindref="member">field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">;<sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1aba0bcfb20d39731c5f615ad0ee7249ee" kindref="member">function</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2aa0ec87054b5e5b7847d0d8780a01a3d5" kindref="member">Measure::Function::Sum</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1409e019af8ca60501dd36f95eec4682" kindref="member">measures</ref>.push_back(m);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>execution<sp/>of<sp/>A<sp/>populates<sp/>the<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>ra1<sp/>=<sp/>engine.execute(qa);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>B<sp/>should<sp/>hit<sp/>the<sp/>same<sp/>cache<sp/>entry<sp/>(normalised<sp/>key)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>rb<sp/><sp/>=<sp/>engine.execute(qb);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ra1.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.size(),<sp/>rb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.size());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ra1.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a4981e63a7e9920b0febd7230b648cfb7" kindref="member">rows</ref>.size(),<sp/><sp/><sp/><sp/>rb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a4981e63a7e9920b0febd7230b648cfb7" kindref="member">rows</ref>.size());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-5:<sp/>Cache-key<sp/>normalisation<sp/>—<sp/>different<sp/>filter<sp/>order<sp/>→<sp/>same<sp/>cache<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>CacheKeyNormalisationDifferentFilterOrder)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60&apos;000;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref><sp/>dim;<sp/>dim.<ref refid="structthemis_1_1analytics_1_1_dimension_1a537ec06565e6773b3f0e7a7c1fb88319" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">;<sp/>dim.<ref refid="structthemis_1_1analytics_1_1_dimension_1adbf0d3aaa40029795e40d0723b23a5c9" kindref="member">include_in_grouping</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref><sp/>meas;<sp/>meas.<ref refid="structthemis_1_1analytics_1_1_measure_1a89f472b9c625c18c1de3ee7a90729efd" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">;<sp/>meas.<ref refid="structthemis_1_1analytics_1_1_measure_1a4f018c3465506fa602cd686016a2e498" kindref="member">field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>meas.<ref refid="structthemis_1_1analytics_1_1_measure_1aba0bcfb20d39731c5f615ad0ee7249ee" kindref="member">function</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2aa0ec87054b5e5b7847d0d8780a01a3d5" kindref="member">Measure::Function::Sum</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref><sp/>f1;<sp/>f1.<ref refid="structthemis_1_1analytics_1_1_filter_1a4692de90e4891287a986d7dfa568a41e" kindref="member">field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;year&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/>f1.<ref refid="structthemis_1_1analytics_1_1_filter_1a6c0685b62d0f55a61944c74ab6ccc42b" kindref="member">op</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca3718b5ecf60aa0dba49e150e96cb1fc3" kindref="member">Filter::Operator::Eq</ref>;<sp/>f1.<ref refid="structthemis_1_1analytics_1_1_filter_1ac55ffc612cd906ffb4b62933ffdd22f4" kindref="member">value</ref><sp/>=<sp/>int64_t(2024);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref><sp/>f2;<sp/>f2.<ref refid="structthemis_1_1analytics_1_1_filter_1a4692de90e4891287a986d7dfa568a41e" kindref="member">field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">;<sp/>f2.<ref refid="structthemis_1_1analytics_1_1_filter_1a6c0685b62d0f55a61944c74ab6ccc42b" kindref="member">op</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca3718b5ecf60aa0dba49e150e96cb1fc3" kindref="member">Filter::Operator::Eq</ref>;<sp/>f2.<ref refid="structthemis_1_1analytics_1_1_filter_1ac55ffc612cd906ffb4b62933ffdd22f4" kindref="member">value</ref><sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>qa;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">;<sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae1a52acf165c3f43f5c41b00f71ef7f5" kindref="member">grouping_mode</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a1fbb1e3943c2c6c560247ac8f9289780" kindref="member">OLAPQuery::GroupingMode::Simple</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a64c088e5a0aea4537d770d231ca42695" kindref="member">dimensions</ref><sp/>=<sp/>{dim};<sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1409e019af8ca60501dd36f95eec4682" kindref="member">measures</ref><sp/>=<sp/>{meas};<sp/>qa.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a98cfbc7ae6d2aae8f1b88dcb5dd4a80b" kindref="member">filters</ref><sp/>=<sp/>{f1,<sp/>f2};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>qb;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">;<sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae1a52acf165c3f43f5c41b00f71ef7f5" kindref="member">grouping_mode</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a1fbb1e3943c2c6c560247ac8f9289780" kindref="member">OLAPQuery::GroupingMode::Simple</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a64c088e5a0aea4537d770d231ca42695" kindref="member">dimensions</ref><sp/>=<sp/>{dim};<sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1409e019af8ca60501dd36f95eec4682" kindref="member">measures</ref><sp/>=<sp/>{meas};<sp/>qb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a98cfbc7ae6d2aae8f1b88dcb5dd4a80b" kindref="member">filters</ref><sp/>=<sp/>{f2,<sp/>f1};<sp/><sp/></highlight><highlight class="comment">//<sp/>reversed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>ra<sp/>=<sp/>engine.execute(qa);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>rb<sp/>=<sp/>engine.execute(qb);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ra.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.size(),<sp/>rb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.size());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ra.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a4981e63a7e9920b0febd7230b648cfb7" kindref="member">rows</ref>.size(),<sp/><sp/><sp/><sp/>rb.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a4981e63a7e9920b0febd7230b648cfb7" kindref="member">rows</ref>.size());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-6:<sp/>Cache<sp/>disabled<sp/>when<sp/>result_cache_max_entries<sp/>==<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>CacheDisabledWhenMaxEntriesZero)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60&apos;000;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q<sp/>=<sp/>makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;nocache&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>throw<sp/>even<sp/>with<sp/>caching<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r1<sp/>=<sp/>engine.execute(q);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r2<sp/>=<sp/>engine.execute(q);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.size(),<sp/>r2.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.size());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-7:<sp/>Background<sp/>cleanup<sp/>thread<sp/>evicts<sp/>expired<sp/>entries<sp/>before<sp/>next<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>BackgroundCleanupEvictsExpiredEntries)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>ms<sp/>TTL;<sp/>cleanup<sp/>runs<sp/>every<sp/>~12<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q<sp/>=<sp/>makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;bg_cleanup&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.execute(q);<sp/><sp/></highlight><highlight class="comment">//<sp/>seeds<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>long<sp/>enough<sp/>for<sp/>both<sp/>TTL<sp/>and<sp/>the<sp/>cleanup<sp/>thread<sp/>to<sp/>run</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(200));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>fresh<sp/>execute<sp/>must<sp/>succeed<sp/>(no<sp/>stale<sp/>data<sp/>returned,<sp/>no<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r<sp/>=<sp/>engine.execute(q);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.empty()<sp/>||<sp/>!r.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1af4e1048c92d16ac1e0fa8772ab1a9ec6" kindref="member">columns</ref>.empty());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-8:<sp/>Default<sp/>config<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>DefaultConfigValues)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref>,<sp/>1&apos;000u);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref>,<sp/><sp/><sp/><sp/><sp/>60&apos;000LL);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>ExportToParquetUsesInjectedFallbackBridge)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac1a03cb296cd1ea4987d02281b5f300b" kindref="member">OLAPEngine::setExportToParquetFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref>&amp;<sp/>result,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>compression)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;/tmp/olap.parquet&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compression<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a2d1e1a04fd7984ac586b6266ff347956" kindref="member">total_rows</ref><sp/>==<sp/>5;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a2d1e1a04fd7984ac586b6266ff347956" kindref="member">total_rows</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine.<ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a83e57a12e4232c8cb0183eba0c402739" kindref="member">exportToParquet</ref>(result,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/olap.parquet&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac1a03cb296cd1ea4987d02281b5f300b" kindref="member">OLAPEngine::setExportToParquetFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>ExportCollectionToParquetUsesInjectedFallbackBridge)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac1e9aabd864ce818af1ec59a3d47998e" kindref="member">OLAPEngine::setExportCollectionToParquetFn</ref>(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](std::string_view<sp/>collection,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Filter&gt;&amp;<sp/>filters,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>compression)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>collection<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;/tmp/sales.parquet&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>filters.size()<sp/>==<sp/>1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compression<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;snappy&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref><sp/>filter;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.<ref refid="structthemis_1_1analytics_1_1_filter_1a4692de90e4891287a986d7dfa568a41e" kindref="member">field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.op<sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca3718b5ecf60aa0dba49e150e96cb1fc3" kindref="member">Filter::Operator::Eq</ref>;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.value<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;eu&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine.<ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a6bc3f64afed86db3973146ab4eb7ac2e" kindref="member">exportCollectionToParquet</ref>(</highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/sales.parquet&quot;</highlight><highlight class="normal">,<sp/>{filter},<sp/></highlight><highlight class="stringliteral">&quot;snappy&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac1e9aabd864ce818af1ec59a3d47998e" kindref="member">OLAPEngine::setExportCollectionToParquetFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-9:<sp/>Bounded<sp/>memory<sp/>growth<sp/>under<sp/>10<sp/>000<sp/>unique<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>With<sp/>result_cache_max_entries<sp/>=<sp/>1<sp/>000<sp/>and<sp/>10<sp/>000<sp/>unique<sp/>queries,<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>engine<sp/>must<sp/>evict<sp/>surplus<sp/>entries<sp/>and<sp/>keep<sp/>memory<sp/>usage<sp/>bounded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Strategy:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Measure<sp/>RSS<sp/>after<sp/>filling<sp/>the<sp/>cache<sp/>to<sp/>its<sp/>capacity<sp/>(1<sp/>000<sp/>unique<sp/>queries).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Execute<sp/>a<sp/>further<sp/>9<sp/>000<sp/>unique<sp/>queries<sp/>(total<sp/>10<sp/>000)<sp/>that<sp/>must<sp/>all<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>evicted<sp/>by<sp/>the<sp/>LRU<sp/>policy.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Measure<sp/>RSS<sp/>again.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Assert<sp/>the<sp/>second-phase<sp/>RSS<sp/>growth<sp/>is<sp/>≤<sp/>32<sp/>MB,<sp/>i.e.,<sp/>the<sp/>cache<sp/>did<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>silently<sp/>accumulate<sp/>all<sp/>10<sp/>000<sp/>results<sp/>in<sp/>memory.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>32<sp/>MB<sp/>budget<sp/>is<sp/>generous:<sp/>retaining<sp/>9<sp/>000<sp/>additional<sp/>empty<sp/>OLAP<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(each<sp/>~16<sp/>bytes<sp/>of<sp/>column/row<sp/>overhead)<sp/>plus<sp/>associated<sp/>LRU<sp/>bookkeeping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>would<sp/>easily<sp/>consume<sp/>several<sp/>hundred<sp/>MB<sp/>were<sp/>the<sp/>eviction<sp/>path<sp/>broken.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__linux__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/resource.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>getResidentSetKB()<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">rusage<sp/>usage;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>getrusage(RUSAGE_SELF,<sp/>&amp;usage);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>usage.ru_maxrss;<sp/><sp/></highlight><highlight class="comment">//<sp/>kilobytes<sp/>on<sp/>Linux</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>BoundedMemoryGrowthUnder10kUniqueQueries)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxEntries<sp/><sp/>=<sp/>1&apos;000;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>kTotalQueries<sp/>=<sp/>10&apos;000;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>kMaxEntries;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60&apos;000;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>1:<sp/>fill<sp/>cache<sp/>to<sp/>capacity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>static_cast&lt;int&gt;(kMaxEntries);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine.execute(makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>rss_after_fill_kb<sp/>=<sp/>getResidentSetKB();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>execute<sp/>9<sp/>000<sp/>more<sp/>unique<sp/>queries<sp/>(beyond<sp/>cache<sp/>capacity)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kMaxEntries);<sp/>i<sp/>&lt;<sp/>kTotalQueries;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r<sp/>=<sp/>engine.execute(makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>execution_time_ms<sp/>is<sp/>set<sp/>by<sp/>the<sp/>engine<sp/>on<sp/>every<sp/>call;<sp/>a<sp/>non-negative<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>confirms<sp/>the<sp/>engine<sp/>completed<sp/>without<sp/>throwing<sp/>or<sp/>aborting.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_GE(r.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1aa9900f29ad6f296b9d3dd6ef00b88b63" kindref="member">execution_time_ms</ref>,<sp/>0.0)</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>failure<sp/>at<sp/>query<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>rss_after_overflow_kb<sp/>=<sp/>getResidentSetKB();</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RSS<sp/>growth<sp/>beyond<sp/>the<sp/>initial<sp/>fill<sp/>must<sp/>stay<sp/>below<sp/>32<sp/>MB.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>LRU<sp/>eviction<sp/>is<sp/>broken<sp/>and<sp/>all<sp/>9<sp/>000<sp/>extra<sp/>entries<sp/>are<sp/>retained,<sp/>RSS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>would<sp/>grow<sp/>by<sp/>hundreds<sp/>of<sp/>MB.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>kMaxGrowthKB<sp/>=<sp/>32&apos;768;<sp/><sp/></highlight><highlight class="comment">//<sp/>32<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>growth_kb<sp/><sp/><sp/><sp/>=<sp/>rss_after_overflow_kb<sp/>-<sp/>rss_after_fill_kb;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(growth_kb,<sp/>kMaxGrowthKB)</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;RSS<sp/>grew<sp/>by<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>growth_kb<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>KB<sp/>after<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(kTotalQueries<sp/>-<sp/>kMaxEntries)</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>eviction-triggering<sp/>queries<sp/>(threshold:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kMaxGrowthKB<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>KB).&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>LRU<sp/>eviction<sp/>may<sp/>be<sp/>broken.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Non-Linux:<sp/>verify<sp/>functional<sp/>correctness<sp/>only<sp/>(no<sp/>RSS<sp/>measurement<sp/>available)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__olap__lru__cache_8cpp_1a91392539d805fa2f892a8cc574005682" kindref="member">TEST</ref>(OLAPLRUCache,<sp/>BoundedMemoryGrowthUnder10kUniqueQueries_Functional)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxEntries<sp/><sp/><sp/>=<sp/>1&apos;000;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>kTotalQueries<sp/>=<sp/>10&apos;000;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" kindref="member">result_cache_max_entries</ref><sp/>=<sp/>kMaxEntries;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" kindref="member">result_cache_ttl_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60&apos;000;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kTotalQueries;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref><sp/>r<sp/>=<sp/>engine.execute(makeSimpleQuery(</highlight><highlight class="stringliteral">&quot;col_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_GE(r.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1aa9900f29ad6f296b9d3dd6ef00b88b63" kindref="member">execution_time_ms</ref>,<sp/>0.0)</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>failure<sp/>at<sp/>query<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>we<sp/>reach<sp/>here<sp/>without<sp/>OOM<sp/>or<sp/>exception<sp/>the<sp/>cache<sp/>is<sp/>functionally<sp/>bounded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>defined(__linux__)</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_olap_lru_cache.cpp"/>
+  </compounddef>
+</doxygen>

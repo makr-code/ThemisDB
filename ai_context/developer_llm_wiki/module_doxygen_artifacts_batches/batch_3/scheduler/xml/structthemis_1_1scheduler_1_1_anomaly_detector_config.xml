@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_anomaly_detector_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::AnomalyDetectorConfig</compoundname>
+    <includes refid="task__anomaly__detector_8h" local="no">task_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a713cdc4f4709dee0814e14e1b543e511" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::frequency_threshold</definition>
+        <argsstring></argsstring>
+        <name>frequency_threshold</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::frequency_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="33" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1aa23aaaf86bb1447055821947ec3da1a1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::pattern_threshold</definition>
+        <argsstring></argsstring>
+        <name>pattern_threshold</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::pattern_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="34" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ab3898fde00beb21068f9a264279d5315" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::resource_threshold</definition>
+        <argsstring></argsstring>
+        <name>resource_threshold</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::resource_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="35" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ac2dcd45371f861f241ca5346274fb5d0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::failure_rate_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_rate_threshold</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::failure_rate_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="36" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1adcb2ed272b089c85c158d529d5cd2501" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::overall_threshold</definition>
+        <argsstring></argsstring>
+        <name>overall_threshold</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::overall_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="37" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a82a815d81462b45e17a1334494a4b3af" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::AnomalyDetectorConfig::min_samples</definition>
+        <argsstring></argsstring>
+        <name>min_samples</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::min_samples</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="40" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ae8b117cbf96914816afc2d8afc697c1d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::AnomalyDetectorConfig::max_history_size</definition>
+        <argsstring></argsstring>
+        <name>max_history_size</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::max_history_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="41" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1afa629cd3883f597bea2f261b79db232a" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::scheduler::AnomalyDetectorConfig::baseline_window</definition>
+        <argsstring></argsstring>
+        <name>baseline_window</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::baseline_window</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="42" column="24" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ace9ae6658cd3befda77e2d1707d6ec54" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::frequency_spike_factor</definition>
+        <argsstring></argsstring>
+        <name>frequency_spike_factor</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::frequency_spike_factor</qualifiedname>
+        <initializer>= 3.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="45" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a466478b7cfb955179e3865195a02c162" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::frequency_drop_factor</definition>
+        <argsstring></argsstring>
+        <name>frequency_drop_factor</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::frequency_drop_factor</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="46" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a73b1860d975473073b8e3f096599d8e4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::resource_spike_factor</definition>
+        <argsstring></argsstring>
+        <name>resource_spike_factor</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::resource_spike_factor</qualifiedname>
+        <initializer>= 2.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="49" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a7b757cc6dbd3836c74a06bb7070d1198" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyDetectorConfig::failure_rate_spike</definition>
+        <argsstring></argsstring>
+        <name>failure_rate_spike</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::failure_rate_spike</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="52" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a63c2b161fe77ce20357b2569e6f9486f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::AnomalyDetectorConfig::pattern_window_size</definition>
+        <argsstring></argsstring>
+        <name>pattern_window_size</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::pattern_window_size</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="55" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ae0d502e1baff53da7d645f908148dbd4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::AnomalyDetectorConfig::enable_frequency_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_frequency_detection</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::enable_frequency_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="58" column="10" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ab990826eeb0035f1c029e4a17fa556ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::AnomalyDetectorConfig::enable_pattern_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_pattern_detection</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::enable_pattern_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="59" column="10" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1af27ebc89534144e30f7b987b798a1964" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::AnomalyDetectorConfig::enable_resource_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_resource_detection</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::enable_resource_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="60" column="10" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1af7bb8dfc4e5a889846cc5d88f476fe92" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::AnomalyDetectorConfig::enable_failure_rate_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_failure_rate_detection</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::enable_failure_rate_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="61" column="10" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a3821c449e0973ab178c37bee303e93e1" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;task_id, const <ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp; task_id, const AnomalyMetrics&amp;)&gt; themis::scheduler::AnomalyDetectorConfig::on_anomaly_detected</definition>
+        <argsstring></argsstring>
+        <name>on_anomaly_detected</name>
+        <qualifiedname>themis::scheduler::AnomalyDetectorConfig::on_anomaly_detected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="64" column="19" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for anomaly detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/task_anomaly_detector.h" line="31" column="1" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="31" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1afa629cd3883f597bea2f261b79db232a" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>baseline_window</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1af7bb8dfc4e5a889846cc5d88f476fe92" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>enable_failure_rate_detection</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ae0d502e1baff53da7d645f908148dbd4" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>enable_frequency_detection</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ab990826eeb0035f1c029e4a17fa556ae" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>enable_pattern_detection</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1af27ebc89534144e30f7b987b798a1964" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>enable_resource_detection</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a7b757cc6dbd3836c74a06bb7070d1198" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>failure_rate_spike</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ac2dcd45371f861f241ca5346274fb5d0" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>failure_rate_threshold</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a466478b7cfb955179e3865195a02c162" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>frequency_drop_factor</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ace9ae6658cd3befda77e2d1707d6ec54" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>frequency_spike_factor</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a713cdc4f4709dee0814e14e1b543e511" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>frequency_threshold</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ae8b117cbf96914816afc2d8afc697c1d" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>max_history_size</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a82a815d81462b45e17a1334494a4b3af" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>min_samples</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a3821c449e0973ab178c37bee303e93e1" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>on_anomaly_detected</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1adcb2ed272b089c85c158d529d5cd2501" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>overall_threshold</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1aa23aaaf86bb1447055821947ec3da1a1" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>pattern_threshold</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a63c2b161fe77ce20357b2569e6f9486f" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>pattern_window_size</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a73b1860d975473073b8e3f096599d8e4" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>resource_spike_factor</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ab3898fde00beb21068f9a264279d5315" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyDetectorConfig</scope><name>resource_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

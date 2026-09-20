@@ -1,0 +1,1002 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPULoRALayer</compoundname>
+    <includes refid="gpu__lora__layers_8h" local="no">gpu_lora_layers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a2612a34f22377d6868c43a7ba3e7bf05" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::GPULoRALayer::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::name_</qualifiedname>
+        <initializer>= &quot;GPULoRALayer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="147" column="17" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aaa28b1578f26572632406af9b94c6d3b" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPULoRALayer::in_dim_</definition>
+        <argsstring></argsstring>
+        <name>in_dim_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::in_dim_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="148" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ab108717823af64ccc61bf9d9baa79552" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPULoRALayer::out_dim_</definition>
+        <argsstring></argsstring>
+        <name>out_dim_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::out_dim_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="149" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ace57b50948e914fa93d1b9e89d883d40" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPULoRALayer::rank_</definition>
+        <argsstring></argsstring>
+        <name>rank_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::rank_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="150" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a74d6f88e09af10935cc8ff3bc49e2cc2" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPULoRALayer::scaling_</definition>
+        <argsstring></argsstring>
+        <name>scaling_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::scaling_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="151" column="11" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a55915bee42620710f72b1dcb68f7d64b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPULoRALayer::device_</definition>
+        <argsstring></argsstring>
+        <name>device_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::device_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="152" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a840ceadac60544eebbb68617e3c86ff2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPULoRALayer::use_fused_kernels_</definition>
+        <argsstring></argsstring>
+        <name>use_fused_kernels_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::use_fused_kernels_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="153" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a3a3940378fe3793e509dbfac3609794c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPULoRALayer::use_flash_lora_</definition>
+        <argsstring></argsstring>
+        <name>use_flash_lora_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::use_flash_lora_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="154" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a52f08cccf8a99f366851eac58498efba" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPULoRALayer::use_checkpointing_</definition>
+        <argsstring></argsstring>
+        <name>use_checkpointing_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::use_checkpointing_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="157" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a1f32b703074ae6c2fe571a5ff6108e59" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::GPULoRALayer::layer_id_</definition>
+        <argsstring></argsstring>
+        <name>layer_id_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::layer_id_</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="158" column="9" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a47abaf21bbc43747e8c99c7acb74637f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUTensor&gt; themis::llm::lora::GPULoRALayer::B_</definition>
+        <argsstring></argsstring>
+        <name>B_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::B_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="161" column="21" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a2b859847957c9144e34b14c61df2fe80" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUTensor&gt; themis::llm::lora::GPULoRALayer::A_</definition>
+        <argsstring></argsstring>
+        <name>A_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::A_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="162" column="21" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a862120f45323cc507a4d666b40ebfea6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPULoRALayer::cached_input_</definition>
+        <argsstring></argsstring>
+        <name>cached_input_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::cached_input_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="166" column="15" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aa607e2f2a019da00ba75c5c34a990f60" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPULoRALayer::cached_h_</definition>
+        <argsstring></argsstring>
+        <name>cached_h_</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::cached_h_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="167" column="15" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1afda00ae41a309f4c69fa5062bac25ad2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPULoRALayer::GPULoRALayer</definition>
+        <argsstring>(size_t in_dim, size_t out_dim, size_t rank, float scaling=1.0f, const Device &amp;device=Device::cpu(), bool use_fused_kernels=true, bool use_flash_lora=false)</argsstring>
+        <name>GPULoRALayer</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::GPULoRALayer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+          <defval>1.0f</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_fused_kernels</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_flash_lora</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="27" column="5" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="41" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a0f37dca30cf739e6a9e2bd04b5c1a406" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPULoRALayer::~GPULoRALayer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPULoRALayer</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::~GPULoRALayer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a98b341b7e53b6ef177c9a64c68a6e65e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPULoRALayer::GPULoRALayer</definition>
+        <argsstring>(const GPULoRALayer &amp;)=delete</argsstring>
+        <name>GPULoRALayer</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::GPULoRALayer</qualifiedname>
+        <param>
+          <type>const GPULoRALayer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a2c09ddf3a12828a704581a055de555bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1afda00ae41a309f4c69fa5062bac25ad2" kindref="member">GPULoRALayer</ref> &amp;</type>
+        <definition>GPULoRALayer &amp; themis::llm::lora::GPULoRALayer::operator=</definition>
+        <argsstring>(const GPULoRALayer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1afda00ae41a309f4c69fa5062bac25ad2" kindref="member">GPULoRALayer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="37" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a096ef9348df88fa5a9bcf743ec8f4cf9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPULoRALayer::GPULoRALayer</definition>
+        <argsstring>(GPULoRALayer &amp;&amp;) noexcept=default</argsstring>
+        <name>GPULoRALayer</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::GPULoRALayer</qualifiedname>
+        <param>
+          <type>GPULoRALayer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ac9bcfffb1ffc6274677bd57fcc575af1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1afda00ae41a309f4c69fa5062bac25ad2" kindref="member">GPULoRALayer</ref> &amp;</type>
+        <definition>GPULoRALayer &amp; themis::llm::lora::GPULoRALayer::operator=</definition>
+        <argsstring>(GPULoRALayer &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1afda00ae41a309f4c69fa5062bac25ad2" kindref="member">GPULoRALayer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="39" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a5cebc61e95cc948aeda28347abf7d82e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPULoRALayer::forward</definition>
+        <argsstring>(const GPUTensor &amp;input)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::forward</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>========== Forward/Backward ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Forward.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aaf46e29736439dbed7805d420193e955" kindref="member">device()</ref>, shape(), size(), clone(), transpose(), matmul(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="47" column="15" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="89" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a7dd3dc9a4048a11fbe777e9c80c81b55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPULoRALayer::backward</definition>
+        <argsstring>(const GPUTensor &amp;grad_output)</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::backward</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>grad_output</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aaf46e29736439dbed7805d420193e955" kindref="member">device()</ref>, shape(), size(), empty(), ensure_grad(), grad_input(), <ref refid="namespacethemis_1_1lora_1_1vulkan_1a2cbf4c51d4abcd3b68cbfa7238f6a73d" kindref="member">themis::lora::vulkan::is_vulkan_available()</ref>, <ref refid="namespacethemis_1_1lora_1_1vulkan_1a66e0147a00bcb3641ca49fce69259c5f" kindref="member">themis::lora::vulkan::initialize_vulkan_lora()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="54" column="15" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="290" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a4c0ef92e1f784c8902d631b518eed329" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> * &gt;</type>
+        <definition>std::vector&lt; GPUTensor * &gt; themis::llm::lora::GPULoRALayer::parameters</definition>
+        <argsstring>()</argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::parameters</qualifiedname>
+        <briefdescription>
+<para>========== Parameter Access ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parameters.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="61" column="17" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="521" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1af7c06722b7f9fb3b7373cc5f2064c395" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> * &gt;</type>
+        <definition>std::vector&lt; GPUTensor * &gt; themis::llm::lora::GPULoRALayer::gradients</definition>
+        <argsstring>()</argsstring>
+        <name>gradients</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::gradients</qualifiedname>
+        <briefdescription>
+<para>Gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="67" column="17" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="530" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a31b3dd607a1b0c7ff49cf0309ea0fe06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPULoRALayer::zero_grad</definition>
+        <argsstring>()</argsstring>
+        <name>zero_grad</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::zero_grad</qualifiedname>
+        <briefdescription>
+<para>Zero grad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: zero(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="72" column="10" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="538" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ab0349c8fd00433a6f372224c1f84a344" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::pair&lt; GPUTensor, GPUTensor &gt; themis::llm::lora::GPULoRALayer::get_weights</definition>
+        <argsstring>() const</argsstring>
+        <name>get_weights</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::get_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="76" column="15" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="547" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a2fb5ec9867c7b2ed160891d49104711e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPULoRALayer::set_weights</definition>
+        <argsstring>(const GPUTensor &amp;B, const GPUTensor &amp;A)</argsstring>
+        <name>set_weights</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::set_weights</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Set weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: shape(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aaf46e29736439dbed7805d420193e955" kindref="member">device()</ref>, clone(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aeba93123fb9a57ca46897de0b33869f6" kindref="member">to()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="83" column="10" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="558" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aaf46e29736439dbed7805d420193e955" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPULoRALayer::device</definition>
+        <argsstring>() const</argsstring>
+        <name>device</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::device</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="87" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aeba93123fb9a57ca46897de0b33869f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPULoRALayer::to</definition>
+        <argsstring>(const Device &amp;target_device)</argsstring>
+        <name>to</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::to</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>target_device</declname>
+        </param>
+        <briefdescription>
+<para>To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: to_inplace(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="93" column="10" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="580" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ad9d0513c2e05d5324ab509bda8e11b3b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::lora::GPULoRALayer::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="97" column="23" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a66bbf1c6c6a1dde6dac8a3d10e3d781f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPULoRALayer::set_name</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>set_name</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::set_name</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Set name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_name without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="103" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a429d308a256e5fb48971ed0b44aff260" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPULoRALayer::parameter_count</definition>
+        <argsstring>() const</argsstring>
+        <name>parameter_count</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::parameter_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="105" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a11f425d86d9ec48398360f2b45e3065f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPULoRALayer::memory_bytes</definition>
+        <argsstring>() const</argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::memory_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="106" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a5e341a70ce5dfa5fb934dec9275d46bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPULoRALayer::in_dim</definition>
+        <argsstring>() const</argsstring>
+        <name>in_dim</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::in_dim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="108" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ac0356db5a77ed4b9d9af6a36fd605b64" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPULoRALayer::out_dim</definition>
+        <argsstring>() const</argsstring>
+        <name>out_dim</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::out_dim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="109" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a8fbbf4c70eacda269246604fdf54c9cb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPULoRALayer::rank</definition>
+        <argsstring>() const</argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::rank</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="110" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a7238273edb89b79e099022534b6d9cc4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPULoRALayer::scaling</definition>
+        <argsstring>() const</argsstring>
+        <name>scaling</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::scaling</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="111" column="11" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1af4b3ef23e269c349ed9c728f8011d070" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPULoRALayer::use_fused_kernels</definition>
+        <argsstring>() const</argsstring>
+        <name>use_fused_kernels</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::use_fused_kernels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="112" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a8aa949a1f295180a6d284aa81a409abc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPULoRALayer::set_use_fused_kernels</definition>
+        <argsstring>(bool use_fused)</argsstring>
+        <name>set_use_fused_kernels</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::set_use_fused_kernels</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>use_fused</declname>
+        </param>
+        <briefdescription>
+<para>Set use fused kernels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">use_fused</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_use_fused_kernels without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="118" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a952ac35c13a71a27fba15abefde2b884" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPULoRALayer::use_flash_lora</definition>
+        <argsstring>() const</argsstring>
+        <name>use_flash_lora</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::use_flash_lora</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="119" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aef04434bf8ffbc6cd119bc3b2d8b8387" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPULoRALayer::set_use_flash_lora</definition>
+        <argsstring>(bool use_flash)</argsstring>
+        <name>set_use_flash_lora</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::set_use_flash_lora</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>use_flash</declname>
+        </param>
+        <briefdescription>
+<para>Set use flash lora. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">use_flash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_use_flash_lora without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="125" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ac58c36492a8f90bcf8903f743e08484f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPULoRALayer::set_checkpointing</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>set_checkpointing</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::set_checkpointing</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>========== Gradient Checkpointing ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_checkpointing without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="133" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a88a0811b32d36c5e2aa21f574fc241fc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPULoRALayer::use_checkpointing</definition>
+        <argsstring>() const</argsstring>
+        <name>use_checkpointing</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::use_checkpointing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="135" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a9a6ed90a55eef462f277f5bb26d4ac6c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPULoRALayer::set_layer_id</definition>
+        <argsstring>(int layer_id)</argsstring>
+        <name>set_layer_id</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::set_layer_id</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer_id</declname>
+        </param>
+        <briefdescription>
+<para>Set layer id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_layer_id without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="142" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1acafe8cf9fab342cd799b7f982e3f6889" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::GPULoRALayer::layer_id</definition>
+        <argsstring>() const</argsstring>
+        <name>layer_id</name>
+        <qualifiedname>themis::llm::lora::GPULoRALayer::layer_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="144" column="9" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_lora_layers.h" line="25" column="1" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="25" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a2b859847957c9144e34b14c61df2fe80" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>A_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a47abaf21bbc43747e8c99c7acb74637f" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>B_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a7dd3dc9a4048a11fbe777e9c80c81b55" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aa607e2f2a019da00ba75c5c34a990f60" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>cached_h_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a862120f45323cc507a4d666b40ebfea6" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>cached_input_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aaf46e29736439dbed7805d420193e955" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>device</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a55915bee42620710f72b1dcb68f7d64b" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>device_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a5cebc61e95cc948aeda28347abf7d82e" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ab0349c8fd00433a6f372224c1f84a344" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>get_weights</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1afda00ae41a309f4c69fa5062bac25ad2" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>GPULoRALayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a98b341b7e53b6ef177c9a64c68a6e65e" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>GPULoRALayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a096ef9348df88fa5a9bcf743ec8f4cf9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>GPULoRALayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1af7c06722b7f9fb3b7373cc5f2064c395" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>gradients</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a5e341a70ce5dfa5fb934dec9275d46bf" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>in_dim</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aaa28b1578f26572632406af9b94c6d3b" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>in_dim_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1acafe8cf9fab342cd799b7f982e3f6889" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>layer_id</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a1f32b703074ae6c2fe571a5ff6108e59" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>layer_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a11f425d86d9ec48398360f2b45e3065f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>memory_bytes</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ad9d0513c2e05d5324ab509bda8e11b3b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>name</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a2612a34f22377d6868c43a7ba3e7bf05" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>name_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a2c09ddf3a12828a704581a055de555bd" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ac9bcfffb1ffc6274677bd57fcc575af1" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ac0356db5a77ed4b9d9af6a36fd605b64" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>out_dim</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ab108717823af64ccc61bf9d9baa79552" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>out_dim_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a429d308a256e5fb48971ed0b44aff260" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>parameter_count</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a4c0ef92e1f784c8902d631b518eed329" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a8fbbf4c70eacda269246604fdf54c9cb" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>rank</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ace57b50948e914fa93d1b9e89d883d40" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>rank_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a7238273edb89b79e099022534b6d9cc4" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>scaling</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a74d6f88e09af10935cc8ff3bc49e2cc2" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>scaling_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1ac58c36492a8f90bcf8903f743e08484f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>set_checkpointing</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a9a6ed90a55eef462f277f5bb26d4ac6c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>set_layer_id</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a66bbf1c6c6a1dde6dac8a3d10e3d781f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>set_name</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aef04434bf8ffbc6cd119bc3b2d8b8387" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>set_use_flash_lora</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a8aa949a1f295180a6d284aa81a409abc" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>set_use_fused_kernels</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a2fb5ec9867c7b2ed160891d49104711e" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>set_weights</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1aeba93123fb9a57ca46897de0b33869f6" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>to</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a88a0811b32d36c5e2aa21f574fc241fc" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>use_checkpointing</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a52f08cccf8a99f366851eac58498efba" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>use_checkpointing_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a952ac35c13a71a27fba15abefde2b884" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>use_flash_lora</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a3a3940378fe3793e509dbfac3609794c" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>use_flash_lora_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1af4b3ef23e269c349ed9c728f8011d070" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>use_fused_kernels</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a840ceadac60544eebbb68617e3c86ff2" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>use_fused_kernels_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a31b3dd607a1b0c7ff49cf0309ea0fe06" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>zero_grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer_1a0f37dca30cf739e6a9e2bd04b5c1a406" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRALayer</scope><name>~GPULoRALayer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

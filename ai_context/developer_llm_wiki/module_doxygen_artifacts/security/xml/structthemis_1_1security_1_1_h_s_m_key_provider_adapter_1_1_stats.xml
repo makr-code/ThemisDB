@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::security::HSMKeyProviderAdapter::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1a72868e9031836c361775619831311d86" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMKeyProviderAdapter::Stats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::Stats::cache_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="288" column="21" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="288" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1afa7dd2b4c1341a015ae26343da335c94" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMKeyProviderAdapter::Stats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::Stats::cache_misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="289" column="21" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="289" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1a21ac6cfcda52188de80ad41ad69a5f14" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMKeyProviderAdapter::Stats::hsm_encrypt_operations</definition>
+        <argsstring></argsstring>
+        <name>hsm_encrypt_operations</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::Stats::hsm_encrypt_operations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="290" column="21" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="290" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1a81f0262efaffa3f6e23f785c2e209618" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMKeyProviderAdapter::Stats::hsm_decrypt_operations</definition>
+        <argsstring></argsstring>
+        <name>hsm_decrypt_operations</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::Stats::hsm_decrypt_operations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="291" column="21" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="291" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1afed3031e3c624e968e990de0d70aac17" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMKeyProviderAdapter::Stats::hsm_errors</definition>
+        <argsstring></argsstring>
+        <name>hsm_errors</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::Stats::hsm_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="292" column="21" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="292" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1afabfc1a8b7296a395f089df3c8372865" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMKeyProviderAdapter::Stats::key_rotations</definition>
+        <argsstring></argsstring>
+        <name>key_rotations</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::Stats::key_rotations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="293" column="21" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/hsm_key_provider_adapter.h" line="287" column="5" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="287" bodyend="294"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1a72868e9031836c361775619831311d86" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::Stats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1afa7dd2b4c1341a015ae26343da335c94" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::Stats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1a81f0262efaffa3f6e23f785c2e209618" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::Stats</scope><name>hsm_decrypt_operations</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1a21ac6cfcda52188de80ad41ad69a5f14" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::Stats</scope><name>hsm_encrypt_operations</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1afed3031e3c624e968e990de0d70aac17" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::Stats</scope><name>hsm_errors</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats_1afabfc1a8b7296a395f089df3c8372865" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::Stats</scope><name>key_rotations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

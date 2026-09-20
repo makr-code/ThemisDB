@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_simple_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::SimpleExporter</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_simple_exporter_1a5607db0375681ed26b90840ec9d43008" prot="private" static="no" mutable="yes">
+        <type>mutex</type>
+        <definition>mutex themis::observability::SimpleExporter::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::observability::SimpleExporter::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="159" column="19" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_simple_exporter_1a32a34d460fbafc483b1e096e8e0ca8e6" prot="private" static="no" mutable="no">
+        <type>queue&lt; <ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> &gt;</type>
+        <definition>queue&lt;Metric&gt; themis::observability::SimpleExporter::metrics_queue_</definition>
+        <argsstring></argsstring>
+        <name>metrics_queue_</name>
+        <qualifiedname>themis::observability::SimpleExporter::metrics_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="160" column="11" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_simple_exporter_1a8aa023f9553595699e1e5eb247f22197" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::SimpleExporter::max_queue_size_</definition>
+        <argsstring></argsstring>
+        <name>max_queue_size_</name>
+        <qualifiedname>themis::observability::SimpleExporter::max_queue_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="161" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_simple_exporter_1a7dec5e961d6a970990597c2db2cc4c7c" prot="private" static="no" mutable="no">
+        <type>atomic&lt; uint64_t &gt;</type>
+        <definition>atomic&lt;uint64_t&gt; themis::observability::SimpleExporter::total_exported_</definition>
+        <argsstring></argsstring>
+        <name>total_exported_</name>
+        <qualifiedname>themis::observability::SimpleExporter::total_exported_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="162" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="162" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_simple_exporter_1aa57a7f9e0058ed2d0d7550a7f3fc5660" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::SimpleExporter::SimpleExporter</definition>
+        <argsstring>(size_t max_queue_size=100000)</argsstring>
+        <name>SimpleExporter</name>
+        <qualifiedname>themis::observability::SimpleExporter::SimpleExporter</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_queue_size</declname>
+          <defval>100000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="96" column="14" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="96" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_simple_exporter_1a82e41b6b04bbfb2144f9bde2660dc029" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::SimpleExporter::ingestMetric</definition>
+        <argsstring>(const Metric &amp;metric)</argsstring>
+        <name>ingestMetric</name>
+        <qualifiedname>themis::observability::SimpleExporter::ingestMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest metric into exporter queue </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="102" column="10" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_simple_exporter_1abd75b03edc20db082e38e8639869f4d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::SimpleExporter::processBatch</definition>
+        <argsstring>(size_t batch_size=1000)</argsstring>
+        <name>processBatch</name>
+        <qualifiedname>themis::observability::SimpleExporter::processBatch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Process queued metrics (simulates export batching) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="116" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="116" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_simple_exporter_1ae88862aa738cb8c8a91104d58c89a797" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::SimpleExporter::getQueueDepth</definition>
+        <argsstring>() const</argsstring>
+        <name>getQueueDepth</name>
+        <qualifiedname>themis::observability::SimpleExporter::getQueueDepth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get queue depth </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="138" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_simple_exporter_1ac0a6b7be77d7aaf93f07baa4cd3f4be7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::SimpleExporter::getTotalExported</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalExported</name>
+        <qualifiedname>themis::observability::SimpleExporter::getTotalExported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get total exported count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="146" column="14" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="146" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_simple_exporter_1abade6e81d44809bfb28149451be34b94" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::observability::SimpleExporter::isValidMetric</definition>
+        <argsstring>(const Metric &amp;metric)</argsstring>
+        <name>isValidMetric</name>
+        <qualifiedname>themis::observability::SimpleExporter::isValidMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if metric is valid (not malformed) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="153" column="17" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="153" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple exporter with configurable behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="94" column="1" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="94" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1ae88862aa738cb8c8a91104d58c89a797" prot="public" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>getQueueDepth</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1ac0a6b7be77d7aaf93f07baa4cd3f4be7" prot="public" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>getTotalExported</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1a82e41b6b04bbfb2144f9bde2660dc029" prot="public" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>ingestMetric</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1abade6e81d44809bfb28149451be34b94" prot="public" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>isValidMetric</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1a8aa023f9553595699e1e5eb247f22197" prot="private" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>max_queue_size_</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1a32a34d460fbafc483b1e096e8e0ca8e6" prot="private" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>metrics_queue_</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1abd75b03edc20db082e38e8639869f4d6" prot="public" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>processBatch</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1a5607db0375681ed26b90840ec9d43008" prot="private" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1aa57a7f9e0058ed2d0d7550a7f3fc5660" prot="public" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>SimpleExporter</name></member>
+      <member refid="classthemis_1_1observability_1_1_simple_exporter_1a7dec5e961d6a970990597c2db2cc4c7c" prot="private" virt="non-virtual"><scope>themis::observability::SimpleExporter</scope><name>total_exported_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

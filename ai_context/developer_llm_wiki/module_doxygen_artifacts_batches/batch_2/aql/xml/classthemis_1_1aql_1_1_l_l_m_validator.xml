@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_l_l_m_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::LLMValidator</compoundname>
+    <includes refid="llm__error__codes_8h" local="no">llm_error_codes.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validator_1a7f4e066c48c067a260219d42c87c492f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::aql::LLMValidator::validatePrompt</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>validatePrompt</name>
+        <qualifiedname>themis::aql::LLMValidator::validatePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Validate Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>LLMException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), length(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="227" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="227" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validator_1a5a53d32927464ff2f3f1e8440accca82" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::aql::LLMValidator::validateId</definition>
+        <argsstring>(const std::string &amp;id, bool is_lora=false)</argsstring>
+        <name>validateId</name>
+        <qualifiedname>themis::aql::LLMValidator::validateId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_lora</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="238" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="238" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validator_1a5a32a3a1e80c146d438dcc2cb7fe7fb4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::aql::LLMValidator::validateCollection</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>validateCollection</name>
+        <qualifiedname>themis::aql::LLMValidator::validateCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Validate Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>LLMException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), length(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="267" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="267" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validator_1a870bfdcc9455f1cd0a593a0b9d6ff53a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::aql::LLMValidator::validateTopK</definition>
+        <argsstring>(int top_k)</argsstring>
+        <name>validateTopK</name>
+        <qualifiedname>themis::aql::LLMValidator::validateTopK</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>top_k</declname>
+        </param>
+        <briefdescription>
+<para>Validate Top K. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>LLMException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="283" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="283" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_error_codes.h" line="219" column="1" bodyfile="include/aql/llm_error_codes.h" bodystart="219" bodyend="290"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validator_1a5a32a3a1e80c146d438dcc2cb7fe7fb4" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidator</scope><name>validateCollection</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validator_1a5a53d32927464ff2f3f1e8440accca82" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidator</scope><name>validateId</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validator_1a7f4e066c48c067a260219d42c87c492f" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidator</scope><name>validatePrompt</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validator_1a870bfdcc9455f1cd0a593a0b9d6ff53a" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidator</scope><name>validateTopK</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

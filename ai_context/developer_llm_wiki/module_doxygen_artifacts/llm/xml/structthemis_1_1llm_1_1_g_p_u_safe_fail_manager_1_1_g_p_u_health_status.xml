@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GPUSafeFailManager::GPUHealthStatus</compoundname>
+    <includes refid="gpu__safe__fail_8h" local="no">gpu_safe_fail.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1af351ef8c5f29560beaaf7c65d6ae1502" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1acc4379d5c2ba244c81c9e1970ae0cc10" kindref="member">GPUState</ref></type>
+        <definition>GPUState themis::llm::GPUSafeFailManager::GPUHealthStatus::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="64" column="18" bodyfile="include/llm/gpu_safe_fail.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1ad84f2478d240c488f4cade377bfbbc8a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUSafeFailManager::GPUHealthStatus::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="65" column="16" bodyfile="include/llm/gpu_safe_fail.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1ae145add900170aa80f36a2d137cfa561" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUSafeFailManager::GPUHealthStatus::consecutive_successes</definition>
+        <argsstring></argsstring>
+        <name>consecutive_successes</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::consecutive_successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="66" column="16" bodyfile="include/llm/gpu_safe_fail.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1af27752b275266e24fd93ec33c44356ad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUSafeFailManager::GPUHealthStatus::total_failures</definition>
+        <argsstring></argsstring>
+        <name>total_failures</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::total_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="67" column="16" bodyfile="include/llm/gpu_safe_fail.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1ad889e36ffff4b95fc1b23d70f14cede4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUSafeFailManager::GPUHealthStatus::total_operations</definition>
+        <argsstring></argsstring>
+        <name>total_operations</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::total_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="68" column="16" bodyfile="include/llm/gpu_safe_fail.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a789d32f4eccf0823360a42e77cbc6981" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::GPUSafeFailManager::GPUHealthStatus::last_failure_time</definition>
+        <argsstring></argsstring>
+        <name>last_failure_time</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::last_failure_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="69" column="47" bodyfile="include/llm/gpu_safe_fail.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a0ff836e68bbf4c575e818f44bc467161" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::GPUSafeFailManager::GPUHealthStatus::last_success_time</definition>
+        <argsstring></argsstring>
+        <name>last_success_time</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::last_success_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="70" column="47" bodyfile="include/llm/gpu_safe_fail.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a12616c580f221efccec8f71d1772da95" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::GPUSafeFailManager::GPUHealthStatus::circuit_opened_time</definition>
+        <argsstring></argsstring>
+        <name>circuit_opened_time</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::circuit_opened_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="71" column="47" bodyfile="include/llm/gpu_safe_fail.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a9cd050683f9e961335e847a8950e2797" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GPUSafeFailManager::GPUHealthStatus::last_error_message</definition>
+        <argsstring></argsstring>
+        <name>last_error_message</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::last_error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="72" column="21" bodyfile="include/llm/gpu_safe_fail.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a9610bac9eaaa2bc78b8567e3731aa690" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1a8d589c6f82f2260bfdc4441dfb3a4185" kindref="member">FailureType</ref></type>
+        <definition>FailureType themis::llm::GPUSafeFailManager::GPUHealthStatus::last_failure_type</definition>
+        <argsstring></argsstring>
+        <name>last_failure_type</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::last_failure_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="73" column="21" bodyfile="include/llm/gpu_safe_fail.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a0ffc025a1a1c0173cb38d1618abb7aae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUSafeFailManager::GPUHealthStatus::is_cpu_fallback_active</definition>
+        <argsstring></argsstring>
+        <name>is_cpu_fallback_active</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::is_cpu_fallback_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="74" column="14" bodyfile="include/llm/gpu_safe_fail.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a788fdec99cdcb542b4ff84c560b38221" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GPUSafeFailManager::GPUHealthStatus::error_rate</definition>
+        <argsstring></argsstring>
+        <name>error_rate</name>
+        <qualifiedname>themis::llm::GPUSafeFailManager::GPUHealthStatus::error_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="75" column="15" bodyfile="include/llm/gpu_safe_fail.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gpu_safe_fail.h" line="63" column="5" bodyfile="include/llm/gpu_safe_fail.h" bodystart="63" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a12616c580f221efccec8f71d1772da95" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>circuit_opened_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1ad84f2478d240c488f4cade377bfbbc8a" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1ae145add900170aa80f36a2d137cfa561" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>consecutive_successes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a788fdec99cdcb542b4ff84c560b38221" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>error_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a0ffc025a1a1c0173cb38d1618abb7aae" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>is_cpu_fallback_active</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a9cd050683f9e961335e847a8950e2797" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>last_error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a789d32f4eccf0823360a42e77cbc6981" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>last_failure_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a9610bac9eaaa2bc78b8567e3731aa690" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>last_failure_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1a0ff836e68bbf4c575e818f44bc467161" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>last_success_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1af351ef8c5f29560beaaf7c65d6ae1502" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>state</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1af27752b275266e24fd93ec33c44356ad" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>total_failures</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_safe_fail_manager_1_1_g_p_u_health_status_1ad889e36ffff4b95fc1b23d70f14cede4" prot="public" virt="non-virtual"><scope>themis::llm::GPUSafeFailManager::GPUHealthStatus</scope><name>total_operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

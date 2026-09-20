@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c3063eef96484b128f1aade88fa9145c" kind="dir">
+    <compoundname>include/themis/ratelimit</compoundname>
+    <innerfile refid="irate__limit__policy_8h">irate_limit_policy.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/ratelimit/"/>
+  </compounddef>
+</doxygen>

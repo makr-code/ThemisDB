@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::aql::LLMAQLEmbeddingBridge</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1_i_embedding_provider" prot="public" virt="non-virtual">themis::aql::IEmbeddingProvider</basecompoundref>
+    <includes refid="llm__aql__embedding__bridge_8h" local="no">llm_aql_embedding_bridge.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1aa9d9aa75e011eadfcb60ed4464951a69" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &amp;</type>
+        <definition>LLMAQLHandler&amp; themis::aql::LLMAQLEmbeddingBridge::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>themis::aql::LLMAQLEmbeddingBridge::handler_</qualifiedname>
+        <briefdescription>
+<para>non-owning reference to the wired handler </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_embedding_bridge.h" line="90" column="19" bodyfile="include/aql/llm_aql_embedding_bridge.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1af568f8184fbe8327ba0750e132af1f03" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMAQLEmbeddingBridge::LLMAQLEmbeddingBridge</definition>
+        <argsstring>(LLMAQLHandler &amp;handler) noexcept</argsstring>
+        <name>LLMAQLEmbeddingBridge</name>
+        <qualifiedname>themis::aql::LLMAQLEmbeddingBridge::LLMAQLEmbeddingBridge</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &amp;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Live handler. Must outlive this bridge. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_embedding_bridge.h" line="65" column="14" bodyfile="include/aql/llm_aql_embedding_bridge.h" bodystart="65" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1a3a665179f784b51dedd28c0a84f50a53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMAQLEmbeddingBridge::~LLMAQLEmbeddingBridge</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~LLMAQLEmbeddingBridge</name>
+        <qualifiedname>themis::aql::LLMAQLEmbeddingBridge::~LLMAQLEmbeddingBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_embedding_bridge.h" line="68" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1a6304e5ba310e0fa872b9ee7ba5b06537" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMAQLEmbeddingBridge::LLMAQLEmbeddingBridge</definition>
+        <argsstring>(const LLMAQLEmbeddingBridge &amp;)=delete</argsstring>
+        <name>LLMAQLEmbeddingBridge</name>
+        <qualifiedname>themis::aql::LLMAQLEmbeddingBridge::LLMAQLEmbeddingBridge</qualifiedname>
+        <param>
+          <type>const LLMAQLEmbeddingBridge &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_embedding_bridge.h" line="71" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1acca6455f6578b3def6c2510e67167839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1af568f8184fbe8327ba0750e132af1f03" kindref="member">LLMAQLEmbeddingBridge</ref> &amp;</type>
+        <definition>LLMAQLEmbeddingBridge &amp; themis::aql::LLMAQLEmbeddingBridge::operator=</definition>
+        <argsstring>(const LLMAQLEmbeddingBridge &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::LLMAQLEmbeddingBridge::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1af568f8184fbe8327ba0750e132af1f03" kindref="member">LLMAQLEmbeddingBridge</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_embedding_bridge.h" line="72" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1abfced7baabeb554eb8c74c4fea1977a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMAQLEmbeddingBridge::LLMAQLEmbeddingBridge</definition>
+        <argsstring>(LLMAQLEmbeddingBridge &amp;&amp;)=delete</argsstring>
+        <name>LLMAQLEmbeddingBridge</name>
+        <qualifiedname>themis::aql::LLMAQLEmbeddingBridge::LLMAQLEmbeddingBridge</qualifiedname>
+        <param>
+          <type>LLMAQLEmbeddingBridge &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_embedding_bridge.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1a7267a01ba6f9b1c963faed89c876fd99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1af568f8184fbe8327ba0750e132af1f03" kindref="member">LLMAQLEmbeddingBridge</ref> &amp;</type>
+        <definition>LLMAQLEmbeddingBridge &amp; themis::aql::LLMAQLEmbeddingBridge::operator=</definition>
+        <argsstring>(LLMAQLEmbeddingBridge &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::LLMAQLEmbeddingBridge::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1af568f8184fbe8327ba0750e132af1f03" kindref="member">LLMAQLEmbeddingBridge</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_embedding_bridge.h" line="74" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1abbba27eb205a5f594cc31f1ab135e99f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::aql::LLMAQLEmbeddingBridge::embed</definition>
+        <argsstring>(const std::string &amp;text) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::aql::LLMAQLEmbeddingBridge::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_embedding_provider_1a27cdbbb637350478c25eacb32837919d">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute an embedding via the handler&apos;s executeEmbed() circuit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Embed.</para>
+<para>Delegates to <computeroutput>LLMAQLHandler::executeEmbed(text)</computeroutput>. Any exception thrown by the handler (e.g. circuit-breaker open, LLM unavailable) is caught and an empty vector is returned, causing <computeroutput><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library" kindref="compound">AQLFewShotExampleLibrary</ref></computeroutput> to fall back to Jaccard word-overlap ranking for that query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text (may be empty; returns empty vector). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense float embedding, or an empty vector on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), executeEmbed(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_embedding_bridge.h" line="87" column="17" bodyfile="src/aql/llm_aql_embedding_bridge.cpp" bodystart="26" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adapter: bridges <computeroutput><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a0bb0e4a84d466d7584675d2af4b87ff2" kindref="member">LLMAQLHandler::executeEmbed()</ref></computeroutput> to <computeroutput><ref refid="classthemis_1_1aql_1_1_i_embedding_provider" kindref="compound">IEmbeddingProvider</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class lets callers wire the AQL handler&apos;s embedding circuit (which includes circuit-breaker, sharding locality, and metric instrumentation) directly into an <computeroutput><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library" kindref="compound">AQLFewShotExampleLibrary</ref></computeroutput> for semantic few-shot ranking.</para>
+<sect1 id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1autotoc_md0_1s1"><sect2 id="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1autotoc_md0">
+<title>Usage</title><para><programlisting><codeline><highlight class="normal">LLMAQLHandler<sp/>handler;</highlight></codeline>
+<codeline><highlight class="normal">AQLFewShotExampleLibrary<sp/>library;</highlight></codeline>
+<codeline><highlight class="normal">library.addBuiltinSamples();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>and<sp/>inject<sp/>the<sp/>bridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bridge<sp/>=<sp/>handler.makeEmbeddingBridge();</highlight></codeline>
+<codeline><highlight class="normal">library.setEmbeddingProvider(bridge.get());</highlight></codeline>
+<codeline><highlight class="normal">library.rebuildEmbeddingIndex();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Translate<sp/>–<sp/>semantic<sp/>few-shot<sp/>selection<sp/>now<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>aql<sp/>=<sp/>handler.translateNLToAQLWithExamples(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;find<sp/>all<sp/>users<sp/>with<sp/>role<sp/>admin&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>library,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>schema_context,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>5);</highlight></codeline>
+</programlisting></para>
+<para>Lifetime: the <computeroutput><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref></computeroutput> reference passed to the constructor must outlive this bridge object.</para>
+<para>Thread-safety: <computeroutput><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1abbba27eb205a5f594cc31f1ab135e99f" kindref="member">embed()</ref></computeroutput> is thread-safe to the extent that <computeroutput><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a0bb0e4a84d466d7584675d2af4b87ff2" kindref="member">LLMAQLHandler::executeEmbed()</ref></computeroutput> is thread-safe (each call acquires the handler&apos;s circuit-breaker atomically; no shared mutable state here).</para>
+<para>Source: src/aql/FUTURE_ENHANCEMENTS.md §8 – &quot;Use the LLMAQLHandler&apos;s
+existing executeEmbed() as the default embedding provider bridge&quot; </para>
+</sect2></sect1>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::aql::IEmbeddingProvider</label>
+        <link refid="classthemis_1_1aql_1_1_i_embedding_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::aql::LLMAQLEmbeddingBridge</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::aql::IEmbeddingProvider</label>
+        <link refid="classthemis_1_1aql_1_1_i_embedding_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::aql::LLMAQLEmbeddingBridge</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/llm_aql_embedding_bridge.h" line="60" column="1" bodyfile="include/aql/llm_aql_embedding_bridge.h" bodystart="60" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1abbba27eb205a5f594cc31f1ab135e99f" prot="public" virt="virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>embed</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1aa9d9aa75e011eadfcb60ed4464951a69" prot="private" virt="non-virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>handler_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1af568f8184fbe8327ba0750e132af1f03" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>LLMAQLEmbeddingBridge</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1a6304e5ba310e0fa872b9ee7ba5b06537" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>LLMAQLEmbeddingBridge</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1abfced7baabeb554eb8c74c4fea1977a5" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>LLMAQLEmbeddingBridge</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1acca6455f6578b3def6c2510e67167839" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1a7267a01ba6f9b1c963faed89c876fd99" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_embedding_provider_1a14f055d29bc8376eb2e46470fe210f7a" prot="public" virt="virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>~IEmbeddingProvider</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_embedding_bridge_1a3a665179f784b51dedd28c0a84f50a53" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLEmbeddingBridge</scope><name>~LLMAQLEmbeddingBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

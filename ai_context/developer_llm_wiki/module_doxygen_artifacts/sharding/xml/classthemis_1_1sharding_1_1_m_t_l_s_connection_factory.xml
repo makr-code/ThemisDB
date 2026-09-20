@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::MTLSConnectionFactory</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_i_endpoint_connection_factory" prot="public" virt="non-virtual">themis::sharding::IEndpointConnectionFactory</basecompoundref>
+    <includes refid="mtls__connection__factory_8h" local="no">mtls_connection_factory.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config" prot="public">themis::sharding::MTLSConnectionFactory::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1ae60ba32a0095ad1d89373ddede830fd5" prot="private" static="no" mutable="no">
+        <type><ref refid="mtls__connection__factory_8h_1a1a21892c1193ee6eb572c2c72d3924ca" kindref="member">SSL_CTX</ref> *</type>
+        <definition>SSL_CTX* themis::sharding::MTLSConnectionFactory::ssl_context_</definition>
+        <argsstring></argsstring>
+        <name>ssl_context_</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::ssl_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="163" column="13" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a0ba289530f7c985826e33950ef5f6857" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::MTLSConnectionFactory::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="164" column="12" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a99903f6ba47dd0e682ac036e585e09ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionFactory::MTLSConnectionFactory</definition>
+        <argsstring>(SSL_CTX *ssl_context, const Config &amp;config=Config{})</argsstring>
+        <name>MTLSConnectionFactory</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::MTLSConnectionFactory</qualifiedname>
+        <param>
+          <type><ref refid="mtls__connection__factory_8h_1a1a21892c1193ee6eb572c2c72d3924ca" kindref="member">SSL_CTX</ref> *</type>
+          <declname>ssl_context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct factory with <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> context and configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ssl_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OpenSSL <ref refid="mtls__connection__factory_8h_1a1a21892c1193ee6eb572c2c72d3924ca" kindref="member">SSL_CTX</ref> pointer (must outlive this factory) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Factory configuration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if ssl_context is null </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="124" column="5" bodyfile="src/sharding/mtls_connection_factory.cpp" bodystart="95" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a6950c9467b99df1abf7ee5d0c24c22d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionFactory::~MTLSConnectionFactory</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~MTLSConnectionFactory</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::~MTLSConnectionFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="126" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a87e5662a1905e25c2db77dfbfed80bbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionFactory::MTLSConnectionFactory</definition>
+        <argsstring>(const MTLSConnectionFactory &amp;)=delete</argsstring>
+        <name>MTLSConnectionFactory</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::MTLSConnectionFactory</qualifiedname>
+        <param>
+          <type>const MTLSConnectionFactory &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="129" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a6b267f7a85c7e05281a40f52547e2530" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a99903f6ba47dd0e682ac036e585e09ea" kindref="member">MTLSConnectionFactory</ref> &amp;</type>
+        <definition>MTLSConnectionFactory &amp; themis::sharding::MTLSConnectionFactory::operator=</definition>
+        <argsstring>(const MTLSConnectionFactory &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a99903f6ba47dd0e682ac036e585e09ea" kindref="member">MTLSConnectionFactory</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="130" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1af1aab9c0576805dabe66048e00584cf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionFactory::MTLSConnectionFactory</definition>
+        <argsstring>(MTLSConnectionFactory &amp;&amp;)=delete</argsstring>
+        <name>MTLSConnectionFactory</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::MTLSConnectionFactory</qualifiedname>
+        <param>
+          <type>MTLSConnectionFactory &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="131" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a71e19c9127b40266d822abc4959e8b82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a99903f6ba47dd0e682ac036e585e09ea" kindref="member">MTLSConnectionFactory</ref> &amp;</type>
+        <definition>MTLSConnectionFactory &amp; themis::sharding::MTLSConnectionFactory::operator=</definition>
+        <argsstring>(MTLSConnectionFactory &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a99903f6ba47dd0e682ac036e585e09ea" kindref="member">MTLSConnectionFactory</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="132" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a001bb0ef227df0cc2cbe305ecc38a570" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; std::unique_ptr&lt; <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>, <ref refid="structthemis_1_1sharding_1_1_s_s_l_deleter" kindref="compound">SSLDeleter</ref> &gt; &gt;</type>
+        <definition>std::optional&lt; std::unique_ptr&lt; SSL, SSLDeleter &gt; &gt; themis::sharding::MTLSConnectionFactory::createConnection</definition>
+        <argsstring>(const std::string &amp;endpoint) override</argsstring>
+        <name>createConnection</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::createConnection</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_endpoint_connection_factory_1a6d167b62265979a23dbd49a1c0c059b7">createConnection</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Create a new mTLS connection to the specified endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements the full connection lifecycle:<orderedlist>
+<listitem><para>Create <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> object from context</para>
+</listitem><listitem><para>Establish TCP connection with timeout</para>
+</listitem><listitem><para>Perform TLS handshake</para>
+</listitem><listitem><para>Verify peer certificate (if enabled)</para>
+</listitem><listitem><para>Verify hostname (if enabled)</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target endpoint (e.g., &quot;localhost:50051&quot;)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fully established <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> connection, or nullopt on error:<itemizedlist>
+<listitem><para>TCP connection failed: logs error and returns nullopt</para>
+</listitem><listitem><para>TLS handshake failed: logs error and returns nullopt</para>
+</listitem><listitem><para>Certificate verification failed: logs error and returns nullopt</para>
+</listitem><listitem><para>Success: returns unique_ptr&lt;SSL&gt; ready for use</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Not const because it may update internal statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Socket. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ioc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+── Step 1: DNS resolution ─────────────────────────────────────── <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ioc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Connect timer. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ioc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="155" column="5" bodyfile="src/sharding/mtls_connection_factory.cpp" bodystart="156" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1afc0c861246dfc2792256f2843910df02" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::sharding::MTLSConnectionFactory::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get factory configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="160" column="18" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1aabbdc1d7cfbc631c9ff8a142a83ba02b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::optional&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::sharding::MTLSConnectionFactory::parseEndpoint</definition>
+        <argsstring>(const std::string &amp;endpoint)</argsstring>
+        <name>parseEndpoint</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::parseEndpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Parse endpoint into host and port. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pair of (host, port) or nullopt on invalid format </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="171" column="5" bodyfile="src/sharding/mtls_connection_factory.cpp" bodystart="112" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Concrete factory for creating mTLS connections. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses Boost.Asio and OpenSSL to establish mTLS connections with:<itemizedlist>
+<listitem><para>Certificate-based authentication</para>
+</listitem><listitem><para>Configurable TLS versions</para>
+</listitem><listitem><para>Connection timeouts</para>
+</listitem><listitem><para>Peer certificate verification</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Ownership Model:</bold><itemizedlist>
+<listitem><para>Factory must be constructed with a valid <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> context</para>
+</listitem><listitem><para><ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> context lifetime must exceed factory lifetime (and pool lifetime)</para>
+</listitem><listitem><para>Factory is typically created per <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> instance</para>
+</listitem><listitem><para>Multiple pools can share the same factory if desired </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::IEndpointConnectionFactory</label>
+        <link refid="classthemis_1_1sharding_1_1_i_endpoint_connection_factory"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::MTLSConnectionFactory</label>
+        <link refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::IEndpointConnectionFactory</label>
+        <link refid="classthemis_1_1sharding_1_1_i_endpoint_connection_factory"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::MTLSConnectionFactory</label>
+        <link refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/mtls_connection_factory.h" line="95" column="1" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="95" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a0ba289530f7c985826e33950ef5f6857" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a001bb0ef227df0cc2cbe305ecc38a570" prot="public" virt="virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>createConnection</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1afc0c861246dfc2792256f2843910df02" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a99903f6ba47dd0e682ac036e585e09ea" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>MTLSConnectionFactory</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a87e5662a1905e25c2db77dfbfed80bbc" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>MTLSConnectionFactory</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1af1aab9c0576805dabe66048e00584cf6" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>MTLSConnectionFactory</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a6b267f7a85c7e05281a40f52547e2530" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a71e19c9127b40266d822abc4959e8b82" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1aabbdc1d7cfbc631c9ff8a142a83ba02b" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>parseEndpoint</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1ae60ba32a0095ad1d89373ddede830fd5" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>ssl_context_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_endpoint_connection_factory_1ada365002cbc81eade24ba9b9dba22e0d" prot="public" virt="virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>~IEndpointConnectionFactory</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a6950c9467b99df1abf7ee5d0c24c22d0" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory</scope><name>~MTLSConnectionFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

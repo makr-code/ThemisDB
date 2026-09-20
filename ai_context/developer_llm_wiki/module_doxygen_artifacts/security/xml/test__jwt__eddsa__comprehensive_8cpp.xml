@@ -1,0 +1,618 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__jwt__eddsa__comprehensive_8cpp" kind="file" language="C++">
+    <compoundname>test_jwt_eddsa_comprehensive.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <includes local="no">sstream</includes>
+    <includes local="yes">auth/jwt_validator.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_jwt_eddsa_comprehensive.cpp</label>
+        <link refid="test__jwt__eddsa__comprehensive_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>auth/jwt_validator.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="5">
+        <label>sstream</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, ValidEdDSATokenIsAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>ValidEdDSATokenIsAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="178" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="178" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a294d9bc2910c77f34a0da6f72aab7b18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, ExpiredEdDSATokenIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>ExpiredEdDSATokenIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="190" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="190" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a214b7daa2669efd48190ec694f0f1519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, WrongSignatureIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>WrongSignatureIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="199" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="199" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1aefcc4bacc8be4ec59fbe7c18f949c052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, TamperedPayloadIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>TamperedPayloadIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="211" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="211" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a9c7ed22bd99f1f2a960007d900e7fe37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, RsaJwkForEdDSAHeaderIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>RsaJwkForEdDSAHeaderIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="225" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="225" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a6a5ecf24f63b135afa47f1c1e67d05f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, MissingCrvFieldIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>MissingCrvFieldIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="244" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="244" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a1de5edd215c3e20fe439b76e8b6decdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, WrongCurveInJwkIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>WrongCurveInJwkIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="257" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="257" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a918fc0a6a31937a4bdffa1ec3592bbd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, MalformedXFieldTooShortIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>MalformedXFieldTooShortIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="269" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="269" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a26ba94f5054bce25d4d1165fa6a11485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, KidRevocationRejectsToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>KidRevocationRejectsToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="283" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="283" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a2981941e493c9263f6ba3c504407506b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, AlgNoneAttackRejectedWithEdDSAJwk)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>AlgNoneAttackRejectedWithEdDSAJwk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="300" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="300" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1aa585fd33385bc2901282382e69c06329" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, DifferentKeyPairSignatureIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>DifferentKeyPairSignatureIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="316" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="316" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__eddsa__comprehensive_8cpp_1a164337d7abef65b297597ec29510fe18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTEdDSA, MultipleKeysSameKidUsesFirst)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTEdDSA</type>
+        </param>
+        <param>
+          <type>MultipleKeysSameKidUsesFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="329" column="1" bodyfile="tests/security/test_jwt_eddsa_comprehensive.cpp" bodystart="329" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive tests for EdDSA (Ed25519) JWT validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>Valid EdDSA token is accepted</para>
+</listitem><listitem><para>Expired EdDSA token is rejected</para>
+</listitem><listitem><para>Wrong Ed25519 signature is rejected</para>
+</listitem><listitem><para>Tampered payload is rejected</para>
+</listitem><listitem><para>Wrong JWK (RSA/EC type instead of OKP) is rejected</para>
+</listitem><listitem><para>Missing &quot;crv&quot; field in JWK is rejected</para>
+</listitem><listitem><para>Wrong curve (Ed448 crv) in JWK is rejected</para>
+</listitem><listitem><para>Key-id (kid) revocation works for EdDSA tokens</para>
+</listitem><listitem><para>alg:none attack is rejected even with valid EdDSA JWK present</para>
+</listitem><listitem><para>Malformed &quot;x&quot; field (wrong length) is rejected </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwt_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Base64url<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>b64url(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>in)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>tbl<sp/>=</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>b64<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>b64.reserve(((in.size()<sp/>+<sp/>2)<sp/>/<sp/>3)<sp/>*<sp/>4);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(i<sp/>+<sp/>3<sp/>&lt;=<sp/>in.size())<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>n<sp/>=<sp/>((uint32_t)in[i]&lt;&lt;16)<sp/>|<sp/>((uint32_t)in[i+1]&lt;&lt;8)<sp/>|<sp/>in[i+2];</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n&gt;&gt;<sp/>6)&amp;63]);<sp/>b64.push_back(tbl[<sp/>n<sp/><sp/><sp/><sp/><sp/>&amp;63]);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>+=<sp/>3;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>+<sp/>1<sp/>==<sp/>in.size())<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>n<sp/>=<sp/>(uint32_t)in[i]<sp/>&lt;&lt;<sp/>16;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>+<sp/>2<sp/>==<sp/>in.size())<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>n<sp/>=<sp/>((uint32_t)in[i]&lt;&lt;16)<sp/>|<sp/>((uint32_t)in[i+1]&lt;&lt;8);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n&gt;&gt;<sp/>6)&amp;63]);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>b64)<sp/>{<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c==</highlight><highlight class="charliteral">&apos;+&apos;</highlight><highlight class="normal">)<sp/>c=</highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c==</highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">)<sp/>c=</highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!b64.empty()<sp/>&amp;&amp;<sp/>b64.back()==</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>b64.pop_back();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>b64urlStr(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64url(std::vector&lt;uint8_t&gt;(s.begin(),<sp/>s.end()));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ed25519<sp/>key<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Ed25519Fixture<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_PKEY*<sp/>priv_pkey<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_PKEY*<sp/>pub_pkey<sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>pub_bytes;<sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture()<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>Ed25519<sp/>key<sp/>pair</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_CTX*<sp/>kctx<sp/>=<sp/>EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!kctx)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_PKEY_CTX_new_id<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_PKEY_keygen_init(kctx)<sp/>!=<sp/>1<sp/>||</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_keygen(kctx,<sp/>&amp;priv_pkey)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_CTX_free(kctx);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Ed25519<sp/>key<sp/>generation<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_CTX_free(kctx);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extract<sp/>public<sp/>key<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pub_len<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pub_bytes.resize(32);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_PKEY_get_raw_public_key(priv_pkey,<sp/>pub_bytes.data(),<sp/>&amp;pub_len)<sp/>!=<sp/>1)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_PKEY_get_raw_public_key<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pub_bytes.resize(pub_len);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>public-only<sp/>EVP_PKEY<sp/>for<sp/>reference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pub_pkey<sp/>=<sp/>EVP_PKEY_new_raw_public_key(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_ED25519,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>pub_bytes.data(),<sp/>pub_bytes.size());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!pub_pkey)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;pub<sp/>EVP_PKEY<sp/>creation<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>~Ed25519Fixture()<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_free(priv_pkey);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_free(pub_pkey);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>buildJwk(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ed-test-kid&quot;</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OKP&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;crv&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ed25519&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/>kid},</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>b64url(pub_bytes)}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>sign(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_MD_CTX*<sp/>ctx<sp/>=<sp/>EVP_MD_CTX_new();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_MD_CTX_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_DigestSignInit(ctx,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>priv_pkey)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_MD_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_DigestSignInit<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sig_len<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_DigestSign(ctx,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>&amp;sig_len,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(msg.data()),</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg.size());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>sig(sig_len);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_DigestSign(ctx,<sp/>sig.data(),<sp/>&amp;sig_len,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(msg.data()),</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg.size())<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_MD_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_DigestSign<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_MD_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sig.resize(sig_len);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sig;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JWT<sp/>construction<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>buildToken(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Ed25519Fixture&amp;<sp/>fix,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>exp_delta_seconds<sp/>=<sp/>3600,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>alg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EdDSA&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>hdr<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,<sp/>alg},<sp/>{</highlight><highlight class="stringliteral">&quot;typ&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;JWT&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/>kid}};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>iat<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now.time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>pay<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;iat&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>iat},</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>iat<sp/>+<sp/>exp_delta_seconds}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header_payload<sp/>=</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64urlStr(hdr.dump())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>b64urlStr(pay.dump());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>fix.sign(header_payload);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>header_payload<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>b64url(sig);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>buildJwks(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwk)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array({jwk})}};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>ValidEdDSATokenIsAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(fix.buildJwk(</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>validator.parseAndValidate(token);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.sub,<sp/></highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>ExpiredEdDSATokenIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(fix.buildJwk(</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">,<sp/>-10);<sp/><sp/></highlight><highlight class="comment">//<sp/>expired<sp/>10<sp/>s<sp/>ago</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>WrongSignatureIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(fix.buildJwk(</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrupt<sp/>the<sp/>last<sp/>byte<sp/>of<sp/>the<sp/>signature<sp/>part</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dot1<sp/>=<sp/>token.rfind(</highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>token.back()<sp/>^=<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>flip<sp/>a<sp/>character<sp/>in<sp/>the<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>TamperedPayloadIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(fix.buildJwk(</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replace<sp/>the<sp/>payload<sp/>with<sp/>a<sp/>different<sp/>base64url<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dot1<sp/>=<sp/>token.find(</highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dot2<sp/>=<sp/>token.find(</highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">,<sp/>dot1<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>new_payload<sp/>=<sp/>b64urlStr(R</highlight><highlight class="stringliteral">&quot;({&quot;sub&quot;:&quot;attacker&quot;,&quot;exp&quot;:9999999999})&quot;);</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>token<sp/>=<sp/>token.substr(0,<sp/>dot1<sp/>+<sp/>1)<sp/>+<sp/>new_payload<sp/>+<sp/>token.substr(dot2);</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="224"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>RsaJwkForEdDSAHeaderIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provide<sp/>an<sp/>RSA<sp/>JWK<sp/>instead<sp/>of<sp/>OKP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>rsa_jwk<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAt&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;VT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64t&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Z_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2Q&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;vzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91Cbrg&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(rsa_jwk));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>MissingCrvFieldIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>bad_jwk<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OKP&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;crv&quot;<sp/>deliberately<sp/>omitted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>b64url(fix.pub_bytes)}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(bad_jwk));</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>WrongCurveInJwkIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>bad_jwk<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OKP&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;crv&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ed448&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>b64url(fix.pub_bytes)}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(bad_jwk));</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>MalformedXFieldTooShortIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;x&quot;<sp/>only<sp/>16<sp/>bytes<sp/>instead<sp/>of<sp/>32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>short_x(16,<sp/>0x42);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>bad_jwk<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OKP&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;crv&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ed25519&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>b64url(short_x)}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(bad_jwk));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>KidRevocationRejectsToken)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(fix.buildJwk(</highlight><highlight class="stringliteral">&quot;kid-revoke&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid-revoke&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>first<sp/>–<sp/>should<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(validator.parseAndValidate(token));</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Revoke<sp/>the<sp/>kid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.revokeKid(</highlight><highlight class="stringliteral">&quot;kid-revoke&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator.isKidRevoked(</highlight><highlight class="stringliteral">&quot;kid-revoke&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>the<sp/>same<sp/>token<sp/>must<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>AlgNoneAttackRejectedWithEdDSAJwk)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(fix.buildJwk(</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Craft<sp/>an<sp/>alg:none<sp/>token<sp/>–<sp/>no<sp/>signature<sp/>part</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now.time_since_epoch()).count()<sp/>+<sp/>3600;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>hdr<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;typ&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;JWT&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>pay<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;attacker&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/>exp}};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>hp<sp/>=<sp/>b64urlStr(hdr.dump())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>b64urlStr(pay.dump());</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>none_token<sp/>=<sp/>hp<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(none_token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>DifferentKeyPairSignatureIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sign<sp/>with<sp/>one<sp/>key<sp/>but<sp/>validate<sp/>with<sp/>a<sp/>different<sp/>public<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>signer;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>other;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>different<sp/>key<sp/>pair</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provide<sp/>the<sp/>*other*<sp/>public<sp/>key<sp/>in<sp/>the<sp/>JWKS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(buildJwks(other.buildJwk(</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildToken(signer,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><ref refid="test__jwt__eddsa__comprehensive_8cpp_1a460a37b2897906cb032f4ca42628751a" kindref="member">TEST</ref>(JWTEdDSA,<sp/>MultipleKeysSameKidUsesFirst)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>fix;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://unused.example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>keys,<sp/>first<sp/>is<sp/>the<sp/>correct<sp/>one</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>jwk1<sp/>=<sp/>fix.buildJwk(</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>Ed25519Fixture<sp/>other;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>jwk2<sp/>=<sp/>other.buildJwk(</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>kid,<sp/>different<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwks<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>{jwk1,<sp/>jwk2}}};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(jwks);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildToken(fix,<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>succeed<sp/>because<sp/>findJwkForKid<sp/>returns<sp/>the<sp/>first<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(validator.parseAndValidate(token));</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_jwt_eddsa_comprehensive.cpp"/>
+  </compounddef>
+</doxygen>

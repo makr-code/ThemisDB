@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_source_preview" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::SourcePreview</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_preview_1ab3c5fd143700640a28cf8a37663b0fb5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::SourcePreview::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::ingestion::SourcePreview::source_id</qualifiedname>
+        <briefdescription>
+<para>Source that was sampled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="199" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_preview_1a4cda26362bb59b370ef6682712291128" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::SourcePreview::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::ingestion::SourcePreview::documents</qualifiedname>
+        <briefdescription>
+<para>Extracted document contents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="200" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_preview_1a5ede273b21bb1493a9987e1ea34b0cf1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::SourcePreview::total_available</definition>
+        <argsstring></argsstring>
+        <name>total_available</name>
+        <qualifiedname>themis::ingestion::SourcePreview::total_available</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total documents available in source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="201" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_preview_1a572e303810dff10709acce836b1b0c3f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SourcePreview::truncated</definition>
+        <argsstring></argsstring>
+        <name>truncated</name>
+        <qualifiedname>themis::ingestion::SourcePreview::truncated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if there are more docs than returned </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="202" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_source_preview_1a2653f9c71ecdf229246382079b98433e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::SourcePreview::SourcePreview</definition>
+        <argsstring>()=default</argsstring>
+        <name>SourcePreview</name>
+        <qualifiedname>themis::ingestion::SourcePreview::SourcePreview</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="204" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Source preview – a lightweight sample of documents from a source. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returned by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager_1a842a55d560d16472bed8a0c54f37ac4a" kindref="member">IngestionManager::previewSource()</ref></computeroutput>. Contains the first up-to <computeroutput>max_documents</computeroutput> items without writing them to any collection. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="198" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="198" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_source_preview_1a4cda26362bb59b370ef6682712291128" prot="public" virt="non-virtual"><scope>themis::ingestion::SourcePreview</scope><name>documents</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_preview_1ab3c5fd143700640a28cf8a37663b0fb5" prot="public" virt="non-virtual"><scope>themis::ingestion::SourcePreview</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_preview_1a2653f9c71ecdf229246382079b98433e" prot="public" virt="non-virtual"><scope>themis::ingestion::SourcePreview</scope><name>SourcePreview</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_preview_1a5ede273b21bb1493a9987e1ea34b0cf1" prot="public" virt="non-virtual"><scope>themis::ingestion::SourcePreview</scope><name>total_available</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_preview_1a572e303810dff10709acce836b1b0c3f" prot="public" virt="non-virtual"><scope>themis::ingestion::SourcePreview</scope><name>truncated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

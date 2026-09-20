@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RateLimitingMiddleware::CheckResult</compoundname>
+    <includes refid="rate__limiting__middleware_8h" local="no">rate_limiting_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a4e1594783ddff8fe58c32e3b7b763bd1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimitingMiddleware::CheckResult::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::CheckResult::allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="52" column="18" bodyfile="include/server/rate_limiting_middleware.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a1589390542faa484fd45859189d7b072" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::RateLimitingMiddleware::CheckResult::retry_after_seconds</definition>
+        <argsstring></argsstring>
+        <name>retry_after_seconds</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::CheckResult::retry_after_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 when request is allowed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="53" column="18" bodyfile="include/server/rate_limiting_middleware.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1abfaa6ff3eb140cd7a0df063050eec460" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimitingMiddleware::CheckResult::remaining_tokens</definition>
+        <argsstring></argsstring>
+        <name>remaining_tokens</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::CheckResult::remaining_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>tokens remaining after this request </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="54" column="18" bodyfile="include/server/rate_limiting_middleware.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a758a3b6f8bea8876ffb603f9f9cb054b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimitingMiddleware::CheckResult::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::CheckResult::limit</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>effective bucket capacity for this endpoint </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="55" column="18" bodyfile="include/server/rate_limiting_middleware.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1ad4f352332cfe88ddc2b48872dcb3f5b6" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::server::RateLimitingMiddleware::CheckResult::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::CheckResult::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="57" column="28" bodyfile="include/server/rate_limiting_middleware.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiting_middleware.h" line="51" column="5" bodyfile="include/server/rate_limiting_middleware.h" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a4e1594783ddff8fe58c32e3b7b763bd1" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::CheckResult</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1ad4f352332cfe88ddc2b48872dcb3f5b6" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::CheckResult</scope><name>headers</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a758a3b6f8bea8876ffb603f9f9cb054b" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::CheckResult</scope><name>limit</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1abfaa6ff3eb140cd7a0df063050eec460" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::CheckResult</scope><name>remaining_tokens</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a1589390542faa484fd45859189d7b072" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::CheckResult</scope><name>retry_after_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

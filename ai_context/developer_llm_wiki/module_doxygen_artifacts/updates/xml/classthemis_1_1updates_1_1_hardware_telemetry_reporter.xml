@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_hardware_telemetry_reporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::HardwareTelemetryReporter</compoundname>
+    <includes refid="hardware__telemetry_8h" local="no">hardware_telemetry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aa7183eb49652826a7846ddfa6c762b24" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_telemetry_config" kindref="compound">TelemetryConfig</ref></type>
+        <definition>TelemetryConfig themis::updates::HardwareTelemetryReporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="376" column="50" bodyfile="include/updates/hardware_telemetry.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a2d9189d2ebf99148d05c84b2ed299236" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_i_hardware_info_provider" kindref="compound">IHardwareInfoProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IHardwareInfoProvider&gt; themis::updates::HardwareTelemetryReporter::hw_provider_</definition>
+        <argsstring></argsstring>
+        <name>hw_provider_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::hw_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="377" column="27" bodyfile="include/updates/hardware_telemetry.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ae5f0e4187074d9d939fadbfa295ea3dd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::HardwareTelemetryReporter::perf_provider_mutex_</definition>
+        <argsstring></argsstring>
+        <name>perf_provider_mutex_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::perf_provider_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="380" column="50" bodyfile="include/updates/hardware_telemetry.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a52e93f4003080c27072dec5659bfe9d4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_i_performance_metrics_provider" kindref="compound">IPerformanceMetricsProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IPerformanceMetricsProvider&gt; themis::updates::HardwareTelemetryReporter::perf_provider_</definition>
+        <argsstring></argsstring>
+        <name>perf_provider_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::perf_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="381" column="21" bodyfile="include/updates/hardware_telemetry.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ada7f479284125b16fe7da896cdd295c5" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a4c9cf7564a0748b1a15a2e95df137237" kindref="member">TelemetryHttpSendFunc</ref></type>
+        <definition>TelemetryHttpSendFunc themis::updates::HardwareTelemetryReporter::http_sender_</definition>
+        <argsstring></argsstring>
+        <name>http_sender_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::http_sender_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="383" column="50" bodyfile="include/updates/hardware_telemetry.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a2e8c08669e05b143786834e7934f951f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareTelemetryReporter::instance_id_</definition>
+        <argsstring></argsstring>
+        <name>instance_id_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::instance_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="384" column="50" bodyfile="include/updates/hardware_telemetry.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a2ff1d94a2406bed7195e9c05cb711d47" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::updates::HardwareTelemetryReporter::bg_thread_</definition>
+        <argsstring></argsstring>
+        <name>bg_thread_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::bg_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="386" column="27" bodyfile="include/updates/hardware_telemetry.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a8c971e705d34be9abf84039663d9be51" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::updates::HardwareTelemetryReporter::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="387" column="21" bodyfile="include/updates/hardware_telemetry.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a110b01268ee5c545b9d031de46d1811b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::updates::HardwareTelemetryReporter::stop_requested_</definition>
+        <argsstring></argsstring>
+        <name>stop_requested_</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::stop_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="388" column="21" bodyfile="include/updates/hardware_telemetry.h" bodystart="388" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a9c64075231a3abe61856dde89342ada8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::HardwareTelemetryReporter::HardwareTelemetryReporter</definition>
+        <argsstring>(TelemetryConfig config, std::shared_ptr&lt; IHardwareInfoProvider &gt; hw_provider=nullptr, TelemetryHttpSendFunc http_sender=nullptr)</argsstring>
+        <name>HardwareTelemetryReporter</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::HardwareTelemetryReporter</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1updates_1_1_telemetry_config" kindref="compound">TelemetryConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_i_hardware_info_provider" kindref="compound">IHardwareInfoProvider</ref> &gt;</type>
+          <declname>hw_provider</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a4c9cf7564a0748b1a15a2e95df137237" kindref="member">TelemetryHttpSendFunc</ref></type>
+          <declname>http_sender</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with configuration and optional injectable dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Telemetry configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hw_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hardware info provider (nullptr → production impl). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>http_sender</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP POST function (nullptr → libcurl impl). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="296" column="14" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="508" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ad731c65893960cec4904542e6c72fa97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::HardwareTelemetryReporter::~HardwareTelemetryReporter</definition>
+        <argsstring>()</argsstring>
+        <name>~HardwareTelemetryReporter</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::~HardwareTelemetryReporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="301" column="5" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="527" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a74e4cea95b454a9e1b1357f1ba92abd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::HardwareTelemetryReporter::HardwareTelemetryReporter</definition>
+        <argsstring>(const HardwareTelemetryReporter &amp;)=delete</argsstring>
+        <name>HardwareTelemetryReporter</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::HardwareTelemetryReporter</qualifiedname>
+        <param>
+          <type>const HardwareTelemetryReporter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="304" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aa545f7ddb85bc809ddcda272278c1895" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a9c64075231a3abe61856dde89342ada8" kindref="member">HardwareTelemetryReporter</ref> &amp;</type>
+        <definition>HardwareTelemetryReporter &amp; themis::updates::HardwareTelemetryReporter::operator=</definition>
+        <argsstring>(const HardwareTelemetryReporter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a9c64075231a3abe61856dde89342ada8" kindref="member">HardwareTelemetryReporter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="305" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aeb6d9c18abda749b404ca42f901e4c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::HardwareTelemetryReporter::setPerformanceProvider</definition>
+        <argsstring>(std::shared_ptr&lt; IPerformanceMetricsProvider &gt; provider)</argsstring>
+        <name>setPerformanceProvider</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::setPerformanceProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_i_performance_metrics_provider" kindref="compound">IPerformanceMetricsProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Wire a performance metrics provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Performance Provider.</para>
+<para>Must be called before <computeroutput><ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ac8238480dce79e9d12ac9d05fb953807" kindref="member">startBackgroundReporting()</ref></computeroutput>. Safe to call with <computeroutput>nullptr</computeroutput> to detach a previously wired provider.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Implementation of <ref refid="classthemis_1_1updates_1_1_i_performance_metrics_provider" kindref="compound">IPerformanceMetricsProvider</ref>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="315" column="10" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="536" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a61108dfc1bc9f65481477dbfa4af2f3b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_hardware_snapshot" kindref="compound">HardwareSnapshot</ref></type>
+        <definition>HardwareSnapshot themis::updates::HardwareTelemetryReporter::collect</definition>
+        <argsstring>() const</argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::collect</qualifiedname>
+        <briefdescription>
+<para>Collect a telemetry snapshot from the host system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Includes hardware fields controlled by <ref refid="structthemis_1_1updates_1_1_telemetry_config" kindref="compound">TelemetryConfig</ref> flags. Appends a <ref refid="structthemis_1_1updates_1_1_performance_snapshot" kindref="compound">PerformanceSnapshot</ref> when <computeroutput>include_performance</computeroutput> is true and a provider has been wired.</para>
+<para><simplesect kind="return"><para>Populated <ref refid="structthemis_1_1updates_1_1_hardware_snapshot" kindref="compound">HardwareSnapshot</ref> (with optional performance data). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">perf_provider_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="327" column="23" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="542" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a4008a717bd16588a3f1093564faa63ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::HardwareTelemetryReporter::send</definition>
+        <argsstring>(const HardwareSnapshot &amp;snapshot) const</argsstring>
+        <name>send</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::send</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_hardware_snapshot" kindref="compound">HardwareSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Serialize <computeroutput>snapshot</computeroutput> and POST it to the configured endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The snapshot to send. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if the remote endpoint accepted the payload (HTTP 2xx). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="335" column="10" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="604" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ad4ab619ccce9fe76ff86b5fb6c8dd073" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::HardwareTelemetryReporter::report</definition>
+        <argsstring>()</argsstring>
+        <name>report</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::report</qualifiedname>
+        <briefdescription>
+<para>Perform one full collect-and-send cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report.</para>
+<para>Equivalent to <computeroutput>send(collect())</computeroutput>. Returns <computeroutput>false</computeroutput> if telemetry is disabled or if the HTTP POST failed.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a4008a717bd16588a3f1093564faa63ba" kindref="member">send()</ref>, <ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a61108dfc1bc9f65481477dbfa4af2f3b" kindref="member">collect()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="343" column="10" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="635" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ac8238480dce79e9d12ac9d05fb953807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::HardwareTelemetryReporter::startBackgroundReporting</definition>
+        <argsstring>()</argsstring>
+        <name>startBackgroundReporting</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::startBackgroundReporting</qualifiedname>
+        <briefdescription>
+<para>Start the background reporting thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Background Reporting.</para>
+<para>Has no effect if telemetry is disabled or if the thread is already running.</para>
+<para>Calls: <ref refid="batch5__safety__helpers_8h_1a754b3d074e0af4ad3c7b918dd77ecb2d" kindref="member">LOG_DEBUG()</ref>, load(), store(), std::thread(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="351" column="10" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="644" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a92039d72aa9db01f8322ccf1e7b4ae9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::HardwareTelemetryReporter::stopBackgroundReporting</definition>
+        <argsstring>()</argsstring>
+        <name>stopBackgroundReporting</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::stopBackgroundReporting</qualifiedname>
+        <briefdescription>
+<para>Stop the background reporting thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Background Reporting.</para>
+<para>Blocks until the thread has exited. Safe to call multiple times.</para>
+<para>Calls: load(), store(), joinable(), join(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="358" column="10" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="665" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a0b87b961f4d1df74e0f78e6b8945cd68" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::HardwareTelemetryReporter::isRunning</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><computeroutput>true</computeroutput> if the background thread is currently running. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="361" column="11" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="677" bodyend="679"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a37737581ea263e128677b0c423883da1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_telemetry_config" kindref="compound">TelemetryConfig</ref></type>
+        <definition>TelemetryConfig themis::updates::HardwareTelemetryReporter::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A copy of the current configuration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="364" column="22" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="681" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a062693dda10e7ad36cb0a5853c915fdc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::updates::HardwareTelemetryReporter::instanceId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>instanceId</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::instanceId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The random instance UUID assigned at construction time. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="367" column="24" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="685" bodyend="687"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a67a43ee01d615762cb2e4e3730068aa0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::HardwareTelemetryReporter::runLoop</definition>
+        <argsstring>()</argsstring>
+        <name>runLoop</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::runLoop</qualifiedname>
+        <briefdescription>
+<para>Run-loop executed by the background thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Loop.</para>
+<para>Calls: load(), <ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ad4ab619ccce9fe76ff86b5fb6c8dd073" kindref="member">report()</ref>, std::chrono::seconds(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::min(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="371" column="10" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="693" bodyend="717"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aa704ffa4e778c2c7f32e15deb214f60f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareTelemetryReporter::generateUuid</definition>
+        <argsstring>()</argsstring>
+        <name>generateUuid</name>
+        <qualifiedname>themis::updates::HardwareTelemetryReporter::generateUuid</qualifiedname>
+        <briefdescription>
+<para>Generate a random UUID v4 string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Uuid.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), dist(), std::snprintf(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="374" column="24" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="485" bodyend="506"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Collects and reports anonymous hardware + performance telemetry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe. The background thread is started via <computeroutput><ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ac8238480dce79e9d12ac9d05fb953807" kindref="member">startBackgroundReporting()</ref></computeroutput> and must be stopped via <computeroutput><ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a92039d72aa9db01f8322ccf1e7b4ae9c" kindref="member">stopBackgroundReporting()</ref></computeroutput> (or the destructor) before the process exits. </para>
+    </detaileddescription>
+    <location file="include/updates/hardware_telemetry.h" line="287" column="1" bodyfile="include/updates/hardware_telemetry.h" bodystart="287" bodyend="389"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a2ff1d94a2406bed7195e9c05cb711d47" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>bg_thread_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a61108dfc1bc9f65481477dbfa4af2f3b" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>collect</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a37737581ea263e128677b0c423883da1" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>config</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aa7183eb49652826a7846ddfa6c762b24" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aa704ffa4e778c2c7f32e15deb214f60f" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>generateUuid</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a9c64075231a3abe61856dde89342ada8" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>HardwareTelemetryReporter</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a74e4cea95b454a9e1b1357f1ba92abd4" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>HardwareTelemetryReporter</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ada7f479284125b16fe7da896cdd295c5" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>http_sender_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a2d9189d2ebf99148d05c84b2ed299236" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>hw_provider_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a2e8c08669e05b143786834e7934f951f" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>instance_id_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a062693dda10e7ad36cb0a5853c915fdc" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>instanceId</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a0b87b961f4d1df74e0f78e6b8945cd68" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aa545f7ddb85bc809ddcda272278c1895" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a52e93f4003080c27072dec5659bfe9d4" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>perf_provider_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ae5f0e4187074d9d939fadbfa295ea3dd" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>perf_provider_mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ad4ab619ccce9fe76ff86b5fb6c8dd073" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>report</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a67a43ee01d615762cb2e4e3730068aa0" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>runLoop</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a8c971e705d34be9abf84039663d9be51" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>running_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a4008a717bd16588a3f1093564faa63ba" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>send</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aeb6d9c18abda749b404ca42f901e4c40" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>setPerformanceProvider</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ac8238480dce79e9d12ac9d05fb953807" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>startBackgroundReporting</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a110b01268ee5c545b9d031de46d1811b" prot="private" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>stop_requested_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1a92039d72aa9db01f8322ccf1e7b4ae9c" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>stopBackgroundReporting</name></member>
+      <member refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1ad731c65893960cec4904542e6c72fa97" prot="public" virt="non-virtual"><scope>themis::updates::HardwareTelemetryReporter</scope><name>~HardwareTelemetryReporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

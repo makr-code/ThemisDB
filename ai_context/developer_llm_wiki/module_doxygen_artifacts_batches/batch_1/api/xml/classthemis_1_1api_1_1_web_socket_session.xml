@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_web_socket_session" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::WebSocketSession</compoundname>
+    <includes refid="websocket__handler_8h" local="no">websocket_handler.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1a3caa4be9f7a1aaeeca41234731f8a090" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::WebSocketSession::~WebSocketSession</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WebSocketSession</name>
+        <qualifiedname>themis::api::WebSocketSession::~WebSocketSession</qualifiedname>
+        <briefdescription>
+<para>Web Socket Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="154" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::WebSocketSession::WebSocketSession</definition>
+        <argsstring>(const WebSocketSession &amp;)=delete</argsstring>
+        <name>WebSocketSession</name>
+        <qualifiedname>themis::api::WebSocketSession::WebSocketSession</qualifiedname>
+        <param>
+          <type>const WebSocketSession &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="156" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1aa41f4f6c6cbf214cd0a2453a4afc7164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kindref="member">WebSocketSession</ref> &amp;</type>
+        <definition>WebSocketSession &amp; themis::api::WebSocketSession::operator=</definition>
+        <argsstring>(const WebSocketSession &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::api::WebSocketSession::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kindref="member">WebSocketSession</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="157" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1a4227d1a3df25adfba40fc059432b258b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::WebSocketSession::send</definition>
+        <argsstring>(WebSocketFrame frame)=0</argsstring>
+        <name>send</name>
+        <qualifiedname>themis::api::WebSocketSession::send</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1api_1_1_web_socket_frame" kindref="compound">WebSocketFrame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="159" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1a95046b4bbb4e709a13ff2db3813eb170" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::api::WebSocketSession::close</definition>
+        <argsstring>(WebSocketCloseCode code, std::string_view reason={}) noexcept=0</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::api::WebSocketSession::close</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453" kindref="member">WebSocketCloseCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>reason</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="161" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1a78e7a6b0a8b286d163441205f72a893d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::api::WebSocketSession::remoteAddress</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>remoteAddress</name>
+        <qualifiedname>themis::api::WebSocketSession::remoteAddress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="164" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1a40f466825dcd7646e210005b6d80d89c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::api::WebSocketSession::sessionId</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>sessionId</name>
+        <qualifiedname>themis::api::WebSocketSession::sessionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="166" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1af05fe339438796149702958f086d2971" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::WebSocketSession::isOpen</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isOpen</name>
+        <qualifiedname>themis::api::WebSocketSession::isOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="168" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_web_socket_session_1a9b99006fda92143e78257d6eea142359" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::WebSocketSession::WebSocketSession</definition>
+        <argsstring>()=default</argsstring>
+        <name>WebSocketSession</name>
+        <qualifiedname>themis::api::WebSocketSession::WebSocketSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="171" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/websocket_handler.h" line="148" column="1" bodyfile="include/api/websocket_handler.h" bodystart="148" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1a95046b4bbb4e709a13ff2db3813eb170" prot="public" virt="pure-virtual"><scope>themis::api::WebSocketSession</scope><name>close</name></member>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1af05fe339438796149702958f086d2971" prot="public" virt="pure-virtual"><scope>themis::api::WebSocketSession</scope><name>isOpen</name></member>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1aa41f4f6c6cbf214cd0a2453a4afc7164" prot="public" virt="non-virtual"><scope>themis::api::WebSocketSession</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1a78e7a6b0a8b286d163441205f72a893d" prot="public" virt="pure-virtual"><scope>themis::api::WebSocketSession</scope><name>remoteAddress</name></member>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1a4227d1a3df25adfba40fc059432b258b" prot="public" virt="pure-virtual"><scope>themis::api::WebSocketSession</scope><name>send</name></member>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1a40f466825dcd7646e210005b6d80d89c" prot="public" virt="pure-virtual"><scope>themis::api::WebSocketSession</scope><name>sessionId</name></member>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" prot="public" virt="non-virtual"><scope>themis::api::WebSocketSession</scope><name>WebSocketSession</name></member>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1a9b99006fda92143e78257d6eea142359" prot="protected" virt="non-virtual"><scope>themis::api::WebSocketSession</scope><name>WebSocketSession</name></member>
+      <member refid="classthemis_1_1api_1_1_web_socket_session_1a3caa4be9f7a1aaeeca41234731f8a090" prot="public" virt="virtual"><scope>themis::api::WebSocketSession</scope><name>~WebSocketSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

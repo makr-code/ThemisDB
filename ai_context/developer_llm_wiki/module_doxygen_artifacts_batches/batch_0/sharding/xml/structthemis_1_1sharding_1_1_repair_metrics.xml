@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_repair_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RepairMetrics</compoundname>
+    <includes refid="shard__repair__engine_8h" local="no">shard_repair_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1a7de0682059b7592b8bef33a764541866" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RepairMetrics::total_scans</definition>
+        <argsstring></argsstring>
+        <name>total_scans</name>
+        <qualifiedname>themis::sharding::RepairMetrics::total_scans</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="140" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1a9b7d50a414b46e884fbdbeee25a8b3e6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RepairMetrics::total_repairs_attempted</definition>
+        <argsstring></argsstring>
+        <name>total_repairs_attempted</name>
+        <qualifiedname>themis::sharding::RepairMetrics::total_repairs_attempted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="141" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1ad85bc05286273826e8474459ab7cac33" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RepairMetrics::total_repairs_successful</definition>
+        <argsstring></argsstring>
+        <name>total_repairs_successful</name>
+        <qualifiedname>themis::sharding::RepairMetrics::total_repairs_successful</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="142" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1a35c442635fef93030ea863ee4e40e9e2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RepairMetrics::total_repairs_failed</definition>
+        <argsstring></argsstring>
+        <name>total_repairs_failed</name>
+        <qualifiedname>themis::sharding::RepairMetrics::total_repairs_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="143" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1a43ddd75e9a5bc402f75834855f119d82" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RepairMetrics::total_documents_scanned</definition>
+        <argsstring></argsstring>
+        <name>total_documents_scanned</name>
+        <qualifiedname>themis::sharding::RepairMetrics::total_documents_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="144" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1a407b355f887f948f9eef146f79805376" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::RepairMetrics::avg_repair_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_repair_time_ms</name>
+        <qualifiedname>themis::sharding::RepairMetrics::avg_repair_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="145" column="31" bodyfile="include/sharding/shard_repair_engine.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1a1d2bec12ff1644f32830b90b614490f3" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::RepairMetrics::last_scan_time</definition>
+        <argsstring></argsstring>
+        <name>last_scan_time</name>
+        <qualifiedname>themis::sharding::RepairMetrics::last_scan_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="146" column="43" bodyfile="include/sharding/shard_repair_engine.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1a77b83dc8dc1203a79f7cdfce018adeaa" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::RepairMetrics::last_repair_time</definition>
+        <argsstring></argsstring>
+        <name>last_repair_time</name>
+        <qualifiedname>themis::sharding::RepairMetrics::last_repair_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="147" column="43" bodyfile="include/sharding/shard_repair_engine.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_metrics_1ab2ea188b6b340a7c96f753b6dc130677" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RepairMetrics::last_scan_workers</definition>
+        <argsstring></argsstring>
+        <name>last_scan_workers</name>
+        <qualifiedname>themis::sharding::RepairMetrics::last_scan_workers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of worker threads used in the last parallel scan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="149" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate counters/timings for repair-engine activity. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_repair_engine.h" line="139" column="1" bodyfile="include/sharding/shard_repair_engine.h" bodystart="139" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1a407b355f887f948f9eef146f79805376" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>avg_repair_time_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1a77b83dc8dc1203a79f7cdfce018adeaa" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>last_repair_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1a1d2bec12ff1644f32830b90b614490f3" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>last_scan_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1ab2ea188b6b340a7c96f753b6dc130677" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>last_scan_workers</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1a43ddd75e9a5bc402f75834855f119d82" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>total_documents_scanned</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1a9b7d50a414b46e884fbdbeee25a8b3e6" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>total_repairs_attempted</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1a35c442635fef93030ea863ee4e40e9e2" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>total_repairs_failed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1ad85bc05286273826e8474459ab7cac33" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>total_repairs_successful</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_metrics_1a7de0682059b7592b8bef33a764541866" prot="public" virt="non-virtual"><scope>themis::sharding::RepairMetrics</scope><name>total_scans</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

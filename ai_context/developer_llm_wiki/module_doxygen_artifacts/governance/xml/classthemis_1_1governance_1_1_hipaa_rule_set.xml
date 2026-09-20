@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_hipaa_rule_set" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::HipaaRuleSet</compoundname>
+    <includes refid="hipaa__rules_8h" local="no">hipaa_rules.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_hipaa_rule_set_1abe0e7065114b196c655af8d3f03947e9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_compliance_rule" kindref="compound">IComplianceRule</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IComplianceRule&gt; &gt; themis::governance::HipaaRuleSet::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::governance::HipaaRuleSet::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="160" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_rule_set_1a16b40ff4f4f62e5dc6ac616b23394925" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::HipaaRuleSet::HipaaRuleSet</definition>
+        <argsstring>()</argsstring>
+        <name>HipaaRuleSet</name>
+        <qualifiedname>themis::governance::HipaaRuleSet::HipaaRuleSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="138" column="5" bodyfile="src/governance/hipaa_rules.cpp" bodystart="127" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_rule_set_1af9960f63c861c84fd092fd864e8899b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result" kindref="compound">HipaaRuleEvalResult</ref> &gt;</type>
+        <definition>std::vector&lt; HipaaRuleEvalResult &gt; themis::governance::HipaaRuleSet::evaluateRule</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>evaluateRule</name>
+        <qualifiedname>themis::governance::HipaaRuleSet::evaluateRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="146" column="17" bodyfile="src/governance/hipaa_rules.cpp" bodystart="138" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_rule_set_1a23e1a1adb77f6543501b0e6d8698a45d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaRuleSet::isRuleCompliant</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>isRuleCompliant</name>
+        <qualifiedname>themis::governance::HipaaRuleSet::isRuleCompliant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Is Rule Compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="153" column="10" bodyfile="src/governance/hipaa_rules.cpp" bodystart="162" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_rule_set_1a9049f0d81d51c6f9686ba3e809ce81cc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_compliance_rule" kindref="compound">IComplianceRule</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; IComplianceRule &gt; &gt; &amp; themis::governance::HipaaRuleSet::rules</definition>
+        <argsstring>() const</argsstring>
+        <name>rules</name>
+        <qualifiedname>themis::governance::HipaaRuleSet::rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="155" column="23" bodyfile="include/governance/hipaa_rules.h" bodystart="155" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/hipaa_rules.h" line="136" column="1" bodyfile="include/governance/hipaa_rules.h" bodystart="136" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_hipaa_rule_set_1af9960f63c861c84fd092fd864e8899b3" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleSet</scope><name>evaluateRule</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_rule_set_1a16b40ff4f4f62e5dc6ac616b23394925" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleSet</scope><name>HipaaRuleSet</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_rule_set_1a23e1a1adb77f6543501b0e6d8698a45d" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleSet</scope><name>isRuleCompliant</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_rule_set_1a9049f0d81d51c6f9686ba3e809ce81cc" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleSet</scope><name>rules</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_rule_set_1abe0e7065114b196c655af8d3f03947e9" prot="private" virt="non-virtual"><scope>themis::governance::HipaaRuleSet</scope><name>rules_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

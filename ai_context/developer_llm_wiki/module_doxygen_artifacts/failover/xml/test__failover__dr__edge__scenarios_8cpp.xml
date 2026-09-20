@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__failover__dr__edge__scenarios_8cpp" kind="file" language="C++">
+    <compoundname>test_failover_dr_edge_scenarios.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="disaster__recovery__manager_8h" local="yes">failover/disaster_recovery_manager.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>failover/disaster_recovery_manager.h</label>
+        <link refid="disaster__recovery__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/failover/test_failover_dr_edge_scenarios.cpp</label>
+        <link refid="test__failover__dr__edge__scenarios_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>replication/replication_manager.h</label>
+      </node>
+      <node id="14">
+        <label>sharding/epoch_fencing.h</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DisasterRecoveryEdgeDRE01, EmptyPlanIdRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DisasterRecoveryEdgeDRE01</type>
+        </param>
+        <param>
+          <type>EmptyPlanIdRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_dr_edge_scenarios.cpp" line="78" column="1" bodyfile="tests/failover/test_failover_dr_edge_scenarios.cpp" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__dr__edge__scenarios_8cpp_1a03fab942feb12fdd94723d3fe029b8e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DisasterRecoveryEdgeDRE02, EmptyPrimarySiteRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DisasterRecoveryEdgeDRE02</type>
+        </param>
+        <param>
+          <type>EmptyPrimarySiteRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_dr_edge_scenarios.cpp" line="93" column="1" bodyfile="tests/failover/test_failover_dr_edge_scenarios.cpp" bodystart="93" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__dr__edge__scenarios_8cpp_1a00333228059e111e20f1da13657e9252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DisasterRecoveryEdgeDRE03, EmptyRecoverySiteRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DisasterRecoveryEdgeDRE03</type>
+        </param>
+        <param>
+          <type>EmptyRecoverySiteRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_dr_edge_scenarios.cpp" line="108" column="1" bodyfile="tests/failover/test_failover_dr_edge_scenarios.cpp" bodystart="108" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__dr__edge__scenarios_8cpp_1aa431ad5f23221a46e1c0d5af90a86516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DisasterRecoveryEdgeDRE04, MissingSnapshotIdRejectedForNonDryRun)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DisasterRecoveryEdgeDRE04</type>
+        </param>
+        <param>
+          <type>MissingSnapshotIdRejectedForNonDryRun</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_dr_edge_scenarios.cpp" line="123" column="1" bodyfile="tests/failover/test_failover_dr_edge_scenarios.cpp" bodystart="123" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__dr__edge__scenarios_8cpp_1a4a21fe302589274b072464fd3c762fb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DisasterRecoveryEdgeDRE05, DryRunAcceptedWithoutSnapshotId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DisasterRecoveryEdgeDRE05</type>
+        </param>
+        <param>
+          <type>DryRunAcceptedWithoutSnapshotId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_dr_edge_scenarios.cpp" line="139" column="1" bodyfile="tests/failover/test_failover_dr_edge_scenarios.cpp" bodystart="139" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__dr__edge__scenarios_8cpp_1ac735e4bb0e455b9e2d14e233004f9221" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DisasterRecoveryEdgeDRE06, InvalidPlanSetsFailedStateWithError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DisasterRecoveryEdgeDRE06</type>
+        </param>
+        <param>
+          <type>InvalidPlanSetsFailedStateWithError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_dr_edge_scenarios.cpp" line="155" column="1" bodyfile="tests/failover/test_failover_dr_edge_scenarios.cpp" bodystart="155" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__dr__edge__scenarios_8cpp_1a5c944086594ae6161606b78fe578ddc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DisasterRecoveryEdgeDRE07, DryRunPlanCompletesSuccessfully)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DisasterRecoveryEdgeDRE07</type>
+        </param>
+        <param>
+          <type>DryRunPlanCompletesSuccessfully</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_dr_edge_scenarios.cpp" line="172" column="1" bodyfile="tests/failover/test_failover_dr_edge_scenarios.cpp" bodystart="172" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__dr__edge__scenarios_8cpp_1a1919fde47a65cf362316f53807dbadbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DisasterRecoveryEdgeDRE08, StepHookFailureIsolatedAndStatisticsUpdated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DisasterRecoveryEdgeDRE08</type>
+        </param>
+        <param>
+          <type>StepHookFailureIsolatedAndStatisticsUpdated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_dr_edge_scenarios.cpp" line="206" column="1" bodyfile="tests/failover/test_failover_dr_edge_scenarios.cpp" bodystart="206" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 3 / Phase 4 — Disaster recovery step isolation and edge scenario focused tests (DRE-01..DRE-08). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests are fully self-contained: no network I/O, no filesystem I/O. External dependencies are avoided by using dry_run mode or step hooks. Canonical PRNG seed: kDREdgeSeed = 42.</para>
+<sect1 id="test__failover__dr__edge__scenarios_8cpp_1autotoc_md6_1s1"><sect2 id="test__failover__dr__edge__scenarios_8cpp_1autotoc_md6">
+<title>Test families</title><para><heading level="3">DRE-01..DRE-05 — Plan validation contract</heading>
+</para>
+<para>DRE-01 validatePlan rejects plan with empty plan_id DRE-02 validatePlan rejects plan with empty primary_site DRE-03 validatePlan rejects plan with empty recovery_site DRE-04 validatePlan rejects non-dry-run plan with missing snapshot_id DRE-05 validatePlan accepts dry-run plan without snapshot_id</para>
+<para><heading level="3">DRE-06..DRE-08 — Execution and diagnostics contract</heading>
+</para>
+<para>DRE-06 executePlan with invalid plan sets FAILED state and populates error_message DRE-07 dry-run plan completes all steps and reaches COMPLETED state DRE-08 step hook failure isolates to the faulted step; statistics updated</para>
+<para><simplesect kind="see"><para><ref refid="disaster__recovery__manager_8h" kindref="compound">include/failover/disaster_recovery_manager.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/failover/ROADMAP.md — Phase 3 / Phase 4 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="disaster__recovery__manager_8h" kindref="compound">failover/disaster_recovery_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1failover" kindref="compound">themis::failover</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kDREdgeSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config" kindref="compound">DisasterRecoveryConfig</ref><sp/>makeTestConfig()<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config" kindref="compound">DisasterRecoveryConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1af4bbc6dd83a1c7d61f4c38cb6b27a21e" kindref="member">require_quorum</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a8b5f23587ea484a61a6e8e63b9d29fb4" kindref="member">enforce_epoch_fencing</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a63a7955707bad5f6eabc4182f7591ee5" kindref="member">allow_dry_run_without_managers</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe8b935a50bee74ad9520814cb33664" kindref="member">precheck_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds{100};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe84d25078449799ca846b1b3aed85b" kindref="member">catchup_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds{100};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a816c2c8c18f598b692b017402f8c8479" kindref="member">verification_timeout</ref><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds{100};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a12137378db66a7f325253e86c196b6f3" kindref="member">max_verification_retries</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>makeMinimalDryRunPlan()<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1acc769e38729cbc2b92c1d837ffcc7093" kindref="member">plan_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plan-drtest-42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1aafefc723a59a53056a650305551d7045" kindref="member">primary_site</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;site-primary&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a75d2ce13908023593475d239830898a5" kindref="member">recovery_site</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;site-recovery&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" kindref="member">dry_run</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a2fbfc9fdada784b557e49fbb9455ea5a" kindref="member">shift_traffic</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>plan;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DRE-01<sp/>—<sp/>validatePlan<sp/>rejects<sp/>empty<sp/>plan_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kindref="member">TEST</ref>(DisasterRecoveryEdgeDRE01,<sp/>EmptyPlanIdRejected)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>plan<sp/>=<sp/>makeMinimalDryRunPlan();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1acc769e38729cbc2b92c1d837ffcc7093" kindref="member">plan_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.validatePlan(plan,<sp/>error));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(error.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>message<sp/>must<sp/>be<sp/>populated<sp/>on<sp/>rejection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DRE-02<sp/>—<sp/>validatePlan<sp/>rejects<sp/>empty<sp/>primary_site</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kindref="member">TEST</ref>(DisasterRecoveryEdgeDRE02,<sp/>EmptyPrimarySiteRejected)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>plan<sp/>=<sp/>makeMinimalDryRunPlan();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1aafefc723a59a53056a650305551d7045" kindref="member">primary_site</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.validatePlan(plan,<sp/>error));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(error.empty());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DRE-03<sp/>—<sp/>validatePlan<sp/>rejects<sp/>empty<sp/>recovery_site</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kindref="member">TEST</ref>(DisasterRecoveryEdgeDRE03,<sp/>EmptyRecoverySiteRejected)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>plan<sp/>=<sp/>makeMinimalDryRunPlan();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a75d2ce13908023593475d239830898a5" kindref="member">recovery_site</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.validatePlan(plan,<sp/>error));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(error.empty());</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DRE-04<sp/>—<sp/>validatePlan<sp/>rejects<sp/>non-dry-run<sp/>with<sp/>missing<sp/>snapshot_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kindref="member">TEST</ref>(DisasterRecoveryEdgeDRE04,<sp/>MissingSnapshotIdRejectedForNonDryRun)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>plan<sp/>=<sp/>makeMinimalDryRunPlan();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" kindref="member">dry_run</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a0e9a67ef0ea01eebd83e11393cb4edc5" kindref="member">snapshot_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.validatePlan(plan,<sp/>error));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(error.empty());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DRE-05<sp/>—<sp/>validatePlan<sp/>accepts<sp/>dry-run<sp/>without<sp/>snapshot_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kindref="member">TEST</ref>(DisasterRecoveryEdgeDRE05,<sp/>DryRunAcceptedWithoutSnapshotId)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>plan<sp/>=<sp/>makeMinimalDryRunPlan();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" kindref="member">dry_run</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a0e9a67ef0ea01eebd83e11393cb4edc5" kindref="member">snapshot_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>allowed<sp/>in<sp/>dry-run</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.validatePlan(plan,<sp/>error))</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Dry-run<sp/>must<sp/>be<sp/>accepted<sp/>without<sp/>snapshot_id;<sp/>error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>error;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DRE-06<sp/>—<sp/>executePlan<sp/>with<sp/>invalid<sp/>plan<sp/>→<sp/>FAILED<sp/>state,<sp/>error_message<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kindref="member">TEST</ref>(DisasterRecoveryEdgeDRE06,<sp/>InvalidPlanSetsFailedStateWithError)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>plan;<sp/><sp/></highlight><highlight class="comment">//<sp/>intentionally<sp/>invalid:<sp/>all<sp/>fields<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.executePlan(plan);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.final_state,<sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ab9e14d9b2886bcff408b85aefa780419" kindref="member">DisasterRecoveryState::FAILED</ref>);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty())</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error_message<sp/>must<sp/>be<sp/>populated<sp/>for<sp/>invalid<sp/>plan&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DRE-07<sp/>—<sp/>dry-run<sp/>plan<sp/>completes<sp/>all<sp/>steps<sp/>→<sp/>COMPLETED,<sp/>success<sp/>==<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kindref="member">TEST</ref>(DisasterRecoveryEdgeDRE07,<sp/>DryRunPlanCompletesSuccessfully)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.executePlan(makeMinimalDryRunPlan());</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.final_state,<sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">DisasterRecoveryState::COMPLETED</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.error_message.empty())</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>error<sp/>expected<sp/>for<sp/>successful<sp/>dry-run&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>expected<sp/>steps<sp/>must<sp/>be<sp/>present<sp/>in<sp/>step_results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DisasterRecoveryStep&gt;<sp/>expected_steps<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66aa95dd7ceac214d9668600481386bdbfd" kindref="member">DisasterRecoveryStep::PRECHECKS</ref>,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66af274237df90551b4c1690102a80f9f0e" kindref="member">DisasterRecoveryStep::SNAPSHOT_VALIDATION</ref>,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a560ed638a779af425820b814c3283a17" kindref="member">DisasterRecoveryStep::EPOCH_FENCING</ref>,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66ac95fa04340c629ddfa2d38e285e59245" kindref="member">DisasterRecoveryStep::RESTORE</ref>,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a40343c9dbda4a2a7cefca793adb8308a" kindref="member">DisasterRecoveryStep::REPLICA_CATCHUP</ref>,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a0ec2edd0a73692758839c12efb1a284d" kindref="member">DisasterRecoveryStep::TRAFFIC_SHIFT</ref>,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a38e546ad5ae30263739bc07b278a910e" kindref="member">DisasterRecoveryStep::VERIFICATION</ref>,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.step_results.size(),<sp/>expected_steps.size())</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>seven<sp/>DR<sp/>steps<sp/>must<sp/>appear<sp/>in<sp/>step_results&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>expected_steps.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.step_results[i].step,<sp/>expected_steps[i])</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Step<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>does<sp/>not<sp/>match<sp/>expected<sp/>order&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.step_results[i].success)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Step<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>succeed<sp/>in<sp/>dry-run&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DRE-08<sp/>—<sp/>step<sp/>hook<sp/>failure<sp/>isolates<sp/>to<sp/>faulted<sp/>step;<sp/>statistics<sp/>updated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kindref="member">TEST</ref>(DisasterRecoveryEdgeDRE08,<sp/>StepHookFailureIsolatedAndStatisticsUpdated)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>a<sp/>failure<sp/>hook<sp/>at<sp/>PRECHECKS<sp/>to<sp/>simulate<sp/>a<sp/>dependency-degraded<sp/>scenario.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setStepHook(<ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66aa95dd7ceac214d9668600481386bdbfd" kindref="member">DisasterRecoveryStep::PRECHECKS</ref>,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref>&amp;,<sp/>std::string&amp;<sp/>detail)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>detail<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dependency-degraded:<sp/>fencing<sp/>unavailable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.executePlan(makeMinimalDryRunPlan());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.final_state,<sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ab9e14d9b2886bcff408b85aefa780419" kindref="member">DisasterRecoveryState::FAILED</ref>);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>PRECHECKS<sp/>should<sp/>appear<sp/>in<sp/>step_results<sp/>(execution<sp/>stops<sp/>at<sp/>first<sp/>failure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(result.step_results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.step_results[0].step,<sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66aa95dd7ceac214d9668600481386bdbfd" kindref="member">DisasterRecoveryStep::PRECHECKS</ref>);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.step_results[0].success);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.step_results[0].message.empty())</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>step<sp/>must<sp/>carry<sp/>a<sp/>diagnostic<sp/>message&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics:<sp/>total_runs<sp/>and<sp/>failed_runs<sp/>must<sp/>each<sp/>be<sp/>incremented</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.getStatistics();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_runs,<sp/>1u);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.failed_runs,<sp/>1u);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.successful_runs,<sp/>0u);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/failover/test_failover_dr_edge_scenarios.cpp"/>
+  </compounddef>
+</doxygen>

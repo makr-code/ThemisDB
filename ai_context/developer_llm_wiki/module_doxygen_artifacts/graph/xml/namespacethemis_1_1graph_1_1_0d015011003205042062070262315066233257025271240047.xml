@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1graph_1_1_0d015011003205042062070262315066233257025271240047" kind="namespace" language="C++">
+    <compoundname>themis::graph::@015011003205042062070262315066233257025271240047</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/graph/distributed_graph.cpp" line="33" column="1"/>
+  </compounddef>
+</doxygen>

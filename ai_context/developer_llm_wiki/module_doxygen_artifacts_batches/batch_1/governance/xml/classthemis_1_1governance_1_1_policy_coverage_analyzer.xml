@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_coverage_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyCoverageAnalyzer</compoundname>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result" prot="public">themis::governance::PolicyCoverageAnalyzer::CoverageResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result" prot="public">themis::governance::PolicyCoverageAnalyzer::OverlapResult</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_coverage_analyzer_1ac730653abb521474ab34bd76ff2c5079" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result" kindref="compound">CoverageResult</ref></type>
+        <definition>PolicyCoverageAnalyzer::CoverageResult themis::governance::PolicyCoverageAnalyzer::analyzeCoverage</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::vector&lt; std::string &gt; &amp;resources, const std::vector&lt; std::string &gt; &amp;actions={&quot;*&quot;}) const</argsstring>
+        <name>analyzeCoverage</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::analyzeCoverage</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>resources</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>actions</declname>
+          <defval>{&quot;*&quot;}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="88" column="20" bodyfile="src/governance/compliance_reporting.cpp" bodystart="293" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_coverage_analyzer_1a9a866ba01a02a60d758ddb9dae6ed6a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result" kindref="compound">OverlapResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyCoverageAnalyzer::OverlapResult &gt; themis::governance::PolicyCoverageAnalyzer::detectOverlaps</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>detectOverlaps</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::detectOverlaps</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Overlaps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="99" column="17" bodyfile="src/governance/compliance_reporting.cpp" bodystart="336" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_coverage_analyzer_1a8172767d27dcccfc150633b5b446e4c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::PolicyCoverageAnalyzer::findGaps</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::vector&lt; std::string &gt; &amp;expected_resources) const</argsstring>
+        <name>findGaps</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::findGaps</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>expected_resources</declname>
+        </param>
+        <briefdescription>
+<para>Find Gaps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_resources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="107" column="17" bodyfile="src/governance/compliance_reporting.cpp" bodystart="380" bodyend="404"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporting.h" line="58" column="1" bodyfile="include/governance/compliance_reporting.h" bodystart="58" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_coverage_analyzer_1ac730653abb521474ab34bd76ff2c5079" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer</scope><name>analyzeCoverage</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_coverage_analyzer_1a9a866ba01a02a60d758ddb9dae6ed6a2" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer</scope><name>detectOverlaps</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_coverage_analyzer_1a8172767d27dcccfc150633b5b446e4c5" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer</scope><name>findGaps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

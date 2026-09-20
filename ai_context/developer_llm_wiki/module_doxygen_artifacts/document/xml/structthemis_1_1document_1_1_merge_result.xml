@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_merge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::MergeResult</compoundname>
+    <includes refid="document__diff__merge_8h" local="no">document_diff_merge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_merge_result_1a76564a7d2732bda6e42c90d38f6f401c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::document::MergeResult::merged_body</definition>
+        <argsstring></argsstring>
+        <name>merged_body</name>
+        <qualifiedname>themis::document::MergeResult::merged_body</qualifiedname>
+        <briefdescription>
+<para>Resulting merged document body. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="90" column="33" bodyfile="include/document/document_diff_merge.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_merge_result_1a7907f87d5d42f436526a2d98af7277e8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1document_1_1_merge_conflict" kindref="compound">MergeConflict</ref> &gt;</type>
+        <definition>std::vector&lt;MergeConflict&gt; themis::document::MergeResult::conflicts</definition>
+        <argsstring></argsstring>
+        <name>conflicts</name>
+        <qualifiedname>themis::document::MergeResult::conflicts</qualifiedname>
+        <briefdescription>
+<para>Empty ⟹ clean merge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="91" column="18" bodyfile="include/document/document_diff_merge.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_merge_result_1a142f25168ecd37a9e4b087a0f80cf511" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a54a7955458d5a5e23c990e57b75b5bca" kindref="member">MergeStrategy</ref></type>
+        <definition>MergeStrategy themis::document::MergeResult::strategy_applied</definition>
+        <argsstring></argsstring>
+        <name>strategy_applied</name>
+        <qualifiedname>themis::document::MergeResult::strategy_applied</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="92" column="33" bodyfile="include/document/document_diff_merge.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_diff_merge.h" line="89" column="1" bodyfile="include/document/document_diff_merge.h" bodystart="89" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_merge_result_1a7907f87d5d42f436526a2d98af7277e8" prot="public" virt="non-virtual"><scope>themis::document::MergeResult</scope><name>conflicts</name></member>
+      <member refid="structthemis_1_1document_1_1_merge_result_1a76564a7d2732bda6e42c90d38f6f401c" prot="public" virt="non-virtual"><scope>themis::document::MergeResult</scope><name>merged_body</name></member>
+      <member refid="structthemis_1_1document_1_1_merge_result_1a142f25168ecd37a9e4b087a0f80cf511" prot="public" virt="non-virtual"><scope>themis::document::MergeResult</scope><name>strategy_applied</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

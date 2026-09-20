@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_property_graph_manager_1_1_edge_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PropertyGraphManager::EdgeInfo</compoundname>
+    <includes refid="property__graph_8h" local="no">property_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_property_graph_manager_1_1_edge_info_1a7086ce2dbed85b387132290cc1adfb44" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::EdgeInfo::edgeId</definition>
+        <argsstring></argsstring>
+        <name>edgeId</name>
+        <qualifiedname>themis::PropertyGraphManager::EdgeInfo::edgeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="97" column="21" bodyfile="include/index/property_graph.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_property_graph_manager_1_1_edge_info_1a3e38f990a539ecc524d969feb3831226" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::EdgeInfo::fromPk</definition>
+        <argsstring></argsstring>
+        <name>fromPk</name>
+        <qualifiedname>themis::PropertyGraphManager::EdgeInfo::fromPk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="98" column="21" bodyfile="include/index/property_graph.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_property_graph_manager_1_1_edge_info_1a8f98f2744191c34d0d1a50c518c230fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::EdgeInfo::toPk</definition>
+        <argsstring></argsstring>
+        <name>toPk</name>
+        <qualifiedname>themis::PropertyGraphManager::EdgeInfo::toPk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="99" column="21" bodyfile="include/index/property_graph.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_property_graph_manager_1_1_edge_info_1afca49b708920c71c14df87292af042a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::EdgeInfo::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::PropertyGraphManager::EdgeInfo::type</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="100" column="21" bodyfile="include/index/property_graph.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_property_graph_manager_1_1_edge_info_1a522ca03a2a3d708d234363ec2f55f340" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::EdgeInfo::graph_id</definition>
+        <argsstring></argsstring>
+        <name>graph_id</name>
+        <qualifiedname>themis::PropertyGraphManager::EdgeInfo::graph_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="101" column="21" bodyfile="include/index/property_graph.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/property_graph.h" line="96" column="5" bodyfile="include/index/property_graph.h" bodystart="96" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_property_graph_manager_1_1_edge_info_1a7086ce2dbed85b387132290cc1adfb44" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager::EdgeInfo</scope><name>edgeId</name></member>
+      <member refid="structthemis_1_1_property_graph_manager_1_1_edge_info_1a3e38f990a539ecc524d969feb3831226" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager::EdgeInfo</scope><name>fromPk</name></member>
+      <member refid="structthemis_1_1_property_graph_manager_1_1_edge_info_1a522ca03a2a3d708d234363ec2f55f340" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager::EdgeInfo</scope><name>graph_id</name></member>
+      <member refid="structthemis_1_1_property_graph_manager_1_1_edge_info_1a8f98f2744191c34d0d1a50c518c230fa" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager::EdgeInfo</scope><name>toPk</name></member>
+      <member refid="structthemis_1_1_property_graph_manager_1_1_edge_info_1afca49b708920c71c14df87292af042a0" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager::EdgeInfo</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

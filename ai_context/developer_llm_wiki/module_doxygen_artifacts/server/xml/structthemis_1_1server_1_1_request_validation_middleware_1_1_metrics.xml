@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RequestValidationMiddleware::Metrics</compoundname>
+    <includes refid="request__validation__middleware_8h" local="no">request_validation_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a921233365b94bca6b18818f60f3ee018" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestValidationMiddleware::Metrics::validation_pass_total</definition>
+        <argsstring></argsstring>
+        <name>validation_pass_total</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::Metrics::validation_pass_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>body validated and accepted </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="113" column="21" bodyfile="include/server/request_validation_middleware.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a2ee8dbf1f5f3215e8f09d6d06f71ee77" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestValidationMiddleware::Metrics::validation_fail_total</definition>
+        <argsstring></argsstring>
+        <name>validation_fail_total</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::Metrics::validation_fail_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>body rejected by schema </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="114" column="21" bodyfile="include/server/request_validation_middleware.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1af6b44695254c2dbd228b1675165330c7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestValidationMiddleware::Metrics::validation_skip_total</definition>
+        <argsstring></argsstring>
+        <name>validation_skip_total</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::Metrics::validation_skip_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>no schema registered </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="115" column="21" bodyfile="include/server/request_validation_middleware.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a91d5840c88bb207bd8ec0c84149705dd" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestValidationMiddleware::Metrics::parse_error_total</definition>
+        <argsstring></argsstring>
+        <name>parse_error_total</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::Metrics::parse_error_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>body could not be parsed as JSON </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="116" column="21" bodyfile="include/server/request_validation_middleware.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/request_validation_middleware.h" line="112" column="5" bodyfile="include/server/request_validation_middleware.h" bodystart="112" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a91d5840c88bb207bd8ec0c84149705dd" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::Metrics</scope><name>parse_error_total</name></member>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a2ee8dbf1f5f3215e8f09d6d06f71ee77" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::Metrics</scope><name>validation_fail_total</name></member>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a921233365b94bca6b18818f60f3ee018" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::Metrics</scope><name>validation_pass_total</name></member>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1af6b44695254c2dbd228b1675165330c7" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::Metrics</scope><name>validation_skip_total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

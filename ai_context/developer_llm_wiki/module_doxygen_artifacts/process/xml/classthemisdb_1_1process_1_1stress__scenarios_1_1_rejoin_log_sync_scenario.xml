@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::RejoinLogSyncScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario_1ab4ea03ca7cd0f8c27ee413429132de6b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::RejoinLogSyncScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::RejoinLogSyncScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="456" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="456" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario_1a669fdf04dbf67f6f492848b534d40d4c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::RejoinLogSyncScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::RejoinLogSyncScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="457" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="457" bodyend="459"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Network Failure Scenario 12: Automatic Re-Join and Log Sync. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests log synchronization when partition heals.</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster</para>
+</listitem><listitem><para>Introduce partition for 10 seconds</para>
+</listitem><listitem><para>Majority continues to commit entries; minority goes stale</para>
+</listitem><listitem><para>Heal partition</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>During partition (10s): majority applies 100 new entries (majority-only log)</para>
+</listitem><listitem><para>Minority has stale log</para>
+</listitem><listitem><para>Heal partition: minority rejoins</para>
+</listitem><listitem><para>Minority fetches missing entries from majority (log sync)</para>
+</listitem><listitem><para>Minority catches up and resumes normal operation</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>Minority can catch up (no unbounded divergence)</para>
+</listitem><listitem><para>Log sync completes within reasonable time (&lt;5s for 100 entries)</para>
+</listitem><listitem><para>All nodes have identical final log state</para>
+</listitem><listitem><para>No data loss or corruption during re-join</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;5 seconds for 100-entry log sync </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="454" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="454" bodyend="460"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario_1a669fdf04dbf67f6f492848b534d40d4c" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::RejoinLogSyncScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario_1ab4ea03ca7cd0f8c27ee413429132de6b" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::RejoinLogSyncScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

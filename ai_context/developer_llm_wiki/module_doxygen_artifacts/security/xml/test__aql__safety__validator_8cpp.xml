@@ -1,0 +1,581 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__safety__validator_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_safety_validator.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">query/aql_safety_validator.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_aql_safety_validator.cpp</label>
+        <link refid="test__aql__safety__validator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>query/aql_safety_validator.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacestd_1_1literals">std::literals</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, SafeReadOnlyAql)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>SafeReadOnlyAql</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="50" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="50" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1ae23cf9a39389b4ca140427b4024d3c06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, RemoveKeywordBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>RemoveKeywordBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="78" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="78" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1ae6b06e0c8561a18b7e3229d0aeb236a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, InsertKeywordBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>InsertKeywordBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="89" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="89" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a89313fce58e85ea84a011358929aad97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, UpdateKeywordBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>UpdateKeywordBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="99" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1ab921ec566c9777f486bfe485637bc8e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, ReplaceKeywordBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>ReplaceKeywordBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="109" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="109" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a49df27005ef3bf42f8321601cea30340" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, UpsertKeywordBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>UpsertKeywordBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="119" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="119" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a39085b2bf9b6b47a6a6693d7fdb12ab6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, DropCollectionBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>DropCollectionBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="130" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="130" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a19dae686fa5b1098c5f0f56ba69bdcde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, TruncateBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>TruncateBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="140" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="140" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a98175423fa59bb4145fba83f6b3110bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, ForRemoveWithoutFilterBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>ForRemoveWithoutFilterBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="150" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a60150099b8237a8c1e5642f71ab40800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, ForRemoveWithFilterStillBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>ForRemoveWithFilterStillBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="160" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="160" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a0b51fe9b79ea457139f21b01cd2e5ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, IsSafeMirrorsValidate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>IsSafeMirrorsValidate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="170" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="170" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a7771d1d4dfa0ab871be82d75bf490f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, ViolationMessageContainsErrorCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>ViolationMessageContainsErrorCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="185" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="185" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1acb1ba71cf7d0b0c8a0385f468d59264b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, ViolationKeywordPopulated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>ViolationKeywordPopulated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="195" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="195" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1af1d1040d373437209a22a0613b9df82d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, ViolationPositionInBounds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>ViolationPositionInBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="205" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="205" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1ae1030e4d94912a0f4c932fb931c68f24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, EmptyQueryIsSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>EmptyQueryIsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="216" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="216" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__safety__validator_8cpp_1a2df0611f678f094a4704b798876e0727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlSafetyValidatorTest, CreateCollectionBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlSafetyValidatorTest</type>
+        </param>
+        <param>
+          <type>CreateCollectionBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_aql_safety_validator.cpp" line="225" column="1" bodyfile="tests/security/test_aql_safety_validator.cpp" bodystart="225" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>—<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AI<sp/>Safety<sp/>Layer<sp/>—<sp/>Schicht<sp/>3:<sp/>AQL<sp/>Read-Only<sp/>Enforcer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASL-3:<sp/>AqlSafetyValidator<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-01<sp/><sp/>Safe<sp/>AQL<sp/>(FOR/FILTER/RETURN)<sp/>→<sp/>nullopt<sp/>(no<sp/>violation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-02<sp/><sp/>AQL<sp/>with<sp/>REMOVE<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-03<sp/><sp/>AQL<sp/>with<sp/>INSERT<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-04<sp/><sp/>AQL<sp/>with<sp/>UPDATE<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-05<sp/><sp/>AQL<sp/>with<sp/>REPLACE<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-06<sp/><sp/>AQL<sp/>with<sp/>UPSERT<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-07<sp/><sp/>AQL<sp/>with<sp/>DROP<sp/>COLLECTION<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-08<sp/><sp/>AQL<sp/>with<sp/>TRUNCATE<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-09<sp/><sp/>FOR...REMOVE<sp/>without<sp/>FILTER<sp/>→<sp/>violation<sp/>(full-collection<sp/>delete)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-10<sp/><sp/>FOR...REMOVE<sp/>with<sp/>FILTER<sp/>→<sp/>still<sp/>violation<sp/>(REMOVE<sp/>always<sp/>banned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-11<sp/><sp/>isSafe()<sp/>mirrors<sp/>validate()<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-12<sp/><sp/>violation.message<sp/>contains<sp/>&quot;AQL_READ_ONLY_VIOLATION&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-13<sp/><sp/>violation.keyword<sp/>is<sp/>populated<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-14<sp/><sp/>violation.position<sp/>points<sp/>into<sp/>the<sp/>query<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-15<sp/><sp/>Empty<sp/>query<sp/>→<sp/>safe<sp/>(nullopt)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ASV-16<sp/><sp/>CREATE<sp/>COLLECTION<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_safety_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::literals;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">ViolationOpt<sp/>=<sp/>std::optional&lt;AqlSafetyValidator::Violation&gt;;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">ViolationOpt<sp/>validateSV(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AqlSafetyValidator&amp;<sp/>validator,<sp/>std::string_view<sp/>query)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kValidateSv<sp/>=</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">ViolationOpt<sp/>(AqlSafetyValidator::*)(std::string_view)<sp/>const</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;AqlSafetyValidator::validate);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(validator.*kValidateSv)(query);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSafeSV(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AqlSafetyValidator&amp;<sp/>validator,<sp/>std::string_view<sp/>query)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!validateSV(validator,<sp/>query).has_value();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-01<sp/><sp/>Safe<sp/>read-only<sp/>AQL<sp/>→<sp/>nullopt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>SafeReadOnlyAql)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Basic<sp/>FOR/FILTER/RETURN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.age<sp/>&gt;<sp/>18<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">sv).has_value());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d.title&quot;</highlight><highlight class="normal">sv).has_value());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>1<sp/>+<sp/>1&quot;</highlight><highlight class="normal">sv).has_value());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>col<sp/>FILTER<sp/>x.key<sp/>==<sp/>@k<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">sv).has_value());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Nested<sp/>FOR<sp/>loops<sp/>(read-only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FOR<sp/>r<sp/>IN<sp/>roles<sp/>FILTER<sp/>r.user_id<sp/>==<sp/>u._key<sp/>RETURN<sp/>{u,<sp/>r}&quot;</highlight><highlight class="normal">sv</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>).has_value());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SORT,<sp/>LIMIT,<sp/>LET</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>LET<sp/>score<sp/>=<sp/>d.rank<sp/>SORT<sp/>score<sp/>DESC<sp/>LIMIT<sp/>10<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">sv</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>).has_value());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>FILTER<sp/>clauses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>p<sp/>IN<sp/>products<sp/>FILTER<sp/>p.active<sp/>==<sp/>true<sp/>FILTER<sp/>p.price<sp/>&lt;<sp/>100<sp/>RETURN<sp/>p&quot;</highlight><highlight class="normal">sv</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>).has_value());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>COLLECT<sp/>/<sp/>AGGREGATE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>COLLECT<sp/>country<sp/>=<sp/>u.country<sp/>AGGREGATE<sp/>cnt<sp/>=<sp/>COUNT(1)<sp/>RETURN<sp/>{country,<sp/>cnt}&quot;</highlight><highlight class="normal">sv</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>).has_value());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-02<sp/><sp/>REMOVE<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>RemoveKeywordBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u._key<sp/>==<sp/>&apos;42&apos;<sp/>REMOVE<sp/>u<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;keyword,<sp/></highlight><highlight class="stringliteral">&quot;REMOVE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-03<sp/><sp/>INSERT<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>InsertKeywordBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;INSERT<sp/>{name:<sp/>&apos;Eve&apos;}<sp/>INTO<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;keyword,<sp/></highlight><highlight class="stringliteral">&quot;INSERT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-04<sp/><sp/>UPDATE<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>UpdateKeywordBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;UPDATE<sp/>&apos;42&apos;<sp/>WITH<sp/>{status:<sp/>&apos;banned&apos;}<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;keyword,<sp/></highlight><highlight class="stringliteral">&quot;UPDATE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-05<sp/><sp/>REPLACE<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>ReplaceKeywordBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;REPLACE<sp/>&apos;42&apos;<sp/>WITH<sp/>{name:<sp/>&apos;X&apos;}<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;keyword,<sp/></highlight><highlight class="stringliteral">&quot;REPLACE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-06<sp/><sp/>UPSERT<sp/>keyword<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>UpsertKeywordBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;UPSERT<sp/>{_key:<sp/>&apos;42&apos;}<sp/>INSERT<sp/>{name:<sp/>&apos;X&apos;}<sp/>UPDATE<sp/>{name:<sp/>&apos;X&apos;}<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;keyword,<sp/></highlight><highlight class="stringliteral">&quot;UPSERT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-07<sp/><sp/>DROP<sp/>COLLECTION<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>DropCollectionBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;DROP<sp/>COLLECTION<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;keyword,<sp/></highlight><highlight class="stringliteral">&quot;DROP&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-08<sp/><sp/>TRUNCATE<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>TruncateBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;TRUNCATE<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;keyword,<sp/></highlight><highlight class="stringliteral">&quot;TRUNCATE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-09<sp/><sp/>FOR...REMOVE<sp/>without<sp/>FILTER<sp/>→<sp/>compound<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>ForRemoveWithoutFilterBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>variant<sp/>has<sp/>REMOVE<sp/>detected<sp/>as<sp/>single<sp/>keyword<sp/>first<sp/>—<sp/>still<sp/>a<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>REMOVE<sp/>u<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-10<sp/><sp/>FOR...REMOVE<sp/>even<sp/>with<sp/>FILTER<sp/>→<sp/>still<sp/>blocked<sp/>(REMOVE<sp/>always<sp/>banned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>ForRemoveWithFilterStillBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.role<sp/>==<sp/>&apos;guest&apos;<sp/>REMOVE<sp/>u<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());<sp/><sp/></highlight><highlight class="comment">//<sp/>REMOVE<sp/>keyword<sp/>is<sp/>blocked<sp/>regardless<sp/>of<sp/>FILTER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-11<sp/><sp/>isSafe()<sp/>mirrors<sp/>validate()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>IsSafeMirrorsValidate)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>safe_query<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>unsafe_query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;REMOVE<sp/>&apos;1&apos;<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isSafeSV(v,<sp/>std::string_view{safe_query}));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isSafeSV(v,<sp/>std::string_view{unsafe_query}));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(isSafeSV(v,<sp/>std::string_view{safe_query}),</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!validateSV(v,<sp/>std::string_view{safe_query}).has_value());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(isSafeSV(v,<sp/>std::string_view{unsafe_query}),</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!validateSV(v,<sp/>std::string_view{unsafe_query}).has_value());</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-12<sp/><sp/>violation.message<sp/>contains<sp/>&quot;AQL_READ_ONLY_VIOLATION&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>ViolationMessageContainsErrorCode)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;INSERT<sp/>{x:1}<sp/>INTO<sp/>col&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(r-&gt;message.find(</highlight><highlight class="stringliteral">&quot;AQL_READ_ONLY_VIOLATION&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-13<sp/><sp/>violation.keyword<sp/>is<sp/>populated<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>ViolationKeywordPopulated)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;UPDATE<sp/>&apos;1&apos;<sp/>WITH<sp/>{a:1}<sp/>IN<sp/>col&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r-&gt;keyword.empty());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-14<sp/><sp/>violation.position<sp/>points<sp/>into<sp/>the<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>ViolationPositionInBounds)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>col<sp/>REMOVE<sp/>u<sp/>IN<sp/>col&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/>std::string_view{query});</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(r-&gt;position,<sp/>query.size());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-15<sp/><sp/>Empty<sp/>query<sp/>→<sp/>safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>EmptyQueryIsSafe)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">sv).has_value());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isSafeSV(v,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">sv));</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASV-16<sp/><sp/>CREATE<sp/>COLLECTION<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__aql__safety__validator_8cpp_1ab7724666b82522d05f3d2e47cf3a8a3a" kindref="member">TEST</ref>(AqlSafetyValidatorTest,<sp/>CreateCollectionBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>AqlSafetyValidator<sp/>v;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>validateSV(v,<sp/></highlight><highlight class="stringliteral">&quot;CREATE<sp/>COLLECTION<sp/>new_users&quot;</highlight><highlight class="normal">sv);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;keyword,<sp/></highlight><highlight class="stringliteral">&quot;CREATE<sp/>COLLECTION&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_aql_safety_validator.cpp"/>
+  </compounddef>
+</doxygen>

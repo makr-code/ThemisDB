@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_claim_extractor" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::ClaimExtractor</compoundname>
+    <includes refid="claim__extractor_8h" local="no">claim_extractor.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_claim_extractor_1a7ab1aa3d78111289126f750fa5178230" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_claim" kindref="compound">Claim</ref> &gt;</type>
+        <definition>std::vector&lt; Claim &gt; themis::rag::ClaimExtractor::extract</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::rag::ClaimExtractor::extract</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract atomic claims from text using LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The generated text to extract claims from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of extracted claims</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), length(), empty(), <ref refid="classthemis_1_1rag_1_1_prompt_library_1a1608c19575c11d1affb49009e952e268" kindref="member">PromptLibrary::getClaimVerificationPrompt()</ref>, format(), <ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a76bf439c2811dd578ce9714a5a305456" kindref="member">LLMIntegration::generate()</ref>, THEMIS_WARN(), iss(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="56" column="24" bodyfile="src/rag/claim_extractor.cpp" bodystart="30" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_claim_extractor_1aa046fef2e8ff2a85cc00747a0b1a5830" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_claim_verification_result" kindref="compound">ClaimVerificationResult</ref></type>
+        <definition>ClaimVerificationResult themis::rag::ClaimExtractor::verify</definition>
+        <argsstring>(const Claim &amp;claim, const std::vector&lt; std::string &gt; &amp;documents)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::rag::ClaimExtractor::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_claim" kindref="compound">Claim</ref> &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Verify a claim against source documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify identity and enforce network policies for a request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The claim to verify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source documents as strings </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), empty(), size(), <ref refid="classthemis_1_1rag_1_1_prompt_library_1a1608c19575c11d1affb49009e952e268" kindref="member">PromptLibrary::getClaimVerificationPrompt()</ref>, str(), format(), <ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a76bf439c2811dd578ce9714a5a305456" kindref="member">LLMIntegration::generate()</ref>, THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="64" column="36" bodyfile="src/rag/claim_extractor.cpp" bodystart="106" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_claim_extractor_1a62b1e8123c4ad4d3fc020ba354f09f1d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_claim_verification_result" kindref="compound">ClaimVerificationResult</ref> &gt;</type>
+        <definition>std::vector&lt; ClaimVerificationResult &gt; themis::rag::ClaimExtractor::verifyAll</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;documents)</argsstring>
+        <name>verifyAll</name>
+        <qualifiedname>themis::rag::ClaimExtractor::verifyAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Verify all claims in text against documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify All.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated text containing claims </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source documents </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of verification results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), <ref refid="classthemis_1_1rag_1_1_claim_extractor_1a7ab1aa3d78111289126f750fa5178230" kindref="member">extract()</ref>, reserve(), size(), push_back(), <ref refid="classthemis_1_1rag_1_1_claim_extractor_1aa046fef2e8ff2a85cc00747a0b1a5830" kindref="member">verify()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="75" column="24" bodyfile="src/rag/claim_extractor.cpp" bodystart="179" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_claim_extractor_1a5c6a450b1b56010a2a2cdfb028aaf918" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::ClaimExtractor::calculateFaithfulness</definition>
+        <argsstring>(const std::vector&lt; ClaimVerificationResult &gt; &amp;results)</argsstring>
+        <name>calculateFaithfulness</name>
+        <qualifiedname>themis::rag::ClaimExtractor::calculateFaithfulness</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1_claim_verification_result" kindref="compound">ClaimVerificationResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Calculate faithfulness score from verification results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Faithfulness.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Verification results </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Faithfulness score (0-1)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="85" column="19" bodyfile="src/rag/claim_extractor.cpp" bodystart="206" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extracts atomic claims from generated text. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/claim_extractor.h" line="49" column="1" bodyfile="include/rag/claim_extractor.h" bodystart="49" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_claim_extractor_1a5c6a450b1b56010a2a2cdfb028aaf918" prot="public" virt="non-virtual"><scope>themis::rag::ClaimExtractor</scope><name>calculateFaithfulness</name></member>
+      <member refid="classthemis_1_1rag_1_1_claim_extractor_1a7ab1aa3d78111289126f750fa5178230" prot="public" virt="non-virtual"><scope>themis::rag::ClaimExtractor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1rag_1_1_claim_extractor_1aa046fef2e8ff2a85cc00747a0b1a5830" prot="public" virt="non-virtual"><scope>themis::rag::ClaimExtractor</scope><name>verify</name></member>
+      <member refid="classthemis_1_1rag_1_1_claim_extractor_1a62b1e8123c4ad4d3fc020ba354f09f1d" prot="public" virt="non-virtual"><scope>themis::rag::ClaimExtractor</scope><name>verifyAll</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

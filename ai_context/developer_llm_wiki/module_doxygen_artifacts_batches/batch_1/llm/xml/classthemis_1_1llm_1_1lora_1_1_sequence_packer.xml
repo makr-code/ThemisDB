@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_sequence_packer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::SequencePacker</compoundname>
+    <includes refid="sequence__packer_8h" local="no">sequence_packer.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch" prot="public">themis::llm::lora::SequencePacker::PackedBatch</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a54924e7c90fdf59c9f0d43b9f576e73a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::SequencePacker::device_</definition>
+        <argsstring></argsstring>
+        <name>device_</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::device_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="76" column="12" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a2ceb4d0b7fc6a9c3503112da02b8cb57" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::SequencePacker::~SequencePacker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SequencePacker</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::~SequencePacker</qualifiedname>
+        <briefdescription>
+<para>Sequence Packer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a9538054d688d3e27e62995fedbc92ef9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::SequencePacker::SequencePacker</definition>
+        <argsstring>(const Device &amp;device=Device::cuda())</argsstring>
+        <name>SequencePacker</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::SequencePacker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2b36573071ecbef41d06d30b2436928b" kindref="member">Device::cuda</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="44" column="14" bodyfile="src/llm/lora_framework/sequence_packer.cpp" bodystart="21" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a19b9cef57bc9986979c55dd8e0bf5349" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch" kindref="compound">PackedBatch</ref></type>
+        <definition>SequencePacker::PackedBatch themis::llm::lora::SequencePacker::packSequences</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;sequences)</argsstring>
+        <name>packSequences</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::packSequences</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;</type>
+          <declname>sequences</declname>
+        </param>
+        <briefdescription>
+<para>Pack Sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), empty(), spdlog::warn(), push_back(), spdlog::debug(), reserve(), GPUTensor(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="51" column="17" bodyfile="src/llm/lora_framework/sequence_packer.cpp" bodystart="32" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1adf536d2be0f216055b726deb8194359a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GPUTensor &gt; themis::llm::lora::SequencePacker::unpackResults</definition>
+        <argsstring>(const GPUTensor &amp;packed_output, const PackedBatch &amp;batch_info)</argsstring>
+        <name>unpackResults</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::unpackResults</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>packed_output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch" kindref="compound">PackedBatch</ref> &amp;</type>
+          <declname>batch_info</declname>
+        </param>
+        <briefdescription>
+<para>Unpack Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">packed_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">packed_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_valid(), spdlog::error(), shape(), size(), spdlog::debug(), cpu_data(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="59" column="17" bodyfile="src/llm/lora_framework/sequence_packer.cpp" bodystart="97" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a6233c9129c4ae3e0961f360bba80becc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::SequencePacker::calculateMemorySavings</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;sequences, size_t max_length)</argsstring>
+        <name>calculateMemorySavings</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::calculateMemorySavings</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;</type>
+          <declname>sequences</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_length</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Memory Savings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="70" column="18" bodyfile="src/llm/lora_framework/sequence_packer.cpp" bodystart="162" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1accf286a452b358450efdef436e287369" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; std::vector&lt; int &gt; &gt;, std::vector&lt; size_t &gt; &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; std::vector&lt; int &gt; &gt;, std::vector&lt; size_t &gt; &gt; themis::llm::lora::SequencePacker::sortByLength</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;sequences) const</argsstring>
+        <name>sortByLength</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::sortByLength</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;</type>
+          <declname>sequences</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="79" column="5" bodyfile="src/llm/lora_framework/sequence_packer.cpp" bodystart="188" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/sequence_packer.h" line="22" column="1" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="22" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a6233c9129c4ae3e0961f360bba80becc" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker</scope><name>calculateMemorySavings</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a54924e7c90fdf59c9f0d43b9f576e73a" prot="private" virt="non-virtual"><scope>themis::llm::lora::SequencePacker</scope><name>device_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a19b9cef57bc9986979c55dd8e0bf5349" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker</scope><name>packSequences</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a9538054d688d3e27e62995fedbc92ef9" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker</scope><name>SequencePacker</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1accf286a452b358450efdef436e287369" prot="private" virt="non-virtual"><scope>themis::llm::lora::SequencePacker</scope><name>sortByLength</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1adf536d2be0f216055b726deb8194359a" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker</scope><name>unpackResults</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a2ceb4d0b7fc6a9c3503112da02b8cb57" prot="public" virt="virtual"><scope>themis::llm::lora::SequencePacker</scope><name>~SequencePacker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_pattern_match_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PatternMatchConfig</compoundname>
+    <includes refid="process__pattern__matcher_8h" local="no">process_pattern_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1ac441a56370709555f465b3bc45020dbe" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1ad276636329bbd895ca7fd728bf8b389b" kindref="member">SimilarityMethod</ref></type>
+        <definition>SimilarityMethod themis::PatternMatchConfig::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::PatternMatchConfig::method</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1ad276636329bbd895ca7fd728bf8b389ba3bf07fe8ac3883060b1558113ba248d4" kindref="member">SimilarityMethod::HYBRID</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="90" column="22" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1acacddf30fbe39e199b5446a4cbe879e1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::PatternMatchConfig::graph_weight</definition>
+        <argsstring></argsstring>
+        <name>graph_weight</name>
+        <qualifiedname>themis::PatternMatchConfig::graph_weight</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="93" column="12" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1a741bdea0f85406823d537458f8b4c04b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::PatternMatchConfig::vector_weight</definition>
+        <argsstring></argsstring>
+        <name>vector_weight</name>
+        <qualifiedname>themis::PatternMatchConfig::vector_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="94" column="12" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1a50d704b47869de07b08145ead5b81eab" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::PatternMatchConfig::behavioral_weight</definition>
+        <argsstring></argsstring>
+        <name>behavioral_weight</name>
+        <qualifiedname>themis::PatternMatchConfig::behavioral_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="95" column="12" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1a889052eb9cee551fbc7c4db9b887a406" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::PatternMatchConfig::min_similarity</definition>
+        <argsstring></argsstring>
+        <name>min_similarity</name>
+        <qualifiedname>themis::PatternMatchConfig::min_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Minimum similarity to include in results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="98" column="12" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1aee76d072d63525f8717a1853d7a83b62" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::PatternMatchConfig::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::PatternMatchConfig::max_results</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum number of results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="99" column="9" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1aed58e53f8813ece02db53e8627514b99" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PatternMatchConfig::use_index</definition>
+        <argsstring></argsstring>
+        <name>use_index</name>
+        <qualifiedname>themis::PatternMatchConfig::use_index</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Use HNSW index for vector search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="102" column="10" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1a645a53e8e339d93e7d81fdceeed3b50a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PatternMatchConfig::use_cache</definition>
+        <argsstring></argsstring>
+        <name>use_cache</name>
+        <qualifiedname>themis::PatternMatchConfig::use_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Cache frequent patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="103" column="10" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1ab228250ad93bbe6c87de67dfa3152cc9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PatternMatchConfig::parallel</definition>
+        <argsstring></argsstring>
+        <name>parallel</name>
+        <qualifiedname>themis::PatternMatchConfig::parallel</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Parallelize computation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="104" column="10" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1a643d2e06fe8a87c665807cb8940d312e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::PatternMatchConfig::structural_tolerance</definition>
+        <argsstring></argsstring>
+        <name>structural_tolerance</name>
+        <qualifiedname>themis::PatternMatchConfig::structural_tolerance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="107" column="19" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_pattern_match_config_1ad9c7a7d72772bb41efc149136fa7cd58" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::PatternMatchConfig::semantic_tolerance</definition>
+        <argsstring></argsstring>
+        <name>semantic_tolerance</name>
+        <qualifiedname>themis::PatternMatchConfig::semantic_tolerance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="108" column="19" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_pattern_matcher.h" line="89" column="1" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="89" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_pattern_match_config_1a50d704b47869de07b08145ead5b81eab" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>behavioral_weight</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1acacddf30fbe39e199b5446a4cbe879e1" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>graph_weight</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1aee76d072d63525f8717a1853d7a83b62" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1ac441a56370709555f465b3bc45020dbe" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>method</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1a889052eb9cee551fbc7c4db9b887a406" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>min_similarity</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1ab228250ad93bbe6c87de67dfa3152cc9" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>parallel</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1ad9c7a7d72772bb41efc149136fa7cd58" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>semantic_tolerance</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1a643d2e06fe8a87c665807cb8940d312e" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>structural_tolerance</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1a645a53e8e339d93e7d81fdceeed3b50a" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>use_cache</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1aed58e53f8813ece02db53e8627514b99" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>use_index</name></member>
+      <member refid="structthemis_1_1_pattern_match_config_1a741bdea0f85406823d537458f8b4c04b" prot="public" virt="non-virtual"><scope>themis::PatternMatchConfig</scope><name>vector_weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

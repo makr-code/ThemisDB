@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_membership_change_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MembershipChangeEntry</compoundname>
+    <includes refid="raft__v2_8h" local="no">raft_v2.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1replication_1_1_membership_change_entry_1ae1ca7441e3844754b06325038269b451" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Phase</name>
+        <qualifiedname>themisdb::replication::MembershipChangeEntry::Phase</qualifiedname>
+        <enumvalue id="structthemisdb_1_1replication_1_1_membership_change_entry_1ae1ca7441e3844754b06325038269b451a5429249d7b424ed4ff7494e8ac70426d" prot="public">
+          <name>JOINT</name>
+          <briefdescription>
+<para>Activate C_old,new (joint consensus). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_membership_change_entry_1ae1ca7441e3844754b06325038269b451a1d0ba376e273b9d622641124d8c59264" prot="public">
+          <name>COMMIT</name>
+          <briefdescription>
+<para>Activate C_new (transition complete). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="137" column="5" bodyfile="include/replication/raft_v2.h" bodystart="137" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_membership_change_entry_1a32a765db400f300a685f047d4a56535c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_membership_change_entry_1ae1ca7441e3844754b06325038269b451" kindref="member">Phase</ref></type>
+        <definition>Phase themisdb::replication::MembershipChangeEntry::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>themisdb::replication::MembershipChangeEntry::phase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="142" column="11" bodyfile="include/replication/raft_v2.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_membership_change_entry_1adbc087090a04fd9615811cbc147be769" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::replication::MembershipChangeEntry::old_members</definition>
+        <argsstring></argsstring>
+        <name>old_members</name>
+        <qualifiedname>themisdb::replication::MembershipChangeEntry::old_members</qualifiedname>
+        <briefdescription>
+<para>C_old. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="143" column="14" bodyfile="include/replication/raft_v2.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_membership_change_entry_1aeb879b9860a35de77a9f285b7bc07582" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::replication::MembershipChangeEntry::new_members</definition>
+        <argsstring></argsstring>
+        <name>new_members</name>
+        <qualifiedname>themisdb::replication::MembershipChangeEntry::new_members</qualifiedname>
+        <briefdescription>
+<para>C_new. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="144" column="14" bodyfile="include/replication/raft_v2.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_membership_change_entry_1a78ac47754e14f1b4e0742648f6b2e7d8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MembershipChangeEntry::log_index</definition>
+        <argsstring></argsstring>
+        <name>log_index</name>
+        <qualifiedname>themisdb::replication::MembershipChangeEntry::log_index</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>WAL index of this entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="145" column="14" bodyfile="include/replication/raft_v2.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_membership_change_entry_1a0b12218487a4b83eb235830d5c85d663" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MembershipChangeEntry::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::replication::MembershipChangeEntry::term</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Raft term when written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="146" column="14" bodyfile="include/replication/raft_v2.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_membership_change_entry_1a32af4b47180c929295afa4e2d17eafe3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MembershipChangeEntry::isJointPhase</definition>
+        <argsstring>() const</argsstring>
+        <name>isJointPhase</name>
+        <qualifiedname>themisdb::replication::MembershipChangeEntry::isJointPhase</qualifiedname>
+        <briefdescription>
+<para>Returns true when this is a JOINT-phase entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="149" column="10" bodyfile="include/replication/raft_v2.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A log entry that carries a configuration change. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The entry is written to the leader&apos;s WAL and replicated before either the joint configuration or the final new configuration is activated. </para>
+    </detaileddescription>
+    <location file="include/replication/raft_v2.h" line="136" column="1" bodyfile="include/replication/raft_v2.h" bodystart="136" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_membership_change_entry_1a32af4b47180c929295afa4e2d17eafe3" prot="public" virt="non-virtual"><scope>themisdb::replication::MembershipChangeEntry</scope><name>isJointPhase</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_membership_change_entry_1a78ac47754e14f1b4e0742648f6b2e7d8" prot="public" virt="non-virtual"><scope>themisdb::replication::MembershipChangeEntry</scope><name>log_index</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_membership_change_entry_1aeb879b9860a35de77a9f285b7bc07582" prot="public" virt="non-virtual"><scope>themisdb::replication::MembershipChangeEntry</scope><name>new_members</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_membership_change_entry_1adbc087090a04fd9615811cbc147be769" prot="public" virt="non-virtual"><scope>themisdb::replication::MembershipChangeEntry</scope><name>old_members</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_membership_change_entry_1ae1ca7441e3844754b06325038269b451" prot="public" virt="non-virtual"><scope>themisdb::replication::MembershipChangeEntry</scope><name>Phase</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_membership_change_entry_1a32a765db400f300a685f047d4a56535c" prot="public" virt="non-virtual"><scope>themisdb::replication::MembershipChangeEntry</scope><name>phase</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_membership_change_entry_1a0b12218487a4b83eb235830d5c85d663" prot="public" virt="non-virtual"><scope>themisdb::replication::MembershipChangeEntry</scope><name>term</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1replication_1_1_kafka_stream_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::replication::KafkaStreamStats</compoundname>
+    <includes refid="kafka__change__stream_8h" local="no">kafka_change_stream.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_stream_stats_1a324c1d85843b723e0544fe2138ada808" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::replication::KafkaStreamStats::events_published</definition>
+        <argsstring></argsstring>
+        <name>events_published</name>
+        <qualifiedname>themis::replication::KafkaStreamStats::events_published</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="53" column="12" bodyfile="include/replication/kafka_change_stream.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_stream_stats_1a22e6feb07c0fd682330fa314b449c328" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::replication::KafkaStreamStats::events_failed</definition>
+        <argsstring></argsstring>
+        <name>events_failed</name>
+        <qualifiedname>themis::replication::KafkaStreamStats::events_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="54" column="12" bodyfile="include/replication/kafka_change_stream.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_stream_stats_1a7224a19baf0b73b2698e21d69a4b008c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::replication::KafkaStreamStats::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::replication::KafkaStreamStats::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="55" column="12" bodyfile="include/replication/kafka_change_stream.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_stream_stats_1aebce61b9bd636bc02ad043805432f0f0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::replication::KafkaStreamStats::avg_publish_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_publish_latency_ms</name>
+        <qualifiedname>themis::replication::KafkaStreamStats::avg_publish_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="56" column="12" bodyfile="include/replication/kafka_change_stream.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_stream_stats_1a3dd3a50683a3af8eb617cbd77dfa5e1e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::replication::KafkaStreamStats::is_connected</definition>
+        <argsstring></argsstring>
+        <name>is_connected</name>
+        <qualifiedname>themis::replication::KafkaStreamStats::is_connected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="57" column="10" bodyfile="include/replication/kafka_change_stream.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/kafka_change_stream.h" line="52" column="1" bodyfile="include/replication/kafka_change_stream.h" bodystart="52" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1replication_1_1_kafka_stream_stats_1aebce61b9bd636bc02ad043805432f0f0" prot="public" virt="non-virtual"><scope>themis::replication::KafkaStreamStats</scope><name>avg_publish_latency_ms</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_stream_stats_1a7224a19baf0b73b2698e21d69a4b008c" prot="public" virt="non-virtual"><scope>themis::replication::KafkaStreamStats</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_stream_stats_1a22e6feb07c0fd682330fa314b449c328" prot="public" virt="non-virtual"><scope>themis::replication::KafkaStreamStats</scope><name>events_failed</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_stream_stats_1a324c1d85843b723e0544fe2138ada808" prot="public" virt="non-virtual"><scope>themis::replication::KafkaStreamStats</scope><name>events_published</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_stream_stats_1a3dd3a50683a3af8eb617cbd77dfa5e1e" prot="public" virt="non-virtual"><scope>themis::replication::KafkaStreamStats</scope><name>is_connected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

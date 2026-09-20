@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_sequence_counter_test" kind="class" language="C++" prot="public">
+    <compoundname>SequenceCounterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_sequence_counter_test_1a85e211ad0cdf19ca2212733f29326310" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SequenceCounterTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>SequenceCounterTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" line="78" column="17" bodyfile="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sequence_counter_test_1afe8d1fb66d026a422b9c7fcab08b2a00" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; rocksdb::TransactionDB &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionDB&gt; SequenceCounterTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>SequenceCounterTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" line="79" column="21" bodyfile="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sequence_counter_test_1ad3356c8dc89acac43c38396588afad01" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; SequenceCounterTest::feed_</definition>
+        <argsstring></argsstring>
+        <name>feed_</name>
+        <qualifiedname>SequenceCounterTest::feed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" line="80" column="21" bodyfile="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_sequence_counter_test_1a987d28900e860dfc2043d0ee2f3db07c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SequenceCounterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SequenceCounterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" line="52" column="10" bodyfile="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sequence_counter_test_1a7df5f0da8119adb0e8c4f0897b8c4f1c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SequenceCounterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SequenceCounterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" line="63" column="10" bodyfile="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sequence_counter_test_1aacd2877883d3e50c931d0d586693ab6d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent SequenceCounterTest::makePut</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;val=&quot;{}&quot;)</argsstring>
+        <name>makePut</name>
+        <qualifiedname>SequenceCounterTest::makePut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+          <defval>&quot;{}&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" line="69" column="29" bodyfile="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" bodystart="69" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SequenceCounterTest</label>
+        <link refid="class_sequence_counter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SequenceCounterTest</label>
+        <link refid="class_sequence_counter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" line="50" column="1" bodyfile="tests/cdc/test_cdc_changefeed_sequence_counter.cpp" bodystart="50" bodyend="81"/>
+    <listofallmembers>
+      <member refid="class_sequence_counter_test_1afe8d1fb66d026a422b9c7fcab08b2a00" prot="protected" virt="non-virtual"><scope>SequenceCounterTest</scope><name>db_</name></member>
+      <member refid="class_sequence_counter_test_1a85e211ad0cdf19ca2212733f29326310" prot="protected" virt="non-virtual"><scope>SequenceCounterTest</scope><name>db_path_</name></member>
+      <member refid="class_sequence_counter_test_1ad3356c8dc89acac43c38396588afad01" prot="protected" virt="non-virtual"><scope>SequenceCounterTest</scope><name>feed_</name></member>
+      <member refid="class_sequence_counter_test_1aacd2877883d3e50c931d0d586693ab6d" prot="protected" virt="non-virtual"><scope>SequenceCounterTest</scope><name>makePut</name></member>
+      <member refid="class_sequence_counter_test_1a987d28900e860dfc2043d0ee2f3db07c" prot="protected" virt="non-virtual"><scope>SequenceCounterTest</scope><name>SetUp</name></member>
+      <member refid="class_sequence_counter_test_1a7df5f0da8119adb0e8c4f0897b8c4f1c" prot="protected" virt="non-virtual"><scope>SequenceCounterTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

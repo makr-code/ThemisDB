@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="deprecated" kind="page">
+    <compoundname>deprecated</compoundname>
+    <title>Deprecated List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1utils_1aaf6c9d9d389ac686adf493057848b10e" kindref="member">themis::utils::calculateMD5</ref>  (const std::string &amp;file_path)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000001"/>MD5 is cryptographically broken (collision attacks, CWE-327). Use <ref refid="namespacethemis_1_1utils_1a78603ca6413141c5b0d5a307ada2475b" kindref="member">calculateSHA256()</ref> for all new code. This function is retained only for backward-compatible verification of legacy checksums (read-only use). New code MUST NOT use MD5 for integrity or authentication purposes. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="deprecated"/>
+  </compounddef>
+</doxygen>

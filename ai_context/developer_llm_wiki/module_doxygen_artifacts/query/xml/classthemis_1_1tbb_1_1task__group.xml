@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tbb_1_1task__group" kind="class" language="C++" prot="public">
+    <compoundname>themis::tbb::task_group</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tbb_1_1task__group_1a72181d3a61a1b15d92b520697f2d3351" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tbb::task_group::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::tbb::task_group::cancelled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/parallel_executor.cpp" line="85" column="10" bodyfile="src/query/parallel_executor.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tbb_1_1task__group_1a86054244b3d100395958d11626254cde" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::function&lt; void()&gt; &gt;</type>
+        <definition>std::vector&lt;std::function&lt;void()&gt; &gt; themis::tbb::task_group::tasks_</definition>
+        <argsstring></argsstring>
+        <name>tasks_</name>
+        <qualifiedname>themis::tbb::task_group::tasks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/parallel_executor.cpp" line="86" column="17" bodyfile="src/query/parallel_executor.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tbb_1_1task__group_1a64a13fbfb91363991d132e3a7b1dc87c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename F</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::tbb::task_group::run</definition>
+        <argsstring>(F &amp;&amp;f)</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::tbb::task_group::run</qualifiedname>
+        <param>
+          <type>F &amp;&amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/parallel_executor.cpp" line="61" column="10" bodyfile="src/query/parallel_executor.cpp" bodystart="61" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tbb_1_1task__group_1a4c03ae3efa2196b49892973f45c3e0ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tbb::task_group::wait</definition>
+        <argsstring>()</argsstring>
+        <name>wait</name>
+        <qualifiedname>themis::tbb::task_group::wait</qualifiedname>
+        <briefdescription>
+<para>Wait. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: task(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/parallel_executor.cpp" line="71" column="10" bodyfile="src/query/parallel_executor.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tbb_1_1task__group_1ae72e60623373c5949ee41b68a7e17cbe" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tbb::task_group::cancel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::tbb::task_group::cancel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/parallel_executor.cpp" line="80" column="10" bodyfile="src/query/parallel_executor.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/parallel_executor.cpp" line="53" column="1" bodyfile="src/query/parallel_executor.cpp" bodystart="53" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tbb_1_1task__group_1ae72e60623373c5949ee41b68a7e17cbe" prot="public" virt="non-virtual"><scope>themis::tbb::task_group</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1tbb_1_1task__group_1a72181d3a61a1b15d92b520697f2d3351" prot="private" virt="non-virtual"><scope>themis::tbb::task_group</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1tbb_1_1task__group_1a64a13fbfb91363991d132e3a7b1dc87c" prot="public" virt="non-virtual"><scope>themis::tbb::task_group</scope><name>run</name></member>
+      <member refid="classthemis_1_1tbb_1_1task__group_1a86054244b3d100395958d11626254cde" prot="private" virt="non-virtual"><scope>themis::tbb::task_group</scope><name>tasks_</name></member>
+      <member refid="classthemis_1_1tbb_1_1task__group_1a4c03ae3efa2196b49892973f45c3e0ed" prot="public" virt="non-virtual"><scope>themis::tbb::task_group</scope><name>wait</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

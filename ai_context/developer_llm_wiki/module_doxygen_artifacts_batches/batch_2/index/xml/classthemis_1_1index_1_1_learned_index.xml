@@ -1,0 +1,540 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_learned_index" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::LearnedIndex</compoundname>
+    <includes refid="learned__index_8h" local="no">learned_index.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_learned_index_1_1_train_result" prot="public">themis::index::LearnedIndex::TrainResult</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_learned_index_1_1_stats" prot="public">themis::index::LearnedIndex::Stats</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename KeyT</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_learned_index_1a07aecb1045f1dd6112a4ec1c2d279f9b" prot="public" static="no">
+        <type>KeyT</type>
+        <definition>using themis::index::LearnedIndex&lt; KeyT &gt;::key_type = KeyT</definition>
+        <argsstring></argsstring>
+        <name>key_type</name>
+        <qualifiedname>themis::index::LearnedIndex::key_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="141" column="5" bodyfile="include/index/learned_index.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_learned_index_1aaf56f0524f48a65301c1ff4ad64f6bd8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_learned_index_config" kindref="compound">LearnedIndexConfig</ref></type>
+        <definition>LearnedIndexConfig themis::index::LearnedIndex&lt; KeyT &gt;::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::index::LearnedIndex::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="278" column="24" bodyfile="include/index/learned_index.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_learned_index_1a6c8af18ce28c458ace0fc8bdf59330dd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_linear_model" kindref="compound">LinearModel</ref></type>
+        <definition>LinearModel themis::index::LearnedIndex&lt; KeyT &gt;::root_</definition>
+        <argsstring></argsstring>
+        <name>root_</name>
+        <qualifiedname>themis::index::LearnedIndex::root_</qualifiedname>
+        <briefdescription>
+<para>Stage-1: root model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="280" column="30" bodyfile="include/index/learned_index.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_learned_index_1a1f44d2b8a5c01d3ef9311d4a5426b3da" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_linear_model" kindref="compound">LinearModel</ref> &gt;</type>
+        <definition>std::vector&lt;LinearModel&gt; themis::index::LearnedIndex&lt; KeyT &gt;::experts_</definition>
+        <argsstring></argsstring>
+        <name>experts_</name>
+        <qualifiedname>themis::index::LearnedIndex::experts_</qualifiedname>
+        <briefdescription>
+<para>Stage-2: per-segment experts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="281" column="17" bodyfile="include/index/learned_index.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_learned_index_1a6af0d132168d5b31591a75a1e7c1e4da" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::index::LearnedIndex&lt; KeyT &gt;::max_error_</definition>
+        <argsstring></argsstring>
+        <name>max_error_</name>
+        <qualifiedname>themis::index::LearnedIndex::max_error_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Measured worst-case error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="283" column="13" bodyfile="include/index/learned_index.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_learned_index_1a9a2dc2f045e6eaa99e6c0fe33601beaa" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::LearnedIndex&lt; KeyT &gt;::mean_error_</definition>
+        <argsstring></argsstring>
+        <name>mean_error_</name>
+        <qualifiedname>themis::index::LearnedIndex::mean_error_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="284" column="13" bodyfile="include/index/learned_index.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_learned_index_1aa63caddfe379a727b637f8af81896c29" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::LearnedIndex&lt; KeyT &gt;::num_keys_</definition>
+        <argsstring></argsstring>
+        <name>num_keys_</name>
+        <qualifiedname>themis::index::LearnedIndex::num_keys_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="285" column="13" bodyfile="include/index/learned_index.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_learned_index_1aa74df58a6560bb13b3ad95e81806d411" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::LearnedIndex&lt; KeyT &gt;::trained_</definition>
+        <argsstring></argsstring>
+        <name>trained_</name>
+        <qualifiedname>themis::index::LearnedIndex::trained_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="286" column="13" bodyfile="include/index/learned_index.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_learned_index_1a2674423d33c75649fb797f56fb4adcb3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::LearnedIndex&lt; KeyT &gt;::stale_</definition>
+        <argsstring></argsstring>
+        <name>stale_</name>
+        <qualifiedname>themis::index::LearnedIndex::stale_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="287" column="13" bodyfile="include/index/learned_index.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a778cca4ad1b383de2e062f1bbdbf429c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::LearnedIndex&lt; KeyT &gt;::LearnedIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>LearnedIndex</name>
+        <qualifiedname>themis::index::LearnedIndex::LearnedIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="147" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a5cceb3ea1be66fccb6a910b7da3ad896" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::LearnedIndex&lt; KeyT &gt;::LearnedIndex</definition>
+        <argsstring>(const LearnedIndexConfig &amp;config)</argsstring>
+        <name>LearnedIndex</name>
+        <qualifiedname>themis::index::LearnedIndex::LearnedIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_learned_index_config" kindref="compound">LearnedIndexConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="148" column="14" bodyfile="include/index/learned_index.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a5d1c9e770afa9a821128d06129e515cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_learned_index_1_1_train_result" kindref="compound">TrainResult</ref></type>
+        <definition>LearnedIndex&lt; KeyT &gt;::TrainResult themis::index::LearnedIndex&lt; KeyT &gt;::train</definition>
+        <argsstring>(const std::vector&lt; KeyT &gt; &amp;sorted_keys)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::index::LearnedIndex::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; KeyT &gt; &amp;</type>
+          <declname>sorted_keys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Train the index on a sorted key array. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sorted_keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must be sorted in ascending order (duplicates allowed). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1index_1_1_learned_index_1_1_train_result" kindref="compound">TrainResult</ref> with measured error statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="176" column="17" bodyfile="include/index/learned_index.h" bodystart="296" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1aee2b93c9b6489fa8be4d3d83021f4182" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::index::LearnedIndex&lt; KeyT &gt;::lookup</definition>
+        <argsstring>(const KeyT &amp;key) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::index::LearnedIndex::lookup</qualifiedname>
+        <param>
+          <type>const KeyT &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Predict the array position for <computeroutput>key</computeroutput> and correct via binary search. <simplesect kind="return"><para>The position in the training key array, or -1 if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="184" column="13" bodyfile="include/index/learned_index.h" bodystart="368" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a1509d78e6659b20bbd67de364155aea4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt; size_t &gt; themis::index::LearnedIndex&lt; KeyT &gt;::lookupKey</definition>
+        <argsstring>(const KeyT &amp;key, const std::vector&lt; KeyT &gt; &amp;keys) const</argsstring>
+        <name>lookupKey</name>
+        <qualifiedname>themis::index::LearnedIndex::lookupKey</qualifiedname>
+        <param>
+          <type>const KeyT &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; KeyT &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Like <ref refid="classthemis_1_1index_1_1_learned_index_1aee2b93c9b6489fa8be4d3d83021f4182" kindref="member">lookup()</ref> but also verifies the key in <computeroutput>keys</computeroutput>. <simplesect kind="return"><para>Position where keys[pos] == key, or std::nullopt if absent. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="188" column="19" bodyfile="include/index/learned_index.h" bodystart="388" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1ab40eeae0cd970ee959a04c0a3f0084b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; size_t, size_t &gt;</type>
+        <definition>std::pair&lt; size_t, size_t &gt; themis::index::LearnedIndex&lt; KeyT &gt;::rangePositions</definition>
+        <argsstring>(const KeyT &amp;lo, const KeyT &amp;hi, const std::vector&lt; KeyT &gt; &amp;keys) const</argsstring>
+        <name>rangePositions</name>
+        <qualifiedname>themis::index::LearnedIndex::rangePositions</qualifiedname>
+        <param>
+          <type>const KeyT &amp;</type>
+          <declname>lo</declname>
+        </param>
+        <param>
+          <type>const KeyT &amp;</type>
+          <declname>hi</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; KeyT &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the half-open interval [lo_pos, hi_pos) in the sorted key array that covers all keys in [lo, hi]. Callers scan that range in O(range). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="197" column="15" bodyfile="include/index/learned_index.h" bodystart="415" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1acf5c64aab263dda335eb2d9dd0b9de44" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::LearnedIndex&lt; KeyT &gt;::isTrained</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::index::LearnedIndex::isTrained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="205" column="11" bodyfile="include/index/learned_index.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1ade568fdc3b17b28637cf2e4348e1e68f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::LearnedIndex&lt; KeyT &gt;::isStale</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::index::LearnedIndex::isStale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="206" column="11" bodyfile="include/index/learned_index.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a19fbc956c1fee3e93c514a87b4529cbd" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::index::LearnedIndex&lt; KeyT &gt;::maxError</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>maxError</name>
+        <qualifiedname>themis::index::LearnedIndex::maxError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="207" column="13" bodyfile="include/index/learned_index.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a048533d6f534f8cca039112366401d3b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::LearnedIndex&lt; KeyT &gt;::numKeys</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>numKeys</name>
+        <qualifiedname>themis::index::LearnedIndex::numKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="208" column="13" bodyfile="include/index/learned_index.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1acfddedbb650a6f9a2f98b46e70cfd398" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::LearnedIndex&lt; KeyT &gt;::numExperts</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>numExperts</name>
+        <qualifiedname>themis::index::LearnedIndex::numExperts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="209" column="13" bodyfile="include/index/learned_index.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1aaf96ebbb5d79956b0cb749e36b055808" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::LearnedIndex&lt; KeyT &gt;::markStale</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>markStale</name>
+        <qualifiedname>themis::index::LearnedIndex::markStale</qualifiedname>
+        <briefdescription>
+<para>Mark the index as stale (e.g. after significant writes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="212" column="10" bodyfile="include/index/learned_index.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a295bbb4cbd4148b54f5499baf740148d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::index::LearnedIndex&lt; KeyT &gt;::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::index::LearnedIndex::serialize</qualifiedname>
+        <briefdescription>
+<para>Persist the model to a byte buffer. Does not include the key array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="219" column="17" bodyfile="include/index/learned_index.h" bodystart="504" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1afdddd0e0bb7b4824c5c9044561001319" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::LearnedIndex&lt; KeyT &gt;::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::index::LearnedIndex::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore model from a byte buffer previously produced by <ref refid="classthemis_1_1index_1_1_learned_index_1a295bbb4cbd4148b54f5499baf740148d" kindref="member">serialize()</ref>. Returns false on format mismatch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="223" column="10" bodyfile="include/index/learned_index.h" bodystart="545" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a93a4e57fedea0e9b2bf5a70816ab8170" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_learned_index_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>LearnedIndex&lt; KeyT &gt;::Stats themis::index::LearnedIndex&lt; KeyT &gt;::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::index::LearnedIndex::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="238" column="11" bodyfile="include/index/learned_index.h" bodystart="607" bodyend="609"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1ad31a10069f61e89e4c66a606e06d8e66" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_linear_model" kindref="compound">LinearModel</ref></type>
+        <definition>LinearModel themis::index::LearnedIndex&lt; KeyT &gt;::fitLinear</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;xs, const std::vector&lt; double &gt; &amp;ys)</argsstring>
+        <name>fitLinear</name>
+        <qualifiedname>themis::index::LearnedIndex::fitLinear</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>xs</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>ys</declname>
+        </param>
+        <briefdescription>
+<para>Fit a linear model (least-squares) mapping encoded_keys[i] → i/n (CDF). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="246" column="24" bodyfile="include/index/learned_index.h" bodystart="469" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1a37fda2a9f02656fd464ca7a9304aa121" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::index::LearnedIndex&lt; KeyT &gt;::clamp</definition>
+        <argsstring>(int64_t pos, size_t n) noexcept</argsstring>
+        <name>clamp</name>
+        <qualifiedname>themis::index::LearnedIndex::clamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Clamp <computeroutput>pos</computeroutput> into [0, n-1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="250" column="19" bodyfile="include/index/learned_index.h" bodystart="250" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_learned_index_1abde2891758ef144ee3682825e5d109be" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::LearnedIndex&lt; KeyT &gt;::selectExpert</definition>
+        <argsstring>(double pred1, size_t n) const noexcept</argsstring>
+        <name>selectExpert</name>
+        <qualifiedname>themis::index::LearnedIndex::selectExpert</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>pred1</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Select the stage-2 expert index given a stage-1 prediction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="261" column="12" bodyfile="include/index/learned_index.h" bodystart="261" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Two-stage Recursive Model Index (RMI) for sorted numeric key arrays.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">std::vector&lt;int64_t&gt;<sp/>keys<sp/>=<sp/>{1,<sp/>3,<sp/>7,<sp/>15,<sp/>42,<sp/>100,<sp/>...};</highlight></codeline>
+<codeline><highlight class="normal">std::sort(keys.begin(),<sp/>keys.end());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1index_1_1_learned_index_1a778cca4ad1b383de2e062f1bbdbf429c" kindref="member">LearnedIndex&lt;int64_t&gt;</ref><sp/>idx(config);</highlight></codeline>
+<codeline><highlight class="normal">idx.train(keys);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>idx.lookup(42);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>index<sp/>into<sp/>keys[]</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Or<sp/>with<sp/>a<sp/>payload<sp/>array:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>idx.lookupKey(42,<sp/>keys);<sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>optional&lt;size_t&gt;<sp/>position</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/index/learned_index.h" line="139" column="1" bodyfile="include/index/learned_index.h" bodystart="139" bodyend="288"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a37fda2a9f02656fd464ca7a9304aa121" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>clamp</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1aaf56f0524f48a65301c1ff4ad64f6bd8" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>config_</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1afdddd0e0bb7b4824c5c9044561001319" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a1f44d2b8a5c01d3ef9311d4a5426b3da" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>experts_</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1ad31a10069f61e89e4c66a606e06d8e66" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>fitLinear</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1ade568fdc3b17b28637cf2e4348e1e68f" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>isStale</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1acf5c64aab263dda335eb2d9dd0b9de44" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a07aecb1045f1dd6112a4ec1c2d279f9b" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>key_type</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a778cca4ad1b383de2e062f1bbdbf429c" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>LearnedIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a5cceb3ea1be66fccb6a910b7da3ad896" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>LearnedIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1aee2b93c9b6489fa8be4d3d83021f4182" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a1509d78e6659b20bbd67de364155aea4" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>lookupKey</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1aaf96ebbb5d79956b0cb749e36b055808" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>markStale</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a6af0d132168d5b31591a75a1e7c1e4da" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>max_error_</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a19fbc956c1fee3e93c514a87b4529cbd" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>maxError</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a9a2dc2f045e6eaa99e6c0fe33601beaa" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>mean_error_</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1aa63caddfe379a727b637f8af81896c29" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>num_keys_</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1acfddedbb650a6f9a2f98b46e70cfd398" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>numExperts</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a048533d6f534f8cca039112366401d3b" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>numKeys</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1ab40eeae0cd970ee959a04c0a3f0084b2" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>rangePositions</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a6c8af18ce28c458ace0fc8bdf59330dd" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>root_</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1abde2891758ef144ee3682825e5d109be" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>selectExpert</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a295bbb4cbd4148b54f5499baf740148d" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a2674423d33c75649fb797f56fb4adcb3" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>stale_</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a93a4e57fedea0e9b2bf5a70816ab8170" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>stats</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1a5d1c9e770afa9a821128d06129e515cf" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>train</name></member>
+      <member refid="classthemis_1_1index_1_1_learned_index_1aa74df58a6560bb13b3ad95e81806d411" prot="private" virt="non-virtual"><scope>themis::index::LearnedIndex</scope><name>trained_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

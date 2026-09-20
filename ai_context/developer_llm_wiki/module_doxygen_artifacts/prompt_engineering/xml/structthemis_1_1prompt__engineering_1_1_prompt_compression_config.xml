@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptCompressionConfig</compoundname>
+    <includes refid="prompt__compressor_8h" local="no">prompt_compressor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1ab345bb4b66d80eb3dfd8ef6dff3d883e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735ec" kindref="member">CompressionStrategy</ref></type>
+        <definition>CompressionStrategy themis::prompt_engineering::PromptCompressionConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::prompt_engineering::PromptCompressionConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca14cb1f7f49ae4ae5b3971ad7d48032da" kindref="member">CompressionStrategy::SELECTIVE_TRIM</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="39" column="25" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1aecf3538038fa2ed1ec2fbee073bc03a2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::prompt_engineering::PromptCompressionConfig::target_token_budget</definition>
+        <argsstring></argsstring>
+        <name>target_token_budget</name>
+        <qualifiedname>themis::prompt_engineering::PromptCompressionConfig::target_token_budget</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+<para>Target tokens after compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="40" column="25" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1a7f6cf39e76b667e7e62d508bea149e8d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::prompt_engineering::PromptCompressionConfig::max_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>max_compression_ratio</name>
+        <qualifiedname>themis::prompt_engineering::PromptCompressionConfig::max_compression_ratio</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Max fraction of tokens to drop; 1.0 disables the limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="41" column="25" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1aeaa0753f7e132f685148a67a0729e6cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptCompressionConfig::preserve_system_prompt</definition>
+        <argsstring></argsstring>
+        <name>preserve_system_prompt</name>
+        <qualifiedname>themis::prompt_engineering::PromptCompressionConfig::preserve_system_prompt</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Keep leading system-prompt block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="42" column="25" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1a27b0c9b24b99d49284a551d5a02dbbfd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::prompt_engineering::PromptCompressionConfig::preserve_last_n_turns</definition>
+        <argsstring></argsstring>
+        <name>preserve_last_n_turns</name>
+        <qualifiedname>themis::prompt_engineering::PromptCompressionConfig::preserve_last_n_turns</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Keep last N conversational turns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="43" column="25" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1ac361e21de3d142275ed8f879b444bac2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptCompressionConfig::summary_model_id</definition>
+        <argsstring></argsstring>
+        <name>summary_model_id</name>
+        <qualifiedname>themis::prompt_engineering::PromptCompressionConfig::summary_model_id</qualifiedname>
+        <briefdescription>
+<para>Model ID hint for SUMMARY strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="44" column="25" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single compression pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_compressor.h" line="38" column="1" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="38" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1a7f6cf39e76b667e7e62d508bea149e8d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptCompressionConfig</scope><name>max_compression_ratio</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1a27b0c9b24b99d49284a551d5a02dbbfd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptCompressionConfig</scope><name>preserve_last_n_turns</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1aeaa0753f7e132f685148a67a0729e6cc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptCompressionConfig</scope><name>preserve_system_prompt</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1ab345bb4b66d80eb3dfd8ef6dff3d883e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptCompressionConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1ac361e21de3d142275ed8f879b444bac2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptCompressionConfig</scope><name>summary_model_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1aecf3538038fa2ed1ec2fbee073bc03a2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptCompressionConfig</scope><name>target_token_budget</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

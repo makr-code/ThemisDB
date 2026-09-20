@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_c_d_c_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::CDCMetrics</compoundname>
+    <includes refid="cdc__metrics_8h" local="no">cdc_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0024ae2e90fb633f2a1e74acc44c9b86" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref></type>
+        <definition>LatencyHistogram themis::cdc::CDCMetrics::record_event_latency</definition>
+        <argsstring></argsstring>
+        <name>record_event_latency</name>
+        <qualifiedname>themis::cdc::CDCMetrics::record_event_latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="245" column="22" bodyfile="include/cdc/cdc_metrics.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad0f966305b2e3d2e61ff7fffce54efa9" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref></type>
+        <definition>LatencyHistogram themis::cdc::CDCMetrics::flush_latency</definition>
+        <argsstring></argsstring>
+        <name>flush_latency</name>
+        <qualifiedname>themis::cdc::CDCMetrics::flush_latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="246" column="22" bodyfile="include/cdc/cdc_metrics.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7b6475c5c0c64a875a17407e6f296a9" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref></type>
+        <definition>LatencyHistogram themis::cdc::CDCMetrics::compression_latency</definition>
+        <argsstring></argsstring>
+        <name>compression_latency</name>
+        <qualifiedname>themis::cdc::CDCMetrics::compression_latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="247" column="22" bodyfile="include/cdc/cdc_metrics.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a54a97c3156ea420931dc34198b80ddab" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref></type>
+        <definition>LatencyHistogram themis::cdc::CDCMetrics::decompression_latency</definition>
+        <argsstring></argsstring>
+        <name>decompression_latency</name>
+        <qualifiedname>themis::cdc::CDCMetrics::decompression_latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="248" column="22" bodyfile="include/cdc/cdc_metrics.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1ae28dc3fe060fd3e4b54d85127b5cf723" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_throughput_tracker" kindref="compound">ThroughputTracker</ref></type>
+        <definition>ThroughputTracker themis::cdc::CDCMetrics::throughput</definition>
+        <argsstring></argsstring>
+        <name>throughput</name>
+        <qualifiedname>themis::cdc::CDCMetrics::throughput</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="251" column="23" bodyfile="include/cdc/cdc_metrics.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::events_recorded</definition>
+        <argsstring></argsstring>
+        <name>events_recorded</name>
+        <qualifiedname>themis::cdc::CDCMetrics::events_recorded</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="254" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1abbc195c4293836c32b0fb597cca9ff1b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::events_flushed</definition>
+        <argsstring></argsstring>
+        <name>events_flushed</name>
+        <qualifiedname>themis::cdc::CDCMetrics::events_flushed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="255" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1acf462b4a9fcedf1091dc5ded7ed7577b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::flush_count</definition>
+        <argsstring></argsstring>
+        <name>flush_count</name>
+        <qualifiedname>themis::cdc::CDCMetrics::flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="256" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a21fd34ffe4c24fdbf31a4c1aba73baa5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::compression_count</definition>
+        <argsstring></argsstring>
+        <name>compression_count</name>
+        <qualifiedname>themis::cdc::CDCMetrics::compression_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="257" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac59bc753d6541ae031fb8dbe67066785" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::decompression_count</definition>
+        <argsstring></argsstring>
+        <name>decompression_count</name>
+        <qualifiedname>themis::cdc::CDCMetrics::decompression_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="258" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1f21dd420f37b2bbcf0d58db64b00965" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::cdc::CDCMetrics::errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="259" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a80baf72b53c1e87d54187b06b7357931" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::retries</definition>
+        <argsstring></argsstring>
+        <name>retries</name>
+        <qualifiedname>themis::cdc::CDCMetrics::retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="260" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0b1a6cff0f25e07692f07d74f608ba46" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::ws_events_delivered</definition>
+        <argsstring></argsstring>
+        <name>ws_events_delivered</name>
+        <qualifiedname>themis::cdc::CDCMetrics::ws_events_delivered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>cdc_ws_events_delivered_total </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="263" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7f73d371c5fc40bcf0ad6f2ec9b72d9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::ws_overflow_total</definition>
+        <argsstring></argsstring>
+        <name>ws_overflow_total</name>
+        <qualifiedname>themis::cdc::CDCMetrics::ws_overflow_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>cdc_ws_overflow_total </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="264" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::kafka_delivered_total</definition>
+        <argsstring></argsstring>
+        <name>kafka_delivered_total</name>
+        <qualifiedname>themis::cdc::CDCMetrics::kafka_delivered_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>cdc_kafka_delivered_total </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="267" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::CDCMetrics::kafka_error_total</definition>
+        <argsstring></argsstring>
+        <name>kafka_error_total</name>
+        <qualifiedname>themis::cdc::CDCMetrics::kafka_error_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>cdc_kafka_error_total </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="268" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1add98021533f8dfb4c14f5e2d4e9ff5bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::CDCMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::CDCMetrics::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="270" column="20" bodyfile="include/cdc/cdc_metrics.h" bodystart="270" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0f01057dd8b84b03626a95b1a5d10b1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CDCMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::cdc::CDCMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="299" column="10" bodyfile="include/cdc/cdc_metrics.h" bodystart="299" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cdc::CDCMetrics</label>
+        <link refid="structthemis_1_1cdc_1_1_c_d_c_metrics"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>compression_latency</edgelabel>
+          <edgelabel>decompression_latency</edgelabel>
+          <edgelabel>flush_latency</edgelabel>
+          <edgelabel>record_event_latency</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>throughput</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::LatencyHistogram</label>
+        <link refid="classthemis_1_1cdc_1_1_latency_histogram"/>
+      </node>
+      <node id="3">
+        <label>themis::cdc::ThroughputTracker</label>
+        <link refid="classthemis_1_1cdc_1_1_throughput_tracker"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/cdc_metrics.h" line="243" column="1" bodyfile="include/cdc/cdc_metrics.h" bodystart="243" bodyend="318"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a21fd34ffe4c24fdbf31a4c1aba73baa5" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>compression_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7b6475c5c0c64a875a17407e6f296a9" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>compression_latency</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac59bc753d6541ae031fb8dbe67066785" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>decompression_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a54a97c3156ea420931dc34198b80ddab" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>decompression_latency</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1f21dd420f37b2bbcf0d58db64b00965" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>errors</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1abbc195c4293836c32b0fb597cca9ff1b" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>events_flushed</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>events_recorded</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1acf462b4a9fcedf1091dc5ded7ed7577b" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>flush_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad0f966305b2e3d2e61ff7fffce54efa9" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>flush_latency</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>kafka_delivered_total</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>kafka_error_total</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0024ae2e90fb633f2a1e74acc44c9b86" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>record_event_latency</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0f01057dd8b84b03626a95b1a5d10b1e" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>reset</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a80baf72b53c1e87d54187b06b7357931" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>retries</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ae28dc3fe060fd3e4b54d85127b5cf723" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>throughput</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1add98021533f8dfb4c14f5e2d4e9ff5bf" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0b1a6cff0f25e07692f07d74f608ba46" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>ws_events_delivered</name></member>
+      <member refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7f73d371c5fc40bcf0ad6f2ec9b72d9" prot="public" virt="non-virtual"><scope>themis::cdc::CDCMetrics</scope><name>ws_overflow_total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_rate_limit_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::RateLimitConfig</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_config_1a516c5f46f2ce7d33a28ecbc8339b8ce7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::RateLimitConfig::requests_per_second</definition>
+        <argsstring></argsstring>
+        <name>requests_per_second</name>
+        <qualifiedname>themis::ingestion::RateLimitConfig::requests_per_second</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0 = unlimited; token-bucket refill rate </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="185" column="13" bodyfile="include/ingestion/ingestion_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_config_1ab862cb2791fd2f23803a21887f5af1ca" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::RateLimitConfig::max_bytes_per_hour</definition>
+        <argsstring></argsstring>
+        <name>max_bytes_per_hour</name>
+        <qualifiedname>themis::ingestion::RateLimitConfig::max_bytes_per_hour</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = unlimited </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="186" column="13" bodyfile="include/ingestion/ingestion_manager.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_config_1a47f6efcb0071db21b20ac721393c7dd5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::RateLimitConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::ingestion::RateLimitConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must be true to activate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="187" column="13" bodyfile="include/ingestion/ingestion_manager.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_rate_limit_config_1a40f160571d9e3d8a1cea05481321c93d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::RateLimitConfig::RateLimitConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>RateLimitConfig</name>
+        <qualifiedname>themis::ingestion::RateLimitConfig::RateLimitConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="189" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-source rate-limit configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls the maximum throughput for a single source connector. The token-bucket algorithm is used: tokens refill at <computeroutput><ref refid="structthemis_1_1ingestion_1_1_rate_limit_config_1a516c5f46f2ce7d33a28ecbc8339b8ce7" kindref="member">requests_per_second</ref></computeroutput> and each request consumes one token. When the bucket is empty the connector waits until a token is available (blocking back-pressure). </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="184" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="184" bodyend="190"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_config_1a47f6efcb0071db21b20ac721393c7dd5" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_config_1ab862cb2791fd2f23803a21887f5af1ca" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitConfig</scope><name>max_bytes_per_hour</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_config_1a40f160571d9e3d8a1cea05481321c93d" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitConfig</scope><name>RateLimitConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_config_1a516c5f46f2ce7d33a28ecbc8339b8ce7" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitConfig</scope><name>requests_per_second</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

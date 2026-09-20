@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1backpressure_1_1_deferred_operation_comparator" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::DeferredOperationComparator</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_deferred_operation_comparator_1ab8add31d8c1212f6b232e04098bb97c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredOperationComparator::operator()</definition>
+        <argsstring>(const DeferredOperation &amp;a, const DeferredOperation &amp;b) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperationComparator::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="300" column="10" bodyfile="include/sharding/backpressure_protocol.h" bodystart="300" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Comparator for priority queue </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="299" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="299" bodyend="304"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_comparator_1ab8add31d8c1212f6b232e04098bb97c8" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperationComparator</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryCache::Stats</compoundname>
+    <includes refid="graph__query__cache_8h" local="no">graph_query_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a3302c72be51c0a0f5562a0c5318dc3bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Stats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Stats::hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="48" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a9bea61924e479ce0d39315d92e551084" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Stats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Stats::misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="49" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a52756b6a9422701b75624c7b6d6c8cc1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Stats::l1_hits</definition>
+        <argsstring></argsstring>
+        <name>l1_hits</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Stats::l1_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="50" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1aa08f56c7e6156607ea7bde96a06755ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Stats::l2_promotions</definition>
+        <argsstring></argsstring>
+        <name>l2_promotions</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Stats::l2_promotions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="51" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a9b3701f44956be206da486d51b98627d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Stats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Stats::evictions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="52" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a10585617d21ea744c2cb383ac9e225ef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Stats::l1_size</definition>
+        <argsstring></argsstring>
+        <name>l1_size</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Stats::l1_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="53" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1abc5a7545ea6b9c1b3df1da07e9a7784c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Stats::l2_size</definition>
+        <argsstring></argsstring>
+        <name>l2_size</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Stats::l2_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="54" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1aeace7a70ddedbf971aab3c74d96be7c7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryCache::Stats::hitRatio</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hitRatio</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Stats::hitRatio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="56" column="17" bodyfile="include/graph/graph_query_cache.h" bodystart="56" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_cache.h" line="47" column="5" bodyfile="include/graph/graph_query_cache.h" bodystart="47" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a9b3701f44956be206da486d51b98627d" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Stats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1aeace7a70ddedbf971aab3c74d96be7c7" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Stats</scope><name>hitRatio</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a3302c72be51c0a0f5562a0c5318dc3bf" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Stats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a52756b6a9422701b75624c7b6d6c8cc1" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Stats</scope><name>l1_hits</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a10585617d21ea744c2cb383ac9e225ef" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Stats</scope><name>l1_size</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1aa08f56c7e6156607ea7bde96a06755ac" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Stats</scope><name>l2_promotions</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1abc5a7545ea6b9c1b3df1da07e9a7784c" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Stats</scope><name>l2_size</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_stats_1a9bea61924e479ce0d39315d92e551084" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Stats</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

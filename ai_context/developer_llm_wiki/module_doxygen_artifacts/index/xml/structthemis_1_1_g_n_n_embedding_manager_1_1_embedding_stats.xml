@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GNNEmbeddingManager::EmbeddingStats</compoundname>
+    <includes refid="gnn__embeddings_8h" local="no">gnn_embeddings.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats_1ad6309920ba228b00f6bf01ea87d26877" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GNNEmbeddingManager::EmbeddingStats::total_node_embeddings</definition>
+        <argsstring></argsstring>
+        <name>total_node_embeddings</name>
+        <qualifiedname>themis::GNNEmbeddingManager::EmbeddingStats::total_node_embeddings</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="205" column="16" bodyfile="include/index/gnn_embeddings.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats_1a7915ee45e5033cfd67d30d9f0913fe63" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GNNEmbeddingManager::EmbeddingStats::total_edge_embeddings</definition>
+        <argsstring></argsstring>
+        <name>total_edge_embeddings</name>
+        <qualifiedname>themis::GNNEmbeddingManager::EmbeddingStats::total_edge_embeddings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="206" column="16" bodyfile="include/index/gnn_embeddings.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats_1a9babc07764cb230d0678012d11885402" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::GNNEmbeddingManager::EmbeddingStats::embeddings_per_model</definition>
+        <argsstring></argsstring>
+        <name>embeddings_per_model</name>
+        <qualifiedname>themis::GNNEmbeddingManager::EmbeddingStats::embeddings_per_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="207" column="28" bodyfile="include/index/gnn_embeddings.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats_1af84d2799bcbfd2cf15a7990d217dfbb1" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::GNNEmbeddingManager::EmbeddingStats::embeddings_per_graph</definition>
+        <argsstring></argsstring>
+        <name>embeddings_per_graph</name>
+        <qualifiedname>themis::GNNEmbeddingManager::EmbeddingStats::embeddings_per_graph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="208" column="28" bodyfile="include/index/gnn_embeddings.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gnn_embeddings.h" line="204" column="5" bodyfile="include/index/gnn_embeddings.h" bodystart="204" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats_1af84d2799bcbfd2cf15a7990d217dfbb1" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager::EmbeddingStats</scope><name>embeddings_per_graph</name></member>
+      <member refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats_1a9babc07764cb230d0678012d11885402" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager::EmbeddingStats</scope><name>embeddings_per_model</name></member>
+      <member refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats_1a7915ee45e5033cfd67d30d9f0913fe63" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager::EmbeddingStats</scope><name>total_edge_embeddings</name></member>
+      <member refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats_1ad6309920ba228b00f6bf01ea87d26877" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager::EmbeddingStats</scope><name>total_node_embeddings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

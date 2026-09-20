@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1user__storage_1_1_level_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::LevelConfig</compoundname>
+    <includes refid="multi__level__storage_8hpp" local="no">multi_level_storage.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a5cc8f8d6b5c22de79ce3b8b4b55bd9b5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::plugins::user_storage::LevelConfig::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="33" column="19" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a6dacd13bf610c63ee39311896c49bbb6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="34" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a263124abe35c2ae571d3b308927b7785" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::LevelConfig::encrypted</definition>
+        <argsstring></argsstring>
+        <name>encrypted</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::encrypted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="35" column="10" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ae28c3640c6c3c75d8e2520860e9ae65e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::base_path</definition>
+        <argsstring></argsstring>
+        <name>base_path</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::base_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="36" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a2b15027e65fb49feeac6c8e2e6170c77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::encrypted_dir</definition>
+        <argsstring></argsstring>
+        <name>encrypted_dir</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::encrypted_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="37" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1aea12d3e1e865ec0f40ad6609aa872a68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::mount_point</definition>
+        <argsstring></argsstring>
+        <name>mount_point</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::mount_point</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="38" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a52bbb8ead10580c19474463b0f3b8bbf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="39" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a175a7d416f9238c314b7b793b5e90bb7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="40" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a7094a19e75dc988c89f32785bc1d3314" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::key_provider</definition>
+        <argsstring></argsstring>
+        <name>key_provider</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::key_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="41" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a79b2e91f2b8a6c71117a7ef2492c5677" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::vault_addr</definition>
+        <argsstring></argsstring>
+        <name>vault_addr</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::vault_addr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="44" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a40ef214f7f1ec53558f2c040b794d826" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::vault_mount</definition>
+        <argsstring></argsstring>
+        <name>vault_mount</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::vault_mount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="45" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1accf84386bc0b097951ffd47342604302" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::hsm_library</definition>
+        <argsstring></argsstring>
+        <name>hsm_library</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::hsm_library</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="46" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a50058d0d75c844333c772bd443d8ee89" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::LevelConfig::hsm_slot</definition>
+        <argsstring></argsstring>
+        <name>hsm_slot</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::hsm_slot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="47" column="14" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a3f6d2cf2e022ef0feda06b80a67fdbcd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::hsm_key_label</definition>
+        <argsstring></argsstring>
+        <name>hsm_key_label</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::hsm_key_label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="48" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a1467b2e7db38b4f47a7ac5f5521bd469" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::LevelConfig::rotation_enabled</definition>
+        <argsstring></argsstring>
+        <name>rotation_enabled</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::rotation_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="51" column="10" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a978ffff626a98731d16d283517b9ab5f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::LevelConfig::rotation_interval_days</definition>
+        <argsstring></argsstring>
+        <name>rotation_interval_days</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::rotation_interval_days</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="52" column="9" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a5a56ff920941fd90165f259420369944" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::LevelConfig::auto_rotate</definition>
+        <argsstring></argsstring>
+        <name>auto_rotate</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::auto_rotate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="53" column="10" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ac73a499ab2ea299a46ea56e1a606b111" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::LevelConfig::notification_email</definition>
+        <argsstring></argsstring>
+        <name>notification_email</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::notification_email</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="54" column="17" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ae38b47aa4ece96dda240551d71884aac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::LevelConfig::LevelConfig</definition>
+        <argsstring>()</argsstring>
+        <name>LevelConfig</name>
+        <qualifiedname>themis::plugins::user_storage::LevelConfig::LevelConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="56" column="5" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="56" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single security level container. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="32" column="1" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="32" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a5a56ff920941fd90165f259420369944" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>auto_rotate</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a52bbb8ead10580c19474463b0f3b8bbf" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>backend</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ae28c3640c6c3c75d8e2520860e9ae65e" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>base_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a263124abe35c2ae571d3b308927b7785" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>encrypted</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a2b15027e65fb49feeac6c8e2e6170c77" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>encrypted_dir</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a3f6d2cf2e022ef0feda06b80a67fdbcd" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>hsm_key_label</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1accf84386bc0b097951ffd47342604302" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>hsm_library</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a50058d0d75c844333c772bd443d8ee89" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>hsm_slot</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a175a7d416f9238c314b7b793b5e90bb7" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a7094a19e75dc988c89f32785bc1d3314" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>key_provider</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a5cc8f8d6b5c22de79ce3b8b4b55bd9b5" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>level</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ae38b47aa4ece96dda240551d71884aac" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>LevelConfig</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1aea12d3e1e865ec0f40ad6609aa872a68" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>mount_point</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a6dacd13bf610c63ee39311896c49bbb6" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>name</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ac73a499ab2ea299a46ea56e1a606b111" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>notification_email</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a1467b2e7db38b4f47a7ac5f5521bd469" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>rotation_enabled</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a978ffff626a98731d16d283517b9ab5f" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>rotation_interval_days</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a79b2e91f2b8a6c71117a7ef2492c5677" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>vault_addr</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a40ef214f7f1ec53558f2c040b794d826" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::LevelConfig</scope><name>vault_mount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

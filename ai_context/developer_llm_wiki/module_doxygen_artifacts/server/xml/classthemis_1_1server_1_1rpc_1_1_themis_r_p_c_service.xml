@@ -1,0 +1,3228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::rpc::ThemisRPCService</compoundname>
+    <includes refid="rpc__service__impl_8h" local="no">rpc_service_impl.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1afb8d394b6c04dd7f593c24b38214f9b2" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::server::rpc::ThemisRPCService::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="425" column="20" bodyfile="include/server/rpc_service_impl.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac594c328000a1d3ae3fe3dcccc646d67" prot="private" static="no" mutable="no">
+        <type>themis::index::SpatialIndexManager *</type>
+        <definition>themis::index::SpatialIndexManager* themis::server::rpc::ThemisRPCService::spatial_index_</definition>
+        <argsstring></argsstring>
+        <name>spatial_index_</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::spatial_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="426" column="40" bodyfile="include/server/rpc_service_impl.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aaba0e473114583fe24ab81a3daca5aa4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuthMiddleware&gt; themis::server::rpc::ThemisRPCService::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="427" column="21" bodyfile="include/server/rpc_service_impl.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a7ba06a30b2afdb27767c3360bacb86f8" prot="private" static="no" mutable="no">
+        <type>const std::chrono::steady_clock::time_point *</type>
+        <definition>const std::chrono::steady_clock::time_point* themis::server::rpc::ThemisRPCService::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="428" column="49" bodyfile="include/server/rpc_service_impl.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac08f3fc6dfbb65be6bf1a00540de7944" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::rpc::ThemisRPCService::ThemisRPCService</definition>
+        <argsstring>(RocksDBWrapper *storage, themis::index::SpatialIndexManager *spatial_index=nullptr, std::shared_ptr&lt; AuthMiddleware &gt; auth=nullptr, const std::chrono::steady_clock::time_point *start_time=nullptr)</argsstring>
+        <name>ThemisRPCService</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::ThemisRPCService</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>themis::index::SpatialIndexManager *</type>
+          <declname>spatial_index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::chrono::steady_clock::time_point *</type>
+          <declname>start_time</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="42" column="14" bodyfile="include/server/rpc_service_impl.h" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a0042a7399b23010bf5db58d2afbc2b5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGet</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleGet</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGet</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1ddd3dcef3e69641646f86ed8704cd78" kindref="member">handleGetInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="54" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="347" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1ddd3dcef3e69641646f86ed8704cd78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGetInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleGetInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGetInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), model(), value(), collection(), uuid(), empty(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="61" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="358" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ae8e18d16e9f0369159894f8d85a3a6b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handlePut</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handlePut</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handlePut</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a204f843f82d6a0a23a03a1f3408849fa" kindref="member">handlePutInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="71" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="437" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a204f843f82d6a0a23a03a1f3408849fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handlePutInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handlePutInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handlePutInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Put Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), model(), value(), collection(), uuid(), empty(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="78" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="448" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ad3869576c4a9181ee2a30cb41d0d616e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleInsert</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleInsert</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleInsert</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac71fed33ef7068886c3d323064a70402" kindref="member">handleInsertInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="88" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="550" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac71fed33ef7068886c3d323064a70402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleInsertInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleInsertInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleInsertInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Insert Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), model(), value(), collection(), uuid(), empty(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="95" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="561" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aa2a4353d6b2653228cdbf65d276d604b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleDelete</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleDelete</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleDelete</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1d2b3287827364d6537df307b5c5d164" kindref="member">handleDeleteInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="105" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="688" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1d2b3287827364d6537df307b5c5d164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleDeleteInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleDeleteInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleDeleteInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: model(), value(), collection(), uuid(), empty(), createError(), get(), createSuccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="112" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="699" bodyend="904"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a56320b2ef6840abea9578548e9aef5df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleBatchGet</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleBatchGet</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleBatchGet</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aa8096c987fb7a2cd0d57f3657104ca64" kindref="member">handleBatchGetInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="122" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="912" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aa8096c987fb7a2cd0d57f3657104ca64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleBatchGetInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleBatchGetInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleBatchGetInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Get Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_array(), createError(), shouldCheckDeadline(), isDeadlineExceeded(), push_back(), multiGet(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="129" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="923" bodyend="1017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af3ccb8bb248217f485f3ba213ec1850b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleBatchPut</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleBatchPut</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleBatchPut</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a89b4d8985b4d4401808c52f5928ceebc" kindref="member">handleBatchPutInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="139" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1025" bodyend="1027"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a89b4d8985b4d4401808c52f5928ceebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleBatchPutInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleBatchPutInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleBatchPutInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Put Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_array(), createError(), createWriteBatch(), getCurrentTimestampNs(), shouldCheckDeadline(), isDeadlineExceeded(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="146" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1036" bodyend="1128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a685c44004fecae2b33ea2e1c18d9821d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleBatchDelete</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleBatchDelete</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleBatchDelete</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af2deb2cb088e5c8355b3f134dfc6ad40" kindref="member">handleBatchDeleteInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="156" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1136" bodyend="1138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af2deb2cb088e5c8355b3f134dfc6ad40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleBatchDeleteInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleBatchDeleteInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleBatchDeleteInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Delete Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_array(), createError(), createWriteBatch(), shouldCheckDeadline(), isDeadlineExceeded(), del(), commit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="163" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1147" bodyend="1216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a6125984e1c64b98597ced051fc5762f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleQuery</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleQuery</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handleQueryInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="173" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1224" bodyend="1226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a934e37b19f7885937f2f49ae5c92fd21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleVectorSearch</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleVectorSearch</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleVectorSearch</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Vector Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1add16867af575149f2d272d3499f768f5" kindref="member">handleVectorSearchInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="180" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1401" bodyend="1403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1add16867af575149f2d272d3499f768f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleVectorSearchInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleVectorSearchInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleVectorSearchInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Vector Search Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), collection(), value(), empty(), contains(), is_array(), metric(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="187" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1412" bodyend="1471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a903fe8a58cbb010825fec328a087c23c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGraphTraverse</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleGraphTraverse</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGraphTraverse</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Graph Traverse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a6da9e424f63f3aa0d7edea973cbe5d75" kindref="member">handleGraphTraverseInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="197" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1479" bodyend="1481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a6da9e424f63f3aa0d7edea973cbe5d75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGraphTraverseInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleGraphTraverseInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGraphTraverseInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Graph Traverse Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), start_vertex(), value(), direction(), empty(), json::array(), createSuccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="204" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1490" bodyend="1540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1afc2423630f3e508eda9604fe8e8f603d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGeoQuery</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleGeoQuery</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGeoQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Geo Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ae86dbc1e6284f0207cb88d681db70498" kindref="member">handleGeoQueryInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="214" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1548" bodyend="1550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ae86dbc1e6284f0207cb88d681db70498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGeoQueryInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleGeoQueryInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGeoQueryInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Geo Query Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: collection(), value(), empty(), createError(), hasSpatialIndex(), query_type(), json::array(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="221" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1559" bodyend="1782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a4d438e0eaa0c7ed86f21b99f7ec435d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleTimeSeriesQuery</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleTimeSeriesQuery</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleTimeSeriesQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Time Series Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handleTimeSeriesQueryInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="231" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1790" bodyend="1792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac713b68aa6e9b99dfffcf48d0bf76b4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleTransactionBegin</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleTransactionBegin</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleTransactionBegin</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Transaction Begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a10b3743b50a4a7a7b9fc777655418a92" kindref="member">handleTransactionBeginInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="238" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1956" bodyend="1958"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a10b3743b50a4a7a7b9fc777655418a92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleTransactionBeginInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleTransactionBeginInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleTransactionBeginInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Transaction Begin Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), is_object(), value(), lock(), std::to_string(), beginTransaction(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="245" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1967" bodyend="2022"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aef3d206bba39d008a43bf9af39cf162c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleTransactionCommit</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleTransactionCommit</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleTransactionCommit</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Transaction Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1b9585c6837c58692011d56b744d7fb8" kindref="member">handleTransactionCommitInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="255" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2030" bodyend="2032"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1b9585c6837c58692011d56b744d7fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleTransactionCommitInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleTransactionCommitInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleTransactionCommitInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Transaction Commit Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), is_object(), value(), empty(), lock(), extract(), mapped(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="262" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2041" bodyend="2106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ab08817a640539b3db78082ce7735e71c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleTransactionAbort</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleTransactionAbort</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleTransactionAbort</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Transaction Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af8713cd5da02f6e616b704519f6b4108" kindref="member">handleTransactionAbortInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="272" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2114" bodyend="2116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af8713cd5da02f6e616b704519f6b4108" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleTransactionAbortInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleTransactionAbortInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleTransactionAbortInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Transaction Abort Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), is_object(), value(), empty(), lock(), extract(), mapped(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="279" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2125" bodyend="2183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac6b153e16b045fcdd8a208a7fce0e204" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleHealthCheck</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleHealthCheck</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleHealthCheck</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Health Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), count(), createSuccess(), createError(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="289" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2191" bodyend="2215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a9efa1e587ee6a0b2341a28f0e8b077ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleAuthenticate</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleAuthenticate</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleAuthenticate</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Authenticate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), value(), empty(), createError(), isEnabled(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="296" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2223" bodyend="2263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a23c46aae232b045e50b0893d5c010ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleSearch</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleSearch</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleSearch</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handleSearchInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="303" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2271" bodyend="2273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1884e764b4ae214f37909fa07eb268ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleStats</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleStats</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleStats</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a8f140e106fbe8e5fa959fc6e53028156" kindref="member">handleStatsInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="310" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2410" bodyend="2412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a8f140e106fbe8e5fa959fc6e53028156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleStatsInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleStatsInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleStatsInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), getConfig(), isOpen(), getStats(), empty(), what(), getCurrentTimestampNs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="317" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2421" bodyend="2470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ab72a02d46c8ebd507feb966fcfcc365e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleUpdateEntity</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleUpdateEntity</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleUpdateEntity</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a5fc750bfe143fa99dd4c04009888112a" kindref="member">handleUpdateEntityInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="327" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2478" bodyend="2480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a5fc750bfe143fa99dd4c04009888112a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleUpdateEntityInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleUpdateEntityInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleUpdateEntityInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Entity Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: model(), value(), collection(), uuid(), empty(), createError(), contains(), isDeadlineExceeded(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="334" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2489" bodyend="2603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a5f966b5ac931e0edf0c4d02c8621dde3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleBatchUpdate</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleBatchUpdate</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleBatchUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handleBatchUpdateInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="344" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2611" bodyend="2613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ab19196d3ca656fc256ed8a5bd7509b18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handlePaginatedQuery</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handlePaginatedQuery</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handlePaginatedQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Paginated Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handlePaginatedQueryInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="351" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2734" bodyend="2736"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1adf768a0707941da50ab553bc4b2dd280" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGetIndexOperations</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleGetIndexOperations</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGetIndexOperations</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Index Operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handleGetIndexOperationsInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="358" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2871" bodyend="2873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a4fc7d8c37b25c7b433d43b873fd1e3da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleAggregationPipeline</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleAggregationPipeline</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleAggregationPipeline</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Aggregation Pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handleAggregationPipelineInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="365" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2957" bodyend="2959"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a3a58453b5d57753e5bd542f8c8067d30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleListCollections</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleListCollections</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleListCollections</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Collections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handleListCollectionsInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="372" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3152" bodyend="3154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af70754de05e8d30571fb5750e938976f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleCreateIndex</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleCreateIndex</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleCreateIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1abc223a302a608be7c70dcdd4148094ea" kindref="member">handleCreateIndexInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="379" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3245" bodyend="3247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1abc223a302a608be7c70dcdd4148094ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleCreateIndexInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleCreateIndexInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleCreateIndexInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create Index Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), collection(), value(), field(), empty(), index_type(), getCurrentTimestampNs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="386" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3256" bodyend="3323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a71e21816be39b357e4fe0bce8d6fb577" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleDropIndex</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleDropIndex</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleDropIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Drop Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1735bde3172877cb9430f65d1a161cb4" kindref="member">handleDropIndexInternal()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="396" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3331" bodyend="3333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1735bde3172877cb9430f65d1a161cb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleDropIndexInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleDropIndexInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleDropIndexInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Drop Index Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isDeadlineExceeded(), createError(), collection(), value(), index_name(), empty(), get(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="403" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3342" bodyend="3405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a05e45a01bb2ad17cc888fa911831e5c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGetCollectionMetadata</definition>
+        <argsstring>(const json &amp;params)</argsstring>
+        <name>handleGetCollectionMetadata</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGetCollectionMetadata</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Collection Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: handleGetCollectionMetadataInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="413" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3413" bodyend="3415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a36dacd499ed954f3717fb3b22223d78f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::dispatch</definition>
+        <argsstring>(const std::string &amp;method, const json &amp;params, const themis::plugins::rpc::RPCRequestContext &amp;context)</argsstring>
+        <name>dispatch</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::dispatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const themis::plugins::rpc::RPCRequestContext &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseRequestTimeout(), has_value(), count(), createError(), std::chrono::system_clock::now(), time_since_epoch(), deriveRequestDeadline(), verifyAuth(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="422" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3555" bodyend="3753"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a98c65760e57a459b7f230698ee484cd6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::rpc::ThemisRPCService::verifyAuth</definition>
+        <argsstring>(const themis::plugins::rpc::RPCRequestContext &amp;context, std::string &amp;username, const std::string &amp;required_scope)</argsstring>
+        <name>verifyAuth</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::verifyAuth</qualifiedname>
+        <param>
+          <type>const themis::plugins::rpc::RPCRequestContext &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_scope</declname>
+        </param>
+        <briefdescription>
+<para>Verify Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), isEnabled(), find(), end(), <ref refid="classthemis_1_1server_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">AuthMiddleware::extractBearerToken()</ref>, authorize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="437" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3763" bodyend="3813"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a7d7e84f86c1dcd4919bad8f9545c1de0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::createError</definition>
+        <argsstring>(themis::plugins::rpc::RPCErrorCode code, const std::string &amp;message)</argsstring>
+        <name>createError</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::createError</qualifiedname>
+        <param>
+          <type>themis::plugins::rpc::RPCErrorCode</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis::plugins::rpc::rpcErrorCodeToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="445" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3822" bodyend="3830"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a23c4738140d34bc875d5ae3eed09b9e1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::createSuccess</definition>
+        <argsstring>(const json &amp;result)</argsstring>
+        <name>createSuccess</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::createSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Create Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createSuccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="452" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3838" bodyend="3842"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a3a223fb07a0b07666846a0a06c905a4d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleAggregationPipelineInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleAggregationPipelineInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleAggregationPipelineInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Aggregation Pipeline Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: collection(), value(), empty(), createError(), contains(), is_array(), newSafeIterator(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="460" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2968" bodyend="3144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a04b0a2bccd33d80a8522f4e687c31333" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleListCollectionsInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleListCollectionsInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleListCollectionsInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Collections Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createError(), newSafeIterator(), error(), message(), value(), SeekToFirst(), Valid(), shouldCheckDeadline(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="470" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3163" bodyend="3237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af6a885c664bda966d24c33c1bff6d63d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGetCollectionMetadataInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleGetCollectionMetadataInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGetCollectionMetadataInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Collection Metadata Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: collection(), value(), empty(), createError(), newSafeIterator(), error(), message(), Seek(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="480" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="3424" bodyend="3545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aab870c912d16c2ddca557ba80dbbf75e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleQueryInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleQueryInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleQueryInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), value(), empty(), createError(), json::object(), contains(), is_array(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="490" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1235" bodyend="1393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a849c17323221f80210d5f43990d93ead" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleSearchInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleSearchInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleSearchInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Search Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: collection(), value(), empty(), createError(), isDeadlineExceeded(), model(), json::object(), newSafeIterator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="500" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2282" bodyend="2402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a7e56841aea2e1ad1e8c7783e23322b27" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handlePaginatedQueryInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handlePaginatedQueryInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handlePaginatedQueryInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Paginated Query Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: collection(), value(), empty(), createError(), isDeadlineExceeded(), cursor(), model(), newSafeIterator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="510" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2745" bodyend="2863"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a97d3dfbdf28de2b8fb356af68af273eb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleTimeSeriesQueryInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleTimeSeriesQueryInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleTimeSeriesQueryInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Time Series Query Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: collection(), value(), empty(), createError(), aggregation(), agg_field(), newSafeIterator(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="520" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="1801" bodyend="1940"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a4d107655d1e8efb4d2dff64f076bce01" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleGetIndexOperationsInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleGetIndexOperationsInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleGetIndexOperationsInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Index Operations Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createError(), collection(), value(), empty(), json::array(), scanPrefix(), shouldCheckDeadline(), isDeadlineExceeded(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="530" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2882" bodyend="2949"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a98bc8d39b8eba940abe047b85b170bd1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref></type>
+        <definition>json themis::server::rpc::ThemisRPCService::handleBatchUpdateInternal</definition>
+        <argsstring>(const json &amp;params, const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;deadline)</argsstring>
+        <name>handleBatchUpdateInternal</name>
+        <qualifiedname>themis::server::rpc::ThemisRPCService::handleBatchUpdateInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1rpc_1a95362d2e2863a9bb91f1decf6dd5aa28" kindref="member">json</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::chrono::steady_clock::time_point &gt; &amp;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Update Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_array(), createError(), createWriteBatch(), getCurrentTimestampNs(), shouldCheckDeadline(), isDeadlineExceeded(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc_service_impl.h" line="540" column="10" bodyfile="src/server/rpc/rpc_service_impl.cpp" bodystart="2622" bodyend="2726"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc_service_impl.h" line="40" column="1" bodyfile="include/server/rpc_service_impl.h" bodystart="40" bodyend="544"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aaba0e473114583fe24ab81a3daca5aa4" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a7d7e84f86c1dcd4919bad8f9545c1de0" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>createError</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a23c4738140d34bc875d5ae3eed09b9e1" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>createSuccess</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a36dacd499ed954f3717fb3b22223d78f" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>dispatch</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a4fc7d8c37b25c7b433d43b873fd1e3da" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleAggregationPipeline</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a3a223fb07a0b07666846a0a06c905a4d" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleAggregationPipelineInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a9efa1e587ee6a0b2341a28f0e8b077ab" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleAuthenticate</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a685c44004fecae2b33ea2e1c18d9821d" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleBatchDelete</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af2deb2cb088e5c8355b3f134dfc6ad40" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleBatchDeleteInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a56320b2ef6840abea9578548e9aef5df" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleBatchGet</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aa8096c987fb7a2cd0d57f3657104ca64" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleBatchGetInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af3ccb8bb248217f485f3ba213ec1850b" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleBatchPut</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a89b4d8985b4d4401808c52f5928ceebc" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleBatchPutInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a5f966b5ac931e0edf0c4d02c8621dde3" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleBatchUpdate</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a98bc8d39b8eba940abe047b85b170bd1" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleBatchUpdateInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af70754de05e8d30571fb5750e938976f" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleCreateIndex</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1abc223a302a608be7c70dcdd4148094ea" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleCreateIndexInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aa2a4353d6b2653228cdbf65d276d604b" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleDelete</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1d2b3287827364d6537df307b5c5d164" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleDeleteInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a71e21816be39b357e4fe0bce8d6fb577" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleDropIndex</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1735bde3172877cb9430f65d1a161cb4" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleDropIndexInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1afc2423630f3e508eda9604fe8e8f603d" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGeoQuery</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ae86dbc1e6284f0207cb88d681db70498" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGeoQueryInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a0042a7399b23010bf5db58d2afbc2b5d" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGet</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a05e45a01bb2ad17cc888fa911831e5c8" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGetCollectionMetadata</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af6a885c664bda966d24c33c1bff6d63d" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGetCollectionMetadataInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1adf768a0707941da50ab553bc4b2dd280" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGetIndexOperations</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a4d107655d1e8efb4d2dff64f076bce01" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGetIndexOperationsInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1ddd3dcef3e69641646f86ed8704cd78" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGetInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a903fe8a58cbb010825fec328a087c23c" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGraphTraverse</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a6da9e424f63f3aa0d7edea973cbe5d75" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleGraphTraverseInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac6b153e16b045fcdd8a208a7fce0e204" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleHealthCheck</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ad3869576c4a9181ee2a30cb41d0d616e" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleInsert</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac71fed33ef7068886c3d323064a70402" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleInsertInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a3a58453b5d57753e5bd542f8c8067d30" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleListCollections</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a04b0a2bccd33d80a8522f4e687c31333" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleListCollectionsInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ab19196d3ca656fc256ed8a5bd7509b18" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handlePaginatedQuery</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a7e56841aea2e1ad1e8c7783e23322b27" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handlePaginatedQueryInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ae8e18d16e9f0369159894f8d85a3a6b0" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handlePut</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a204f843f82d6a0a23a03a1f3408849fa" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handlePutInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a6125984e1c64b98597ced051fc5762f4" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleQuery</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aab870c912d16c2ddca557ba80dbbf75e" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleQueryInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a23c46aae232b045e50b0893d5c010ac5" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleSearch</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a849c17323221f80210d5f43990d93ead" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleSearchInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1884e764b4ae214f37909fa07eb268ca" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleStats</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a8f140e106fbe8e5fa959fc6e53028156" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleStatsInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a4d438e0eaa0c7ed86f21b99f7ec435d4" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleTimeSeriesQuery</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a97d3dfbdf28de2b8fb356af68af273eb" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleTimeSeriesQueryInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ab08817a640539b3db78082ce7735e71c" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleTransactionAbort</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1af8713cd5da02f6e616b704519f6b4108" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleTransactionAbortInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac713b68aa6e9b99dfffcf48d0bf76b4f" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleTransactionBegin</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a10b3743b50a4a7a7b9fc777655418a92" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleTransactionBeginInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1aef3d206bba39d008a43bf9af39cf162c" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleTransactionCommit</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a1b9585c6837c58692011d56b744d7fb8" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleTransactionCommitInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ab72a02d46c8ebd507feb966fcfcc365e" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleUpdateEntity</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a5fc750bfe143fa99dd4c04009888112a" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleUpdateEntityInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a934e37b19f7885937f2f49ae5c92fd21" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleVectorSearch</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1add16867af575149f2d272d3499f768f5" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>handleVectorSearchInternal</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac594c328000a1d3ae3fe3dcccc646d67" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>spatial_index_</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a7ba06a30b2afdb27767c3360bacb86f8" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1afb8d394b6c04dd7f593c24b38214f9b2" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1ac08f3fc6dfbb65be6bf1a00540de7944" prot="public" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>ThemisRPCService</name></member>
+      <member refid="classthemis_1_1server_1_1rpc_1_1_themis_r_p_c_service_1a98c65760e57a459b7f230698ee484cd6" prot="private" virt="non-virtual"><scope>themis::server::rpc::ThemisRPCService</scope><name>verifyAuth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

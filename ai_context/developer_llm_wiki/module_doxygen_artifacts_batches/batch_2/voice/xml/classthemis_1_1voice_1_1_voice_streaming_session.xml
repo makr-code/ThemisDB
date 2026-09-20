@@ -1,0 +1,727 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_streaming_session" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceStreamingSession</compoundname>
+    <includes refid="voice__browser__streaming_8h" local="no">voice_browser_streaming.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" prot="public">themis::voice::VoiceStreamingSession::Config</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl" prot="public">themis::voice::VoiceStreamingSession::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_voice_streaming_session_1a22daca811b0efcd6c076474de4fb5fea" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref> &amp;)&gt;</type>
+        <definition>using themis::voice::VoiceStreamingSession::PartialTranscriptCb = std::function&lt;void(const PartialTranscript&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PartialTranscriptCb</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::PartialTranscriptCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="265" column="5" bodyfile="include/voice/voice_browser_streaming.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_voice_streaming_session_1a5e1abff510ae6812b996c610458a727d" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1voice_1_1_final_transcript" kindref="compound">FinalTranscript</ref> &amp;)&gt;</type>
+        <definition>using themis::voice::VoiceStreamingSession::FinalTranscriptCb = std::function&lt;void(const FinalTranscript&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FinalTranscriptCb</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::FinalTranscriptCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="266" column="5" bodyfile="include/voice/voice_browser_streaming.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_voice_streaming_session_1a5bed5aca00a7009edb75a43e69a9ca03" prot="public" static="no">
+        <type>std::function&lt; void(const std::vector&lt; uint8_t &gt; &amp;)&gt;</type>
+        <definition>using themis::voice::VoiceStreamingSession::TtsChunkCb = std::function&lt;void(const std::vector&lt;uint8_t&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TtsChunkCb</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::TtsChunkCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="267" column="5" bodyfile="include/voice/voice_browser_streaming.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_voice_streaming_session_1a0c6fd536bdcff76cef36f1dca5c2127f" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;error)&gt;</type>
+        <definition>using themis::voice::VoiceStreamingSession::ErrorCb = std::function&lt;void(const std::string&amp; error)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ErrorCb</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::ErrorCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="268" column="5" bodyfile="include/voice/voice_browser_streaming.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_voice_streaming_session_1a9d90e45195968ce49958debb7e3994fd" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref>( const std::vector&lt; uint8_t &gt; &amp;audio, bool is_final, uint32_t seq)&gt;</type>
+        <definition>using themis::voice::VoiceStreamingSession::TranscribeFn = std::function&lt;PartialTranscript(
+       const std::vector&lt;uint8_t&gt;&amp; audio,
+       bool is_final,
+       uint32_t seq)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TranscribeFn</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::TranscribeFn</qualifiedname>
+        <briefdescription>
+<para>Inject a real STT transcription backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The function receives the current audio buffer, an <computeroutput>is_final</computeroutput> flag (true when <computeroutput><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a25e77f8295d72382b8ff9e56648ef54f" kindref="member">endOfUtterance()</ref></computeroutput> triggers the call), and the sequence counter. It must return a populated <computeroutput><ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref></computeroutput>; the session will overwrite <computeroutput>stream_id</computeroutput> and, if <computeroutput>timestamp_ms</computeroutput> is zero, set it to the current wall-clock time.</para>
+<para>When no function is injected the session falls back to the built-in placeholder that returns <computeroutput>[partial#N:MBB]</computeroutput> text.</para>
+<para>Signature: (audio_buffer, is_final, seq) → <ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="291" column="5" bodyfile="include/voice/voice_browser_streaming.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_streaming_session_1a84fe5c49a64dab630e653c92d1a96ee0" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::voice::VoiceStreamingSession::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="326" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; VoiceStreamingSession &gt; themis::voice::VoiceStreamingSession::create</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::create</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Factory: construct and return a new session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Owning pointer to the new session. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if config is invalid. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="176" column="28" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="230" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a3c04106628dd9256375d0335c56ddfc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceStreamingSession::~VoiceStreamingSession</definition>
+        <argsstring>()</argsstring>
+        <name>~VoiceStreamingSession</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::~VoiceStreamingSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="178" column="5" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="217" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceStreamingSession::VoiceStreamingSession</definition>
+        <argsstring>(const VoiceStreamingSession &amp;)=delete</argsstring>
+        <name>VoiceStreamingSession</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::VoiceStreamingSession</qualifiedname>
+        <param>
+          <type>const VoiceStreamingSession &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="181" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a7addd955ae6a65341dbc5b00d4a0b908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref> &amp;</type>
+        <definition>VoiceStreamingSession &amp; themis::voice::VoiceStreamingSession::operator=</definition>
+        <argsstring>(const VoiceStreamingSession &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="182" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1aa9359c2bb7a81ebec99d17a50a758f58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref></type>
+        <definition>StreamID themis::voice::VoiceStreamingSession::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::start</qualifiedname>
+        <briefdescription>
+<para>Start the session (allocate resources, begin STT pipeline). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para><simplesect kind="return"><para>The session&apos;s unique <ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref>.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateStreamId(), streamingNowMs(), clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="190" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="241" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1ad2930877dd10c605b26853cc4229d4c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceStreamingSession::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::end</qualifiedname>
+        <briefdescription>
+<para>Terminate the session and flush any buffered audio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>End.</para>
+<para>Blocks until the final transcript is delivered.</para>
+<para>Calls: empty(), <ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a25e77f8295d72382b8ff9e56648ef54f" kindref="member">endOfUtterance()</ref>, clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="197" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="271" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1abcf83478275e1d58ea67cf8abd4dd5d7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::isActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::isActive</qualifiedname>
+        <briefdescription>
+<para>True while the session is active (between <ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1aa9359c2bb7a81ebec99d17a50a758f58" kindref="member">start()</ref> and <ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1ad2930877dd10c605b26853cc4229d4c6" kindref="member">end()</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="202" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="296" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a173ac3d37b99d48f35b28cf6a4fc9372" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref></type>
+        <definition>PartialTranscript themis::voice::VoiceStreamingSession::sendAudioChunk</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_chunk)</argsstring>
+        <name>sendAudioChunk</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::sendAudioChunk</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_chunk</declname>
+        </param>
+        <briefdescription>
+<para>Feed an audio chunk from the browser WebSocket frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio bytes (format specified in <ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a9def9d542bc4c17315928131d5b86078" kindref="member">Config::audio_format</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref> if <ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a84d339d27af1e276e0dcd82bd07ccfd2" kindref="member">Config::partial_results</ref> is true and STT has an incremental result; otherwise empty (is_final=false, text=&quot;&quot;). </para>
+</simplesect>
+<simplesect kind="note"><para>Empty or frame-misaligned payloads are rejected fail-closed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="214" column="23" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="303" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a25e77f8295d72382b8ff9e56648ef54f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceStreamingSession::endOfUtterance</definition>
+        <argsstring>()</argsstring>
+        <name>endOfUtterance</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::endOfUtterance</qualifiedname>
+        <briefdescription>
+<para>Signal end-of-utterance (e.g. silence detected or VAD trigger). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>End Of Utterance.</para>
+<para>Forces the STT engine to finalise the current hypothesis.</para>
+<para>Calls: empty(), makeFinalTranscript(), clear(), on_final(), tts_audio(), begin(), <ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1ad2930877dd10c605b26853cc4229d4c6" kindref="member">end()</ref>, on_tts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="221" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="440" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a5ffcdb4a293d8a7a01777ebdb63cdd1c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::sendHeartbeat</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>sendHeartbeat</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::sendHeartbeat</qualifiedname>
+        <briefdescription>
+<para>Send a heartbeat/keep-alive ping (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detects mid-stream connection loss via TCP keep-alive. <simplesect kind="return"><para>true if connection is alive; false if connection lost </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="231" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="505" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a2d179f9ff5726c897f1ec90feb12ebe4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::reconnectWithBackoff</definition>
+        <argsstring>(int max_retries=5) noexcept</argsstring>
+        <name>reconnectWithBackoff</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::reconnectWithBackoff</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_retries</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Automatically reconnect with exponential backoff (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_retries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum reconnection attempts (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if reconnected successfully; false if gave up </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="239" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="517" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a842a525388a2127a32d52070645eb40d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceStreamingSession::retryUnacknowledgedChunks</definition>
+        <argsstring>(uint32_t last_acked_sequence_num) noexcept</argsstring>
+        <name>retryUnacknowledgedChunks</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::retryUnacknowledgedChunks</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>last_acked_sequence_num</declname>
+        </param>
+        <briefdescription>
+<para>Resend unacknowledged chunks (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>last_acked_sequence_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence number of last acknowledged chunk </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of chunks resent </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="247" column="12" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="536" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1af433a6df50d4fb792b550993ea4c0922" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::detectSequenceGap</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>detectSequenceGap</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::detectSequenceGap</qualifiedname>
+        <briefdescription>
+<para>Detect lost chunks via sequence gaps (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if sequence gap detected; false if all chunks accounted for </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="254" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="552" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1ae64840d5e86d1f67fb3dd1b67f1b014f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::rebalanceBufferPressure</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>rebalanceBufferPressure</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::rebalanceBufferPressure</qualifiedname>
+        <briefdescription>
+<para>Pause/resume streaming if buffer critical (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if paused due to buffer pressure; false if streaming normally </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="261" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="556" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1aa1f11ba00be52fe6c0fd101e1b094ad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceStreamingSession::onPartialTranscript</definition>
+        <argsstring>(PartialTranscriptCb cb)</argsstring>
+        <name>onPartialTranscript</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::onPartialTranscript</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a22daca811b0efcd6c076474de4fb5fea" kindref="member">PartialTranscriptCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>── Callbacks ───────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="270" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="469" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a85e10ed17adb94f1371d79ffbf48dc1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceStreamingSession::onFinalTranscript</definition>
+        <argsstring>(FinalTranscriptCb cb)</argsstring>
+        <name>onFinalTranscript</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::onFinalTranscript</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5e1abff510ae6812b996c610458a727d" kindref="member">FinalTranscriptCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>On Final Transcript. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="271" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="477" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a9da2259d5636c9309595d9eaaec51f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceStreamingSession::onTtsChunk</definition>
+        <argsstring>(TtsChunkCb cb)</argsstring>
+        <name>onTtsChunk</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::onTtsChunk</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5bed5aca00a7009edb75a43e69a9ca03" kindref="member">TtsChunkCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Called with TTS audio chunks when enable_tts=true. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Tts Chunk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="272" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="485" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a482837063c4906f6e325ddc2fdd5c62b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceStreamingSession::onError</definition>
+        <argsstring>(ErrorCb cb)</argsstring>
+        <name>onError</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::onError</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a0c6fd536bdcff76cef36f1dca5c2127f" kindref="member">ErrorCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>On Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="273" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="493" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1af40c0501fc32e77939438ececa56b5d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceStreamingSession::setTranscribeBackend</definition>
+        <argsstring>(TranscribeFn fn)</argsstring>
+        <name>setTranscribeBackend</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::setTranscribeBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a9d90e45195968ce49958debb7e3994fd" kindref="member">TranscribeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Transcribe Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject an STT transcription backend. Passing null resets to the built-in placeholder.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="298" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="501" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a1f3afb8bd22be598c9a89be5acc3f6bc" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref></type>
+        <definition>StreamID themis::voice::VoiceStreamingSession::streamId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>streamId</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::streamId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="302" column="18" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="567" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a24a93af006cd290db98c25b486f95766" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const VoiceStreamingSession::Config &amp; themis::voice::VoiceStreamingSession::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="303" column="18" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="570" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a601a3679a373c539d556c8c999532d65" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceStreamingSession::startedAtMs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>startedAtMs</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::startedAtMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="304" column="18" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="573" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a17abc58d50544ba6c9689c668f9a2915" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceStreamingSession::bytesReceived</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bytesReceived</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::bytesReceived</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="305" column="18" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="576" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a29bb6cd242bfaa744900d1d8be2b5622" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::checkOrigin</definition>
+        <argsstring>(const std::string &amp;origin) const</argsstring>
+        <name>checkOrigin</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::checkOrigin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>origin</declname>
+        </param>
+        <briefdescription>
+<para>Check whether <computeroutput>origin</computeroutput> is permitted by this session&apos;s allowlist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when <ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a6387df1528e48369ee905240c79df5f0" kindref="member">Config::origin_allowlist</ref> is empty (no restriction) or when <computeroutput>origin</computeroutput> is found verbatim in the allowlist. The comparison is case-sensitive; callers should normalise the origin to lowercase before calling this method.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>origin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full scheme+host[:port] of the connecting client (e.g. &quot;https://app.example.com&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="320" column="10" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="580" bodyend="587"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_streaming_session_1a07681c1ced021045154b07bf0a4e22fa" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceStreamingSession::VoiceStreamingSession</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>VoiceStreamingSession</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::VoiceStreamingSession</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="323" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="203" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>WebSocket voice streaming session. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages the lifecycle of one bidirectional voice stream from a browser client: audio ingestion, incremental STT, optional NLU, and TTS synthesis back to the browser.</para>
+<sect1 id="classthemis_1_1voice_1_1_voice_streaming_session_1autotoc_md18_1s1"><sect2 id="classthemis_1_1voice_1_1_voice_streaming_session_1autotoc_md18">
+<title>Typical flow</title><para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">VoiceStreamingSession::create</ref>(<ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a24a93af006cd290db98c25b486f95766" kindref="member">config</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attach<sp/>callbacks<sp/>before<sp/>starting</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">session-&gt;onPartialTranscript([](</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>pt){<sp/>…<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">session-&gt;onFinalTranscript([](</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ft){<sp/>…<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">session-&gt;onTtsChunk([](</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>chunk){<sp/>…<sp/>});<sp/></highlight><highlight class="comment">//<sp/>send<sp/>back<sp/>to<sp/>browser</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">session-&gt;start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Called<sp/>by<sp/>the<sp/>WebSocket<sp/>on<sp/>each<sp/>incoming<sp/>message:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">session-&gt;sendAudioChunk(raw_audio_bytes);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">session-&gt;end();<sp/></highlight><highlight class="comment">//<sp/>or<sp/>auto-closes<sp/>after<sp/>max_duration_s</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/voice/voice_browser_streaming.h" line="148" column="1" bodyfile="include/voice/voice_browser_streaming.h" bodystart="148" bodyend="327"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a17abc58d50544ba6c9689c668f9a2915" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>bytesReceived</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29bb6cd242bfaa744900d1d8be2b5622" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>checkOrigin</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a24a93af006cd290db98c25b486f95766" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>config</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>create</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1af433a6df50d4fb792b550993ea4c0922" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>detectSequenceGap</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1ad2930877dd10c605b26853cc4229d4c6" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>end</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a25e77f8295d72382b8ff9e56648ef54f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>endOfUtterance</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a0c6fd536bdcff76cef36f1dca5c2127f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>ErrorCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5e1abff510ae6812b996c610458a727d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>FinalTranscriptCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a84fe5c49a64dab630e653c92d1a96ee0" prot="private" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1abcf83478275e1d58ea67cf8abd4dd5d7" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>isActive</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a482837063c4906f6e325ddc2fdd5c62b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>onError</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a85e10ed17adb94f1371d79ffbf48dc1c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>onFinalTranscript</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1aa1f11ba00be52fe6c0fd101e1b094ad7" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>onPartialTranscript</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a9da2259d5636c9309595d9eaaec51f93" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>onTtsChunk</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a7addd955ae6a65341dbc5b00d4a0b908" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a22daca811b0efcd6c076474de4fb5fea" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>PartialTranscriptCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1ae64840d5e86d1f67fb3dd1b67f1b014f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>rebalanceBufferPressure</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a2d179f9ff5726c897f1ec90feb12ebe4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>reconnectWithBackoff</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a842a525388a2127a32d52070645eb40d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>retryUnacknowledgedChunks</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a173ac3d37b99d48f35b28cf6a4fc9372" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>sendAudioChunk</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5ffcdb4a293d8a7a01777ebdb63cdd1c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>sendHeartbeat</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1af40c0501fc32e77939438ececa56b5d1" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>setTranscribeBackend</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1aa9359c2bb7a81ebec99d17a50a758f58" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>start</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a601a3679a373c539d556c8c999532d65" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>startedAtMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a1f3afb8bd22be598c9a89be5acc3f6bc" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>streamId</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a9d90e45195968ce49958debb7e3994fd" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>TranscribeFn</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5bed5aca00a7009edb75a43e69a9ca03" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>TtsChunkCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>VoiceStreamingSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a07681c1ced021045154b07bf0a4e22fa" prot="private" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>VoiceStreamingSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3c04106628dd9256375d0335c56ddfc2" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession</scope><name>~VoiceStreamingSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

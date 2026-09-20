@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="snapshot__transfer__handler_8h" kind="file" language="C++">
+    <compoundname>snapshot_transfer_handler.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="snapshot__transfer__handler_8cpp" local="yes">src/server/rpc/snapshot_transfer_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/rpc/snapshot_transfer_handler.h</label>
+        <link refid="snapshot__transfer__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/rpc/snapshot_transfer_handler.h</label>
+        <link refid="snapshot__transfer__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/rpc/snapshot_transfer_handler.cpp</label>
+        <link refid="snapshot__transfer__handler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rpc_1_1_snapshot_config" prot="public">themis::rpc::SnapshotConfig</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_snapshot_progress" prot="public">themis::rpc::SnapshotProgress</innerclass>
+    <innerclass refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler" prot="public">themis::rpc::SnapshotTransferHandler</innerclass>
+    <innernamespace refid="namespacerocksdb">rocksdb</innernamespace>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rpc">themis::rpc</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&quot;shard_rpc.pb.h&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;shard_rpc.pb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>__has_include(&quot;proto_generated/shard_rpc.pb.h&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;proto_generated/shard_rpc.pb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#error<sp/>&quot;Required<sp/>protobuf<sp/>header<sp/>shard_rpc.pb.h<sp/>not<sp/>found.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-declare<sp/>RocksDB<sp/>to<sp/>avoid<sp/>pulling<sp/>in<sp/>heavy<sp/>headers<sp/>in<sp/>consumers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacerocksdb" kindref="compound">rocksdb</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">DB;<sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rpc" kindref="compound">rpc</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">shard_proto<sp/>=<sp/>themis::sharding::proto;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration<sp/>for<sp/>snapshot<sp/>transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rpc_1_1_snapshot_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1afffa5c043480ea8c5d0ae9b25aa5a12f" kindref="member">SnapshotConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rpc_1_1_snapshot_config_1a6aedf62c4ff7fe11e70baa723152f480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a6aedf62c4ff7fe11e70baa723152f480" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rpc_1_1_snapshot_config_1a4e70b0c764ff5c5110bdae874f39a88d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a4e70b0c764ff5c5110bdae874f39a88d" kindref="member">snapshot_id</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rpc_1_1_snapshot_config_1aa45019505dde8c30df8ea7e18ace5f38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1aa45019505dde8c30df8ea7e18ace5f38" kindref="member">is_incremental</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rpc_1_1_snapshot_config_1a7c80be3171d5efed07bbdef89db37877" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a7c80be3171d5efed07bbdef89db37877" kindref="member">base_snapshot_id</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>incremental<sp/>snapshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rpc_1_1_snapshot_config_1a98368073f8e6589a521f5d8450d987fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>shard_proto::CompressionType<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a98368073f8e6589a521f5d8450d987fa" kindref="member">compression_type</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rpc_1_1_snapshot_config_1adf53e8b86d85c57576456c605385169e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1adf53e8b86d85c57576456c605385169e" kindref="member">compression_level</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>1-9<sp/>for<sp/>Zstd,<sp/>ignored<sp/>for<sp/>others</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunking<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rpc_1_1_snapshot_config_1a6152a12af79360538eeb3c3f0d3ea321" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a6152a12af79360538eeb3c3f0d3ea321" kindref="member">chunk_size_mb</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>1-100<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1rpc_1_1_snapshot_config_1aff4e81b0c84aa46cddc39655f5f138de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>shard_proto::ChecksumType<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1aff4e81b0c84aa46cddc39655f5f138de" kindref="member">checksum_type</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>isolation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rpc_1_1_snapshot_config_1adfb29795258e59ea07bddb06f18baa83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>shard_proto::SnapshotIsolation<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1adfb29795258e59ea07bddb06f18baa83" kindref="member">isolation_level</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rpc_1_1_snapshot_config_1a3a3d7a5de8b368dd33340a823e3038f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a3a3d7a5de8b368dd33340a823e3038f7" kindref="member">is_immutable</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>source<sp/>is<sp/>frozen<sp/>during<sp/>transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rpc_1_1_snapshot_config_1afffa5c043480ea8c5d0ae9b25aa5a12f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1afffa5c043480ea8c5d0ae9b25aa5a12f" kindref="member">SnapshotConfig</ref>()</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1aa45019505dde8c30df8ea7e18ace5f38" kindref="member">is_incremental</ref>(false)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a98368073f8e6589a521f5d8450d987fa" kindref="member">compression_type</ref>(shard_proto::COMPRESSION_ZSTD)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1adf53e8b86d85c57576456c605385169e" kindref="member">compression_level</ref>(6)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a6152a12af79360538eeb3c3f0d3ea321" kindref="member">chunk_size_mb</ref>(10)</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1aff4e81b0c84aa46cddc39655f5f138de" kindref="member">checksum_type</ref>(shard_proto::CHECKSUM_CRC32)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1adfb29795258e59ea07bddb06f18baa83" kindref="member">isolation_level</ref>(shard_proto::SNAPSHOT_MVCC)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config_1a3a3d7a5de8b368dd33340a823e3038f7" kindref="member">is_immutable</ref>(false)<sp/>{}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Progress<sp/>information<sp/>for<sp/>snapshot<sp/>transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1rpc_1_1_snapshot_progress" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rpc_1_1_snapshot_progress" kindref="compound">SnapshotProgress</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1rpc_1_1_snapshot_progress_1afdb6a93e2bc1d0a531521d8ae5e2d896" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_progress_1afdb6a93e2bc1d0a531521d8ae5e2d896" kindref="member">total_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1rpc_1_1_snapshot_progress_1ae838532c1832e6be88a65e2f317cbc7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_progress_1ae838532c1832e6be88a65e2f317cbc7b" kindref="member">transferred_bytes</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1rpc_1_1_snapshot_progress_1aaa7b74b854e6b44e68639ff37d00dcf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_progress_1aaa7b74b854e6b44e68639ff37d00dcf2" kindref="member">total_chunks</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rpc_1_1_snapshot_progress_1ad947c3bbedaaff62ac1f8676afdfbd8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_progress_1ad947c3bbedaaff62ac1f8676afdfbd8c" kindref="member">transferred_chunks</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rpc_1_1_snapshot_progress_1a6b0c5f99d295c9a91f01df7293895fe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_progress_1a6b0c5f99d295c9a91f01df7293895fe2" kindref="member">compression_ratio</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1rpc_1_1_snapshot_progress_1a4d9bdc45e0f752cb8ceaa6b80a6fc0ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_progress_1a4d9bdc45e0f752cb8ceaa6b80a6fc0ea" kindref="member">elapsed_ms</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1rpc_1_1_snapshot_progress_1aa01051ed0474bbdda6a8728b0751c5f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_progress_1aa01051ed0474bbdda6a8728b0751c5f5" kindref="member">estimated_remaining_ms</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Status<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878a44ae870fe91bbc64344d9c8476acf1d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878a44ae870fe91bbc64344d9c8476acf1d1" kindref="member">ERROR_SNAPSHOT_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878ae51514a9fceddf4a245159cdef19c262" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48ae51514a9fceddf4a245159cdef19c262" kindref="member">ERROR_COMPRESSION_FAILED</ref>,</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878add2f0502425543edc64f189090481856" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48add2f0502425543edc64f189090481856" kindref="member">ERROR_CHECKSUM_MISMATCH</ref>,</highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878aedc8c66cb6646649a953b27507b7b65d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878aedc8c66cb6646649a953b27507b7b65d" kindref="member">ERROR_ROCKSDB_ERROR</ref>,</highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878ac762622087deb4bb842e148f07ca3f8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48ac762622087deb4bb842e148f07ca3f8a" kindref="member">ERROR_INVALID_CONFIG</ref>,</highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878af659c3978eeb3c6c52bfa8e0fb0ccbd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48af659c3978eeb3c6c52bfa8e0fb0ccbd7" kindref="member">ERROR_NETWORK_ERROR</ref>,</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878a7b8a07ad54883c11bfd4825bed07c242" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878a7b8a07ad54883c11bfd4825bed07c242" kindref="member">ERROR_SECURITY_PATH_TRAVERSAL</ref><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>traversal<sp/>attempt<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callback<sp/>for<sp/>chunk<sp/>streaming</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1rpc_1a7e81b852e40b834aed4a8d198dc3d680" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rpc_1a7e81b852e40b834aed4a8d198dc3d680" kindref="member">ChunkCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>shard_proto::SnapshotChunk&amp;)&gt;;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" kindref="member">SnapshotTransferHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" kindref="member">SnapshotTransferHandler</ref>();</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aa67818ccbcf902e55d96f09247f8aa0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aa67818ccbcf902e55d96f09247f8aa0a" kindref="member">~SnapshotTransferHandler</ref>();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a3d8e8d1791a2ff8b48ff2f6c1493875d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a3d8e8d1791a2ff8b48ff2f6c1493875d" kindref="member">SnapshotTransferHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" kindref="member">SnapshotTransferHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a01ee356b911bc18a4a7eada07f6c2c35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" kindref="member">SnapshotTransferHandler</ref>&amp;<sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a01ee356b911bc18a4a7eada07f6c2c35" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" kindref="member">SnapshotTransferHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1afe17cc740a39964224a10ff04910560d" kindref="member">CreateSnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_config" kindref="compound">SnapshotConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aabf4e0e6b8c04caf07ac9e939dd2603d" kindref="member">StreamChunks</ref>(<ref refid="namespacethemis_1_1rpc_1a7e81b852e40b834aed4a8d198dc3d680" kindref="member">ChunkCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1afdb4c6492098532751d7bdff1bdb07f4" kindref="member">VerifySnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>expected_hash);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a6878a4f2e560f6110cbac41dc106180c" kindref="member">ReceiveChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>shard_proto::SnapshotChunk&amp;<sp/>chunk);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1ab12e1ee76a168ec466486ba6284672c8" kindref="member">FinalizeSnapshot</ref>();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_snapshot_progress" kindref="compound">SnapshotProgress</ref><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a9b4a77738b3fa0e6cef60157b638c16f" kindref="member">GetProgress</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1ae97d011a8d4db04f1da519ce34d559f0" kindref="member">Cancel</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a27bb4ff32a40b10905601c31ad7b4eca" kindref="member">SetDB</ref>(rocksdb::DB*<sp/>db);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rpc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/rpc/snapshot_transfer_handler.h"/>
+  </compounddef>
+</doxygen>

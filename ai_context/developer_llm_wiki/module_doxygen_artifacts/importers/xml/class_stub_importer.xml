@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_importer" kind="class" language="C++" prot="public">
+    <compoundname>StubImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_importer_plugin_base" prot="public" virt="non-virtual">themis::importers::ImporterPluginBase</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_stub_importer_1a8c2b0007cca30d43136a880ee663db7b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubImporter::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>StubImporter::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="96" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_importer_1abcae8cb208f72985f23ca1a91449fe1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubImporter::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>StubImporter::cancelled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="97" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_importer_1a2f8876735e032080018a7551a6128916" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * StubImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>StubImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="40" column="16" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_importer_1a932f53fd9d61d010b2924fb09559de96" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * StubImporter::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>StubImporter::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="41" column="16" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_importer_1ac95effa202ae3efac6785f81b9800570" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; StubImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>StubImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="44" column="17" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_importer_1af7cd3a7d19a037521c1eef974472ad4e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubImporter::initialize</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>StubImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_importer_plugin_base_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="48" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_importer_1aa71156049529b97fe27e148834dac8e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>StubImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="53" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="53" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_importer_1af26ae3ec7c94c0a3d1126f793c0b0378" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats StubImporter::importData</definition>
+        <argsstring>(const std::string &amp;, const ImportOptions &amp;, ProgressCallback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>StubImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="62" column="17" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="62" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_importer_1a66edff6a7ce71f764eccbfbd42bbbf5d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; StubImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;, const ImportOptions &amp;) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>StubImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="71" column="21" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="71" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_importer_1a7adce30345ec92d54d75ba6a0ed82293" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void StubImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>StubImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="90" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_importer_1a50e3005c8b2c11747c10ba790314f71f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json StubImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>StubImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="92" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Trivial importer that records calls; no real import logic. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StubImporter</label>
+        <link refid="class_stub_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="3">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="2">
+        <label>themis::importers::ImporterPluginBase</label>
+        <link refid="classthemis_1_1importers_1_1_importer_plugin_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StubImporter</label>
+        <link refid="class_stub_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="3">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="2">
+        <label>themis::importers::ImporterPluginBase</label>
+        <link refid="classthemis_1_1importers_1_1_importer_plugin_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_plugin_api.cpp" line="37" column="1" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="37" bodyend="98"/>
+    <listofallmembers>
+      <member refid="class_stub_importer_1a7adce30345ec92d54d75ba6a0ed82293" prot="public" virt="virtual"><scope>StubImporter</scope><name>cancel</name></member>
+      <member refid="class_stub_importer_1abcae8cb208f72985f23ca1a91449fe1d" prot="public" virt="non-virtual"><scope>StubImporter</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_base_1a1da364438cdcc0070b272310efbb6d4b" prot="public" virt="non-virtual"><scope>StubImporter</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_base_1aa1aeb60a43e673801388e4ba81411a91" prot="public" virt="non-virtual"><scope>StubImporter</scope><name>getInstance</name></member>
+      <member refid="class_stub_importer_1a2f8876735e032080018a7551a6128916" prot="public" virt="virtual"><scope>StubImporter</scope><name>getName</name></member>
+      <member refid="class_stub_importer_1a50e3005c8b2c11747c10ba790314f71f" prot="public" virt="virtual"><scope>StubImporter</scope><name>getSourceSchema</name></member>
+      <member refid="class_stub_importer_1ac95effa202ae3efac6785f81b9800570" prot="public" virt="virtual"><scope>StubImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_base_1a6f956e5ff5dddfef38a4e01f603e0911" prot="public" virt="non-virtual"><scope>StubImporter</scope><name>getType</name></member>
+      <member refid="class_stub_importer_1a932f53fd9d61d010b2924fb09559de96" prot="public" virt="non-virtual"><scope>StubImporter</scope><name>getVersion</name></member>
+      <member refid="class_stub_importer_1af26ae3ec7c94c0a3d1126f793c0b0378" prot="public" virt="virtual"><scope>StubImporter</scope><name>importData</name></member>
+      <member refid="class_stub_importer_1a66edff6a7ce71f764eccbfbd42bbbf5d" prot="public" virt="virtual"><scope>StubImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>StubImporter</scope><name>importDataStreaming</name></member>
+      <member refid="class_stub_importer_1af7cd3a7d19a037521c1eef974472ad4e" prot="public" virt="virtual"><scope>StubImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_base_1ad95abc23fc2fd841aca8461848197a59" prot="public" virt="non-virtual" ambiguityscope="themis::importers::ImporterPluginBase::"><scope>StubImporter</scope><name>initialize</name></member>
+      <member refid="class_stub_importer_1a8c2b0007cca30d43136a880ee663db7b" prot="public" virt="non-virtual"><scope>StubImporter</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_base_1a81ea5ac46c0eed543c88141974de0fa8" prot="public" virt="non-virtual"><scope>StubImporter</scope><name>shutdown</name></member>
+      <member refid="class_stub_importer_1aa71156049529b97fe27e148834dac8e8" prot="public" virt="virtual"><scope>StubImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>StubImporter</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_base_1a6c90052433efa44b547085aaf63709ce" prot="public" virt="non-virtual"><scope>StubImporter</scope><name>~ImporterPluginBase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

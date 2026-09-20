@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_graph_context_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::GraphContextProvider</compoundname>
+    <includes refid="multi__model__training__data_8h" local="no">multi_model_training_data.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_graph_context_provider_1a9b2e524c6b505f15cb649f3475ff002c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::GraphContextProvider::~GraphContextProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GraphContextProvider</name>
+        <qualifiedname>themis::llm::GraphContextProvider::~GraphContextProvider</qualifiedname>
+        <briefdescription>
+<para>Graph Context Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="263" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_graph_context_provider_1a3d3e0847b3d5dfb243650fbec5ccd825" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_graph_context" kindref="compound">GraphContext</ref></type>
+        <definition>virtual GraphContext themis::llm::GraphContextProvider::getContext</definition>
+        <argsstring>(const std::string &amp;entity_id, const std::vector&lt; std::string &gt; &amp;relationships, int max_depth)=0</argsstring>
+        <name>getContext</name>
+        <qualifiedname>themis::llm::GraphContextProvider::getContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>relationships</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <briefdescription>
+<para>Get Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the entity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">relationships</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="272" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_model_training_data.h" line="257" column="1" bodyfile="include/llm/multi_model_training_data.h" bodystart="257" bodyend="277"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_graph_context_provider_1a3d3e0847b3d5dfb243650fbec5ccd825" prot="public" virt="pure-virtual"><scope>themis::llm::GraphContextProvider</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_graph_context_provider_1a9b2e524c6b505f15cb649f3475ff002c" prot="public" virt="virtual"><scope>themis::llm::GraphContextProvider</scope><name>~GraphContextProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

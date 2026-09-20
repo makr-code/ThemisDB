@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__autocomplete_8h" kind="file" language="C++">
+    <compoundname>aql_autocomplete.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstddef</includes>
+    <includedby refid="aql__autocomplete_8cpp" local="yes">src/aql/aql_autocomplete.cpp</includedby>
+    <includedby refid="test__aql__autocomplete_8cpp" local="yes">tests/aql/test_aql_autocomplete.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/aql_autocomplete.h</label>
+        <link refid="aql__autocomplete_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aql/aql_autocomplete.h</label>
+        <link refid="aql__autocomplete_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/aql/aql_autocomplete.cpp</label>
+        <link refid="aql__autocomplete_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/aql/test_aql_autocomplete.cpp</label>
+        <link refid="test__aql__autocomplete_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1aql_1_1_completion_item" prot="public">themis::aql::CompletionItem</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_completion_context" prot="public">themis::aql::CompletionContext</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_a_q_l_auto_complete" prot="public">themis::aql::AQLAutoComplete</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_a_q_l_auto_complete_1_1_schema_info" prot="private">themis::aql::AQLAutoComplete::SchemaInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LSP-compatible<sp/>completion<sp/>item<sp/>kinds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(mirrors<sp/>CompletionItemKind<sp/>from<sp/>the<sp/>Language<sp/>Server<sp/>Protocol<sp/>spec)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43" kindref="member">CompletionItemKind</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a9dffbf69ffba8bc38bc4e01abf4b1675" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a9dffbf69ffba8bc38bc4e01abf4b1675" kindref="member">Text</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a4c3880bb027f159e801041b1021e88e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a4c3880bb027f159e801041b1021e88e8" kindref="member">Method</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a86408593c34af77fdd90df932f8b5261" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a86408593c34af77fdd90df932f8b5261" kindref="member">Function</ref><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a678d0a4421b60dc59999ac02837496a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a678d0a4421b60dc59999ac02837496a6" kindref="member">Constructor</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a6f16a5f8ff5d75ab84c018adacdfcbb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a6f16a5f8ff5d75ab84c018adacdfcbb7" kindref="member">Field</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a47c14840d8e15331fa420b9b2f757cd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a47c14840d8e15331fa420b9b2f757cd9" kindref="member">Variable</ref><sp/><sp/><sp/><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a9bd81329febf6efe22788e03ddeaf0af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a9bd81329febf6efe22788e03ddeaf0af" kindref="member">Class</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a3c1aac82863ed9e5a9aca8ce687f711d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a3c1aac82863ed9e5a9aca8ce687f711d" kindref="member">Interface</ref><sp/><sp/><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43ae55f75a29310d7b60f7ac1d390c8ae42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43ae55f75a29310d7b60f7ac1d390c8ae42" kindref="member">Module</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a5ad234cb2cde4266195252a23ca7d84e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a5ad234cb2cde4266195252a23ca7d84e" kindref="member">Property</ref><sp/><sp/><sp/><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a19c562a36aeb455d09534f93b4f5236f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a19c562a36aeb455d09534f93b4f5236f" kindref="member">Unit</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a689202409e48743b914713f96d93947c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a689202409e48743b914713f96d93947c" kindref="member">Value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43acf20423ed48998082c20099488a0917c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43acf20423ed48998082c20099488a0917c" kindref="member">Enum</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>13,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a220f3d3750583b9db48568a0b5b9a5f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a220f3d3750583b9db48568a0b5b9a5f1" kindref="member">Keyword</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>14,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43ac437bb5adb99c55aa0754151c5a61e3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43ac437bb5adb99c55aa0754151c5a61e3d" kindref="member">Snippet</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>15,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43acb5feb1b7314637725a2e73bdc9f7295" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43acb5feb1b7314637725a2e73bdc9f7295" kindref="member">Color</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>16,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a0b27918290ff5323bea1e3b78a9cf04e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a0b27918290ff5323bea1e3b78a9cf04e" kindref="member">File</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>17,</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a63d5049791d9d79d86e9a108b0a999ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a63d5049791d9d79d86e9a108b0a999ca" kindref="member">Reference</ref><sp/><sp/><sp/>=<sp/>18,</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43ab0f2b97dc5d2b76b26e040408bb1d8af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43ab0f2b97dc5d2b76b26e040408bb1d8af" kindref="member">Folder</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>19,</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a692ec2aadc30b3b8cc45b63c507e48a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a692ec2aadc30b3b8cc45b63c507e48a1" kindref="member">EnumMember</ref><sp/><sp/>=<sp/>20,</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43acb17869fe51048b5a5c4c6106551a255" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43acb17869fe51048b5a5c4c6106551a255" kindref="member">Constant</ref><sp/><sp/><sp/><sp/>=<sp/>21,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a886ef5dbd655a6c97726d7091c6b173e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a886ef5dbd655a6c97726d7091c6b173e" kindref="member">Struct</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>22,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43aa4ecfc70574394990cf17bd83df499f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43aa4ecfc70574394990cf17bd83df499f7" kindref="member">Event</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>23,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43ae1b3ec89ead7f83a9245ed5c9cacfdbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43ae1b3ec89ead7f83a9245ed5c9cacfdbf" kindref="member">Operator</ref><sp/><sp/><sp/><sp/>=<sp/>24,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43abacdd231dc91b0d271df56df65d1eab3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43abacdd231dc91b0d271df56df65d1eab3" kindref="member">TypeParameter</ref><sp/>=<sp/>25,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CompletionItem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1aql_1_1_completion_item" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_completion_item" kindref="compound">CompletionItem</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1aql_1_1_completion_item_1ad07dfbe6f5cd64998ea34a9c73961b99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_completion_item_1ad07dfbe6f5cd64998ea34a9c73961b99" kindref="member">label</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1aql_1_1_completion_item_1a5e76d77ca0829f0bf36e59c821b950ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43" kindref="member">CompletionItemKind</ref><sp/><ref refid="structthemis_1_1aql_1_1_completion_item_1a5e76d77ca0829f0bf36e59c821b950ed" kindref="member">kind</ref><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a220f3d3750583b9db48568a0b5b9a5f1" kindref="member">CompletionItemKind::Keyword</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1aql_1_1_completion_item_1ac2f2e3452d82deef143d34003ed8b43f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_completion_item_1ac2f2e3452d82deef143d34003ed8b43f" kindref="member">detail</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1aql_1_1_completion_item_1a38191e11474c4fbf547a49a7e360d6b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_completion_item_1a38191e11474c4fbf547a49a7e360d6b0" kindref="member">documentation</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1aql_1_1_completion_item_1aa2ca6e715aaa5aed170935700d0261be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_completion_item_1aa2ca6e715aaa5aed170935700d0261be" kindref="member">insert_text</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1aql_1_1_completion_item_1aa5097e58e5992ec753a54cd3abe85a88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1aql_1_1_completion_item_1aa5097e58e5992ec753a54cd3abe85a88" kindref="member">prefix_start</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1aql_1_1_completion_item_1aad559a0dec41f6ef37f6dca0c165bf4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_completion_item_1aad559a0dec41f6ef37f6dca0c165bf4c" kindref="member">sort_order</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CompletionContext<sp/>—<sp/>cursor<sp/>position<sp/>and<sp/>surrounding<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1aql_1_1_completion_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_completion_context" kindref="compound">CompletionContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1aql_1_1_completion_context_1aa3abc5d0c744af504650a6422d2b91ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_completion_context_1aa3abc5d0c744af504650a6422d2b91ee" kindref="member">query_text</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1aql_1_1_completion_context_1a0a2218815f30845792f6332c0597dd4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1aql_1_1_completion_context_1a0a2218815f30845792f6332c0597dd4c" kindref="member">cursor_offset</ref><sp/>=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1aql_1_1_completion_context_1ad3d520c6ca7fb539d441f5bc0844eb02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_completion_context_1ad3d520c6ca7fb539d441f5bc0844eb02" kindref="member">schema_context</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1aql_1_1_completion_context_1addae88f66e66d1bb836463b33fd4f6b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_completion_context_1addae88f66e66d1bb836463b33fd4f6b2" kindref="member">trigger_character</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLAutoComplete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1aql_1_1_a_q_l_auto_complete" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_a_q_l_auto_complete_1aa634eadcc6eac0f8f54d619e9aa811ae" kindref="member">AQLAutoComplete</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1aql_1_1_a_q_l_auto_complete_1aa634eadcc6eac0f8f54d619e9aa811ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_auto_complete_1aa634eadcc6eac0f8f54d619e9aa811ae" kindref="member">AQLAutoComplete</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1aql_1_1_a_q_l_auto_complete_1a068e7bf49817a1338207dae9d184bc75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_auto_complete_1a068e7bf49817a1338207dae9d184bc75" kindref="member">~AQLAutoComplete</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CompletionItem&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_auto_complete_1ab9ea74b13fd845f34dff33bdcc12597d" kindref="member">complete</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_completion_context" kindref="compound">CompletionContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_auto_complete_1a2ee40fa0361645fb17da4094499d26e2" kindref="member">allKeywords</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_auto_complete_1a7fe7e4078a633ad7d9f124c8f4de3e32" kindref="member">allFunctions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extractPrefix(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>std::size_t<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>prefixStart(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>std::size_t<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isAfterDot(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>std::size_t<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>variableBeforeDot(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>std::size_t<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>declaredVariables(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>std::size_t<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SchemaInfo<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>collection_name;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>fields;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SchemaInfo&gt;<sp/>parseSchema(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>schema_context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CompletionItem&gt;<sp/>keywordCandidates(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>std::size_t<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CompletionItem&gt;<sp/>functionCandidates()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CompletionItem&gt;<sp/>variableCandidates(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>std::size_t<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CompletionItem&gt;<sp/>attributeCandidates(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>variable,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SchemaInfo&gt;&amp;<sp/>schema,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CompletionItem&gt;<sp/>filterAndSort(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;CompletionItem&gt;<sp/>candidates,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>prefix_start_col)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/aql_autocomplete.h"/>
+  </compounddef>
+</doxygen>

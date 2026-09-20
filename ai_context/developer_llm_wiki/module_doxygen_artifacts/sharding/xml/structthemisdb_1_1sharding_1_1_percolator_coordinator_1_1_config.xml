@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PercolatorCoordinator::Config</compoundname>
+    <includes refid="cross__shard__transaction_8h" local="no">cross_shard_transaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config_1a1f12d7345b583740c856bde913956123" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::PercolatorCoordinator::Config::lock_timeout</definition>
+        <argsstring></argsstring>
+        <name>lock_timeout</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::Config::lock_timeout</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Per-lock acquisition timeout (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="851" column="35" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="851" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config_1aed8a08e59af1f87816394a9dac68b032" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::PercolatorCoordinator::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::Config::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum number of lock-acquisition retries per shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="854" column="18" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="854" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config_1adfc6d5ed8db10d82b0aa4a9237725d97" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themisdb::sharding::PercolatorCoordinator::Config::stale_lock_threshold</definition>
+        <argsstring></argsstring>
+        <name>stale_lock_threshold</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::Config::stale_lock_threshold</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>How long a lock can be held before it is considered stale. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="857" column="30" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="857" bodyend="857"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_transaction.h" line="849" column="5" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="849" bodyend="858"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config_1a1f12d7345b583740c856bde913956123" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator::Config</scope><name>lock_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config_1aed8a08e59af1f87816394a9dac68b032" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator::Config</scope><name>max_retries</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config_1adfc6d5ed8db10d82b0aa4a9237725d97" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator::Config</scope><name>stale_lock_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

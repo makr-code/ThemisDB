@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_tier_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::TierConfig</compoundname>
+    <includes refid="multi__tier__replication_8h" local="no">multi_tier_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_tier_config_1a058851e024715900322c98470200282b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref></type>
+        <definition>ReplicationTier themisdb::replication::TierConfig::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themisdb::replication::TierConfig::tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87aeef767dda7ea588f055c8a1e2b8556bc" kindref="member">ReplicationTier::TIER_2_STANDARD</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="76" column="21" bodyfile="include/replication/multi_tier_replication.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_tier_config_1a715a4fcc6aeb831343f2025bb11f20c5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::TierConfig::replica_count</definition>
+        <argsstring></argsstring>
+        <name>replica_count</name>
+        <qualifiedname>themisdb::replication::TierConfig::replica_count</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Number of replicas required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="77" column="21" bodyfile="include/replication/multi_tier_replication.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_tier_config_1abb34ef824c7cc109ce88aa61f412141c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bc" kindref="member">ReplicationMode</ref></type>
+        <definition>ReplicationMode themisdb::replication::TierConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themisdb::replication::TierConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bca767c2b6654e7bd7ac3dae9cbaa2c390b" kindref="member">ReplicationMode::SEMI_SYNC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="78" column="21" bodyfile="include/replication/multi_tier_replication.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_tier_config_1a79b33e9920393c7aabce0c74c38b26f7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::TierConfig::max_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>max_latency_ms</name>
+        <qualifiedname>themisdb::replication::TierConfig::max_latency_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>SLA: maximum acceptable commit latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="79" column="21" bodyfile="include/replication/multi_tier_replication.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_tier_config_1aa4a4b95386507e67c328fb8d604b143d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::TierConfig::min_availability_pct</definition>
+        <argsstring></argsstring>
+        <name>min_availability_pct</name>
+        <qualifiedname>themisdb::replication::TierConfig::min_availability_pct</qualifiedname>
+        <initializer>= 99</initializer>
+        <briefdescription>
+<para>Minimum replica availability (%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="80" column="21" bodyfile="include/replication/multi_tier_replication.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Per-tier replication configuration. </para>
+    </detaileddescription>
+    <location file="include/replication/multi_tier_replication.h" line="75" column="1" bodyfile="include/replication/multi_tier_replication.h" bodystart="75" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_tier_config_1a79b33e9920393c7aabce0c74c38b26f7" prot="public" virt="non-virtual"><scope>themisdb::replication::TierConfig</scope><name>max_latency_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_tier_config_1aa4a4b95386507e67c328fb8d604b143d" prot="public" virt="non-virtual"><scope>themisdb::replication::TierConfig</scope><name>min_availability_pct</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_tier_config_1abb34ef824c7cc109ce88aa61f412141c" prot="public" virt="non-virtual"><scope>themisdb::replication::TierConfig</scope><name>mode</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_tier_config_1a715a4fcc6aeb831343f2025bb11f20c5" prot="public" virt="non-virtual"><scope>themisdb::replication::TierConfig</scope><name>replica_count</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_tier_config_1a058851e024715900322c98470200282b" prot="public" virt="non-virtual"><scope>themisdb::replication::TierConfig</scope><name>tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

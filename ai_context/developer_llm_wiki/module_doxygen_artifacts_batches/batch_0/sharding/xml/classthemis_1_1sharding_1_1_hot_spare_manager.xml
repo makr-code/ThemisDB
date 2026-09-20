@@ -1,0 +1,1188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_hot_spare_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::HotSpareManager</compoundname>
+    <includes refid="hot__spare__manager_8h" local="no">hot_spare_manager.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats" prot="public">themis::sharding::HotSpareManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task" prot="private">themis::sharding::HotSpareManager::RebuildTask</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_hot_spare_manager_1aebb530709a04f13f05993eaa853c02df" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;shard_id, const std::string &amp;doc_id, const std::vector&lt; uint8_t &gt; &amp;data)&gt;</type>
+        <definition>using themis::sharding::HotSpareManager::WriteHandler = std::function&lt;bool(const std::string&amp; shard_id, 
+                                           const std::string&amp; doc_id,
+                                           const std::vector&lt;uint8_t&gt;&amp; data)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WriteHandler</name>
+        <qualifiedname>themis::sharding::HotSpareManager::WriteHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="216" column="5" bodyfile="include/sharding/hot_spare_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a0c7dcf2a2e48520a1a1b7034aae85282" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt;( const std::string &amp;shard_id, const std::string &amp;doc_id)&gt;</type>
+        <definition>using themis::sharding::HotSpareManager::ReadHandler = std::function&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;(
+                                           const std::string&amp; shard_id,
+                                           const std::string&amp; doc_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReadHandler</name>
+        <qualifiedname>themis::sharding::HotSpareManager::ReadHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="220" column="5" bodyfile="include/sharding/hot_spare_manager.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_hot_spare_manager_1aed5289971b8f2e9509fcc699134e7601" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;(const std::string &amp;shard_id)&gt;</type>
+        <definition>using themis::sharding::HotSpareManager::DocumentIterator = std::function&lt;std::vector&lt;std::string&gt;(const std::string&amp; shard_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DocumentIterator</name>
+        <qualifiedname>themis::sharding::HotSpareManager::DocumentIterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="224" column="5" bodyfile="include/sharding/hot_spare_manager.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1ab8157f7db369a13965c887a532baa394" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_hot_spare_config" kindref="compound">HotSpareConfig</ref></type>
+        <definition>HotSpareConfig themis::sharding::HotSpareManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="328" column="20" bodyfile="include/sharding/hot_spare_manager.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a58df70bdf416c39b1fa3e6f81a628c8f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+        <definition>RedundancyStrategy&amp; themis::sharding::HotSpareManager::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="329" column="24" bodyfile="include/sharding/hot_spare_manager.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a95353800281292b7e12d194b0bfefb38" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+        <definition>ShardTopology&amp; themis::sharding::HotSpareManager::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="330" column="19" bodyfile="include/sharding/hot_spare_manager.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1aac30693e3e4e82d06e7a93e42a8bd228" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::HotSpareManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="333" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="333" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a09dc9d76618d987e87083b3d90cdb888" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::HotSpareManager::health_check_thread_</definition>
+        <argsstring></argsstring>
+        <name>health_check_thread_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::health_check_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="334" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1afc5a36dce4b2688986eef397c02c9447" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::HotSpareManager::rebuild_thread_</definition>
+        <argsstring></argsstring>
+        <name>rebuild_thread_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::rebuild_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="335" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a691ef792a2031d800de22d7ceb6cba27" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::sharding::HotSpareManager::spares_mutex_</definition>
+        <argsstring></argsstring>
+        <name>spares_mutex_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::spares_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="338" column="31" bodyfile="include/sharding/hot_spare_manager.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1ab8af3bea7b48a1fd153fa3bcb28b75d3" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_spare_shard_info" kindref="compound">SpareShardInfo</ref> &gt;</type>
+        <definition>std::map&lt;std::string, SpareShardInfo&gt; themis::sharding::HotSpareManager::spares_</definition>
+        <argsstring></argsstring>
+        <name>spares_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::spares_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="339" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1aa8cec081a0c2e50da72e4359766b6122" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HotSpareManager::rebuild_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rebuild_mutex_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::rebuild_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="342" column="16" bodyfile="include/sharding/hot_spare_manager.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a91745fbe42ec0328492de81b95f99eff" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::sharding::HotSpareManager::rebuild_cv_</definition>
+        <argsstring></argsstring>
+        <name>rebuild_cv_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::rebuild_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="343" column="29" bodyfile="include/sharding/hot_spare_manager.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a6d8f4b91c627f064b77c477a65321b75" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; RebuildTask &gt;</type>
+        <definition>std::queue&lt;RebuildTask&gt; themis::sharding::HotSpareManager::rebuild_queue_</definition>
+        <argsstring></argsstring>
+        <name>rebuild_queue_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::rebuild_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="344" column="16" bodyfile="include/sharding/hot_spare_manager.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a78d5847406381592e6ac3595d8a032f7" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, bool &gt;</type>
+        <definition>std::map&lt;std::string, bool&gt; themis::sharding::HotSpareManager::rebuild_paused_</definition>
+        <argsstring></argsstring>
+        <name>rebuild_paused_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::rebuild_paused_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="345" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1af26b8329bfb1d7665e7e088adaa01ef4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HotSpareManager::history_mutex_</definition>
+        <argsstring></argsstring>
+        <name>history_mutex_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::history_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="348" column="24" bodyfile="include/sharding/hot_spare_manager.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a8ae393ca9db08cd06b8bfb4da3d4ecc1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event" kindref="compound">HotSpareFailoverEvent</ref> &gt;</type>
+        <definition>std::vector&lt;HotSpareFailoverEvent&gt; themis::sharding::HotSpareManager::failover_history_</definition>
+        <argsstring></argsstring>
+        <name>failover_history_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::failover_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="349" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a4c0108a5413b4eb1b521ad8043c09683" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HotSpareManager::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="353" column="24" bodyfile="include/sharding/hot_spare_manager.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a56471de793561f01dc2dc6ed86a32cf3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::sharding::HotSpareManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="354" column="11" bodyfile="include/sharding/hot_spare_manager.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a7ee6e0e7915bcd5e49951d7c0e04c370" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">themis::sharding::ShardRepairEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::ShardRepairEngine&gt; themis::sharding::HotSpareManager::repair_engine_</definition>
+        <argsstring></argsstring>
+        <name>repair_engine_</name>
+        <qualifiedname>themis::sharding::HotSpareManager::repair_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="357" column="21" bodyfile="include/sharding/hot_spare_manager.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_spare_manager_1aeec6979e1f2fc5ab233c95a6688a9d71" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::HotSpareManager::MAX_HISTORY_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_HISTORY_SIZE</name>
+        <qualifiedname>themis::sharding::HotSpareManager::MAX_HISTORY_SIZE</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="350" column="29" bodyfile="include/sharding/hot_spare_manager.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a49bbf017caaf5c73e2db813ffef1a4a2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HotSpareManager::HotSpareManager</definition>
+        <argsstring>(const HotSpareConfig &amp;config, RedundancyStrategy &amp;strategy, ShardTopology &amp;topology)</argsstring>
+        <name>HotSpareManager</name>
+        <qualifiedname>themis::sharding::HotSpareManager::HotSpareManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_hot_spare_config" kindref="compound">HotSpareConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="226" column="14" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="67" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1aae09ef702d9cb8d6521a8f2c0754e8fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HotSpareManager::~HotSpareManager</definition>
+        <argsstring>()</argsstring>
+        <name>~HotSpareManager</name>
+        <qualifiedname>themis::sharding::HotSpareManager::~HotSpareManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="232" column="5" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a370826c448b8b8cdaf6ac587f1d6c6fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::sharding::HotSpareManager::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), spdlog::warn(), std::thread(), healthCheckLoop(), rebuildLoop(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="235" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="101" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1af6c3ac393a390608f69119c6a96dc8f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::sharding::HotSpareManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="236" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="126" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1aa57b28392a682dcbd204e6b11f877f56" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareManager::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::sharding::HotSpareManager::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="237" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a2160be2c6f177e951bb6dd5c1e15a912" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::addSpare</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>addSpare</name>
+        <qualifiedname>themis::sharding::HotSpareManager::addSpare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Spare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), spdlog::warn(), std::chrono::system_clock::now(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="240" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="160" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a813b81fd9f3a4c51d1e716e2adb96323" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::removeSpare</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeSpare</name>
+        <qualifiedname>themis::sharding::HotSpareManager::removeSpare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Spare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::warn(), spdlog::error(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="241" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="184" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1af047a034605ec8a5421a16f3d79af63e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::HotSpareManager::getAvailableSpares</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableSpares</name>
+        <qualifiedname>themis::sharding::HotSpareManager::getAvailableSpares</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spares_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="242" column="17" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="205" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a059ab64f17fc13b0b6c3dad4dfc4cdc2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_spare_shard_info" kindref="compound">SpareShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt; SpareShardInfo &gt; themis::sharding::HotSpareManager::getAllSpares</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllSpares</name>
+        <qualifiedname>themis::sharding::HotSpareManager::getAllSpares</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spares_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="243" column="17" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="224" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1ad4ef5e57094239cdcdcd6696bf8f1c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareManager::activateSpare</definition>
+        <argsstring>(const std::string &amp;failed_shard_id, ConsistentHashRing &amp;ring, ReadHandler read_handler, WriteHandler write_handler, DocumentIterator doc_iterator)</argsstring>
+        <name>activateSpare</name>
+        <qualifiedname>themis::sharding::HotSpareManager::activateSpare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_shard_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a0c7dcf2a2e48520a1a1b7034aae85282" kindref="member">ReadHandler</ref></type>
+          <declname>read_handler</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aebb530709a04f13f05993eaa853c02df" kindref="member">WriteHandler</ref></type>
+          <declname>write_handler</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aed5289971b8f2e9509fcc699134e7601" kindref="member">DocumentIterator</ref></type>
+          <declname>doc_iterator</declname>
+        </param>
+        <briefdescription>
+<para>Activate Spare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">read_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback that reads the entity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">write_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback that writes the entity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_iterator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), spdlog::info(), selectBestSpare(), spdlog::error(), std::chrono::system_clock::now(), lock(), push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="246" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="251" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a6ea53605a75e97f2cddaa374c45bd0a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::triggerRebuild</definition>
+        <argsstring>(const std::string &amp;spare_shard_id)</argsstring>
+        <name>triggerRebuild</name>
+        <qualifiedname>themis::sharding::HotSpareManager::triggerRebuild</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>spare_shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Trigger Rebuild. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spare_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the spare shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::warn(), spdlog::error(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="255" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="411" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a841dadd8a970a1907dbafe9159b6e66a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::pauseRebuild</definition>
+        <argsstring>(const std::string &amp;spare_shard_id)</argsstring>
+        <name>pauseRebuild</name>
+        <qualifiedname>themis::sharding::HotSpareManager::pauseRebuild</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>spare_shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Pause Rebuild. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spare_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the spare shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="256" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="435" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a7184528f99e508e39df41854588357ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::resumeRebuild</definition>
+        <argsstring>(const std::string &amp;spare_shard_id)</argsstring>
+        <name>resumeRebuild</name>
+        <qualifiedname>themis::sharding::HotSpareManager::resumeRebuild</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>spare_shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Resume Rebuild. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spare_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the spare shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), notify_one(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="257" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="446" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1add79b7aaf2b67d210ec48b29def7b825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::cancelRebuild</definition>
+        <argsstring>(const std::string &amp;spare_shard_id)</argsstring>
+        <name>cancelRebuild</name>
+        <qualifiedname>themis::sharding::HotSpareManager::cancelRebuild</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>spare_shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Rebuild. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spare_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the spare shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), spare_lock(), find(), end(), std::chrono::system_clock::now(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="258" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="458" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a87f47de9e7d7954ca1caf7e44bf60a86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_rebuild_status" kindref="compound">RebuildStatus</ref></type>
+        <definition>RebuildStatus themis::sharding::HotSpareManager::getRebuildStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getRebuildStatus</name>
+        <qualifiedname>themis::sharding::HotSpareManager::getRebuildStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spares_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats" kindref="compound">Stats</ref> lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="261" column="19" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="477" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a88624c64fd993c245a478be22fb07a08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_spare_shard_info" kindref="compound">SpareShardInfo</ref> &gt;</type>
+        <definition>std::optional&lt; SpareShardInfo &gt; themis::sharding::HotSpareManager::getSpareInfo</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getSpareInfo</name>
+        <qualifiedname>themis::sharding::HotSpareManager::getSpareInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spares_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="262" column="19" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="529" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1af4ddbbc6636e548fc08b6ebbd302482c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event" kindref="compound">HotSpareFailoverEvent</ref> &gt;</type>
+        <definition>std::vector&lt; HotSpareFailoverEvent &gt; themis::sharding::HotSpareManager::getFailoverHistory</definition>
+        <argsstring>(size_t max_count=100) const</argsstring>
+        <name>getFailoverHistory</name>
+        <qualifiedname>themis::sharding::HotSpareManager::getFailoverHistory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_count</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">history_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="263" column="17" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="546" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a6d5eaa8db4efcae9421aeeb6374a41b6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_hot_spare_config" kindref="compound">HotSpareConfig</ref> &amp;</type>
+        <definition>const HotSpareConfig &amp; themis::sharding::HotSpareManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::sharding::HotSpareManager::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="266" column="26" bodyfile="include/sharding/hot_spare_manager.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a1c7ed56996a6829760a45a5adbbb449d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::updateConfig</definition>
+        <argsstring>(const HotSpareConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::sharding::HotSpareManager::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_hot_spare_config" kindref="compound">HotSpareConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: validate(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="267" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="573" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a6a9c5c5fa0169499cb0778fe04e313b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>HotSpareManager::Stats themis::sharding::HotSpareManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::sharding::HotSpareManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Spare lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spares_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="284" column="11" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="592" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a30fd4ed63908c0fdd414731f6276334f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HotSpareManager::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themis::sharding::HotSpareManager::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spares_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="287" column="17" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="630" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a732a65742ac9690a79653aba947c4d05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::setRepairEngine</definition>
+        <argsstring>(std::shared_ptr&lt; themis::sharding::ShardRepairEngine &gt; engine)</argsstring>
+        <name>setRepairEngine</name>
+        <qualifiedname>themis::sharding::HotSpareManager::setRepairEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">themis::sharding::ShardRepairEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Set Repair Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref> so that after a successful failover, the spare shard is automatically scheduled for full data rebuild via ShardRepairEngine::triggerRepair(spare_shard_id).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="294" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="587" bodyend="590"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a6bc1d6d3d32cc045162dffe43b56c846" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::healthCheckLoop</definition>
+        <argsstring>()</argsstring>
+        <name>healthCheckLoop</name>
+        <qualifiedname>themis::sharding::HotSpareManager::healthCheckLoop</qualifiedname>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Private Methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), checkSpareHealth(), spdlog::error(), what(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="298" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="729" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a73066aa719453769cab728fcb799310a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::rebuildLoop</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildLoop</name>
+        <qualifiedname>themis::sharding::HotSpareManager::rebuildLoop</qualifiedname>
+        <briefdescription>
+<para>Rebuild Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), std::chrono::seconds(), empty(), spare_lock(), front(), pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="299" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="750" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1aa54597da6b28cfd997a5cfe40966972f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::checkSpareHealth</definition>
+        <argsstring>(SpareShardInfo &amp;spare)</argsstring>
+        <name>checkSpareHealth</name>
+        <qualifiedname>themis::sharding::HotSpareManager::checkSpareHealth</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_spare_shard_info" kindref="compound">SpareShardInfo</ref> &amp;</type>
+          <declname>spare</declname>
+        </param>
+        <briefdescription>
+<para>Check Spare Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">spare</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="302" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="850" bodyend="857"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a61df162b9abc03b5d822229bf8b19250" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::handleShardFailure</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>handleShardFailure</name>
+        <qualifiedname>themis::sharding::HotSpareManager::handleShardFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Shard Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(), sendAlert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="303" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="864" bodyend="867"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a698d75972d65763466de48a8be7315b5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareManager::rebuildShard</definition>
+        <argsstring>(RebuildTask &amp;task)</argsstring>
+        <name>rebuildShard</name>
+        <qualifiedname>themis::sharding::HotSpareManager::rebuildShard</qualifiedname>
+        <param>
+          <type>RebuildTask &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Rebuild Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), size(), spdlog::error(), std::chrono::steady_clock::now(), std::chrono::microseconds(), lock(), getReplicaNodes(), read_handler(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="319" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="875" bodyend="1008"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a36cf630ad6ccc5daf69142e227a7a9bc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::sharding::HotSpareManager::selectBestSpare</definition>
+        <argsstring>() const</argsstring>
+        <name>selectBestSpare</name>
+        <qualifiedname>themis::sharding::HotSpareManager::selectBestSpare</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spares_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="322" column="19" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="1010" bodyend="1025"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_spare_manager_1a44df29ff3cf8a9747f447962c2d36d9d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotSpareManager::sendAlert</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>sendAlert</name>
+        <qualifiedname>themis::sharding::HotSpareManager::sendAlert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Send Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: alert_callback(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="325" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="1032" bodyend="1038"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Hot Spare Manager</para>
+<para>Manages hot spare pool and automatic failover/rebuild </para>
+    </detaileddescription>
+    <location file="include/sharding/hot_spare_manager.h" line="214" column="1" bodyfile="include/sharding/hot_spare_manager.h" bodystart="214" bodyend="358"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1ad4ef5e57094239cdcdcd6696bf8f1c8e" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>activateSpare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a2160be2c6f177e951bb6dd5c1e15a912" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>addSpare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1add79b7aaf2b67d210ec48b29def7b825" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>cancelRebuild</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aa54597da6b28cfd997a5cfe40966972f" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>checkSpareHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1ab8157f7db369a13965c887a532baa394" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aed5289971b8f2e9509fcc699134e7601" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>DocumentIterator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a30fd4ed63908c0fdd414731f6276334f" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a8ae393ca9db08cd06b8bfb4da3d4ecc1" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>failover_history_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a059ab64f17fc13b0b6c3dad4dfc4cdc2" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>getAllSpares</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1af047a034605ec8a5421a16f3d79af63e" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>getAvailableSpares</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6d5eaa8db4efcae9421aeeb6374a41b6" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1af4ddbbc6636e548fc08b6ebbd302482c" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>getFailoverHistory</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a87f47de9e7d7954ca1caf7e44bf60a86" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>getRebuildStatus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a88624c64fd993c245a478be22fb07a08" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>getSpareInfo</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6a9c5c5fa0169499cb0778fe04e313b2" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a61df162b9abc03b5d822229bf8b19250" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>handleShardFailure</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a09dc9d76618d987e87083b3d90cdb888" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>health_check_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6bc1d6d3d32cc045162dffe43b56c846" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>healthCheckLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1af26b8329bfb1d7665e7e088adaa01ef4" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>history_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a49bbf017caaf5c73e2db813ffef1a4a2" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>HotSpareManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aa57b28392a682dcbd204e6b11f877f56" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aeec6979e1f2fc5ab233c95a6688a9d71" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>MAX_HISTORY_SIZE</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a841dadd8a970a1907dbafe9159b6e66a" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>pauseRebuild</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a0c7dcf2a2e48520a1a1b7034aae85282" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>ReadHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a91745fbe42ec0328492de81b95f99eff" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>rebuild_cv_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aa8cec081a0c2e50da72e4359766b6122" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>rebuild_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a78d5847406381592e6ac3595d8a032f7" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>rebuild_paused_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6d8f4b91c627f064b77c477a65321b75" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>rebuild_queue_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1afc5a36dce4b2688986eef397c02c9447" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>rebuild_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a73066aa719453769cab728fcb799310a" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>rebuildLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a698d75972d65763466de48a8be7315b5" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>rebuildShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a813b81fd9f3a4c51d1e716e2adb96323" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>removeSpare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a7ee6e0e7915bcd5e49951d7c0e04c370" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>repair_engine_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a7184528f99e508e39df41854588357ed" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>resumeRebuild</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aac30693e3e4e82d06e7a93e42a8bd228" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a36cf630ad6ccc5daf69142e227a7a9bc" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>selectBestSpare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a44df29ff3cf8a9747f447962c2d36d9d" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>sendAlert</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a732a65742ac9690a79653aba947c4d05" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>setRepairEngine</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1ab8af3bea7b48a1fd153fa3bcb28b75d3" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>spares_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a691ef792a2031d800de22d7ceb6cba27" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>spares_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a370826c448b8b8cdaf6ac587f1d6c6fc" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a56471de793561f01dc2dc6ed86a32cf3" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a4c0108a5413b4eb1b521ad8043c09683" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1af6c3ac393a390608f69119c6a96dc8f3" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>stop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a58df70bdf416c39b1fa3e6f81a628c8f" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>strategy_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a95353800281292b7e12d194b0bfefb38" prot="private" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6ea53605a75e97f2cddaa374c45bd0a7" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>triggerRebuild</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a1c7ed56996a6829760a45a5adbbb449d" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aebb530709a04f13f05993eaa853c02df" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>WriteHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aae09ef702d9cb8d6521a8f2c0754e8fc" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager</scope><name>~HotSpareManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_response_1_1_five_r_check" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMResponse::FiveRCheck</compoundname>
+    <includes refid="llm__process__analyzer_8h" local="no">llm_process_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_five_r_check_1a49ccf84c29696f6a2a60ba49c32960e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FiveRCheck::right_patient</definition>
+        <argsstring></argsstring>
+        <name>right_patient</name>
+        <qualifiedname>themis::LLMResponse::FiveRCheck::right_patient</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="133" column="14" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_five_r_check_1ae1b353266a51fd449e651969ce58589e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FiveRCheck::right_medication</definition>
+        <argsstring></argsstring>
+        <name>right_medication</name>
+        <qualifiedname>themis::LLMResponse::FiveRCheck::right_medication</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="134" column="14" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_five_r_check_1ac336e0c491de20c2fa1e14b855c9921b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FiveRCheck::right_dose</definition>
+        <argsstring></argsstring>
+        <name>right_dose</name>
+        <qualifiedname>themis::LLMResponse::FiveRCheck::right_dose</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="135" column="14" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_five_r_check_1abc2f9349bd19de0691fd558bf9c7d6c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FiveRCheck::right_time</definition>
+        <argsstring></argsstring>
+        <name>right_time</name>
+        <qualifiedname>themis::LLMResponse::FiveRCheck::right_time</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="136" column="14" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_five_r_check_1a5751a5e9224ad98367623d64cdb78e32" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FiveRCheck::right_route</definition>
+        <argsstring></argsstring>
+        <name>right_route</name>
+        <qualifiedname>themis::LLMResponse::FiveRCheck::right_route</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="137" column="14" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_five_r_check_1ac93eb3541317aec60c8fc3cd6c0f6c31" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FiveRCheck::overall_compliance</definition>
+        <argsstring></argsstring>
+        <name>overall_compliance</name>
+        <qualifiedname>themis::LLMResponse::FiveRCheck::overall_compliance</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="138" column="14" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_five_r_check_1ab84c67dbc7dc79315ba3b445f85c4a61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMResponse::FiveRCheck::risk_level</definition>
+        <argsstring></argsstring>
+        <name>risk_level</name>
+        <qualifiedname>themis::LLMResponse::FiveRCheck::risk_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="139" column="21" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_five_r_check_1af50f3e1c7f0d16f98cab34514495be6a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::LLMResponse::FiveRCheck::corrective_actions</definition>
+        <argsstring></argsstring>
+        <name>corrective_actions</name>
+        <qualifiedname>themis::LLMResponse::FiveRCheck::corrective_actions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="140" column="21" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/llm_process_analyzer.h" line="132" column="5" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="132" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_five_r_check_1af50f3e1c7f0d16f98cab34514495be6a" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FiveRCheck</scope><name>corrective_actions</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_five_r_check_1ac93eb3541317aec60c8fc3cd6c0f6c31" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FiveRCheck</scope><name>overall_compliance</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_five_r_check_1ac336e0c491de20c2fa1e14b855c9921b" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FiveRCheck</scope><name>right_dose</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_five_r_check_1ae1b353266a51fd449e651969ce58589e" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FiveRCheck</scope><name>right_medication</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_five_r_check_1a49ccf84c29696f6a2a60ba49c32960e0" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FiveRCheck</scope><name>right_patient</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_five_r_check_1a5751a5e9224ad98367623d64cdb78e32" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FiveRCheck</scope><name>right_route</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_five_r_check_1abc2f9349bd19de0691fd558bf9c7d6c5" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FiveRCheck</scope><name>right_time</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_five_r_check_1ab84c67dbc7dc79315ba3b445f85c4a61" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FiveRCheck</scope><name>risk_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IGDPRPurgeHook</compoundname>
+    <derivedcompoundref refid="class_mock_gdpr_purge_hook" prot="public" virt="non-virtual">MockGdprPurgeHook</derivedcompoundref>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1ad62fabe7fba5dd37aeb8c331ad7a1151" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IGDPRPurgeHook::~IGDPRPurgeHook</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGDPRPurgeHook</name>
+        <qualifiedname>themis::cache::IGDPRPurgeHook::~IGDPRPurgeHook</qualifiedname>
+        <briefdescription>
+<para>IGDPRPurge Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="186" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1a309076f0a837998098cad545a177a45e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_purge_result" kindref="compound">PurgeResult</ref></type>
+        <definition>virtual PurgeResult themis::cache::IGDPRPurgeHook::purge</definition>
+        <argsstring>(const PurgeDescriptor &amp;descriptor)=0</argsstring>
+        <name>purge</name>
+        <qualifiedname>themis::cache::IGDPRPurgeHook::purge</qualifiedname>
+        <reimplementedby refid="class_mock_gdpr_purge_hook_1a45b7237c239fc436b050114f4bde4dae">purge</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_purge_descriptor" kindref="compound">PurgeDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="188" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockGdprPurgeHook</label>
+        <link refid="class_mock_gdpr_purge_hook"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::IGDPRPurgeHook</label>
+        <link refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/cache_interfaces.h" line="181" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="181" bodyend="189"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1a309076f0a837998098cad545a177a45e" prot="public" virt="pure-virtual"><scope>themis::cache::IGDPRPurgeHook</scope><name>purge</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1ad62fabe7fba5dd37aeb8c331ad7a1151" prot="public" virt="virtual"><scope>themis::cache::IGDPRPurgeHook</scope><name>~IGDPRPurgeHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

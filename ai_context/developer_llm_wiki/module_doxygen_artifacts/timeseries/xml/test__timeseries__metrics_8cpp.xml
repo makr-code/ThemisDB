@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__timeseries__metrics_8cpp" kind="file" language="C++">
+    <compoundname>test_timeseries_metrics.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="timeseries__metrics_8h" local="yes">timeseries/timeseries_metrics.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>timeseries/timeseries_metrics.h</label>
+        <link refid="timeseries__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/timeseries/test_timeseries_metrics.cpp</label>
+        <link refid="test__timeseries__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_time_series_metrics_test" prot="public">TimeSeriesMetricsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestDataPointWrite)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestDataPointWrite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="20" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="20" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1ad0edb49231c8098eaf3e08b44aa13ede" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestBatchWrite)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestBatchWrite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="32" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="32" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a9987c0fe4c9b97f6d7b9fa23810001ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestCompression)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestCompression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="44" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="44" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1aeea2f638b532b8c4a9f9f4351592536b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="53" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="53" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1ab368dfb6f71f3257fce96373d914953b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestAggregation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="62" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="62" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a4f2fa792b4ec227d48fe52d2fa2e2765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestStorageStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestStorageStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="76" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a8a49faee2c8c50decb65751aebe735de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestRetention)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestRetention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="85" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="85" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a6f03fc4c2b9175e8cbcebc8fdb970d2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestPrometheusExport)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestPrometheusExport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="94" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="94" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1aaf785d1a1ff6de7a456c868e182145da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestJsonExport)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestJsonExport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="112" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="112" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a60ef7c09426358ee89bd10d4d51d97f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestReset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="132" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="132" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a4f31beea78bbf1056dd4f0cca5466a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestContinuousAggregateMetrics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestContinuousAggregateMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="151" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a9cfc5e304270872465cb4d23d9534dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestPerMetricStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestPerMetricStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="159" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="159" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a89cf233f007398ab7fa11153145c5749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestErrorRecording)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestErrorRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="176" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="176" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__timeseries__metrics_8cpp_1a10ec775d9ee75c08b8c510e5b00acb87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesMetricsTest, TestOutOfOrderWriteRecording)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>TestOutOfOrderWriteRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_metrics.cpp" line="183" column="1" bodyfile="tests/timeseries/test_timeseries_metrics.cpp" bodystart="183" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="timeseries__metrics_8h" kindref="compound">timeseries/timeseries_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="class_time_series_metrics_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_time_series_metrics_test_1af9c32d711fea5ff275f2e158f6aa29bc" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_time_series_metrics_1_1_config" kindref="compound">TimeSeriesMetrics::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_time_series_metrics_1_1_config_1ae860430260c1ac176230c25e9518dd2d" kindref="member">enable_histograms</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_time_series_metrics_1_1_config_1a1d183f2833e98ca2e0b3df04d5d1d7e0" kindref="member">enable_per_metric_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_time_series_metrics_test_1ad90d4dce8535b810ce0eea081b4102d6" kindref="member">metrics</ref><sp/>=<sp/>std::make_shared&lt;TimeSeriesMetrics&gt;(config);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TimeSeriesMetrics&gt;<sp/><ref refid="class_time_series_metrics_test_1ad90d4dce8535b810ce0eea081b4102d6" kindref="member">metrics</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestDataPointWrite)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalDataPointsWritten(),<sp/>0);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>1.5,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalDataPointsWritten(),<sp/>1);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;memory&quot;</highlight><highlight class="normal">,<sp/>2.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalDataPointsWritten(),<sp/>2);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(metrics-&gt;getAverageWriteLatency(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestBatchWrite)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalBatchesWritten(),<sp/>0);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordBatchWrite(100,<sp/>5.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalBatchesWritten(),<sp/>1);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalDataPointsWritten(),<sp/>100);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordBatchWrite(50,<sp/>2.5,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalBatchesWritten(),<sp/>2);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalDataPointsWritten(),<sp/>150);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestCompression)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordCompression(</highlight><highlight class="stringliteral">&quot;temp&quot;</highlight><highlight class="normal">,<sp/>10000,<sp/>1000);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(metrics-&gt;getAverageCompressionRatio(),<sp/>10.0);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordCompression(</highlight><highlight class="stringliteral">&quot;humidity&quot;</highlight><highlight class="normal">,<sp/>5000,<sp/>500);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(metrics-&gt;getAverageCompressionRatio(),<sp/>10.0);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestQuery)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalQueriesExecuted(),<sp/>0);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordQuery(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>10.5,<sp/>500,<sp/>3600000);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalQueriesExecuted(),<sp/>1);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(metrics-&gt;getAverageQueryLatency(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestAggregation)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalAggregationsExecuted(),<sp/>0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordAggregation(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>5.0,<sp/>1000,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalAggregationsExecuted(),<sp/>1);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOptimizerHits(),<sp/>1);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOptimizerMisses(),<sp/>0);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordAggregation(</highlight><highlight class="stringliteral">&quot;memory&quot;</highlight><highlight class="normal">,<sp/>8.0,<sp/>2000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalAggregationsExecuted(),<sp/>2);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOptimizerHits(),<sp/>1);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOptimizerMisses(),<sp/>1);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestStorageStats)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;updateStorageStats(10000,<sp/>50,<sp/>1048576);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Currently<sp/>these<sp/>are<sp/>exposed<sp/>via<sp/>export<sp/>methods,<sp/>not<sp/>direct<sp/>getters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>verify<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>metrics-&gt;exportJson();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(json.empty());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestRetention)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordRetention(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>15.0);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordRetention(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>500,<sp/>50.0);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>metrics-&gt;exportJson();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(json.empty());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json.find(</highlight><highlight class="stringliteral">&quot;retention&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestPrometheusExport)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>some<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>1.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordBatchWrite(100,<sp/>5.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordQuery(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>10.0,<sp/>500,<sp/>3600000);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordAggregation(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>5.0,<sp/>1000,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;updateStorageStats(1000,<sp/>10,<sp/>1048576);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>prom_text<sp/>=<sp/>metrics-&gt;exportPrometheus();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(prom_text.empty());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(prom_text.find(</highlight><highlight class="stringliteral">&quot;themis_timeseries_data_points_written_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(prom_text.find(</highlight><highlight class="stringliteral">&quot;themis_timeseries_queries_executed_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(prom_text.find(</highlight><highlight class="stringliteral">&quot;themis_timeseries_current_storage_bytes&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(prom_text.find(</highlight><highlight class="stringliteral">&quot;#<sp/>HELP&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(prom_text.find(</highlight><highlight class="stringliteral">&quot;#<sp/>TYPE&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestJsonExport)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>some<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>1.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordBatchWrite(100,<sp/>5.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordQuery(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>10.0,<sp/>500,<sp/>3600000);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordAggregation(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>5.0,<sp/>1000,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;updateStorageStats(1000,<sp/>10,<sp/>1048576);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordCompression(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>10000,<sp/>1000);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_text<sp/>=<sp/>metrics-&gt;exportJson();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(json_text.empty());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json_text.find(</highlight><highlight class="stringliteral">&quot;\&quot;ingestion\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json_text.find(</highlight><highlight class="stringliteral">&quot;\&quot;query\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json_text.find(</highlight><highlight class="stringliteral">&quot;\&quot;optimizer\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json_text.find(</highlight><highlight class="stringliteral">&quot;\&quot;storage\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json_text.find(</highlight><highlight class="stringliteral">&quot;\&quot;retention\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json_text.find(</highlight><highlight class="stringliteral">&quot;\&quot;compression_ratio_avg\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestReset)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>some<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>1.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordBatchWrite(100,<sp/>5.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordQuery(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>10.0,<sp/>500,<sp/>3600000);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(metrics-&gt;getTotalDataPointsWritten(),<sp/>0);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(metrics-&gt;getTotalQueriesExecuted(),<sp/>0);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;reset();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalDataPointsWritten(),<sp/>0);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalBatchesWritten(),<sp/>0);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalQueriesExecuted(),<sp/>0);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getTotalAggregationsExecuted(),<sp/>0);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOptimizerHits(),<sp/>0);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOptimizerMisses(),<sp/>0);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestContinuousAggregateMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordContinuousAggregateRefresh(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>60000,<sp/>25.0,<sp/>1000);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>metrics-&gt;exportJson();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(json.empty());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json.find(</highlight><highlight class="stringliteral">&quot;continuous_aggregates&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestPerMetricStats)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_time_series_metrics_1_1_config" kindref="compound">TimeSeriesMetrics::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_time_series_metrics_1_1_config_1a1d183f2833e98ca2e0b3df04d5d1d7e0" kindref="member">enable_per_metric_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics_per<sp/>=<sp/>std::make_shared&lt;TimeSeriesMetrics&gt;(config);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_per-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>1.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_per-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>1.5,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_per-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;memory&quot;</highlight><highlight class="normal">,<sp/>2.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_per-&gt;recordQuery(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>10.0,<sp/>100,<sp/>3600000);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>metrics_per-&gt;exportJson();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(json.empty());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json.find(</highlight><highlight class="stringliteral">&quot;per_metric_stats&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json.find(</highlight><highlight class="stringliteral">&quot;\&quot;cpu\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json.find(</highlight><highlight class="stringliteral">&quot;\&quot;memory\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestErrorRecording)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordDataPointWrite(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/>1.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>metrics-&gt;exportJson();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json.find(</highlight><highlight class="stringliteral">&quot;write_errors_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__timeseries__metrics_8cpp_1a8bd63dedc25fe7b880307d225d26991c" kindref="member">TEST_F</ref>(<ref refid="class_time_series_metrics_test" kindref="compound">TimeSeriesMetricsTest</ref>,<sp/>TestOutOfOrderWriteRecording)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOutOfOrderAccepted(),<sp/>0u);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getLateArrivalRejected(),<sp/>0u);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>one<sp/>accepted<sp/>out-of-order<sp/>and<sp/>two<sp/>rejections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordOutOfOrderWrite(</highlight><highlight class="stringliteral">&quot;cpu&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*rejected=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordOutOfOrderWrite(</highlight><highlight class="stringliteral">&quot;mem&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*rejected=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;recordOutOfOrderWrite(</highlight><highlight class="stringliteral">&quot;mem&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*rejected=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOutOfOrderAccepted(),<sp/>1u);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getLateArrivalRejected(),<sp/>2u);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>exported<sp/>JSON<sp/>contains<sp/>the<sp/>new<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>metrics-&gt;exportJson();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json.find(</highlight><highlight class="stringliteral">&quot;out_of_order_accepted_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(json.find(</highlight><highlight class="stringliteral">&quot;late_arrival_rejected_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>Prometheus<sp/>export<sp/>contains<sp/>the<sp/>new<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>prom<sp/>=<sp/>metrics-&gt;exportPrometheus();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(prom.find(</highlight><highlight class="stringliteral">&quot;themis_timeseries_out_of_order_accepted_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(prom.find(</highlight><highlight class="stringliteral">&quot;themis_timeseries_late_arrival_rejected_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>reset<sp/>clears<sp/>the<sp/>new<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics-&gt;reset();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getOutOfOrderAccepted(),<sp/>0u);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics-&gt;getLateArrivalRejected(),<sp/>0u);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/timeseries/test_timeseries_metrics.cpp"/>
+  </compounddef>
+</doxygen>

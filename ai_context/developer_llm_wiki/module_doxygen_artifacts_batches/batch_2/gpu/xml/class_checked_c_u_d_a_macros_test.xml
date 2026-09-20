@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_checked_c_u_d_a_macros_test" kind="class" language="C++" prot="public">
+    <compoundname>CheckedCUDAMacrosTest</compoundname>
+    <basecompoundref refid="class_g_p_u_foundations_test" prot="public" virt="non-virtual">GPUFoundationsTest</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CheckedCUDAMacrosTest</label>
+        <link refid="class_checked_c_u_d_a_macros_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CheckedCUDAMacrosTest</label>
+        <link refid="class_checked_c_u_d_a_macros_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_phase1_foundations.cpp" line="366" column="1" bodyfile="tests/gpu/test_gpu_phase1_foundations.cpp" bodystart="366" bodyend="366"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_foundations_test_1a0141f3aa002b931bc59b9237445fba24" prot="protected" virt="non-virtual"><scope>CheckedCUDAMacrosTest</scope><name>GPUFoundationsTest</name></member>
+      <member refid="class_g_p_u_foundations_test_1a88eacf983f2f34d301c23b2bb92ef2da" prot="protected" virt="non-virtual"><scope>CheckedCUDAMacrosTest</scope><name>handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

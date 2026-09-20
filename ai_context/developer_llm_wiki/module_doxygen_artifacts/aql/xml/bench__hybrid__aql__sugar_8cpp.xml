@@ -1,0 +1,945 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__hybrid__aql__sugar_8cpp" kind="file" language="C++">
+    <compoundname>bench_hybrid_aql_sugar.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="aql__syntax__highlighter_8h" local="yes">aql/aql_syntax_highlighter.h</includes>
+    <includes refid="aql__confidence__scorer_8h" local="yes">aql/aql_confidence_scorer.h</includes>
+    <includes refid="aql__fewshot__example__library_8h" local="yes">aql/aql_fewshot_example_library.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/aql/bench_hybrid_aql_sugar.cpp</label>
+        <link refid="bench__hybrid__aql__sugar_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>aql/aql_confidence_scorer.h</label>
+        <link refid="aql__confidence__scorer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>aql/aql_fewshot_example_library.h</label>
+        <link refid="aql__fewshot__example__library_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>aql/aql_syntax_highlighter.h</label>
+        <link refid="aql__syntax__highlighter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_few_shot_fixture" prot="public">FewShotFixture</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__hybrid__aql__sugar_8cpp_1a4d17ae27ca8ba226f75b70077e9ba598" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kSimpleAQL</definition>
+        <argsstring></argsstring>
+        <name>kSimpleAQL</name>
+        <initializer>                         =
+&quot;FOR u IN users FILTER u.city == \&quot;Berlin\&quot; SORT u.name RETURN u&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="28" column="19" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__hybrid__aql__sugar_8cpp_1a1090168b196be87c0100c1a0edee31a4" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kComplexAQL</definition>
+        <argsstring></argsstring>
+        <name>kComplexAQL</name>
+        <initializer>                          =
+&quot;FOR u IN users\n&quot;
+&quot;  FILTER u.age &gt;= 18 AND u.active == true\n&quot;
+&quot;  LET score = SIMILARITY(u.embedding, @query_vec)\n&quot;
+&quot;  SORT score DESC\n&quot;
+&quot;  LIMIT 10\n&quot;
+&quot;  RETURN { id: u._id, name: u.name, score: score }&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="32" column="19" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__hybrid__aql__sugar_8cpp_1af09ebc2770f639dafa6ad844ea98f61a" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kLLMResponse</definition>
+        <argsstring></argsstring>
+        <name>kLLMResponse</name>
+        <initializer>                           =
+&quot;Here is the query you requested:\n\n&quot;
+&quot;```aql\n&quot;
+&quot;FOR doc IN products\n&quot;
+&quot;  FILTER doc.price &lt; 100\n&quot;
+&quot;  SORT doc.rating DESC\n&quot;
+&quot;  RETURN doc\n&quot;
+&quot;```\n\n&quot;
+&quot;This returns all products cheaper than 100, sorted by rating.&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="41" column="19" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__hybrid__aql__sugar_8cpp_1a32e5a147f0c0b8a8d97e02958ef7573a" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kSchemaContext</definition>
+        <argsstring></argsstring>
+        <name>kSchemaContext</name>
+        <initializer>                             =
+&quot;collections: [users, orders, products]\n&quot;
+&quot;users: { _id, name, age, city, active, embedding }&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="52" column="19" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1abce8abd187e8195425166f22c295abea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Highlighter_Tokenize_Simple</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Highlighter_Tokenize_Simple</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="60" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a0213dde56436b1555977f52749235121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Highlighter_Tokenize_Simple)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Highlighter_Tokenize_Simple</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="66" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="66" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a57a3ddef28fe9703b1d854cd3b158389" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Highlighter_Tokenize_Complex</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Highlighter_Tokenize_Complex</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="68" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a4d37e34b903eafc7fa5bd4e52abc3b06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Highlighter_Tokenize_Complex)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Highlighter_Tokenize_Complex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="74" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="74" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1addfb5e5ec61d7a97ffead931cfe960e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Highlighter_Tokenize_Scale</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Highlighter_Tokenize_Scale</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="77" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="77" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a6dd64ab73a0eea15c0faa78839676708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Highlighter_Tokenize_Scale) -&gt; Range(1, 64) -&gt;Complexity()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Highlighter_Tokenize_Scale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="90" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="90" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a1dcc9a3f474da28eece318c88aa0767e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Highlighter_HighlightBlock_Plain</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Highlighter_HighlightBlock_Plain</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="92" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1af6c4dbe98e31d013e1d66db850a812d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Highlighter_HighlightBlock_Plain)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Highlighter_HighlightBlock_Plain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="98" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="98" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a6ba6e0dde656421d2035367b4079f5da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Highlighter_HighlightBlock_ANSI</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Highlighter_HighlightBlock_ANSI</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="100" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a3a63964087288cb9e6806cea3033fc48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Highlighter_HighlightBlock_ANSI)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Highlighter_HighlightBlock_ANSI</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="106" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="106" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a9c74e4df8375a65ab8d15c4fd78ce438" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Highlighter_AnnotateErrors_Valid</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Highlighter_AnnotateErrors_Valid</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="108" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="108" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1ac7d6c35f6c1fbbe6188ebe464b7b4f67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Highlighter_AnnotateErrors_Valid)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Highlighter_AnnotateErrors_Valid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="114" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="114" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1ab33d422df33acf9301074827a624eebe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Highlighter_AnnotateErrors_Malformed</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Highlighter_AnnotateErrors_Malformed</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="116" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1aace50a00aeaa67a212f82ae5a5bfbe10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Highlighter_AnnotateErrors_Malformed)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Highlighter_AnnotateErrors_Malformed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="124" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="124" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1adf0f64e8d85540c5be93a895264604d5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Highlighter_FormatLLMResponse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Highlighter_FormatLLMResponse</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="126" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="126" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1ace818c7f0627a4926231862e0ed8cc66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Highlighter_FormatLLMResponse)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Highlighter_FormatLLMResponse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="132" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="132" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a237db726022fe0f088156d1f528c7c20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ConfidenceScorer_NoSchema</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ConfidenceScorer_NoSchema</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="138" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="138" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a629bfc7ba2935d19b4b37089c008f38c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ConfidenceScorer_NoSchema)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ConfidenceScorer_NoSchema</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="144" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="144" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1ab41f4985e8dab97ffa73ef5bbe96526d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ConfidenceScorer_WithSchema</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ConfidenceScorer_WithSchema</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="146" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="146" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a4d2fa7d16d69608171bbce8edabd3be7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ConfidenceScorer_WithSchema)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ConfidenceScorer_WithSchema</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="152" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="152" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1add0677df51a848a7454f8fc4d0206ba2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ConfidenceScorer_Simple</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ConfidenceScorer_Simple</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="154" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="154" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1aa593c74dc7efd76b5ff16a18ee52e469" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ConfidenceScorer_Simple)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ConfidenceScorer_Simple</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="160" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="160" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a82b302ede72744598152368da7fb7560" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ConfidenceScorer_Scale</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ConfidenceScorer_Scale</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="163" column="13" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="163" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1ab3e486b5e04f696f88f1e7b598e44717" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ConfidenceScorer_Scale) -&gt; Range(1, 64) -&gt;Complexity()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ConfidenceScorer_Scale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="175" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="175" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a9b1746bf4fc0cbefc9c9769911c77a91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(FewShotFixture, FindRelevant_Top3)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref></type>
+        </param>
+        <param>
+          <type>FindRelevant_Top3</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="189" column="1" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="189" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1ac6b39991ca582a4d5f22023107d095b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(FewShotFixture, FindRelevant_Top5)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref></type>
+        </param>
+        <param>
+          <type>FindRelevant_Top5</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="196" column="1" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="196" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1adbace665a194d2357133ae1c58abe2be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(FewShotFixture, FindRelevant_DomainFilter)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref></type>
+        </param>
+        <param>
+          <type>FindRelevant_DomainFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="203" column="1" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="203" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1acb5764b70ee6c018006291a6b4d2b4fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(FewShotFixture, BuildPromptSection)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref></type>
+        </param>
+        <param>
+          <type>BuildPromptSection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="211" column="1" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="211" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a2ad91cbcbc1731ac0967cb8a95394e8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(FewShotFixture, FindByDomain_Graph)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref></type>
+        </param>
+        <param>
+          <type>FindByDomain_Graph</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="218" column="1" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="218" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a76094991261da13f2d1a4922165323f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(FewShotFixture, FindByDomain_Vector)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref></type>
+        </param>
+        <param>
+          <type>FindByDomain_Vector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="225" column="1" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="225" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1acbd7bb391b40a7302910731b2ae1b189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(FewShotFixture, FormatForPrompt)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref></type>
+        </param>
+        <param>
+          <type>FormatForPrompt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="232" column="1" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="232" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hybrid__aql__sugar_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="244" column="1" declfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" declline="244" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance benchmarks for hybrid AQL syntax-sugar components. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the deterministic, LLM-independent layers of the AQL module:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref> (tokenize, highlightBlock, annotateErrors, formatLLMResponse)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref> (score with / without schema context)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library" kindref="compound">AQLFewShotExampleLibrary</ref> (findRelevant, buildPromptSection, findByDomain)</para>
+</listitem></itemizedlist>
+</para>
+<para>All benchmarks are intentionally independent of a live LLM so that they can run in CI without model files or network access. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__syntax__highlighter_8h" kindref="compound">aql/aql_syntax_highlighter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__confidence__scorer_8h" kindref="compound">aql/aql_confidence_scorer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__fewshot__example__library_8h" kindref="compound">aql/aql_fewshot_example_library.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>fixtures<sp/>/<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>representative<sp/>multi-clause<sp/>AQL<sp/>query<sp/>used<sp/>across<sp/>several<sp/>benchmarks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kSimpleAQL<sp/>=</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.city<sp/>==<sp/>\&quot;Berlin\&quot;<sp/>SORT<sp/>u.name<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>moderately<sp/>complex<sp/>query<sp/>that<sp/>exercises<sp/>more<sp/>token<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kComplexAQL<sp/>=</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>FILTER<sp/>u.age<sp/>&gt;=<sp/>18<sp/>AND<sp/>u.active<sp/>==<sp/>true\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>LET<sp/>score<sp/>=<sp/>SIMILARITY(u.embedding,<sp/>@query_vec)\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>SORT<sp/>score<sp/>DESC\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>LIMIT<sp/>10\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>RETURN<sp/>{<sp/>id:<sp/>u._id,<sp/>name:<sp/>u.name,<sp/>score:<sp/>score<sp/>}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>An<sp/>LLM<sp/>response<sp/>containing<sp/>an<sp/>embedded<sp/>AQL<sp/>code<sp/>block.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kLLMResponse<sp/>=</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Here<sp/>is<sp/>the<sp/>query<sp/>you<sp/>requested:\n\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;```aql\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>products\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>FILTER<sp/>doc.price<sp/>&lt;<sp/>100\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>SORT<sp/>doc.rating<sp/>DESC\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>RETURN<sp/>doc\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;```\n\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;This<sp/>returns<sp/>all<sp/>products<sp/>cheaper<sp/>than<sp/>100,<sp/>sorted<sp/>by<sp/>rating.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schema<sp/>context<sp/>string<sp/>used<sp/>for<sp/>schema-aware<sp/>scoring.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kSchemaContext<sp/>=</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;collections:<sp/>[users,<sp/>orders,<sp/>products]\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;users:<sp/>{<sp/>_id,<sp/>name,<sp/>age,<sp/>city,<sp/>active,<sp/>embedding<sp/>}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLSyntaxHighlighter<sp/>benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Highlighter_Tokenize_Simple(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref><sp/>h(</highlight><highlight class="comment">/*use_ansi=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h.tokenize(kSimpleAQL));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_Highlighter_Tokenize_Simple);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Highlighter_Tokenize_Complex(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref><sp/>h(</highlight><highlight class="comment">/*use_ansi=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h.tokenize(kComplexAQL));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_Highlighter_Tokenize_Complex);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tokenization<sp/>throughput<sp/>as<sp/>query<sp/>length<sp/>scales.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Highlighter_Tokenize_Scale(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref><sp/>h(</highlight><highlight class="comment">/*use_ansi=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>query<sp/>of<sp/>roughly<sp/>state.range(0)<sp/>*<sp/>10<sp/>characters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>query<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>query.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0))<sp/>*<sp/>24);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>state.range(0);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;FILTER<sp/>u.x&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>==<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h.tokenize(query));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetComplexityN(state.range(0));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_Highlighter_Tokenize_Scale)-&gt;Range(1,<sp/>64)-&gt;Complexity();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Highlighter_HighlightBlock_Plain(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref><sp/>h(</highlight><highlight class="comment">/*use_ansi=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h.highlightBlock(kComplexAQL));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_Highlighter_HighlightBlock_Plain);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Highlighter_HighlightBlock_ANSI(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref><sp/>h(</highlight><highlight class="comment">/*use_ansi=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h.highlightBlock(kComplexAQL));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_Highlighter_HighlightBlock_ANSI);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Highlighter_AnnotateErrors_Valid(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref><sp/>h(</highlight><highlight class="comment">/*use_ansi=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h.annotateErrors(kComplexAQL));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_Highlighter_AnnotateErrors_Valid);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Highlighter_AnnotateErrors_Malformed(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref><sp/>h(</highlight><highlight class="comment">/*use_ansi=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Intentionally<sp/>malformed:<sp/>unbalanced<sp/>brace,<sp/>unterminated<sp/>string.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBad<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>{<sp/>FILTER<sp/>u.name<sp/>==<sp/>\&quot;Alice<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h.annotateErrors(kBad));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_Highlighter_AnnotateErrors_Malformed);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Highlighter_FormatLLMResponse(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kindref="compound">AQLSyntaxHighlighter</ref><sp/>h(</highlight><highlight class="comment">/*use_ansi=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h.formatLLMResponse(kLLMResponse));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_Highlighter_FormatLLMResponse);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLConfidenceScorer<sp/>benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ConfidenceScorer_NoSchema(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(kComplexAQL));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_ConfidenceScorer_NoSchema);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ConfidenceScorer_WithSchema(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(kComplexAQL,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>kSchemaContext));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_ConfidenceScorer_WithSchema);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ConfidenceScorer_Simple(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(kSimpleAQL));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_ConfidenceScorer_Simple);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Scoring<sp/>throughput<sp/>as<sp/>query<sp/>length<sp/>scales.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ConfidenceScorer_Scale(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>state.range(0);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;FILTER<sp/>u.f&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>==<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>query<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(query));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetComplexityN(state.range(0));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0eff28605e46b2f852eb02bf4ba51268" kindref="member">BENCHMARK</ref>(BM_ConfidenceScorer_Scale)-&gt;Range(1,<sp/>64)-&gt;Complexity();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLFewShotExampleLibrary<sp/>benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="class_few_shot_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_few_shot_fixture_1af264128d0ba5912c60e8533ad6dcabb5" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_few_shot_fixture_1a783b3a6ac2b3ef9fc643ca8c8be27efb" kindref="member">lib_</ref><sp/>=<sp/>std::make_unique&lt;AQLFewShotExampleLibrary&gt;();</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AQLFewShotExampleLibrary&gt;<sp/><ref refid="class_few_shot_fixture_1a783b3a6ac2b3ef9fc643ca8c8be27efb" kindref="member">lib_</ref>;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="bench__hybrid__aql__sugar_8cpp_1a9b1746bf4fc0cbefc9c9769911c77a91" kindref="member">BENCHMARK_F</ref>(<ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref>,<sp/>FindRelevant_Top3)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lib_-&gt;findRelevant(</highlight><highlight class="stringliteral">&quot;find<sp/>all<sp/>users<sp/>in<sp/>a<sp/>city&quot;</highlight><highlight class="normal">,<sp/>3));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="bench__hybrid__aql__sugar_8cpp_1a9b1746bf4fc0cbefc9c9769911c77a91" kindref="member">BENCHMARK_F</ref>(<ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref>,<sp/>FindRelevant_Top5)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lib_-&gt;findRelevant(</highlight><highlight class="stringliteral">&quot;find<sp/>all<sp/>users<sp/>in<sp/>a<sp/>city&quot;</highlight><highlight class="normal">,<sp/>5));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="bench__hybrid__aql__sugar_8cpp_1a9b1746bf4fc0cbefc9c9769911c77a91" kindref="member">BENCHMARK_F</ref>(<ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref>,<sp/>FindRelevant_DomainFilter)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lib_-&gt;findRelevant(</highlight><highlight class="stringliteral">&quot;shortest<sp/>path<sp/>between<sp/>nodes&quot;</highlight><highlight class="normal">,<sp/>3,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ae27e2917b6444fcd3452d2d87046a487" kindref="member">AQLExampleDomain::GRAPH</ref>));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="bench__hybrid__aql__sugar_8cpp_1a9b1746bf4fc0cbefc9c9769911c77a91" kindref="member">BENCHMARK_F</ref>(<ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref>,<sp/>BuildPromptSection)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lib_-&gt;buildPromptSection(</highlight><highlight class="stringliteral">&quot;vector<sp/>similarity<sp/>search&quot;</highlight><highlight class="normal">,<sp/>3));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="bench__hybrid__aql__sugar_8cpp_1a9b1746bf4fc0cbefc9c9769911c77a91" kindref="member">BENCHMARK_F</ref>(<ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref>,<sp/>FindByDomain_Graph)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lib_-&gt;findByDomain(<ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ae27e2917b6444fcd3452d2d87046a487" kindref="member">AQLExampleDomain::GRAPH</ref>));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="bench__hybrid__aql__sugar_8cpp_1a9b1746bf4fc0cbefc9c9769911c77a91" kindref="member">BENCHMARK_F</ref>(<ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref>,<sp/>FindByDomain_Vector)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lib_-&gt;findByDomain(<ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a87752381b583740610f1dfeb07fdad7e" kindref="member">AQLExampleDomain::VECTOR</ref>));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="bench__hybrid__aql__sugar_8cpp_1a9b1746bf4fc0cbefc9c9769911c77a91" kindref="member">BENCHMARK_F</ref>(<ref refid="class_few_shot_fixture" kindref="compound">FewShotFixture</ref>,<sp/>FormatForPrompt)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>examples<sp/>=<sp/>lib_-&gt;findByDomain(<ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ac231fa48df3ee393c92dccac4dba5e7d" kindref="member">AQLExampleDomain::DOCUMENT</ref>);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1aad28be6973d0e1980184e067457beaf0" kindref="member">AQLFewShotExampleLibrary::formatForPrompt</ref>(examples));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="bench__hybrid__aql__sugar_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp"/>
+  </compounddef>
+</doxygen>

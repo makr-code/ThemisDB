@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_provenance_tracker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::ProvenanceTrackerConfig</compoundname>
+    <includes refid="provenance__tracker_8h" local="no">provenance_tracker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_tracker_config_1ab95b1b73520e12e5cb192a78ddf46dca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ProvenanceTrackerConfig::graph_collection</definition>
+        <argsstring></argsstring>
+        <name>graph_collection</name>
+        <qualifiedname>themis::training::ProvenanceTrackerConfig::graph_collection</qualifiedname>
+        <initializer>= &quot;TrainingSamples&quot;</initializer>
+        <briefdescription>
+<para>AQL vertex collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="81" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_tracker_config_1a6bccc0607639748821aeb763c1590957" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ProvenanceTrackerConfig::edge_collection</definition>
+        <argsstring></argsstring>
+        <name>edge_collection</name>
+        <qualifiedname>themis::training::ProvenanceTrackerConfig::edge_collection</qualifiedname>
+        <initializer>= &quot;DerivedFrom&quot;</initializer>
+        <briefdescription>
+<para>AQL edge collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="82" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_tracker_config_1afd16945fb88c930b03f0b6bf663e6d0f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ProvenanceTrackerConfig::batch_write_size</definition>
+        <argsstring></argsstring>
+        <name>batch_write_size</name>
+        <qualifiedname>themis::training::ProvenanceTrackerConfig::batch_write_size</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>AQL bulk-insert batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="83" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_tracker_config_1acae47a4537fa4fe55fe946fc1a68e33b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::ProvenanceTrackerConfig::reject_without_urn</definition>
+        <argsstring></argsstring>
+        <name>reject_without_urn</name>
+        <qualifiedname>themis::training::ProvenanceTrackerConfig::reject_without_urn</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Reject samples without source URN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="84" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_tracker_config_1a6423189ea3ac48b1ba4aa673bdef4a41" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::ProvenanceTrackerConfig::emit_audit_events</definition>
+        <argsstring></argsstring>
+        <name>emit_audit_events</name>
+        <qualifiedname>themis::training::ProvenanceTrackerConfig::emit_audit_events</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Write to utils/audit_logger </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="85" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_tracker_config_1ac9f49989197638d20bbc86881c1b17a5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::training::ProvenanceTrackerConfig::write_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>write_timeout_ms</name>
+        <qualifiedname>themis::training::ProvenanceTrackerConfig::write_timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum total wall-clock time allowed for a single write() call (milliseconds). 0 means no limit (unbounded). When the deadline is exceeded the call returns early with whatever records were written so far. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="89" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_provenance_tracker_config_1a0ba3a6594694637fa3a007392553b0a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ProvenanceTrackerConfig::ProvenanceTrackerConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>ProvenanceTrackerConfig</name>
+        <qualifiedname>themis::training::ProvenanceTrackerConfig::ProvenanceTrackerConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="91" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the provenance tracker. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/provenance_tracker.h" line="80" column="1" bodyfile="include/training/provenance_tracker.h" bodystart="80" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_provenance_tracker_config_1afd16945fb88c930b03f0b6bf663e6d0f" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTrackerConfig</scope><name>batch_write_size</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_tracker_config_1a6bccc0607639748821aeb763c1590957" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTrackerConfig</scope><name>edge_collection</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_tracker_config_1a6423189ea3ac48b1ba4aa673bdef4a41" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTrackerConfig</scope><name>emit_audit_events</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_tracker_config_1ab95b1b73520e12e5cb192a78ddf46dca" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTrackerConfig</scope><name>graph_collection</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_tracker_config_1a0ba3a6594694637fa3a007392553b0a1" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTrackerConfig</scope><name>ProvenanceTrackerConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_tracker_config_1acae47a4537fa4fe55fe946fc1a68e33b" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTrackerConfig</scope><name>reject_without_urn</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_tracker_config_1ac9f49989197638d20bbc86881c1b17a5" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTrackerConfig</scope><name>write_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

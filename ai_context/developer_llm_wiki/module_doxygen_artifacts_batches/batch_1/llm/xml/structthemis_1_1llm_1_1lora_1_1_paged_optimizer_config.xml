@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::PagedOptimizerConfig</compoundname>
+    <includes refid="paged__optimizer_8h" local="no">paged_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a0646089ddce28a2821bc26b97fdcaa66" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedOptimizerConfig::enable_paging</definition>
+        <argsstring></argsstring>
+        <name>enable_paging</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerConfig::enable_paging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="33" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a823b4a9f95af793eb11b4a1cfc60c59e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::PagedOptimizerConfig::page_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>page_size_bytes</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerConfig::page_size_bytes</qualifiedname>
+        <initializer>= 64 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="36" column="12" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a3f54a935124ed05625477a17ecb93d06" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::PagedOptimizerConfig::active_set_size</definition>
+        <argsstring></argsstring>
+        <name>active_set_size</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerConfig::active_set_size</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="39" column="12" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a4214c1165afffc3665fd50b13acb6ff0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::PagedOptimizerConfig::prefetch_distance</definition>
+        <argsstring></argsstring>
+        <name>prefetch_distance</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerConfig::prefetch_distance</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="42" column="12" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a332649940125527328f71a7c5a2dd871" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedOptimizerConfig::use_unified_memory</definition>
+        <argsstring></argsstring>
+        <name>use_unified_memory</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerConfig::use_unified_memory</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="45" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a49f7e424f05c7e3599f68eddecf5d76b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7" kindref="member">EvictionPolicy</ref></type>
+        <definition>EvictionPolicy themis::llm::lora::PagedOptimizerConfig::eviction_policy</definition>
+        <argsstring></argsstring>
+        <name>eviction_policy</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerConfig::eviction_policy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">EvictionPolicy::LRU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="48" column="20" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/paged_optimizer.h" line="31" column="1" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="31" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a3f54a935124ed05625477a17ecb93d06" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerConfig</scope><name>active_set_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a0646089ddce28a2821bc26b97fdcaa66" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerConfig</scope><name>enable_paging</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a49f7e424f05c7e3599f68eddecf5d76b" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerConfig</scope><name>eviction_policy</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a823b4a9f95af793eb11b4a1cfc60c59e" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerConfig</scope><name>page_size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a4214c1165afffc3665fd50b13acb6ff0" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerConfig</scope><name>prefetch_distance</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a332649940125527328f71a7c5a2dd871" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerConfig</scope><name>use_unified_memory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

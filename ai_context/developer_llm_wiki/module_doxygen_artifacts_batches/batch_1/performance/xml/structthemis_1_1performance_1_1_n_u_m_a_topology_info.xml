@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_n_u_m_a_topology_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::NUMATopologyInfo</compoundname>
+    <includes refid="numa__memory__manager_8h" local="no">numa_memory_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_topology_info_1addfa011462f31ae12e39429ffe025d48" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::NUMATopologyInfo::num_nodes</definition>
+        <argsstring></argsstring>
+        <name>num_nodes</name>
+        <qualifiedname>themis::performance::NUMATopologyInfo::num_nodes</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Number of NUMA nodes detected on this machine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="38" column="12" bodyfile="include/performance/numa_memory_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_topology_info_1aeacdce011764f8390b0ea5e246635795" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::performance::NUMATopologyInfo::node_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>node_memory_mb</name>
+        <qualifiedname>themis::performance::NUMATopologyInfo::node_memory_mb</qualifiedname>
+        <briefdescription>
+<para>Per-node total memory in MiB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="40" column="17" bodyfile="include/performance/numa_memory_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_topology_info_1aa10708f2e12d9bc45051295ccf1b2b59" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; size_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;size_t&gt; &gt; themis::performance::NUMATopologyInfo::node_distances</definition>
+        <argsstring></argsstring>
+        <name>node_distances</name>
+        <qualifiedname>themis::performance::NUMATopologyInfo::node_distances</qualifiedname>
+        <briefdescription>
+<para>Symmetric latency matrix: node_distances[i][j] = relative cost i-&gt;j. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="42" column="17" bodyfile="include/performance/numa_memory_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>System NUMA topology descriptor used by <ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager" kindref="compound">NUMAMemoryManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/numa_memory_manager.h" line="36" column="1" bodyfile="include/performance/numa_memory_manager.h" bodystart="36" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_topology_info_1aa10708f2e12d9bc45051295ccf1b2b59" prot="public" virt="non-virtual"><scope>themis::performance::NUMATopologyInfo</scope><name>node_distances</name></member>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_topology_info_1aeacdce011764f8390b0ea5e246635795" prot="public" virt="non-virtual"><scope>themis::performance::NUMATopologyInfo</scope><name>node_memory_mb</name></member>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_topology_info_1addfa011462f31ae12e39429ffe025d48" prot="public" virt="non-virtual"><scope>themis::performance::NUMATopologyInfo</scope><name>num_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wave4_b2_c_o_s_e_alg_test" kind="class" language="C++" prot="public">
+    <compoundname>Wave4B2COSEAlgTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wave4_b2_c_o_s_e_alg_test_1af5ce11ee520af9b03e597908a0263afd" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_passkey_authenticator" kindref="compound">PasskeyAuthenticator</ref></type>
+        <definition>PasskeyAuthenticator Wave4B2COSEAlgTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>Wave4B2COSEAlgTest::auth_</qualifiedname>
+        <initializer>{&quot;example.com&quot;, &quot;https://example.com&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="460" column="26" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="460" bodyend="460"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Wave4B2COSEAlgTest</label>
+        <link refid="class_wave4_b2_c_o_s_e_alg_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Wave4B2COSEAlgTest</label>
+        <link refid="class_wave4_b2_c_o_s_e_alg_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>auth_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::auth::IPasskeyAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_i_passkey_authenticator"/>
+      </node>
+      <node id="3">
+        <label>themis::auth::PasskeyAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_passkey_authenticator"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="458" column="1" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="458" bodyend="461"/>
+    <listofallmembers>
+      <member refid="class_wave4_b2_c_o_s_e_alg_test_1af5ce11ee520af9b03e597908a0263afd" prot="protected" virt="non-virtual"><scope>Wave4B2COSEAlgTest</scope><name>auth_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

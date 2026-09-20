@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_u_d_p_server_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::UDPServer::Config</compoundname>
+    <includes refid="udp__server_8h" local="no">udp_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a2bc06a9d634b12de1409fa6be18cf30e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::UDPServer::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::network::UDPServer::Config::host</qualifiedname>
+        <initializer>= &quot;0.0.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="163" column="21" bodyfile="include/network/udp_server.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a561cee6508b1dbbadc9a38e0e8bee482" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::UDPServer::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::network::UDPServer::Config::port</qualifiedname>
+        <initializer>= 8768</initializer>
+        <briefdescription>
+<para>Default UDP ingestion port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="164" column="21" bodyfile="include/network/udp_server.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a81a9845d801b8f4467bd9a8f44d821f5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::UDPServer::Config::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themis::network::UDPServer::Config::num_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>I/O + dispatch threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="165" column="21" bodyfile="include/network/udp_server.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a11f238a7dd7b57cfe08053d097865a5e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::UDPServer::Config::max_packet_size</definition>
+        <argsstring></argsstring>
+        <name>max_packet_size</name>
+        <qualifiedname>themis::network::UDPServer::Config::max_packet_size</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1network_1ab1374a4438c5c28e11f4d597e80e6b50" kindref="member">kUdpServerMaxPacketSize</ref></initializer>
+        <briefdescription>
+<para>Maximum datagram size accepted; oversized packets are silently dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="168" column="21" bodyfile="include/network/udp_server.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1adfe9f1210070c9479c261ba5811603c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::UDPServer::Config::enable_batching</definition>
+        <argsstring></argsstring>
+        <name>enable_batching</name>
+        <qualifiedname>themis::network::UDPServer::Config::enable_batching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, incoming packets are accumulated in memory and flushed to the handler at batch_interval_ms intervals instead of immediately. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="172" column="18" bodyfile="include/network/udp_server.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a08fd37698488ca9d931ced3838ff8db2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::UDPServer::Config::batch_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>batch_interval_ms</name>
+        <qualifiedname>themis::network::UDPServer::Config::batch_interval_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="173" column="18" bodyfile="include/network/udp_server.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a30a5b87aa2b7a547c39c00e02411b644" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::UDPServer::Config::enable_acks</definition>
+        <argsstring></argsstring>
+        <name>enable_acks</name>
+        <qualifiedname>themis::network::UDPServer::Config::enable_acks</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, the server always sends an ACK for every well-formed packet. Clients may also request per-packet ACKs by setting the FLAG_ACK_REQUESTED bit regardless of this setting. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="178" column="14" bodyfile="include/network/udp_server.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a8583aedb10dcbb2a7de96733c13c3194" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::UDPServer::Config::max_packets_per_second_per_ip</definition>
+        <argsstring></argsstring>
+        <name>max_packets_per_second_per_ip</name>
+        <qualifiedname>themis::network::UDPServer::Config::max_packets_per_second_per_ip</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+<para>Per-source-IP rate limit (packets/second). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="181" column="18" bodyfile="include/network/udp_server.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a51cdfacf08a685318607ae6ff774db8f" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::UDPServer::Config::dedup_window_size</definition>
+        <argsstring></argsstring>
+        <name>dedup_window_size</name>
+        <qualifiedname>themis::network::UDPServer::Config::dedup_window_size</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of recent sequence numbers remembered per source IP for duplicate detection. Older entries are evicted in FIFO order. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="185" column="21" bodyfile="include/network/udp_server.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a14d3680cbddf3d1f135d319b3159e626" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::UDPServer::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::network::UDPServer::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="187" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/udp_server.h" line="162" column="5" bodyfile="include/network/udp_server.h" bodystart="162" bodyend="188"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a08fd37698488ca9d931ced3838ff8db2" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>batch_interval_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a14d3680cbddf3d1f135d319b3159e626" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a51cdfacf08a685318607ae6ff774db8f" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>dedup_window_size</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a30a5b87aa2b7a547c39c00e02411b644" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>enable_acks</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1adfe9f1210070c9479c261ba5811603c2" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>enable_batching</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a2bc06a9d634b12de1409fa6be18cf30e" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a11f238a7dd7b57cfe08053d097865a5e" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>max_packet_size</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a8583aedb10dcbb2a7de96733c13c3194" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>max_packets_per_second_per_ip</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a81a9845d801b8f4467bd9a8f44d821f5" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>num_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config_1a561cee6508b1dbbadc9a38e0e8bee482" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Config</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

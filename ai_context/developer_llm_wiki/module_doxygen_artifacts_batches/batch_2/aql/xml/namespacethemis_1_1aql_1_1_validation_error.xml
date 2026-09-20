@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1_validation_error" kind="namespace" language="C++">
+    <compoundname>themis::aql::ValidationError</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_error_1a270585df06daa2990eb883aa9de19c1c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ValidationError::MalformedAQL</definition>
+        <argsstring></argsstring>
+        <name>MalformedAQL</name>
+        <qualifiedname>themis::aql::ValidationError::MalformedAQL</qualifiedname>
+        <initializer>= &quot;MalformedAQL&quot;</initializer>
+        <briefdescription>
+<para>Invalid AQL syntax. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="192" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_error_1ac69f8bea22548e8dde22d3e0baad3db9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ValidationError::InjectionAttempt</definition>
+        <argsstring></argsstring>
+        <name>InjectionAttempt</name>
+        <qualifiedname>themis::aql::ValidationError::InjectionAttempt</qualifiedname>
+        <initializer>= &quot;InjectionAttempt&quot;</initializer>
+        <briefdescription>
+<para>Detected prompt/SQL injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="193" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_error_1a9cb2ab04c8da4938b19d5ab2f1d6152a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ValidationError::SchemaMismatch</definition>
+        <argsstring></argsstring>
+        <name>SchemaMismatch</name>
+        <qualifiedname>themis::aql::ValidationError::SchemaMismatch</qualifiedname>
+        <initializer>= &quot;SchemaMismatch&quot;</initializer>
+        <briefdescription>
+<para>Query references non-existent fields/collections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="194" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_error_1a33d6b4ab2d5054fb693ea16b90ae30ed" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ValidationError::UnsupportedOperator</definition>
+        <argsstring></argsstring>
+        <name>UnsupportedOperator</name>
+        <qualifiedname>themis::aql::ValidationError::UnsupportedOperator</qualifiedname>
+        <initializer>= &quot;UnsupportedOperator&quot;</initializer>
+        <briefdescription>
+<para>Query uses unsupported AQL operator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="195" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_error_1a964c84a3227157b3f70a646ab4b5066d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ValidationError::TypeMismatch</definition>
+        <argsstring></argsstring>
+        <name>TypeMismatch</name>
+        <qualifiedname>themis::aql::ValidationError::TypeMismatch</qualifiedname>
+        <initializer>= &quot;TypeMismatch&quot;</initializer>
+        <briefdescription>
+<para>Field type doesn&apos;t match filter operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="196" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_error_1a3a124893ab38a233b2d33fbe176f2469" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ValidationError::NullSchemaContext</definition>
+        <argsstring></argsstring>
+        <name>NullSchemaContext</name>
+        <qualifiedname>themis::aql::ValidationError::NullSchemaContext</qualifiedname>
+        <initializer>= &quot;NullSchemaContext&quot;</initializer>
+        <briefdescription>
+<para>Schema metadata is missing/null. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="197" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_error_1aa08363880e261c04af33e3d86e8f814a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ValidationError::MissingFieldMetadata</definition>
+        <argsstring></argsstring>
+        <name>MissingFieldMetadata</name>
+        <qualifiedname>themis::aql::ValidationError::MissingFieldMetadata</qualifiedname>
+        <initializer>= &quot;MissingFieldMetadata&quot;</initializer>
+        <briefdescription>
+<para>Field metadata incomplete. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="198" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_error_types.h" line="191" column="1"/>
+  </compounddef>
+</doxygen>

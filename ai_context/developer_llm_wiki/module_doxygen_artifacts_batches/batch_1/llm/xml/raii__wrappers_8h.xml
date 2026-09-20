@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="raii__wrappers_8h" kind="file" language="C++">
+    <compoundname>raii_wrappers.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdio</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includedby refid="adapter__registry_8cpp" local="yes">src/llm/adapter_registry.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/raii_wrappers.h</label>
+        <link refid="raii__wrappers_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdio</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="4">
+        <label>stdexcept</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/raii_wrappers.h</label>
+        <link refid="raii__wrappers_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/adapter_registry.cpp</label>
+        <link refid="adapter__registry_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_scoped_file" prot="public">themis::llm::ScopedFile</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_scoped_b_i_o" prot="public">themis::llm::ScopedBIO</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_scoped_e_v_p_key" prot="public">themis::llm::ScopedEVPKey</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_scoped_e_v_p_context" prot="public">themis::llm::ScopedEVPContext</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_scoped_connection" prot="public">themis::llm::ScopedConnection</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer" prot="public">themis::llm::ScopedGPUBuffer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="raii__wrappers_8h_1afe58d0436b24b9dc4c958d23ab1562bb" prot="public" static="no">
+        <name>THEMIS_HAS_OPENSSL_RAII</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="29" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" prot="public" static="no">
+        <type>struct bio_st</type>
+        <definition>typedef struct bio_st BIO</definition>
+        <argsstring></argsstring>
+        <name>BIO</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="39" column="21" bodyfile="include/llm/raii_wrappers.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" prot="public" static="no">
+        <type>struct evp_pkey_st</type>
+        <definition>typedef struct evp_pkey_st EVP_PKEY</definition>
+        <argsstring></argsstring>
+        <name>EVP_PKEY</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="40" column="26" bodyfile="include/llm/raii_wrappers.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" prot="public" static="no">
+        <type>struct evp_md_ctx_st</type>
+        <definition>typedef struct evp_md_ctx_st EVP_MD_CTX</definition>
+        <argsstring></argsstring>
+        <name>EVP_MD_CTX</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="41" column="28" bodyfile="include/llm/raii_wrappers.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper classes for resource management in LLM module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Batch 2: RAII &amp; Resource Management Fixes</para>
+</simplesect>
+Provides exception-safe RAII wrappers for:<itemizedlist>
+<listitem><para>OpenSSL objects (<ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref>, <ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>, <ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>)</para>
+</listitem><listitem><para>File handles</para>
+</listitem><listitem><para>Database connections</para>
+</listitem><listitem><para>GPU memory allocations</para>
+</listitem></itemizedlist>
+</para>
+<para>All wrappers are move-enabled and exception-safe (noexcept destructors). This replaces manual delete/cleanup patterns with automatic resource management. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdio&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&lt;openssl/bio.h&gt;)<sp/>&amp;&amp;<sp/>__has_include(&lt;openssl/evp.h&gt;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/bio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_HAS_OPENSSL_RAII<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="raii__wrappers_8h_1afe58d0436b24b9dc4c958d23ab1562bb" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_HAS_OPENSSL_RAII<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>for<sp/>OpenSSL<sp/>(only<sp/>needed<sp/>if<sp/>OPENSSL<sp/>is<sp/>available)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>THEMIS_HAS_OPENSSL_RAII</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">bio_st;<sp/><sp/></highlight><highlight class="comment">//<sp/>BIO<sp/>opaque<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">evp_pkey_st;<sp/><sp/></highlight><highlight class="comment">//<sp/>EVP_PKEY<sp/>opaque<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">evp_md_ctx_st;<sp/><sp/></highlight><highlight class="comment">//<sp/>EVP_MD_CTX<sp/>opaque<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>declarations<sp/>to<sp/>avoid<sp/>including<sp/>OpenSSL<sp/>headers<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">bio_st<sp/><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref>;</highlight></codeline>
+<codeline lineno="40" refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">evp_pkey_st<sp/><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>;</highlight></codeline>
+<codeline lineno="41" refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">evp_md_ctx_st<sp/><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1llm_1_1_scoped_file" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref>(FILE*<sp/>fp<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>:<sp/>fp_(fp)<sp/>{}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1llm_1_1_scoped_file_1a2c19d4ce1d958c40563dfb7f095a2eac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1a2c19d4ce1d958c40563dfb7f095a2eac" kindref="member">~ScopedFile</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fp_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::fclose(fp_)<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::warn(</highlight><highlight class="stringliteral">&quot;ScopedFile::~ScopedFile:<sp/>fclose<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>semantics<sp/>-<sp/>file<sp/>handle<sp/>can<sp/>only<sp/>be<sp/>owned<sp/>by<sp/>one<sp/>instance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1llm_1_1_scoped_file_1a64e560db4452e3ab9270a070712e26c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1a64e560db4452e3ab9270a070712e26c6" kindref="member">ScopedFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1llm_1_1_scoped_file_1a9a9423e3d4aa573cd6e22662de190dbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1a9a9423e3d4aa573cd6e22662de190dbb" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1llm_1_1_scoped_file_1afaecb55e7366a375ee14c37e27cee264" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1afaecb55e7366a375ee14c37e27cee264" kindref="member">ScopedFile</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref>&amp;&amp;<sp/>other)<sp/>noexcept<sp/>:<sp/>fp_(other.release())<sp/>{}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1llm_1_1_scoped_file_1aaedfc27b2794c63b81fb789b74478fa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1aaedfc27b2794c63b81fb789b74478fa3" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1a596ce003b65ae442c4647c919a9306c9" kindref="member">reset</ref>(other.release());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1llm_1_1_scoped_file_1a5e4b619acb4f501dae02faed7f0b7ad9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>FILE*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1a5e4b619acb4f501dae02faed7f0b7ad9" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fp_;<sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1llm_1_1_scoped_file_1ab5b2a63374bb3aaf9286da960912d654" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fp_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1llm_1_1_scoped_file_1a06960a877eb4061e768ac881662fc8cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>FILE*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1a06960a877eb4061e768ac881662fc8cf" kindref="member">release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILE*<sp/>temp<sp/>=<sp/>fp_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temp;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1llm_1_1_scoped_file_1a596ce003b65ae442c4647c919a9306c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1a596ce003b65ae442c4647c919a9306c9" kindref="member">reset</ref>(FILE*<sp/>fp<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fp_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::fclose(fp_)<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::warn(</highlight><highlight class="stringliteral">&quot;ScopedFile::reset:<sp/>fclose<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp_<sp/>=<sp/>fp;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>FILE*<sp/>fp_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1llm_1_1_scoped_b_i_o" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref>(<ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref>*<sp/>bio<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>:<sp/>bio_(bio)<sp/>{}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1acc07530d049b086af69a6f1f2522c92b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1acc07530d049b086af69a6f1f2522c92b" kindref="member">~ScopedBIO</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bio_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BIO_free(bio_);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bio_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a403f4a5a4ec9e646682ced3b8f93ac74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a403f4a5a4ec9e646682ced3b8f93ac74" kindref="member">ScopedBIO</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1acfe89010445974550e4a496fcb7eef01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1acfe89010445974550e4a496fcb7eef01" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a3c81986f2d2b37358494ec9c18c05308" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a3c81986f2d2b37358494ec9c18c05308" kindref="member">ScopedBIO</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref>&amp;&amp;<sp/>other)<sp/>noexcept<sp/>:<sp/>bio_(other.release())<sp/>{}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abe5e1517ca6e778129f06e743551efe1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abe5e1517ca6e778129f06e743551efe1" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1af9a48f04d245a923357d291498b29ca3" kindref="member">reset</ref>(other.release());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1afd67619d185d79af45c6176a3c3cb7f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1afd67619d185d79af45c6176a3c3cb7f2" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bio_;<sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a7f4abe55373a31fb0a2bd8fa8dcef0d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bio_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1aeee7e24759fcdf5524e80af63edd1708" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1aeee7e24759fcdf5524e80af63edd1708" kindref="member">release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref>*<sp/>temp<sp/>=<sp/>bio_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bio_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temp;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1llm_1_1_scoped_b_i_o_1af9a48f04d245a923357d291498b29ca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1af9a48f04d245a923357d291498b29ca3" kindref="member">reset</ref>(<ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref>*<sp/>bio<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bio_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BIO_free(bio_);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bio_<sp/>=<sp/>bio;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref>*<sp/>bio_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref><sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref>(<ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>*<sp/>pkey<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>:<sp/>pkey_(pkey)<sp/>{}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a8645bf486d8deac3368a5b416d28c6af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a8645bf486d8deac3368a5b416d28c6af" kindref="member">~ScopedEVPKey</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pkey_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_free(pkey_);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pkey_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a9a541a86f4e98bc6b24a9cbf8be92e8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a9a541a86f4e98bc6b24a9cbf8be92e8c" kindref="member">ScopedEVPKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a5439cb231d275ecfafd5f10bc3a03460" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a5439cb231d275ecfafd5f10bc3a03460" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a50c08b6cc7bb6a35c549c6c6edfafd8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a50c08b6cc7bb6a35c549c6c6edfafd8f" kindref="member">ScopedEVPKey</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref>&amp;&amp;<sp/>other)<sp/>noexcept<sp/>:<sp/>pkey_(other.release())<sp/>{}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1ab3f14869124b76bed3e080288474e51f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1ab3f14869124b76bed3e080288474e51f" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a11ec3cbf791b286faefb7cd788c9334d" kindref="member">reset</ref>(other.release());</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1afca8bc428192535024e5f3405b7fbd62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1afca8bc428192535024e5f3405b7fbd62" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pkey_;<sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a9dcc053c8599d4d4ec2e208f5e5d577c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pkey_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a195cebf196720657d7bda97697add620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a195cebf196720657d7bda97697add620" kindref="member">release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>*<sp/>temp<sp/>=<sp/>pkey_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pkey_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temp;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a11ec3cbf791b286faefb7cd788c9334d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a11ec3cbf791b286faefb7cd788c9334d" kindref="member">reset</ref>(<ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>*<sp/>pkey<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pkey_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_free(pkey_);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pkey_<sp/>=<sp/>pkey;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>*<sp/>pkey_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref>(<ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>*<sp/>ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>:<sp/>ctx_(ctx)<sp/>{}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1adb43a21b6544418a6985169fca1c8c1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1adb43a21b6544418a6985169fca1c8c1c" kindref="member">~ScopedEVPContext</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_MD_CTX_free(ctx_);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1af993a6e956cf72011f79b6dd34ce3fc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1af993a6e956cf72011f79b6dd34ce3fc0" kindref="member">ScopedEVPContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a2504c15059129900a91c6a2cfc86cb32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a2504c15059129900a91c6a2cfc86cb32" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ad19015daf6a0986f78891c7d4b6b9deb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ad19015daf6a0986f78891c7d4b6b9deb" kindref="member">ScopedEVPContext</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref>&amp;&amp;<sp/>other)<sp/>noexcept<sp/>:<sp/>ctx_(other.release())<sp/>{}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1afa930fb084f2d317d853c824fd67c31c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1afa930fb084f2d317d853c824fd67c31c" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a5b98e2f86f797e9b39bb4a3f8fcda6e1" kindref="member">reset</ref>(other.release());</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ac7e295f722f89d5f1d6d9be4b8efb282" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ac7e295f722f89d5f1d6d9be4b8efb282" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ctx_;<sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a3337c0130628fe8547c2d93a564f9931" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ctx_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a6a1acf2a375480fb10cb915a563f7c58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a6a1acf2a375480fb10cb915a563f7c58" kindref="member">release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>*<sp/>temp<sp/>=<sp/>ctx_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temp;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="323" refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a5b98e2f86f797e9b39bb4a3f8fcda6e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a5b98e2f86f797e9b39bb4a3f8fcda6e1" kindref="member">reset</ref>(<ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>*<sp/>ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_MD_CTX_free(ctx_);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx_<sp/>=<sp/>ctx;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>*<sp/>ctx_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>DBHandle&gt;</highlight></codeline>
+<codeline lineno="346" refid="classthemis_1_1llm_1_1_scoped_connection" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref><sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="348" refid="classthemis_1_1llm_1_1_scoped_connection_1a3ab46dc0136e284a64b661d5a27ed564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a3ab46dc0136e284a64b661d5a27ed564" kindref="member">CloseFunction</ref><sp/>=<sp/>std::function&lt;void(DBHandle)&gt;;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351" refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref>(DBHandle<sp/>conn<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a3ab46dc0136e284a64b661d5a27ed564" kindref="member">CloseFunction</ref><sp/>close_fn<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>conn_(conn),<sp/>close_fn_(close_fn)<sp/>{}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="355" refid="classthemis_1_1llm_1_1_scoped_connection_1af970e61cae48bb68771cadcd3d554a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1af970e61cae48bb68771cadcd3d554a3d" kindref="member">~ScopedConnection</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(conn_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>close_fn_)<sp/>{</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>close_fn_(conn_);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::warn(</highlight><highlight class="stringliteral">&quot;ScopedConnection::~ScopedConnection:<sp/>close_fn<sp/>threw<sp/>exception&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367" refid="classthemis_1_1llm_1_1_scoped_connection_1a6fca6c4606f84c9780f318f624da6c1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a6fca6c4606f84c9780f318f624da6c1d" kindref="member">ScopedConnection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="368" refid="classthemis_1_1llm_1_1_scoped_connection_1a0e5c381039abb457ec1cf8c34422d380" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a0e5c381039abb457ec1cf8c34422d380" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="371" refid="classthemis_1_1llm_1_1_scoped_connection_1a121ff9e09667c640ca1b368c210f7c9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a121ff9e09667c640ca1b368c210f7c9b" kindref="member">ScopedConnection</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref>&amp;&amp;<sp/>other)<sp/>noexcept<sp/></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>conn_(other.release()),<sp/>close_fn_(other.close_fn_)<sp/>{}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="375" refid="classthemis_1_1llm_1_1_scoped_connection_1a54d09e65e1650c4f29a6ee2e0248be36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a54d09e65e1650c4f29a6ee2e0248be36" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1aada0bc454dc9d0f09cf3dbc1bddacd4b" kindref="member">reset</ref>(other.release());</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>close_fn_<sp/>=<sp/>other.close_fn_;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="382" refid="classthemis_1_1llm_1_1_scoped_connection_1afe858ee2e665082959168fec46309b5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>DBHandle<sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1afe858ee2e665082959168fec46309b5b" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>conn_;<sp/>}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="385" refid="classthemis_1_1llm_1_1_scoped_connection_1a61d817e543ee4de5ce46f17ec1a1cabb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>conn_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388" refid="classthemis_1_1llm_1_1_scoped_connection_1abd2b665dfe2226aae0bd3166714cbc1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>DBHandle<sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1abd2b665dfe2226aae0bd3166714cbc1e" kindref="member">release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DBHandle<sp/>temp<sp/>=<sp/>conn_;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temp;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="395" refid="classthemis_1_1llm_1_1_scoped_connection_1aada0bc454dc9d0f09cf3dbc1bddacd4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1aada0bc454dc9d0f09cf3dbc1bddacd4b" kindref="member">reset</ref>(DBHandle<sp/>conn<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(conn_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>close_fn_)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>close_fn_(conn_);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::warn(</highlight><highlight class="stringliteral">&quot;ScopedConnection::reset:<sp/>close_fn<sp/>threw<sp/>exception&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn_<sp/>=<sp/>conn;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>DBHandle<sp/>conn_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a3ab46dc0136e284a64b661d5a27ed564" kindref="member">CloseFunction</ref><sp/>close_fn_;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" kindref="member">ScopedGPUBuffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="426" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a0ae5eee3d643431993aebb07db0966b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a0ae5eee3d643431993aebb07db0966b4" kindref="member">FreeFn</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)&gt;;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="429" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" kindref="member">ScopedGPUBuffer</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a0ae5eee3d643431993aebb07db0966b4" kindref="member">FreeFn</ref><sp/>free_fn<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>ptr_(ptr),<sp/>free_fn_(free_fn)<sp/>{}</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="433" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1ae68fbceab7769c876bed4429bbebd7b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1ae68fbceab7769c876bed4429bbebd7b7" kindref="member">~ScopedGPUBuffer</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ptr_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>free_fn_)<sp/>{</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free_fn_(ptr_);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::warn(</highlight><highlight class="stringliteral">&quot;ScopedGPUBuffer::~ScopedGPUBuffer:<sp/>free_fn<sp/>threw<sp/>exception&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a1371d67604a030a1097be1140aceca29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a1371d67604a030a1097be1140aceca29" kindref="member">ScopedGPUBuffer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" kindref="member">ScopedGPUBuffer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="446" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a182bf6d3a82ffedfd74b2ed534f0ef65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" kindref="member">ScopedGPUBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a182bf6d3a82ffedfd74b2ed534f0ef65" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" kindref="member">ScopedGPUBuffer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="449" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a38d91437a370a086b0b8bd43ffde94d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a38d91437a370a086b0b8bd43ffde94d4" kindref="member">ScopedGPUBuffer</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" kindref="member">ScopedGPUBuffer</ref>&amp;&amp;<sp/>other)<sp/>noexcept<sp/></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>ptr_(other.release()),<sp/>free_fn_(other.free_fn_)<sp/>{}</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="453" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1ac355b0a18f59fd0707b44368c51e00a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" kindref="member">ScopedGPUBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1ac355b0a18f59fd0707b44368c51e00a0" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a82b43e2be05a83918fc9ec33d4b2e5c7" kindref="member">ScopedGPUBuffer</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1ad80c368686681974010ed59649394d1d" kindref="member">reset</ref>(other.release());</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free_fn_<sp/>=<sp/>other.free_fn_;</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="460" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1acc4b62d4a8731e1b192ca9e3c1131d92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1acc4b62d4a8731e1b192ca9e3c1131d92" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ptr_;<sp/>}</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="463" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a83c6043eb317f070dba9316e881e2835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ptr_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="466" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a0bdd5db639f2cdd90b4bded076ec613b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a0bdd5db639f2cdd90b4bded076ec613b" kindref="member">release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>temp<sp/>=<sp/>ptr_;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temp;</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="473" refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1ad80c368686681974010ed59649394d1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1ad80c368686681974010ed59649394d1d" kindref="member">reset</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ptr_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>free_fn_)<sp/>{</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free_fn_(ptr_);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::warn(</highlight><highlight class="stringliteral">&quot;ScopedGPUBuffer::reset:<sp/>free_fn<sp/>threw<sp/>exception&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptr_<sp/>=<sp/>ptr;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_g_p_u_buffer_1a0ae5eee3d643431993aebb07db0966b4" kindref="member">FreeFn</ref><sp/>free_fn_;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/raii_wrappers.h"/>
+  </compounddef>
+</doxygen>

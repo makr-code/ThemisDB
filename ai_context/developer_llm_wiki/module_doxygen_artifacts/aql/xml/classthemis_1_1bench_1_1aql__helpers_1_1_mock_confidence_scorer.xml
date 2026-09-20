@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::aql_helpers::MockConfidenceScorer</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result" prot="public">themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1a7a685ec027e5d8c0ed6218849f30d36d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result" kindref="compound">ScoreResult</ref></type>
+        <definition>static ScoreResult themis::bench::aql_helpers::MockConfidenceScorer::score</definition>
+        <argsstring>(const std::string &amp;nl_query, const std::string &amp;aql_query)</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::bench::aql_helpers::MockConfidenceScorer::score</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="55" column="24" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="55" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1af26cee8b40a5e924bcfd2f09abcd77ac" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::aql_helpers::MockConfidenceScorer::tokenize</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::bench::aql_helpers::MockConfidenceScorer::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="73" column="24" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="73" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="47" column="1" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="47" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1a7a685ec027e5d8c0ed6218849f30d36d" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockConfidenceScorer</scope><name>score</name></member>
+      <member refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1af26cee8b40a5e924bcfd2f09abcd77ac" prot="private" virt="non-virtual"><scope>themis::bench::aql_helpers::MockConfidenceScorer</scope><name>tokenize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

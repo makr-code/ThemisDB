@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_sampling_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::SamplingStrategy</compoundname>
+    <includes refid="tracing_8h" local="no">tracing.h</includes>
+    <innerclass refid="structthemis_1_1_sampling_strategy_1_1_adaptive_config" prot="public">themis::SamplingStrategy::AdaptiveConfig</innerclass>
+    <innerclass refid="structthemis_1_1_sampling_strategy_1_1_adaptive_state" prot="private">themis::SamplingStrategy::AdaptiveState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::SamplingStrategy::Type</qualifiedname>
+        <enumvalue id="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9ea67aa7694f37e86d4a813d2b0d1dda3a4" prot="public">
+          <name>ALWAYS_ON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9eae42fc64a3f94477661688befc212293c" prot="public">
+          <name>ALWAYS_OFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9eaf8601b1a72cf766a7cdf536d0133af14" prot="public">
+          <name>PROBABILITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9eaa887afb94a9256ed693c3c9e093ac846" prot="public">
+          <name>PARENT_BASED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9ea90cff4f81e21a20801df4abe9cbf0cbe" prot="public">
+          <name>ADAPTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="54" column="5" bodyfile="include/utils/tracing.h" bodystart="54" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_sampling_strategy_1aba1d17af1b25e9c186ff839f2fbe0c4e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9e" kindref="member">Type</ref></type>
+        <definition>Type themis::SamplingStrategy::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <qualifiedname>themis::SamplingStrategy::type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="100" column="12" bodyfile="include/utils/tracing.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_sampling_strategy_1ac1ec72f88ddd7b445bc2feb691f31d85" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SamplingStrategy::probability_</definition>
+        <argsstring></argsstring>
+        <name>probability_</name>
+        <qualifiedname>themis::SamplingStrategy::probability_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="101" column="12" bodyfile="include/utils/tracing.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_sampling_strategy_1a6169eee722d7088e6d6bec1ab81c94b4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_sampling_strategy_1_1_adaptive_config" kindref="compound">AdaptiveConfig</ref></type>
+        <definition>AdaptiveConfig themis::SamplingStrategy::adaptive_config_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_config_</name>
+        <qualifiedname>themis::SamplingStrategy::adaptive_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="102" column="20" bodyfile="include/utils/tracing.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_sampling_strategy_1a8a75581ef4beb01ebc373cdaf312be50" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; AdaptiveState &gt;</type>
+        <definition>std::shared_ptr&lt;AdaptiveState&gt; themis::SamplingStrategy::adaptive_state_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_state_</name>
+        <qualifiedname>themis::SamplingStrategy::adaptive_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="111" column="21" bodyfile="include/utils/tracing.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1af717a9ea92b2e57629bd8d9dc2f3006f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::SamplingStrategy::SamplingStrategy</definition>
+        <argsstring>(Type type=Type::ALWAYS_ON, double probability=1.0)</argsstring>
+        <name>SamplingStrategy</name>
+        <qualifiedname>themis::SamplingStrategy::SamplingStrategy</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9e" kindref="member">Type</ref></type>
+          <declname>type</declname>
+          <defval><ref refid="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9ea67aa7694f37e86d4a813d2b0d1dda3a4" kindref="member">Type::ALWAYS_ON</ref></defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>probability</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+<para>Construct with the given strategy type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="70" column="14" bodyfile="include/utils/tracing.h" bodystart="70" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1a3e7d67cc46c2d238beb003ab49e7eb6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SamplingStrategy::shouldSample</definition>
+        <argsstring>(bool parent_sampled=true) const</argsstring>
+        <name>shouldSample</name>
+        <qualifiedname>themis::SamplingStrategy::shouldSample</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>parent_sampled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Returns true if a new span with the given parent-sampled flag should be recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="89" column="10" bodyfile="src/utils/tracing.cpp" bodystart="92" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1aba1a7101d4961d8e3c819d96a89a845f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9e" kindref="member">Type</ref></type>
+        <definition>Type themis::SamplingStrategy::type</definition>
+        <argsstring>() const</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::SamplingStrategy::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="91" column="12" bodyfile="include/utils/tracing.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1a8aa39920d36c3966ea23dca45f2a8a00" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::SamplingStrategy::probability</definition>
+        <argsstring>() const</argsstring>
+        <name>probability</name>
+        <qualifiedname>themis::SamplingStrategy::probability</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="92" column="12" bodyfile="include/utils/tracing.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1ac83c2a1ce0233b63d71fcd4f701489fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::SamplingStrategy::getEffectiveRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getEffectiveRate</name>
+        <qualifiedname>themis::SamplingStrategy::getEffectiveRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the current effective sample rate. For ADAPTIVE strategies this reflects the most recently computed rate; for all other strategies it equals <ref refid="classthemis_1_1_sampling_strategy_1abf4a961438b76106d98098a074916703" kindref="member">probability()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="97" column="12" bodyfile="src/utils/tracing.cpp" bodystart="84" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1a9f7c755c345064c2099d590138631b73" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_sampling_strategy_1af717a9ea92b2e57629bd8d9dc2f3006f" kindref="member">SamplingStrategy</ref></type>
+        <definition>static SamplingStrategy themis::SamplingStrategy::alwaysOn</definition>
+        <argsstring>()</argsstring>
+        <name>alwaysOn</name>
+        <qualifiedname>themis::SamplingStrategy::alwaysOn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="73" column="29" bodyfile="include/utils/tracing.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1a49cb8aef87e502d677730719e54d0815" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_sampling_strategy_1af717a9ea92b2e57629bd8d9dc2f3006f" kindref="member">SamplingStrategy</ref></type>
+        <definition>static SamplingStrategy themis::SamplingStrategy::alwaysOff</definition>
+        <argsstring>()</argsstring>
+        <name>alwaysOff</name>
+        <qualifiedname>themis::SamplingStrategy::alwaysOff</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="74" column="29" bodyfile="include/utils/tracing.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1abf4a961438b76106d98098a074916703" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_sampling_strategy_1af717a9ea92b2e57629bd8d9dc2f3006f" kindref="member">SamplingStrategy</ref></type>
+        <definition>static SamplingStrategy themis::SamplingStrategy::probability</definition>
+        <argsstring>(double p)</argsstring>
+        <name>probability</name>
+        <qualifiedname>themis::SamplingStrategy::probability</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="75" column="29" bodyfile="include/utils/tracing.h" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1a7791ccaaab6fb26be5a68b8d631cb76b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_sampling_strategy_1af717a9ea92b2e57629bd8d9dc2f3006f" kindref="member">SamplingStrategy</ref></type>
+        <definition>static SamplingStrategy themis::SamplingStrategy::parentBased</definition>
+        <argsstring>(double root_probability=1.0)</argsstring>
+        <name>parentBased</name>
+        <qualifiedname>themis::SamplingStrategy::parentBased</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>root_probability</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="78" column="29" bodyfile="include/utils/tracing.h" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1a3b518fee79059c2dcc194b36ba698e24" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_sampling_strategy_1af717a9ea92b2e57629bd8d9dc2f3006f" kindref="member">SamplingStrategy</ref></type>
+        <definition>SamplingStrategy themis::SamplingStrategy::adaptive</definition>
+        <argsstring>()</argsstring>
+        <name>adaptive</name>
+        <qualifiedname>themis::SamplingStrategy::adaptive</qualifiedname>
+        <briefdescription>
+<para>Adaptive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adaptive sampler: automatically adjusts the sample probability based on the current span creation rate to keep throughput near <computeroutput>config.max_spans_per_second</computeroutput>. Copies of this strategy share the same rate-measurement state.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements adaptive without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="85" column="29" bodyfile="src/utils/tracing.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_sampling_strategy_1ac6a57024faea1993626cd35ec792a055" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_sampling_strategy_1af717a9ea92b2e57629bd8d9dc2f3006f" kindref="member">SamplingStrategy</ref></type>
+        <definition>SamplingStrategy themis::SamplingStrategy::adaptive</definition>
+        <argsstring>(AdaptiveConfig config)</argsstring>
+        <name>adaptive</name>
+        <qualifiedname>themis::SamplingStrategy::adaptive</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_sampling_strategy_1_1_adaptive_config" kindref="compound">AdaptiveConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Adaptive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: s(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="86" column="29" bodyfile="src/utils/tracing.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Strategy for sampling traces. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Three built-in strategies are provided:<itemizedlist>
+<listitem><para>ALWAYS_ON (default) – every span is recorded.</para>
+</listitem><listitem><para>ALWAYS_OFF – no spans are recorded (useful for benchmarks).</para>
+</listitem><listitem><para>PROBABILITY – each span is independently sampled with the configured probability in [0.0, 1.0].</para>
+</listitem><listitem><para>PARENT_BASED – follow the sampling decision of the parent span; falls back to PROBABILITY for root spans.</para>
+</listitem><listitem><para>ADAPTIVE – automatically scales the sample probability down when the span creation rate exceeds a configured maximum (spans/second), and restores full sampling when the rate drops back below the threshold. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/tracing.h" line="52" column="1" bodyfile="include/utils/tracing.h" bodystart="52" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_sampling_strategy_1a3b518fee79059c2dcc194b36ba698e24" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>adaptive</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1ac6a57024faea1993626cd35ec792a055" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>adaptive</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1a6169eee722d7088e6d6bec1ab81c94b4" prot="private" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>adaptive_config_</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1a8a75581ef4beb01ebc373cdaf312be50" prot="private" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>adaptive_state_</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1a49cb8aef87e502d677730719e54d0815" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>alwaysOff</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1a9f7c755c345064c2099d590138631b73" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>alwaysOn</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1ac83c2a1ce0233b63d71fcd4f701489fc" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>getEffectiveRate</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1a7791ccaaab6fb26be5a68b8d631cb76b" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>parentBased</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1abf4a961438b76106d98098a074916703" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>probability</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1a8aa39920d36c3966ea23dca45f2a8a00" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>probability</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1ac1ec72f88ddd7b445bc2feb691f31d85" prot="private" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>probability_</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1af717a9ea92b2e57629bd8d9dc2f3006f" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>SamplingStrategy</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1a3e7d67cc46c2d238beb003ab49e7eb6a" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>shouldSample</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1ad909c90d5bfb5242c3e689c71377ea9e" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>Type</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1aba1a7101d4961d8e3c819d96a89a845f" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>type</name></member>
+      <member refid="classthemis_1_1_sampling_strategy_1aba1d17af1b25e9c186ff839f2fbe0c4e" prot="private" virt="non-virtual"><scope>themis::SamplingStrategy</scope><name>type_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

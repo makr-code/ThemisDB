@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="time__series_8h" kind="file" language="C++">
+    <compoundname>time_series.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">security/safe_iterator.h</includes>
+    <includedby refid="time__series_8cpp" local="yes">src/analytics/time_series.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/time_series.h</label>
+        <link refid="time__series_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>security/safe_iterator.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/analytics/time_series.h</label>
+        <link refid="time__series_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/analytics/time_series.cpp</label>
+        <link refid="time__series_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1analytics_1_1_data_point" prot="public">themis::analytics::DataPoint</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_time_window" prot="public">themis::analytics::TimeWindow</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_time_series_stats" prot="public">themis::analytics::TimeSeriesStats</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_time_series" prot="public">themis::analytics::TimeSeries</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <briefdescription>
+<para>Time-series data access with iterator-safe user-offset navigation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready</para>
+</simplesect>
+Provides sorted, append-only time-series storage with windowed read access. All user-supplied time offsets and window sizes are validated through <computeroutput>themis::security::SafeIterator::AdvanceSafe</computeroutput> before any iterator is moved, addressing gap IDs B011–B015 from the Sprint 7 scan.</para>
+<para><bold>CWE Remediations:</bold><itemizedlist>
+<listitem><para>CWE-129 (array index): <computeroutput>AdvanceSafe::advance()</computeroutput> replaces all raw iterator arithmetic involving user-supplied offsets.</para>
+</listitem><listitem><para>CWE-416 (use-after-free): <computeroutput>BoundsChecker::check_dereference()</computeroutput> guards every data point read.</para>
+</listitem><listitem><para><computeroutput>RangeValidator</computeroutput> wraps every sub-range before inner loops. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/safe_iterator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TimePoint<sp/>/<sp/>DataPoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref><sp/>=<sp/>std::int64_t;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1analytics_1_1_data_point" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1analytics_1_1_data_point_1a4ca30b4e3874708c439db30edca89927" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref><sp/><ref refid="structthemis_1_1analytics_1_1_data_point_1a4ca30b4e3874708c439db30edca89927" kindref="member">timestamp</ref>;<sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1analytics_1_1_data_point_1a6f479c73d3be9f25d1ada105590411cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_data_point_1a6f479c73d3be9f25d1ada105590411cc" kindref="member">value</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1analytics_1_1_data_point_1a916b7634be7f299242d0bb3c188c7ac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_data_point_1a916b7634be7f299242d0bb3c188c7ac0" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/>rhs)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_data_point_1a4ca30b4e3874708c439db30edca89927" kindref="member">timestamp</ref><sp/>&lt;<sp/>rhs.timestamp;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TimeWindow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1analytics_1_1_time_window" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_time_window" kindref="compound">TimeWindow</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1analytics_1_1_time_window_1a441539a8b183e3893b2df1f84a429000" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref><sp/><ref refid="structthemis_1_1analytics_1_1_time_window_1a441539a8b183e3893b2df1f84a429000" kindref="member">begin_ts</ref>;<sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1analytics_1_1_time_window_1a258dc55395d1b74aaf06b98889162d8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref><sp/><ref refid="structthemis_1_1analytics_1_1_time_window_1a258dc55395d1b74aaf06b98889162d8a" kindref="member">end_ts</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1analytics_1_1_time_window_1adb67dd79b204d91a4dffbc1e2a1062be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_time_window_1adb67dd79b204d91a4dffbc1e2a1062be" kindref="member">contains</ref>(<ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref><sp/>ts)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ts<sp/>&gt;=<sp/><ref refid="structthemis_1_1analytics_1_1_time_window_1a441539a8b183e3893b2df1f84a429000" kindref="member">begin_ts</ref><sp/>&amp;&amp;<sp/>ts<sp/>&lt;<sp/><ref refid="structthemis_1_1analytics_1_1_time_window_1a258dc55395d1b74aaf06b98889162d8a" kindref="member">end_ts</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TimeSeriesStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1analytics_1_1_time_series_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_time_series_stats" kindref="compound">TimeSeriesStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1analytics_1_1_time_series_stats_1a86a5344be80741636c79cc3abe9f2399" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1analytics_1_1_time_series_stats_1a86a5344be80741636c79cc3abe9f2399" kindref="member">count</ref>{0};</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1analytics_1_1_time_series_stats_1aaed138394d5b50cb85c77f00b406fbf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_time_series_stats_1aaed138394d5b50cb85c77f00b406fbf2" kindref="member">sum</ref>{0.0};</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1analytics_1_1_time_series_stats_1a2d91d6f0c211709f956eb39c5cd3c466" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_time_series_stats_1a2d91d6f0c211709f956eb39c5cd3c466" kindref="member">min</ref>{0.0};</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1analytics_1_1_time_series_stats_1af9619c9361590d2b3ae7cd858c4093ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_time_series_stats_1af9619c9361590d2b3ae7cd858c4093ca" kindref="member">max</ref>{0.0};</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1analytics_1_1_time_series_stats_1a4c97615c93f9e9ec91d17477b37c1f77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_time_series_stats_1a4c97615c93f9e9ec91d17477b37c1f77" kindref="member">mean</ref>{0.0};</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1analytics_1_1_time_series_stats_1a2fdbab48c8f837989391276ba7da1a5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_time_series_stats_1a2fdbab48c8f837989391276ba7da1a5b" kindref="member">variance</ref>{0.0};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TimeSeries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1analytics_1_1_time_series" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1_time_series_1a7875529928280a2fcdbf46ef6d78fe68" kindref="member">TimeSeries</ref><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a7875529928280a2fcdbf46ef6d78fe68" kindref="member">TimeSeries</ref>(std::string<sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a412a802d5781da3007449946ede72c9c" kindref="member">name</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1analytics_1_1_time_series_1adb3df146d04f59ff4cad14f9911c1159" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1adb3df146d04f59ff4cad14f9911c1159" kindref="member">~TimeSeries</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable<sp/>(potentially<sp/>large<sp/>data);<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1analytics_1_1_time_series_1a7fa08a2483e0b525542fe67eecd1a1f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a7fa08a2483e0b525542fe67eecd1a1f7" kindref="member">TimeSeries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a7875529928280a2fcdbf46ef6d78fe68" kindref="member">TimeSeries</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1analytics_1_1_time_series_1a021ff5522d2d9bdbc26bb20173ad5736" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a7875529928280a2fcdbf46ef6d78fe68" kindref="member">TimeSeries</ref>&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a021ff5522d2d9bdbc26bb20173ad5736" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a7875529928280a2fcdbf46ef6d78fe68" kindref="member">TimeSeries</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1analytics_1_1_time_series_1acf53360df619f5b752f04398ac02d551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1acf53360df619f5b752f04398ac02d551" kindref="member">TimeSeries</ref>(<ref refid="classthemis_1_1analytics_1_1_time_series_1a7875529928280a2fcdbf46ef6d78fe68" kindref="member">TimeSeries</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1analytics_1_1_time_series_1ae6cb0f00a15a92884623aafc80841197" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a7875529928280a2fcdbf46ef6d78fe68" kindref="member">TimeSeries</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1analytics_1_1_time_series_1a7875529928280a2fcdbf46ef6d78fe68" kindref="member">TimeSeries</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a56acae5dccbb8934617fdc5756743965" kindref="member">append</ref>(<ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref><sp/>ts,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1ad254961d8ad8329346af633d83500944" kindref="member">append_batch</ref>(const<sp/>std::vector&lt;<ref refid="structthemis_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;&amp;<sp/>points);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;<sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1ab4c409c283e5e53242a82721865a8e87" kindref="member">query_window</ref>(const<sp/><ref refid="structthemis_1_1analytics_1_1_time_window" kindref="compound">TimeWindow</ref>&amp;<sp/>window)<sp/>const;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;<sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1abbb78a84f49a9745a5eca988012cd6dc" kindref="member">page</ref>(std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit)<sp/>const;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;<ref refid="structthemis_1_1analytics_1_1_time_series_stats" kindref="compound">TimeSeriesStats</ref>&gt;<sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a7a48b398fa80232ceaba6fcc3f120661" kindref="member">stats</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1analytics_1_1_time_window" kindref="compound">TimeWindow</ref>&amp;<sp/>window)<sp/>const;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a0b5ec790b4f07eac680a2407c8cf361f" kindref="member">size</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_time_series_1a412a802d5781da3007449946ede72c9c" kindref="member">name</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::vector&lt;<ref refid="structthemis_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;<sp/><sp/>points_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sorted_{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ensure_sorted()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/time_series.h"/>
+  </compounddef>
+</doxygen>

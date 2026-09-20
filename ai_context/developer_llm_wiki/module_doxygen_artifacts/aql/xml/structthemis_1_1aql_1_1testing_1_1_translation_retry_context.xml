@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::TranslationRetryContext</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a9ee156c61ab6cb319bbdcf3d2d70aca7" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider" kindref="compound">MockLLMProvider</ref> &amp;</type>
+        <definition>MockLLMProvider&amp; themis::aql::testing::TranslationRetryContext::provider</definition>
+        <argsstring></argsstring>
+        <name>provider</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="105" column="21" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a56b7ac765a1f30507831d87445f8b28f" prot="public" static="no" mutable="no">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; themis::aql::testing::TranslationRetryContext::nl_query</definition>
+        <argsstring></argsstring>
+        <name>nl_query</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::nl_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="106" column="23" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a3e8e3ed82246c38189b37d1fea3b71ac" prot="public" static="no" mutable="no">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; themis::aql::testing::TranslationRetryContext::schema_context</definition>
+        <argsstring></argsstring>
+        <name>schema_context</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::schema_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="107" column="23" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1abcb199ff1fdacfc486c24fe27957efe7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::TranslationRetryContext::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::max_retries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="108" column="14" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1aaeab9b877559356243d5fe89d1833e5b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::TranslationRetryContext::backoff_base_ms</definition>
+        <argsstring></argsstring>
+        <name>backoff_base_ms</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::backoff_base_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="109" column="14" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a14c86133036d977c133372adc638a916" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::TranslationRetryContext::last_aql_result</definition>
+        <argsstring></argsstring>
+        <name>last_aql_result</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::last_aql_result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="111" column="17" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1ab39a67790740436133890aeaae583def" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::TranslationRetryContext::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::last_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="112" column="17" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a92f43210685280ab65d1ba82a143f08b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::TranslationRetryContext::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::retry_count</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="113" column="14" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a5083ceef2e84986331e894b03f699df7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::TranslationRetryContext::should_retry</definition>
+        <argsstring></argsstring>
+        <name>should_retry</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::should_retry</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="114" column="10" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1ab3f0506fe847fb7a99d7632bf539e33d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TranslationRetryContext::TranslationRetryContext</definition>
+        <argsstring>(MockLLMProvider &amp;p, const std::string &amp;nq, const std::string &amp;sc, uint32_t max_r=3)</argsstring>
+        <name>TranslationRetryContext</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::TranslationRetryContext</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider" kindref="compound">MockLLMProvider</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nq</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_r</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="116" column="5" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="116" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a3f94123cae1dde6c9fe31869c0687439" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::TranslationRetryContext::executeWithRetry</definition>
+        <argsstring>()</argsstring>
+        <name>executeWithRetry</name>
+        <qualifiedname>themis::aql::testing::TranslationRetryContext::executeWithRetry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="122" column="10" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="122" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::aql::testing::MockLLMProvider</label>
+        <link refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::aql::testing::TranslationRetryContext</label>
+        <link refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>provider</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_translation_recovery.cpp" line="104" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="104" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1aaeab9b877559356243d5fe89d1833e5b" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>backoff_base_ms</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a3f94123cae1dde6c9fe31869c0687439" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>executeWithRetry</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a14c86133036d977c133372adc638a916" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>last_aql_result</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1ab39a67790740436133890aeaae583def" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>last_error</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1abcb199ff1fdacfc486c24fe27957efe7" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a56b7ac765a1f30507831d87445f8b28f" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>nl_query</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a9ee156c61ab6cb319bbdcf3d2d70aca7" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>provider</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a92f43210685280ab65d1ba82a143f08b" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a3e8e3ed82246c38189b37d1fea3b71ac" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>schema_context</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1a5083ceef2e84986331e894b03f699df7" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>should_retry</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context_1ab3f0506fe847fb7a99d7632bf539e33d" prot="public" virt="non-virtual"><scope>themis::aql::testing::TranslationRetryContext</scope><name>TranslationRetryContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

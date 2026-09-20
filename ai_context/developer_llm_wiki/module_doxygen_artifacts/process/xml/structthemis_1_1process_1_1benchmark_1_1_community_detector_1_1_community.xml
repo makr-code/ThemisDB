@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_community_detector_1_1_community" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::CommunityDetector::Community</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_community_detector_1_1_community_1a1aeccfc9c0cb4e983b2c9edb5a7813df" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::benchmark::CommunityDetector::Community::member_ids</definition>
+        <argsstring></argsstring>
+        <name>member_ids</name>
+        <qualifiedname>themis::process::benchmark::CommunityDetector::Community::member_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="271" column="21" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_community_detector_1_1_community_1a33dcc098b29d2c18b35e410fba6ceb53" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::benchmark::CommunityDetector::Community::cohesion_score</definition>
+        <argsstring></argsstring>
+        <name>cohesion_score</name>
+        <qualifiedname>themis::process::benchmark::CommunityDetector::Community::cohesion_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="272" column="16" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="272" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="270" column="5" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="270" bodyend="273"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_community_detector_1_1_community_1a33dcc098b29d2c18b35e410fba6ceb53" prot="public" virt="non-virtual"><scope>themis::process::benchmark::CommunityDetector::Community</scope><name>cohesion_score</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_community_detector_1_1_community_1a1aeccfc9c0cb4e983b2c9edb5a7813df" prot="public" virt="non-virtual"><scope>themis::process::benchmark::CommunityDetector::Community</scope><name>member_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

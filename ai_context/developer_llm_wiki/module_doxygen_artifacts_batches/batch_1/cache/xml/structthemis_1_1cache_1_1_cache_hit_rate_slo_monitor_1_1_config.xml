@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheHitRateSloMonitor::Config</compoundname>
+    <includes refid="cache__hit__rate__slo__monitor_8h" local="no">cache_hit_rate_slo_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a2d0a7d9277008e033730ecb723456fbe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheHitRateSloMonitor::Config::warning_threshold</definition>
+        <argsstring></argsstring>
+        <name>warning_threshold</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Config::warning_threshold</qualifiedname>
+        <initializer>= 0.60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="49" column="16" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a8908fa0e042913e31288feb372d78554" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheHitRateSloMonitor::Config::critical_threshold</definition>
+        <argsstring></argsstring>
+        <name>critical_threshold</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Config::critical_threshold</qualifiedname>
+        <initializer>= 0.40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="51" column="16" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ab0c270f9e1c94b0e373d65b67efa85d1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheHitRateSloMonitor::Config::min_requests</definition>
+        <argsstring></argsstring>
+        <name>min_requests</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Config::min_requests</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="53" column="18" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac8e41e1a08bc4b00f5b85f6046c90bd5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::CacheHitRateSloMonitor::Config::alert_cooldown_seconds</definition>
+        <argsstring></argsstring>
+        <name>alert_cooldown_seconds</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Config::alert_cooldown_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="55" column="13" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a127dbc3ca101a3e1bea8e0a313003852" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheHitRateSloMonitor::Config::cache_name</definition>
+        <argsstring></argsstring>
+        <name>cache_name</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Config::cache_name</qualifiedname>
+        <initializer>= &quot;adaptive_query_cache&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="57" column="21" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheHitRateSloMonitor::Config::p99_warn_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_warn_ms</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Config::p99_warn_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="59" column="16" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheHitRateSloMonitor::Config::p99_critical_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_critical_ms</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Config::p99_critical_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="61" column="16" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac481e9138fd6949b978a0b635c1b2a9f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::Config::validate</definition>
+        <argsstring>(std::string *error_msg=nullptr) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Config::validate</qualifiedname>
+        <param>
+          <type>std::string *</type>
+          <declname>error_msg</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="63" column="14" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="63" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_hit_rate_slo_monitor.h" line="48" column="5" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="48" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac8e41e1a08bc4b00f5b85f6046c90bd5" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::Config</scope><name>alert_cooldown_seconds</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a127dbc3ca101a3e1bea8e0a313003852" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::Config</scope><name>cache_name</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a8908fa0e042913e31288feb372d78554" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::Config</scope><name>critical_threshold</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ab0c270f9e1c94b0e373d65b67efa85d1" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::Config</scope><name>min_requests</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::Config</scope><name>p99_critical_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::Config</scope><name>p99_warn_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac481e9138fd6949b978a0b635c1b2a9f" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::Config</scope><name>validate</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a2d0a7d9277008e033730ecb723456fbe" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::Config</scope><name>warning_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

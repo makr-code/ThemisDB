@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_change_event" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::ChangeEvent</compoundname>
+    <includes refid="temporal__cdc_8h" local="no">temporal_cdc.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1ace0fdf3fc6639079df0541a776d93032" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref></type>
+        <definition>ChangeType themisdb::temporal::ChangeEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="119" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1a9049d67b7c4bd38be5bed52f4b93cc36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::ChangeEvent::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="120" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1a029ac9b0426a46e7b5ddbe8dd13df133" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::ChangeEvent::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="121" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1ad199339d22d8c545627f5a6df16ea13f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref></type>
+        <definition>Document themisdb::temporal::ChangeEvent::before_value</definition>
+        <argsstring></argsstring>
+        <name>before_value</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::before_value</qualifiedname>
+        <briefdescription>
+<para>Previous payload (empty for INSERT). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="123" column="14" bodyfile="include/temporal/temporal_cdc.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref></type>
+        <definition>Document themisdb::temporal::ChangeEvent::after_value</definition>
+        <argsstring></argsstring>
+        <name>after_value</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::after_value</qualifiedname>
+        <briefdescription>
+<para>New payload (empty for DELETE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="124" column="14" bodyfile="include/temporal/temporal_cdc.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::ChangeEvent::transaction_time</definition>
+        <argsstring></argsstring>
+        <name>transaction_time</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::transaction_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Commit timestamp (ms since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="126" column="15" bodyfile="include/temporal/temporal_cdc.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1aa5a789d1381180cc9587e04eed9f2d70" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::ChangeEvent::valid_from</definition>
+        <argsstring></argsstring>
+        <name>valid_from</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::valid_from</qualifiedname>
+        <initializer>{kMinTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="127" column="15" bodyfile="include/temporal/temporal_cdc.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1a281eb2f9d2548a2859edeb4f566ac8a2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::ChangeEvent::valid_to</definition>
+        <argsstring></argsstring>
+        <name>valid_to</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::valid_to</qualifiedname>
+        <initializer>{kMaxTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="128" column="15" bodyfile="include/temporal/temporal_cdc.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_change_event_1a105d98cb3c100ee51434b81dbfd6282b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::ChangeEvent::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::user_id</qualifiedname>
+        <briefdescription>
+<para>User / node that made the change (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="130" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_change_event_1aa92e6d141596d848a0ba8e47f00f730d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::ChangeEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Serialise to JSON for transport or storage. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="133" column="20" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="81" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_change_event_1a1b3d25a138b522a5afc068133e38a5fb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref></type>
+        <definition>ChangeEvent themisdb::temporal::ChangeEvent::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themisdb::temporal::ChangeEvent::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialise from JSON.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1ab0e7696b3ad24f134c34a18ce8b152cb" kindref="member">TemporalCDC::changeTypeFromString()</ref>, at(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="136" column="24" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="101" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A single versioned change event emitted by the temporal CDC subsystem.</para>
+<para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_change_event_1ad199339d22d8c545627f5a6df16ea13f" kindref="member">before_value</ref></computeroutput> is empty for INSERT events. <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" kindref="member">after_value</ref></computeroutput> is empty for DELETE events. <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" kindref="member">transaction_time</ref></computeroutput> records when the change was committed (system time). <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_change_event_1aa5a789d1381180cc9587e04eed9f2d70" kindref="member">valid_from</ref></computeroutput> / <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a281eb2f9d2548a2859edeb4f566ac8a2" kindref="member">valid_to</ref></computeroutput> carry the application-time period when present. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_cdc.h" line="118" column="1" bodyfile="include/temporal/temporal_cdc.h" bodystart="118" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>after_value</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1ad199339d22d8c545627f5a6df16ea13f" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>before_value</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1a029ac9b0426a46e7b5ddbe8dd13df133" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>entity_id</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1a1b3d25a138b522a5afc068133e38a5fb" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>fromJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1a9049d67b7c4bd38be5bed52f4b93cc36" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>table_name</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1aa92e6d141596d848a0ba8e47f00f730d" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>transaction_time</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1ace0fdf3fc6639079df0541a776d93032" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1a105d98cb3c100ee51434b81dbfd6282b" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>user_id</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1aa5a789d1381180cc9587e04eed9f2d70" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>valid_from</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_change_event_1a281eb2f9d2548a2859edeb4f566ac8a2" prot="public" virt="non-virtual"><scope>themisdb::temporal::ChangeEvent</scope><name>valid_to</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

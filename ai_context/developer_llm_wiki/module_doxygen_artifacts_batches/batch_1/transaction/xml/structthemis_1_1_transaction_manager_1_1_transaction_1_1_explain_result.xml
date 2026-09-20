@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::Transaction::ExplainResult</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1aebdf0b968f18c100678972a9de40577c" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+        <definition>TransactionId themis::TransactionManager::Transaction::ExplainResult::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainResult::txn_id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="370" column="27" bodyfile="include/transaction/transaction_manager.h" bodystart="370" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1ae104896692426aff90d7c1450d7668df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Transaction::ExplainResult::isolation_level</definition>
+        <argsstring></argsstring>
+        <name>isolation_level</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainResult::isolation_level</qualifiedname>
+        <briefdescription>
+<para>Human-readable isolation level name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="371" column="27" bodyfile="include/transaction/transaction_manager.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1a3a3a4453a9dae5ce848c4c7c8b05f595" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::Transaction::ExplainResult::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainResult::duration_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="372" column="27" bodyfile="include/transaction/transaction_manager.h" bodystart="372" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1a0476ae745c94ed6efc3d1d90ef8825d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TransactionManager::Transaction::ExplainResult::is_finished</definition>
+        <argsstring></argsstring>
+        <name>is_finished</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainResult::is_finished</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="373" column="27" bodyfile="include/transaction/transaction_manager.h" bodystart="373" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1a2739d8c5a17b25bdddd17a286b3df598" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_lock_entry" kindref="compound">ExplainLockEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ExplainLockEntry&gt; themis::TransactionManager::Transaction::ExplainResult::locks_held</definition>
+        <argsstring></argsstring>
+        <name>locks_held</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainResult::locks_held</qualifiedname>
+        <briefdescription>
+<para>Locks currently held by this transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="374" column="26" bodyfile="include/transaction/transaction_manager.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1a5d07d0ebd58d1acf2be6436b78db9dcb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_write_entry" kindref="compound">ExplainWriteEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ExplainWriteEntry&gt; themis::TransactionManager::Transaction::ExplainResult::write_set</definition>
+        <argsstring></argsstring>
+        <name>write_set</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainResult::write_set</qualifiedname>
+        <briefdescription>
+<para>Keys written/deleted (MVCC chain entries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="375" column="25" bodyfile="include/transaction/transaction_manager.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="369" column="9" bodyfile="include/transaction/transaction_manager.h" bodystart="369" bodyend="376"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1a3a3a4453a9dae5ce848c4c7c8b05f595" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainResult</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1a0476ae745c94ed6efc3d1d90ef8825d8" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainResult</scope><name>is_finished</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1ae104896692426aff90d7c1450d7668df" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainResult</scope><name>isolation_level</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1a2739d8c5a17b25bdddd17a286b3df598" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainResult</scope><name>locks_held</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1aebdf0b968f18c100678972a9de40577c" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainResult</scope><name>txn_id</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result_1a5d07d0ebd58d1acf2be6436b78db9dcb" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainResult</scope><name>write_set</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

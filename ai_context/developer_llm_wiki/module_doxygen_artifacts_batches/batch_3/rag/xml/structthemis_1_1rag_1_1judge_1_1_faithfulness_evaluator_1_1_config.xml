@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::FaithfulnessEvaluator::Config</compoundname>
+    <includes refid="faithfulness__evaluator_8h" local="no">faithfulness_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1ad155d43fd7df40b8bd79b8c26d37d1fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::FaithfulnessEvaluator::Config::max_claims_to_extract</definition>
+        <argsstring></argsstring>
+        <name>max_claims_to_extract</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Config::max_claims_to_extract</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="78" column="16" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1a47d6eec2f68482c9b15f997583485339" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::FaithfulnessEvaluator::Config::entailment_threshold</definition>
+        <argsstring></argsstring>
+        <name>entailment_threshold</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Config::entailment_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="79" column="16" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1aaa78e55e8371449b6bf3efffb0f1dc04" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::FaithfulnessEvaluator::Config::enable_citation_check</definition>
+        <argsstring></argsstring>
+        <name>enable_citation_check</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Config::enable_citation_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="80" column="14" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1a7823e8823af517460c3d996a906c9c75" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::FaithfulnessEvaluator::Config::enable_claim_deduplication</definition>
+        <argsstring></argsstring>
+        <name>enable_claim_deduplication</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Config::enable_claim_deduplication</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="81" column="14" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for faithfulness evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/faithfulness_evaluator.h" line="77" column="5" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="77" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1aaa78e55e8371449b6bf3efffb0f1dc04" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Config</scope><name>enable_citation_check</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1a7823e8823af517460c3d996a906c9c75" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Config</scope><name>enable_claim_deduplication</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1a47d6eec2f68482c9b15f997583485339" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Config</scope><name>entailment_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1ad155d43fd7df40b8bd79b8c26d37d1fc" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Config</scope><name>max_claims_to_extract</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

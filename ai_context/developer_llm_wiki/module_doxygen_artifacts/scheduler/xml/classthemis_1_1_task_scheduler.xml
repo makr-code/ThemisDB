@@ -1,0 +1,2502 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_task_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::TaskScheduler</compoundname>
+    <includes refid="task__scheduler_8h" local="no">task_scheduler.h</includes>
+    <innerclass refid="structthemis_1_1_task_scheduler_1_1_config" prot="public">themis::TaskScheduler::Config</innerclass>
+    <innerclass refid="structthemis_1_1_task_scheduler_1_1_request_context" prot="public">themis::TaskScheduler::RequestContext</innerclass>
+    <innerclass refid="structthemis_1_1_task_scheduler_1_1_dag_execution_result" prot="public">themis::TaskScheduler::DagExecutionResult</innerclass>
+    <innerclass refid="structthemis_1_1_task_scheduler_1_1_stats" prot="public">themis::TaskScheduler::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_task_scheduler_1acc1f0ab7d15fae5cd31390b58525a01a" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json(const nlohmann::json &amp;params)&gt;</type>
+        <definition>using themis::TaskScheduler::TaskFunction = std::function&lt;nlohmann::json(const nlohmann::json&amp; params)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TaskFunction</name>
+        <qualifiedname>themis::TaskScheduler::TaskFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="521" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="521" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a6ce23dbf254f5fd5641b55cbdee5540a" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> *</type>
+        <definition>QueryEngine* themis::TaskScheduler::query_engine_</definition>
+        <argsstring></argsstring>
+        <name>query_engine_</name>
+        <qualifiedname>themis::TaskScheduler::query_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="674" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="674" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a8fda6788396eaae4eae738381cd9ca30" prot="private" static="no" mutable="no">
+        <type>Changefeed *</type>
+        <definition>Changefeed* themis::TaskScheduler::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::TaskScheduler::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="675" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="675" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a42f4f38751df8140711eb3aa8441f86c" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::TaskScheduler::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::TaskScheduler::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="676" column="24" bodyfile="include/scheduler/task_scheduler.h" bodystart="676" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1ae1adc51674847aace18639ec0bc2d8d6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_task_scheduler_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::TaskScheduler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::TaskScheduler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="677" column="12" bodyfile="include/scheduler/task_scheduler.h" bodystart="677" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1afb74316fffc4fbbf74c2f6611a69e478" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scheduler_1_1_task_audit_manager" kindref="compound">scheduler::TaskAuditManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;scheduler::TaskAuditManager&gt; themis::TaskScheduler::audit_manager_</definition>
+        <argsstring></argsstring>
+        <name>audit_manager_</name>
+        <qualifiedname>themis::TaskScheduler::audit_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="680" column="21" bodyfile="include/scheduler/task_scheduler.h" bodystart="680" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a9457c18d65b7f0a585868ac0edd6dd9e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; observability::Alertmanager &gt;</type>
+        <definition>std::shared_ptr&lt;observability::Alertmanager&gt; themis::TaskScheduler::alertmanager_</definition>
+        <argsstring></argsstring>
+        <name>alertmanager_</name>
+        <qualifiedname>themis::TaskScheduler::alertmanager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="683" column="21" bodyfile="include/scheduler/task_scheduler.h" bodystart="683" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a79c988e6e583009ca9a0e83f242b3fee" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::TaskScheduler::alert_mutex_</definition>
+        <argsstring></argsstring>
+        <name>alert_mutex_</name>
+        <qualifiedname>themis::TaskScheduler::alert_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="684" column="31" bodyfile="include/scheduler/task_scheduler.h" bodystart="684" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a5428e676d522db26a3c2a4d63fbc0fc5" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::TaskScheduler::active_failure_alert_ids_</definition>
+        <argsstring></argsstring>
+        <name>active_failure_alert_ids_</name>
+        <qualifiedname>themis::TaskScheduler::active_failure_alert_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="686" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="686" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1ac4cea62c9e701f6c338a2f209b74660f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::TaskScheduler::dynamic_limit_</definition>
+        <argsstring></argsstring>
+        <name>dynamic_limit_</name>
+        <qualifiedname>themis::TaskScheduler::dynamic_limit_</qualifiedname>
+        <initializer>{4}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="689" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="689" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a0b5395b5507592e9bef8040ff9feb7cb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::TaskScheduler::queue_depth_</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_</name>
+        <qualifiedname>themis::TaskScheduler::queue_depth_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="690" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="690" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a35549069f1975f17f14e2a72ca4447fd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::TaskScheduler::idle_ticks_</definition>
+        <argsstring></argsstring>
+        <name>idle_ticks_</name>
+        <qualifiedname>themis::TaskScheduler::idle_ticks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="691" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="691" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a156091562bcda1271a25a1ab996dffb9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1scheduler_1_1_task_result_store" kindref="compound">scheduler::TaskResultStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;scheduler::TaskResultStore&gt; themis::TaskScheduler::result_store_</definition>
+        <argsstring></argsstring>
+        <name>result_store_</name>
+        <qualifiedname>themis::TaskScheduler::result_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="694" column="21" bodyfile="include/scheduler/task_scheduler.h" bodystart="694" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1ad22f6284b1d807574732947dc8acbde7" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="classthemis_1_1_task_scheduler_1acc1f0ab7d15fae5cd31390b58525a01a" kindref="member">TaskFunction</ref> &gt;</type>
+        <definition>std::map&lt;std::string, TaskFunction&gt; themis::TaskScheduler::functions_</definition>
+        <argsstring></argsstring>
+        <name>functions_</name>
+        <qualifiedname>themis::TaskScheduler::functions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="697" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="697" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a102aa55490e4bbd25e7ef843e9aa64c9" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;ScheduledTask&gt; &gt; themis::TaskScheduler::tasks_</definition>
+        <argsstring></argsstring>
+        <name>tasks_</name>
+        <qualifiedname>themis::TaskScheduler::tasks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="700" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="700" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a8bc921f05c23f6aa9f48bcbfe76d0267" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TaskScheduler::tasks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tasks_mutex_</name>
+        <qualifiedname>themis::TaskScheduler::tasks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="701" column="24" bodyfile="include/scheduler/task_scheduler.h" bodystart="701" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a196e2690dc92a0ae01c96236151ec3cf" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_event_trigger_manager" kindref="compound">EventTriggerManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;EventTriggerManager&gt; themis::TaskScheduler::event_trigger_manager_</definition>
+        <argsstring></argsstring>
+        <name>event_trigger_manager_</name>
+        <qualifiedname>themis::TaskScheduler::event_trigger_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="704" column="21" bodyfile="include/scheduler/task_scheduler.h" bodystart="704" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a5403e94727da747cfe2f4f52c24f7047" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; CronExpression &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;CronExpression&gt; &gt; themis::TaskScheduler::cron_expressions_</definition>
+        <argsstring></argsstring>
+        <name>cron_expressions_</name>
+        <qualifiedname>themis::TaskScheduler::cron_expressions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="707" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="707" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1aeb66143dc51627a86d9a513542c92f18" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::TaskScheduler::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::TaskScheduler::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="710" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="710" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1abe44d5f87931b118ad8cb6ae9088ef20" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::TaskScheduler::scheduler_thread_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_thread_</name>
+        <qualifiedname>themis::TaskScheduler::scheduler_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="711" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="711" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1ab33d423ff25512abcea4201e07362e78" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::TaskScheduler::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::TaskScheduler::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="712" column="29" bodyfile="include/scheduler/task_scheduler.h" bodystart="712" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1aee0cea06c3b527e184b2d115385613df" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::thread &gt;</type>
+        <definition>std::map&lt;std::string, std::thread&gt; themis::TaskScheduler::running_task_threads_</definition>
+        <argsstring></argsstring>
+        <name>running_task_threads_</name>
+        <qualifiedname>themis::TaskScheduler::running_task_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="715" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="715" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a61e8ecfead6812c33153e4d575f16c88" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TaskScheduler::running_mutex_</definition>
+        <argsstring></argsstring>
+        <name>running_mutex_</name>
+        <qualifiedname>themis::TaskScheduler::running_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="716" column="24" bodyfile="include/scheduler/task_scheduler.h" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a3f551a9f47f872b687d645940cac84e5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::TaskScheduler::active_task_threads_</definition>
+        <argsstring></argsstring>
+        <name>active_task_threads_</name>
+        <qualifiedname>themis::TaskScheduler::active_task_threads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="717" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="717" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1ab1a2a80c8380431b3bb38b812c616f2b" prot="private" static="no" mutable="yes">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; std::mutex &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;std::mutex&gt; &gt; themis::TaskScheduler::task_execution_locks_</definition>
+        <argsstring></argsstring>
+        <name>task_execution_locks_</name>
+        <qualifiedname>themis::TaskScheduler::task_execution_locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="721" column="22" bodyfile="include/scheduler/task_scheduler.h" bodystart="721" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1ab8b7626eda56ad73fd38dcdea1874cdc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TaskScheduler::task_locks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>task_locks_mutex_</name>
+        <qualifiedname>themis::TaskScheduler::task_locks_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects task_execution_locks_ map itself. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="722" column="24" bodyfile="include/scheduler/task_scheduler.h" bodystart="722" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1a89308b27e818b934635e9d82108bf19d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::TaskScheduler::total_executions_</definition>
+        <argsstring></argsstring>
+        <name>total_executions_</name>
+        <qualifiedname>themis::TaskScheduler::total_executions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="725" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="725" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1ad61ae462090b8a9ddead696dfba5d042" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::TaskScheduler::failed_executions_</definition>
+        <argsstring></argsstring>
+        <name>failed_executions_</name>
+        <qualifiedname>themis::TaskScheduler::failed_executions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="726" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="726" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_task_scheduler_1aed986456dc74992300018a763567062c" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::TaskScheduler::last_run_</definition>
+        <argsstring></argsstring>
+        <name>last_run_</name>
+        <qualifiedname>themis::TaskScheduler::last_run_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="727" column="43" bodyfile="include/scheduler/task_scheduler.h" bodystart="727" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1abb3ee81cfd93ac003e813f05b37b4e3f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::setRequestContext</definition>
+        <argsstring>(const RequestContext &amp;ctx) noexcept</argsstring>
+        <name>setRequestContext</name>
+        <qualifiedname>themis::TaskScheduler::setRequestContext</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_task_scheduler_1_1_request_context" kindref="compound">RequestContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the authentication context for the calling thread. Must be called before any scheduler method that performs audit logging. Thread-safe (each thread owns its own context slot). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="397" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ac6097c74af126ef163362934922985d0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::clearRequestContext</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>clearRequestContext</name>
+        <qualifiedname>themis::TaskScheduler::clearRequestContext</qualifiedname>
+        <briefdescription>
+<para>Clear the authentication context for the calling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="400" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="105" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a858983f149761f39c001356327de5e06" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::currentUserId</definition>
+        <argsstring>(const char *fallback=&quot;system&quot;) noexcept</argsstring>
+        <name>currentUserId</name>
+        <qualifiedname>themis::TaskScheduler::currentUserId</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>fallback</declname>
+          <defval>&quot;system&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Return the user ID from the thread-local request context, or <computeroutput>fallback</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="403" column="24" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="114" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a84bbeb5254a3ac49e61f89a6d0697935" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::currentClientIp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>currentClientIp</name>
+        <qualifiedname>themis::TaskScheduler::currentClientIp</qualifiedname>
+        <briefdescription>
+<para>Return the client IP from the thread-local request context (empty if not set). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="406" column="24" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1aec28134085dbbce2abf278debd9ab9cd" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::hasPermission</definition>
+        <argsstring>(const std::string &amp;permission) noexcept</argsstring>
+        <name>hasPermission</name>
+        <qualifiedname>themis::TaskScheduler::hasPermission</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>permission</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="407" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="128" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a5b7a962eaa5580f3fda02dbfec2f4dc4" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::hasRole</definition>
+        <argsstring>(const std::string &amp;role) noexcept</argsstring>
+        <name>hasRole</name>
+        <qualifiedname>themis::TaskScheduler::hasRole</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="408" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="142" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a04161e9a8e2c294abf00d7a11d51cd98" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::currentAuthorizationJustification</definition>
+        <argsstring>(const char *fallback=&quot;&quot;) noexcept</argsstring>
+        <name>currentAuthorizationJustification</name>
+        <qualifiedname>themis::TaskScheduler::currentAuthorizationJustification</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>fallback</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="409" column="24" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="155" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a97cfd4cf72615e2dd64eb3867fce747f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TaskScheduler::TaskScheduler</definition>
+        <argsstring>(QueryEngine *query_engine, const Config &amp;config, Changefeed *changefeed=nullptr, std::shared_ptr&lt; utils::AuditLogger &gt; audit_logger=nullptr, RocksDBWrapper *result_storage=nullptr)</argsstring>
+        <name>TaskScheduler</name>
+        <qualifiedname>themis::TaskScheduler::TaskScheduler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> *</type>
+          <declname>query_engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_task_scheduler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>Changefeed *</type>
+          <declname>changefeed</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+          <declname>audit_logger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>result_storage</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a task scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query engine for executing AQL queries </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scheduler configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional changefeed for CDC event triggers (nullptr = no CDC support) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional audit logger for tamper-evident logging (nullptr = basic logging) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result_storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional RocksDB instance used to persist task execution results. Required when config.enable_result_store == true. Must outlive this <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> instance.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Note: The optional parameters maintain backward compatibility. Existing code using TaskScheduler(query_engine, config) continues to work. New code can add changefeed for CDC event trigger support, audit_logger for comprehensive auditing, and result_storage for persistent task output storage. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="426" column="14" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="460" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a88a958dfdafa55ef4ef85e95775b137a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TaskScheduler::~TaskScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>~TaskScheduler</name>
+        <qualifiedname>themis::TaskScheduler::~TaskScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="431" column="5" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="513" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a915dfc0408ec615b43a69b3d38f905b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::TaskScheduler::start</qualifiedname>
+        <briefdescription>
+<para>===== Lifecycle ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), load(), THEMIS_WARN(), store(), std::thread(), size(), startAll(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="434" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="522" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a476781bc1f68f6ceedc12a61d9d2ce9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::TaskScheduler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), load(), store(), notify_all(), joinable(), join(), std::chrono::seconds(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="435" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="552" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a18f4206aee763e1153c221109f787e1c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::TaskScheduler::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="436" column="10" bodyfile="include/scheduler/task_scheduler.h" bodystart="436" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ae4033897003aaae88a70d92b674eccc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::registerTask</definition>
+        <argsstring>(const ScheduledTask &amp;task)</argsstring>
+        <name>registerTask</name>
+        <qualifiedname>themis::TaskScheduler::registerTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Register a new scheduled task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Task Management =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Task ID</para>
+</simplesect>
+⚠️ SECURITY: This method MUST be protected by authentication and authorization. Validate and sanitize all task inputs before registration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_task_scheduler_1aec28134085dbbce2abf278debd9ab9cd" kindref="member">hasPermission()</ref>, logUnauthorizedPermissionAttempt(), validateAqlQuery(), validateResourceLimits(), validateCronExpression(), validateCDCTrigger(), sanitizeTask(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="447" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="617" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a89cc80598e6705c1dc2caf9f2761e2ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::unregisterTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>unregisterTask</name>
+        <qualifiedname>themis::TaskScheduler::unregisterTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task ID to remove</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), removeEventTrigger(), erase(), THEMIS_INFO(), logTaskSchedulerEvent(), <ref refid="classthemis_1_1_task_scheduler_1a858983f149761f39c001356327de5e06" kindref="member">TaskScheduler::currentUserId()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="453" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="769" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1aef5299c253b90fc8e4df2914e5305e97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::enableTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>enableTask</name>
+        <qualifiedname>themis::TaskScheduler::enableTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Enable a disabled task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task ID to enable</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_INFO(), logTaskSchedulerEvent(), <ref refid="classthemis_1_1_task_scheduler_1a858983f149761f39c001356327de5e06" kindref="member">TaskScheduler::currentUserId()</ref>, saveTasks(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="459" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="814" bodyend="840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a1eb86f5e03be23ffe1bab6b3927d091a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::disableTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>disableTask</name>
+        <qualifiedname>themis::TaskScheduler::disableTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Disable a task (will not be executed until re-enabled). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task ID to disable</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_INFO(), logTaskSchedulerEvent(), <ref refid="classthemis_1_1_task_scheduler_1a858983f149761f39c001356327de5e06" kindref="member">TaskScheduler::currentUserId()</ref>, saveTasks(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="465" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="847" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a4256f1507cce5919a29f77c009fcb57b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::updateTask</definition>
+        <argsstring>(const ScheduledTask &amp;task)</argsstring>
+        <name>updateTask</name>
+        <qualifiedname>themis::TaskScheduler::updateTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Update an existing task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Updated task configuration (ID must match existing task)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+⚠️ SECURITY: This method MUST be protected by authentication and authorization. Verify user has permission to modify the specified task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_INFO(), saveTasks(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="474" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="880" bodyend="901"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a448edc734b7bdf97a3f65d7a5acfce50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::TaskScheduler::executeTaskNow</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>executeTaskNow</name>
+        <qualifiedname>themis::TaskScheduler::executeTaskNow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Execute a task immediately (out-of-schedule). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Manual Execution =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task ID to execute </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Execution result as JSON</para>
+</simplesect>
+⚠️ SECURITY: This method MUST be protected by authentication and authorization. Can be abused for DoS attacks or unauthorized data access.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_task_scheduler_1aec28134085dbbce2abf278debd9ab9cd" kindref="member">hasPermission()</ref>, logUnauthorizedPermissionAttempt(), THEMIS_INFO(), checkRateLimit(), THEMIS_WARN(), Tracer::startSpan(), setAttribute(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="485" column="20" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="910" bodyend="1125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1affb60d6d501135d3fc16ff2940e4e5b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_task_scheduler_1_1_dag_execution_result" kindref="compound">DagExecutionResult</ref></type>
+        <definition>TaskScheduler::DagExecutionResult themis::TaskScheduler::executeDAG</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;task_ids)</argsstring>
+        <name>executeDAG</name>
+        <qualifiedname>themis::TaskScheduler::executeDAG</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>task_ids</declname>
+        </param>
+        <briefdescription>
+<para>Execute a set of registered tasks respecting their dependency order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute DAG.</para>
+<para>Tasks are executed in topological order derived from each task&apos;s <computeroutput>dependencies</computeroutput> list. Tasks whose dependencies have all succeeded are dispatched in parallel (up to max_concurrent_tasks). If a task fails, all tasks that (transitively) depend on it are skipped rather than executed. If a task&apos;s <computeroutput>branch_condition</computeroutput> predicate returns false, the task is condition-skipped and its dependents are condition-skipped transitively (reported in <ref refid="structthemis_1_1_task_scheduler_1_1_dag_execution_result_1a7998b7b1cb006de17656b1aa49664924" kindref="member">DagExecutionResult::condition_skipped</ref>).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IDs of the tasks to include in this DAG execution. Tasks not in this set are ignored even if they appear in a dependency list. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_task_scheduler_1_1_dag_execution_result" kindref="compound">DagExecutionResult</ref> with per-task outcomes (succeeded, failed, skipped, condition_skipped). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if task_ids contains an unknown task ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the dependency graph contains a cycle.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+⚠️ SECURITY: This method MUST be protected by authentication and authorization.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tasks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="518" column="24" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1192" bodyend="1532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a7b559e1f998d0b6ddf93945c4f9a03aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::registerFunction</definition>
+        <argsstring>(const std::string &amp;name, TaskFunction func)</argsstring>
+        <name>registerFunction</name>
+        <qualifiedname>themis::TaskScheduler::registerFunction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_task_scheduler_1acc1f0ab7d15fae5cd31390b58525a01a" kindref="member">TaskFunction</ref></type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Register a custom function that can be called by tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Function Registration =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function implementation</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+⚠️ SECURITY CRITICAL: This allows arbitrary code execution. Only allow registration by system administrators. Functions should be sandboxed and resource-limited.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_task_scheduler_1aec28134085dbbce2abf278debd9ab9cd" kindref="member">hasPermission()</ref>, <ref refid="classthemis_1_1_task_scheduler_1a5b7a962eaa5580f3fda02dbfec2f4dc4" kindref="member">hasRole()</ref>, logUnauthorizedPermissionAttempt(), THEMIS_INFO(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="532" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1542" bodyend="1559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a33df6b563d09646fb7769f55c5e5e6b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::unregisterFunction</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterFunction</name>
+        <qualifiedname>themis::TaskScheduler::unregisterFunction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a custom function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Function.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="538" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1566" bodyend="1570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a76c2bf1b60fae5d78605d6a9bf029aa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_task_scheduler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>TaskScheduler::Stats themis::TaskScheduler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::TaskScheduler::getStats</qualifiedname>
+        <briefdescription>
+<para>Get scheduler statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Acquire both locks atomically (canonical order tasks &lt; running) to avoid inversion against threads that acquire running_mutex_ alone. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tasks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">running_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="554" column="11" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1574" bodyend="1603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ac4310ffb9b850841bd3aee29f4700793" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::exportMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::TaskScheduler::exportMetrics</qualifiedname>
+        <briefdescription>
+<para>Export current scheduler metrics in Prometheus text format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a string in Prometheus exposition format (text/plain; version=0.0.4) suitable for scraping by a Prometheus server or any compatible monitoring tool.</para>
+<para>Metrics exported:<itemizedlist>
+<listitem><para>themis_scheduler_tasks_registered (gauge)</para>
+</listitem><listitem><para>themis_scheduler_tasks_active (gauge)</para>
+</listitem><listitem><para>themis_scheduler_tasks_running (gauge)</para>
+</listitem><listitem><para>themis_scheduler_executions_total (counter, label: status=success|failure)</para>
+</listitem><listitem><para>themis_scheduler_task_executions_total (counter, per task, labels: task_id, task_name, status)</para>
+</listitem><listitem><para>themis_scheduler_task_execution_duration_ms (gauge, per task)</para>
+</listitem><listitem><para>themis_scheduler_task_last_run_timestamp (gauge, per task, unix seconds)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Prometheus text exposition string (never empty) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Acquire both locks atomically (canonical order tasks &lt; running). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tasks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">running_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="573" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1605" bodyend="1750"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a1070d57799925056000aff6f4003d808" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt;</type>
+        <definition>std::vector&lt; ScheduledTask &gt; themis::TaskScheduler::listTasks</definition>
+        <argsstring>() const</argsstring>
+        <name>listTasks</name>
+        <qualifiedname>themis::TaskScheduler::listTasks</qualifiedname>
+        <briefdescription>
+<para>List all registered tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tasks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="578" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1752" bodyend="1770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a17507518290bdbe1c9765abd93ca29ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ScheduledTask &gt; themis::TaskScheduler::getTask</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>getTask</name>
+        <qualifiedname>themis::TaskScheduler::getTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Get details of a specific task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Task details or nullptr if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tasks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="585" column="21" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1772" bodyend="1786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a274bba194a53c768d68a8c64676f5eb8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scheduler_1_1_task_audit_manager" kindref="compound">scheduler::TaskAuditManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; scheduler::TaskAuditManager &gt; themis::TaskScheduler::getAuditManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getAuditManager</name>
+        <qualifiedname>themis::TaskScheduler::getAuditManager</qualifiedname>
+        <briefdescription>
+<para>Get audit manager for querying audit events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to audit manager (may be nullptr if audit logging disabled) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="591" column="21" bodyfile="include/scheduler/task_scheduler.h" bodystart="591" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a33f24ee040151c0e592635124cab32fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">scheduler::TaskAuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt; scheduler::TaskAuditEvent &gt; themis::TaskScheduler::getExecutionHistory</definition>
+        <argsstring>(const std::string &amp;task_id=&quot;&quot;, size_t limit=100, size_t offset=0) const</argsstring>
+        <name>getExecutionHistory</name>
+        <qualifiedname>themis::TaskScheduler::getExecutionHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get execution history for a specific task (or all tasks). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience wrapper around TaskAuditManager::queryAuditEvents() that pre-populates the task_id filter and sensible defaults for browsing the searchable audit log.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task ID to filter on (empty string = all tasks) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results to return (default 100) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pagination offset (default 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of audit events ordered by timestamp descending, or empty vector if audit logging is disabled </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="608" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1788" bodyend="1806"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1aea0a67cf09f5fc35cdea3cefa38ba595" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scheduler_1_1_task_execution_result" kindref="compound">scheduler::TaskExecutionResult</ref> &gt;</type>
+        <definition>std::vector&lt; scheduler::TaskExecutionResult &gt; themis::TaskScheduler::getTaskResults</definition>
+        <argsstring>(const std::string &amp;task_id, size_t limit=10) const</argsstring>
+        <name>getTaskResults</name>
+        <qualifiedname>themis::TaskScheduler::getTaskResults</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Retrieve recent execution results for a task from the result store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns up to <computeroutput>limit</computeroutput> results, newest first. Returns an empty vector if result storage is disabled or no results exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of records to return (default: 10). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="622" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3069" bodyend="3075"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a3438c540ad03b2a0252b68d9327c00ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1scheduler_1_1_task_execution_result" kindref="compound">scheduler::TaskExecutionResult</ref> &gt;</type>
+        <definition>std::optional&lt; scheduler::TaskExecutionResult &gt; themis::TaskScheduler::getLatestTaskResult</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>getLatestTaskResult</name>
+        <qualifiedname>themis::TaskScheduler::getLatestTaskResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the most-recent execution result for a task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns std::nullopt if result storage is disabled or no results exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="632" column="19" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3077" bodyend="3083"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1aca3124c9b2b640d91866dcd22eabbeea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::setAlertmanager</definition>
+        <argsstring>(std::shared_ptr&lt; observability::Alertmanager &gt; alertmanager)</argsstring>
+        <name>setAlertmanager</name>
+        <qualifiedname>themis::TaskScheduler::setAlertmanager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; observability::Alertmanager &gt;</type>
+          <declname>alertmanager</declname>
+        </param>
+        <briefdescription>
+<para>Set the alertmanager for dispatching task failure and SLA breach alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Alertmanager Integration =====</para>
+<para>When set, the scheduler fires an alert via the alertmanager whenever:<itemizedlist>
+<listitem><para>A task fails all execution attempts (TaskFailure alert).</para>
+</listitem><listitem><para>A task execution exceeds its configured sla_deadline (TaskSlaBreached alert). A previously-fired failure alert is automatically resolved when the same task subsequently succeeds.</para>
+</listitem></itemizedlist>
+</para>
+<para>Pass nullptr to disable alertmanager integration (default behaviour).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alertmanager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="646" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3091" bodyend="3094"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ab243f2bc262d0826eb2b9e2def22eb01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; observability::Alertmanager &gt;</type>
+        <definition>std::shared_ptr&lt; observability::Alertmanager &gt; themis::TaskScheduler::getAlertmanager</definition>
+        <argsstring>() const</argsstring>
+        <name>getAlertmanager</name>
+        <qualifiedname>themis::TaskScheduler::getAlertmanager</qualifiedname>
+        <briefdescription>
+<para>Get the currently configured alertmanager (may be nullptr). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="651" column="21" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3096" bodyend="3104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a36ec5d0b08990f86dc9d11168a38d942" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::getQueueDepth</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getQueueDepth</name>
+        <qualifiedname>themis::TaskScheduler::getQueueDepth</qualifiedname>
+        <briefdescription>
+<para>Get the number of tasks that were ready to run on the last scheduler tick but could not be dispatched because the concurrency limit was reached. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Always returns 0 when <computeroutput>enable_dynamic_scaling</computeroutput> is false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="660" column="12" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3257" bodyend="3259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a3506b863154123ef175c983d14bc7f73" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::getDynamicConcurrencyLimit</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getDynamicConcurrencyLimit</name>
+        <qualifiedname>themis::TaskScheduler::getDynamicConcurrencyLimit</qualifiedname>
+        <briefdescription>
+<para>Get the current effective max-concurrent-tasks limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When <computeroutput>enable_dynamic_scaling</computeroutput> is false this equals <computeroutput><ref refid="structthemis_1_1_task_scheduler_1_1_config_1acd4f732eafee8e99d312263411a41fe7" kindref="member">Config::max_concurrent_tasks</ref></computeroutput>. When scaling is enabled it reflects the dynamically adjusted value in the range [<computeroutput>min_concurrent_tasks</computeroutput>, <computeroutput>max_concurrent_tasks_ceil</computeroutput>]. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="670" column="12" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3261" bodyend="3263"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a74eb16814ec6e0dc4847e00ce6cd4694" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::schedulerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>schedulerLoop</name>
+        <qualifiedname>themis::TaskScheduler::schedulerLoop</qualifiedname>
+        <briefdescription>
+<para>===== Scheduler Loop ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(), load(), Tracer::startSpan(), std::chrono::system_clock::now(), lock(), shouldExecute(), THEMIS_DEBUG(), logTaskSchedulerEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="730" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1813" bodyend="1941"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1acbd8141df46388970dab4d55e1ed6da7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::executeTask</definition>
+        <argsstring>(std::shared_ptr&lt; ScheduledTask &gt; task)</argsstring>
+        <name>executeTask</name>
+        <qualifiedname>themis::TaskScheduler::executeTask</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Execute Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), setAttribute(), getTaskExecutionLock(), exec_lock(), std::chrono::steady_clock::now(), getCurrentTimeMs(), <ref refid="namespacethemis_1_1scheduler_1af6f41d978d5fb95aa6141663d10679d7" kindref="member">scheduler::generateUUID()</ref>, std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="733" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1948" bodyend="2232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a6554e8cf51528f2043990c6496674e84" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::TaskScheduler::executeAqlQuery</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>executeAqlQuery</name>
+        <qualifiedname>themis::TaskScheduler::executeAqlQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Execute Aql Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: validateAqlQuery(), enforceQueryComplexityLimits(), Tracer::startSpan(), setAttribute(), executeAql(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="734" column="20" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2241" bodyend="2267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a0d5736d33c53a49e35aef2bca530bdab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::TaskScheduler::executeFunction</definition>
+        <argsstring>(const std::string &amp;name, const nlohmann::json &amp;params)</argsstring>
+        <name>executeFunction</name>
+        <qualifiedname>themis::TaskScheduler::executeFunction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Execute Function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), setAttribute(), find(), end(), sandbox(), launch(), THEMIS_WARN(), lastError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="735" column="20" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2277" bodyend="2300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a3f8a18053360359a0df43a1978a8fe17" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::shouldExecute</definition>
+        <argsstring>(const ScheduledTask &amp;task, const std::chrono::system_clock::time_point &amp;now) const</argsstring>
+        <name>shouldExecute</name>
+        <qualifiedname>themis::TaskScheduler::shouldExecute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="738" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2304" bodyend="2324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a22ec857b2ac89635b147d2fa46755cac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::updateNextRun</definition>
+        <argsstring>(ScheduledTask &amp;task)</argsstring>
+        <name>updateNextRun</name>
+        <qualifiedname>themis::TaskScheduler::updateNextRun</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Update Next Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), getNextExecution(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="739" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2331" bodyend="2346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a98a223513c313032c79055c8dda23e8d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::shouldExecuteCron</definition>
+        <argsstring>(const ScheduledTask &amp;task, const std::chrono::system_clock::time_point &amp;now) const</argsstring>
+        <name>shouldExecuteCron</name>
+        <qualifiedname>themis::TaskScheduler::shouldExecuteCron</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="740" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2912" bodyend="2919"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a8840c3fe28fe8bcd9d9fedde4c26327e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::setupEventTrigger</definition>
+        <argsstring>(std::shared_ptr&lt; ScheduledTask &gt; task)</argsstring>
+        <name>setupEventTrigger</name>
+        <qualifiedname>themis::TaskScheduler::setupEventTrigger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Setup Event Trigger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_ERROR(), insert(), lock(), find(), end(), THEMIS_DEBUG(), onCDCEvent(), registerTrigger(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="743" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2945" bodyend="2981"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a6fe4eb95e1ba9a0287c35a99da20fd26" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::removeEventTrigger</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>removeEventTrigger</name>
+        <qualifiedname>themis::TaskScheduler::removeEventTrigger</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Event Trigger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: unregisterTrigger(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="744" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2988" bodyend="2992"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a4e88525e7b9bbfd4ddc6ada92d2eee65" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::onCDCEvent</definition>
+        <argsstring>(std::shared_ptr&lt; ScheduledTask &gt; task, const Changefeed::ChangeEvent &amp;event)</argsstring>
+        <name>onCDCEvent</name>
+        <qualifiedname>themis::TaskScheduler::onCDCEvent</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On CDCEvent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_DEBUG(), logTaskSchedulerEvent(), <ref refid="classthemis_1_1_task_scheduler_1a858983f149761f39c001356327de5e06" kindref="member">TaskScheduler::currentUserId()</ref>, load(), lock(), task_thread(), executeTask(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="745" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3000" bodyend="3063"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ad067af0b95b2f81c9e942244af2bc992" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; CronExpression &gt;</type>
+        <definition>std::shared_ptr&lt; CronExpression &gt; themis::TaskScheduler::getCronExpression</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>getCronExpression</name>
+        <qualifiedname>themis::TaskScheduler::getCronExpression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Cron Expression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="748" column="21" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2889" bodyend="2895"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1accea31b4b1995e23818a0da8eb567190" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::updateCronExpression</definition>
+        <argsstring>(const std::string &amp;task_id, const std::string &amp;expression)</argsstring>
+        <name>updateCronExpression</name>
+        <qualifiedname>themis::TaskScheduler::updateCronExpression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+<para>Update Cron Expression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: CronExpression::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="749" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2904" bodyend="2910"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ad04f08c811cbb45a54bceb31d099243d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::saveTasks</definition>
+        <argsstring>()</argsstring>
+        <name>saveTasks</name>
+        <qualifiedname>themis::TaskScheduler::saveTasks</qualifiedname>
+        <briefdescription>
+<para>===== Persistence ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::array(), count(), push_back(), file(), good(), dump(), close(), chmod(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="752" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2354" bodyend="2469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ae4aff40a46ff4453f0bb747af89238e9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::loadTasks</definition>
+        <argsstring>()</argsstring>
+        <name>loadTasks</name>
+        <qualifiedname>themis::TaskScheduler::loadTasks</qualifiedname>
+        <briefdescription>
+<para>Load Tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: file(), good(), THEMIS_DEBUG(), value(), nlohmann::json::object(), std::chrono::milliseconds(), contains(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="753" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2475" bodyend="2587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a0baeebdfe58d323817ecee3430b30416" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::TaskScheduler::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::TaskScheduler::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="756" column="13" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2591" bodyend="2595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a375cafaeec7790aad28f8b8b753465f0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::generateTaskId</definition>
+        <argsstring>(const ScheduledTask &amp;task) const</argsstring>
+        <name>generateTaskId</name>
+        <qualifiedname>themis::TaskScheduler::generateTaskId</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="757" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2597" bodyend="2616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a396251bda85ee274027eb729b46962bf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::validateAqlQuery</definition>
+        <argsstring>(const std::string &amp;aql) const</argsstring>
+        <name>validateAqlQuery</name>
+        <qualifiedname>themis::TaskScheduler::validateAqlQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="760" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2620" bodyend="2665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a243124de168f200019a72cdf9c7587cb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::validateResourceLimits</definition>
+        <argsstring>(const ScheduledTask &amp;task) const</argsstring>
+        <name>validateResourceLimits</name>
+        <qualifiedname>themis::TaskScheduler::validateResourceLimits</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="761" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2667" bodyend="2724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a7d09bb4a2dde6aa1181c7110fe0cdc20" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::validateCronExpression</definition>
+        <argsstring>(const std::string &amp;expression) const</argsstring>
+        <name>validateCronExpression</name>
+        <qualifiedname>themis::TaskScheduler::validateCronExpression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="762" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2872" bodyend="2881"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a38633c08dc076a1a5367bd306d449a34" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::validateCDCTrigger</definition>
+        <argsstring>(const ScheduledTask::CDCTrigger &amp;trigger) const</argsstring>
+        <name>validateCDCTrigger</name>
+        <qualifiedname>themis::TaskScheduler::validateCDCTrigger</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger" kindref="compound">ScheduledTask::CDCTrigger</ref> &amp;</type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="763" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2923" bodyend="2938"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a4b9694ea94b9f7d3bb9bbd0feb285270" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref></type>
+        <definition>ScheduledTask themis::TaskScheduler::sanitizeTask</definition>
+        <argsstring>(const ScheduledTask &amp;task) const</argsstring>
+        <name>sanitizeTask</name>
+        <qualifiedname>themis::TaskScheduler::sanitizeTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="764" column="19" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2726" bodyend="2763"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a897cc646501f5f3972a18fbad38c17da" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::enforceQueryComplexityLimits</definition>
+        <argsstring>(const std::string &amp;aql) const</argsstring>
+        <name>enforceQueryComplexityLimits</name>
+        <qualifiedname>themis::TaskScheduler::enforceQueryComplexityLimits</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="765" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2765" bodyend="2810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a8a8e84641f1f42ee1c5de25b59d02f08" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::checkRateLimit</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>checkRateLimit</name>
+        <qualifiedname>themis::TaskScheduler::checkRateLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a user exceeds the current rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user remains within the configured limit.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), std::chrono::minutes(), empty(), front(), pop_front(), size(), <ref refid="namespacethemis_1_1scheduler_1af6f41d978d5fb95aa6141663d10679d7" kindref="member">scheduler::generateUUID()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="766" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="2818" bodyend="2868"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1af795e50c88d3c7b86b67a5267023d78c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::TaskScheduler::topologicalSort</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;task_ids, const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;adj) const</argsstring>
+        <name>topologicalSort</name>
+        <qualifiedname>themis::TaskScheduler::topologicalSort</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>task_ids</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>adj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="771" column="17" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="1129" bodyend="1185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ab0854c54239d7ef06436976c7c6d5a32" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::fireTaskFailureAlert</definition>
+        <argsstring>(const ScheduledTask &amp;task, const std::string &amp;error)</argsstring>
+        <name>fireTaskFailureAlert</name>
+        <qualifiedname>themis::TaskScheduler::fireTaskFailureAlert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Fire Task Failure Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), makeTaskAlertId(), std::to_string(), sendAlert(), THEMIS_WARN(), THEMIS_ERROR(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="776" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3117" bodyend="3160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1ad0fb0ba47cd8147bf2b11d59df138c3a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::fireTaskSlaBreachAlert</definition>
+        <argsstring>(const ScheduledTask &amp;task, double elapsed_ms)</argsstring>
+        <name>fireTaskSlaBreachAlert</name>
+        <qualifiedname>themis::TaskScheduler::fireTaskSlaBreachAlert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>elapsed_ms</declname>
+        </param>
+        <briefdescription>
+<para>Fire Task Sla Breach Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: has_value(), lock(), makeTaskAlertId(), count(), str(), std::to_string(), sendAlert(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="777" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3168" bodyend="3217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a866691fd8f8dde4dbd3fc2b36618bece" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::resolveTaskFailureAlert</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>resolveTaskFailureAlert</name>
+        <qualifiedname>themis::TaskScheduler::resolveTaskFailureAlert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Task Failure Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), resolveAlert(), THEMIS_INFO(), THEMIS_WARN(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="778" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3224" bodyend="3253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1affb461fa5387a90effb4240c551b02c7" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TaskScheduler::adjustConcurrencyLimit</definition>
+        <argsstring>(size_t pending_count) noexcept</argsstring>
+        <name>adjustConcurrencyLimit</name>
+        <qualifiedname>themis::TaskScheduler::adjustConcurrencyLimit</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>pending_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="782" column="10" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3265" bodyend="3298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1add2bea607f2863698b0f41cc88bf0956" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>std::mutex &amp; themis::TaskScheduler::getTaskExecutionLock</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>getTaskExecutionLock</name>
+        <qualifiedname>themis::TaskScheduler::getTaskExecutionLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>===== Task Execution Serialization (Phase 3 Hardening) ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="786" column="16" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3307" bodyend="3318"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_task_scheduler_1a5d9a5195030e7459a51f5a0a5af23b52" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::makeTaskAlertId</definition>
+        <argsstring>(const std::string &amp;task_id, const std::string &amp;alert_type)</argsstring>
+        <name>makeTaskAlertId</name>
+        <qualifiedname>themis::TaskScheduler::makeTaskAlertId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="779" column="24" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="3106" bodyend="3109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Task scheduler for periodic execution of AQL queries and functions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>⚠️ SECURITY WARNING: This component executes arbitrary code and queries. Production deployments MUST implement:<orderedlist>
+<listitem><para>RBAC - Only authorized users can register/modify tasks</para>
+</listitem><listitem><para>Query validation - Sanitize AQL queries before execution</para>
+</listitem><listitem><para>Resource limits - CPU time, memory, I/O quotas per task</para>
+</listitem><listitem><para>Audit logging - Log all task operations (create, modify, execute, delete)</para>
+</listitem><listitem><para>Isolation - Run tasks in sandboxed execution contexts</para>
+</listitem><listitem><para>Encryption - Encrypt task definitions at rest if they contain sensitive data</para>
+</listitem><listitem><para>Rate limiting - Prevent task flooding and abuse</para>
+</listitem></orderedlist>
+</para>
+<para>Features:<itemizedlist>
+<listitem><para>Cron-like scheduling with configurable intervals</para>
+</listitem><listitem><para>AQL query execution with full query engine integration</para>
+</listitem><listitem><para>Custom function registration and execution</para>
+</listitem><listitem><para>Task status monitoring and statistics</para>
+</listitem><listitem><para>Graceful shutdown with running task completion</para>
+</listitem><listitem><para>Concurrent task execution with resource limits</para>
+</listitem><listitem><para>Task persistence (optional, for recovery after restart)</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1_task_scheduler_1a97cfd4cf72615e2dd64eb3867fce747f" kindref="member">TaskScheduler</ref><sp/>scheduler(query_engine);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schedule<sp/>a<sp/>data<sp/>compression<sp/>task</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ScheduledTask<sp/>compression_task;</highlight></codeline>
+<codeline><highlight class="normal">compression_task.id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;compress_old_data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">compression_task.name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Compress<sp/>Old<sp/>Time<sp/>Series<sp/>Data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">compression_task.type<sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba3725a574ca60a9701ffcae5b6827641a" kindref="member">ScheduledTask::TaskType::AQL_QUERY</ref>;</highlight></codeline>
+<codeline><highlight class="normal">compression_task.aql_query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>timeseries<sp/>FILTER<sp/>d.timestamp<sp/>&lt;<sp/>DATE_SUB(NOW(),<sp/>1,<sp/>&apos;day&apos;)<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;UPDATE<sp/>d<sp/>WITH<sp/>{<sp/>compressed:<sp/>true<sp/>}<sp/>IN<sp/>timeseries&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">compression_task.interval<sp/>=<sp/>std::chrono::hours(6);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">scheduler.registerTask(compression_task);</highlight></codeline>
+<codeline><highlight class="normal">scheduler.start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>scheduler<sp/>runs<sp/>in<sp/>background<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">scheduler.stop();</highlight></codeline>
+</programlisting></para>
+<para>System Impact:<itemizedlist>
+<listitem><para>CPU: Minimal overhead for scheduler loop, actual impact depends on scheduled tasks</para>
+</listitem><listitem><para>Memory: ~1KB per registered task, plus task execution memory</para>
+</listitem><listitem><para>I/O: No direct I/O overhead, depends on executed queries/functions</para>
+</listitem><listitem><para>Concurrency: Configurable max parallel tasks to limit resource usage</para>
+</listitem><listitem><para>Write Path: No direct impact on write path, tasks run asynchronously</para>
+</listitem></itemizedlist>
+</para>
+<para>⚠️ SECURITY RISKS:<itemizedlist>
+<listitem><para>Arbitrary code execution via custom functions</para>
+</listitem><listitem><para>SQL injection-like attacks via malicious AQL queries</para>
+</listitem><listitem><para>Resource exhaustion (CPU, memory, disk) from malicious tasks</para>
+</listitem><listitem><para>Privilege escalation if tasks run with elevated permissions</para>
+</listitem><listitem><para>Data exfiltration via scheduled queries</para>
+</listitem><listitem><para>DoS through task flooding or infinite loops</para>
+</listitem><listitem><para>Sensitive data exposure in task definitions or logs </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/scheduler/task_scheduler.h" line="333" column="1" bodyfile="include/scheduler/task_scheduler.h" bodystart="333" bodyend="787"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_task_scheduler_1a5428e676d522db26a3c2a4d63fbc0fc5" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>active_failure_alert_ids_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a3f551a9f47f872b687d645940cac84e5" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>active_task_threads_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1affb461fa5387a90effb4240c551b02c7" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>adjustConcurrencyLimit</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a79c988e6e583009ca9a0e83f242b3fee" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>alert_mutex_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a9457c18d65b7f0a585868ac0edd6dd9e" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>alertmanager_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a42f4f38751df8140711eb3aa8441f86c" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1afb74316fffc4fbbf74c2f6611a69e478" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>audit_manager_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a8fda6788396eaae4eae738381cd9ca30" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a8a8e84641f1f42ee1c5de25b59d02f08" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>checkRateLimit</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ac6097c74af126ef163362934922985d0" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>clearRequestContext</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ae1adc51674847aace18639ec0bc2d8d6" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a5403e94727da747cfe2f4f52c24f7047" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>cron_expressions_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a04161e9a8e2c294abf00d7a11d51cd98" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>currentAuthorizationJustification</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a84bbeb5254a3ac49e61f89a6d0697935" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>currentClientIp</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a858983f149761f39c001356327de5e06" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>currentUserId</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ab33d423ff25512abcea4201e07362e78" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a1eb86f5e03be23ffe1bab6b3927d091a" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>disableTask</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ac4cea62c9e701f6c338a2f209b74660f" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>dynamic_limit_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1aef5299c253b90fc8e4df2914e5305e97" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>enableTask</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a897cc646501f5f3972a18fbad38c17da" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>enforceQueryComplexityLimits</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a196e2690dc92a0ae01c96236151ec3cf" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>event_trigger_manager_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a6554e8cf51528f2043990c6496674e84" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>executeAqlQuery</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1affb60d6d501135d3fc16ff2940e4e5b3" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>executeDAG</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a0d5736d33c53a49e35aef2bca530bdab" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>executeFunction</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1acbd8141df46388970dab4d55e1ed6da7" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>executeTask</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a448edc734b7bdf97a3f65d7a5acfce50" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>executeTaskNow</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ac4310ffb9b850841bd3aee29f4700793" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>exportMetrics</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ad61ae462090b8a9ddead696dfba5d042" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>failed_executions_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ab0854c54239d7ef06436976c7c6d5a32" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>fireTaskFailureAlert</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ad0fb0ba47cd8147bf2b11d59df138c3a" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>fireTaskSlaBreachAlert</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ad22f6284b1d807574732947dc8acbde7" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>functions_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a375cafaeec7790aad28f8b8b753465f0" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>generateTaskId</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ab243f2bc262d0826eb2b9e2def22eb01" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getAlertmanager</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a274bba194a53c768d68a8c64676f5eb8" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getAuditManager</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ad067af0b95b2f81c9e942244af2bc992" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getCronExpression</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a0baeebdfe58d323817ecee3430b30416" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a3506b863154123ef175c983d14bc7f73" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getDynamicConcurrencyLimit</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a33f24ee040151c0e592635124cab32fb" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getExecutionHistory</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a3438c540ad03b2a0252b68d9327c00ff" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getLatestTaskResult</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a36ec5d0b08990f86dc9d11168a38d942" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getQueueDepth</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a76c2bf1b60fae5d78605d6a9bf029aa0" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a17507518290bdbe1c9765abd93ca29ff" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getTask</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1add2bea607f2863698b0f41cc88bf0956" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getTaskExecutionLock</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1aea0a67cf09f5fc35cdea3cefa38ba595" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>getTaskResults</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1aec28134085dbbce2abf278debd9ab9cd" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>hasPermission</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a5b7a962eaa5580f3fda02dbfec2f4dc4" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>hasRole</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a35549069f1975f17f14e2a72ca4447fd" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>idle_ticks_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a18f4206aee763e1153c221109f787e1c" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1aed986456dc74992300018a763567062c" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>last_run_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a1070d57799925056000aff6f4003d808" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>listTasks</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ae4aff40a46ff4453f0bb747af89238e9" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>loadTasks</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a5d9a5195030e7459a51f5a0a5af23b52" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>makeTaskAlertId</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a4e88525e7b9bbfd4ddc6ada92d2eee65" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>onCDCEvent</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a6ce23dbf254f5fd5641b55cbdee5540a" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>query_engine_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a0b5395b5507592e9bef8040ff9feb7cb" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>queue_depth_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a7b559e1f998d0b6ddf93945c4f9a03aa" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>registerFunction</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ae4033897003aaae88a70d92b674eccc1" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>registerTask</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a6fe4eb95e1ba9a0287c35a99da20fd26" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>removeEventTrigger</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a866691fd8f8dde4dbd3fc2b36618bece" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>resolveTaskFailureAlert</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a156091562bcda1271a25a1ab996dffb9" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>result_store_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1aeb66143dc51627a86d9a513542c92f18" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a61e8ecfead6812c33153e4d575f16c88" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>running_mutex_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1aee0cea06c3b527e184b2d115385613df" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>running_task_threads_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a4b9694ea94b9f7d3bb9bbd0feb285270" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>sanitizeTask</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ad04f08c811cbb45a54bceb31d099243d" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>saveTasks</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1abe44d5f87931b118ad8cb6ae9088ef20" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>scheduler_thread_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a74eb16814ec6e0dc4847e00ce6cd4694" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>schedulerLoop</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1aca3124c9b2b640d91866dcd22eabbeea" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>setAlertmanager</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1abb3ee81cfd93ac003e813f05b37b4e3f" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>setRequestContext</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a8840c3fe28fe8bcd9d9fedde4c26327e" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>setupEventTrigger</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a3f8a18053360359a0df43a1978a8fe17" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>shouldExecute</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a98a223513c313032c79055c8dda23e8d" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>shouldExecuteCron</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a915dfc0408ec615b43a69b3d38f905b8" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>start</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a476781bc1f68f6ceedc12a61d9d2ce9a" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>stop</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ab1a2a80c8380431b3bb38b812c616f2b" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>task_execution_locks_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1ab8b7626eda56ad73fd38dcdea1874cdc" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>task_locks_mutex_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1acc1f0ab7d15fae5cd31390b58525a01a" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>TaskFunction</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a102aa55490e4bbd25e7ef843e9aa64c9" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>tasks_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a8bc921f05c23f6aa9f48bcbfe76d0267" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>tasks_mutex_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a97cfd4cf72615e2dd64eb3867fce747f" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>TaskScheduler</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1af795e50c88d3c7b86b67a5267023d78c" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>topologicalSort</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a89308b27e818b934635e9d82108bf19d" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>total_executions_</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a33df6b563d09646fb7769f55c5e5e6b7" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>unregisterFunction</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a89cc80598e6705c1dc2caf9f2761e2ac" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>unregisterTask</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1accea31b4b1995e23818a0da8eb567190" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>updateCronExpression</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a22ec857b2ac89635b147d2fa46755cac" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>updateNextRun</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a4256f1507cce5919a29f77c009fcb57b" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>updateTask</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a396251bda85ee274027eb729b46962bf" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>validateAqlQuery</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a38633c08dc076a1a5367bd306d449a34" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>validateCDCTrigger</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a7d09bb4a2dde6aa1181c7110fe0cdc20" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>validateCronExpression</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a243124de168f200019a72cdf9c7587cb" prot="private" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>validateResourceLimits</name></member>
+      <member refid="classthemis_1_1_task_scheduler_1a88a958dfdafa55ef4ef85e95775b137a" prot="public" virt="non-virtual"><scope>themis::TaskScheduler</scope><name>~TaskScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

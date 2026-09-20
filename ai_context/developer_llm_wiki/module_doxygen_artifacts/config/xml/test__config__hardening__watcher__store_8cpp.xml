@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__config__hardening__watcher__store_8cpp" kind="file" language="C++">
+    <compoundname>test_config_hardening_watcher_store.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">thread</includes>
+    <includes refid="config__contract_8h" local="yes">config/config_contract.h</includes>
+    <includes refid="config__errors_8h" local="yes">config/config_errors.h</includes>
+    <includes refid="config__encrypted__store_8h" local="yes">config/config_encrypted_store.h</includes>
+    <includes refid="config__file__watcher_8h" local="yes">config/config_file_watcher.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>config/config_contract.h</label>
+        <link refid="config__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>config/config_encrypted_store.h</label>
+        <link refid="config__encrypted__store_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>config/config_errors.h</label>
+        <link refid="config__errors_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>config/config_file_watcher.h</label>
+        <link refid="config__file__watcher_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/config/test_config_hardening_watcher_store.cpp</label>
+        <link refid="test__config__hardening__watcher__store_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstddef</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>filesystem</label>
+      </node>
+      <node id="6">
+        <label>fstream</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>shared_mutex</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="21">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" prot="public">themis::config::test::ConfigFileWatcherHardeningTest</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test" prot="public">themis::config::test::ConfigEncryptedStoreHardeningTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config">themis::config</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config_1_1test">themis::config::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 hardening tests for watcher and encrypted-store edge cases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This test suite validates edge-case behavior and fail-closed semantics for:<itemizedlist>
+<listitem><para>CFG-17..CFG-24: File watcher edge cases (polling bounds, race conditions, deletion handling)</para>
+</listitem><listitem><para>CFG-25..CFG-32: Encrypted-store edge cases (key rotation, decryption failures, auth failures)</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests verify that the config module adheres to bounded runtime contracts defined in <ref refid="config__contract_8h" kindref="compound">include/config/config_contract.h</ref> § 6-7 (Watcher and encrypted-store contracts). </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__contract_8h" kindref="compound">config/config_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__errors_8h" kindref="compound">config/config_errors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__encrypted__store_8h" kindref="compound">config/config_encrypted_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__file__watcher_8h" kindref="compound">config/config_file_watcher.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CFG-17..CFG-24:<sp/>File<sp/>Watcher<sp/>Edge<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" kindref="compound">ConfigFileWatcherHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test_1af07bd7e00da69f10539d37b650235aab" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test_1af6a4dec313e52b5d50e7170c70acb362" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" kindref="compound">ConfigFileWatcherHardeningTest</ref>,<sp/>CFG17_PollingIntervalBounds)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref>,<sp/><ref refid="namespacethemis_1_1config_1a008be0f9518536b045f64f07f2b80135" kindref="member">kFileWatcherMinPollInterval</ref>)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Default<sp/>poll<sp/>interval<sp/>should<sp/>be<sp/>&gt;=<sp/>min&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref>,<sp/><ref refid="namespacethemis_1_1config_1ac5645535ecde04e2620a3bddf0407bea" kindref="member">kFileWatcherMaxPollInterval</ref>)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Default<sp/>poll<sp/>interval<sp/>should<sp/>be<sp/>&lt;=<sp/>max&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1config_1ac5645535ecde04e2620a3bddf0407bea" kindref="member">kFileWatcherMaxPollInterval</ref>,<sp/><ref refid="namespacethemis_1_1config_1a008be0f9518536b045f64f07f2b80135" kindref="member">kFileWatcherMinPollInterval</ref>)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Max<sp/>should<sp/>be<sp/>&gt;<sp/>min&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigFileWatcherHardeningTest,<sp/>CFG18_ModificationDetectionLatency)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Watcher<sp/>should<sp/>detect<sp/>modifications<sp/>within<sp/>default<sp/>poll<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref>.count(),<sp/>60)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Poll<sp/>interval<sp/>should<sp/>be<sp/>&lt;=<sp/>60<sp/>seconds&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigFileWatcherHardeningTest,<sp/>CFG19_FileDeletionHandling)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>temp<sp/>directory<sp/>with<sp/>a<sp/>watched<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>temp_dir<sp/>=<sp/>fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themisdb_cfg19_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(temp_dir);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>test_file<sp/>=<sp/>temp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;watched.yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>std::ofstream<sp/>f(test_file);<sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;key:<sp/>value\n&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>callback_count{0};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>ConfigFileWatcher<sp/>watcher(temp_dir.string(),<sp/>[&amp;]<sp/>{<sp/>++callback_count;<sp/>});</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(watcher.start())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>should<sp/>start<sp/>successfully&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(watcher.isRunning())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>should<sp/>be<sp/>running<sp/>after<sp/>start()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>the<sp/>watched<sp/>file<sp/>—<sp/>watcher<sp/>should<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove(test_file);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>time<sp/>for<sp/>the<sp/>watcher<sp/>poll<sp/>cycle<sp/>to<sp/>observe<sp/>the<sp/>deletion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(<ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref><sp/>+<sp/>std::chrono::milliseconds(500));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Watcher<sp/>must<sp/>still<sp/>be<sp/>running<sp/>(not<sp/>crashed<sp/>by<sp/>file<sp/>deletion)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(watcher.isRunning())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>should<sp/>remain<sp/>running<sp/>after<sp/>watched<sp/>file<sp/>is<sp/>deleted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>watcher.stop();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(watcher.isRunning())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>should<sp/>stop<sp/>cleanly&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(temp_dir);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" kindref="compound">ConfigFileWatcherHardeningTest</ref>,<sp/>CFG20_MinimumPollInterval)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="namespacethemis_1_1config_1a008be0f9518536b045f64f07f2b80135" kindref="member">kFileWatcherMinPollInterval</ref>.count(),<sp/>50)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Min<sp/>poll<sp/>should<sp/>be<sp/>&gt;=<sp/>50ms<sp/>to<sp/>prevent<sp/>CPU<sp/>thrashing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" kindref="compound">ConfigFileWatcherHardeningTest</ref>,<sp/>CFG21_ConcurrentModificationConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>temp<sp/>directory<sp/>and<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>temp_dir<sp/>=<sp/>fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themisdb_cfg21_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(temp_dir);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>test_file<sp/>=<sp/>temp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;concurrent.yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>std::ofstream<sp/>f(test_file);<sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;version:<sp/>0\n&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>callback_count{0};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ConfigFileWatcher<sp/>watcher(temp_dir.string(),<sp/>[&amp;]<sp/>{<sp/>++callback_count;<sp/>});</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(watcher.start())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>should<sp/>start&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Concurrently<sp/>modify<sp/>the<sp/>file<sp/>multiple<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>writer<sp/>=<sp/>std::thread([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>std::ofstream<sp/>f(test_file);<sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;version:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>writer.join();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>the<sp/>watcher<sp/>to<sp/>react<sp/>to<sp/>the<sp/>final<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(<ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref><sp/>+<sp/>std::chrono::milliseconds(500));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Watcher<sp/>must<sp/>have<sp/>remained<sp/>stable<sp/>—<sp/>no<sp/>crash<sp/>during<sp/>concurrent<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(watcher.isRunning())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>should<sp/>remain<sp/>running<sp/>after<sp/>concurrent<sp/>modifications&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>watcher.stop();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(temp_dir);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" kindref="compound">ConfigFileWatcherHardeningTest</ref>,<sp/>CFG22_OperationTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1config_1a6f2d4fe90c1e392544934d4b38eac985" kindref="member">kFileWatcherOperationTimeout</ref>.count(),<sp/>10000)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Operation<sp/>timeout<sp/>should<sp/>be<sp/>&lt;=<sp/>10<sp/>seconds&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1config_1a6f2d4fe90c1e392544934d4b38eac985" kindref="member">kFileWatcherOperationTimeout</ref>.count(),<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Timeout<sp/>must<sp/>be<sp/>&gt;<sp/>0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" kindref="compound">ConfigFileWatcherHardeningTest</ref>,<sp/>CFG23_PermissionDeniedHandling)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>temp<sp/>directory<sp/>and<sp/>start<sp/>a<sp/>watcher</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>temp_dir<sp/>=<sp/>fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themisdb_cfg23_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(temp_dir);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>test_file<sp/>=<sp/>temp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;secret.yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>std::ofstream<sp/>f(test_file);<sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;secret:<sp/>value\n&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>callback_count{0};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ConfigFileWatcher<sp/>watcher(temp_dir.string(),<sp/>[&amp;]<sp/>{<sp/>++callback_count;<sp/>});</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(watcher.start())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>should<sp/>start&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(watcher.isRunning());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(_WIN32)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>POSIX:<sp/>revoke<sp/>read<sp/>permission<sp/>on<sp/>the<sp/>file<sp/>and<sp/>observe<sp/>graceful<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::permissions(test_file,<sp/>fs::perms::none);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(<ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref><sp/>+<sp/>std::chrono::milliseconds(500));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore<sp/>permissions<sp/>for<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::permissions(test_file,<sp/>fs::perms::owner_read<sp/>|<sp/>fs::perms::owner_write);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Watcher<sp/>must<sp/>not<sp/>have<sp/>crashed<sp/>due<sp/>to<sp/>permission<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(watcher.isRunning())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>should<sp/>remain<sp/>running<sp/>after<sp/>permission<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>watcher.stop();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(temp_dir);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" kindref="compound">ConfigFileWatcherHardeningTest</ref>,<sp/>CFG24_NonBlockingWatcher)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>temp_dir<sp/>=<sp/>fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themisdb_cfg24_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(temp_dir);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>std::ofstream<sp/>f(temp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;cfg.yaml&quot;</highlight><highlight class="normal">);<sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;key:<sp/>val\n&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>how<sp/>long<sp/>start()<sp/>takes:<sp/>it<sp/>must<sp/>return<sp/>quickly<sp/>(non-blocking)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>ConfigFileWatcher<sp/>watcher(temp_dir.string(),<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>started<sp/>=<sp/>watcher.start();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(started)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>start()<sp/>must<sp/>not<sp/>block<sp/>the<sp/>calling<sp/>thread<sp/>—<sp/>expect<sp/>return<sp/>in<sp/>&lt;<sp/>500<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(elapsed).count(),<sp/>500)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Watcher<sp/>start()<sp/>should<sp/>return<sp/>quickly<sp/>without<sp/>blocking<sp/>the<sp/>calling<sp/>thread&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>watcher.stop();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(temp_dir);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CFG-25..CFG-32:<sp/>Encrypted-Store<sp/>Edge<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test" kindref="compound">ConfigEncryptedStoreHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test_1a9966bdcad84fe481434ea076596429de" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test_1a50acc929581409de182f19aeee66f456" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test" kindref="compound">ConfigEncryptedStoreHardeningTest</ref>,<sp/>CFG25_EncryptionAlgorithm)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1config_1ad81ef97b99c382f4a9cc2a9faef35410" kindref="member">kEncryptionAlgorithm</ref>,<sp/></highlight><highlight class="stringliteral">&quot;AES-256-GCM&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Algorithm<sp/>must<sp/>be<sp/>AES-256-GCM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigEncryptedStoreHardeningTest,<sp/>CFG26_GcmAuthTagLength)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1config_1a57be132421a244a077fbc559fad6e664" kindref="member">kGcmAuthTagBytes</ref>,<sp/>16)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCM<sp/>auth<sp/>tag<sp/>must<sp/>be<sp/>16<sp/>bytes<sp/>for<sp/>full<sp/>security&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigEncryptedStoreHardeningTest,<sp/>CFG27_GcmIvLength)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1config_1aca63f5fc2be27b0cd1ae9a4c78ae859f" kindref="member">kGcmIvBytes</ref>,<sp/>12)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCM<sp/>IV<sp/>should<sp/>be<sp/>12<sp/>bytes<sp/>(96<sp/>bits)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigEncryptedStoreHardeningTest,<sp/>CFG28_DecryptionErrorOnAuthFailure)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrupted<sp/>ciphertext<sp/>or<sp/>tampered<sp/>GCM<sp/>tag<sp/>should<sp/>trigger<sp/>explicit<sp/>decryption<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(never<sp/>silent<sp/>failure<sp/>or<sp/>data<sp/>corruption)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test" kindref="compound">ConfigEncryptedStoreHardeningTest</ref>,<sp/>CFG29_NonBlockingKeyRotation)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>During<sp/>key<sp/>rotation,<sp/>old<sp/>and<sp/>new<sp/>keys<sp/>should<sp/>both<sp/>be<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Client<sp/>reads/writes<sp/>should<sp/>not<sp/>be<sp/>blocked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1config_1a801dd1931ed9cfa116e18481c7efe189" kindref="member">kMaxEncryptionKeyRotationHistorySize</ref>,<sp/>5)</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>keep<sp/>at<sp/>most<sp/>5<sp/>old<sp/>key<sp/>generations&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test" kindref="compound">ConfigEncryptedStoreHardeningTest</ref>,<sp/>CFG30_MetadataValidation)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>should<sp/>validate<sp/>GCM<sp/>IV,<sp/>nonce,<sp/>ciphertext<sp/>length<sp/>before<sp/>attempting<sp/>decryption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>metadata<sp/>should<sp/>trigger<sp/>CONFIG_DECRYPTION_ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test" kindref="compound">ConfigEncryptedStoreHardeningTest</ref>,<sp/>CFG31_SecureKeyZeroing)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Old<sp/>keys<sp/>should<sp/>be<sp/>securely<sp/>zeroed<sp/>(not<sp/>just<sp/>deleted)<sp/>after<sp/>rotation<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_encrypted_store_hardening_test" kindref="compound">ConfigEncryptedStoreHardeningTest</ref>,<sp/>CFG32_AtomicValueReads)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Partial<sp/>read<sp/>attempts<sp/>should<sp/>fail<sp/>cleanly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All-or-nothing<sp/>semantics<sp/>required</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/config/test_config_hardening_watcher_store.cpp"/>
+  </compounddef>
+</doxygen>

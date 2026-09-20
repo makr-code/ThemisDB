@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::ahp::themis::auth::LDAPConnectionPool</compoundname>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aa1e9a9e67e3301f44305159ac9a5b9b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class PooledConnection</definition>
+        <argsstring></argsstring>
+        <name>PooledConnection</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::PooledConnection</qualifiedname>
+        <param>
+          <type>PooledConnection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="130" column="18" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a094878ba762ce483b8fd68f10eea0778" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config" kindref="compound">LDAPPoolConfig</ref></type>
+        <definition>LDAPPoolConfig themis::bench::ahp::themis::auth::LDAPConnectionPool::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="159" column="20" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1af2603a76f799f4e3e3ac8edadf4f02d0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::bench::ahp::themis::auth::LDAPConnectionPool::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="161" column="24" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aa7abc5312fa72633a63fb41761dd2d20" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::bench::ahp::themis::auth::LDAPConnectionPool::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="162" column="29" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1af086f78b5e96711a0a24a4bcfd8e5067" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::ahp::themis::auth::LDAPConnectionPool::closing_</definition>
+        <argsstring></argsstring>
+        <name>closing_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::closing_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="164" column="10" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a8dd1446f79c35c6f7e95ef2bc75e48b5" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="namespacethemis_1_1bench_1_1ahp_1a0131a3c197378bdff4349a0115089d0e" kindref="member">LDAP</ref> * &gt;</type>
+        <definition>std::deque&lt;LDAP*&gt; themis::bench::ahp::themis::auth::LDAPConnectionPool::idle_</definition>
+        <argsstring></argsstring>
+        <name>idle_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::idle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="166" column="16" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a990e06c02b0ada334a1a6e352b6e269a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::bench::ahp::themis::auth::LDAPConnectionPool::active_count_</definition>
+        <argsstring></argsstring>
+        <name>active_count_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::active_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="168" column="17" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1ada8b633b0f8d507215d31b9596457e2c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPConnectionPool::total_count_</definition>
+        <argsstring></argsstring>
+        <name>total_count_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::total_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="170" column="9" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a53633470db68d66d6ba97d891d4dfc94" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::bench::ahp::themis::auth::LDAPConnectionPool::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="172" column="24" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="172" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a22891c7a061b3057bc80f81ef273765d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::themis::auth::LDAPConnectionPool::LDAPConnectionPool</definition>
+        <argsstring>(const LDAPPoolConfig &amp;config)</argsstring>
+        <name>LDAPConnectionPool</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::LDAPConnectionPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config" kindref="compound">LDAPPoolConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>LDAPConnection Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="88" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a417e36b4b5646e2b4a103f118975e089" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::themis::auth::LDAPConnectionPool::~LDAPConnectionPool</definition>
+        <argsstring>()</argsstring>
+        <name>~LDAPConnectionPool</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::~LDAPConnectionPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a48ad4a582e09b99d2cbb6f82d68595c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::themis::auth::LDAPConnectionPool::LDAPConnectionPool</definition>
+        <argsstring>(const LDAPConnectionPool &amp;)=delete</argsstring>
+        <name>LDAPConnectionPool</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::LDAPConnectionPool</qualifiedname>
+        <param>
+          <type>const LDAPConnectionPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a6b0a40b7270f36f96efe625ffbd7f860" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a22891c7a061b3057bc80f81ef273765d" kindref="member">LDAPConnectionPool</ref> &amp;</type>
+        <definition>LDAPConnectionPool &amp; themis::bench::ahp::themis::auth::LDAPConnectionPool::operator=</definition>
+        <argsstring>(const LDAPConnectionPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a22891c7a061b3057bc80f81ef273765d" kindref="member">LDAPConnectionPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="93" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a0b5f65cf5c63758ce618683070156b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::themis::auth::LDAPConnectionPool::LDAPConnectionPool</definition>
+        <argsstring>(LDAPConnectionPool &amp;&amp;)=delete</argsstring>
+        <name>LDAPConnectionPool</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::LDAPConnectionPool</qualifiedname>
+        <param>
+          <type>LDAPConnectionPool &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a35ea5098e2e0672af8cbc8d850e8dc6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a22891c7a061b3057bc80f81ef273765d" kindref="member">LDAPConnectionPool</ref> &amp;</type>
+        <definition>LDAPConnectionPool &amp; themis::bench::ahp::themis::auth::LDAPConnectionPool::operator=</definition>
+        <argsstring>(LDAPConnectionPool &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a22891c7a061b3057bc80f81ef273765d" kindref="member">LDAPConnectionPool</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="95" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a3ec3703842a9c62e0843f1d68b786ccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aa1e9a9e67e3301f44305159ac9a5b9b9" kindref="member">PooledConnection</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; PooledConnection &gt; themis::bench::ahp::themis::auth::LDAPConnectionPool::checkout</definition>
+        <argsstring>()</argsstring>
+        <name>checkout</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::checkout</qualifiedname>
+        <briefdescription>
+<para>Checkout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="101" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a6f480b817fba2a0f284c77e36ab29a9f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config" kindref="compound">LDAPPoolConfig</ref> &amp;</type>
+        <definition>const LDAPPoolConfig &amp; themis::bench::ahp::themis::auth::LDAPConnectionPool::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="103" column="26" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a072dbd7191a2773d46c4232d74121093" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::LDAPConnectionPool::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger) noexcept</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="105" column="10" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a28087ee280611361fd6e7d19ff6df24c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPConnectionPool::poolSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>poolSize</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::poolSize</qualifiedname>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Metrics accessors (used by auth_metrics) --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="113" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a37a3dd2424cb40664918c97a9b341a30" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPConnectionPool::idleConnections</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>idleConnections</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::idleConnections</qualifiedname>
+        <briefdescription>
+<para>Idle Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="120" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aa4fd7254fa9c88fd3c948d7958ccf993" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPConnectionPool::activeConnections</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>activeConnections</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::activeConnections</qualifiedname>
+        <briefdescription>
+<para>Active Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="127" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a2f0be67c84a0d527e3302c17294935e6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::LDAPConnectionPool::returnConnection</definition>
+        <argsstring>(LDAP *handle, bool stale)</argsstring>
+        <name>returnConnection</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::returnConnection</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1bench_1_1ahp_1a0131a3c197378bdff4349a0115089d0e" kindref="member">LDAP</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>stale</declname>
+        </param>
+        <briefdescription>
+<para>Return Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="137" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a0e06db34fcecc7f1700f6dca49df20f0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1bench_1_1ahp_1a0131a3c197378bdff4349a0115089d0e" kindref="member">LDAP</ref> *</type>
+        <definition>LDAP * themis::bench::ahp::themis::auth::LDAPConnectionPool::createConnection</definition>
+        <argsstring>()</argsstring>
+        <name>createConnection</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::createConnection</qualifiedname>
+        <briefdescription>
+<para>Create Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="143" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aef9988ee6f493f3c5587588fca0ff290" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::ahp::themis::auth::LDAPConnectionPool::isHealthy</definition>
+        <argsstring>(LDAP *handle) const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::isHealthy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1bench_1_1ahp_1a0131a3c197378bdff4349a0115089d0e" kindref="member">LDAP</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Is Healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="150" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1adf08ee0a0644d889cf3d2378ebf42ce5" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::LDAPConnectionPool::destroyHandle</definition>
+        <argsstring>(LDAP *handle) noexcept</argsstring>
+        <name>destroyHandle</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPConnectionPool::destroyHandle</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1bench_1_1ahp_1a0131a3c197378bdff4349a0115089d0e" kindref="member">LDAP</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Destroy Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="157" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/ldap_connection_pool.h" line="81" column="1" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="81" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a990e06c02b0ada334a1a6e352b6e269a" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>active_count_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aa4fd7254fa9c88fd3c948d7958ccf993" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>activeConnections</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a53633470db68d66d6ba97d891d4dfc94" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a3ec3703842a9c62e0843f1d68b786ccb" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>checkout</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1af086f78b5e96711a0a24a4bcfd8e5067" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>closing_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a6f480b817fba2a0f284c77e36ab29a9f" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>config</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a094878ba762ce483b8fd68f10eea0778" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>config_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a0e06db34fcecc7f1700f6dca49df20f0" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>createConnection</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aa7abc5312fa72633a63fb41761dd2d20" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1adf08ee0a0644d889cf3d2378ebf42ce5" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>destroyHandle</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a8dd1446f79c35c6f7e95ef2bc75e48b5" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>idle_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a37a3dd2424cb40664918c97a9b341a30" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>idleConnections</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aef9988ee6f493f3c5587588fca0ff290" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a22891c7a061b3057bc80f81ef273765d" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>LDAPConnectionPool</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a48ad4a582e09b99d2cbb6f82d68595c9" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>LDAPConnectionPool</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a0b5f65cf5c63758ce618683070156b7e" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>LDAPConnectionPool</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1af2603a76f799f4e3e3ac8edadf4f02d0" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a6b0a40b7270f36f96efe625ffbd7f860" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a35ea5098e2e0672af8cbc8d850e8dc6a" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1aa1e9a9e67e3301f44305159ac9a5b9b9" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>PooledConnection</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a28087ee280611361fd6e7d19ff6df24c" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>poolSize</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a2f0be67c84a0d527e3302c17294935e6" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>returnConnection</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a072dbd7191a2773d46c4232d74121093" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1ada8b633b0f8d507215d31b9596457e2c" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>total_count_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool_1a417e36b4b5646e2b4a103f118975e089" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPConnectionPool</scope><name>~LDAPConnectionPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

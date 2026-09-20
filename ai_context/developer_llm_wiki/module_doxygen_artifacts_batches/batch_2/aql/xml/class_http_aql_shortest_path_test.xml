@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_aql_shortest_path_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpAqlShortestPathTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1a0e2543ab222275490fe0177a90ed80a9" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HttpAqlShortestPathTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>HttpAqlShortestPathTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="180" column="17" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1a8fe43b8a5c323479d6d1cdaa879ea8cf" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path HttpAqlShortestPathTest::original_cwd_</definition>
+        <argsstring></argsstring>
+        <name>original_cwd_</name>
+        <qualifiedname>HttpAqlShortestPathTest::original_cwd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="181" column="27" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1a8712f3d5378a8f2d13cda779f6f534bf" prot="protected" static="no" mutable="no">
+        <type>unsigned short</type>
+        <definition>unsigned short HttpAqlShortestPathTest::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>HttpAqlShortestPathTest::port_</qualifiedname>
+        <initializer>{18102}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="182" column="20" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1ae462df0dd3b7742a3aa6de305e9cc59d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpAqlShortestPathTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpAqlShortestPathTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="183" column="21" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1a303028c7c0cf7bbf830015d489fe8b63" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpAqlShortestPathTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpAqlShortestPathTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="184" column="21" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1afe1246c9905ca4ab811346c1a64dd83c" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpAqlShortestPathTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpAqlShortestPathTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="185" column="21" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1a1587376c834fa2a8133bbc1c309cc890" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpAqlShortestPathTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpAqlShortestPathTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="186" column="21" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1aeac0fdc1eb12e9766ad80901fec241bb" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpAqlShortestPathTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpAqlShortestPathTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="187" column="21" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_shortest_path_test_1a5525478eaaf3df3c1a839296449bc5f5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpAqlShortestPathTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpAqlShortestPathTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="188" column="21" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_http_aql_shortest_path_test_1abc195385480a57621b0b36ccb2652aaf" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::filesystem::path</type>
+        <definition>static std::filesystem::path HttpAqlShortestPathTest::findRepoRootWithSchemas</definition>
+        <argsstring>()</argsstring>
+        <name>findRepoRootWithSchemas</name>
+        <qualifiedname>HttpAqlShortestPathTest::findRepoRootWithSchemas</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="26" column="34" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="26" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_shortest_path_test_1aea12d7aef70cffad98435a98334917d1" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>unsigned short</type>
+        <definition>static unsigned short HttpAqlShortestPathTest::allocateFreePort</definition>
+        <argsstring>()</argsstring>
+        <name>allocateFreePort</name>
+        <qualifiedname>HttpAqlShortestPathTest::allocateFreePort</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="45" column="27" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="45" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_aql_shortest_path_test_1a56ccfd30e85dab346219de7eb5492c73" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool HttpAqlShortestPathTest::waitUntilServerReady</definition>
+        <argsstring>(std::chrono::milliseconds timeout)</argsstring>
+        <name>waitUntilServerReady</name>
+        <qualifiedname>HttpAqlShortestPathTest::waitUntilServerReady</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="55" column="10" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="55" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_shortest_path_test_1a10deb86ab82bfca61816362f0a1852b0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlShortestPathTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpAqlShortestPathTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="74" column="10" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="74" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_shortest_path_test_1a2cba72a519f697e23691c59e5d42a186" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlShortestPathTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpAqlShortestPathTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="115" column="10" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="115" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_shortest_path_test_1a0ffd25b7525c8cfb74f5b1581dc56be3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlShortestPathTest::setupGraph</definition>
+        <argsstring>()</argsstring>
+        <name>setupGraph</name>
+        <qualifiedname>HttpAqlShortestPathTest::setupGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="138" column="10" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="138" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_shortest_path_test_1a039345b0fd1756f2a762c9e9f4705c96" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpAqlShortestPathTest::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;j)</argsstring>
+        <name>post</name>
+        <qualifiedname>HttpAqlShortestPathTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_shortestpath.cpp" line="154" column="20" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="154" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpAqlShortestPathTest</label>
+        <link refid="class_http_aql_shortest_path_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpAqlShortestPathTest</label>
+        <link refid="class_http_aql_shortest_path_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_shortestpath.cpp" line="24" column="1" bodyfile="tests/aql/test_aql_shortestpath.cpp" bodystart="24" bodyend="190"/>
+    <listofallmembers>
+      <member refid="class_http_aql_shortest_path_test_1aea12d7aef70cffad98435a98334917d1" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>allocateFreePort</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a0e2543ab222275490fe0177a90ed80a9" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>db_path_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1abc195385480a57621b0b36ccb2652aaf" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>findRepoRootWithSchemas</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a1587376c834fa2a8133bbc1c309cc890" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a8fe43b8a5c323479d6d1cdaa879ea8cf" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>original_cwd_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a8712f3d5378a8f2d13cda779f6f534bf" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>port_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a039345b0fd1756f2a762c9e9f4705c96" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>post</name></member>
+      <member refid="class_http_aql_shortest_path_test_1afe1246c9905ca4ab811346c1a64dd83c" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1ae462df0dd3b7742a3aa6de305e9cc59d" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>server_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a10deb86ab82bfca61816362f0a1852b0" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>SetUp</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a0ffd25b7525c8cfb74f5b1581dc56be3" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>setupGraph</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a303028c7c0cf7bbf830015d489fe8b63" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>storage_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a2cba72a519f697e23691c59e5d42a186" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>TearDown</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a5525478eaaf3df3c1a839296449bc5f5" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1aeac0fdc1eb12e9766ad80901fec241bb" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>vector_index_</name></member>
+      <member refid="class_http_aql_shortest_path_test_1a56ccfd30e85dab346219de7eb5492c73" prot="protected" virt="non-virtual"><scope>HttpAqlShortestPathTest</scope><name>waitUntilServerReady</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

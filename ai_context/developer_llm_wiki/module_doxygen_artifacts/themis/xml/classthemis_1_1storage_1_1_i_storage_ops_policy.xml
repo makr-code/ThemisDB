@@ -1,0 +1,406 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_i_storage_ops_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::storage::IStorageOpsPolicy</compoundname>
+    <includes refid="istorage__ops__policy_8h" local="no">istorage_ops_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a505f2e662694f08f4fc2f3a4b29da988" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::storage::IStorageOpsPolicy::~IStorageOpsPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStorageOpsPolicy</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::~IStorageOpsPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="49" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::IStorageOpsPolicy::IStorageOpsPolicy</definition>
+        <argsstring>(const IStorageOpsPolicy &amp;)=delete</argsstring>
+        <name>IStorageOpsPolicy</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::IStorageOpsPolicy</qualifiedname>
+        <param>
+          <type>const IStorageOpsPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a59a5849a4623d3db233c03ab939aa57d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref> &amp;</type>
+        <definition>IStorageOpsPolicy &amp; themis::storage::IStorageOpsPolicy::operator=</definition>
+        <argsstring>(const IStorageOpsPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="53" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1ad342b9f1554e57b068daacf468dcc598" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::IStorageOpsPolicy::canScheduleJob</definition>
+        <argsstring>() const =0</argsstring>
+        <name>canScheduleJob</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::canScheduleJob</qualifiedname>
+        <briefdescription>
+<para>Return true iff scheduling one more background job is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not modify accounting state — call <ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac035743c415fc76fe11148789b5667f7" kindref="member">onJobStarted()</ref> only after the job has been submitted to the job scheduler.</para>
+<para><simplesect kind="return"><para>true when another background job slot is available. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="67" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac035743c415fc76fe11148789b5667f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::IStorageOpsPolicy::onJobStarted</definition>
+        <argsstring>(const std::string &amp;job_id)=0</argsstring>
+        <name>onJobStarted</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::onJobStarted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that a background job has started. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates concurrent-job accounting. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opaque identifier for the job (non-empty string). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="76" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a1a859693d2ce45da00e8ddc68ba81fdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::IStorageOpsPolicy::onJobFinished</definition>
+        <argsstring>(const std::string &amp;job_id)=0</argsstring>
+        <name>onJobFinished</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::onJobFinished</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that a background job has finished. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Releases the job slot. Implementations must clamp to zero on mismatched calls. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Job identifier previously passed to <ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac035743c415fc76fe11148789b5667f7" kindref="member">onJobStarted()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="86" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a0e48a4a6408dfffa54b03f0dd28c3fb1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::storage::IStorageOpsPolicy::activeJobCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeJobCount</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::activeJobCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of background jobs currently tracked as running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="91" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a37a6a0b4c96fda73ae93335f84531e6f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::storage::IStorageOpsPolicy::maxBackgroundJobs</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxBackgroundJobs</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::maxBackgroundJobs</qualifiedname>
+        <briefdescription>
+<para>Maximum concurrent background jobs; -1 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="96" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac886b2a1bc54ff467b0519a67d647471" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::IStorageOpsPolicy::allowCompactionBytes</definition>
+        <argsstring>(uint64_t bytes)=0</argsstring>
+        <name>allowCompactionBytes</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::allowCompactionBytes</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff writing <computeroutput>bytes</computeroutput> to the compaction engine right now is within the allowed throughput budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses token-bucket semantics. May consume tokens — callers must throttle when this returns false.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes the compaction engine intends to write in this step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the write is within the allowed rate. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="112" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a78294325bf85461c35195104e90a63b0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::storage::IStorageOpsPolicy::maxCompactionBytesPerSec</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxCompactionBytesPerSec</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::maxCompactionBytesPerSec</qualifiedname>
+        <briefdescription>
+<para>Maximum compaction I/O throughput in bytes per second; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="117" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a67482c74540c620ecda5e92bbcd1aa3d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::IStorageOpsPolicy::canStartSnapshot</definition>
+        <argsstring>() const =0</argsstring>
+        <name>canStartSnapshot</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::canStartSnapshot</qualifiedname>
+        <briefdescription>
+<para>Return true iff starting one more snapshot operation is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not modify accounting state — call <ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1afac1e47206834749afe1d7dfa00f7358" kindref="member">onSnapshotStarted()</ref> only after the snapshot has been initiated.</para>
+<para><simplesect kind="return"><para>true when another snapshot slot is available. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="131" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1afac1e47206834749afe1d7dfa00f7358" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::IStorageOpsPolicy::onSnapshotStarted</definition>
+        <argsstring>(const std::string &amp;snapshot_id)=0</argsstring>
+        <name>onSnapshotStarted</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::onSnapshotStarted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that a snapshot operation has started. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates snapshot accounting. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opaque snapshot identifier (non-empty string). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="140" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a7b4703cd626519c84dab1036d907a06b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::IStorageOpsPolicy::onSnapshotFinished</definition>
+        <argsstring>(const std::string &amp;snapshot_id)=0</argsstring>
+        <name>onSnapshotFinished</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::onSnapshotFinished</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that a snapshot operation has completed or failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Releases the snapshot slot. Implementations must clamp to zero on mismatched calls. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot identifier previously passed to <ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1afac1e47206834749afe1d7dfa00f7358" kindref="member">onSnapshotStarted()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="150" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1ab33d57315a6f272e0dc51563b224ad4c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::storage::IStorageOpsPolicy::maxConcurrentSnapshots</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxConcurrentSnapshots</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::maxConcurrentSnapshots</qualifiedname>
+        <briefdescription>
+<para>Maximum concurrent snapshot operations; -1 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="155" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac5e481988e8c682fbc1cf7a98c385104" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::IStorageOpsPolicy::isEnforced</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isEnforced</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::isEnforced</qualifiedname>
+        <briefdescription>
+<para>Return true when any storage-ops limit enforcement is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should return false when all limits are unlimited (-1 or 0) so that callers may bypass the check on hot paths. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="167" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1aac61aec86d4902c17890f65de1c9d662" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::IStorageOpsPolicy::IStorageOpsPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>IStorageOpsPolicy</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::IStorageOpsPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="170" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a19d5c0637dc6d7b92a094653c927ff07" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::IStorageOpsPolicy::IStorageOpsPolicy</definition>
+        <argsstring>(IStorageOpsPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>IStorageOpsPolicy</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::IStorageOpsPolicy</qualifiedname>
+        <param>
+          <type>IStorageOpsPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="171" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_storage_ops_policy_1a4acccf4438f7c65df4b033a7fc4f6507" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref> &amp;</type>
+        <definition>IStorageOpsPolicy &amp; themis::storage::IStorageOpsPolicy::operator=</definition>
+        <argsstring>(IStorageOpsPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::IStorageOpsPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/storage/istorage_ops_policy.h" line="172" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract storage-operations limit policy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls three storage-maintenance axes:<itemizedlist>
+<listitem><para><bold>Background jobs</bold> — maximum concurrently running maintenance jobs (index rebuild, GC, WAL archival, etc.).</para>
+</listitem><listitem><para><bold>Compaction rate</bold> — maximum bytes-per-second fed to the compaction engine.</para>
+</listitem><listitem><para><bold>Snapshots</bold> — maximum concurrently active snapshot operations.</para>
+</listitem></itemizedlist>
+</para>
+<para>Implementations are installed into EditionManager via <computeroutput>EditionManager::installStorageOpsPolicy()</computeroutput> and consulted by the storage engine before scheduling any background operation. </para>
+    </detaileddescription>
+    <location file="include/themis/storage/istorage_ops_policy.h" line="47" column="1" bodyfile="include/themis/storage/istorage_ops_policy.h" bodystart="47" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a0e48a4a6408dfffa54b03f0dd28c3fb1" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>activeJobCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac886b2a1bc54ff467b0519a67d647471" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>allowCompactionBytes</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ad342b9f1554e57b068daacf468dcc598" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>canScheduleJob</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a67482c74540c620ecda5e92bbcd1aa3d" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>canStartSnapshot</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac5e481988e8c682fbc1cf7a98c385104" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>isEnforced</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" prot="public" virt="non-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>IStorageOpsPolicy</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1aac61aec86d4902c17890f65de1c9d662" prot="protected" virt="non-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>IStorageOpsPolicy</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a19d5c0637dc6d7b92a094653c927ff07" prot="protected" virt="non-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>IStorageOpsPolicy</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a37a6a0b4c96fda73ae93335f84531e6f" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>maxBackgroundJobs</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a78294325bf85461c35195104e90a63b0" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>maxCompactionBytesPerSec</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ab33d57315a6f272e0dc51563b224ad4c" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>maxConcurrentSnapshots</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a1a859693d2ce45da00e8ddc68ba81fdc" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>onJobFinished</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac035743c415fc76fe11148789b5667f7" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>onJobStarted</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a7b4703cd626519c84dab1036d907a06b" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>onSnapshotFinished</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1afac1e47206834749afe1d7dfa00f7358" prot="public" virt="pure-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>onSnapshotStarted</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a59a5849a4623d3db233c03ab939aa57d" prot="public" virt="non-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a4acccf4438f7c65df4b033a7fc4f6507" prot="protected" virt="non-virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a505f2e662694f08f4fc2f3a4b29da988" prot="public" virt="virtual"><scope>themis::storage::IStorageOpsPolicy</scope><name>~IStorageOpsPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

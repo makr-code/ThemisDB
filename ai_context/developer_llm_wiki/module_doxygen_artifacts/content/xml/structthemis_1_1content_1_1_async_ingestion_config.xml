@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_async_ingestion_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::AsyncIngestionConfig</compoundname>
+    <includes refid="async__ingestion__worker_8h" local="no">async_ingestion_worker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_async_ingestion_config_1ad6bf2a7bacaf38e87ca416f8334ae0e9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::AsyncIngestionConfig::worker_thread_count</definition>
+        <argsstring></argsstring>
+        <name>worker_thread_count</name>
+        <qualifiedname>themis::content::AsyncIngestionConfig::worker_thread_count</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="89" column="12" bodyfile="include/content/async_ingestion_worker.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_async_ingestion_config_1a081d7dedc211a6e3bdc90fb1c921e164" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::AsyncIngestionConfig::max_queue_size</definition>
+        <argsstring></argsstring>
+        <name>max_queue_size</name>
+        <qualifiedname>themis::content::AsyncIngestionConfig::max_queue_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="90" column="12" bodyfile="include/content/async_ingestion_worker.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_async_ingestion_config_1af9e929c96e76fe2fee201ec07554a260" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::AsyncIngestionConfig::max_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth</name>
+        <qualifiedname>themis::content::AsyncIngestionConfig::max_queue_depth</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="91" column="12" bodyfile="include/content/async_ingestion_worker.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_async_ingestion_config_1ac16b1a14652d8900334e36ad1c8a433c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::AsyncIngestionConfig::enable_auto_cleanup</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_cleanup</name>
+        <qualifiedname>themis::content::AsyncIngestionConfig::enable_auto_cleanup</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="92" column="10" bodyfile="include/content/async_ingestion_worker.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_async_ingestion_config_1ab6666b79409eae80ec68f6e60e0d112a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::AsyncIngestionConfig::job_retention_ms</definition>
+        <argsstring></argsstring>
+        <name>job_retention_ms</name>
+        <qualifiedname>themis::content::AsyncIngestionConfig::job_retention_ms</qualifiedname>
+        <initializer>= 3600000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="93" column="13" bodyfile="include/content/async_ingestion_worker.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_async_ingestion_config_1a713c208030862c1ef4543602162537c7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::AsyncIngestionConfig::verbose_logging</definition>
+        <argsstring></argsstring>
+        <name>verbose_logging</name>
+        <qualifiedname>themis::content::AsyncIngestionConfig::verbose_logging</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="94" column="10" bodyfile="include/content/async_ingestion_worker.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_async_ingestion_config_1adb63577714b77b594c774b838baeec27" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::AsyncIngestionConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::content::AsyncIngestionConfig::batch_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="95" column="12" bodyfile="include/content/async_ingestion_worker.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_async_ingestion_config_1a4ccd875d27eced942323083b47741e36" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::AsyncIngestionConfig::retry_attempts</definition>
+        <argsstring></argsstring>
+        <name>retry_attempts</name>
+        <qualifiedname>themis::content::AsyncIngestionConfig::retry_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="96" column="9" bodyfile="include/content/async_ingestion_worker.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/async_ingestion_worker.h" line="88" column="1" bodyfile="include/content/async_ingestion_worker.h" bodystart="88" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_async_ingestion_config_1adb63577714b77b594c774b838baeec27" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1content_1_1_async_ingestion_config_1ac16b1a14652d8900334e36ad1c8a433c" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionConfig</scope><name>enable_auto_cleanup</name></member>
+      <member refid="structthemis_1_1content_1_1_async_ingestion_config_1ab6666b79409eae80ec68f6e60e0d112a" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionConfig</scope><name>job_retention_ms</name></member>
+      <member refid="structthemis_1_1content_1_1_async_ingestion_config_1af9e929c96e76fe2fee201ec07554a260" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionConfig</scope><name>max_queue_depth</name></member>
+      <member refid="structthemis_1_1content_1_1_async_ingestion_config_1a081d7dedc211a6e3bdc90fb1c921e164" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionConfig</scope><name>max_queue_size</name></member>
+      <member refid="structthemis_1_1content_1_1_async_ingestion_config_1a4ccd875d27eced942323083b47741e36" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionConfig</scope><name>retry_attempts</name></member>
+      <member refid="structthemis_1_1content_1_1_async_ingestion_config_1a713c208030862c1ef4543602162537c7" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionConfig</scope><name>verbose_logging</name></member>
+      <member refid="structthemis_1_1content_1_1_async_ingestion_config_1ad6bf2a7bacaf38e87ca416f8334ae0e9" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionConfig</scope><name>worker_thread_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

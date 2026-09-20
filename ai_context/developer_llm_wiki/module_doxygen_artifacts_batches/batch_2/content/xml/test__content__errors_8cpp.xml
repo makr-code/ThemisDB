@@ -1,0 +1,795 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__errors_8cpp" kind="file" language="C++">
+    <compoundname>test_content_errors.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="content__errors_8h" local="yes">content/content_errors.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>content/content_errors.h</label>
+        <link refid="content__errors_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_errors.cpp</label>
+        <link refid="test__content__errors_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, DefaultConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>DefaultConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="12" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="12" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1ad0928b260818256600dc82adc321688c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, OkFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>OkFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="19" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="19" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a82182871a28aa6fcbd98c7da7753d005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ErrorFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ErrorFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="27" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1ae3ac0bbc0bab890fab5a9a77b7ce4ccc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ErrorFactoryWithDefaultMessage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ErrorFactoryWithDefaultMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="39" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a89a884eb672a035cc93a7c993d1e104c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ErrorFactoryWithDetails)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ErrorFactoryWithDetails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="50" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a9365bee54e81a401a118af7aa18448b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ClientErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ClientErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="64" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="64" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1abd6b7a3e1cddfbf6a1d3588c25407d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ServerErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ServerErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="91" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="91" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a0e9d1581302be2fd5ba26d1348ae8b40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, SecurityErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>SecurityErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="108" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="108" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a3b2ec0add36f77a022bc3d03469b77f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, NotFoundError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>NotFoundError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="119" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="119" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a37df6c307520adfc84a83784c52b0e15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, RetryableErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>RetryableErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="128" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="128" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a3adfb81bbdef80791fe765b5ada7bc75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, NonRetryableErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>NonRetryableErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="146" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="146" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1aab350929f8a18f9a16767fbd095f0fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ToJsonBasic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ToJsonBasic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="164" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="164" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a59c3581a06a664433f818c8b63c6dfee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ToJsonVerbose)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ToJsonVerbose</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="182" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="182" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a36715b5f443acd1ebe1393d12f609fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, FromJson)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>FromJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="205" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="205" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1ad46414d4f596df00d16425025e04ae2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, RoundTripSerialization)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>RoundTripSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="224" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="224" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a7312f4a1a3b6b4b946e39e019ae2a49d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ErrorCodeToString)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ErrorCodeToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="245" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="245" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a0efbd5aa4ba941d90b29b24ff3c98869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ErrorCodeCategory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ErrorCodeCategory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="252" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="252" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1ac75dc8dadaac87514cffc216ed3a8707" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, IsSecurityError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>IsSecurityError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="263" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="263" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a985ba21cc9e4ee96ab6f589f4365df1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, IsValidationError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>IsValidationError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="273" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="273" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1ae1149762e1cf71b3bea5489e02d80e52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, GetDefaultErrorMessage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>GetDefaultErrorMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="283" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="283" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a0496a6bbd890e705417de40ab58002c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ErrorWithMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ErrorWithMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="299" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="299" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__errors_8cpp_1a4112a64b6c0cbe4c351412039af65e35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentErrorTest, ErrorWithCorrelationId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentErrorTest</type>
+        </param>
+        <param>
+          <type>ErrorWithCorrelationId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_errors.cpp" line="316" column="1" bodyfile="tests/content/test_content_errors.cpp" bodystart="316" bodyend="325"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__errors_8h" kindref="compound">content/content_errors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentError<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>DefaultConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/>err;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.<ref refid="structthemis_1_1content_1_1_content_error_1a1756983714f02a44f142d8115e1840bf" kindref="member">code</ref>,<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.<ref refid="structthemis_1_1content_1_1_content_error_1a2a1519a02fa6f4c172b27f30b42a61c7" kindref="member">isOk</ref>());</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1content_1_1_content_error_1af1a30cb33d1f4c7ed5275e5f086d4ebc" kindref="member">failed</ref>());</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>OkFactory)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::ok();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.code,<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.isOk());</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.failed());</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.getHttpStatus(),<sp/>200);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ErrorFactory)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::error(</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;File<sp/>too<sp/>large&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.code,<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.isOk());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.failed());</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.message,<sp/></highlight><highlight class="stringliteral">&quot;File<sp/>too<sp/>large&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ErrorFactoryWithDefaultMessage)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::error(</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>message,<sp/>should<sp/>use<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.code,<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.message.empty());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.message,<sp/></highlight><highlight class="stringliteral">&quot;Malware<sp/>detected<sp/>in<sp/>content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ErrorFactoryWithDetails)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::error(</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" kindref="member">ContentErrorCode::CONTENT_PROCESSING_FAILED</ref>,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Processing<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Stack<sp/>trace:<sp/>...&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.details,<sp/></highlight><highlight class="stringliteral">&quot;Stack<sp/>trace:<sp/>...&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Classification<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ClientErrors)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err1<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a84864ed59066e3479a279920161bf8d0" kindref="member">ContentErrorCode::CONTENT_INVALID_INPUT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err1.isClientError());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err1.isServerError());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err1.getHttpStatus(),<sp/>400);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err2<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err2.isClientError());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err2.getHttpStatus(),<sp/>413);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unauthorized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err3<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a955e318eab781ad436ac9b0a900ab229" kindref="member">ContentErrorCode::CONTENT_UNAUTHORIZED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err3.getHttpStatus(),<sp/>401);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Format<sp/>unsupported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err4<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a06ec63cdd1c2148aad4a879471c3e1bb" kindref="member">ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err4.isClientError());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err4.getHttpStatus(),<sp/>415);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err5<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a021d96de0a7f2486d4095e6f382ce1b3" kindref="member">ContentErrorCode::CONTENT_RATE_LIMIT_EXCEEDED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err5.isClientError());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err5.getHttpStatus(),<sp/>429);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ServerErrors)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Processing<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err1<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" kindref="member">ContentErrorCode::CONTENT_PROCESSING_FAILED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err1.isServerError());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err1.getHttpStatus(),<sp/>500);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Storage<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err2<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad7d502e67e9313a487b5468b44f7c398" kindref="member">ContentErrorCode::CONTENT_STORAGE_FAILED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err2.isServerError());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err2.getHttpStatus(),<sp/>500);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Service<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err3<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ab5fe7c35cfb945ff06f615e79bf8935c" kindref="member">ContentErrorCode::CONTENT_PROCESSOR_UNAVAILABLE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err3.isServerError());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err3.getHttpStatus(),<sp/>503);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>SecurityErrors)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err1<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err1.getHttpStatus(),<sp/>403);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err2<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679415cb41feb6ae0499b0cb608a03bb" kindref="member">ContentErrorCode::CONTENT_PII_DETECTED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err2.getHttpStatus(),<sp/>403);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err3<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a25f00f2cb887fe03dbdbb4ae1a464ebd" kindref="member">ContentErrorCode::CONTENT_ABUSE_DETECTED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err3.getHttpStatus(),<sp/>403);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>NotFoundError)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ace4f16236d6582fd612bed577fbdaae2" kindref="member">ContentErrorCode::CONTENT_NOT_FOUND</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.getHttpStatus(),<sp/>404);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retryable<sp/>Errors<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>RetryableErrors)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout<sp/>is<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err1<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a5cc4f209f913ce693bd378f0effc2fba" kindref="member">ContentErrorCode::CONTENT_TIMEOUT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err1.isRetryable());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Processor<sp/>unavailable<sp/>is<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err2<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ab5fe7c35cfb945ff06f615e79bf8935c" kindref="member">ContentErrorCode::CONTENT_PROCESSOR_UNAVAILABLE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err2.isRetryable());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queue<sp/>full<sp/>is<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err3<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a0e35ea09f58915b7f3ed80a0b780b6d5" kindref="member">ContentErrorCode::CONTENT_QUEUE_FULL</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err3.isRetryable());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backpressure<sp/>is<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err4<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad597fdfe51bfde0b0b08ed70d740db34" kindref="member">ContentErrorCode::CONTENT_BACKPRESSURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err4.isRetryable());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>NonRetryableErrors)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>errors<sp/>are<sp/>not<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err1<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a84864ed59066e3479a279920161bf8d0" kindref="member">ContentErrorCode::CONTENT_INVALID_INPUT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err1.isRetryable());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security<sp/>errors<sp/>are<sp/>not<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err2<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err2.isRetryable());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>exceeded<sp/>is<sp/>not<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err3<sp/>=<sp/>ContentError::error(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err3.isRetryable());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JSON<sp/>Serialization<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ToJsonBasic)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::error(</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;File<sp/>size<sp/>exceeds<sp/>100MB<sp/>limit&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>err.correlation_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;req-12345&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>j<sp/>=<sp/>err.toJson();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;code&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;CONTENT_SIZE_EXCEEDED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;File<sp/>size<sp/>exceeds<sp/>100MB<sp/>limit&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;correlation_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;req-12345&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>include<sp/>details<sp/>in<sp/>basic<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(j.contains(</highlight><highlight class="stringliteral">&quot;details&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ToJsonVerbose)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::error(</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" kindref="member">ContentErrorCode::CONTENT_PROCESSING_FAILED</ref>,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Processing<sp/>failed&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Internal<sp/>error:<sp/>division<sp/>by<sp/>zero<sp/>at<sp/>line<sp/>42&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>err.correlation_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;req-67890&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>err.content_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;content-abc123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>j<sp/>=<sp/>err.toJsonVerbose();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;code&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" kindref="member">ContentErrorCode::CONTENT_PROCESSING_FAILED</ref>));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;CONTENT_PROCESSING_FAILED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Processing<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;details&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Internal<sp/>error:<sp/>division<sp/>by<sp/>zero<sp/>at<sp/>line<sp/>42&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;correlation_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;req-67890&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;content_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;content-abc123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;processing&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;http_status&quot;</highlight><highlight class="normal">],<sp/>500);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(j[</highlight><highlight class="stringliteral">&quot;retryable&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;server_error&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>FromJson)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;code&quot;</highlight><highlight class="normal">]<sp/>=<sp/>1001;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Size<sp/>exceeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;details&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;File<sp/>was<sp/>200MB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;correlation_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;content_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;content-xyz&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;max_size&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;100MB&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::fromJson(j);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.code,<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.message,<sp/></highlight><highlight class="stringliteral">&quot;Size<sp/>exceeded&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.details,<sp/></highlight><highlight class="stringliteral">&quot;File<sp/>was<sp/>200MB&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.correlation_id,<sp/></highlight><highlight class="stringliteral">&quot;test-123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.content_id,<sp/></highlight><highlight class="stringliteral">&quot;content-xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.metadata[</highlight><highlight class="stringliteral">&quot;max_size&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;100MB&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>RoundTripSerialization)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err1<sp/>=<sp/>ContentError::error(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Threat<sp/>detected&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>err1.correlation_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;req-999&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>err1.metadata<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;threat&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;trojan.win32&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;scanner&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ClamAV&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>j<sp/>=<sp/>err1.toJson();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err2<sp/>=<sp/>ContentError::fromJson(j);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err1.code,<sp/>err2.code);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err1.message,<sp/>err2.message);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err1.correlation_id,<sp/>err2.correlation_id);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err1.metadata,<sp/>err2.metadata);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>Function<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ErrorCodeToString)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1af0a5a4d3d30ce37af0d1dfce5ba5a30a" kindref="member">errorCodeToString</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref>),<sp/></highlight><highlight class="stringliteral">&quot;OK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1af0a5a4d3d30ce37af0d1dfce5ba5a30a" kindref="member">errorCodeToString</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;CONTENT_SIZE_EXCEEDED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1af0a5a4d3d30ce37af0d1dfce5ba5a30a" kindref="member">errorCodeToString</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;CONTENT_MALWARE_DETECTED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1af0a5a4d3d30ce37af0d1dfce5ba5a30a" kindref="member">errorCodeToString</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a5cc4f209f913ce693bd378f0effc2fba" kindref="member">ContentErrorCode::CONTENT_TIMEOUT</ref>),<sp/></highlight><highlight class="stringliteral">&quot;CONTENT_TIMEOUT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ErrorCodeCategory)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref>),<sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a84864ed59066e3479a279920161bf8d0" kindref="member">ContentErrorCode::CONTENT_INVALID_INPUT</ref>),<sp/></highlight><highlight class="stringliteral">&quot;validation&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" kindref="member">ContentErrorCode::CONTENT_PROCESSING_FAILED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;processing&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;security&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad7d502e67e9313a487b5468b44f7c398" kindref="member">ContentErrorCode::CONTENT_STORAGE_FAILED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a021d96de0a7f2486d4095e6f382ce1b3" kindref="member">ContentErrorCode::CONTENT_RATE_LIMIT_EXCEEDED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;rate_limiting&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a219dd2064e1432a63c8f797e1282503f" kindref="member">ContentErrorCode::CONTENT_MEMORY_LIMIT</ref>),<sp/></highlight><highlight class="stringliteral">&quot;resources&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679adbc9a216d14b99d7761415b29d8f" kindref="member">ContentErrorCode::CONTENT_INTERNAL_ERROR</ref>),<sp/></highlight><highlight class="stringliteral">&quot;internal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>IsSecurityError)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1content_1a8bf9af13e1f9c130dc6722f091770d21" kindref="member">isSecurityError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1content_1a8bf9af13e1f9c130dc6722f091770d21" kindref="member">isSecurityError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679415cb41feb6ae0499b0cb608a03bb" kindref="member">ContentErrorCode::CONTENT_PII_DETECTED</ref>));</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1content_1a8bf9af13e1f9c130dc6722f091770d21" kindref="member">isSecurityError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a25f00f2cb887fe03dbdbb4ae1a464ebd" kindref="member">ContentErrorCode::CONTENT_ABUSE_DETECTED</ref>));</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1content_1a8bf9af13e1f9c130dc6722f091770d21" kindref="member">isSecurityError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a955e318eab781ad436ac9b0a900ab229" kindref="member">ContentErrorCode::CONTENT_UNAUTHORIZED</ref>));</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1content_1a8bf9af13e1f9c130dc6722f091770d21" kindref="member">isSecurityError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1content_1a8bf9af13e1f9c130dc6722f091770d21" kindref="member">isSecurityError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" kindref="member">ContentErrorCode::CONTENT_PROCESSING_FAILED</ref>));</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>IsValidationError)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1content_1a982563aaa1d2886c68b8514e9c69c4f6" kindref="member">isValidationError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a84864ed59066e3479a279920161bf8d0" kindref="member">ContentErrorCode::CONTENT_INVALID_INPUT</ref>));</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1content_1a982563aaa1d2886c68b8514e9c69c4f6" kindref="member">isValidationError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1content_1a982563aaa1d2886c68b8514e9c69c4f6" kindref="member">isValidationError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a06ec63cdd1c2148aad4a879471c3e1bb" kindref="member">ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED</ref>));</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1content_1a982563aaa1d2886c68b8514e9c69c4f6" kindref="member">isValidationError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0abbd3d39b6cb834f344ed6f84ae72ae66" kindref="member">ContentErrorCode::CONTENT_EMPTY</ref>));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1content_1a982563aaa1d2886c68b8514e9c69c4f6" kindref="member">isValidationError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" kindref="member">ContentErrorCode::CONTENT_PROCESSING_FAILED</ref>));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1content_1a982563aaa1d2886c68b8514e9c69c4f6" kindref="member">isValidationError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>GetDefaultErrorMessage)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msg1<sp/>=<sp/><ref refid="namespacethemis_1_1content_1adced1aa3d7645b28e084381d3a76f069" kindref="member">getDefaultErrorMessage</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(msg1.empty());</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(msg1,<sp/></highlight><highlight class="stringliteral">&quot;Content<sp/>size<sp/>exceeds<sp/>maximum<sp/>allowed<sp/>limit&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msg2<sp/>=<sp/><ref refid="namespacethemis_1_1content_1adced1aa3d7645b28e084381d3a76f069" kindref="member">getDefaultErrorMessage</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">ContentErrorCode::CONTENT_MALWARE_DETECTED</ref>);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(msg2,<sp/></highlight><highlight class="stringliteral">&quot;Malware<sp/>detected<sp/>in<sp/>content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msg3<sp/>=<sp/><ref refid="namespacethemis_1_1content_1adced1aa3d7645b28e084381d3a76f069" kindref="member">getDefaultErrorMessage</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(msg3,<sp/></highlight><highlight class="stringliteral">&quot;Success&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Metadata<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ErrorWithMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::error(</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">ContentErrorCode::CONTENT_SIZE_EXCEEDED</ref>,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;File<sp/>too<sp/>large&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>err.metadata<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;file_size&quot;</highlight><highlight class="normal">,<sp/>200000000},</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_size&quot;</highlight><highlight class="normal">,<sp/>100000000},</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;filename&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;large_file.pdf&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>j<sp/>=<sp/>err.toJson();</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;file_size&quot;</highlight><highlight class="normal">],<sp/>200000000);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;max_size&quot;</highlight><highlight class="normal">],<sp/>100000000);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__content__errors_8cpp_1ade105f3f6b74bc569abbb6ac98526ef4" kindref="member">TEST</ref>(ContentErrorTest,<sp/>ErrorWithCorrelationId)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>ContentError::error(</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a5cc4f209f913ce693bd378f0effc2fba" kindref="member">ContentErrorCode::CONTENT_TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Request<sp/>timed<sp/>out&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>err.correlation_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;trace-abc-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>j<sp/>=<sp/>err.toJson();</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;correlation_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;trace-abc-123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_errors.cpp"/>
+  </compounddef>
+</doxygen>

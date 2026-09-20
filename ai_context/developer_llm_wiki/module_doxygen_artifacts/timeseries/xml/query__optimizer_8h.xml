@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="query__optimizer_8h" kind="file" language="C++">
+    <compoundname>query_optimizer.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="query__optimizer_8cpp" local="yes">src/timeseries/query_optimizer.cpp</includedby>
+    <includedby refid="tsstore_8cpp" local="yes">src/timeseries/tsstore.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/timeseries/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/timeseries/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/timeseries/query_optimizer.cpp</label>
+        <link refid="query__optimizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/timeseries/tsstore.cpp</label>
+        <link refid="tsstore_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_t_s_query_optimizer" prot="public">themis::TSQueryOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter" prot="public">themis::TSQueryOptimizer::PredicateFilter</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" prot="public">themis::TSQueryOptimizer::OptimizationHint</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" prot="public">themis::TSQueryOptimizer::QueryPlan</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" prot="public">themis::TSQueryOptimizer::IndexHint</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Phase 2 hardening: Deterministic range-query optimizer with downsampling consistency. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 2 — Core Implementation Complete</para>
+</simplesect>
+</para>
+<sect1 id="query__optimizer_8h_1autotoc_md15_1s1"><sect2 id="query__optimizer_8h_1autotoc_md15">
+<title>Overview</title><para>TSQueryOptimizer implements deterministic range-query semantics and query plan optimization with explicit compliance to the frozen <ref refid="timeseries__api__contract_8h" kindref="compound">timeseries_api_contract.h</ref>.</para>
+</sect2></sect1>
+<sect1 id="query__optimizer_8h_1autotoc_md16_1s1"><sect2 id="query__optimizer_8h_1autotoc_md16">
+<title>Key Features</title><para><itemizedlist>
+<listitem><para><bold>Deterministic Range Queries</bold>: Inclusive bounds [start, end] guarantee exact matches</para>
+</listitem><listitem><para><bold>Downsampling Consistency</bold>: Identical inputs produce identical bucket counts and aggregates</para>
+</listitem><listitem><para><bold>Query Plan Caching</bold>: Performance optimization with explicit cache validation</para>
+</listitem><listitem><para><bold>Retention Awareness</bold>: Queries respect retention boundaries without error raising</para>
+</listitem><listitem><para><bold>Predicate Pushdown</bold>: Tag-based filtering reduces data scanned</para>
+</listitem><listitem><para><bold>Aggregate Detection</bold>: Automatic use of pre-computed aggregates when beneficial</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="query__optimizer_8h_1autotoc_md17_1s1"><sect2 id="query__optimizer_8h_1autotoc_md17">
+<title>Thread Safety</title><para><itemizedlist>
+<listitem><para>Query plan cache protected by internal std::mutex</para>
+</listitem><listitem><para>Safe for concurrent optimizeAggregateQuery() calls from multiple threads</para>
+</listitem><listitem><para>Cache is thread-local safe via lock_guard</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="query__optimizer_8h_1autotoc_md18_1s1"><sect2 id="query__optimizer_8h_1autotoc_md18">
+<title>Performance Expectations</title><para><itemizedlist>
+<listitem><para>Range-query p99: ≤ 500µs (GATE-TSRG-02)</para>
+</listitem><listitem><para>Downsampling p99: ≤ 1ms (GATE-TSRG-04)</para>
+</listitem><listitem><para>Series lookup p99: ≤ 50µs (GATE-TSRG-06)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="timeseries__api__contract_8h" kindref="compound">include/timeseries/timeseries_api_contract.h</ref> § 2 (Range-query) and § 3 (Downsampling) </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/ROADMAP.md — Phase 2 items </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/PERFORMANCE_EXPECTATIONS.md </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_agg_config" kindref="compound">AggConfig</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1_t_s_query_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_t_s_query_optimizer_1a49ee3e3c3e7609a540d265a511f05555" kindref="member">TSQueryOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter" kindref="compound">PredicateFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter_1a0b94eca730013929ada3afd1ae1d6ab0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter_1a0b94eca730013929ada3afd1ae1d6ab0" kindref="member">tag_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter_1a2d787e13f3cc334119ad176eab9eb8e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter_1a2d787e13f3cc334119ad176eab9eb8e8" kindref="member">tag_value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter_1ad282edd599a5827f792befe2191b9dc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter_1ad282edd599a5827f792befe2191b9dc4" kindref="member">required</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter_1aab6c3fd6fe9c333f6cd611ea47ccc47a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter" kindref="compound">PredicateFilter</ref><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter_1aab6c3fd6fe9c333f6cd611ea47ccc47a" kindref="member">eq</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{key,<sp/>value,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a9d19fe8bc52f587d592564f23c4a79c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a9d19fe8bc52f587d592564f23c4a79c4" kindref="member">use_aggregates</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>use<sp/>pre-aggregates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aa3809c383bebc9765fadb131045227ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aa3809c383bebc9765fadb131045227ae" kindref="member">min_window_for_agg_ms</ref><sp/>=<sp/>3600000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Min<sp/>time<sp/>range<sp/>to<sp/>use<sp/>aggregates<sp/>(1<sp/>hour)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1ad5ce648a8635845f4d3782c4fb3e58c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1ad5ce648a8635845f4d3782c4fb3e58c4" kindref="member">max_raw_points</ref><sp/>=<sp/>10000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>raw<sp/>points<sp/>before<sp/>forcing<sp/>aggregates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a17dd8f7b0a03d396fd6ecb2340ba4d86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a17dd8f7b0a03d396fd6ecb2340ba4d86" kindref="member">explain</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>optimization<sp/>plan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a2bb73c9dc80e1fc7391bca5848883de7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;PredicateFilter&gt;<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a2bb73c9dc80e1fc7391bca5848883de7" kindref="member">predicates</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1acac84d20d47353eab285b8ab8809b65b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1acac84d20d47353eab285b8ab8809b65b" kindref="member">use_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a06b9281e396db002010bde1de57262eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05" kindref="member">DecodeWidth</ref><sp/>{<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a06b9281e396db002010bde1de57262eb" kindref="member">Auto</ref>,<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a166495adc0d0f53bee6baecc577f5204" kindref="member">Float32</ref>,<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05ad2b556d8a8f5c8ac323f51a4b82e79a0" kindref="member">Float64</ref><sp/>};</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1adb5fef2a0c1fc689e3a37026c5325e63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05" kindref="member">DecodeWidth</ref><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1adb5fef2a0c1fc689e3a37026c5325e63" kindref="member">decode_width</ref><sp/>=<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a06b9281e396db002010bde1de57262eb" kindref="member">DecodeWidth::Auto</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a34cc36a0adfb9f6d625d4b0b5227e735" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a34cc36a0adfb9f6d625d4b0b5227e735" kindref="member">uses_aggregate</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1aff4b5d140ef6321270a5533f8cddd17a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1aff4b5d140ef6321270a5533f8cddd17a" kindref="member">source_metric</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>or<sp/>aggregate<sp/>metric<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ab8932a9c5617c7ba92e2ea4f44e79000" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ab8932a9c5617c7ba92e2ea4f44e79000" kindref="member">from_timestamp_ms</ref>;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1aa13b72c9ca0278f9def075a704c89841" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1aa13b72c9ca0278f9def075a704c89841" kindref="member">to_timestamp_ms</ref>;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a3b604a1d24225c5682fd419cc8146c1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a3b604a1d24225c5682fd419cc8146c1d" kindref="member">estimated_points</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a8fc128d396784c24feea145cec02cdb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a8fc128d396784c24feea145cec02cdb1" kindref="member">estimated_speedup</ref><sp/>=<sp/>1.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Speedup<sp/>factor<sp/>vs<sp/>raw<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a1488972422c6a7c80a6f2f3512adaa3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a1488972422c6a7c80a6f2f3512adaa3c" kindref="member">explanation</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ad0b0909744a14a3fab6ff0a27ab7397e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;PredicateFilter&gt;<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ad0b0909744a14a3fab6ff0a27ab7397e" kindref="member">active_predicates</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ae4a70ab7672d4bebb936089d52f415f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05" kindref="member">OptimizationHint::DecodeWidth</ref><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ae4a70ab7672d4bebb936089d52f415f9" kindref="member">decode_width</ref><sp/>=<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a06b9281e396db002010bde1de57262eb" kindref="member">OptimizationHint::DecodeWidth::Auto</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1a49ee3e3c3e7609a540d265a511f05555" kindref="member">TSQueryOptimizer</ref>(<ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>*<sp/>store);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1ad42c8e5b778adbddb8b792a37dac91d6" kindref="member">optimizeAggregateQuery</ref>(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>entity,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>from_timestamp_ms,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>to_timestamp_ms,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref>&amp;<sp/>hint</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1ad42c8e5b778adbddb8b792a37dac91d6" kindref="member">optimizeAggregateQuery</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>entity,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>from_timestamp_ms,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>to_timestamp_ms</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1aa9e48e3ca5fe0e8a41a1c5ec0980de0d" kindref="member">findBestAggregate</ref>(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>time_range_ms</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1a9c36f9e15c1c0b2c2b3234d721235c22" kindref="member">aggregateExists</ref>(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>window</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1a30373d7992ce2d21a488ebb671d78f19" kindref="member">registerAvailableAggregate</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>window</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Query<sp/>Plan<sp/>Cache<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1aa00eeabd6f586ccfc8c31a805cf9ec19" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1adafe25b42c2709b22f36cf455be0941b" kindref="member">cacheSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="classthemis_1_1_t_s_query_optimizer_1a2848e1ddeb5e4910e5ba621a2118bd1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1a2848e1ddeb5e4910e5ba621a2118bd1d" kindref="member">cacheHits</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cache_hits_.load();<sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1_t_s_query_optimizer_1a52244054731b1d8f6c8b7b8eaee02ba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1a52244054731b1d8f6c8b7b8eaee02ba6" kindref="member">cacheMisses</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cache_misses_.load();<sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Index-Aware<sp/>Query<sp/>Planning<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2" kindref="member">IndexType</ref><sp/>{</highlight></codeline>
+<codeline lineno="249" refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2a6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2a71668d1269fe599f6aab44604f9aecbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2a71668d1269fe599f6aab44604f9aecbf" kindref="member">TimeRange</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2ae57cdfbc09f4e0f7445c279d9f580bdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2ae57cdfbc09f4e0f7445c279d9f580bdd" kindref="member">Bloom</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2acf4c2a4bf7c328c4e51f902350475343" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2acf4c2a4bf7c328c4e51f902350475343" kindref="member">Inverted</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" kindref="compound">IndexHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1acb9b03fc47c46c0baa71490742fb6fc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1acb9b03fc47c46c0baa71490742fb6fc0" kindref="member">metric</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1acf80a8dc00f9815138a15bafc7e152a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2" kindref="member">IndexType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1acf80a8dc00f9815138a15bafc7e152a8" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">IndexType::None</ref>;</highlight></codeline>
+<codeline lineno="258" refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1ab3a29a6dd09379a06c7b6e644d77515c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1ab3a29a6dd09379a06c7b6e644d77515c" kindref="member">selectivity</ref><sp/>=<sp/>1.0;<sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1a8f2fe0ae74d804b73f72dfbbc30d3863" kindref="member">registerIndexHint</ref>(<ref refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" kindref="compound">IndexHint</ref><sp/>hint);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;IndexHint&gt;<sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1aef7b6e50da6494e95565b2d4b73e7dfc" kindref="member">getIndexHint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Downsampling<sp/>Tier<sp/>Integration<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1a7551d7975c2917f7cc924ff7a777c6be" kindref="member">setTierSelector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref>*<sp/>selector);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref><sp/><ref refid="classthemis_1_1_t_s_query_optimizer_1a78cf9fff33ea4117749e04111ae24abf" kindref="member">optimizeWithTiers</ref>(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>entity,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>from_timestamp_ms,</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>to_timestamp_ms,</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>requested_resolution_ms,</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref>&amp;<sp/>hint);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>*<sp/>store_;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>aggregate<sp/>window<sp/>sizes<sp/>(in<sp/>increasing<sp/>order)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::chrono::milliseconds&gt;<sp/>COMMON_WINDOWS;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>hit/miss<sp/>counters<sp/>—<sp/>atomic<sp/>for<sp/>thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cache_mutex_;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>QueryPlan&gt;<sp/>plan_cache_;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>cache_hits_{0};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>cache_misses_{0};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>hints<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>index_mutex_;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IndexHint&gt;<sp/>index_hints_;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>downsampling<sp/>tier<sp/>selector<sp/>(not<sp/>owned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TierSelector*<sp/>tier_selector_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildCacheKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>entity,</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>from_ms,<sp/>int64_t<sp/>to_ms,</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref>&amp;<sp/>hint)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimateRawPointCount(int64_t<sp/>time_range_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimateAggregatePointCount(int64_t<sp/>time_range_ms,<sp/>std::chrono::milliseconds<sp/>window)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldUseAggregate(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>raw_points,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>agg_points,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref>&amp;<sp/>hint)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildExplanation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref>&amp;<sp/>plan,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>used_agg,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>raw_points,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>agg_points)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/timeseries/query_optimizer.h"/>
+  </compounddef>
+</doxygen>

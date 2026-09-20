@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::geo::IGeoJSONGeometry</compoundname>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_geo_geometry_collection" prot="public" virt="non-virtual">themis::geo::GeoGeometryCollection</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_geo_line_string" prot="public" virt="non-virtual">themis::geo::GeoLineString</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_geo_multi_polygon" prot="public" virt="non-virtual">themis::geo::GeoMultiPolygon</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_geo_point" prot="public" virt="non-virtual">themis::geo::GeoPoint</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_geo_polygon" prot="public" virt="non-virtual">themis::geo::GeoPolygon</derivedcompoundref>
+    <includes refid="geo__json__geometry_8h" local="no">geo_json_geometry.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ab35bb619771c27d844644c59ca2b64bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::geo::IGeoJSONGeometry::~IGeoJSONGeometry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGeoJSONGeometry</name>
+        <qualifiedname>themis::geo::IGeoJSONGeometry::~IGeoJSONGeometry</qualifiedname>
+        <briefdescription>
+<para>IGeo JSONGeometry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="108" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac58fe30f8b9e0bdc47ea9ccc532d990f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::geo::IGeoJSONGeometry::type</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::geo::IGeoJSONGeometry::type</qualifiedname>
+        <reimplementedby refid="class_geo_multi_polygon_1ac417cf3fbf9fa46aa334db0bf5e84a02">type</reimplementedby>
+        <reimplementedby refid="class_geo_polygon_1adefec9e07918d1f012ac1ce2428dd22d">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a0d512f723fec2ae99d0a677598a2d34b">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_line_string_1a7f6f506b8f36cf7602f5babf805e5336">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_multi_polygon_1ac417cf3fbf9fa46aa334db0bf5e84a02">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_point_1a70cda504d1c95652028a29b8d19053e6">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_polygon_1adefec9e07918d1f012ac1ce2428dd22d">type</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="110" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a9327bfb81cf7aeabe769de40ab7d1db0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_b_box" kindref="compound">BBox</ref></type>
+        <definition>virtual BBox themis::geo::IGeoJSONGeometry::bbox</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>bbox</name>
+        <qualifiedname>themis::geo::IGeoJSONGeometry::bbox</qualifiedname>
+        <reimplementedby refid="class_geo_multi_polygon_1a253ff98fbc4a9174d5ff558d18ea26c6">bbox</reimplementedby>
+        <reimplementedby refid="class_geo_polygon_1a36ae17c8c309f82811a2b881da6e1ed3">bbox</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a090faa5de694d7e32c542a2cdd25126e">bbox</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_line_string_1af9cda51b3698e55576b61aadf9c5fc43">bbox</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_multi_polygon_1a253ff98fbc4a9174d5ff558d18ea26c6">bbox</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_point_1af2c0207f54682a1522068238b602a4c1">bbox</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_polygon_1a36ae17c8c309f82811a2b881da6e1ed3">bbox</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="112" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1af846d57b98bcd75d7afd1c49a6ca575b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+        <definition>virtual CrsId themis::geo::IGeoJSONGeometry::crs</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>crs</name>
+        <qualifiedname>themis::geo::IGeoJSONGeometry::crs</qualifiedname>
+        <reimplementedby refid="class_geo_multi_polygon_1a9659a369fb70eb10b318160f6129beaf">crs</reimplementedby>
+        <reimplementedby refid="class_geo_polygon_1aa67c541efff33953dc24dcece44bffba">crs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a096df1bd191b90435a718faa8899493f">crs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_line_string_1ad1612197aece019d190a67813469d8f0">crs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_multi_polygon_1a9659a369fb70eb10b318160f6129beaf">crs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_point_1ad4abde062f8a17d9dfd6c0c91c75cb02">crs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_polygon_1aa67c541efff33953dc24dcece44bffba">crs</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="114" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a3fef104ac282e441cc3095ba60323111" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::geo::IGeoJSONGeometry::toGeoJSON</definition>
+        <argsstring>() const =0</argsstring>
+        <name>toGeoJSON</name>
+        <qualifiedname>themis::geo::IGeoJSONGeometry::toGeoJSON</qualifiedname>
+        <reimplementedby refid="class_geo_multi_polygon_1a5e98c9d7e36695465ce84bee6cc0e475">toGeoJSON</reimplementedby>
+        <reimplementedby refid="class_geo_polygon_1a245ec27affda9cdd8b1294c63af0dfa8">toGeoJSON</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a97d67b5a927a1710302af8e656688fa2">toGeoJSON</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_line_string_1a01e835dde7044152240e8b5f43078b91">toGeoJSON</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_multi_polygon_1a5e98c9d7e36695465ce84bee6cc0e475">toGeoJSON</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_point_1a68b245cc0425f3d72a3d485a0bc9ab66">toGeoJSON</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_polygon_1a245ec27affda9cdd8b1294c63af0dfa8">toGeoJSON</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="116" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac5126002fdb01f895145e5c43bc9e94b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>virtual ValidationResult themis::geo::IGeoJSONGeometry::validate</definition>
+        <argsstring>() const =0</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::geo::IGeoJSONGeometry::validate</qualifiedname>
+        <reimplementedby refid="class_geo_multi_polygon_1a083fb19edecb68b0145f4103518cb44f">validate</reimplementedby>
+        <reimplementedby refid="class_geo_polygon_1a353ab121fa955971dd09b690dec88676">validate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a7f02bf97a6536f83b439f13f00864da0">validate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_line_string_1a14c4e54f3df5fb28d2cd508a1db1db4b">validate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_multi_polygon_1a083fb19edecb68b0145f4103518cb44f">validate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_point_1afbfcdb43e9942213896a58014685e8de">validate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_polygon_1a353ab121fa955971dd09b690dec88676">validate</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="118" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::geo::GeoGeometryCollection</label>
+        <link refid="classthemis_1_1geo_1_1_geo_geometry_collection"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::geo::GeoLineString</label>
+        <link refid="classthemis_1_1geo_1_1_geo_line_string"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::geo::GeoMultiPolygon</label>
+        <link refid="classthemis_1_1geo_1_1_geo_multi_polygon"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::geo::GeoPoint</label>
+        <link refid="classthemis_1_1geo_1_1_geo_point"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::geo::GeoPolygon</label>
+        <link refid="classthemis_1_1geo_1_1_geo_polygon"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::geo::IGeoJSONGeometry</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/geo/geo_json_geometry.h" line="102" column="1" bodyfile="include/geo/geo_json_geometry.h" bodystart="102" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a9327bfb81cf7aeabe769de40ab7d1db0" prot="public" virt="pure-virtual"><scope>themis::geo::IGeoJSONGeometry</scope><name>bbox</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1af846d57b98bcd75d7afd1c49a6ca575b" prot="public" virt="pure-virtual"><scope>themis::geo::IGeoJSONGeometry</scope><name>crs</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a3fef104ac282e441cc3095ba60323111" prot="public" virt="pure-virtual"><scope>themis::geo::IGeoJSONGeometry</scope><name>toGeoJSON</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac58fe30f8b9e0bdc47ea9ccc532d990f" prot="public" virt="pure-virtual"><scope>themis::geo::IGeoJSONGeometry</scope><name>type</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac5126002fdb01f895145e5c43bc9e94b" prot="public" virt="pure-virtual"><scope>themis::geo::IGeoJSONGeometry</scope><name>validate</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ab35bb619771c27d844644c59ca2b64bc" prot="public" virt="virtual"><scope>themis::geo::IGeoJSONGeometry</scope><name>~IGeoJSONGeometry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

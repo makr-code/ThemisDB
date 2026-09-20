@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_document_diff_merge_test" kind="class" language="C++" prot="public">
+    <compoundname>DocumentDiffMergeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_document_diff_merge_test_1a8673b34fde60d23fb588bbb31f1416c8" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref></type>
+        <definition>InMemoryDocumentStore DocumentDiffMergeTest::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>DocumentDiffMergeTest::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="492" column="30" bodyfile="tests/document/test_document_store.cpp" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_document_diff_merge_test_1a99b4a0a88ea97b268005282ffd5accd1" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_diff_merge" kindref="compound">InMemoryDocumentDiffMerge</ref></type>
+        <definition>InMemoryDocumentDiffMerge DocumentDiffMergeTest::dm_</definition>
+        <argsstring></argsstring>
+        <name>dm_</name>
+        <qualifiedname>DocumentDiffMergeTest::dm_</qualifiedname>
+        <initializer>{<ref refid="class_document_diff_merge_test_1a8673b34fde60d23fb588bbb31f1416c8" kindref="member">store_</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="493" column="31" bodyfile="tests/document/test_document_store.cpp" bodystart="493" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_document_diff_merge_test_1a3b8a336887e00639ebe127d1fdfb6555" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>const CollectionId DocumentDiffMergeTest::kCol</definition>
+        <argsstring></argsstring>
+        <name>kCol</name>
+        <qualifiedname>DocumentDiffMergeTest::kCol</qualifiedname>
+        <initializer>{&quot;diff-col&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="494" column="30" bodyfile="tests/document/test_document_store.cpp" bodystart="494" bodyend="494"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_document_diff_merge_test_1a1034d6d66c883556027c85feb0562e0c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DocumentDiffMergeTest::put</definition>
+        <argsstring>(const std::string &amp;id, const nlohmann::json &amp;body)</argsstring>
+        <name>put</name>
+        <qualifiedname>DocumentDiffMergeTest::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="496" column="10" bodyfile="tests/document/test_document_store.cpp" bodystart="496" bodyend="498"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DocumentDiffMergeTest</label>
+        <link refid="class_document_diff_merge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DocumentDiffMergeTest</label>
+        <link refid="class_document_diff_merge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>store_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>dm_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="6">
+        <label>themis::document::IDocumentDiffMerge</label>
+        <link refid="classthemis_1_1document_1_1_i_document_diff_merge"/>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="5">
+        <label>themis::document::InMemoryDocumentDiffMerge</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_diff_merge"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_store.cpp" line="490" column="1" bodyfile="tests/document/test_document_store.cpp" bodystart="490" bodyend="499"/>
+    <listofallmembers>
+      <member refid="class_document_diff_merge_test_1a99b4a0a88ea97b268005282ffd5accd1" prot="protected" virt="non-virtual"><scope>DocumentDiffMergeTest</scope><name>dm_</name></member>
+      <member refid="class_document_diff_merge_test_1a3b8a336887e00639ebe127d1fdfb6555" prot="protected" virt="non-virtual"><scope>DocumentDiffMergeTest</scope><name>kCol</name></member>
+      <member refid="class_document_diff_merge_test_1a1034d6d66c883556027c85feb0562e0c" prot="protected" virt="non-virtual"><scope>DocumentDiffMergeTest</scope><name>put</name></member>
+      <member refid="class_document_diff_merge_test_1a8673b34fde60d23fb588bbb31f1416c8" prot="protected" virt="non-virtual"><scope>DocumentDiffMergeTest</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

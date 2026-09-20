@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cuda__hnsw__graph__traversal_8h" kind="file" language="C++">
+    <compoundname>cuda_hnsw_graph_traversal.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="cuda__hnsw__graph__traversal_8cpp" local="yes">src/index/cuda_hnsw_graph_traversal.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/cuda_hnsw_graph_traversal.h</label>
+        <link refid="cuda__hnsw__graph__traversal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/cuda_hnsw_graph_traversal.h</label>
+        <link refid="cuda__hnsw__graph__traversal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/cuda_hnsw_graph_traversal.cpp</label>
+        <link refid="cuda__hnsw__graph__traversal_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_hnsw_traversal_result" prot="public">themis::HnswTraversalResult</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_layer_graph" prot="public">themis::HnswLayerGraph</innerclass>
+    <innerclass refid="structthemis_1_1_cuda_hnsw_config" prot="public">themis::CudaHnswConfig</innerclass>
+    <innerclass refid="classthemis_1_1_cuda_hnsw_traversal_engine" prot="public">themis::CudaHnswTraversalEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1_hnsw_traversal_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hnsw_traversal_result" kindref="compound">HnswTraversalResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1_hnsw_traversal_result_1a4cada14525554b063760f356fb1fd05c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_hnsw_traversal_result_1a4cada14525554b063760f356fb1fd05c" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1_hnsw_traversal_result_1a6586e106855ea27c826e6ae2fd76802e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_traversal_result_1a6586e106855ea27c826e6ae2fd76802e" kindref="member">score</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cad" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cad" kindref="member">HnswDistanceMetric</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cada7e6aa2d53f6ee2b1a34b017fa403cb76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cada7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">L2</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cada46ff06ae696616afdf3a695efd3db84c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cada46ff06ae696616afdf3a695efd3db84c" kindref="member">Cosine</ref><sp/><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cadaaf6c6cf7a454b4ef4a850ac4d960a2cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cadaaf6c6cf7a454b4ef4a850ac4d960a2cc" kindref="member">Dot</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_hnsw_layer_graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hnsw_layer_graph" kindref="compound">HnswLayerGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_hnsw_layer_graph_1ac37adb5a0571a3aa9a8f0144389d17cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_graph_1ac37adb5a0571a3aa9a8f0144389d17cd" kindref="member">offsets</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_hnsw_layer_graph_1a5c127cc9d72ef18ff66e86917eef200e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_graph_1a5c127cc9d72ef18ff66e86917eef200e" kindref="member">neighbours</ref>;<sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_hnsw_layer_graph_1ad3c7f1b9e35d19cd91852e7cce2b5d17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_graph_1ad3c7f1b9e35d19cd91852e7cce2b5d17" kindref="member">num_nodes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_hnsw_layer_graph_1ad810c2e20790cedd6d246a9bde5ff4b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_graph_1ad810c2e20790cedd6d246a9bde5ff4b7" kindref="member">max_neighbours</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_cuda_hnsw_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_cuda_hnsw_config" kindref="compound">CudaHnswConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1_cuda_hnsw_config_1af1dae8278c482657cf2ffefb61b53ace" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_cuda_hnsw_config_1af1dae8278c482657cf2ffefb61b53ace" kindref="member">device_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1_cuda_hnsw_config_1ad03fe2194edca45bb7997a576941cdbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_cuda_hnsw_config_1ad03fe2194edca45bb7997a576941cdbd" kindref="member">dim</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>128;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1_cuda_hnsw_config_1a9226b000c3386b0df84d7bb3ac068cc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_cuda_hnsw_config_1a9226b000c3386b0df84d7bb3ac068cc2" kindref="member">ef_search</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>64;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_cuda_hnsw_config_1a66086ab7b7c263287c04c3e87d00ffee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_cuda_hnsw_config_1a66086ab7b7c263287c04c3e87d00ffee" kindref="member">max_layers</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>16;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_cuda_hnsw_config_1a2a65cced88c4d9d9786b2270caf5ffa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cad" kindref="member">HnswDistanceMetric</ref><sp/><ref refid="structthemis_1_1_cuda_hnsw_config_1a2a65cced88c4d9d9786b2270caf5ffa8" kindref="member">metric</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cada7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">HnswDistanceMetric::L2</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_cuda_hnsw_config_1acbda45b9b0c6c734c6c334853532713c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1_cuda_hnsw_config_1acbda45b9b0c6c734c6c334853532713c" kindref="member">device_memory_cap</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1_cuda_hnsw_config_1a1ad55a9996b84d6d2600e6c000bc9d96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_cuda_hnsw_config_1a1ad55a9996b84d6d2600e6c000bc9d96" kindref="member">use_fp16</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_cuda_hnsw_config_1ad737dbb0430ec8240fa1455ed96d9540" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_cuda_hnsw_config_1ad737dbb0430ec8240fa1455ed96d9540" kindref="member">enable_graph_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1_cuda_hnsw_traversal_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref>(<ref refid="structthemis_1_1_cuda_hnsw_config" kindref="compound">CudaHnswConfig</ref><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf99e74afb5166eb722d8b336db686bf" kindref="member">config</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1_cuda_hnsw_traversal_engine_1aa369dff52dc42f371a7fd65f9a844254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1aa369dff52dc42f371a7fd65f9a844254" kindref="member">~CudaHnswTraversalEngine</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a28f14b69d22a81e0110bcbee5c294f63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a28f14b69d22a81e0110bcbee5c294f63" kindref="member">CudaHnswTraversalEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1_cuda_hnsw_traversal_engine_1aca1736aa8ee90167340c2a8a252c8483" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref>&amp;<sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1aca1736aa8ee90167340c2a8a252c8483" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1_cuda_hnsw_traversal_engine_1acf8408057e126976ca01e33c1b45a30d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1acf8408057e126976ca01e33c1b45a30d" kindref="member">CudaHnswTraversalEngine</ref>(<ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1_cuda_hnsw_traversal_engine_1ad00e37c97adcb8347df7be4a3e7a6301" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a7465d6772aa2ca4ae06dbef20d201e90" kindref="member">buildIndex</ref>(const<sp/>std::<ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>&lt;<ref refid="structthemis_1_1_hnsw_layer_graph" kindref="compound">HnswLayerGraph</ref>&gt;&amp;<sp/>layers,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vectors,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>num_vectors);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a2934741fd642886a279e73dba2f8ad09" kindref="member">addNode</ref>(int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_id,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::<ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>&lt;<ref refid="structthemis_1_1_hnsw_layer_graph" kindref="compound">HnswLayerGraph</ref>&gt;&amp;<sp/><sp/>updated_layers);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Search<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::<ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>&lt;<ref refid="structthemis_1_1_hnsw_traversal_result" kindref="compound">HnswTraversalResult</ref>&gt;<sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a3261f75d426235fb736c4fb41ba13a8b" kindref="member">search</ref>(const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>query,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/>k,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/>ef<sp/>=<sp/>0)<sp/>const;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::<ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>&lt;std::<ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>&lt;<ref refid="structthemis_1_1_hnsw_traversal_result" kindref="compound">HnswTraversalResult</ref>&gt;&gt;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a868d3d77cbc59af4e78e8728aed48360" kindref="member">batchSearch</ref>(const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>queries,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>num_queries,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/>k,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/>ef<sp/>=<sp/>0)<sp/>const;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a6fe555f327d1eb42c92eb131b578dfe1" kindref="member">setMaxBatchSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1af672ca25b71103782720f981d22be94b" kindref="member">maxBatchSize</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1aafd79f028e4d0e424f1f7ba0325c0bf6" kindref="member">hasVisitedPool</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a240f0c941ecb43edd502465d8d712dfe" kindref="member">isBuilt</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a5030fe47ed525fa7b57655f3ff914aac" kindref="member">isCudaAvailable</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1acc02c26f1d6e5e61fd6e82bc923bb097" kindref="member">deviceInfo</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf99e74afb5166eb722d8b336db686bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1_cuda_hnsw_config" kindref="compound">CudaHnswConfig</ref>&amp;<sp/><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf99e74afb5166eb722d8b336db686bf" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_cuda_hnsw_config" kindref="compound">CudaHnswConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/cuda_hnsw_graph_traversal.h"/>
+  </compounddef>
+</doxygen>

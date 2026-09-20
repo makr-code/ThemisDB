@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_plugin_security_auditor" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::PluginSecurityAuditor</compoundname>
+    <includes refid="plugin__security_8h" local="no">plugin_security.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a3d564712d7edfaa938b764e81afc51a0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::PluginSecurityAuditor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="455" column="24" bodyfile="include/acceleration/plugin_security.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1afb2afdd62d9282a195db8ceeec95538b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_plugin_security_event" kindref="compound">PluginSecurityEvent</ref> &gt;</type>
+        <definition>std::vector&lt;PluginSecurityEvent&gt; themis::acceleration::PluginSecurityAuditor::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="456" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a463ee575d9d25dd1a6126557a133393b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PluginSecurityAuditor &amp;</type>
+        <definition>PluginSecurityAuditor &amp; themis::acceleration::PluginSecurityAuditor::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="416" column="34" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1174" bodyend="1177"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1ab5dfbf88a7e9a9c1ec269b1859ab4908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::PluginSecurityAuditor::logEvent</definition>
+        <argsstring>(const PluginSecurityEvent &amp;event)</argsstring>
+        <name>logEvent</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::logEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_plugin_security_event" kindref="compound">PluginSecurityEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Log Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), THEMIS_CRITICAL(), THEMIS_ERROR(), THEMIS_WARN(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="422" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1184" bodyend="1202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a1c9eca770ad9658fcdee3fe3d6b59d72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_plugin_security_event" kindref="compound">PluginSecurityEvent</ref> &gt;</type>
+        <definition>std::vector&lt; PluginSecurityEvent &gt; themis::acceleration::PluginSecurityAuditor::getEventsForPlugin</definition>
+        <argsstring>(const std::string &amp;pluginPath) const</argsstring>
+        <name>getEventsForPlugin</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::getEventsForPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pluginPath</declname>
+        </param>
+        <briefdescription>
+<para>Get Events For Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pluginPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="429" column="17" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1204" bodyend="1219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a8464551d3dda776f17a3aa2f06b03758" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_plugin_security_event" kindref="compound">PluginSecurityEvent</ref> &gt;</type>
+        <definition>std::vector&lt; PluginSecurityEvent &gt; themis::acceleration::PluginSecurityAuditor::getAllEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllEvents</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::getAllEvents</qualifiedname>
+        <briefdescription>
+<para>Get All Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="435" column="17" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1221" bodyend="1229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a3140d2f1ef91db73e10b8925b8428169" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::PluginSecurityAuditor::clearEvents</definition>
+        <argsstring>()</argsstring>
+        <name>clearEvents</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::clearEvents</qualifiedname>
+        <briefdescription>
+<para>Clear Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="440" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1235" bodyend="1238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a80203a6bc1439ac73d389fd80eb20ccc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::PluginSecurityAuditor::exportEvents</definition>
+        <argsstring>(const std::string &amp;outputPath) const</argsstring>
+        <name>exportEvents</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::exportEvents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outputPath</declname>
+        </param>
+        <briefdescription>
+<para>Export Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outputPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outputPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="447" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1240" bodyend="1340"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1af3cceb326a8d2f1ce44928c136dd54ab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::PluginSecurityAuditor::PluginSecurityAuditor</definition>
+        <argsstring>()=default</argsstring>
+        <name>PluginSecurityAuditor</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::PluginSecurityAuditor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="450" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a678a0099031ce0b4dc997d94d2dc4834" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::PluginSecurityAuditor::~PluginSecurityAuditor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PluginSecurityAuditor</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::~PluginSecurityAuditor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="451" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a021e3618f03189fe382a8ba951719efb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::PluginSecurityAuditor::PluginSecurityAuditor</definition>
+        <argsstring>(const PluginSecurityAuditor &amp;)=delete</argsstring>
+        <name>PluginSecurityAuditor</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::PluginSecurityAuditor</qualifiedname>
+        <param>
+          <type>const PluginSecurityAuditor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="452" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a18e16028cac650ed3917c58c074d0089" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PluginSecurityAuditor &amp;</type>
+        <definition>PluginSecurityAuditor &amp; themis::acceleration::PluginSecurityAuditor::operator=</definition>
+        <argsstring>(const PluginSecurityAuditor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::acceleration::PluginSecurityAuditor::operator=</qualifiedname>
+        <param>
+          <type>const PluginSecurityAuditor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="453" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/plugin_security.h" line="410" column="1" bodyfile="include/acceleration/plugin_security.h" bodystart="410" bodyend="457"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a3140d2f1ef91db73e10b8925b8428169" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>clearEvents</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1afb2afdd62d9282a195db8ceeec95538b" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>events_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a80203a6bc1439ac73d389fd80eb20ccc" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>exportEvents</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a8464551d3dda776f17a3aa2f06b03758" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>getAllEvents</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a1c9eca770ad9658fcdee3fe3d6b59d72" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>getEventsForPlugin</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a463ee575d9d25dd1a6126557a133393b" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>instance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1ab5dfbf88a7e9a9c1ec269b1859ab4908" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>logEvent</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a3d564712d7edfaa938b764e81afc51a0" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a18e16028cac650ed3917c58c074d0089" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1af3cceb326a8d2f1ce44928c136dd54ab" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>PluginSecurityAuditor</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a021e3618f03189fe382a8ba951719efb" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>PluginSecurityAuditor</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a678a0099031ce0b4dc997d94d2dc4834" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginSecurityAuditor</scope><name>~PluginSecurityAuditor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

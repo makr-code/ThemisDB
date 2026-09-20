@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_aggregate_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::AggregateResult</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a7c11aab936678e179938026387bcc099" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ProcessGraphManager::AggregateResult::group_key</definition>
+        <argsstring></argsstring>
+        <name>group_key</name>
+        <qualifiedname>themis::ProcessGraphManager::AggregateResult::group_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="755" column="24" bodyfile="include/index/process_graph.h" bodystart="755" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a553ffb98ccb71489684f3d15c237cf46" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ProcessGraphManager::AggregateResult::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::ProcessGraphManager::AggregateResult::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="756" column="16" bodyfile="include/index/process_graph.h" bodystart="756" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a9800dfb5354addd62c01040d8ec54e0f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessGraphManager::AggregateResult::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::ProcessGraphManager::AggregateResult::sum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="757" column="16" bodyfile="include/index/process_graph.h" bodystart="757" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a7fa5bb5ea42515086c0089119920c3d2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessGraphManager::AggregateResult::avg</definition>
+        <argsstring></argsstring>
+        <name>avg</name>
+        <qualifiedname>themis::ProcessGraphManager::AggregateResult::avg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="758" column="16" bodyfile="include/index/process_graph.h" bodystart="758" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1ab38025fecf218c1b7d16c2083742622b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessGraphManager::AggregateResult::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::ProcessGraphManager::AggregateResult::min</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="759" column="16" bodyfile="include/index/process_graph.h" bodystart="759" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a5b5983a8d156e20bd37f0f57634e6b7e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessGraphManager::AggregateResult::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::ProcessGraphManager::AggregateResult::max</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="760" column="16" bodyfile="include/index/process_graph.h" bodystart="760" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate process metrics by grouping field. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Example: COUNT tasks GROUP BY assignee </para>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="754" column="5" bodyfile="include/index/process_graph.h" bodystart="754" bodyend="761"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a7fa5bb5ea42515086c0089119920c3d2" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AggregateResult</scope><name>avg</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a553ffb98ccb71489684f3d15c237cf46" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AggregateResult</scope><name>count</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a7c11aab936678e179938026387bcc099" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AggregateResult</scope><name>group_key</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a5b5983a8d156e20bd37f0f57634e6b7e" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AggregateResult</scope><name>max</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1ab38025fecf218c1b7d16c2083742622b" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AggregateResult</scope><name>min</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_aggregate_result_1a9800dfb5354addd62c01040d8ec54e0f" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AggregateResult</scope><name>sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1001 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__utils__future__interfaces_8cpp" kind="file" language="C++">
+    <compoundname>test_utils_future_interfaces.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="uuid_8h" local="yes">utils/uuid.h</includes>
+    <includes refid="lz4__codec_8h" local="yes">utils/lz4_codec.h</includes>
+    <includes refid="zstd__codec_8h" local="yes">utils/zstd_codec.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">regex</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="18">
+        <label>utils/error_registry.h</label>
+        <link refid="error__registry_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>utils/expected.h</label>
+        <link refid="expected_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>utils/lz4_codec.h</label>
+        <link refid="lz4__codec_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>utils/uuid.h</label>
+        <link refid="uuid_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>utils/zstd_codec.h</label>
+        <link refid="zstd__codec_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/utils/test_utils_future_interfaces.cpp</label>
+        <link refid="test__utils__future__interfaces_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="23">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>iomanip</label>
+      </node>
+      <node id="26">
+        <label>memory</label>
+      </node>
+      <node id="21">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>random</label>
+      </node>
+      <node id="28">
+        <label>regex</label>
+      </node>
+      <node id="29">
+        <label>set</label>
+      </node>
+      <node id="20">
+        <label>shared_mutex</label>
+      </node>
+      <node id="22">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="7">
+        <label>sstream</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="24">
+        <label>system_error</label>
+      </node>
+      <node id="30">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>type_traits</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>utility</label>
+      </node>
+      <node id="17">
+        <label>variant</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_u_u_i_dv7_tests" prot="public">UUIDv7Tests</innerclass>
+    <innerclass refid="class_l_z4_codec_tests" prot="public">LZ4CodecTests</innerclass>
+    <innerclass refid="class_zstd_stream_tests" prot="public">ZstdStreamTests</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a4780d6dcbb49e7d3e8a7f8e941ec1044" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UUIDv7Tests, UV7_01_FormatIsCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref></type>
+        </param>
+        <param>
+          <type>UV7_01_FormatIsCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="28" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="28" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1ad2ce64ae4cbf2967d80b095fc7f254de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UUIDv7Tests, UV7_02_OnlyHexAndHyphens)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref></type>
+        </param>
+        <param>
+          <type>UV7_02_OnlyHexAndHyphens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="43" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1afe746cc2126b291eede97fc8b0003c53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UUIDv7Tests, UV7_03_DifferentFromV4)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref></type>
+        </param>
+        <param>
+          <type>UV7_03_DifferentFromV4</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="50" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1aa536e57ffc58dee3019d41d680beede6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UUIDv7Tests, UV7_04_MonotonicityWithinSameMs)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref></type>
+        </param>
+        <param>
+          <type>UV7_04_MonotonicityWithinSameMs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="57" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="57" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a058af2dcc055a08655a01908377f5207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UUIDv7Tests, UV7_05_Uniqueness)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref></type>
+        </param>
+        <param>
+          <type>UV7_05_Uniqueness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="74" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="74" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a089472b3bf3846f2cdb7d345c80180c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UUIDv7Tests, UV7_06_TimestampEmbedded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref></type>
+        </param>
+        <param>
+          <type>UV7_06_TimestampEmbedded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="83" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="83" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a48f88e1d6aa7d16df7eb2c279eeba9fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UUIDv7Tests, UV7_07_ThreadSafety)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref></type>
+        </param>
+        <param>
+          <type>UV7_07_ThreadSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="101" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="101" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1adfe9bc42571af121419c68e1c9bef387" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LZ4CodecTests, LZ4_01_RoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref></type>
+        </param>
+        <param>
+          <type>LZ4_01_RoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="134" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="134" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1ad37bcd11463c30b3ff65b58452f3279a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LZ4CodecTests, LZ4_02_EmptyInputReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref></type>
+        </param>
+        <param>
+          <type>LZ4_02_EmptyInputReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="149" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="149" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a2d212cad5425bb500483e502bc7b17bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LZ4CodecTests, LZ4_03_SafeApiRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref></type>
+        </param>
+        <param>
+          <type>LZ4_03_SafeApiRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="157" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="157" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1adc422bc27a53242ab3b60aebb1166056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LZ4CodecTests, LZ4_04_CompressBoundNonZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref></type>
+        </param>
+        <param>
+          <type>LZ4_04_CompressBoundNonZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="171" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="171" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1ae0ccf86692fde5b8db6b89b4d69ed7ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LZ4CodecTests, LZ4_05_CompressBoundZeroForOversizedInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref></type>
+        </param>
+        <param>
+          <type>LZ4_05_CompressBoundZeroForOversizedInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="180" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="180" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1ae104aff0f8ba4a4528ed63cfe287e543" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LZ4CodecTests, LZ4_06_SafeApiOversizedInputIsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref></type>
+        </param>
+        <param>
+          <type>LZ4_06_SafeApiOversizedInputIsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="186" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="186" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1ab2cdd6c3439e25cd6464b82f2f22e250" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LZ4CodecTests, LZ4_07_VectorRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref></type>
+        </param>
+        <param>
+          <type>LZ4_07_VectorRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="194" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="194" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1ae1678c006fb7ddd37064243deb3db67c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LZ4CodecTests, LZ4_08_StringOverload)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref></type>
+        </param>
+        <param>
+          <type>LZ4_08_StringOverload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="207" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="207" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a19303f23e2691023363091419467d748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ZstdStreamTests, ZS_01_CompressorFlushProducesDecompressibleOutput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref></type>
+        </param>
+        <param>
+          <type>ZS_01_CompressorFlushProducesDecompressibleOutput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="226" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="226" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1ad15649e8df0c9f012824f8af9d566643" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ZstdStreamTests, ZS_02_DecompressorRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref></type>
+        </param>
+        <param>
+          <type>ZS_02_DecompressorRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="252" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="252" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a8a1ebe437647618c324d9021586d13bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ZstdStreamTests, ZS_03_MultiChunkCompressDecompress)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref></type>
+        </param>
+        <param>
+          <type>ZS_03_MultiChunkCompressDecompress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="272" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="272" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a0056487c6f0c74e23bb9f157e8af483d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ZstdStreamTests, ZS_04_CompressorReset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref></type>
+        </param>
+        <param>
+          <type>ZS_04_CompressorReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="301" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="301" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a3a0cea5f0c2c8d667bf789f0b9ae1175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ZstdStreamTests, ZS_05_DecompressorReset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref></type>
+        </param>
+        <param>
+          <type>ZS_05_DecompressorReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="330" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="330" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1a2fedb002737efcdebf4116e8506605a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ZstdStreamTests, ZS_06_EmptyChunkIsHarmless)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref></type>
+        </param>
+        <param>
+          <type>ZS_06_EmptyChunkIsHarmless</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="354" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="354" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__future__interfaces_8cpp_1acaf397e3468e490cae9bbe09bbf5b641" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ZstdStreamTests, ZS_07_IsDoneAfterFullFrame)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref></type>
+        </param>
+        <param>
+          <type>ZS_07_IsDoneAfterFullFrame</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_future_interfaces.cpp" line="365" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="365" bodyend="379"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused tests for utils module features: UUID v7, LZ4 codec, and streaming ZSTD API. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="uuid_8h" kindref="compound">utils/uuid.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lz4__codec_8h" kindref="compound">utils/lz4_codec.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="zstd__codec_8h" kindref="compound">utils/zstd_codec.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UUID<sp/>v7</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="class_u_u_i_dv7_tests" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref>,<sp/>UV7_01_FormatIsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a1bc0b38cb82fa2f3b86b147f950facad" kindref="member">generate_uuid_v7</ref>();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.size(),<sp/>36u);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">[8],<sp/><sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">[13],<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">[18],<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">[23],<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>nibble<sp/>must<sp/>be<sp/>&apos;7&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">[14],<sp/></highlight><highlight class="charliteral">&apos;7&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Variant<sp/>nibble<sp/>must<sp/>be<sp/>8,<sp/>9,<sp/>a,<sp/>or<sp/>b</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>var<sp/>=<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">[19];</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(var<sp/>==<sp/></highlight><highlight class="charliteral">&apos;8&apos;</highlight><highlight class="normal"><sp/>||<sp/>var<sp/>==<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal"><sp/>||<sp/>var<sp/>==<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal"><sp/>||<sp/>var<sp/>==<sp/></highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;variant<sp/>nibble<sp/>was<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>var<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref>,<sp/>UV7_02_OnlyHexAndHyphens)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a1bc0b38cb82fa2f3b86b147f950facad" kindref="member">generate_uuid_v7</ref>();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::regex<sp/>uuid_re(</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::regex_match(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uuid_re))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;id=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>id;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref>,<sp/>UV7_03_DifferentFromV4)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>v4<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a4d9a6325eedfd705490cf5f473882ddc" kindref="member">generate_uuid_v4</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>v7<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a1bc0b38cb82fa2f3b86b147f950facad" kindref="member">generate_uuid_v7</ref>();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v4[14],<sp/></highlight><highlight class="charliteral">&apos;4&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v7[14],<sp/></highlight><highlight class="charliteral">&apos;7&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref>,<sp/>UV7_04_MonotonicityWithinSameMs)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>a<sp/>batch<sp/>within<sp/>a<sp/>tight<sp/>loop<sp/>–<sp/>timestamps<sp/>should<sp/>be<sp/>non-decreasing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>ids;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ids.reserve(100);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ids.push_back(<ref refid="namespacethemis_1_1utils_1a1bc0b38cb82fa2f3b86b147f950facad" kindref="member">generate_uuid_v7</ref>());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>ids.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>a<sp/>=<sp/>ids[i-1];</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>b<sp/>=<sp/>ids[i];</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>first<sp/>8<sp/>hex<sp/>chars<sp/>(time_low)<sp/>must<sp/>be<sp/>&gt;=</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(a.substr(0,<sp/>8),<sp/>b.substr(0,<sp/>8))</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;a=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>a<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>b=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>b;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref>,<sp/>UV7_05_Uniqueness)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>seen<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>seen.insert(<ref refid="namespacethemis_1_1utils_1a1bc0b38cb82fa2f3b86b147f950facad" kindref="member">generate_uuid_v7</ref>());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(seen.size(),<sp/>1000u);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref>,<sp/>UV7_06_TimestampEmbedded)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extract<sp/>the<sp/>48-bit<sp/>timestamp<sp/>from<sp/>a<sp/>freshly<sp/>generated<sp/>UUID<sp/>v7<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>verify<sp/>it<sp/>is<sp/>within<sp/>±5<sp/>seconds<sp/>of<sp/>now.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a1bc0b38cb82fa2f3b86b147f950facad" kindref="member">generate_uuid_v7</ref>();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>after_ms<sp/><sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reconstruct:<sp/>time_low<sp/>(chars<sp/>0-7)<sp/>and<sp/>time_mid<sp/>(chars<sp/>9-12)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>time_low<sp/>=<sp/>std::stoull(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.substr(0,<sp/>8),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>16);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>time_mid<sp/>=<sp/>std::stoull(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.substr(9,<sp/>4),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>16);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>ts_ms<sp/><sp/><sp/><sp/>=<sp/>(time_low<sp/>&lt;&lt;<sp/>16)<sp/>|<sp/>time_mid;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ts_ms),<sp/>before_ms<sp/>-<sp/>5000);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ts_ms),<sp/>after_ms<sp/><sp/>+<sp/>5000);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_u_u_i_dv7_tests" kindref="compound">UUIDv7Tests</ref>,<sp/>UV7_07_ThreadSafety)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>threads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>per_thread<sp/>=<sp/>250;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;std::string&gt;&gt;<sp/>buckets(threads);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>threads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>workers.emplace_back([&amp;,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>per_thread;<sp/>++i)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buckets[t].push_back(<ref refid="namespacethemis_1_1utils_1a1bc0b38cb82fa2f3b86b147f950facad" kindref="member">generate_uuid_v7</ref>());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w<sp/>:<sp/>workers)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>w.join();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>all<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b<sp/>:<sp/>buckets)</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>b)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all.insert(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(threads<sp/>*<sp/>per_thread));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LZ4<sp/>Codec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="class_l_z4_codec_tests" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref>,<sp/>LZ4_01_RoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>original(4096,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compressed<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a036bdf41a30feed967a6d7029d618c4d" kindref="member">lz4_compress</ref>(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()),<sp/>original.size());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_LZ4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(compressed.empty());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decompressed<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a71d052a2079dcefca7349d55136f04f0" kindref="member">lz4_decompress</ref>(compressed,<sp/>original.size());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(decompressed.size(),<sp/>original.size());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(decompressed.begin(),<sp/>decompressed.end()),<sp/>original);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compressed.empty());<sp/></highlight><highlight class="comment">//<sp/>graceful<sp/>degradation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref>,<sp/>LZ4_02_EmptyInputReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compressed<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a036bdf41a30feed967a6d7029d618c4d" kindref="member">lz4_compress</ref>(</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0),</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1_1lz4__compression_1a79f4a3570dbe2545b4eea97797b213d0" kindref="member">lz4_compression::DEFAULT_ACCELERATION</ref>);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compressed.empty());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref>,<sp/>LZ4_03_SafeApiRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>data<sp/>=<sp/>{1,<sp/>2,<sp/>3,<sp/>4,<sp/>5,<sp/>6,<sp/>7,<sp/>8,<sp/>9,<sp/>10};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a033462a717d5ce38f921732244897768" kindref="member">lz4_compress_safe</ref>(data.data(),<sp/>data.size());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_LZ4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dec<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1aa555154b9a1c22ad28cb6df829dd5b05" kindref="member">lz4_decompress_safe</ref>(*res,<sp/>data.size());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(dec.has_value());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*dec,<sp/>data);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref>,<sp/>LZ4_04_CompressBoundNonZero)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bound<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1abfa9d76313e1fa3922efc64a5b78154b" kindref="member">lz4_compress_bound</ref>(1024);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_LZ4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(bound,<sp/>1024u);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bound,<sp/>0u);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref>,<sp/>LZ4_05_CompressBoundZeroForOversizedInput)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MAX_INPUT_SIZE<sp/>+<sp/>1<sp/>must<sp/>return<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>oversized<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1_1lz4__compression_1a5cece3f222849a95ed8a30b534cab5b7" kindref="member">lz4_compression::MAX_INPUT_SIZE</ref><sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1utils_1abfa9d76313e1fa3922efc64a5b78154b" kindref="member">lz4_compress_bound</ref>(oversized),<sp/>0u);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref>,<sp/>LZ4_06_SafeApiOversizedInputIsError)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>fake<sp/>large-size<sp/>request<sp/>—<sp/>we<sp/>don&apos;t<sp/>allocate<sp/>the<sp/>memory,<sp/>just<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>guard.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>dummy<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a033462a717d5ce38f921732244897768" kindref="member">lz4_compress_safe</ref>(&amp;dummy,<sp/><ref refid="namespacethemis_1_1utils_1_1lz4__compression_1a5cece3f222849a95ed8a30b534cab5b7" kindref="member">lz4_compression::MAX_INPUT_SIZE</ref><sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref>,<sp/>LZ4_07_VectorRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>original<sp/>=<sp/>{10,<sp/>20,<sp/>30,<sp/>40,<sp/>50,<sp/>60,<sp/>70,<sp/>80};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compressed<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a036bdf41a30feed967a6d7029d618c4d" kindref="member">lz4_compress</ref>(original);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_LZ4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(compressed.empty());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decompressed<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a71d052a2079dcefca7349d55136f04f0" kindref="member">lz4_decompress</ref>(compressed,<sp/>original.size());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(decompressed,<sp/>original);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compressed.empty());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_l_z4_codec_tests" kindref="compound">LZ4CodecTests</ref>,<sp/>LZ4_08_StringOverload)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello,<sp/>ThemisDB<sp/>LZ4<sp/>codec!&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compressed<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a036bdf41a30feed967a6d7029d618c4d" kindref="member">lz4_compress</ref>(text);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_LZ4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(compressed.empty());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decompressed<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a71d052a2079dcefca7349d55136f04f0" kindref="member">lz4_decompress</ref>(compressed,<sp/>text.size());</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(decompressed.begin(),<sp/>decompressed.end()),<sp/>text);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compressed.empty());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Streaming<sp/>ZSTD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="class_zstd_stream_tests" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref>,<sp/>ZS_01_CompressorFlushProducesDecompressibleOutput)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>original(8192,<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor" kindref="compound">ZstdStreamCompressor</ref><sp/>enc(3);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk_res<sp/>=<sp/>enc.compress_chunk(</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()),<sp/>original.size());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>flush_res<sp/>=<sp/>enc.flush();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_ZSTD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(chunk_res.has_value());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(flush_res.has_value());</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Combine<sp/>into<sp/>a<sp/>single<sp/>ZSTD<sp/>frame.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>frame;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>frame.insert(frame.end(),<sp/>chunk_res-&gt;begin(),<sp/>chunk_res-&gt;end());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>frame.insert(frame.end(),<sp/>flush_res-&gt;begin(),<sp/>flush_res-&gt;end());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decompressed<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a41d885c02ce2fc2934fe0995c7cff98a" kindref="member">zstd_decompress</ref>(frame);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(decompressed.size(),<sp/>original.size());</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(decompressed.begin(),<sp/>decompressed.end()),<sp/>original);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(chunk_res.has_value());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flush_res.has_value());</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref>,<sp/>ZS_02_DecompressorRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>original(4096,<sp/></highlight><highlight class="charliteral">&apos;Y&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>compress<sp/>into<sp/>a<sp/>ZSTD<sp/>frame<sp/>using<sp/>the<sp/>block<sp/>API.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>frame<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a42164c16be4ec889cf9c82734f5b2ec3" kindref="member">zstd_compress</ref>(</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()),<sp/>original.size());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_ZSTD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(frame.empty());</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor" kindref="compound">ZstdStreamDecompressor</ref><sp/>dec;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" kindref="member">decompress_chunk</ref>(frame);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(out.has_value());</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(out-&gt;begin(),<sp/>out-&gt;end()),<sp/>original);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" kindref="member">is_done</ref>());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(frame.empty());</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref>,<sp/>ZS_03_MultiChunkCompressDecompress)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>larger<sp/>payload<sp/>and<sp/>feed<sp/>it<sp/>to<sp/>the<sp/>compressor<sp/>in<sp/>two<sp/>halves.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>original(16384,<sp/></highlight><highlight class="charliteral">&apos;Z&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>half<sp/>=<sp/>original.size()<sp/>/<sp/>2;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor" kindref="compound">ZstdStreamCompressor</ref><sp/>enc(1);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>frame;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>enc.compress_chunk(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()),<sp/>half);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>enc.compress_chunk(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()<sp/>+<sp/>half),<sp/>half);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rf<sp/>=<sp/>enc.flush();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_ZSTD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r1.has_value());<sp/>ASSERT_TRUE(r2.has_value());<sp/>ASSERT_TRUE(rf.has_value());</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>frame.insert(frame.end(),<sp/>r1-&gt;begin(),<sp/>r1-&gt;end());</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>frame.insert(frame.end(),<sp/>r2-&gt;begin(),<sp/>r2-&gt;end());</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>frame.insert(frame.end(),<sp/>rf-&gt;begin(),<sp/>rf-&gt;end());</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Decompress<sp/>the<sp/>full<sp/>frame.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor" kindref="compound">ZstdStreamDecompressor</ref><sp/>dec;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" kindref="member">decompress_chunk</ref>(frame);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(out.has_value());</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out-&gt;size(),<sp/>original.size());</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(out-&gt;begin(),<sp/>out-&gt;end()),<sp/>original);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r1.has_value());</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref>,<sp/>ZS_04_CompressorReset)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>reset(),<sp/>a<sp/>new<sp/>frame<sp/>should<sp/>be<sp/>producible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>original(</highlight><highlight class="stringliteral">&quot;reset<sp/>test<sp/>data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor" kindref="compound">ZstdStreamCompressor</ref><sp/>enc(1);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>enc.compress_chunk(</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()),<sp/>original.size());</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f1<sp/>=<sp/>enc.flush();</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_ZSTD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r1.has_value());<sp/>ASSERT_TRUE(f1.has_value());</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>enc.reset();</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>enc.compress_chunk(</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()),<sp/>original.size());</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f2<sp/>=<sp/>enc.flush();</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r2.has_value());<sp/>ASSERT_TRUE(f2.has_value());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>frames<sp/>should<sp/>decompress<sp/>correctly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>frame2;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>frame2.insert(frame2.end(),<sp/>r2-&gt;begin(),<sp/>r2-&gt;end());</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>frame2.insert(frame2.end(),<sp/>f2-&gt;begin(),<sp/>f2-&gt;end());</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dec<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a41d885c02ce2fc2934fe0995c7cff98a" kindref="member">zstd_decompress</ref>(frame2);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(dec.begin(),<sp/>dec.end()),<sp/>original);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r1.has_value());</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref>,<sp/>ZS_05_DecompressorReset)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>original(</highlight><highlight class="stringliteral">&quot;decompressor<sp/>reset<sp/>test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>frame<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a42164c16be4ec889cf9c82734f5b2ec3" kindref="member">zstd_compress</ref>(</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()),<sp/>original.size());</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_ZSTD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(frame.empty());</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor" kindref="compound">ZstdStreamDecompressor</ref><sp/>dec;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out1<sp/>=<sp/>dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" kindref="member">decompress_chunk</ref>(frame);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(out1.has_value());</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" kindref="member">is_done</ref>());</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>and<sp/>decompress<sp/>the<sp/>same<sp/>frame<sp/>again.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a6af49da2fd8adc13ed1ac6ee33a18f7b" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" kindref="member">is_done</ref>());</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out2<sp/>=<sp/>dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" kindref="member">decompress_chunk</ref>(frame);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(out2.has_value());</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*out1,<sp/>*out2);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(frame.empty());</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref>,<sp/>ZS_06_EmptyChunkIsHarmless)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor" kindref="compound">ZstdStreamCompressor</ref><sp/>enc(1);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>enc.compress_chunk(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_ZSTD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res-&gt;empty());</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_zstd_stream_tests" kindref="compound">ZstdStreamTests</ref>,<sp/>ZS_07_IsDoneAfterFullFrame)<sp/>{</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>original(</highlight><highlight class="stringliteral">&quot;done<sp/>check&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>frame<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a42164c16be4ec889cf9c82734f5b2ec3" kindref="member">zstd_compress</ref>(</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(original.data()),<sp/>original.size());</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_ZSTD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(frame.empty());</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor" kindref="compound">ZstdStreamDecompressor</ref><sp/>dec;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" kindref="member">is_done</ref>());</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" kindref="member">decompress_chunk</ref>(frame);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dec.<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" kindref="member">is_done</ref>());</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(frame.empty());</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/test_utils_future_interfaces.cpp"/>
+  </compounddef>
+</doxygen>

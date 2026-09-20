@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_debezium_envelope" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::DebeziumEnvelope</compoundname>
+    <includes refid="debezium__format_8h" local="no">debezium_format.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_envelope_1abb72913ce010366b0abce6c5a78294b6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" kindref="member">DebeziumOp</ref></type>
+        <definition>DebeziumOp themis::cdc::DebeziumEnvelope::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::cdc::DebeziumEnvelope::op</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" kindref="member">DebeziumOp::READ</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="108" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_envelope_1ac4477ddd1a6cac7016eccac9fdb7ee41" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::DebeziumEnvelope::before</definition>
+        <argsstring></argsstring>
+        <name>before</name>
+        <qualifiedname>themis::cdc::DebeziumEnvelope::before</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>null for CREATE / READ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="109" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_envelope_1a629008fa4930ec5869a3d4e703d94fcc" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::DebeziumEnvelope::after</definition>
+        <argsstring></argsstring>
+        <name>after</name>
+        <qualifiedname>themis::cdc::DebeziumEnvelope::after</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>null for DELETE </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="110" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_debezium_source" kindref="compound">DebeziumSource</ref></type>
+        <definition>DebeziumSource themis::cdc::DebeziumEnvelope::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::cdc::DebeziumEnvelope::source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="111" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_envelope_1ade4fa3a868a9d83c3e80d1b3763ddd8a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::DebeziumEnvelope::ts_ms</definition>
+        <argsstring></argsstring>
+        <name>ts_ms</name>
+        <qualifiedname>themis::cdc::DebeziumEnvelope::ts_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Processing timestamp (epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="112" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_debezium_envelope_1ad2c908ea646609c0c9c9aab8fad8ffe0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::DebeziumEnvelope::toJson</definition>
+        <argsstring>(bool include_schema=false) const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::DebeziumEnvelope::toJson</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>include_schema</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="114" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="114" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_debezium_envelope_1ab21863c02247999f720053864bef6297" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json themis::cdc::DebeziumEnvelope::buildSchema</definition>
+        <argsstring>(const std::string &amp;server_name, const std::string &amp;table)</argsstring>
+        <name>buildSchema</name>
+        <qualifiedname>themis::cdc::DebeziumEnvelope::buildSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>server_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Build Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">server_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the server. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::array(), makeValueField(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="142" column="27" bodyfile="include/cdc/debezium_format.h" bodystart="142" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cdc::DebeziumEnvelope</label>
+        <link refid="structthemis_1_1cdc_1_1_debezium_envelope"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>source</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::DebeziumSource</label>
+        <link refid="structthemis_1_1cdc_1_1_debezium_source"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/debezium_format.h" line="107" column="1" bodyfile="include/cdc/debezium_format.h" bodystart="107" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_debezium_envelope_1a629008fa4930ec5869a3d4e703d94fcc" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumEnvelope</scope><name>after</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_envelope_1ac4477ddd1a6cac7016eccac9fdb7ee41" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumEnvelope</scope><name>before</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_envelope_1ab21863c02247999f720053864bef6297" prot="private" virt="non-virtual"><scope>themis::cdc::DebeziumEnvelope</scope><name>buildSchema</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_envelope_1abb72913ce010366b0abce6c5a78294b6" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumEnvelope</scope><name>op</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumEnvelope</scope><name>source</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad2c908ea646609c0c9c9aab8fad8ffe0" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumEnvelope</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_envelope_1ade4fa3a868a9d83c3e80d1b3763ddd8a" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumEnvelope</scope><name>ts_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

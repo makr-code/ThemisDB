@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::monitoring::PrometheusExporter::MetricValue</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value_1ac70bf5a6c6da6e9832a4d6b2f3fc2d4d" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9" kindref="member">MetricType</ref></type>
+        <definition>MetricType themis::llm::monitoring::PrometheusExporter::MetricValue::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::monitoring::PrometheusExporter::MetricValue::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="93" column="20" bodyfile="include/llm/grafana_metrics.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value_1a1bc66acf344a0a24dcae4d46ccc813b7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::monitoring::PrometheusExporter::MetricValue::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::llm::monitoring::PrometheusExporter::MetricValue::value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="94" column="16" bodyfile="include/llm/grafana_metrics.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value_1a39fb2de49a826b467da2d96a3e371946" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::llm::monitoring::PrometheusExporter::MetricValue::histogram_buckets</definition>
+        <argsstring></argsstring>
+        <name>histogram_buckets</name>
+        <qualifiedname>themis::llm::monitoring::PrometheusExporter::MetricValue::histogram_buckets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="95" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value_1a3804aba8e29ab920d58fb54ea1b9b4bb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::monitoring::PrometheusExporter::MetricValue::last_updated</definition>
+        <argsstring></argsstring>
+        <name>last_updated</name>
+        <qualifiedname>themis::llm::monitoring::PrometheusExporter::MetricValue::last_updated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="96" column="47" bodyfile="include/llm/grafana_metrics.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/grafana_metrics.h" line="92" column="5" bodyfile="include/llm/grafana_metrics.h" bodystart="92" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value_1a39fb2de49a826b467da2d96a3e371946" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::PrometheusExporter::MetricValue</scope><name>histogram_buckets</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value_1a3804aba8e29ab920d58fb54ea1b9b4bb" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::PrometheusExporter::MetricValue</scope><name>last_updated</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value_1ac70bf5a6c6da6e9832a4d6b2f3fc2d4d" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::PrometheusExporter::MetricValue</scope><name>type</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value_1a1bc66acf344a0a24dcae4d46ccc813b7" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::PrometheusExporter::MetricValue</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

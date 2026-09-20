@@ -113,6 +113,11 @@ def validate(wiki_dir: Path, fail_on_broken: bool, report_path: Path | None) -> 
         text_clean = INLINE_CODE_RE.sub("", text_clean)
 
         for lineno, line in enumerate(text_clean.splitlines(), start=1):
+            # Skip indented code blocks as well; these often contain regexes or
+            # other bracketed syntax that is not meant to be interpreted as wiki links.
+            if line.startswith("    ") or line.startswith("\t"):
+                continue
+
             # Check [[WikiLinks]]
             for m in WIKI_LINK_RE.finditer(line):
                 raw_target = m.group("target") or m.group("label")

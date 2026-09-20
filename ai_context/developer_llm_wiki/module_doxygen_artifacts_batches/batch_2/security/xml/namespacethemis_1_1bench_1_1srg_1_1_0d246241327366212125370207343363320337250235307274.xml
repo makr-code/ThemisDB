@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1srg_1_1_0d246241327366212125370207343363320337250235307274" kind="namespace" language="C++">
+    <compoundname>themis::bench::srg::@246241327366212125370207343363320337250235307274</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1bench_1_1srg_1_1_0d246241327366212125370207343363320337250235307274_1a701ffb38892ae178b437fc9ab85fb697" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CertBenchState</name>
+        <qualifiedname>themis::bench::srg::@246241327366212125370207343363320337250235307274::CertBenchState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1bench_1_1srg_1_1_0d246241327366212125370207343363320337250235307274_1a701ffb38892ae178b437fc9ab85fb697ac9f1a6384b1c466d4612f513bd8e13ea" prot="public">
+          <name>VALID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1srg_1_1_0d246241327366212125370207343363320337250235307274_1a701ffb38892ae178b437fc9ab85fb697a38afd7ae34bd5e3e6fc170d8b09178a3" prot="public">
+          <name>EXPIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Mock certificate validation: chain-depth check + state lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="191" column="1" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="191" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_security_release_gates.cpp" line="73" column="1"/>
+  </compounddef>
+</doxygen>

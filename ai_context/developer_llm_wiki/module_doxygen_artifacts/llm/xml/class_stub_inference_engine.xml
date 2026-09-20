@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_inference_engine" kind="class" language="C++" prot="public">
+    <compoundname>StubInferenceEngine</compoundname>
+    <innerclass refid="struct_stub_inference_engine_1_1_result" prot="public">StubInferenceEngine::Result</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_stub_inference_engine_1a09b813c904c7367c3b10725526adc7c8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubInferenceEngine::model_loaded</definition>
+        <argsstring></argsstring>
+        <name>model_loaded</name>
+        <qualifiedname>StubInferenceEngine::model_loaded</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="69" column="10" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_inference_engine_1a2c72183faf774563a550bbc0397428f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_stub_inference_engine_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result StubInferenceEngine::generate</definition>
+        <argsstring>(const std::string &amp;prompt, StubCancellationToken *cancel=nullptr)</argsstring>
+        <name>generate</name>
+        <qualifiedname>StubInferenceEngine::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type><ref refid="class_stub_cancellation_token" kindref="compound">StubCancellationToken</ref> *</type>
+          <declname>cancel</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="71" column="12" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="71" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_inference_engine_1ab92977aad2e718f2352056d88f37612f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_stub_inference_engine_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; Result &gt; StubInferenceEngine::generateBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;prompts)</argsstring>
+        <name>generateBatch</name>
+        <qualifiedname>StubInferenceEngine::generateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>prompts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="79" column="17" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="79" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_inference_engine_1a4d2704b640bad8c08455fae8e4c60750" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1d" kindref="member">LlmErrorCode</ref></type>
+        <definition>LlmErrorCode StubInferenceEngine::generateStream</definition>
+        <argsstring>(const std::string &amp;prompt, std::function&lt; void(const std::string &amp;)&gt; callback, StubCancellationToken *cancel=nullptr)</argsstring>
+        <name>generateStream</name>
+        <qualifiedname>StubInferenceEngine::generateStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type><ref refid="class_stub_cancellation_token" kindref="compound">StubCancellationToken</ref> *</type>
+          <declname>cancel</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Stream generation; swallows callback exceptions per §4. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="96" column="18" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="96" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub inference engine that honours the API contract (§1, §5). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="62" column="1" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="62" bodyend="116"/>
+    <listofallmembers>
+      <member refid="class_stub_inference_engine_1a2c72183faf774563a550bbc0397428f6" prot="public" virt="non-virtual"><scope>StubInferenceEngine</scope><name>generate</name></member>
+      <member refid="class_stub_inference_engine_1ab92977aad2e718f2352056d88f37612f" prot="public" virt="non-virtual"><scope>StubInferenceEngine</scope><name>generateBatch</name></member>
+      <member refid="class_stub_inference_engine_1a4d2704b640bad8c08455fae8e4c60750" prot="public" virt="non-virtual"><scope>StubInferenceEngine</scope><name>generateStream</name></member>
+      <member refid="class_stub_inference_engine_1a09b813c904c7367c3b10725526adc7c8" prot="public" virt="non-virtual"><scope>StubInferenceEngine</scope><name>model_loaded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

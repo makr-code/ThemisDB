@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_hardware_cycle_counter" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::HardwareCycleCounter</compoundname>
+    <includes refid="cycle__metrics_8h" local="no">cycle_metrics.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::performance::HardwareCycleCounter::cpu_cycles</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cpu_cycles</name>
+        <qualifiedname>themis::performance::HardwareCycleCounter::cpu_cycles</qualifiedname>
+        <briefdescription>
+<para>Read CPU cycle counter (non-serializing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current CPU cycle count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="43" column="28" bodyfile="include/performance/cycle_metrics.h" bodystart="43" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_hardware_cycle_counter_1a5136a8e4aca5d9e101c86b7a3fe2b8c9" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::performance::HardwareCycleCounter::rdtscp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>rdtscp</name>
+        <qualifiedname>themis::performance::HardwareCycleCounter::rdtscp</qualifiedname>
+        <briefdescription>
+<para>Read CPU cycle counter with serialization (precise measurement). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current CPU cycle count</para>
+</simplesect>
+RDTSCP ensures all previous instructions complete before reading. Use for precise measurement endpoints. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="73" column="28" bodyfile="include/performance/cycle_metrics.h" bodystart="73" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_hardware_cycle_counter_1a108c9eefbcca61eda1b01905ac365c8b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::HardwareCycleCounter::cpu_frequency_hz</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cpu_frequency_hz</name>
+        <qualifiedname>themis::performance::HardwareCycleCounter::cpu_frequency_hz</qualifiedname>
+        <briefdescription>
+<para>Get CPU frequency in Hz. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>CPU frequency or 0 if unavailable </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="102" column="21" bodyfile="src/performance/cycle_metrics.cpp" bodystart="26" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_hardware_cycle_counter_1aded86837d9ca403a97695ab599a807b5" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::HardwareCycleCounter::cpu_model</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cpu_model</name>
+        <qualifiedname>themis::performance::HardwareCycleCounter::cpu_model</qualifiedname>
+        <briefdescription>
+<para>Get CPU model string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>CPU model name </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="108" column="24" bodyfile="src/performance/cycle_metrics.cpp" bodystart="65" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hardware cycle counter for precise performance measurement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides platform-specific CPU cycle counting with sub-nanosecond precision. Uses RDTSC on x86_64 and CNTVCT_EL0 on ARM64. </para>
+    </detaileddescription>
+    <location file="include/performance/cycle_metrics.h" line="37" column="1" bodyfile="include/performance/cycle_metrics.h" bodystart="37" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCycleCounter</scope><name>cpu_cycles</name></member>
+      <member refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a108c9eefbcca61eda1b01905ac365c8b" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCycleCounter</scope><name>cpu_frequency_hz</name></member>
+      <member refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1aded86837d9ca403a97695ab599a807b5" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCycleCounter</scope><name>cpu_model</name></member>
+      <member refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a5136a8e4aca5d9e101c86b7a3fe2b8c9" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCycleCounter</scope><name>rdtscp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

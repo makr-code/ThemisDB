@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_evaluator" kind="struct" language="C++" prot="public">
+    <compoundname>StubEvaluator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">PolicyEngine::IPolicyEvaluator</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stub_evaluator_1ace27b208fc6e75e8c28d5d5f1396a662" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref> &gt;</type>
+        <definition>std::optional&lt;PolicyDecision&gt; StubEvaluator::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>StubEvaluator::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_opa_adapter.cpp" line="32" column="19" bodyfile="tests/governance/test_governance_opa_adapter.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_stub_evaluator_1a99fa32d2cffc30651ca9fc25121c5160" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubEvaluator::StubEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>StubEvaluator</name>
+        <qualifiedname>StubEvaluator::StubEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_opa_adapter.cpp" line="34" column="14" bodyfile="tests/governance/test_governance_opa_adapter.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_stub_evaluator_1af753a2f7a37edff8cec11e2a272e7a69" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubEvaluator::StubEvaluator</definition>
+        <argsstring>(PolicyDecision d)</argsstring>
+        <name>StubEvaluator</name>
+        <qualifiedname>StubEvaluator::StubEvaluator</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref></type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_opa_adapter.cpp" line="35" column="14" bodyfile="tests/governance/test_governance_opa_adapter.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_stub_evaluator_1a302979eccd68b2c6bed17a0955805950" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyDecision &gt; StubEvaluator::evaluate</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;, const std::string &amp;) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>StubEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_opa_adapter.cpp" line="37" column="19" bodyfile="tests/governance/test_governance_opa_adapter.cpp" bodystart="37" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>PolicyEngine::IPolicyEvaluator</label>
+      </node>
+      <node id="1">
+        <label>StubEvaluator</label>
+        <link refid="struct_stub_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>PolicyEngine::IPolicyEvaluator</label>
+      </node>
+      <node id="1">
+        <label>StubEvaluator</label>
+        <link refid="struct_stub_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_opa_adapter.cpp" line="30" column="1" bodyfile="tests/governance/test_governance_opa_adapter.cpp" bodystart="30" bodyend="43"/>
+    <listofallmembers>
+      <member refid="struct_stub_evaluator_1a302979eccd68b2c6bed17a0955805950" prot="public" virt="non-virtual"><scope>StubEvaluator</scope><name>evaluate</name></member>
+      <member refid="struct_stub_evaluator_1ace27b208fc6e75e8c28d5d5f1396a662" prot="public" virt="non-virtual"><scope>StubEvaluator</scope><name>result</name></member>
+      <member refid="struct_stub_evaluator_1a99fa32d2cffc30651ca9fc25121c5160" prot="public" virt="non-virtual"><scope>StubEvaluator</scope><name>StubEvaluator</name></member>
+      <member refid="struct_stub_evaluator_1af753a2f7a37edff8cec11e2a272e7a69" prot="public" virt="non-virtual"><scope>StubEvaluator</scope><name>StubEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

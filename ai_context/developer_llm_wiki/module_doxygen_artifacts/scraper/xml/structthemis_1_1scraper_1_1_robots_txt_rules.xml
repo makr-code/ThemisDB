@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_robots_txt_rules" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::RobotsTxtRules</compoundname>
+    <includes refid="scraper__robots_8h" local="no">scraper_robots.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_robots_txt_rules_1a7d7fcf65918dd17905fb2c3a28fff1f8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::RobotsTxtRules::disallow</definition>
+        <argsstring></argsstring>
+        <name>disallow</name>
+        <qualifiedname>themis::scraper::RobotsTxtRules::disallow</qualifiedname>
+        <briefdescription>
+<para>Disallow prefixes (evaluated after Allow prefixes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="53" column="17" bodyfile="include/scraper/scraper_robots.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_robots_txt_rules_1ac70a36a8759714cca202c05ce77c3690" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::RobotsTxtRules::allow</definition>
+        <argsstring></argsstring>
+        <name>allow</name>
+        <qualifiedname>themis::scraper::RobotsTxtRules::allow</qualifiedname>
+        <briefdescription>
+<para>Allow prefixes (take precedence over matching Disallow entries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="55" column="17" bodyfile="include/scraper/scraper_robots.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory representation of the rules for the wildcard user-agent. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Only <computeroutput>User-agent: *</computeroutput> rules are stored; site-specific agent rules are ignored because the scraper sends a generic user-agent string. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_robots.h" line="51" column="1" bodyfile="include/scraper/scraper_robots.h" bodystart="51" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_robots_txt_rules_1ac70a36a8759714cca202c05ce77c3690" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtRules</scope><name>allow</name></member>
+      <member refid="structthemis_1_1scraper_1_1_robots_txt_rules_1a7d7fcf65918dd17905fb2c3a28fff1f8" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtRules</scope><name>disallow</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

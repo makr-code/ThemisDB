@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::DisasterRecoveryManager::Statistics</compoundname>
+    <includes refid="disaster__recovery__manager_8h" local="no">disaster_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8927ff51793506c24ab987baf76e53b2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::DisasterRecoveryManager::Statistics::total_runs</definition>
+        <argsstring></argsstring>
+        <name>total_runs</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::Statistics::total_runs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="145" column="18" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a0055ff09041abaad9ba0c6a40bd5b49e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::DisasterRecoveryManager::Statistics::successful_runs</definition>
+        <argsstring></argsstring>
+        <name>successful_runs</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::Statistics::successful_runs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="146" column="18" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8d782254ab85bb7e4aa734d311758490" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::DisasterRecoveryManager::Statistics::failed_runs</definition>
+        <argsstring></argsstring>
+        <name>failed_runs</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::Statistics::failed_runs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="147" column="18" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a33ecf81e7939c82575733a4b113cf51d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::DisasterRecoveryManager::Statistics::aborted_runs</definition>
+        <argsstring></argsstring>
+        <name>aborted_runs</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::Statistics::aborted_runs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="148" column="18" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a7ef9d3641cf7b763cef876c61335b427" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::DisasterRecoveryManager::Statistics::average_duration</definition>
+        <argsstring></argsstring>
+        <name>average_duration</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::Statistics::average_duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="149" column="35" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/disaster_recovery_manager.h" line="144" column="5" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="144" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a33ecf81e7939c82575733a4b113cf51d" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager::Statistics</scope><name>aborted_runs</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a7ef9d3641cf7b763cef876c61335b427" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager::Statistics</scope><name>average_duration</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8d782254ab85bb7e4aa734d311758490" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager::Statistics</scope><name>failed_runs</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a0055ff09041abaad9ba0c6a40bd5b49e" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager::Statistics</scope><name>successful_runs</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8927ff51793506c24ab987baf76e53b2" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager::Statistics</scope><name>total_runs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

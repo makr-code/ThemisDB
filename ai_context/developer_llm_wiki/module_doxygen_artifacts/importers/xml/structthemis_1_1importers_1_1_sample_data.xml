@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_sample_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SampleData</compoundname>
+    <includes refid="schema__inference_8h" local="no">schema_inference.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_sample_data_1a6cfe9b5906fbdf480f2781a9852a5ebf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SampleData::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::importers::SampleData::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="37" column="17" bodyfile="include/importers/schema_inference.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_sample_data_1acfa2e33e3c7dcdde302a723ea794197b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SampleData::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::importers::SampleData::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="38" column="17" bodyfile="include/importers/schema_inference.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_sample_data_1a26ffa2caff55fbaba5632ce138c0667e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SampleData::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::importers::SampleData::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="39" column="17" bodyfile="include/importers/schema_inference.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_inference.h" line="36" column="1" bodyfile="include/importers/schema_inference.h" bodystart="36" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_sample_data_1acfa2e33e3c7dcdde302a723ea794197b" prot="public" virt="non-virtual"><scope>themis::importers::SampleData</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_sample_data_1a6cfe9b5906fbdf480f2781a9852a5ebf" prot="public" virt="non-virtual"><scope>themis::importers::SampleData</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_sample_data_1a26ffa2caff55fbaba5632ce138c0667e" prot="public" virt="non-virtual"><scope>themis::importers::SampleData</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

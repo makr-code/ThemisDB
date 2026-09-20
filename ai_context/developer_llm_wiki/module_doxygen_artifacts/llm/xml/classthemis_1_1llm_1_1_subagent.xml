@@ -1,0 +1,475 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_subagent" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::Subagent</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_subagent_impl" prot="public" virt="non-virtual">themis::llm::SubagentImpl</derivedcompoundref>
+    <includes refid="subagent_8h" local="no">subagent.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a2ebec8fa53552f525df81a28ef922bfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::Subagent::~Subagent</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Subagent</name>
+        <qualifiedname>themis::llm::Subagent::~Subagent</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_subagent" kindref="compound">Subagent</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="72" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a2e433c646338db7fa5ae32d916f8a4a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; themis::llm::Subagent::id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::Subagent::id</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a621d5a6435a7f03a32b7e753e06eba70">id</reimplementedby>
+        <briefdescription>
+<para>Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="82" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1af34ea1d14d9624e4b4d15858f6bf83ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_subagent_config" kindref="compound">SubagentConfig</ref> &amp;</type>
+        <definition>virtual const SubagentConfig &amp; themis::llm::Subagent::config</definition>
+        <argsstring>() const =0</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::Subagent::config</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1aa858318c96f5b4edf6dfa72c54637af2">config</reimplementedby>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="88" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a2f834a65621adfd48cc7164f784936fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9" kindref="member">SubagentState</ref></type>
+        <definition>virtual SubagentState themis::llm::Subagent::getState</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::llm::Subagent::getState</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a9904d4f7bc3a8d376679fecb1daaec92">getState</reimplementedby>
+        <briefdescription>
+<para>Get State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="98" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1ac0d2457b817ae268dc00a25316577715" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>virtual SubagentResult&lt; void &gt; themis::llm::Subagent::load</definition>
+        <argsstring>(int timeout_ms=60000)=0</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::llm::Subagent::load</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1af11ab4342130468076b5eda7ad9d2b70">load</reimplementedby>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+          <defval>60000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="100" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a239203f73e376911264437e3bf395918" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>virtual SubagentResult&lt; void &gt; themis::llm::Subagent::warm</definition>
+        <argsstring>(int timeout_ms=30000)=0</argsstring>
+        <name>warm</name>
+        <qualifiedname>themis::llm::Subagent::warm</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1ab4a04f215e280245731f6481f9d4a965">warm</reimplementedby>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+          <defval>30000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="102" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1ae9da5d6e0673dfb327f7c93f23e8a2bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>virtual SubagentResult&lt; void &gt; themis::llm::Subagent::unload</definition>
+        <argsstring>(int timeout_ms=30000)=0</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::llm::Subagent::unload</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a877c1553cbe07757390340f2fce2bdc8">unload</reimplementedby>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+          <defval>30000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="104" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a3eea30488306849d02e34532ee5a1fe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref></type>
+        <definition>virtual SubagentInferenceResult themis::llm::Subagent::infer</definition>
+        <argsstring>(const InferenceRequest &amp;request, const std::optional&lt; LLMCorrelationContext &gt; &amp;ctx=std::nullopt)=0</argsstring>
+        <name>infer</name>
+        <qualifiedname>themis::llm::Subagent::infer</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a80c3fa73d1c75ee9c5668f540e472e68">infer</reimplementedby>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="110" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a00b1f31bae8f6525cd3327f5b1a4dd90" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref> &gt;</type>
+        <definition>virtual std::future&lt; SubagentInferenceResult &gt; themis::llm::Subagent::inferAsync</definition>
+        <argsstring>(const InferenceRequest &amp;request, const std::optional&lt; LLMCorrelationContext &gt; &amp;ctx=std::nullopt)=0</argsstring>
+        <name>inferAsync</name>
+        <qualifiedname>themis::llm::Subagent::inferAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1af280ea6cebbe67c8747bfc52f8541ff7">inferAsync</reimplementedby>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="114" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1aa0f540ce9abe4a386f16bdd237728d7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref></type>
+        <definition>virtual SubagentInferenceResult themis::llm::Subagent::inferStream</definition>
+        <argsstring>(const InferenceRequest &amp;request, std::function&lt; void(const std::string &amp;)&gt; on_token, const std::optional&lt; LLMCorrelationContext &gt; &amp;ctx=std::nullopt)=0</argsstring>
+        <name>inferStream</name>
+        <qualifiedname>themis::llm::Subagent::inferStream</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a536c1b39eaeaa7012040760935a67afc">inferStream</reimplementedby>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>on_token</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="118" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a162ef72ce31446989061cae1c4aeb1d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; SubagentInferenceResult &gt; themis::llm::Subagent::inferBatch</definition>
+        <argsstring>(const std::vector&lt; InferenceRequest &gt; &amp;requests, const std::optional&lt; LLMCorrelationContext &gt; &amp;ctx=std::nullopt)=0</argsstring>
+        <name>inferBatch</name>
+        <qualifiedname>themis::llm::Subagent::inferBatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a71a836b84fb5a570c6b5f23b48321248">inferBatch</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="123" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1ae147c31dc1b2af3c2f6297520f6c13df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_metrics" kindref="compound">SubagentMetrics</ref></type>
+        <definition>virtual SubagentMetrics themis::llm::Subagent::getMetrics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::llm::Subagent::getMetrics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1ae64f328f314f6c0c5801533813fae632">getMetrics</reimplementedby>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="135" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a4276f04f18c192925d90bc65f667b7d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::Subagent::resetMetrics</definition>
+        <argsstring>()=0</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::llm::Subagent::resetMetrics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a57f137e2386097224da7a59d03a9a96e">resetMetrics</reimplementedby>
+        <briefdescription>
+<para>Reset Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="140" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a7d1560902108432e8013d70e122987b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::Subagent::getLastError</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::llm::Subagent::getLastError</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a5a65659cb0a1651aa65b6095d8fcf147">getLastError</reimplementedby>
+        <briefdescription>
+<para>Get Last Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="146" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a35253514c92e4e6d6a2619ab470c23ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::Subagent::isReady</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::Subagent::isReady</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1a8af64482215284f0779c9d7cd1883eaf">isReady</reimplementedby>
+        <briefdescription>
+<para>Is Ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="156" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a7ed540bf43a5eb66affc26ce6bbe9754" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>virtual SubagentResult&lt; void &gt; themis::llm::Subagent::pause</definition>
+        <argsstring>()=0</argsstring>
+        <name>pause</name>
+        <qualifiedname>themis::llm::Subagent::pause</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1ad2eecd5cbed97a85f97e916470c13ead">pause</reimplementedby>
+        <briefdescription>
+<para>Pause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="162" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a9072e117190627aa324480e7f7ae16a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>virtual SubagentResult&lt; void &gt; themis::llm::Subagent::resume</definition>
+        <argsstring>()=0</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::llm::Subagent::resume</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1adfa4f5702e61b6900bcd90a673d95b77">resume</reimplementedby>
+        <briefdescription>
+<para>Resume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="168" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1abf40939571ce57f7de6826b26ad57416" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_quota_check_result" kindref="compound">QuotaCheckResult</ref></type>
+        <definition>virtual QuotaCheckResult themis::llm::Subagent::checkQuota</definition>
+        <argsstring>(size_t estimated_tokens) const =0</argsstring>
+        <name>checkQuota</name>
+        <qualifiedname>themis::llm::Subagent::checkQuota</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1ad9af327d7e92e1f52ba44c0496b024eb">checkQuota</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Check Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="175" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1afab18109aa952ab2c1438cad641a21ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_quota_check_result" kindref="compound">QuotaCheckResult</ref></type>
+        <definition>virtual QuotaCheckResult themis::llm::Subagent::consumeQuota</definition>
+        <argsstring>(size_t tokens)=0</argsstring>
+        <name>consumeQuota</name>
+        <qualifiedname>themis::llm::Subagent::consumeQuota</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1adcd7ba934f09e2384fc1191bd965e386">consumeQuota</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Consume Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="182" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_1a4a832919032fa7fcd11a72a5240782ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::Subagent::resetQuota</definition>
+        <argsstring>()=0</argsstring>
+        <name>resetQuota</name>
+        <qualifiedname>themis::llm::Subagent::resetQuota</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_subagent_impl_1abdb723538842e05858661ff57fa48324">resetQuota</reimplementedby>
+        <briefdescription>
+<para>Reset Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="187" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::Subagent</label>
+        <link refid="classthemis_1_1llm_1_1_subagent"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::SubagentImpl</label>
+        <link refid="classthemis_1_1llm_1_1_subagent_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/subagent.h" line="66" column="1" bodyfile="include/llm/subagent.h" bodystart="66" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_subagent_1abf40939571ce57f7de6826b26ad57416" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>checkQuota</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1af34ea1d14d9624e4b4d15858f6bf83ef" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1afab18109aa952ab2c1438cad641a21ad" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>consumeQuota</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a7d1560902108432e8013d70e122987b6" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1ae147c31dc1b2af3c2f6297520f6c13df" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a2f834a65621adfd48cc7164f784936fd" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>getState</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a2e433c646338db7fa5ae32d916f8a4a5" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>id</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a3eea30488306849d02e34532ee5a1fe4" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>infer</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a00b1f31bae8f6525cd3327f5b1a4dd90" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>inferAsync</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a162ef72ce31446989061cae1c4aeb1d7" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>inferBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1aa0f540ce9abe4a386f16bdd237728d7d" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>inferStream</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a35253514c92e4e6d6a2619ab470c23ea" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1ac0d2457b817ae268dc00a25316577715" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>load</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a7ed540bf43a5eb66affc26ce6bbe9754" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>pause</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a4276f04f18c192925d90bc65f667b7d0" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a4a832919032fa7fcd11a72a5240782ea" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>resetQuota</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a9072e117190627aa324480e7f7ae16a1" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>resume</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1ae9da5d6e0673dfb327f7c93f23e8a2bc" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>unload</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a239203f73e376911264437e3bf395918" prot="public" virt="pure-virtual"><scope>themis::llm::Subagent</scope><name>warm</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a2ebec8fa53552f525df81a28ef922bfe" prot="public" virt="virtual"><scope>themis::llm::Subagent</scope><name>~Subagent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

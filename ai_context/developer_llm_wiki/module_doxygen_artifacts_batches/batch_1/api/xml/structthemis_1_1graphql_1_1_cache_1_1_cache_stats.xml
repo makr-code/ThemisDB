@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_cache_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::Cache::CacheStats</compoundname>
+    <includes refid="graphql__cache_8h" local="no">graphql_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1aca654cd5be5239d23828618334d16b4e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graphql::Cache&lt; T &gt;::CacheStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::graphql::Cache::CacheStats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="199" column="18" bodyfile="include/api/graphql_cache.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1ad1e0e3b281782164c3217dfc2f7082d4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graphql::Cache&lt; T &gt;::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::graphql::Cache::CacheStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="200" column="18" bodyfile="include/api/graphql_cache.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1a38a59d84da3ec3cf0144bac2fc75d003" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graphql::Cache&lt; T &gt;::CacheStats::hitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::graphql::Cache::CacheStats::hitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="202" column="16" bodyfile="include/api/graphql_cache.h" bodystart="202" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_cache.h" line="198" column="5" bodyfile="include/api/graphql_cache.h" bodystart="198" bodyend="206"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1a38a59d84da3ec3cf0144bac2fc75d003" prot="public" virt="non-virtual"><scope>themis::graphql::Cache::CacheStats</scope><name>hitRate</name></member>
+      <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1aca654cd5be5239d23828618334d16b4e" prot="public" virt="non-virtual"><scope>themis::graphql::Cache::CacheStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1ad1e0e3b281782164c3217dfc2f7082d4" prot="public" virt="non-virtual"><scope>themis::graphql::Cache::CacheStats</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

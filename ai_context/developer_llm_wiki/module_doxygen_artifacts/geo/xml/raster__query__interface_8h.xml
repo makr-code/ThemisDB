@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="raster__query__interface_8h" kind="file" language="C++">
+    <compoundname>raster_query_interface.h</compoundname>
+    <includes refid="raster_8h" local="yes">geo/raster.h</includes>
+    <includes refid="tile__server_8h" local="yes">geo/tile_server.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="raster__query__interface_8cpp" local="yes">src/geo/raster_query_interface.cpp</includedby>
+    <includedby refid="test__raster__query__interface_8cpp" local="yes">tests/geo/test_raster_query_interface.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>geo/raster.h</label>
+        <link refid="raster_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/geo/raster_query_interface.h</label>
+        <link refid="raster__query__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>geo/tile_server.h</label>
+        <link refid="tile__server_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>limits</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/geo/raster_query_interface.h</label>
+        <link refid="raster__query__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/geo/raster_query_interface.cpp</label>
+        <link refid="raster__query__interface_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/geo/test_raster_query_interface.cpp</label>
+        <link refid="test__raster__query__interface_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1geo_1_1_raster_config" prot="public">themis::geo::RasterConfig</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_raster_result" prot="public">themis::geo::RasterResult</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_i_raster_query_interface" prot="public">themis::geo::IRasterQueryInterface</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_no_op_raster_query_impl" prot="public">themis::geo::NoOpRasterQueryImpl</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_raster_grid_query_impl" prot="public">themis::geo::RasterGridQueryImpl</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="raster_8h" kindref="compound">geo/raster.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tile__server_8h" kindref="compound">geo/tile_server.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RasterConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1geo_1_1_raster_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_raster_config_1a8885670d0db43939342f0dfdef511e43" kindref="member">RasterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1geo_1_1_raster_config_1a725040b964db88c34e55e4094bbd0505" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1geo_1_1_raster_config_1a725040b964db88c34e55e4094bbd0505" kindref="member">kDefaultMaxTileSizeBytes</ref><sp/>=<sp/>64ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1geo_1_1_raster_config_1a8885670d0db43939342f0dfdef511e43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_config_1a8885670d0db43939342f0dfdef511e43" kindref="member">RasterConfig</ref>(std::size_t<sp/>max_tile_size_bytes<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_raster_config_1a725040b964db88c34e55e4094bbd0505" kindref="member">kDefaultMaxTileSizeBytes</ref>)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>max_tile_size_bytes_(max_tile_size_bytes)<sp/>{}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1geo_1_1_raster_config_1a1afa9a1fccd6ef607bd0ec1e677a9790" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1geo_1_1_raster_config_1a1afa9a1fccd6ef607bd0ec1e677a9790" kindref="member">maxTileSizeBytes</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>max_tile_size_bytes_;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>max_tile_size_bytes_;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RasterStatus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3" kindref="member">RasterStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">NOT_SUPPORTED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a7973564e71ebe3dd91127d70c4f09c6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a7973564e71ebe3dd91127d70c4f09c6f" kindref="member">TILE_TOO_LARGE</ref>,<sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a14eddb1ed548833eb26b0325f17b967e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a14eddb1ed548833eb26b0325f17b967e" kindref="member">INVALID_KEY</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3ac44598cc3395b73e9fd2866f42945bd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3ac44598cc3395b73e9fd2866f42945bd3" kindref="member">BACKEND_ERROR</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a1bbad5fdeb17bedd0504511459bfed05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a1bbad5fdeb17bedd0504511459bfed05" kindref="member">INVALID_BBOX</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RasterResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1geo_1_1_raster_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1geo_1_1_raster_result_1ac60b5af5ba732bdf515464c232235177" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3" kindref="member">RasterStatus</ref><sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1ac60b5af5ba732bdf515464c232235177" kindref="member">status</ref>{<ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">RasterStatus::NOT_SUPPORTED</ref>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1geo_1_1_raster_result_1aaca8c46aca45731623c12c576c7f27ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1aaca8c46aca45731623c12c576c7f27ac" kindref="member">grid</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1geo_1_1_raster_result_1af20572b863bd2cb1acab533e42b7f4f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1af20572b863bd2cb1acab533e42b7f4f3" kindref="member">crs_wkt</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1geo_1_1_raster_result_1a45086e5dd86690c00398866b75d0f31c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1a45086e5dd86690c00398866b75d0f31c" kindref="member">band_count</ref>{1};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1geo_1_1_raster_result_1a809c4f8b6b35cc031465d03555daf76e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1a809c4f8b6b35cc031465d03555daf76e" kindref="member">resolution_x</ref>{0.0};</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1geo_1_1_raster_result_1aee9e8a4a8dbe8432278f45aa1fad5420" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1aee9e8a4a8dbe8432278f45aa1fad5420" kindref="member">resolution_y</ref>{0.0};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1geo_1_1_raster_result_1ac98bff6ff9bd4e713ddb954bf831e652" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1ac98bff6ff9bd4e713ddb954bf831e652" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1geo_1_1_raster_result_1a242e15f21c35b766baf96c1e01afca8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1a242e15f21c35b766baf96c1e01afca8d" kindref="member">ok</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_raster_result_1ac60b5af5ba732bdf515464c232235177" kindref="member">status</ref><sp/>==<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">RasterStatus::OK</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IRasterQueryInterface<sp/>—<sp/>abstract<sp/>base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1geo_1_1_i_raster_query_interface" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_raster_query_interface" kindref="compound">IRasterQueryInterface</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1geo_1_1_i_raster_query_interface_1ae4d4a96f28bc3eb4e2cbec3252524c52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_raster_query_interface_1ae4d4a96f28bc3eb4e2cbec3252524c52" kindref="member">~IRasterQueryInterface</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1geo_1_1_i_raster_query_interface_1a9271a324abda892847260c0a42799ca0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_i_raster_query_interface_1a9271a324abda892847260c0a42799ca0" kindref="member">queryTile</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref>&amp;<sp/>tile,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1geo_1_1_i_raster_query_interface_1a85ed8c2d7cc956abd4dcdd66b34bffdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_i_raster_query_interface_1a85ed8c2d7cc956abd4dcdd66b34bffdd" kindref="member">queryBBox</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR&amp;<sp/>bbox,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>resolution,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NoOpRasterQueryImpl<sp/>—<sp/>always-available<sp/>no-op<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1geo_1_1_no_op_raster_query_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_no_op_raster_query_impl" kindref="compound">NoOpRasterQueryImpl</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_raster_query_interface" kindref="compound">IRasterQueryInterface</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1geo_1_1_no_op_raster_query_impl_1a47874e19b4cf3fbe40efde3335350b21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_no_op_raster_query_impl_1a47874e19b4cf3fbe40efde3335350b21" kindref="member">queryTile</ref>(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref>&amp;<sp/>tile,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1geo_1_1_raster_result_1ac60b5af5ba732bdf515464c232235177" kindref="member">status</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">RasterStatus::NOT_SUPPORTED</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1geo_1_1_raster_result_1ac98bff6ff9bd4e713ddb954bf831e652" kindref="member">error_message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Raster<sp/>support<sp/>not<sp/>compiled<sp/>in<sp/>(THEMIS_ENABLE_RASTER<sp/>not<sp/>set)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1geo_1_1_no_op_raster_query_impl_1a80bca6f637daa5ddba7c532e0a7bfc36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_no_op_raster_query_impl_1a80bca6f637daa5ddba7c532e0a7bfc36" kindref="member">queryBBox</ref>(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR&amp;<sp/>bbox,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>resolution,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1geo_1_1_raster_result_1ac60b5af5ba732bdf515464c232235177" kindref="member">status</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">RasterStatus::NOT_SUPPORTED</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1geo_1_1_raster_result_1ac98bff6ff9bd4e713ddb954bf831e652" kindref="member">error_message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Raster<sp/>support<sp/>not<sp/>compiled<sp/>in<sp/>(THEMIS_ENABLE_RASTER<sp/>not<sp/>set)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RasterGridQueryImpl<sp/>—<sp/>full<sp/>implementation<sp/>(THEMIS_ENABLE_RASTER<sp/>guard)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1geo_1_1_raster_grid_query_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_raster_grid_query_impl_1af5ce43982058dddb6048a695fadccb9f" kindref="member">RasterGridQueryImpl</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_raster_query_interface" kindref="compound">IRasterQueryInterface</ref><sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_grid_query_impl_1af5ce43982058dddb6048a695fadccb9f" kindref="member">RasterGridQueryImpl</ref>(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>grid,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>crs_wkt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EPSG:4326&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>band_count<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_raster_grid_query_impl_1abd9b34ab6a610814afef083f87fee261" kindref="member">queryTile</ref>(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref>&amp;<sp/>tile,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_raster_grid_query_impl_1a83ede880c5cdf21787f1234a08dbd161" kindref="member">queryBBox</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR&amp;<sp/>bbox,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>resolution,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/><sp/>grid_;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>crs_wkt_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>band_count_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">[[nodiscard]]<sp/>std::unique_ptr&lt;IRasterQueryInterface&gt;<sp/><ref refid="namespacethemis_1_1geo_1af61097a5c34ac0962f11486dba012779" kindref="member">makeRasterQueryInterface</ref>(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>grid,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>crs_wkt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EPSG:4326&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/raster_query_interface.h"/>
+  </compounddef>
+</doxygen>

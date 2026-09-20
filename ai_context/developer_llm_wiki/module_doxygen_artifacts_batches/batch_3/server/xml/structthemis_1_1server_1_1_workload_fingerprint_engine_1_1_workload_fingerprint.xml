@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint</compoundname>
+    <includes refid="workload__fingerprint__engine_8h" local="no">workload_fingerprint_engine.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation" prot="public">themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1aa3c29713650980d5fed933b6d70cd31a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="60" column="21" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1a563c4fc2ee36848e086e968216661415" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7" kindref="member">WorkloadPattern</ref></type>
+        <definition>WorkloadPattern themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="61" column="25" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1aae86dcd283cb816325be2e474e2f076a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::vector</definition>
+        <argsstring></argsstring>
+        <name>vector</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="62" column="21" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1a9c7cce40a96eceb11018e8b3e36fb2b0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="63" column="16" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1ac207026a5b1c226aaed39a5c94d40ac8" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation" kindref="compound">themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation</ref></type>
+        <definition>struct themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::recommended_policy</definition>
+        <argsstring></argsstring>
+        <name>recommended_policy</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::recommended_policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="70" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint</label>
+        <link refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>recommended_policy</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation</label>
+        <link refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/workload_fingerprint_engine.h" line="59" column="5" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="59" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1a9c7cce40a96eceb11018e8b3e36fb2b0" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1a563c4fc2ee36848e086e968216661415" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1ac207026a5b1c226aaed39a5c94d40ac8" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint</scope><name>recommended_policy</name></member>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1aa3c29713650980d5fed933b6d70cd31a" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1aae86dcd283cb816325be2e474e2f076a" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint</scope><name>vector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

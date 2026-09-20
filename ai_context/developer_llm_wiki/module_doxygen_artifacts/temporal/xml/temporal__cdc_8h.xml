@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="temporal__cdc_8h" kind="file" language="C++">
+    <compoundname>temporal_cdc.h</compoundname>
+    <includes refid="temporal__types_8h" local="yes">temporal/temporal_types.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdio</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="temporal__cdc_8cpp" local="yes">src/temporal/temporal_cdc.cpp</includedby>
+    <includedby refid="test__temporal__cdc_8cpp" local="yes">tests/temporal/test_temporal_cdc.cpp</includedby>
+    <includedby refid="test__temporal__v18__v19_8cpp" local="yes">tests/temporal/test_temporal_v18_v19.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/temporal/temporal_cdc.h</label>
+        <link refid="temporal__cdc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>cstdio</label>
+      </node>
+      <node id="10">
+        <label>filesystem</label>
+      </node>
+      <node id="11">
+        <label>fstream</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/temporal/temporal_cdc.h</label>
+        <link refid="temporal__cdc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/temporal/temporal_cdc.cpp</label>
+        <link refid="temporal__cdc_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/temporal/test_temporal_cdc.cpp</label>
+        <link refid="test__temporal__cdc_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/temporal/test_temporal_v18_v19.cpp</label>
+        <link refid="test__temporal__v18__v19_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_change_event" prot="public">themisdb::temporal::ChangeEvent</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c" prot="public">themisdb::temporal::TemporalCDC</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_c_d_c_1_1_subscription" prot="private">themisdb::temporal::TemporalCDC::Subscription</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" prot="public">themisdb::temporal::CDCPersistentLog</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1temporal">themisdb::temporal</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__types_8h" kindref="compound">temporal/temporal_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdio&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ChangeType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483" kindref="member">OverflowPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483a1038b7c5b38b3977c52e47d18cc741ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483a1038b7c5b38b3977c52e47d18cc741ee" kindref="member">OVERWRITE</ref>,<sp/></highlight></codeline>
+<codeline lineno="94" refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483a4d34f53389ed7f28ca91fc31ea360a66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BLOCK</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483abf8f3be424eb6a72b21549fbb24ffb57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">DROP</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="100" refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">INSERT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa15a8022d0ed9cd9c2a2e756822703eb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">UPDATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaab73f0bbbab8194079df101b642912fab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaab73f0bbbab8194079df101b642912fab" kindref="member">VERSION_CREATED</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ChangeEvent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1temporal_1_1_change_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemisdb_1_1temporal_1_1_change_event_1ace0fdf3fc6639079df0541a776d93032" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1ace0fdf3fc6639079df0541a776d93032" kindref="member">type</ref>{<ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>};</highlight></codeline>
+<codeline lineno="120" refid="structthemisdb_1_1temporal_1_1_change_event_1a9049d67b7c4bd38be5bed52f4b93cc36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a9049d67b7c4bd38be5bed52f4b93cc36" kindref="member">table_name</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemisdb_1_1temporal_1_1_change_event_1a029ac9b0426a46e7b5ddbe8dd13df133" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a029ac9b0426a46e7b5ddbe8dd13df133" kindref="member">entity_id</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemisdb_1_1temporal_1_1_change_event_1ad199339d22d8c545627f5a6df16ea13f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1ad199339d22d8c545627f5a6df16ea13f" kindref="member">before_value</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" kindref="member">after_value</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" kindref="member">transaction_time</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemisdb_1_1temporal_1_1_change_event_1aa5a789d1381180cc9587e04eed9f2d70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1aa5a789d1381180cc9587e04eed9f2d70" kindref="member">valid_from</ref>{kMinTimestamp};</highlight></codeline>
+<codeline lineno="128" refid="structthemisdb_1_1temporal_1_1_change_event_1a281eb2f9d2548a2859edeb4f566ac8a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a281eb2f9d2548a2859edeb4f566ac8a2" kindref="member">valid_to</ref>{kMaxTimestamp};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemisdb_1_1temporal_1_1_change_event_1a105d98cb3c100ee51434b81dbfd6282b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a105d98cb3c100ee51434b81dbfd6282b" kindref="member">user_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1aa92e6d141596d848a0ba8e47f00f730d" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a1b3d25a138b522a5afc068133e38a5fb" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TemporalCDC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref><sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="191" refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a49c7940878a8d8f8ee335499377e0113" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a49c7940878a8d8f8ee335499377e0113" kindref="member">kDefaultMaxLogSize</ref><sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_log_size<sp/>=<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a49c7940878a8d8f8ee335499377e0113" kindref="member">kDefaultMaxLogSize</ref>,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483" kindref="member">OverflowPolicy</ref><sp/>policy<sp/>=<sp/><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483a1038b7c5b38b3977c52e47d18cc741ee" kindref="member">OverflowPolicy::OVERWRITE</ref>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1afe61b53862ee5aa20100a2f97f3a5d27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1afe61b53862ee5aa20100a2f97f3a5d27" kindref="member">TemporalCDC</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205" refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1abcd27055564ddd8de53cc078036024c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref>&amp;<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1abcd27055564ddd8de53cc078036024c0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206" refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2be81fab166dfdfa14d024e2a3d5ad09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2be81fab166dfdfa14d024e2a3d5ad09" kindref="member">TemporalCDC</ref>(<ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="207" refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2b3b0e01ab1b3fad56276ef37c38b93d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1ab54cb1355b53fcff5042077ec6c79ee0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Subscription<sp/>management<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2d922aa42751275fe9b774ae009c62fc" kindref="member">subscribeToChanges</ref>(</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(const<sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1af367fcc462efb177c4ba72aa574b0efd" kindref="member">unsubscribe</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>sub_id);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a86bd9862992e65096e21b703f97f9c19" kindref="member">subscriptionCount</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Event<sp/>emission<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9303e67bc5d3f90b7d1d1d3fe6c57603" kindref="member">publishEvent</ref>(const<sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Replay<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a4dc5e59d951d137320fe38518fe68675" kindref="member">replayChanges</ref>(</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>range)<sp/>const;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a8b4ebc56aee2095428338a855e87867c" kindref="member">logSize</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a23782dc9ac2c6172934301e5a9995868" kindref="member">totalPublished</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a670e601b0577c0d9f82ec333d9bd6203" kindref="member">overflowCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a26ebcf468ad03d8dfb579d88338f9b27" kindref="member">clearLog</ref>();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Public<sp/>Helpers<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a783ba9da898c7dd69bb919150ca2deb2" kindref="member">changeTypeName</ref>(<ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref><sp/>ct);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1ab0e7696b3ad24f134c34a18ce8b152cb" kindref="member">changeTypeFromString</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Subscription<sp/>entry<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>Subscription<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>sub_id;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>table_filter;<sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)&gt;<sp/>callback;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>State<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_log_size_;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483" kindref="member">OverflowPolicy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>overflow_policy_;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChangeEvent&gt;<sp/><sp/><sp/><sp/><sp/>log_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_published_{0};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>overflow_count_{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Subscription&gt;<sp/>subscriptions_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>next_sub_id_{0};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDCPersistentLog<sp/><sp/>(v1.8.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379" refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" kindref="member">CDCPersistentLog</ref><sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="382" refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5dea4ed9cbbb3e84d38649a23dc40dc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5dea4ed9cbbb3e84d38649a23dc40dc6" kindref="member">kDefaultMaxSegmentBytes</ref><sp/>=<sp/>64ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" kindref="member">CDCPersistentLog</ref>(std::string<sp/>segment_dir,</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>log_prefix<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cdc&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>max_segment_bytes<sp/>=<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5dea4ed9cbbb3e84d38649a23dc40dc6" kindref="member">kDefaultMaxSegmentBytes</ref>);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1add8ebd74f9be9d37d7568cf0c32d84e6" kindref="member">~CDCPersistentLog</ref>();</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>(file<sp/>handles)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400" refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ae86f817d8a814a089baab7a2fa2abc34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ae86f817d8a814a089baab7a2fa2abc34" kindref="member">CDCPersistentLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" kindref="member">CDCPersistentLog</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="401" refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a0b6d2e042ba6dca1569953ada3fef2e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" kindref="member">CDCPersistentLog</ref>&amp;<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a0b6d2e042ba6dca1569953ada3fef2e1" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" kindref="member">CDCPersistentLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a98aa8fccf6ab5c56ea17a2e5294f5aea" kindref="member">open</ref>();</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1afd1a2b7c8da4bbd8c58d92dea58270d5" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a84a2aa4c18ddc11083e9eac6aca693d4" kindref="member">append</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChangeEvent&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a396980b64d5c7bf90dcd2cb8a8f89bfb" kindref="member">replayAll</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChangeEvent&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a0454d7582727f6ef8a3a687ab1575ae2" kindref="member">replaySegment</ref>(uint64_t<sp/>segment_seq)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a7ca66fb7437c860fa1af2b1c6cc08683" kindref="member">segmentCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a690dea3197b19d1e7e2585553927b278" kindref="member">totalBytesWritten</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a3f7c83f5cc087fe6eef2c13eb4e030ef" kindref="member">totalEventsAppended</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1af179b791063094acca532eb9307954f5" kindref="member">isOpen</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>WAL<sp/>constants<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>constexpr<sp/>uint32_t<sp/>kMagic<sp/><sp/><sp/>=<sp/>0x54444357u;<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;TDCW&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>constexpr<sp/>uint16_t<sp/>kVersion<sp/>=<sp/>0x0100u;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>State<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/>segment_dir_;</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/>log_prefix_;</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/>max_segment_bytes_;</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Active<sp/>segment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>std::FILE*<sp/><sp/><sp/>active_fd_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/>active_seq_{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/>active_bytes_{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is_open_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_events_{0};</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_bytes_{0};</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Private<sp/>helpers<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>segmentPath(uint64_t<sp/>seq)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/>listSegmentSeqs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeSegmentHeader(std::FILE*<sp/>fd,<sp/>uint64_t<sp/>seq);</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateSegmentHeader(std::FILE*<sp/>fd);</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>crc32(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rotate();</highlight></codeline>
+<codeline lineno="505"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/temporal/temporal_cdc.h"/>
+  </compounddef>
+</doxygen>

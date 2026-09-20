@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::AdaptivePlanSelector::PlanChoice</compoundname>
+    <includes refid="adaptive__optimizer_8h" local="no">adaptive_optimizer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Strategy</name>
+        <qualifiedname>themis::query::AdaptivePlanSelector::PlanChoice::Strategy</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eafd6e2b3ea2d9a9fba7e559ba2da7ba20" prot="public">
+          <name>INDEX_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eabfcac11bd9eb85fdadad132dc077cbe1" prot="public">
+          <name>TABLE_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642ea2e0fc921614e47e1e6ee456f454c73a1" prot="public">
+          <name>HASH_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa5cd63a172745792164407cb0b9e8da5" prot="public">
+          <name>MERGE_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaf78ea30cb360ede78316ce967243f9e4" prot="public">
+          <name>NESTED_LOOP_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eac0046367ad82b94f7244596c63634e26" prot="public">
+          <name>INDEX_INTERSECTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa683ce7ad439510dc8a0fa100d8e090f" prot="public">
+          <name>PARALLEL_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa0e3c8e3855c7878d1762e697033c21a" prot="public">
+          <name>BINARY_BATCH_CPU</name>
+          <briefdescription>
+<para>MessagePack/custom-binary + CPU thread pool. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642ea983bf504c162ff3d8f276fe040e7f0d5" prot="public">
+          <name>ARROW_GPU_VRAM</name>
+          <briefdescription>
+<para>Apache Arrow IPC + GPU/VRAM parallel execution. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eae537ca6c6d7982bf16f971aa23f69c50" prot="public">
+          <name>ARROW_CPU_PARALLEL</name>
+          <briefdescription>
+<para>Apache Arrow IPC + CPU thread pool. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="92" column="9" bodyfile="include/query/adaptive_optimizer.h" bodystart="92" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a6a7630d2906685067ef84ad036db975b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642e" kindref="member">Strategy</ref></type>
+        <definition>Strategy themis::query::AdaptivePlanSelector::PlanChoice::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::query::AdaptivePlanSelector::PlanChoice::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="105" column="18" bodyfile="include/query/adaptive_optimizer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1aeff8b73b1425557fbca18a3eebc9d9ec" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::AdaptivePlanSelector::PlanChoice::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::query::AdaptivePlanSelector::PlanChoice::estimated_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="106" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1abc78374ff53625791c2ef4ceb740fd38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::AdaptivePlanSelector::PlanChoice::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::query::AdaptivePlanSelector::PlanChoice::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="107" column="21" bodyfile="include/query/adaptive_optimizer.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_optimizer.h" line="91" column="5" bodyfile="include/query/adaptive_optimizer.h" bodystart="91" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1abc78374ff53625791c2ef4ceb740fd38" prot="public" virt="non-virtual"><scope>themis::query::AdaptivePlanSelector::PlanChoice</scope><name>description</name></member>
+      <member refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1aeff8b73b1425557fbca18a3eebc9d9ec" prot="public" virt="non-virtual"><scope>themis::query::AdaptivePlanSelector::PlanChoice</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642e" prot="public" virt="non-virtual"><scope>themis::query::AdaptivePlanSelector::PlanChoice</scope><name>Strategy</name></member>
+      <member refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a6a7630d2906685067ef84ad036db975b" prot="public" virt="non-virtual"><scope>themis::query::AdaptivePlanSelector::PlanChoice</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

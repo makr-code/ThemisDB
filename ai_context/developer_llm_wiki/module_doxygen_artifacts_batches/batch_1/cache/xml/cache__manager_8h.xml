@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cache__manager_8h" kind="file" language="C++">
+    <compoundname>cache_manager.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="cache__manager_8cpp" local="yes">src/cache/cache_manager.cpp</includedby>
+    <includedby refid="test__cache__efficiency__multilevel_8cpp" local="yes">tests/cache/test_cache_efficiency_multilevel.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/cache_manager.h</label>
+        <link refid="cache__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cache/cache_manager.h</label>
+        <link refid="cache__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/cache/cache_manager.cpp</label>
+        <link refid="cache__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/cache/test_cache_efficiency_multilevel.cpp</label>
+        <link refid="test__cache__efficiency__multilevel_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_manager_config" prot="public">themis::cache::CacheManagerConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_event" prot="public">themis::cache::CacheEvent</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_manager" prot="public">themis::cache::CacheManager</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats" prot="public">themis::cache::CacheManager::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_entry" prot="private">themis::cache::CacheManager::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_manager_1_1_event_handler_entry" prot="private">themis::cache::CacheManager::EventHandlerEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Cache manager with policy objects and move semantics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+<simplesect kind="note"><para>Gap Categories: CWE-457 (uninitialized variable), CWE-672 (use-after-free)</para>
+</simplesect>
+Provides:<itemizedlist>
+<listitem><para>Centralized cache policy management</para>
+</listitem><listitem><para>Move-enabled policy objects</para>
+</listitem><listitem><para>Event handler callbacks with move semantics</para>
+</listitem><listitem><para>Multi-cache coordination with moved-from state tracking</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>ThemisDB Cache Module Roadmap: src/cache/ROADMAP.md </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_cache_eviction_policy" kindref="compound">CacheEvictionPolicy</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1cache_1_1_cache_manager_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_manager_config" kindref="compound">CacheManagerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1cache_1_1_cache_manager_config_1a1c4ae4abdb64d7e982150452aa0d3298" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_config_1a1c4ae4abdb64d7e982150452aa0d3298" kindref="member">default_cache_size</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1cache_1_1_cache_manager_config_1ac3c0567befbb8373709bc4aa9c5a3826" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_config_1ac3c0567befbb8373709bc4aa9c5a3826" kindref="member">default_max_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1cache_1_1_cache_manager_config_1ac6077b4baa08f3b36014a2740cd642a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_config_1ac6077b4baa08f3b36014a2740cd642a6" kindref="member">enable_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1cache_1_1_cache_manager_config_1a15950bfaed26b67adf313de1eecd11f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_config_1a15950bfaed26b67adf313de1eecd11f8" kindref="member">num_shards</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1cache_1_1_cache_manager_config_1afdeb688fbdd8c69b2d187331a2ac7b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_config_1afdeb688fbdd8c69b2d187331a2ac7b4b" kindref="member">enable_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1cache_1_1_cache_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_event" kindref="compound">CacheEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41" kindref="member">Type</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41af1353821449930ff0f0d1dcd1b13fd7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41af1353821449930ff0f0d1dcd1b13fd7d" kindref="member">MISS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41abba130cd416694ffcf899bad32d8670d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41abba130cd416694ffcf899bad32d8670d" kindref="member">HIT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41a91cec736f25d61158c48aef1818a90df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41a91cec736f25d61158c48aef1818a90df" kindref="member">EVICTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41ab8d81b20968fb2202ee9b3839b03d2a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41ab8d81b20968fb2202ee9b3839b03d2a5" kindref="member">CLEAR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41ad7a1aaf54b5a1cc3bb2ba395e35c614b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41ad7a1aaf54b5a1cc3bb2ba395e35c614b" kindref="member">POLICY_CHANGE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1cache_1_1_cache_event_1a0e86bf2507ab5a0aadcbfadda9b50f12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41" kindref="member">Type</ref><sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1a0e86bf2507ab5a0aadcbfadda9b50f12" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1cache_1_1_cache_event_1a354c83c7c75b6844939660a49e4db1c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1a354c83c7c75b6844939660a49e4db1c0" kindref="member">cache_name</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1cache_1_1_cache_event_1a5426085138058aa0c8cd29ac13ed11d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1a5426085138058aa0c8cd29ac13ed11d5" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1cache_1_1_cache_event_1ad182a22601f7edf8a30f5e28fcc1f766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_event_1ad182a22601f7edf8a30f5e28fcc1f766" kindref="member">timestamp_us</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1cache_1_1_cache_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1cache_1_1_cache_manager_1a0bc94349a70dfa1192e99d4ae7e2c8cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_cache_manager_1a0bc94349a70dfa1192e99d4ae7e2c8cd" kindref="member">EventHandler</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_event" kindref="compound">CacheEvent</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_config" kindref="compound">CacheManagerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a52eeb7bf5ab83f21b5f4b3f340d7ae7a" kindref="member">~CacheManager</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>(<ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>&amp;&amp;<sp/>other)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>&amp;&amp;<sp/>other)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1cache_1_1_cache_manager_1a25e034d16271b08fb9c357b4b9e5e59c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>(const<sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1cache_1_1_cache_manager_1a3596fe533ce948b79a251271b83e61ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a225ec60a3db5599effef910c46eb7693" kindref="member">CacheManager</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Cache<sp/>registration<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1afdf9f486031a5ddd7acbb758d6acd607" kindref="member">register_cache</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>cache_name,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1aa5fae54a1acc352dc624881fcf5a66e0" kindref="member">unregister_cache</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>cache_name);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a6026d73b89ab646e1598b2fea256f405" kindref="member">get_cache_names</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a420388c355f8a2fa74137f908762bec4" kindref="member">set_eviction_policy</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>cache_name,<sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_eviction_policy" kindref="compound">CacheEvictionPolicy</ref>&amp;&amp;<sp/>policy)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1cache_1_1_cache_eviction_policy" kindref="compound">CacheEvictionPolicy</ref>*<sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a59669b23b8955fc2c1d0a35f19772638" kindref="member">get_eviction_policy</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>cache_name)<sp/>const;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a3c5426a04980bfbb84d50bf39d47b96d" kindref="member">register_event_handler</ref>(<ref refid="classthemis_1_1cache_1_1_cache_manager_1a0bc94349a70dfa1192e99d4ae7e2c8cd" kindref="member">EventHandler</ref>&amp;&amp;<sp/>handler);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a730ac708ffb470ac0f1c6a7283a97a2b" kindref="member">unregister_event_handler</ref>(uint32_t<sp/>handler_id);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a82f149290dfebee6c341bfff4c3bceaa" kindref="member">dispatch_event</ref>(const<sp/><ref refid="structthemis_1_1cache_1_1_cache_event" kindref="compound">CacheEvent</ref>&amp;<sp/>event)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Statistics<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1ac1dfe8ca1566e0e88a4a85531dbbcf25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1ac1dfe8ca1566e0e88a4a85531dbbcf25" kindref="member">hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a1d92bc24d914788f56ee7c88bc4569c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a1d92bc24d914788f56ee7c88bc4569c9" kindref="member">misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a16d3ae90680ffb705da1adb804711324" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a16d3ae90680ffb705da1adb804711324" kindref="member">evictions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a8ecffe78baa6f339c82d79ce9010110d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a8ecffe78baa6f339c82d79ce9010110d" kindref="member">size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1af8e398e4beaadbca09b9377bbc3a51b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1af8e398e4beaadbca09b9377bbc3a51b4" kindref="member">capacity</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1aed459a787fae00760afa93757b708e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1aed459a787fae00760afa93757b708e13" kindref="member">hit_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;CacheStats&gt;<sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1aa3c98840b3b25f7a65a0a983ffa72e0c" kindref="member">get_cache_stats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cache_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a81e2c27dc98473aba436c4096df66fdc" kindref="member">clear_all</ref>();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1cache_1_1_cache_manager_1ab3a63ff43f150a7ec2c628c751b10b3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_manager_config" kindref="compound">CacheManagerConfig</ref>&amp;<sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1ab3a63ff43f150a7ec2c628c751b10b3c" kindref="member">get_config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1cache_1_1_cache_manager_1a49af2712039e121bca86af82ec0622c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a49af2712039e121bca86af82ec0622c3" kindref="member">is_moved_from</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>is_moved_from_;<sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1cache_1_1_cache_manager_1a24a6a83e5ea64fc3e7e4c98b573e1139" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a24a6a83e5ea64fc3e7e4c98b573e1139" kindref="member">is_valid</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!is_moved_from_;<sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_entry" kindref="compound">CacheEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;CacheEvictionPolicy&gt;<sp/>policy;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">EventHandlerEntry<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_manager_1a0bc94349a70dfa1192e99d4ae7e2c8cd" kindref="member">EventHandler</ref><sp/>handler;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>CacheManagerConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>CacheEntry&gt;<sp/>caches_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EventHandlerEntry&gt;<sp/>event_handlers_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>next_handler_id_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_moved_from_;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanup()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/cache_manager.h"/>
+  </compounddef>
+</doxygen>

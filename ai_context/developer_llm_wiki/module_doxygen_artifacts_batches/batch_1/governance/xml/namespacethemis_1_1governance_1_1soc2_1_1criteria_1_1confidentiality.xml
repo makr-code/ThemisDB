@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1confidentiality" kind="namespace" language="C++">
+    <compoundname>themis::governance::soc2::criteria::confidentiality</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1confidentiality_1a594f6333c38c8fe7dfaef0fb4e54681e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::confidentiality::kConfidentiality</definition>
+        <argsstring></argsstring>
+        <name>kConfidentiality</name>
+        <qualifiedname>themis::governance::soc2::criteria::confidentiality::kConfidentiality</qualifiedname>
+        <initializer>= &quot;CF1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="234" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="233" column="5"/>
+  </compounddef>
+</doxygen>

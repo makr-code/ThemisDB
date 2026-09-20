@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_tenant_metrics_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::TenantMetricsStats</compoundname>
+    <includes refid="tenant__metrics__namespace_8h" local="no">tenant_metrics_namespace.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_stats_1acbe82d07a15bb8ae2fd5482d2ec4a0d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TenantMetricsStats::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::observability::TenantMetricsStats::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="55" column="17" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_stats_1a8972df5e38c9c4634de01b315afc3773" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::TenantMetricsStats::total_observations</definition>
+        <argsstring></argsstring>
+        <name>total_observations</name>
+        <qualifiedname>themis::observability::TenantMetricsStats::total_observations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of metric observations recorded (all types, all series). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="57" column="13" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_stats_1a219b8e9c8f4fdf4cb78d803509651a44" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::TenantMetricsStats::dropped_observations</definition>
+        <argsstring></argsstring>
+        <name>dropped_observations</name>
+        <qualifiedname>themis::observability::TenantMetricsStats::dropped_observations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of observations dropped because the per-tenant cardinality limit was reached. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="60" column="13" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_stats_1a9080adcd91a9a0ff4c5873b71e742adf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::TenantMetricsStats::active_series</definition>
+        <argsstring></argsstring>
+        <name>active_series</name>
+        <qualifiedname>themis::observability::TenantMetricsStats::active_series</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of distinct metric series active for this tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="62" column="12" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime statistics for a single tenant. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/tenant_metrics_namespace.h" line="53" column="1" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="53" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_stats_1a9080adcd91a9a0ff4c5873b71e742adf" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsStats</scope><name>active_series</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_stats_1a219b8e9c8f4fdf4cb78d803509651a44" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsStats</scope><name>dropped_observations</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_stats_1acbe82d07a15bb8ae2fd5482d2ec4a0d3" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsStats</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_stats_1a8972df5e38c9c4634de01b315afc3773" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsStats</scope><name>total_observations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

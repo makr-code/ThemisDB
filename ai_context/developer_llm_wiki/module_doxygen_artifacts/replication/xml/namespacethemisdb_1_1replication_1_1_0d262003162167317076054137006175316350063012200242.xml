@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1replication_1_1_0d262003162167317076054137006175316350063012200242" kind="namespace" language="C++">
+    <compoundname>themisdb::replication::@262003162167317076054137006175316350063012200242</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/replication/conflict_resolution.cpp" line="41" column="1"/>
+  </compounddef>
+</doxygen>

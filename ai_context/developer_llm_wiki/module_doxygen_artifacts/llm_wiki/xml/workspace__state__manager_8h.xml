@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="workspace__state__manager_8h" kind="file" language="C++">
+    <compoundname>workspace_state_manager.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="workspace__state__manager_8cpp" local="yes">src/llm_wiki/workspace_state_manager.cpp</includedby>
+    <includedby refid="test__llm__wiki__core__focused_8cpp" local="yes">tests/llm_wiki/test_llm_wiki_core_focused.cpp</includedby>
+    <includedby refid="test__llm__wiki__edge__cases__focused_8cpp" local="yes">tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm_wiki/workspace_state_manager.h</label>
+        <link refid="workspace__state__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>filesystem</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm_wiki/workspace_state_manager.h</label>
+        <link refid="workspace__state__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm_wiki/workspace_state_manager.cpp</label>
+        <link refid="workspace__state__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/llm_wiki/test_llm_wiki_core_focused.cpp</label>
+        <link refid="test__llm__wiki__core__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp</label>
+        <link refid="test__llm__wiki__edge__cases__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_workspace_status" prot="public">themis::llm_wiki::WorkspaceStatus</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_workspace_state" prot="public">themis::llm_wiki::WorkspaceState</innerclass>
+    <innerclass refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" prot="public">themis::llm_wiki::WorkspaceStateManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm__wiki">themis::llm_wiki</innernamespace>
+    <briefdescription>
+<para>Persistent workspace state management with corruption detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>JSON-based state persistence (state.json)</para>
+</listitem><listitem><para>Atomic write-replace semantics (write to temp, rename on success)</para>
+</listitem><listitem><para>SHA-256 checksum validation on load</para>
+</listitem><listitem><para>Fallback recovery via append-only transaction log (state.log)</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="workspace__state__manager_8h_1autotoc_md5_1s1"><sect2 id="workspace__state__manager_8h_1autotoc_md5">
+<title>State Schema</title><para><programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;2026-08-01T12:00:00Z&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;last_updated&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;2026-08-01T12:00:00Z&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;checksum&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;sha256:abc123...&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;workspace_root&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;/path/to/workspace&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;links&quot;</highlight><highlight class="normal">:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;page_a&quot;</highlight><highlight class="normal">:<sp/>[</highlight><highlight class="stringliteral">&quot;page_b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;page_c&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;page_b&quot;</highlight><highlight class="normal">:<sp/>[</highlight><highlight class="stringliteral">&quot;page_a&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;tasks&quot;</highlight><highlight class="normal">:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;task_id&quot;</highlight><highlight class="normal">:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;contradiction_review&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;pages&quot;</highlight><highlight class="normal">:<sp/>[</highlight><highlight class="stringliteral">&quot;page_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;page_b&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;open&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;2026-08-01T11:50:00Z&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="version"><para>1.0.0 (Phase 3 hardening) </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm__wiki" kindref="compound">llm_wiki</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Status<sp/>type<sp/>for<sp/>workspace<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm__wiki_1_1_workspace_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edc" kindref="member">Code</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaa60852f204ed8028c1c58808b746d115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afb5b412f97c84218b677114304213df6" kindref="member">Ok</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca902b0d55fddef6f8d651fe1035b7d4bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ac0813b014bf96f5c9dbdef9a93d28c68" kindref="member">Error</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca27551f1033382ea4b027e79402e18c7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a8fd1d72f832500ed348ebd0d0adebb32" kindref="member">CorruptState</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca4f67c44b93cc62755fee6051885d5e5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca4f67c44b93cc62755fee6051885d5e5a" kindref="member">InvalidJson</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca2767828026039e8ba7b38973cbb701f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca2767828026039e8ba7b38973cbb701f2" kindref="member">FileNotFound</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaf2b0e5c3d94c2f5b19d679412a1953cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaf2b0e5c3d94c2f5b19d679412a1953cb" kindref="member">WriteFailure</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca23cd86e43512932a4bc975552c8d17fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ad4c8f78e446e89e5e5628b0ee165ea15" kindref="member">ChecksumMismatch</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a53433b9f1375b0da354f90a5e3f5e5de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edc" kindref="member">Code</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a53433b9f1375b0da354f90a5e3f5e5de" kindref="member">code</ref><sp/>=<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afc455196a06c97611f4b97b5294dfd93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afc455196a06c97611f4b97b5294dfd93" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1acb470b5a540916709fd0f4ff1bbbe9fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1acb470b5a540916709fd0f4ff1bbbe9fd" kindref="member">ok</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a53433b9f1375b0da354f90a5e3f5e5de" kindref="member">code</ref><sp/>==<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afb5b412f97c84218b677114304213df6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afb5b412f97c84218b677114304213df6" kindref="member">Ok</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>,<sp/>{}};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ac0813b014bf96f5c9dbdef9a93d28c68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ac0813b014bf96f5c9dbdef9a93d28c68" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">Code::Error</ref>,<sp/>std::move(msg)};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a8fd1d72f832500ed348ebd0d0adebb32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a8fd1d72f832500ed348ebd0d0adebb32" kindref="member">CorruptState</ref>(std::string<sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca27551f1033382ea4b027e79402e18c7a" kindref="member">Code::CorruptState</ref>,<sp/>std::move(msg)};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ad4c8f78e446e89e5e5628b0ee165ea15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ad4c8f78e446e89e5e5628b0ee165ea15" kindref="member">ChecksumMismatch</ref>(std::string<sp/>expected,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>actual)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca23cd86e43512932a4bc975552c8d17fd" kindref="member">Code::ChecksumMismatch</ref>,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Checksum<sp/>mismatch:<sp/>expected=&quot;</highlight><highlight class="normal"><sp/>+<sp/>expected<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>actual=&quot;</highlight><highlight class="normal"><sp/>+<sp/>actual};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Workspace<sp/>state<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm__wiki_1_1_workspace_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>{</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm__wiki_1_1_workspace_state_1ad03d2715979bb47d7eda552c826375b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1ad03d2715979bb47d7eda552c826375b0" kindref="member">created_at</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a27657c024721d91eb48d16092cee7f36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a27657c024721d91eb48d16092cee7f36" kindref="member">last_updated</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a1c5d3342adf34fccf69e3aba155fc40b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a1c5d3342adf34fccf69e3aba155fc40b" kindref="member">checksum</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" kindref="member">links</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1llm__wiki_1_1_workspace_state_1af9a730a36c3c58fa2e81723527e22ca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1af9a730a36c3c58fa2e81723527e22ca3" kindref="member">tasks</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Workspace<sp/>state<sp/>manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" kindref="member">WorkspaceStateManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" kindref="member">WorkspaceStateManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::filesystem::path&amp;<sp/>workspace_root)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>workspace_root_(workspace_root),</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state_file_(workspace_root<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;state.json&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log_file_(workspace_root<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;state.log&quot;</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a6d7ed2481635c9924ca78ea599c9bf36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a6d7ed2481635c9924ca78ea599c9bf36" kindref="member">~WorkspaceStateManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1ac3f631c1f5c72a57085def7b72816637" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1ac3f631c1f5c72a57085def7b72816637" kindref="member">WorkspaceStateManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" kindref="member">WorkspaceStateManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a79c5fb2c29f32875f50b20f93f1697be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" kindref="member">WorkspaceStateManager</ref>&amp;<sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a79c5fb2c29f32875f50b20f93f1697be" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" kindref="member">WorkspaceStateManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a457836c232e5da3cff1d72fab52929fa" kindref="member">load</ref>(<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref>&amp;<sp/>out_state)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a403540d19705ab7a040581be09f01481" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref>&amp;<sp/>state)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a4475be79a777fee1728a0edad0b48c60" kindref="member">validateChecksum</ref>(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::filesystem::path&amp;<sp/>file_path)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a9eab3f855b283e3470679fcee574865b" kindref="member">recoverFromLog</ref>(<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref>&amp;<sp/>out_state)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>workspace_root_;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>state_file_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>log_file_;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm_wiki</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm_wiki/workspace_state_manager.h"/>
+  </compounddef>
+</doxygen>

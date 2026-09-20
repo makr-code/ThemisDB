@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_query_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardQueryPlan</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_query_plan_1ae022ae7ec701f29a9f17a3856a1c8570" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref></type>
+        <definition>ShardId themis::sharding::ShardQueryPlan::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardQueryPlan::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="322" column="13" bodyfile="include/sharding/sharding_interfaces.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_query_plan_1afb67f73a24cfad22ce235622fda77865" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_query_plan" kindref="compound">QueryPlan</ref></type>
+        <definition>QueryPlan themis::sharding::ShardQueryPlan::plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <qualifiedname>themis::sharding::ShardQueryPlan::plan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="323" column="15" bodyfile="include/sharding/sharding_interfaces.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_query_plan_1a1ac71eab02f6154fbc75e420d8b3256e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardQueryPlan::estimated_rows</definition>
+        <argsstring></argsstring>
+        <name>estimated_rows</name>
+        <qualifiedname>themis::sharding::ShardQueryPlan::estimated_rows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="324" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="324" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A shard-local slice of a fan-out query. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::QueryPlan</label>
+        <link refid="structthemis_1_1sharding_1_1_query_plan"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ShardQueryPlan</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_query_plan"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>plan</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/sharding_interfaces.h" line="321" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="321" bodyend="325"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_query_plan_1a1ac71eab02f6154fbc75e420d8b3256e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardQueryPlan</scope><name>estimated_rows</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_query_plan_1afb67f73a24cfad22ce235622fda77865" prot="public" virt="non-virtual"><scope>themis::sharding::ShardQueryPlan</scope><name>plan</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_query_plan_1ae022ae7ec701f29a9f17a3856a1c8570" prot="public" virt="non-virtual"><scope>themis::sharding::ShardQueryPlan</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

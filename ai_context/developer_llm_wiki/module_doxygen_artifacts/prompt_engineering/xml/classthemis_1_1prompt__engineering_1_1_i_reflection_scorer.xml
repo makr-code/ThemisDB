@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IReflectionScorer</compoundname>
+    <derivedcompoundref refid="class_fixed_scorer" prot="public" virt="non-virtual">FixedScorer</derivedcompoundref>
+    <includes refid="llm__reflection__adapter_8h" local="no">llm_reflection_adapter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer_1a0573c9089b9913422255d26674e4267b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IReflectionScorer::~IReflectionScorer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IReflectionScorer</name>
+        <qualifiedname>themis::prompt_engineering::IReflectionScorer::~IReflectionScorer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="34" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer_1a080622f9902bd7ab6d16e28b391c6aaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double themis::prompt_engineering::IReflectionScorer::score</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;response) const =0</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::prompt_engineering::IReflectionScorer::score</qualifiedname>
+        <reimplementedby refid="class_fixed_scorer_1a2f0ad7ee782cad1b0794091cc171788c">score</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the quality of <computeroutput>response</computeroutput> for <computeroutput>prompt</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Quality score in [0.0, 1.0]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="40" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Optional pluggable quality scorer for <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this to supply a task-specific scoring function (e.g. ROUGE, BLEU, or an LLM-as-judge call) instead of the built-in heuristic. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>FixedScorer</label>
+        <link refid="class_fixed_scorer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::IReflectionScorer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/llm_reflection_adapter.h" line="32" column="1" bodyfile="include/prompt_engineering/llm_reflection_adapter.h" bodystart="32" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer_1a080622f9902bd7ab6d16e28b391c6aaa" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IReflectionScorer</scope><name>score</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer_1a0573c9089b9913422255d26674e4267b" prot="public" virt="virtual"><scope>themis::prompt_engineering::IReflectionScorer</scope><name>~IReflectionScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

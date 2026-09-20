@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_hash_ring" kind="class" language="C++" prot="public">
+    <compoundname>StubHashRing</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_hash_ring_1ad1b61131d2bd94a372b55c667aeeab69" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StubHashRing::num_shards_</definition>
+        <argsstring></argsstring>
+        <name>num_shards_</name>
+        <qualifiedname>StubHashRing::num_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="96" column="9" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_hash_ring_1ac518ab093a2b6a1e03d5d424154d517e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubHashRing::StubHashRing</definition>
+        <argsstring>(int num_shards)</argsstring>
+        <name>StubHashRing</name>
+        <qualifiedname>StubHashRing::StubHashRing</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="53" column="14" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_hash_ring_1ad5177257be56ea347898f32c92699ef6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StubHashRing::route</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>route</name>
+        <qualifiedname>StubHashRing::route</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Route a key to its shard index (deterministic for the same key + ring). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="56" column="9" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_hash_ring_1af29a309388d6ff5eff3335a1aeed7edd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubHashRing::addShard</definition>
+        <argsstring>()</argsstring>
+        <name>addShard</name>
+        <qualifiedname>StubHashRing::addShard</qualifiedname>
+        <briefdescription>
+<para>Simulate shard addition: add one shard and re-route. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="65" column="10" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_hash_ring_1ae72108f6f95839ee0ebf62c99d3d11c4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StubHashRing::shardCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>shardCount</name>
+        <qualifiedname>StubHashRing::shardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="67" column="9" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_hash_ring_1a4a220605ba5ea57a138c57346c1f3861" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StubHashRing::fallback</definition>
+        <argsstring>(const std::string &amp;key, int depth) const</argsstring>
+        <name>fallback</name>
+        <qualifiedname>StubHashRing::fallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Fallback: return the next shard in ring order when primary is unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="70" column="9" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_hash_ring_1abebbe548ec309a345317ef496add6831" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode StubHashRing::routeWithFallback</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; bool &gt; &amp;healthy, int *out_shard) const</argsstring>
+        <name>routeWithFallback</name>
+        <qualifiedname>StubHashRing::routeWithFallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; bool &gt; &amp;</type>
+          <declname>healthy</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>out_shard</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="79" column="23" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="79" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal consistent-hash ring stub implementing contract §1. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="51" column="1" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="51" bodyend="97"/>
+    <listofallmembers>
+      <member refid="class_stub_hash_ring_1af29a309388d6ff5eff3335a1aeed7edd" prot="public" virt="non-virtual"><scope>StubHashRing</scope><name>addShard</name></member>
+      <member refid="class_stub_hash_ring_1a4a220605ba5ea57a138c57346c1f3861" prot="public" virt="non-virtual"><scope>StubHashRing</scope><name>fallback</name></member>
+      <member refid="class_stub_hash_ring_1ad1b61131d2bd94a372b55c667aeeab69" prot="private" virt="non-virtual"><scope>StubHashRing</scope><name>num_shards_</name></member>
+      <member refid="class_stub_hash_ring_1ad5177257be56ea347898f32c92699ef6" prot="public" virt="non-virtual"><scope>StubHashRing</scope><name>route</name></member>
+      <member refid="class_stub_hash_ring_1abebbe548ec309a345317ef496add6831" prot="public" virt="non-virtual"><scope>StubHashRing</scope><name>routeWithFallback</name></member>
+      <member refid="class_stub_hash_ring_1ae72108f6f95839ee0ebf62c99d3d11c4" prot="public" virt="non-virtual"><scope>StubHashRing</scope><name>shardCount</name></member>
+      <member refid="class_stub_hash_ring_1ac518ab093a2b6a1e03d5d424154d517e" prot="public" virt="non-virtual"><scope>StubHashRing</scope><name>StubHashRing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

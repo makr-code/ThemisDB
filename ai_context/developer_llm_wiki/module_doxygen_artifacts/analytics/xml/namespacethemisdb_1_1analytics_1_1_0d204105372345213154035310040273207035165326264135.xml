@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1analytics_1_1_0d204105372345213154035310040273207035165326264135" kind="namespace" language="C++">
+    <compoundname>themisdb::analytics::@204105372345213154035310040273207035165326264135</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/forecasting.cpp" line="260" column="1"/>
+  </compounddef>
+</doxygen>

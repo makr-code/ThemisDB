@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_n_u_m_a_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::NUMAStats</compoundname>
+    <includes refid="numa__memory__manager_8h" local="no">numa_memory_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_stats_1a358f8354d4b9a00629bf667717a4a076" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::NUMAStats::local_accesses</definition>
+        <argsstring></argsstring>
+        <name>local_accesses</name>
+        <qualifiedname>themis::performance::NUMAStats::local_accesses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total allocations that resolved to the thread&apos;s local node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="62" column="14" bodyfile="include/performance/numa_memory_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_stats_1aa93d720b4071556ad5bcd6da1e959298" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::NUMAStats::remote_accesses</definition>
+        <argsstring></argsstring>
+        <name>remote_accesses</name>
+        <qualifiedname>themis::performance::NUMAStats::remote_accesses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total allocations that resolved to a remote node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="64" column="14" bodyfile="include/performance/numa_memory_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_stats_1a52f1fd96c76ef002ed35acf92839c857" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::NUMAStats::locality_ratio</definition>
+        <argsstring></argsstring>
+        <name>locality_ratio</name>
+        <qualifiedname>themis::performance::NUMAStats::locality_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>local_accesses / (local + remote), in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="66" column="12" bodyfile="include/performance/numa_memory_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_stats_1a2340c6cfcc4e669138ec1914502a0e49" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::performance::NUMAStats::per_node_allocations</definition>
+        <argsstring></argsstring>
+        <name>per_node_allocations</name>
+        <qualifiedname>themis::performance::NUMAStats::per_node_allocations</qualifiedname>
+        <briefdescription>
+<para>Bytes allocated per node (indexed by node id). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="68" column="17" bodyfile="include/performance/numa_memory_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cumulative statistics maintained by <ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager" kindref="compound">NUMAMemoryManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/numa_memory_manager.h" line="60" column="1" bodyfile="include/performance/numa_memory_manager.h" bodystart="60" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_stats_1a358f8354d4b9a00629bf667717a4a076" prot="public" virt="non-virtual"><scope>themis::performance::NUMAStats</scope><name>local_accesses</name></member>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_stats_1a52f1fd96c76ef002ed35acf92839c857" prot="public" virt="non-virtual"><scope>themis::performance::NUMAStats</scope><name>locality_ratio</name></member>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_stats_1a2340c6cfcc4e669138ec1914502a0e49" prot="public" virt="non-virtual"><scope>themis::performance::NUMAStats</scope><name>per_node_allocations</name></member>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_stats_1aa93d720b4071556ad5bcd6da1e959298" prot="public" virt="non-virtual"><scope>themis::performance::NUMAStats</scope><name>remote_accesses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

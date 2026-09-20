@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_ablation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::AblationConfig</compoundname>
+    <includes refid="ablation__framework_8h" local="no">ablation_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_config_1a55b4da9619bb610acaebcc54e950d91c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018" kindref="member">PathVariant</ref></type>
+        <definition>PathVariant themis::evaluation::AblationConfig::path_variant</definition>
+        <argsstring></argsstring>
+        <name>path_variant</name>
+        <qualifiedname>themis::evaluation::AblationConfig::path_variant</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a3e68b850f1a019ba9d2201c9cd484dd4" kindref="member">PathVariant::AnnOnly</ref></initializer>
+        <briefdescription>
+<para>Retrieval path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="93" column="21" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_config_1acfbad7488adf18cdb5e5ae18856ad417" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662" kindref="member">FreshnessVariant</ref></type>
+        <definition>FreshnessVariant themis::evaluation::AblationConfig::freshness_variant</definition>
+        <argsstring></argsstring>
+        <name>freshness_variant</name>
+        <qualifiedname>themis::evaluation::AblationConfig::freshness_variant</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662afe8965a9748c1bc48af1711be837124e" kindref="member">FreshnessVariant::Fresh</ref></initializer>
+        <briefdescription>
+<para>Tensor freshness. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="94" column="22" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_config_1a5c37ffe6083835d003e927d611da41dc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75bef" kindref="member">UpdateVariant</ref></type>
+        <definition>UpdateVariant themis::evaluation::AblationConfig::update_variant</definition>
+        <argsstring></argsstring>
+        <name>update_variant</name>
+        <qualifiedname>themis::evaluation::AblationConfig::update_variant</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa156e10596fdc76ee5300bab931d89c0f" kindref="member">UpdateVariant::Patch</ref></initializer>
+        <briefdescription>
+<para>Tensor update path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="95" column="21" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_config_1a848e63c2257cb68d9d68ea90027acf08" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210" kindref="member">ComputeVariant</ref></type>
+        <definition>ComputeVariant themis::evaluation::AblationConfig::compute_variant</definition>
+        <argsstring></argsstring>
+        <name>compute_variant</name>
+        <qualifiedname>themis::evaluation::AblationConfig::compute_variant</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a54c82ef76ecbbd4c2293e09bae01b54e" kindref="member">ComputeVariant::Cpu</ref></initializer>
+        <briefdescription>
+<para>Compute backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="96" column="21" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_config_1a487c706d59e4b32758263d546b059b1a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::AblationConfig::max_artifact_age_ms</definition>
+        <argsstring></argsstring>
+        <name>max_artifact_age_ms</name>
+        <qualifiedname>themis::evaluation::AblationConfig::max_artifact_age_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="98" column="14" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_config_1aed6e1b9b096f41e1a45f09edba3c08fc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::AblationConfig::stale_artifact_age_ms</definition>
+        <argsstring></argsstring>
+        <name>stale_artifact_age_ms</name>
+        <qualifiedname>themis::evaluation::AblationConfig::stale_artifact_age_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="100" column="14" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_config_1a2a347e5183f0af786c693ea4e764b055" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::AblationConfig::gpu_available</definition>
+        <argsstring></argsstring>
+        <name>gpu_available</name>
+        <qualifiedname>themis::evaluation::AblationConfig::gpu_available</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="102" column="10" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_config_1aa60bcc81b91f0a870c61dc7871a939ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::AblationConfig::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::evaluation::AblationConfig::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="104" column="17" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/ablation_framework.h" line="92" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="92" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a848e63c2257cb68d9d68ea90027acf08" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationConfig</scope><name>compute_variant</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_config_1aa60bcc81b91f0a870c61dc7871a939ad" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_config_1acfbad7488adf18cdb5e5ae18856ad417" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationConfig</scope><name>freshness_variant</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a2a347e5183f0af786c693ea4e764b055" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationConfig</scope><name>gpu_available</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a487c706d59e4b32758263d546b059b1a" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationConfig</scope><name>max_artifact_age_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a55b4da9619bb610acaebcc54e950d91c" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationConfig</scope><name>path_variant</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_config_1aed6e1b9b096f41e1a45f09edba3c08fc" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationConfig</scope><name>stale_artifact_age_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a5c37ffe6083835d003e927d611da41dc" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationConfig</scope><name>update_variant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

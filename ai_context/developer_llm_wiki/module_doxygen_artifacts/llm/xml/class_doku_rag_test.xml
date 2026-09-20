@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_doku_rag_test" kind="class" language="C++" prot="public">
+    <compoundname>DokuRagTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_doku_rag_test_1a26cb00eb9cfa49d6d99dbe4794fbefd5" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DokuRagTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>DokuRagTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="305" column="17" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_doku_rag_test_1ac177f103af6a352b1e4eb98c0d9517ec" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_json_wiki_index_reader" kindref="compound">JsonWikiIndexReader</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;JsonWikiIndexReader&gt; DokuRagTest::reader_</definition>
+        <argsstring></argsstring>
+        <name>reader_</name>
+        <qualifiedname>DokuRagTest::reader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="306" column="21" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="306" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_doku_rag_test_1a71dafdda1f4b5732ae86c3654436bb36" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DokuRagTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DokuRagTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="276" column="10" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="276" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="class_doku_rag_test_1a593b3577003b4c87633da11794717ba5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DokuRagTest::skipIfNoDb</definition>
+        <argsstring>()</argsstring>
+        <name>skipIfNoDb</name>
+        <qualifiedname>DokuRagTest::skipIfNoDb</qualifiedname>
+        <briefdescription>
+<para>Skip test when doku.db is not available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="293" column="10" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="293" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="class_doku_rag_test_1a8221815c65961f322749f17f6965f52e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+        <definition>std::vector&lt; WikiChunk &gt; DokuRagTest::query5</definition>
+        <argsstring>(const std::string &amp;q)</argsstring>
+        <name>query5</name>
+        <qualifiedname>DokuRagTest::query5</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Query and return top-5 chunks, asserting the query is non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="301" column="17" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="301" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DokuRagTest</label>
+        <link refid="class_doku_rag_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DokuRagTest</label>
+        <link refid="class_doku_rag_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_doku_rag.cpp" line="274" column="1" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="274" bodyend="307"/>
+    <listofallmembers>
+      <member refid="class_doku_rag_test_1a26cb00eb9cfa49d6d99dbe4794fbefd5" prot="protected" virt="non-virtual"><scope>DokuRagTest</scope><name>db_path_</name></member>
+      <member refid="class_doku_rag_test_1a8221815c65961f322749f17f6965f52e" prot="protected" virt="non-virtual"><scope>DokuRagTest</scope><name>query5</name></member>
+      <member refid="class_doku_rag_test_1ac177f103af6a352b1e4eb98c0d9517ec" prot="protected" virt="non-virtual"><scope>DokuRagTest</scope><name>reader_</name></member>
+      <member refid="class_doku_rag_test_1a71dafdda1f4b5732ae86c3654436bb36" prot="protected" virt="non-virtual"><scope>DokuRagTest</scope><name>SetUp</name></member>
+      <member refid="class_doku_rag_test_1a593b3577003b4c87633da11794717ba5" prot="protected" virt="non-virtual"><scope>DokuRagTest</scope><name>skipIfNoDb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

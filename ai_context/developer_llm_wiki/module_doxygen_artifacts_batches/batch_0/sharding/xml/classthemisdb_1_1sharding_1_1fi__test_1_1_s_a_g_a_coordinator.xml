@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::SAGACoordinator</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator_1a7465800b12d5f15a784aefdf0b0cc0ef" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+        <definition>SimWAL* themisdb::sharding::fi_test::SAGACoordinator::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGACoordinator::wal_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="849" column="12" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="849" bodyend="849"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator_1afdf44bd1800950e1297a6a039877d9a7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::SAGACoordinator::SAGACoordinator</definition>
+        <argsstring>(SimWAL *wal)</argsstring>
+        <name>SAGACoordinator</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGACoordinator::SAGACoordinator</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="795" column="14" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="795" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator_1a9e9ad28a737542ad60fb9282035025dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result" kindref="compound">SAGAResult</ref></type>
+        <definition>SAGAResult themisdb::sharding::fi_test::SAGACoordinator::execute</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::vector&lt; SAGAStep &gt; &amp;steps)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGACoordinator::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="797" column="16" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="797" bodyend="828"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator_1a57c13dba71e0047ad16e03b6e4de9790" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::SAGACoordinator::redriveCompensation</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::vector&lt; SAGAStep &gt; &amp;steps)</argsstring>
+        <name>redriveCompensation</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGACoordinator::redriveCompensation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+<para>Re-drive compensation for a previously failed SAGA from WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to simulate coordinator crash mid-SAGA where compensations must be re-driven on recovery. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="836" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="836" bodyend="846"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simplified SAGA step executor with forward + compensation paths. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>On step failure the coordinator executes compensations in reverse order of completed steps, then logs ABORT to the WAL. </para>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="793" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="793" bodyend="850"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator_1a9e9ad28a737542ad60fb9282035025dc" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGACoordinator</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator_1a57c13dba71e0047ad16e03b6e4de9790" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGACoordinator</scope><name>redriveCompensation</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator_1afdf44bd1800950e1297a6a039877d9a7" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGACoordinator</scope><name>SAGACoordinator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator_1a7465800b12d5f15a784aefdf0b0cc0ef" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGACoordinator</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

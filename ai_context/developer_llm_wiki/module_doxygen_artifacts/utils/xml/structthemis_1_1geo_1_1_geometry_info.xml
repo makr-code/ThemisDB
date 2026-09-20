@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geometry_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeometryInfo</compoundname>
+    <includes refid="ewkb_8h" local="no">ewkb.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geometry_info_1a41f4e5939da904f66296d2a551d05812" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087b" kindref="member">GeometryType</ref></type>
+        <definition>GeometryType themis::geo::GeometryInfo::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::geo::GeometryInfo::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="110" column="18" bodyfile="include/utils/geo/ewkb.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geometry_info_1aa804aff8ac837959cd09a3620f07cf9d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::geo::GeometryInfo::srid</definition>
+        <argsstring></argsstring>
+        <name>srid</name>
+        <qualifiedname>themis::geo::GeometryInfo::srid</qualifiedname>
+        <initializer>= 4326</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="111" column="9" bodyfile="include/utils/geo/ewkb.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geometry_info_1a2d28d22227136d0fc6afd02e6a547810" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GeometryInfo::has_z</definition>
+        <argsstring></argsstring>
+        <name>has_z</name>
+        <qualifiedname>themis::geo::GeometryInfo::has_z</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="112" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geometry_info_1ad0fcacf9c43b91d3c414021ff75755a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GeometryInfo::has_m</definition>
+        <argsstring></argsstring>
+        <name>has_m</name>
+        <qualifiedname>themis::geo::GeometryInfo::has_m</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="113" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geometry_info_1a3bfc2bd2327e00f4b89a80cf7c729968" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1geo_1_1_coordinate" kindref="compound">Coordinate</ref> &gt;</type>
+        <definition>std::vector&lt;Coordinate&gt; themis::geo::GeometryInfo::coords</definition>
+        <argsstring></argsstring>
+        <name>coords</name>
+        <qualifiedname>themis::geo::GeometryInfo::coords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="115" column="17" bodyfile="include/utils/geo/ewkb.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geometry_info_1a2a913a0d7eaaa6009013ce4560fa407d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1geo_1_1_coordinate" kindref="compound">Coordinate</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;Coordinate&gt; &gt; themis::geo::GeometryInfo::rings</definition>
+        <argsstring></argsstring>
+        <name>rings</name>
+        <qualifiedname>themis::geo::GeometryInfo::rings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="118" column="17" bodyfile="include/utils/geo/ewkb.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geometry_info_1a2859afe2cb3e272b30994d2368e1c222" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geometry_info_1af0f9ba29c9138b3c432814aa0461ea4c" kindref="member">GeometryInfo</ref> &gt;</type>
+        <definition>std::vector&lt;GeometryInfo&gt; themis::geo::GeometryInfo::geometries</definition>
+        <argsstring></argsstring>
+        <name>geometries</name>
+        <qualifiedname>themis::geo::GeometryInfo::geometries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="119" column="17" bodyfile="include/utils/geo/ewkb.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1af0f9ba29c9138b3c432814aa0461ea4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeometryInfo::GeometryInfo</definition>
+        <argsstring>()=default</argsstring>
+        <name>GeometryInfo</name>
+        <qualifiedname>themis::geo::GeometryInfo::GeometryInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1a71f856817c2c8b6ed38c05626e795600" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeometryInfo::GeometryInfo</definition>
+        <argsstring>(GeometryType type_)</argsstring>
+        <name>GeometryInfo</name>
+        <qualifiedname>themis::geo::GeometryInfo::GeometryInfo</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087b" kindref="member">GeometryType</ref></type>
+          <declname>type_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="122" column="5" bodyfile="include/utils/geo/ewkb.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1aa78c21aaf4896896cb6acc7ad4afa847" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeometryInfo::isPoint</definition>
+        <argsstring>() const</argsstring>
+        <name>isPoint</name>
+        <qualifiedname>themis::geo::GeometryInfo::isPoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="124" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1a2c3daeb9f8778843c9f2cbdb1b287c0f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeometryInfo::isLineString</definition>
+        <argsstring>() const</argsstring>
+        <name>isLineString</name>
+        <qualifiedname>themis::geo::GeometryInfo::isLineString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="125" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1a79b05ade3c9cf874adc0744d561881ac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeometryInfo::isPolygon</definition>
+        <argsstring>() const</argsstring>
+        <name>isPolygon</name>
+        <qualifiedname>themis::geo::GeometryInfo::isPolygon</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="126" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1a7e01ca3e03788bbed049322f13b8fcab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeometryInfo::isMultiPolygon</definition>
+        <argsstring>() const</argsstring>
+        <name>isMultiPolygon</name>
+        <qualifiedname>themis::geo::GeometryInfo::isMultiPolygon</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="127" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1aa6a08a87ea6d996af83fac2db832914a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeometryInfo::isGeometryCollection</definition>
+        <argsstring>() const</argsstring>
+        <name>isGeometryCollection</name>
+        <qualifiedname>themis::geo::GeometryInfo::isGeometryCollection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="128" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1ac86c214102905e3d90d7ddeed6143bca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeometryInfo::hasZ</definition>
+        <argsstring>() const</argsstring>
+        <name>hasZ</name>
+        <qualifiedname>themis::geo::GeometryInfo::hasZ</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="129" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1a288689b09700baa6dffdcd8748b7b373" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_m_b_r" kindref="compound">MBR</ref></type>
+        <definition>MBR themis::geo::GeometryInfo::computeMBR</definition>
+        <argsstring>() const</argsstring>
+        <name>computeMBR</name>
+        <qualifiedname>themis::geo::GeometryInfo::computeMBR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="132" column="9" bodyfile="src/utils/geo/ewkb.cpp" bodystart="137" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geometry_info_1a7412d59fbc9de5065ef43e49104f948a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_coordinate" kindref="compound">Coordinate</ref></type>
+        <definition>Coordinate themis::geo::GeometryInfo::computeCentroid</definition>
+        <argsstring>() const</argsstring>
+        <name>computeCentroid</name>
+        <qualifiedname>themis::geo::GeometryInfo::computeCentroid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="135" column="16" bodyfile="src/utils/geo/ewkb.cpp" bodystart="219" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/geo/ewkb.h" line="109" column="1" bodyfile="include/utils/geo/ewkb.h" bodystart="109" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a7412d59fbc9de5065ef43e49104f948a" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>computeCentroid</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a288689b09700baa6dffdcd8748b7b373" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>computeMBR</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a3bfc2bd2327e00f4b89a80cf7c729968" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>coords</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a2859afe2cb3e272b30994d2368e1c222" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>geometries</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1af0f9ba29c9138b3c432814aa0461ea4c" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>GeometryInfo</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a71f856817c2c8b6ed38c05626e795600" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>GeometryInfo</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1ad0fcacf9c43b91d3c414021ff75755a5" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>has_m</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a2d28d22227136d0fc6afd02e6a547810" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>has_z</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1ac86c214102905e3d90d7ddeed6143bca" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>hasZ</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1aa6a08a87ea6d996af83fac2db832914a" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>isGeometryCollection</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a2c3daeb9f8778843c9f2cbdb1b287c0f" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>isLineString</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a7e01ca3e03788bbed049322f13b8fcab" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>isMultiPolygon</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1aa78c21aaf4896896cb6acc7ad4afa847" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>isPoint</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a79b05ade3c9cf874adc0744d561881ac" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>isPolygon</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a2a913a0d7eaaa6009013ce4560fa407d" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>rings</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1aa804aff8ac837959cd09a3620f07cf9d" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>srid</name></member>
+      <member refid="structthemis_1_1geo_1_1_geometry_info_1a41f4e5939da904f66296d2a551d05812" prot="public" virt="non-virtual"><scope>themis::geo::GeometryInfo</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

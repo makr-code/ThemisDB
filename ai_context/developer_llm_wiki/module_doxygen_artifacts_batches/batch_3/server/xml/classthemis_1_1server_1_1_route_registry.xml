@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_route_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::RouteRegistry</compoundname>
+    <includes refid="openapi__route__registry_8h" local="no">openapi_route_registry.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_route_registry_1_1_drift_report" prot="public">themis::server::RouteRegistry::DriftReport</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_route_registry_1ab336e9d41c6378cb94004c7edf593c9d" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::RouteRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::server::RouteRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="101" column="31" bodyfile="include/server/openapi_route_registry.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_route_registry_1a41e743a744894569482c0bbd94a16b69" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_route_entry" kindref="compound">RouteEntry</ref> &gt;</type>
+        <definition>std::vector&lt;RouteEntry&gt; themis::server::RouteRegistry::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::server::RouteRegistry::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="102" column="18" bodyfile="include/server/openapi_route_registry.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_route_registry_1ac8695a9b59560ff201c07bce22767539" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>RouteRegistry &amp;</type>
+        <definition>RouteRegistry &amp; themis::server::RouteRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::server::RouteRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="56" column="26" bodyfile="src/server/openapi_route_registry.cpp" bodystart="28" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_route_registry_1a0f656eac31d9c2214265923d42a87200" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RouteRegistry::registerRoute</definition>
+        <argsstring>(RouteEntry entry)</argsstring>
+        <name>registerRoute</name>
+        <qualifiedname>themis::server::RouteRegistry::registerRoute</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_route_entry" kindref="compound">RouteEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Register Route. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::find_if(), begin(), end(), std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="62" column="10" bodyfile="src/server/openapi_route_registry.cpp" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_route_registry_1ae7dc78f96ebad5581f415e36f24ac713" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_route_entry" kindref="compound">RouteEntry</ref> &gt;</type>
+        <definition>std::vector&lt; RouteEntry &gt; themis::server::RouteRegistry::entries</definition>
+        <argsstring>() const</argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::server::RouteRegistry::entries</qualifiedname>
+        <briefdescription>
+<para>Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="68" column="17" bodyfile="src/server/openapi_route_registry.cpp" bodystart="56" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_route_registry_1a6b4142c37559f60cd365476cbecaf26b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref></type>
+        <definition>json themis::server::RouteRegistry::buildOpenApiSpec</definition>
+        <argsstring>(const std::string &amp;api_version) const</argsstring>
+        <name>buildOpenApiSpec</name>
+        <qualifiedname>themis::server::RouteRegistry::buildOpenApiSpec</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>api_version</declname>
+        </param>
+        <briefdescription>
+<para>Build Open Api Spec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">api_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="75" column="10" bodyfile="src/server/openapi_route_registry.cpp" bodystart="79" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_route_registry_1a204801c6235b263c922bbafc23e5c839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RouteRegistry::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::server::RouteRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="80" column="10" bodyfile="src/server/openapi_route_registry.cpp" bodystart="70" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_route_registry_1a052076f400a7864b79f09c615f24efb0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::RouteRegistry::captureSpecSnapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>captureSpecSnapshot</name>
+        <qualifiedname>themis::server::RouteRegistry::captureSpecSnapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="84" column="18" bodyfile="src/server/openapi_route_registry.cpp" bodystart="352" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_route_registry_1a4b8ccaf1700f537c05249434c378d3fb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_route_registry_1_1_drift_report" kindref="compound">DriftReport</ref></type>
+        <definition>RouteRegistry::DriftReport themis::server::RouteRegistry::detectDrift</definition>
+        <argsstring>(const std::string &amp;baseline_snapshot) const</argsstring>
+        <name>detectDrift</name>
+        <qualifiedname>themis::server::RouteRegistry::detectDrift</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>baseline_snapshot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="96" column="18" bodyfile="src/server/openapi_route_registry.cpp" bodystart="376" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_route_registry_1a4d91111c934dd2039aeac3f43eb78bd1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RouteRegistry::RouteRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>RouteRegistry</name>
+        <qualifiedname>themis::server::RouteRegistry::RouteRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="99" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/openapi_route_registry.h" line="50" column="1" bodyfile="include/server/openapi_route_registry.h" bodystart="50" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_route_registry_1a6b4142c37559f60cd365476cbecaf26b" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>buildOpenApiSpec</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1a052076f400a7864b79f09c615f24efb0" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>captureSpecSnapshot</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1a204801c6235b263c922bbafc23e5c839" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1a4b8ccaf1700f537c05249434c378d3fb" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>detectDrift</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1ae7dc78f96ebad5581f415e36f24ac713" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>entries</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1a41e743a744894569482c0bbd94a16b69" prot="private" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1ac8695a9b59560ff201c07bce22767539" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1ab336e9d41c6378cb94004c7edf593c9d" prot="private" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1a0f656eac31d9c2214265923d42a87200" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>registerRoute</name></member>
+      <member refid="classthemis_1_1server_1_1_route_registry_1a4d91111c934dd2039aeac3f43eb78bd1" prot="private" virt="non-virtual"><scope>themis::server::RouteRegistry</scope><name>RouteRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

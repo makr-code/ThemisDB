@@ -1,0 +1,622 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__alerts_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_alerts.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/alerts.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_alerts.cpp</label>
+        <link refid="test__gpu__alerts_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/alerts.h</label>
+      </node>
+      <node id="5">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a182ab1c9d59fb08b6296f7629a6f3676" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GPUAlerts::Config</type>
+        <definition>static GPUAlerts::Config DefaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>DefaultConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="9" column="26" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="9" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, InitialState_NoFiringAlerts)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>InitialState_NoFiringAlerts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="21" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="21" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a795bc6becc765180b90af3bee9cee1f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, Evaluate_AllMetricsNominal_NoAlerts)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>Evaluate_AllMetricsNominal_NoAlerts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="27" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1acebfe0be44652f2d74631ada9be4d45e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, VRAMHigh_Fires_WhenAtThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>VRAMHigh_Fires_WhenAtThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="41" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a4a143204c3b0ee0e0833a7b75467e1f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, VRAMHigh_DoesNotFire_WhenBelowThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>VRAMHigh_DoesNotFire_WhenBelowThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="48" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1ad1b96e4851ce5c676a5fcb76bc943f0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, VRAMHigh_Resolves_WhenDropsBelow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>VRAMHigh_Resolves_WhenDropsBelow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="55" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="55" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a07745bfc0bc0026f24821979d1d46eac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, ErrorRate_Fires_WhenAboveThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>ErrorRate_Fires_WhenAboveThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="70" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="70" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a2f7699a90ee017283c60b00c13007715" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, ErrorRate_DoesNotFire_WhenBelow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>ErrorRate_DoesNotFire_WhenBelow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="77" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1afe4ccb4cc7632339006127945812e34c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, FallbackRate_Fires_WhenAboveThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>FallbackRate_Fires_WhenAboveThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="88" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a82533813fcd5d6508ef3d140abbf4dfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, CircuitOpen_Fires_WhenSet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>CircuitOpen_Fires_WhenSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="99" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1ae1e89f186832c811d07b22d0906f48d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, CircuitOpen_Resolves_WhenCleared)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>CircuitOpen_Resolves_WhenCleared</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="106" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="106" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1afb532a2400fc50f9984c1d59e3d5eafc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, DeviceUnavailable_Fires_WhenNoDevice)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>DeviceUnavailable_Fires_WhenNoDevice</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="119" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="119" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a15f49d4ce5b1c6fbde5c52706ba19838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, DeviceUnavailable_Resolves_WhenRestored)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>DeviceUnavailable_Resolves_WhenRestored</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="126" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="126" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1afb439b54040b3e9a86c42c8910a00f1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, MultipleAlerts_AllFire)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>MultipleAlerts_AllFire</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="139" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="139" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1ab1c91f83523dd1c8b545114505c323b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, Callback_CalledOnFire)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>Callback_CalledOnFire</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="153" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="153" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a3b05fce02687bc3fe37a111f13f6c5a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, Callback_CalledOnResolve)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>Callback_CalledOnResolve</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="166" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="166" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1aad6046ad3cbedee209bffb8dc3c83a51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, Callback_NotCalledWhenStateUnchanged)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>Callback_NotCalledWhenStateUnchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="181" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="181" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1a5f54600618963b30c9987fd321eb506b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, CurrentStatuses_ContainsAllAlerts_AfterEvaluate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>CurrentStatuses_ContainsAllAlerts_AfterEvaluate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="199" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="199" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__alerts_8cpp_1abb3286b2df2cb4149221133082e9dbe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAlertsTest, AlertStatus_HasMessage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAlertsTest</type>
+        </param>
+        <param>
+          <type>AlertStatus_HasMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_alerts.cpp" line="206" column="1" bodyfile="tests/gpu/test_gpu_alerts.cpp" bodystart="206" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/alerts.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GPUAlerts::Config<sp/>DefaultConfig()<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.vram_high_threshold<sp/><sp/><sp/><sp/><sp/>=<sp/>0.80f;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.error_rate_threshold<sp/><sp/><sp/><sp/>=<sp/>0.10f;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.fallback_rate_threshold<sp/>=<sp/>0.20f;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Initial<sp/>state<sp/>—<sp/>no<sp/>alerts<sp/>fire<sp/>without<sp/>evaluate()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>InitialState_NoFiringAlerts)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(alerts.firingCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(alerts.isFiring(GPUAlerts::ALERT_VRAM_HIGH));</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>Evaluate_AllMetricsNominal_NoAlerts)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.50f);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setErrorRate(0.01f);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setFallbackRate(0.05f);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setCircuitOpen(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setDeviceAvailable(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(alerts.evaluate(),<sp/>0u);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VRAM_HIGH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>VRAMHigh_Fires_WhenAtThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.80f);<sp/><sp/></highlight><highlight class="comment">//<sp/>exactly<sp/>at<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(alerts.evaluate(),<sp/>1u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(alerts.isFiring(GPUAlerts::ALERT_VRAM_HIGH));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>VRAMHigh_DoesNotFire_WhenBelowThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.79f);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(alerts.isFiring(GPUAlerts::ALERT_VRAM_HIGH));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>VRAMHigh_Resolves_WhenDropsBelow)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.90f);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(alerts.isFiring(GPUAlerts::ALERT_VRAM_HIGH));</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.60f);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(alerts.isFiring(GPUAlerts::ALERT_VRAM_HIGH));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ERROR_RATE_HIGH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>ErrorRate_Fires_WhenAboveThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setErrorRate(0.15f);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(alerts.isFiring(GPUAlerts::ALERT_ERROR_RATE_HIGH));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>ErrorRate_DoesNotFire_WhenBelow)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setErrorRate(0.05f);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(alerts.isFiring(GPUAlerts::ALERT_ERROR_RATE_HIGH));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FALLBACK_RATE_HIGH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>FallbackRate_Fires_WhenAboveThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setFallbackRate(0.25f);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(alerts.isFiring(GPUAlerts::ALERT_FALLBACK_RATE));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CIRCUIT_OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>CircuitOpen_Fires_WhenSet)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setCircuitOpen(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(alerts.isFiring(GPUAlerts::ALERT_CIRCUIT_OPEN));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>CircuitOpen_Resolves_WhenCleared)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setCircuitOpen(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setCircuitOpen(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(alerts.isFiring(GPUAlerts::ALERT_CIRCUIT_OPEN));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DEVICE_UNAVAILABLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>DeviceUnavailable_Fires_WhenNoDevice)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setDeviceAvailable(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(alerts.isFiring(GPUAlerts::ALERT_DEVICE_UNAVAIL));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>DeviceUnavailable_Resolves_WhenRestored)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setDeviceAvailable(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setDeviceAvailable(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(alerts.isFiring(GPUAlerts::ALERT_DEVICE_UNAVAIL));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multiple<sp/>alerts<sp/>firing<sp/>simultaneously</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>MultipleAlerts_AllFire)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.95f);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setErrorRate(0.30f);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setCircuitOpen(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setDeviceAvailable(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(n,<sp/>4u);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callback<sp/>on<sp/>transition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>Callback_CalledOnFire)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>fire_count{0};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.onAlert([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUAlerts::AlertStatus&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.state<sp/>==<sp/>GPUAlerts::AlertState::FIRING)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fire_count.fetch_add(1);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.90f);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(fire_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>Callback_CalledOnResolve)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>resolve_count{0};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.onAlert([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUAlerts::AlertStatus&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.state<sp/>==<sp/>GPUAlerts::AlertState::INACTIVE)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolve_count.fetch_add(1);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.90f);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.30f);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(resolve_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>Callback_NotCalledWhenStateUnchanged)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>call_count{0};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.onAlert([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUAlerts::AlertStatus&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>call_count.fetch_add(1);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.90f);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>after_first<sp/>=<sp/>call_count.load();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>evaluate<sp/>with<sp/>same<sp/>value<sp/>—<sp/>no<sp/>state<sp/>change.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(call_count.load(),<sp/>after_first);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>currentStatuses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>CurrentStatuses_ContainsAllAlerts_AfterEvaluate)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>statuses<sp/>=<sp/>alerts.currentStatuses();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(statuses.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__gpu__alerts_8cpp_1a5ce5e66303dac1977ea99f23386938de" kindref="member">TEST</ref>(GPUAlertsTest,<sp/>AlertStatus_HasMessage)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAlerts<sp/>alerts(DefaultConfig());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.setVRAMUsage(0.90f);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>alerts.evaluate();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>statuses<sp/>=<sp/>alerts.currentStatuses();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>statuses)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.name<sp/>==<sp/>GPUAlerts::ALERT_VRAM_HIGH)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.message.empty());</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_alerts.cpp"/>
+  </compounddef>
+</doxygen>

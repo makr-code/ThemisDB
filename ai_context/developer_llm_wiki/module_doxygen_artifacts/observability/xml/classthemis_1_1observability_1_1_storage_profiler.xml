@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_storage_profiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::StorageProfiler</compoundname>
+    <includes refid="storage__profiler_8h" local="no">storage_profiler.h</includes>
+    <innerclass refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl" prot="public">themis::observability::StorageProfiler::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_storage_profiler_1a4bc4957bab9e9a60a5f9eb5f152c441d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::observability::StorageProfiler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::observability::StorageProfiler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="239" column="21" bodyfile="include/observability/storage_profiler.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::StorageProfiler::StorageProfiler</definition>
+        <argsstring>(const StorageProfilerConfig &amp;config=StorageProfilerConfig{})</argsstring>
+        <name>StorageProfiler</name>
+        <qualifiedname>themis::observability::StorageProfiler::StorageProfiler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="135" column="14" bodyfile="src/observability/storage_profiler.cpp" bodystart="148" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1adb6717956edee92eb8108b4a398c4ec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::StorageProfiler::~StorageProfiler</definition>
+        <argsstring>()</argsstring>
+        <name>~StorageProfiler</name>
+        <qualifiedname>themis::observability::StorageProfiler::~StorageProfiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a99a7d4dea092702ed68950acec40693a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::StorageProfiler::StorageProfiler</definition>
+        <argsstring>(const StorageProfiler &amp;)=delete</argsstring>
+        <name>StorageProfiler</name>
+        <qualifiedname>themis::observability::StorageProfiler::StorageProfiler</qualifiedname>
+        <param>
+          <type>const StorageProfiler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="139" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a6ba9d137868b2feac774f564cbf4194e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" kindref="member">StorageProfiler</ref> &amp;</type>
+        <definition>StorageProfiler &amp; themis::observability::StorageProfiler::operator=</definition>
+        <argsstring>(const StorageProfiler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::StorageProfiler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" kindref="member">StorageProfiler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="140" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a17368cdf39d0121e678c3a0a4eef3d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::record_operation</definition>
+        <argsstring>(const StorageOpStats &amp;stats)</argsstring>
+        <name>record_operation</name>
+        <qualifiedname>themis::observability::StorageProfiler::record_operation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Record storage operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record operation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation statistics</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), log_slow_operation(), cleanup_old_data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="146" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="158" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1ad9f0cc158b59c8d2ef397890960bfdba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats" kindref="compound">RocksDBStats</ref></type>
+        <definition>RocksDBStats themis::observability::StorageProfiler::collect_rocksdb_stats</definition>
+        <argsstring>(const std::string &amp;db_path)</argsstring>
+        <name>collect_rocksdb_stats</name>
+        <qualifiedname>themis::observability::StorageProfiler::collect_rocksdb_stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_path</declname>
+        </param>
+        <briefdescription>
+<para>Collect RocksDB statistics snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Collect rocksdb stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Database path for identification </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Statistics snapshot</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">db_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the db. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), push_back(), cleanup_old_data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="153" column="18" bodyfile="src/observability/storage_profiler.cpp" bodystart="182" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a6015788b494bf19fbc71e7d5a726e5fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref> &gt;</type>
+        <definition>std::vector&lt; StorageOpStats &gt; themis::observability::StorageProfiler::get_operations</definition>
+        <argsstring>(std::optional&lt; StorageOpType &gt; type=std::nullopt) const</argsstring>
+        <name>get_operations</name>
+        <qualifiedname>themis::observability::StorageProfiler::get_operations</qualifiedname>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fd" kindref="member">StorageOpType</ref> &gt;</type>
+          <declname>type</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Get operation statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation type (optional filter) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of operation statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="160" column="17" bodyfile="src/observability/storage_profiler.cpp" bodystart="202" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1af2118ef2eb48133bf23d87143b2c896b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref> &gt;</type>
+        <definition>std::vector&lt; StorageOpStats &gt; themis::observability::StorageProfiler::get_slow_operations</definition>
+        <argsstring>(std::chrono::milliseconds threshold) const</argsstring>
+        <name>get_slow_operations</name>
+        <qualifiedname>themis::observability::StorageProfiler::get_slow_operations</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Get slow operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Slow operation threshold </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of slow operations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="168" column="17" bodyfile="src/observability/storage_profiler.cpp" bodystart="217" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a55a7315f675aaece77ef462a73aa94f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats" kindref="compound">RocksDBStats</ref> &gt;</type>
+        <definition>std::vector&lt; RocksDBStats &gt; themis::observability::StorageProfiler::get_rocksdb_stats_history</definition>
+        <argsstring>() const</argsstring>
+        <name>get_rocksdb_stats_history</name>
+        <qualifiedname>themis::observability::StorageProfiler::get_rocksdb_stats_history</qualifiedname>
+        <briefdescription>
+<para>Get RocksDB statistics history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of statistics snapshots </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="175" column="17" bodyfile="src/observability/storage_profiler.cpp" bodystart="238" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1ac20d7ef4de3a2213c875d215c55427dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats" kindref="compound">RocksDBStats</ref> &gt;</type>
+        <definition>std::optional&lt; RocksDBStats &gt; themis::observability::StorageProfiler::get_latest_rocksdb_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_latest_rocksdb_stats</name>
+        <qualifiedname>themis::observability::StorageProfiler::get_latest_rocksdb_stats</qualifiedname>
+        <briefdescription>
+<para>Get latest RocksDB statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Latest statistics snapshot </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="181" column="19" bodyfile="src/observability/storage_profiler.cpp" bodystart="243" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a611a6824f447ba43cc84c7325b72570a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::StorageProfiler::get_operation_summary</definition>
+        <argsstring>() const</argsstring>
+        <name>get_operation_summary</name>
+        <qualifiedname>themis::observability::StorageProfiler::get_operation_summary</qualifiedname>
+        <briefdescription>
+<para>Get operation summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON summary of operations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="187" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="253" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a1cd947a2489a942de353df009d3f5e21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::StorageProfiler::get_amplification_metrics</definition>
+        <argsstring>() const</argsstring>
+        <name>get_amplification_metrics</name>
+        <qualifiedname>themis::observability::StorageProfiler::get_amplification_metrics</qualifiedname>
+        <briefdescription>
+<para>Get amplification metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with amplification metrics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="193" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="285" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a85b5ff5ccaab69365894bac604864838" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::StorageProfiler::get_cache_metrics</definition>
+        <argsstring>() const</argsstring>
+        <name>get_cache_metrics</name>
+        <qualifiedname>themis::observability::StorageProfiler::get_cache_metrics</qualifiedname>
+        <briefdescription>
+<para>Get cache performance metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with cache metrics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="199" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="301" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a1ca84a03cb47a326cd21ee80c98496b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::observability::StorageProfiler::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="204" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="348" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a3887ecb169927a222b07ee70cf29158a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::export_to_json</definition>
+        <argsstring>(const std::string &amp;filename) const</argsstring>
+        <name>export_to_json</name>
+        <qualifiedname>themis::observability::StorageProfiler::export_to_json</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Export statistics to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output file path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="210" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="354" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a86f26b4bbdb0525809e8a1f6af2da0c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref></type>
+        <definition>StorageProfilerConfig themis::observability::StorageProfiler::get_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::observability::StorageProfiler::get_config</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="215" column="27" bodyfile="src/observability/storage_profiler.cpp" bodystart="384" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a200e52554ff98fc9589fd62266c30414" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::set_config</definition>
+        <argsstring>(const StorageProfilerConfig &amp;config)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::observability::StorageProfiler::set_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="220" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="394" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a7a3aafba05c18f6b30611f234fe9c101" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::enable</definition>
+        <argsstring>()</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::observability::StorageProfiler::enable</qualifiedname>
+        <briefdescription>
+<para>Enable profiling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="225" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="403" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a5958fe9fbe66e0cd3531d83942dcc6e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::disable</definition>
+        <argsstring>()</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::observability::StorageProfiler::disable</qualifiedname>
+        <briefdescription>
+<para>Disable profiling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="230" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="412" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1acd1c2eb0d163da7ddf4fd6fdfd9ad638" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::StorageProfiler::is_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>is_enabled</name>
+        <qualifiedname>themis::observability::StorageProfiler::is_enabled</qualifiedname>
+        <briefdescription>
+<para>Check if profiling is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="235" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="417" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a6b740d7fc384eb0e79a394cee93ec3e0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::cleanup_old_data</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup_old_data</name>
+        <qualifiedname>themis::observability::StorageProfiler::cleanup_old_data</qualifiedname>
+        <briefdescription>
+<para>Cleanup old data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cleanup_old(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="241" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="426" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1a9263426452437ad4661e9cf5820c66d4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::log_slow_operation</definition>
+        <argsstring>(const StorageOpStats &amp;stats)</argsstring>
+        <name>log_slow_operation</name>
+        <qualifiedname>themis::observability::StorageProfiler::log_slow_operation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Log slow operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements log_slow_operation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="242" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="435" bodyend="439"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Storage profiler for RocksDB operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Profiles storage layer operations, collecting timing, I/O statistics, and RocksDB internal metrics. </para>
+    </detaileddescription>
+    <location file="include/observability/storage_profiler.h" line="133" column="1" bodyfile="include/observability/storage_profiler.h" bodystart="133" bodyend="243"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a6b740d7fc384eb0e79a394cee93ec3e0" prot="private" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>cleanup_old_data</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a1ca84a03cb47a326cd21ee80c98496b0" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>clear</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1ad9f0cc158b59c8d2ef397890960bfdba" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>collect_rocksdb_stats</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a5958fe9fbe66e0cd3531d83942dcc6e0" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>disable</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a7a3aafba05c18f6b30611f234fe9c101" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>enable</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a3887ecb169927a222b07ee70cf29158a" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>export_to_json</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a1cd947a2489a942de353df009d3f5e21" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>get_amplification_metrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a85b5ff5ccaab69365894bac604864838" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>get_cache_metrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a86f26b4bbdb0525809e8a1f6af2da0c3" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1ac20d7ef4de3a2213c875d215c55427dc" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>get_latest_rocksdb_stats</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a611a6824f447ba43cc84c7325b72570a" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>get_operation_summary</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a6015788b494bf19fbc71e7d5a726e5fe" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>get_operations</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a55a7315f675aaece77ef462a73aa94f9" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>get_rocksdb_stats_history</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1af2118ef2eb48133bf23d87143b2c896b" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>get_slow_operations</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a4bc4957bab9e9a60a5f9eb5f152c441d" prot="private" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1acd1c2eb0d163da7ddf4fd6fdfd9ad638" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>is_enabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a9263426452437ad4661e9cf5820c66d4" prot="private" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>log_slow_operation</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a6ba9d137868b2feac774f564cbf4194e" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a17368cdf39d0121e678c3a0a4eef3d1a" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>record_operation</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a200e52554ff98fc9589fd62266c30414" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>StorageProfiler</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1a99a7d4dea092702ed68950acec40693a" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>StorageProfiler</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1adb6717956edee92eb8108b4a398c4ec9" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler</scope><name>~StorageProfiler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

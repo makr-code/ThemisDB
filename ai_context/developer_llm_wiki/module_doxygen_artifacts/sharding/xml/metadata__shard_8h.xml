@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="metadata__shard_8h" kind="file" language="C++">
+    <compoundname>metadata_shard.h</compoundname>
+    <includes refid="consensus__module_8h" local="yes">sharding/consensus_module.h</includes>
+    <includes refid="wal__manager_8h" local="yes">sharding/wal_manager.h</includes>
+    <includes local="yes">cache/bounded_lru_cache.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="metadata__snapshot_8h" local="yes">include/sharding/metadata_snapshot.h</includedby>
+    <includedby refid="metadata__wal_8h" local="yes">include/sharding/metadata_wal.h</includedby>
+    <includedby refid="metadata__shard_8cpp" local="yes">src/sharding/metadata_shard.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/metadata_shard.h</label>
+        <link refid="metadata__shard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>cache/bounded_lru_cache.h</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>fstream</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/metadata_shard.h</label>
+        <link refid="metadata__shard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/metadata_snapshot.h</label>
+        <link refid="metadata__snapshot_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/sharding/metadata_wal.h</label>
+        <link refid="metadata__wal_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/metadata_shard.cpp</label>
+        <link refid="metadata__shard_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/metadata_snapshot.cpp</label>
+        <link refid="metadata__snapshot_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/sharding/metadata_wal.cpp</label>
+        <link refid="metadata__wal_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_entry" prot="public">themisdb::sharding::MetadataEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_shard_config" prot="public">themisdb::sharding::MetadataShardConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_metadata_shard" prot="public">themisdb::sharding::MetadataShard</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_metadata_shard_router" prot="public">themisdb::sharding::MetadataShardRouter</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="consensus__module_8h" kindref="compound">sharding/consensus_module.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wal__manager_8h" kindref="compound">sharding/wal_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cache/bounded_lru_cache.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>for<sp/>Phase<sp/>2.2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">themisdb::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l" kindref="compound">MetadataWAL</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager" kindref="compound">MetadataSnapshotManager</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/>=<sp/>themis::sharding::LSN;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699ade41f160335180207e4ba33b56d433b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699ade41f160335180207e4ba33b56d433b2" kindref="member">SCHEMA</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schema<sp/>definitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699acb4ae3b37047fb4b2c0d16f8bf84f076" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699acb4ae3b37047fb4b2c0d16f8bf84f076" kindref="member">INDEX</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699a520873a2948f9e8d83ea06fc382c84f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699a520873a2948f9e8d83ea06fc382c84f3" kindref="member">SHARD_MAP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>mapping<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699abb4a9b43d21d6bdae2820711c1b16125" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699abb4a9b43d21d6bdae2820711c1b16125" kindref="member">TRANSACTION_LOG</ref>,<sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>log<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699abd71bd5ee6287c5c736482440a55f6b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699abd71bd5ee6287c5c736482440a55f6b3" kindref="member">STATISTICS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>and<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699ad08e68ea80bc3bf47a03757579c11900" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699ad08e68ea80bc3bf47a03757579c11900" kindref="member">CONFIGURATION</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemisdb_1_1sharding_1_1_metadata_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a218599242d41abccb99a8116f3e64bab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a218599242d41abccb99a8116f3e64bab" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a7aff41af44d7f73460edecb8cb514c25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a7aff41af44d7f73460edecb8cb514c25" kindref="member">value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a6ff50a39d6c38d7824b5f364a44ae042" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a6ff50a39d6c38d7824b5f364a44ae042" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a3316c06c8ff63032c97a6366c258ab14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a3316c06c8ff63032c97a6366c258ab14" kindref="member">partition</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Partition<sp/>this<sp/>belongs<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a775ded8e5cd5cae06aea209fd66fcf01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a775ded8e5cd5cae06aea209fd66fcf01" kindref="member">created_at</ref>;</highlight></codeline>
+<codeline lineno="60" refid="structthemisdb_1_1sharding_1_1_metadata_entry_1ac01871f6c4f65a51c4b2aa74eece530c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1ac01871f6c4f65a51c4b2aa74eece530c" kindref="member">updated_at</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a4010422c256db0fabdde8cdaa9b3762a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a4010422c256db0fabdde8cdaa9b3762a" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a218599242d41abccb99a8116f3e64bab" kindref="member">key</ref>},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a7aff41af44d7f73460edecb8cb514c25" kindref="member">value</ref>},</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a6ff50a39d6c38d7824b5f364a44ae042" kindref="member">version</ref>},</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;partition&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a3316c06c8ff63032c97a6366c258ab14" kindref="member">partition</ref>)},</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">,<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a775ded8e5cd5cae06aea209fd66fcf01" kindref="member">created_at</ref>.time_since_epoch()).count()},</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;updated_at&quot;</highlight><highlight class="normal">,<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1ac01871f6c4f65a51c4b2aa74eece530c" kindref="member">updated_at</ref>.time_since_epoch()).count()}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a575fc0808fb57f2bbd1fa591d6e6cef8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a575fc0808fb57f2bbd1fa591d6e6cef8" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a218599242d41abccb99a8116f3e64bab" kindref="member">key</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a7aff41af44d7f73460edecb8cb514c25" kindref="member">value</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a6ff50a39d6c38d7824b5f364a44ae042" kindref="member">version</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a3316c06c8ff63032c97a6366c258ab14" kindref="member">partition</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(j[</highlight><highlight class="stringliteral">&quot;partition&quot;</highlight><highlight class="normal">]);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a775ded8e5cd5cae06aea209fd66fcf01" kindref="member">created_at</ref><sp/>=<sp/>std::chrono::system_clock::time_point(</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(j[</highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">]));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1ac01871f6c4f65a51c4b2aa74eece530c" kindref="member">updated_at</ref><sp/>=<sp/>std::chrono::system_clock::time_point(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(j[</highlight><highlight class="stringliteral">&quot;updated_at&quot;</highlight><highlight class="normal">]));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config" kindref="compound">MetadataShardConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a8949e79162e78d6200019db097561fd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a8949e79162e78d6200019db097561fd0" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>shard&apos;s<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a7bfc3bd36564d59560af7465f496c9b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MetadataPartitionKey&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a7bfc3bd36564d59560af7465f496c9b1" kindref="member">partitions</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Partitions<sp/>managed<sp/>by<sp/>this<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1aa04fd163db5081ec3008e0b365de3853" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1aa04fd163db5081ec3008e0b365de3853" kindref="member">num_metadata_shards</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>number<sp/>of<sp/>metadata<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1ad87d2c62d8d8d63c924c9c405ba5a453" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1ad87d2c62d8d8d63c924c9c405ba5a453" kindref="member">enable_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a5a3238e0d3bebde48e4d278558892c08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a5a3238e0d3bebde48e4d278558892c08" kindref="member">cache_size</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="106" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a55e443683688b0fbb9966be2ef6f1fa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a55e443683688b0fbb9966be2ef6f1fa7" kindref="member">cache_ttl</ref>{300};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replication<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a17ab5e4c50efba24e1eea2c9500cf3dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a17ab5e4c50efba24e1eea2c9500cf3dd" kindref="member">replication_factor</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consistency<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a2154472946f018267bc777232645c73d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a2154472946f018267bc777232645c73d" kindref="member">enforce_strong_consistency</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2.2:<sp/>Persistence<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a03fcc038298cee6fdb2429ffc83615ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a03fcc038298cee6fdb2429ffc83615ed" kindref="member">enable_persistence</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>WAL<sp/>and<sp/>snapshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a1fe464819cd5f11a92f9ee2a909c85fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1a1fe464819cd5f11a92f9ee2a909c85fc" kindref="member">data_dir</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>directory<sp/>for<sp/>WAL<sp/>and<sp/>snapshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1ad2d6b421f22dd70af624c07a3cca7db8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1ad2d6b421f22dd70af624c07a3cca7db8" kindref="member">snapshot_interval</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>every<sp/>N<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1ade33a45b9124464cf7cce8f55eba29e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config_1ade33a45b9124464cf7cce8f55eba29e5" kindref="member">max_snapshots</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>last<sp/>N<sp/>snapshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemisdb_1_1sharding_1_1_metadata_shard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ab7000f81a924342673f52ee64ec2e719" kindref="member">MetadataShard</ref><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ab7000f81a924342673f52ee64ec2e719" kindref="member">MetadataShard</ref>(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config" kindref="compound">MetadataShardConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ConsensusModule&gt;<sp/>consensus</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a6fce7ef421ee410b7e46d3280295dbcc" kindref="member">~MetadataShard</ref>();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a2211dfc9695909ecfa4bc3dc3a548cf6" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7bad0c4a624289e86bb33bc99c70dac5" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a261ae8c13e1774b6a3422afc2b84fad7" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;MetadataEntry&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1adda6f14200bfbfc814d564e102fa9c8d" kindref="member">get</ref>(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a193e02438636e0446c442c75d179b999" kindref="member">put</ref>(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>value</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7cc31669c42955cc436b59cdf8a113c9" kindref="member">remove</ref>(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a1f8eed2337b089d011e7f53c053aa810" kindref="member">listKeys</ref>(<ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a49ef776ab3e2e865d5089b13b6b46b19" kindref="member">getPartitionStats</ref>(<ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ab4e8a0e500c74acf7c4510c6bb08a684" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a178387a3a661c9ff994864297fa8be35" kindref="member">subscribe</ref>(</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref>&amp;)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7e9078177de6b4518340e10f5d67c49d" kindref="member">createPeriodicSnapshot</ref>();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a66cab23e5c5498730f23b468644ad2f8" kindref="member">recoverFromWAL</ref>();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>determineShardOwner(</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cacheEntry(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;MetadataEntry&gt;<sp/>getCachedEntry(</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>invalidateCache(<ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applyChange(</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>value</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config" kindref="compound">MetadataShardConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ConsensusModule&gt;<sp/>consensus_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>storage_mutex_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;MetadataPartitionKey,<sp/>std::map&lt;std::string,<sp/>MetadataEntry&gt;&gt;<sp/>storage_;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>-<sp/>replaced<sp/>with<sp/>BoundedLRUCache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::cache::BoundedLRUCache&gt;<sp/>cache_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subscriptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>subscriptions_mutex_;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;<ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref>,<sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref>&amp;)&gt;&gt;&gt;<sp/>subscriptions_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_reads_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_writes_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>cache_hits_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>cache_misses_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2.2:<sp/>Persistence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MetadataWAL&gt;<sp/>wal_;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MetadataSnapshotManager&gt;<sp/>snapshot_manager_;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>operations_since_snapshot_;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/>last_applied_lsn_;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="classthemisdb_1_1sharding_1_1_metadata_shard_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1a563b92b229a18780424627695058bf4f" kindref="member">MetadataShardRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1a563b92b229a18780424627695058bf4f" kindref="member">MetadataShardRouter</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_shards);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1a181907e78b534936c62156cd11ad7370" kindref="member">addShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/>std::shared_ptr&lt;MetadataShard&gt;<sp/>shard);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1a016b527be48ddcc6f2b0a22d8463129a" kindref="member">removeShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;MetadataEntry&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1aaca30e49d68760a53c64d1c32b594a51" kindref="member">get</ref>(</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1aeb3db13e6c5ee05058b1819172feb429" kindref="member">put</ref>(</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>value</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1a35cec2aa61827f835811cdaa2370a5b1" kindref="member">remove</ref>(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1af890a2cf17c4793fc3ba08d9c0ee0786" kindref="member">listKeys</ref>(<ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_router_1ae14254ca3bfe9d91317b2308b9c978c0" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>routeToShard(</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>hashKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_shards_;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>shards_mutex_;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::shared_ptr&lt;MetadataShard&gt;&gt;<sp/>shards_;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_operations_;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>routing_errors_;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/metadata_shard.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_bloom_filter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::BloomFilterConfig</compoundname>
+    <includes refid="utils__api__contract_8h" local="no">utils_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_bloom_filter_config_1a70f975dc8c2008b1234438b6d6cfb479" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::BloomFilterConfig::expectedItems</definition>
+        <argsstring></argsstring>
+        <name>expectedItems</name>
+        <qualifiedname>themis::utils::BloomFilterConfig::expectedItems</qualifiedname>
+        <initializer>{100000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_api_contract.h" line="84" column="14" bodyfile="include/utils/utils_api_contract.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::BloomFilterConfig::targetFalsePositiveRate</definition>
+        <argsstring></argsstring>
+        <name>targetFalsePositiveRate</name>
+        <qualifiedname>themis::utils::BloomFilterConfig::targetFalsePositiveRate</qualifiedname>
+        <initializer>{0.01}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_api_contract.h" line="85" column="14" bodyfile="include/utils/utils_api_contract.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bloom filter configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/utils_api_contract.h" line="83" column="1" bodyfile="include/utils/utils_api_contract.h" bodystart="83" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_bloom_filter_config_1a70f975dc8c2008b1234438b6d6cfb479" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilterConfig</scope><name>expectedItems</name></member>
+      <member refid="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilterConfig</scope><name>targetFalsePositiveRate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

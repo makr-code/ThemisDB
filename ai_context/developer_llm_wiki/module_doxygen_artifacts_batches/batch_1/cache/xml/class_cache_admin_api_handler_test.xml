@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cache_admin_api_handler_test" kind="class" language="C++" prot="public">
+    <compoundname>CacheAdminApiHandlerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cache_admin_api_handler_test_1af1d543cc10ef0792e285b83d6cb92aa5" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CacheAdminApiHandlerTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>CacheAdminApiHandlerTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_admin_api_handler.cpp" line="86" column="17" bodyfile="tests/cache/test_cache_admin_api_handler.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_admin_api_handler_test_1ab63641e178443776a66c0ab7acfb22a5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">themis::AdaptiveQueryCache</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AdaptiveQueryCache&gt; CacheAdminApiHandlerTest::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>CacheAdminApiHandlerTest::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_admin_api_handler.cpp" line="87" column="21" bodyfile="tests/cache/test_cache_admin_api_handler.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_admin_api_handler_test_1a50599871e2f09a3e7c33c49073850a12" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::CacheAdminApiHandler &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::CacheAdminApiHandler&gt; CacheAdminApiHandlerTest::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>CacheAdminApiHandlerTest::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_admin_api_handler.cpp" line="88" column="21" bodyfile="tests/cache/test_cache_admin_api_handler.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cache_admin_api_handler_test_1a633bcef1cdd8d702f9f1fc4b000f0184" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheAdminApiHandlerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CacheAdminApiHandlerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_admin_api_handler.cpp" line="58" column="10" bodyfile="tests/cache/test_cache_admin_api_handler.cpp" bodystart="58" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cache_admin_api_handler_test_1ac4bae0fcba0acadfc66007391260f24f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheAdminApiHandlerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CacheAdminApiHandlerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_admin_api_handler.cpp" line="80" column="10" bodyfile="tests/cache/test_cache_admin_api_handler.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CacheAdminApiHandlerTest</label>
+        <link refid="class_cache_admin_api_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CacheAdminApiHandlerTest</label>
+        <link refid="class_cache_admin_api_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_admin_api_handler.cpp" line="56" column="1" bodyfile="tests/cache/test_cache_admin_api_handler.cpp" bodystart="56" bodyend="89"/>
+    <listofallmembers>
+      <member refid="class_cache_admin_api_handler_test_1ab63641e178443776a66c0ab7acfb22a5" prot="protected" virt="non-virtual"><scope>CacheAdminApiHandlerTest</scope><name>cache_</name></member>
+      <member refid="class_cache_admin_api_handler_test_1af1d543cc10ef0792e285b83d6cb92aa5" prot="protected" virt="non-virtual"><scope>CacheAdminApiHandlerTest</scope><name>db_path_</name></member>
+      <member refid="class_cache_admin_api_handler_test_1a50599871e2f09a3e7c33c49073850a12" prot="protected" virt="non-virtual"><scope>CacheAdminApiHandlerTest</scope><name>handler_</name></member>
+      <member refid="class_cache_admin_api_handler_test_1a633bcef1cdd8d702f9f1fc4b000f0184" prot="protected" virt="non-virtual"><scope>CacheAdminApiHandlerTest</scope><name>SetUp</name></member>
+      <member refid="class_cache_admin_api_handler_test_1ac4bae0fcba0acadfc66007391260f24f" prot="protected" virt="non-virtual"><scope>CacheAdminApiHandlerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

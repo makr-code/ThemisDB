@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rcu_1_1_grace_period_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::rcu::GracePeriodManager</compoundname>
+    <includes refid="rcu_8h" local="no">rcu.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_grace_period_manager_1a3d44a819aa4b5943cd999c40cf95bb8e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rcu::GracePeriodManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="122" column="17" bodyfile="include/performance/rcu.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_grace_period_manager_1a85b2af4159160767f65d034661c79678" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::rcu::GracePeriodManager::grace_thread_</definition>
+        <argsstring></argsstring>
+        <name>grace_thread_</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::grace_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="123" column="17" bodyfile="include/performance/rcu.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_grace_period_manager_1aad2292cdf01399344ccf59e96d1b615b" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rcu::GracePeriodManager::callbacks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_mutex_</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::callbacks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="125" column="16" bodyfile="include/performance/rcu.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_grace_period_manager_1a25072f65d0b9e769a8d8d1bda96186a3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1rcu_1a8f085504ac3428d1d665afc37dac5591" kindref="member">RCUCallback</ref> &gt;</type>
+        <definition>std::vector&lt;RCUCallback&gt; themis::rcu::GracePeriodManager::pending_callbacks_</definition>
+        <argsstring></argsstring>
+        <name>pending_callbacks_</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::pending_callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="126" column="17" bodyfile="include/performance/rcu.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_grace_period_manager_1a40a86b36d87521366e273adf105fdde4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1rcu_1a8f085504ac3428d1d665afc37dac5591" kindref="member">RCUCallback</ref> &gt;</type>
+        <definition>std::vector&lt;RCUCallback&gt; themis::rcu::GracePeriodManager::current_callbacks_</definition>
+        <argsstring></argsstring>
+        <name>current_callbacks_</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::current_callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="127" column="17" bodyfile="include/performance/rcu.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_grace_period_manager_1ae2e69ff7d6ea2a975c7f2056b908214f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::rcu::GracePeriodManager::grace_period_counter_</definition>
+        <argsstring></argsstring>
+        <name>grace_period_counter_</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::grace_period_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="129" column="17" bodyfile="include/performance/rcu.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1ad0141b71a72cbc3dfca122850d3b3171" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GracePeriodManager &amp;</type>
+        <definition>static GracePeriodManager &amp; themis::rcu::GracePeriodManager::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="68" column="31" bodyfile="include/performance/rcu.h" bodystart="68" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1af0a6cd3834bdeb72879818040118fd1b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::rcu::GracePeriodManager::is_enabled</definition>
+        <argsstring>()</argsstring>
+        <name>is_enabled</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::is_enabled</qualifiedname>
+        <briefdescription>
+<para>Check if RCU is enabled at compile time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="104" column="17" bodyfile="include/performance/rcu.h" bodystart="104" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1a80ceaa2b256001e5c9c716a0617bb03a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rcu::GracePeriodManager::call_rcu</definition>
+        <argsstring>(RCUCallback callback)</argsstring>
+        <name>call_rcu</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::call_rcu</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rcu_1a8f085504ac3428d1d665afc37dac5591" kindref="member">RCUCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback to be executed after a grace period. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback will be invoked once all current readers have finished. Typically used to free old data structures.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call after grace period </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="81" column="10" bodyfile="include/performance/rcu.h" bodystart="261" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1afff8497864aea81152408c27a9785dc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rcu::GracePeriodManager::synchronize_rcu</definition>
+        <argsstring>()</argsstring>
+        <name>synchronize_rcu</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::synchronize_rcu</qualifiedname>
+        <briefdescription>
+<para>Wait for all current readers to complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocks until a grace period has elapsed, ensuring all readers that started before this call have completed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="89" column="10" bodyfile="include/performance/rcu.h" bodystart="266" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1adfc4b8e514d43f3563d1d013587a6a2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rcu::GracePeriodManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::start</qualifiedname>
+        <briefdescription>
+<para>Start the grace period thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="94" column="10" bodyfile="include/performance/rcu.h" bodystart="229" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1ad3ec4cb078152e9a82fd1cda2fdccc54" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rcu::GracePeriodManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the grace period thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="99" column="10" bodyfile="include/performance/rcu.h" bodystart="239" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1aa78637e73a6302ba471c4e99ea4c670b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::GracePeriodManager::GracePeriodManager</definition>
+        <argsstring>()</argsstring>
+        <name>GracePeriodManager</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::GracePeriodManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="113" column="5" bodyfile="include/performance/rcu.h" bodystart="219" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1afb399ca405849fea2af42182d84a2cda" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::GracePeriodManager::~GracePeriodManager</definition>
+        <argsstring>()</argsstring>
+        <name>~GracePeriodManager</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::~GracePeriodManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="114" column="5" bodyfile="include/performance/rcu.h" bodystart="225" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1ac0291fcc7d0a57fae89f4762ebb81f51" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::GracePeriodManager::GracePeriodManager</definition>
+        <argsstring>(const GracePeriodManager &amp;)=delete</argsstring>
+        <name>GracePeriodManager</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::GracePeriodManager</qualifiedname>
+        <param>
+          <type>const GracePeriodManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="116" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1ac8713fce5e9f564d4591ebdd25c978aa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GracePeriodManager &amp;</type>
+        <definition>GracePeriodManager &amp; themis::rcu::GracePeriodManager::operator=</definition>
+        <argsstring>(const GracePeriodManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::operator=</qualifiedname>
+        <param>
+          <type>const GracePeriodManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="117" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1aaa889245879888b8ac2c01d92933f99c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rcu::GracePeriodManager::grace_period_thread</definition>
+        <argsstring>()</argsstring>
+        <name>grace_period_thread</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::grace_period_thread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="119" column="10" bodyfile="include/performance/rcu.h" bodystart="286" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_grace_period_manager_1a2c487a0b2a3e716f5c66ee9148288203" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rcu::GracePeriodManager::readers_active</definition>
+        <argsstring>()</argsstring>
+        <name>readers_active</name>
+        <qualifiedname>themis::rcu::GracePeriodManager::readers_active</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="120" column="10" bodyfile="include/performance/rcu.h" bodystart="279" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RCU Grace Period Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages grace periods and deferred callbacks for safe memory reclamation. Thread-safe and designed for high-performance read-heavy workloads. </para>
+    </detaileddescription>
+    <location file="include/performance/rcu.h" line="66" column="1" bodyfile="include/performance/rcu.h" bodystart="66" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1a80ceaa2b256001e5c9c716a0617bb03a" prot="public" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>call_rcu</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1aad2292cdf01399344ccf59e96d1b615b" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>callbacks_mutex_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1a40a86b36d87521366e273adf105fdde4" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>current_callbacks_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1ae2e69ff7d6ea2a975c7f2056b908214f" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>grace_period_counter_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1aaa889245879888b8ac2c01d92933f99c" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>grace_period_thread</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1a85b2af4159160767f65d034661c79678" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>grace_thread_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1aa78637e73a6302ba471c4e99ea4c670b" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>GracePeriodManager</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1ac0291fcc7d0a57fae89f4762ebb81f51" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>GracePeriodManager</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1ad0141b71a72cbc3dfca122850d3b3171" prot="public" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>instance</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1af0a6cd3834bdeb72879818040118fd1b" prot="public" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>is_enabled</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1ac8713fce5e9f564d4591ebdd25c978aa" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1a25072f65d0b9e769a8d8d1bda96186a3" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>pending_callbacks_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1a2c487a0b2a3e716f5c66ee9148288203" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>readers_active</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1a3d44a819aa4b5943cd999c40cf95bb8e" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1adfc4b8e514d43f3563d1d013587a6a2f" prot="public" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1ad3ec4cb078152e9a82fd1cda2fdccc54" prot="public" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>stop</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1afff8497864aea81152408c27a9785dc9" prot="public" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>synchronize_rcu</name></member>
+      <member refid="classthemis_1_1rcu_1_1_grace_period_manager_1afb399ca405849fea2af42182d84a2cda" prot="private" virt="non-virtual"><scope>themis::rcu::GracePeriodManager</scope><name>~GracePeriodManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

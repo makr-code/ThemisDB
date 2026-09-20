@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_semantic_query_cache_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SemanticQueryCache::CacheStats</compoundname>
+    <includes refid="semantic__cache_8h" local="no">semantic_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1a1d802ee1db66e5b009bb8dc11b140b38" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SemanticQueryCache::CacheStats::total_lookups</definition>
+        <argsstring></argsstring>
+        <name>total_lookups</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::total_lookups</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="88" column="16" bodyfile="include/query/semantic_cache.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1a2c040b5925e6f89c66e14aa39b986f08" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SemanticQueryCache::CacheStats::exact_hits</definition>
+        <argsstring></argsstring>
+        <name>exact_hits</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::exact_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="89" column="16" bodyfile="include/query/semantic_cache.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1ab15917de0e6627fa92f5f5b5d7627fa8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SemanticQueryCache::CacheStats::similarity_hits</definition>
+        <argsstring></argsstring>
+        <name>similarity_hits</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::similarity_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="90" column="16" bodyfile="include/query/semantic_cache.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1acfebc18f4bbd3f710886020471146cd8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SemanticQueryCache::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="91" column="16" bodyfile="include/query/semantic_cache.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1af317f91f555eaf965fa65dea92165f0a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SemanticQueryCache::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="92" column="16" bodyfile="include/query/semantic_cache.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1aa6759bf08e5bf92254052ad4aa39e68e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SemanticQueryCache::CacheStats::current_entries</definition>
+        <argsstring></argsstring>
+        <name>current_entries</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::current_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="93" column="16" bodyfile="include/query/semantic_cache.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1ac83426f143ad3bf608d6fd4eb3010057" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SemanticQueryCache::CacheStats::total_result_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_result_bytes</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::total_result_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="94" column="16" bodyfile="include/query/semantic_cache.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1ade58a32c6ee3f26005f5fbceb1f42eec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::SemanticQueryCache::CacheStats::hitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::hitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="96" column="15" bodyfile="include/query/semantic_cache.h" bodystart="96" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1a6d94b610fdc1b7e83aefc5dc4b16af40" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::SemanticQueryCache::CacheStats::exactHitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>exactHitRate</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::exactHitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="102" column="15" bodyfile="include/query/semantic_cache.h" bodystart="102" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1a8750ec8eecb965aa4b0fdb010d6c51f8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::SemanticQueryCache::CacheStats::similarityHitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>similarityHitRate</name>
+        <qualifiedname>themis::SemanticQueryCache::CacheStats::similarityHitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="108" column="15" bodyfile="include/query/semantic_cache.h" bodystart="108" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/semantic_cache.h" line="87" column="5" bodyfile="include/query/semantic_cache.h" bodystart="87" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1aa6759bf08e5bf92254052ad4aa39e68e" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>current_entries</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1af317f91f555eaf965fa65dea92165f0a" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1a2c040b5925e6f89c66e14aa39b986f08" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>exact_hits</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1a6d94b610fdc1b7e83aefc5dc4b16af40" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>exactHitRate</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1ade58a32c6ee3f26005f5fbceb1f42eec" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>hitRate</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1acfebc18f4bbd3f710886020471146cd8" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>misses</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1ab15917de0e6627fa92f5f5b5d7627fa8" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>similarity_hits</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1a8750ec8eecb965aa4b0fdb010d6c51f8" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>similarityHitRate</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1a1d802ee1db66e5b009bb8dc11b140b38" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>total_lookups</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats_1ac83426f143ad3bf608d6fd4eb3010057" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::CacheStats</scope><name>total_result_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

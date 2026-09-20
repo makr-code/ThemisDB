@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="zero__trust__policy__enforcer_8h" kind="file" language="C++">
+    <compoundname>zero_trust_policy_enforcer.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">array</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="access__control__manager_8h" local="yes">include/security/access_control_manager.h</includedby>
+    <includedby refid="intent__classifier__example_8cpp" local="yes">include/security/examples/intent_classifier_example.cpp</includedby>
+    <includedby refid="intent__classifier_8h" local="yes">include/security/intent_classifier.h</includedby>
+    <includedby refid="zero__trust__policy__enforcer_8cpp" local="yes">src/security/zero_trust_policy_enforcer.cpp</includedby>
+    <includedby refid="test__ai__safety__chaos_8cpp" local="yes">tests/security/ai_safety/test_ai_safety_chaos.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/zero_trust_policy_enforcer.h</label>
+        <link refid="zero__trust__policy__enforcer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>array</label>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/security/access_control_manager.h</label>
+        <link refid="access__control__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/security/examples/intent_classifier_example.cpp</label>
+        <link refid="intent__classifier__example_8cpp"/>
+      </node>
+      <node id="10">
+        <label>include/security/intent_classifier.h</label>
+        <link refid="intent__classifier_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/security/zero_trust_policy_enforcer.h</label>
+        <link refid="zero__trust__policy__enforcer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/security/access_control_manager.cpp</label>
+        <link refid="access__control__manager_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/security/intent_classifier.cpp</label>
+        <link refid="intent__classifier_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/security/row_level_security.cpp</label>
+        <link refid="row__level__security_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/security/zero_trust_policy_enforcer.cpp</label>
+        <link refid="zero__trust__policy__enforcer_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/security/ai_safety/test_ai_safety_chaos.cpp</label>
+        <link refid="test__ai__safety__chaos_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/security/test_access_control_manager.cpp</label>
+        <link refid="test__access__control__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/security/test_row_level_security.cpp</label>
+        <link refid="test__row__level__security_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/security/test_security_phase3_policy_hardening_focused.cpp</label>
+        <link refid="test__security__phase3__policy__hardening__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/security/test_security_wavec_production_validation_focused.cpp</label>
+        <link refid="test__security__wavec__production__validation__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_zero_trust_context" prot="public">themis::security::ZeroTrustContext</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_network_policy" prot="public">themis::security::NetworkPolicy</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_verification_result" prot="public">themis::security::VerificationResult</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer" prot="public">themis::security::ZeroTrustPolicyEnforcer</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics" prot="public">themis::security::ZeroTrustPolicyEnforcer::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1security_1_1_zero_trust_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1security_1_1_zero_trust_context_1a74cebbe156e63342d0df5eb3e2254b76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1a74cebbe156e63342d0df5eb3e2254b76" kindref="member">request_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1security_1_1_zero_trust_context_1a63dc3d444201f47f3aea43e7ead75f37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1a63dc3d444201f47f3aea43e7ead75f37" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1security_1_1_zero_trust_context_1a781d98eea884861277e8611d8ab6ac01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1a781d98eea884861277e8611d8ab6ac01" kindref="member">client_ip</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1security_1_1_zero_trust_context_1a4755dc5a93995c00d6d8ff9d662cc112" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1a4755dc5a93995c00d6d8ff9d662cc112" kindref="member">token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1security_1_1_zero_trust_context_1adf4d794a031a34b053d87d0573afd950" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1adf4d794a031a34b053d87d0573afd950" kindref="member">resource</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1security_1_1_zero_trust_context_1a07e6486dd81229dfcccd293b501bb3f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1a07e6486dd81229dfcccd293b501bb3f4" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1security_1_1_zero_trust_context_1ad9c295c1721eedefa2ff97defa1f1ea4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1ad9c295c1721eedefa2ff97defa1f1ea4" kindref="member">device_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1security_1_1_zero_trust_context_1a187ed743bb0bd70af170d11c117d82cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1a187ed743bb0bd70af170d11c117d82cf" kindref="member">timestamp</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1security_1_1_zero_trust_context_1a962914370cbc7b9325cab2eb892ddc28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1a962914370cbc7b9325cab2eb892ddc28" kindref="member">attributes</ref>;<sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Continuous<sp/>re-verification<sp/>fields<sp/>(Phase<sp/>3.1)<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1security_1_1_zero_trust_context_1ac82dd01141e1378a91d241e53cc1a969" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1ac82dd01141e1378a91d241e53cc1a969" kindref="member">last_verified_at</ref>{};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1security_1_1_zero_trust_context_1a4ff88621b4cc20417ffc0b5eb750497d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context_1a4ff88621b4cc20417ffc0b5eb750497d" kindref="member">session_risk_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1security_1_1_network_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_network_policy" kindref="compound">NetworkPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1security_1_1_network_policy_1ad1254a3d83028054d547f4e413d1c6d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_network_policy_1ad1254a3d83028054d547f4e413d1c6d7" kindref="member">policy_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1security_1_1_network_policy_1ad4206d596ccf6b36abbb7ae751669e5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_network_policy_1ad4206d596ccf6b36abbb7ae751669e5a" kindref="member">identity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1security_1_1_network_policy_1a60a00c3359ac67f02e5253b83da943af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_network_policy_1a60a00c3359ac67f02e5253b83da943af" kindref="member">allowed_cidrs</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1security_1_1_network_policy_1a1e40ac911164f7d5242d32e5b0f7b0c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_network_policy_1a1e40ac911164f7d5242d32e5b0f7b0c9" kindref="member">denied_cidrs</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1security_1_1_network_policy_1a261666fd392b1f02f424dbe0db283828" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_network_policy_1a261666fd392b1f02f424dbe0db283828" kindref="member">default_deny</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1security_1_1_network_policy_1a69cf8bfe50eef253e5466d6087f0d7b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::seconds&gt;<sp/><ref refid="structthemis_1_1security_1_1_network_policy_1a69cf8bfe50eef253e5466d6087f0d7b3" kindref="member">max_token_age</ref>;<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Continuous<sp/>re-verification<sp/>(Phase<sp/>3.1)<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1security_1_1_network_policy_1a05dc264dd200e228d0afca00193a2322" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1security_1_1_network_policy_1a05dc264dd200e228d0afca00193a2322" kindref="member">continuous_verification_interval_ms</ref>{0};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1security_1_1_network_policy_1a779f6daca8af3554dd9589a53596bc6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_network_policy_1a779f6daca8af3554dd9589a53596bc6d" kindref="member">risk_score_threshold</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1security_1_1_verification_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1security_1_1_verification_result_1a84fa7fe60e0092fe95f22610d7dfc9f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a84fa7fe60e0092fe95f22610d7dfc9f7" kindref="member">verified</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1security_1_1_verification_result_1addde0847df46d3e71d4fb8d7b4f6d1fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_verification_result_1addde0847df46d3e71d4fb8d7b4f6d1fd" kindref="member">identity_verified</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1security_1_1_verification_result_1a52e7e156246efc0ce041fd64b119ac79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a52e7e156246efc0ce041fd64b119ac79" kindref="member">network_policy_passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1security_1_1_verification_result_1a88efb8866a87461d10e076cb2d044249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a88efb8866a87461d10e076cb2d044249" kindref="member">trust_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1security_1_1_verification_result_1a49a71bb5728a7aa62aa1b33f6c62d86e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a49a71bb5728a7aa62aa1b33f6c62d86e" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1security_1_1_verification_result_1ab318212cd7d2250bc7ccf624495a29c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1ab318212cd7d2250bc7ccf624495a29c5" kindref="member">request_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1security_1_1_verification_result_1a0be4c6d7e72a2c830075434a5dc296ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a0be4c6d7e72a2c830075434a5dc296ba" kindref="member">policy_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1security_1_1_verification_result_1ab95ef482491f1bbd25651124336de2a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/><ref refid="structthemis_1_1security_1_1_verification_result_1ab95ef482491f1bbd25651124336de2a5" kindref="member">Allow</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1ab318212cd7d2250bc7ccf624495a29c5" kindref="member">request_id</ref>,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a88efb8866a87461d10e076cb2d044249" kindref="member">trust_score</ref><sp/>=<sp/>1.0,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a49a71bb5728a7aa62aa1b33f6c62d86e" kindref="member">reason</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Zero-trust<sp/>verification<sp/>passed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a88efb8866a87461d10e076cb2d044249" kindref="member">trust_score</ref>,<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a49a71bb5728a7aa62aa1b33f6c62d86e" kindref="member">reason</ref>,<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1ab318212cd7d2250bc7ccf624495a29c5" kindref="member">request_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1security_1_1_verification_result_1a06f3faf2cdbc994ba4bd86c5e2237961" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a06f3faf2cdbc994ba4bd86c5e2237961" kindref="member">Deny</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1ab318212cd7d2250bc7ccf624495a29c5" kindref="member">request_id</ref>,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a49a71bb5728a7aa62aa1b33f6c62d86e" kindref="member">reason</ref>,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a88efb8866a87461d10e076cb2d044249" kindref="member">trust_score</ref><sp/>=<sp/>0.0,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a0be4c6d7e72a2c830075434a5dc296ba" kindref="member">policy_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a88efb8866a87461d10e076cb2d044249" kindref="member">trust_score</ref>,<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a49a71bb5728a7aa62aa1b33f6c62d86e" kindref="member">reason</ref>,<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1ab318212cd7d2250bc7ccf624495a29c5" kindref="member">request_id</ref>,<sp/><ref refid="structthemis_1_1security_1_1_verification_result_1a0be4c6d7e72a2c830075434a5dc296ba" kindref="member">policy_id</ref>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a78bc62017ebbea2cddba2cdc7eca4998" kindref="member">ZeroTrustPolicyEnforcer</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0effca6f9adbbd98d91370a058014937" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0effca6f9adbbd98d91370a058014937" kindref="member">TokenVerifier</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)&gt;;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a78bc62017ebbea2cddba2cdc7eca4998" kindref="member">ZeroTrustPolicyEnforcer</ref>(<ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0effca6f9adbbd98d91370a058014937" kindref="member">TokenVerifier</ref><sp/>token_verifier<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ad9f67e149dbd90bd4eea5af3f1a25056" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ad9f67e149dbd90bd4eea5af3f1a25056" kindref="member">~ZeroTrustPolicyEnforcer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Network<sp/>policy<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a907f85357a60f3ef34c6b680552a1942" kindref="member">addNetworkPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_network_policy" kindref="compound">NetworkPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a9c92aca0e3d030a8fe4601611a8e124d" kindref="member">removeNetworkPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_id);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NetworkPolicy&gt;<sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a6b8727248db2dbdafd5ffd25ac36c5f5" kindref="member">getNetworkPolicies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ae3ab886a843be72c84c9c40610197d46" kindref="member">verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref>&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Individual<sp/>checks<sp/>(usable<sp/>for<sp/>testing<sp/>or<sp/>staged<sp/>enforcement)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail-closed<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a8056e7af9ef0bacf3dffa37c6ca3a3c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a8056e7af9ef0bacf3dffa37c6ca3a3c1" kindref="member">setAllowUnverifiedToken</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allow)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>allow_unverified_token_<sp/>=<sp/>allow;<sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1af29da8c5f12325099c38425805974f54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1af29da8c5f12325099c38425805974f54" kindref="member">setAllowEmptyNetworkPolicies</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allow)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>allow_empty_network_policies_<sp/>=<sp/>allow;<sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a4738bca4acb52954b7fac718a16ee124" kindref="member">verifyToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0ad49c0c42ef79e69ad4f87537ab4ef7" kindref="member">isIpAllowed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_ip,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>identity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aee61b588e5b2431e0d9254e52c7a7d90" kindref="member">computeTrustScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref>&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>identity_verified,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>network_ok)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a4dd4942277486e96a4907f3c6989312f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a4dd4942277486e96a4907f3c6989312f" kindref="member">requests_total</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a1574a8bc6b74a478f184bbb3fb7fdf3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a1574a8bc6b74a478f184bbb3fb7fdf3f" kindref="member">identity_failures</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a8644f2b9264acbb04eb3bab30cb871a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a8644f2b9264acbb04eb3bab30cb871a1" kindref="member">network_policy_denials</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a4c685e3300da4111407fb76575dc9dc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a4c685e3300da4111407fb76575dc9dc8" kindref="member">requests_allowed</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a16c1ac9fc38c0c70a8ccdd32ffb97942" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics_1a16c1ac9fc38c0c70a8ccdd32ffb97942" kindref="member">requests_denied</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aa298a368a078b05724a2d55f7445b40a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics" kindref="compound">Metrics</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aa298a368a078b05724a2d55f7445b40a" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ipMatchesCidr(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cidr);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseIpv4(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip,<sp/>uint32_t&amp;<sp/>out);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseIpv6(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip,<sp/>std::array&lt;uint8_t,<sp/>16&gt;&amp;<sp/>out);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ipv6MatchesCidr(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cidr);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>normaliseIpv4MappedIpv6(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ipMatchesCidrAny(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cidr);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_network_policy" kindref="compound">NetworkPolicy</ref>*<sp/>findPolicyForIdentity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>identity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>NetworkPolicy&gt;<sp/>policies_;<sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0effca6f9adbbd98d91370a058014937" kindref="member">TokenVerifier</ref><sp/>token_verifier_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Metrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allow_unverified_token_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allow_empty_network_policies_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/zero_trust_policy_enforcer.h"/>
+  </compounddef>
+</doxygen>

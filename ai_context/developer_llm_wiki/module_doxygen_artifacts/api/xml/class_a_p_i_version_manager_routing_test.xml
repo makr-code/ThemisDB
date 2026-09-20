@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_p_i_version_manager_routing_test" kind="class" language="C++" prot="public">
+    <compoundname>APIVersionManagerRoutingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_p_i_version_manager_routing_test_1addb3247cae12a5160df59b92b80c7790" prot="protected" static="no" mutable="no">
+        <type>APIVersionManager</type>
+        <definition>APIVersionManager APIVersionManagerRoutingTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>APIVersionManagerRoutingTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="133" column="23" bodyfile="tests/api/test_api_routing.cpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>APIVersionManagerRoutingTest</label>
+        <link refid="class_a_p_i_version_manager_routing_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>APIVersionManagerRoutingTest</label>
+        <link refid="class_a_p_i_version_manager_routing_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/api/test_api_routing.cpp" line="131" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="131" bodyend="134"/>
+    <listofallmembers>
+      <member refid="class_a_p_i_version_manager_routing_test_1addb3247cae12a5160df59b92b80c7790" prot="protected" virt="non-virtual"><scope>APIVersionManagerRoutingTest</scope><name>mgr_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

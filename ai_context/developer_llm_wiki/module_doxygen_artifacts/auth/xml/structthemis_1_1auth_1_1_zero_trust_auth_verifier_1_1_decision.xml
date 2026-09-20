@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::ZeroTrustAuthVerifier::Decision</compoundname>
+    <includes refid="zero__trust__auth__verifier_8h" local="no">zero_trust_auth_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a28123fa8ba2ad173eb17400d6cb4ebe4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::ZeroTrustAuthVerifier::Decision::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Decision::allowed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Overall result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="68" column="14" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a7d50a8c9c7c31f91f9ac89c09aef67b8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::auth::ZeroTrustAuthVerifier::Decision::trust_score</definition>
+        <argsstring></argsstring>
+        <name>trust_score</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Decision::trust_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Composite trust score [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="69" column="16" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a59f8660158926cc54110819b78903391" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::Decision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Decision::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="70" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a2cecc6485ce5c094a2be2b9e5fd0bf2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::Decision::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Decision::request_id</qualifiedname>
+        <briefdescription>
+<para>Echo of <ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1afd4793581e15567402063f5df1ffac68" kindref="member">Request::request_id</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="71" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a35398170fb1f6d0c0bfb9ac54206de8d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::ZeroTrustAuthVerifier::Decision::identity_verified</definition>
+        <argsstring></argsstring>
+        <name>identity_verified</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Decision::identity_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Token check passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="72" column="14" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1aecf6119f6d58f248f0d784992cebf47e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::ZeroTrustAuthVerifier::Decision::network_ok</definition>
+        <argsstring></argsstring>
+        <name>network_ok</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Decision::network_ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Network policy check passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="73" column="14" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/zero_trust_auth_verifier.h" line="67" column="5" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="67" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a28123fa8ba2ad173eb17400d6cb4ebe4" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Decision</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a35398170fb1f6d0c0bfb9ac54206de8d" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Decision</scope><name>identity_verified</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1aecf6119f6d58f248f0d784992cebf47e" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Decision</scope><name>network_ok</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a59f8660158926cc54110819b78903391" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Decision</scope><name>reason</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a2cecc6485ce5c094a2be2b9e5fd0bf2d" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Decision</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a7d50a8c9c7c31f91f9ac89c09aef67b8" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Decision</scope><name>trust_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

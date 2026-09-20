@@ -1,0 +1,708 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1ingestion_1_1builtin" kind="namespace" language="C++">
+    <compoundname>themis::ingestion::builtin</compoundname>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_base_entity_assembler_step" prot="public">themis::ingestion::builtin::BaseEntityAssemblerStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_embed_step" prot="public">themis::ingestion::builtin::ChunkEmbedStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_text_step" prot="public">themis::ingestion::builtin::ChunkTextStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step" prot="public">themis::ingestion::builtin::ChunkTtDecomposeStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step" prot="public">themis::ingestion::builtin::DecompressStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_deontic_step" prot="public">themis::ingestion::builtin::DeonticStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base" prot="public">themis::ingestion::builtin::FormatParseStepBase</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_metadata_step" prot="public">themis::ingestion::builtin::LegalMetadataStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step" prot="public">themis::ingestion::builtin::LegalReferenceExtractorStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step" prot="public">themis::ingestion::builtin::LlmExtractStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_ner_de_step" prot="public">themis::ingestion::builtin::NerDeStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_archive_step" prot="public">themis::ingestion::builtin::ParseArchiveStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_audio_step" prot="public">themis::ingestion::builtin::ParseAudioStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_image_step" prot="public">themis::ingestion::builtin::ParseImageStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_office_step" prot="public">themis::ingestion::builtin::ParseOfficeStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_pdf_step" prot="public">themis::ingestion::builtin::ParsePdfStep</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_text_step" prot="public">themis::ingestion::builtin::ParseTextStep</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createNerDeStep</definition>
+        <argsstring>(std::shared_ptr&lt; ITextGenerationBackend &gt; backend=nullptr)</argsstring>
+        <name>createNerDeStep</name>
+        <qualifiedname>themis::ingestion::builtin::createNerDeStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.ner_de</computeroutput> step instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Ner De Step.</para>
+<para>Factory function that allows test code and runtime bootstrap to obtain a <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_ner_de_step" kindref="compound">NerDeStep</ref></computeroutput> without coupling to its class definition (which lives entirely in the .cpp file to avoid polluting the public API surface).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref></computeroutput> for LLM-backed NER. Pass <computeroutput>nullptr</computeroutput> to use the default <computeroutput><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" kindref="compound">NullTextGenerationBackend</ref></computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/ner_step.cpp" line="318" column="17" bodyfile="src/ingestion/steps/ner_step.cpp" bodystart="318" bodyend="321" declfile="include/ingestion/builtin_step_factories.h" declline="33" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a5c806eef7a4c1bb91d17ad5a570622c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createLlmExtractStep</definition>
+        <argsstring>(std::shared_ptr&lt; ITextGenerationBackend &gt; backend=nullptr)</argsstring>
+        <name>createLlmExtractStep</name>
+        <qualifiedname>themis::ingestion::builtin::createLlmExtractStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.llm_extract</computeroutput> step instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Llm Extract Step.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref></computeroutput>. Pass <computeroutput>nullptr</computeroutput> to use the default <computeroutput><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" kindref="compound">NullTextGenerationBackend</ref></computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="246" column="17" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="246" bodyend="249" declfile="include/ingestion/builtin_step_factories.h" declline="42" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1ad084873fa6a7cfaa05255620ee7dc1d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::builtin::setStepBackend</definition>
+        <argsstring>(IIngestionStep *step, std::shared_ptr&lt; ITextGenerationBackend &gt; backend)</argsstring>
+        <name>setStepBackend</name>
+        <qualifiedname>themis::ingestion::builtin::setStepBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> *</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Set the <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref></computeroutput> on a step created by the factories above. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Step Backend.</para>
+<para>Both <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_ner_de_step" kindref="compound">NerDeStep</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step" kindref="compound">LlmExtractStep</ref></computeroutput> expose a <computeroutput>setBackend()</computeroutput> member. This helper casts the base pointer and calls it, enabling tests and the <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref></computeroutput> to inject a backend after the step has been registered.</para>
+<para>Returns <computeroutput>false</computeroutput> when the step does not support backend injection (e.g. steps from third-party DLL plugins).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: setBackend(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/ner_step.cpp" line="330" column="6" bodyfile="src/ingestion/steps/ner_step.cpp" bodystart="330" bodyend="337" declfile="include/ingestion/builtin_step_factories.h" declline="55" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a4978df78b6f5633e3cec18b99bdc3a13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createParseTextStep</definition>
+        <argsstring>()</argsstring>
+        <name>createParseTextStep</name>
+        <qualifiedname>themis::ingestion::builtin::createParseTextStep</qualifiedname>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.parse_text</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads plain text from <computeroutput>ExtractionContext::manifest.original_path</computeroutput> and stores it in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a0ec698226f75bc619b0d2fc8fdf31b3e" kindref="member">ExtractionContext::raw_text</ref></computeroutput> when no earlier step has already loaded the document body.</para>
+<para>This step has no external backend dependency and is safe to register in the default <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref></computeroutput> bootstrap. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/parse_text_step.cpp" line="76" column="17" bodyfile="src/ingestion/steps/parse_text_step.cpp" bodystart="76" bodyend="78" declfile="include/ingestion/builtin_step_factories.h" declline="72" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a186c78f27711f9f4d8715fa35867173c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createParsePdfStep</definition>
+        <argsstring>(std::shared_ptr&lt; IFormatExtractor &gt; extractor=nullptr)</argsstring>
+        <name>createParsePdfStep</name>
+        <qualifiedname>themis::ingestion::builtin::createParsePdfStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref> &gt;</type>
+          <declname>extractor</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.parse_pdf</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Factory functions (declared in builtin_step_factories.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref></computeroutput> that handles &quot;application/pdf&quot;. Pass <computeroutput>nullptr</computeroutput> to create a disabled step (canHandle() will return false; step is silently skipped).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+h) ───────────────────────────────────────────────────────────────────────────── </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="277" column="17" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="277" bodyend="281" declfile="include/ingestion/builtin_step_factories.h" declline="81" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1afede24006c8b75eb89efb00fdf78dfe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createParseOfficeStep</definition>
+        <argsstring>(std::shared_ptr&lt; IFormatExtractor &gt; extractor=nullptr)</argsstring>
+        <name>createParseOfficeStep</name>
+        <qualifiedname>themis::ingestion::builtin::createParseOfficeStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref> &gt;</type>
+          <declname>extractor</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.parse_office</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Parse Office Step.</para>
+<para>Handles DOCX, XLSX, PPTX, ODF, and legacy Office formats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref></computeroutput> that handles Office MIME types.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="288" column="17" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="288" bodyend="292" declfile="include/ingestion/builtin_step_factories.h" declline="91" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a633cd1a6ed5768639339298d34b36d62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createParseImageStep</definition>
+        <argsstring>(std::shared_ptr&lt; IFormatExtractor &gt; extractor=nullptr)</argsstring>
+        <name>createParseImageStep</name>
+        <qualifiedname>themis::ingestion::builtin::createParseImageStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref> &gt;</type>
+          <declname>extractor</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.parse_image</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Parse Image Step.</para>
+<para>Extracts EXIF metadata and (optionally) OCR-derived text.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref></computeroutput> that handles image/* MIME types.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="299" column="17" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="299" bodyend="303" declfile="include/ingestion/builtin_step_factories.h" declline="101" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1ae18f90de155775e696167966899004b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createParseArchiveStep</definition>
+        <argsstring>(std::shared_ptr&lt; IFormatExtractor &gt; extractor=nullptr)</argsstring>
+        <name>createParseArchiveStep</name>
+        <qualifiedname>themis::ingestion::builtin::createParseArchiveStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref> &gt;</type>
+          <declname>extractor</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.parse_archive</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Parse Archive Step.</para>
+<para>Unpacks ZIP/TAR/… archives to a temporary directory and populates <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a639ce9f03577f21056708552c0cd43ce" kindref="member">ExtractionContext::extracted_file_paths</ref></computeroutput> for recursive ingestion.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref></computeroutput> that handles archive MIME types.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="310" column="17" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="310" bodyend="314" declfile="include/ingestion/builtin_step_factories.h" declline="112" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a72b5fe88e7c6d4b5c6a0cd04206d7e57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createParseAudioStep</definition>
+        <argsstring>(std::shared_ptr&lt; IFormatExtractor &gt; extractor=nullptr)</argsstring>
+        <name>createParseAudioStep</name>
+        <qualifiedname>themis::ingestion::builtin::createParseAudioStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref> &gt;</type>
+          <declname>extractor</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.parse_audio</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Parse Audio Step.</para>
+<para>Transcribes audio to text via the STT (Whisper/FFmpeg) backend. Only active when <computeroutput>THEMIS_ENABLE_VOICE_ASSISTANT</computeroutput> is ON.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref></computeroutput> that handles audio/* MIME types.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="321" column="17" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="321" bodyend="325" declfile="include/ingestion/builtin_step_factories.h" declline="123" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a3be922f537aea20db156beb9cf6c9108" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createDecompressStep</definition>
+        <argsstring>()</argsstring>
+        <name>createDecompressStep</name>
+        <qualifiedname>themis::ingestion::builtin::createDecompressStep</qualifiedname>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.decompress</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Decompress Step.</para>
+<para>Unpacks ZIP / tar / gzip archives without a FormatExtractor dependency. Uses fork/execvp to invoke <computeroutput>unzip</computeroutput> or <computeroutput>tar</computeroutput> from the system PATH. Populates <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a639ce9f03577f21056708552c0cd43ce" kindref="member">ExtractionContext::extracted_file_paths</ref></computeroutput> with the paths of the files written to a temporary directory.</para>
+<para>Config keys (all optional):<itemizedlist>
+<listitem><para><computeroutput>output_dir</computeroutput> string Base directory for extraction (default: /tmp/themis_decompress_XXXXXX)</para>
+</listitem><listitem><para><computeroutput>max_depth</computeroutput> number Maximum recursive unpack depth (default: 1, i.e. no recursion)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDecompressStep without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="218" column="17" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="218" bodyend="220" declfile="include/ingestion/builtin_step_factories.h" declline="142" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a66e5e0a065b42088ec2bef9a2670f203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createLegalReferenceExtractorStep</definition>
+        <argsstring>()</argsstring>
+        <name>createLegalReferenceExtractorStep</name>
+        <qualifiedname>themis::ingestion::builtin::createLegalReferenceExtractorStep</qualifiedname>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.legal_reference_extractor</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Legal Reference Extractor Step.</para>
+<para>Wraps <computeroutput><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator" kindref="compound">AgenticReferenceValidator</ref></computeroutput> as a workflow step. Operates on <computeroutput>ctx.raw_text</computeroutput>; results are stored in:<itemizedlist>
+<listitem><para><computeroutput>ctx.extra["legal_refs.extracted_count"]</computeroutput> — total references found</para>
+</listitem><listitem><para><computeroutput>ctx.extra["legal_refs.dangling_count"]</computeroutput> — unresolved references</para>
+</listitem><listitem><para><computeroutput>ctx.extra["legal_refs.warnings_json"]</computeroutput> — JSON array of warning strings Dangling references also produce <computeroutput>ctx.warnings</computeroutput> entries for operator visibility.</para>
+</listitem></itemizedlist>
+</para>
+<para>Config keys (all optional):<itemizedlist>
+<listitem><para><computeroutput>known_laws</computeroutput> array of strings Pre-populated law IDs (e.g. [&quot;BImSchG&quot;,&quot;StGB&quot;])</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createLegalReferenceExtractorStep without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="96" column="17" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="96" bodyend="98" declfile="include/ingestion/builtin_step_factories.h" declline="157" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a572f717a60c0216cf8b6e3d1e3c922b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createChunkEmbedStep</definition>
+        <argsstring>(std::shared_ptr&lt; IEmbeddingBackend &gt; backend=nullptr)</argsstring>
+        <name>createChunkEmbedStep</name>
+        <qualifiedname>themis::ingestion::builtin::createChunkEmbedStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend" kindref="compound">IEmbeddingBackend</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.chunk_embed</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Chunk Embed Step.</para>
+<para>For every <computeroutput><ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref></computeroutput> in <computeroutput>ctx.chunks</computeroutput>, computes a dense embedding via <computeroutput>backend</computeroutput> and appends a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref></computeroutput> to <computeroutput>ctx.embeddings</computeroutput>.</para>
+<para>If <computeroutput>backend</computeroutput> is <computeroutput>nullptr</computeroutput>, a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend" kindref="compound">NullEmbeddingBackend</ref></computeroutput> (768-d, zero vectors) is used automatically; <computeroutput>isAvailable()</computeroutput> will be false so no real inference occurs but the step succeeds without error — useful for tests.</para>
+<para>Config keys (all optional):<itemizedlist>
+<listitem><para><computeroutput>skip_when_unavailable</computeroutput> bool default true — if true and backend is unavailable, the step is a no-op instead of an error.</para>
+</listitem><listitem><para><computeroutput>dims</computeroutput> number Hint for <ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend" kindref="compound">NullEmbeddingBackend</ref> dimensionality (default 768).</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Injectable <ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend" kindref="compound">IEmbeddingBackend</ref>; nullptr → <ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend" kindref="compound">NullEmbeddingBackend</ref>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_embed_step.cpp" line="123" column="17" bodyfile="src/ingestion/steps/chunk_embed_step.cpp" bodystart="123" bodyend="127" declfile="include/ingestion/builtin_step_factories.h" declline="176" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1aa38abfaaee98b4d80a790c99f269485d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createChunkTtDecomposeStep</definition>
+        <argsstring>(std::shared_ptr&lt; ITensorDecompositionBackend &gt; backend=nullptr)</argsstring>
+        <name>createChunkTtDecomposeStep</name>
+        <qualifiedname>themis::ingestion::builtin::createChunkTtDecomposeStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" kindref="compound">ITensorDecompositionBackend</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.chunk_tt_decompose</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Chunk Tt Decompose Step.</para>
+<para>For every <computeroutput><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref></computeroutput> in <computeroutput>ctx.embeddings</computeroutput> that passes the κ-gate, computes a Tensor-Train decomposition via <computeroutput>backend</computeroutput> and appends a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref></computeroutput> to <computeroutput>ctx.tensor_cores</computeroutput>.</para>
+<para>Ordering constraint: this step MUST run <bold>after</bold> <computeroutput>builtin.chunk_embed</computeroutput> so that <computeroutput>ctx.embeddings</computeroutput> is already populated.</para>
+<para>If <computeroutput>backend</computeroutput> is <computeroutput>nullptr</computeroutput>, a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend" kindref="compound">NullTensorDecompositionBackend</ref></computeroutput> (<computeroutput>isAvailable() == false</computeroutput>) is used; the step becomes a no-op unless <computeroutput>skip_when_unavailable</computeroutput> is set to <computeroutput>false</computeroutput>.</para>
+<para>Config keys (all optional):<itemizedlist>
+<listitem><para><computeroutput>skip_when_unavailable</computeroutput> bool default true</para>
+</listitem><listitem><para><computeroutput>epsilon</computeroutput> number TT-SVD error tolerance ε (default 0.01)</para>
+</listitem><listitem><para><computeroutput>max_rank</computeroutput> number Bond-dimension cap (0 = no cap, default 0)</para>
+</listitem><listitem><para><computeroutput>min_kappa</computeroutput> number Minimum compression ratio for κ-gate (default 1.3; set 0.0 to decompose all)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Injectable <ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" kindref="compound">ITensorDecompositionBackend</ref>; nullptr → <ref refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend" kindref="compound">NullTensorDecompositionBackend</ref>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="173" column="17" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="173" bodyend="177" declfile="include/ingestion/builtin_step_factories.h" declline="202" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a3d577bebbc4e78ecab533ac6b3c75a04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::builtin::createTensorCoreBridgeStep</definition>
+        <argsstring>(std::shared_ptr&lt; ITensorCoreBridge &gt; sink=nullptr)</argsstring>
+        <name>createTensorCoreBridgeStep</name>
+        <qualifiedname>themis::ingestion::builtin::createTensorCoreBridgeStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge" kindref="compound">ITensorCoreBridge</ref> &gt;</type>
+          <declname>sink</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>builtin.tensor_core_bridge</computeroutput> step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Tensor Core Bridge Step.</para>
+<para>For every <computeroutput><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref></computeroutput> in <computeroutput>ctx.tensor_cores</computeroutput>, calls <computeroutput>sink-&gt;write(record, tenant_id)</computeroutput> to persist the pre-computed TT-cores.</para>
+<para>Ordering constraint: this step MUST run <bold>after</bold> <computeroutput>builtin.chunk_tt_decompose</computeroutput> so that <computeroutput>ctx.tensor_cores</computeroutput> is already populated.</para>
+<para>If <computeroutput>sink</computeroutput> is <computeroutput>nullptr</computeroutput>, an <computeroutput><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge" kindref="compound">InMemoryTensorCoreBridge</ref></computeroutput> is used; records are never persisted across restarts (suitable only for tests).</para>
+<para>Config keys (all optional):<itemizedlist>
+<listitem><para><computeroutput>tenant_id</computeroutput> string Overrides tenant resolution when non-empty. Falls back to <computeroutput>ctx.extra["tenant_id"]</computeroutput>, then to &quot;default&quot;.</para>
+</listitem><listitem><para><computeroutput>skip_empty</computeroutput> bool Skip records with empty serialized_train (default true).</para>
+</listitem><listitem><para><computeroutput>fail_on_write_error</computeroutput> bool Propagate write errors as step failures (default false — records warned but skipped).</para>
+</listitem><listitem><para><computeroutput>require_persistent_sink</computeroutput> bool Abort step when the sink is <computeroutput><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge" kindref="compound">InMemoryTensorCoreBridge</ref></computeroutput> (default false).</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Injectable <ref refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge" kindref="compound">ITensorCoreBridge</ref>; nullptr → <ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge" kindref="compound">InMemoryTensorCoreBridge</ref>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/tensor_core_bridge_step.cpp" line="148" column="17" bodyfile="src/ingestion/steps/tensor_core_bridge_step.cpp" bodystart="148" bodyend="155" declfile="include/ingestion/builtin_step_factories.h" declline="231" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a0f72a1964d5d886b85999d5d0f80c899" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::ingestion::builtin::runProcess</definition>
+        <argsstring>(const std::vector&lt; const char * &gt; &amp;argv_vec)</argsstring>
+        <name>runProcess</name>
+        <qualifiedname>themis::ingestion::builtin::runProcess</qualifiedname>
+        <param>
+          <type>const std::vector&lt; const char * &gt; &amp;</type>
+          <declname>argv_vec</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Internal helper: fork/execvp without shell ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">argv_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: defined(), push_back(), fork(), execvp(), data(), _exit(), waitpid(), WIFEXITED(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="41" column="13" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="41" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a86739ab186182fd34f686eb7b8ec4e34" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::ingestion::builtin::collectPaths</definition>
+        <argsstring>(const std::string &amp;dir, std::vector&lt; std::string &gt; &amp;out)</argsstring>
+        <name>collectPaths</name>
+        <qualifiedname>themis::ingestion::builtin::collectPaths</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Walk a directory tree and collect all regular file paths ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fs::recursive_directory_iterator(), is_regular_file(), push_back(), path(), string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="76" column="13" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="76" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a25e3dc770ca540979f68ac6bbe25723b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> *</type>
+        <definition>IIngestionStep * themis::ingestion::builtin::themis_create_step_parse_text</definition>
+        <argsstring>()</argsstring>
+        <name>themis_create_step_parse_text</name>
+        <qualifiedname>themis::ingestion::builtin::themis_create_step_parse_text</qualifiedname>
+        <briefdescription>
+<para>Themis create step parse text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: ParseTextStep(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/parse_text_step.cpp" line="86" column="20" bodyfile="src/ingestion/steps/parse_text_step.cpp" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1builtin_1a98c52148e9f9d1c21116eedaf9d71256" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::builtin::themis_destroy_step_parse_text</definition>
+        <argsstring>(IIngestionStep *p)</argsstring>
+        <name>themis_destroy_step_parse_text</name>
+        <qualifiedname>themis::ingestion::builtin::themis_destroy_step_parse_text</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Themis destroy step parse text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements themis_destroy_step_parse_text without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/parse_text_step.cpp" line="94" column="10" bodyfile="src/ingestion/steps/parse_text_step.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/builtin_step_factories.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

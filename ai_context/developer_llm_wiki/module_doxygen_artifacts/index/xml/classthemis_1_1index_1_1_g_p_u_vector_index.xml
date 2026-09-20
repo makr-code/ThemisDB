@@ -1,0 +1,876 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_g_p_u_vector_index" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::GPUVectorIndex</compoundname>
+    <includes refid="gpu__vector__index_8h" local="no">gpu_vector_index.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" prot="public">themis::index::GPUVectorIndex::Config</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" prot="public">themis::index::GPUVectorIndex::SearchResult</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics" prot="public">themis::index::GPUVectorIndex::Statistics</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_g_p_u_vector_index_1_1_impl" prot="public">themis::index::GPUVectorIndex::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Backend</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Backend</qualifiedname>
+        <enumvalue id="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ac60cacb57b9e78f018a9d973bee2f801" prot="public">
+          <name>VULKAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1aa33b7755e5f9b504d2d038eaca4ff28d" prot="public">
+          <name>CUDA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a5e4576beae2ab86d6ad1b8b1700d2e11" prot="public">
+          <name>HIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="27" column="5" bodyfile="include/index/gpu_vector_index.h" bodystart="27" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46da" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DistanceMetric</name>
+        <qualifiedname>themis::index::GPUVectorIndex::DistanceMetric</qualifiedname>
+        <enumvalue id="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46daa7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46daae66ba018ef96aa5c78c8fba787f43717" prot="public">
+          <name>COSINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46daa5dbd0030546e2ee560ccd7c5e4bfcfc8" prot="public">
+          <name>INNER_PRODUCT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="35" column="5" bodyfile="include/index/gpu_vector_index.h" bodystart="35" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a9d12e0ebe85314e9c39e319d64903795" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::index::GPUVectorIndex::pImpl</definition>
+        <argsstring></argsstring>
+        <name>pImpl</name>
+        <qualifiedname>themis::index::GPUVectorIndex::pImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="237" column="21" bodyfile="include/index/gpu_vector_index.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a057cde9d17cae72bac204bf2167f0dad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::GPUVectorIndex::GPUVectorIndex</definition>
+        <argsstring>()</argsstring>
+        <name>GPUVectorIndex</name>
+        <qualifiedname>themis::index::GPUVectorIndex::GPUVectorIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="100" column="5" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1189" bodyend="1191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a74504383081d83fd4bf9cd8a309d563c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::GPUVectorIndex::GPUVectorIndex</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GPUVectorIndex</name>
+        <qualifiedname>themis::index::GPUVectorIndex::GPUVectorIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>GPUVector Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="106" column="14" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1193" bodyend="1195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a1ac33b7efeaa7fece8c5d6b95c683844" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::GPUVectorIndex::~GPUVectorIndex</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GPUVectorIndex</name>
+        <qualifiedname>themis::index::GPUVectorIndex::~GPUVectorIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="107" column="5" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1198" bodyend="1204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a4347b30692cb71487ac8ee6d921892e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::initialize</definition>
+        <argsstring>(int dimension)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::index::GPUVectorIndex::initialize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="115" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1206" bodyend="1208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1ae10144f33f46c57b3a6bcf7feaa4afc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::GPUVectorIndex::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::index::GPUVectorIndex::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="119" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1214" bodyend="1216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a564eb38c60a9c0c9ecffa1f5cb735249" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::addVector</definition>
+        <argsstring>(const std::string &amp;id, const std::vector&lt; float &gt; &amp;vector)</argsstring>
+        <name>addVector</name>
+        <qualifiedname>themis::index::GPUVectorIndex::addVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Add Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements addVector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="128" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1225" bodyend="1227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a198942a28826d9e74719fccdebab8fe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::addVectorBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;ids, const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;vectors)</argsstring>
+        <name>addVectorBatch</name>
+        <qualifiedname>themis::index::GPUVectorIndex::addVectorBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>ids</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>vectors</declname>
+        </param>
+        <briefdescription>
+<para>Add Vector Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), empty(), find(), end(), themis::gpu::GPUMemoryManager::GetInstance(), TryAllocateGPU(), THEMIS_WARN(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="135" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1236" bodyend="1338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a508cde7590d65de20a670f2963b9d56f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::removeVector</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>removeVector</name>
+        <qualifiedname>themis::index::GPUVectorIndex::removeVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements removeVector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="142" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1346" bodyend="1348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a5cb13a807b258e773ac2a3d7a680204b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::updateVector</definition>
+        <argsstring>(const std::string &amp;id, const std::vector&lt; float &gt; &amp;vector)</argsstring>
+        <name>updateVector</name>
+        <qualifiedname>themis::index::GPUVectorIndex::updateVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Update Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a564eb38c60a9c0c9ecffa1f5cb735249" kindref="member">addVector()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="149" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1357" bodyend="1359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1aff9c444db6d3fdd67ea22278d04d0d8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">SearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; GPUVectorIndex::SearchResult &gt; themis::index::GPUVectorIndex::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, size_t k)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::index::GPUVectorIndex::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements search without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="158" column="17" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1368" bodyend="1376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a7d49a8049b312d1919ab1362fecf26c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; GPUVectorIndex::SearchResult &gt; &gt; themis::index::GPUVectorIndex::searchBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;queries, size_t k)</argsstring>
+        <name>searchBatch</name>
+        <qualifiedname>themis::index::GPUVectorIndex::searchBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(), push_back(), searchOversubscribed(), uploadVectors(), searchBatchIndices(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="165" column="17" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1385" bodyend="1496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a53a9476aac5b89871be682d9320b5028" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::buildIndex</definition>
+        <argsstring>()</argsstring>
+        <name>buildIndex</name>
+        <qualifiedname>themis::index::GPUVectorIndex::buildIndex</qualifiedname>
+        <briefdescription>
+<para>Build Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_WARN(), empty(), uploadVectors(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="173" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1503" bodyend="1528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a72d407fdc20dbaed816670c57dd4b6f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::saveIndex</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>saveIndex</name>
+        <qualifiedname>themis::index::GPUVectorIndex::saveIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Save Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), ofs(), THEMIS_ERROR(), write(), size(), data(), good(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="179" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1536" bodyend="1582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a88c8efa84471ee74d36eedb2cb4e6710" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::loadIndex</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadIndex</name>
+        <qualifiedname>themis::index::GPUVectorIndex::loadIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), ifs(), THEMIS_ERROR(), read(), THEMIS_WARN(), <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a4347b30692cb71487ac8ee6d921892e3" kindref="member">initialize()</ref>, themis::gpu::GPUMemoryManager::GetInstance(), DeallocateGPU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="185" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1590" bodyend="1721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1ae75cb4ea4e41013a763c210932e027ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::GPUVectorIndex::setEfSearch</definition>
+        <argsstring>(int ef)</argsstring>
+        <name>setEfSearch</name>
+        <qualifiedname>themis::index::GPUVectorIndex::setEfSearch</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>ef</declname>
+        </param>
+        <briefdescription>
+<para>Set Ef Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ef</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="192" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1723" bodyend="1725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a650af8261628b933af7dcd2b00dcb24b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::GPUVectorIndex::setBatchSize</definition>
+        <argsstring>(int size)</argsstring>
+        <name>setBatchSize</name>
+        <qualifiedname>themis::index::GPUVectorIndex::setBatchSize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Set Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="197" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1727" bodyend="1729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a451515769805d397d8b691087109e461" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" kindref="member">Backend</ref></type>
+        <definition>GPUVectorIndex::Backend themis::index::GPUVectorIndex::getActiveBackend</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveBackend</name>
+        <qualifiedname>themis::index::GPUVectorIndex::getActiveBackend</qualifiedname>
+        <briefdescription>
+<para>Get Active <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" kindref="member">Backend</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="202" column="13" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1731" bodyend="1733"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a216b15207b271ab0b8cc92039644a6af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>GPUVectorIndex::Statistics themis::index::GPUVectorIndex::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::index::GPUVectorIndex::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="207" column="16" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1735" bodyend="1767"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1ab967a59495cee605fe52392d5b44468e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::switchBackend</definition>
+        <argsstring>(Backend backend)</argsstring>
+        <name>switchBackend</name>
+        <qualifiedname>themis::index::GPUVectorIndex::switchBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Switch <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" kindref="member">Backend</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1aa3b5d0bb5bb0cc94648cc9c0e9580811" kindref="member">getAvailableBackends()</ref>, std::find(), begin(), end(), THEMIS_WARN(), <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1ae10144f33f46c57b3a6bcf7feaa4afc1" kindref="member">shutdown()</ref>, <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a4347b30692cb71487ac8ee6d921892e3" kindref="member">initialize()</ref>, THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="215" column="10" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1783" bodyend="1837"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1aa3b5d0bb5bb0cc94648cc9c0e9580811" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" kindref="member">Backend</ref> &gt;</type>
+        <definition>std::vector&lt; GPUVectorIndex::Backend &gt; themis::index::GPUVectorIndex::getAvailableBackends</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableBackends</name>
+        <qualifiedname>themis::index::GPUVectorIndex::getAvailableBackends</qualifiedname>
+        <briefdescription>
+<para>Get Available Backends. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="220" column="17" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1839" bodyend="1869"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_vector_index_1a83f86816d2c190c5bd146a5f25abaa0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" kindref="compound">GPUMemoryOversubscriptionManager::Stats</ref></type>
+        <definition>GPUMemoryOversubscriptionManager::Stats themis::index::GPUVectorIndex::getOversubscriptionStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getOversubscriptionStats</name>
+        <qualifiedname>themis::index::GPUVectorIndex::getOversubscriptionStats</qualifiedname>
+        <briefdescription>
+<para>Oversubscription control (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+7.0) Returns the oversubscription stats; the returned Stats::oversubscriptionActive field is false when oversubscription is disabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="227" column="45" bodyfile="src/index/gpu_vector_index.cpp" bodystart="1770" bodyend="1775"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gpu_vector_index.h" line="25" column="1" bodyfile="include/index/gpu_vector_index.h" bodystart="25" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a564eb38c60a9c0c9ecffa1f5cb735249" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>addVector</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a198942a28826d9e74719fccdebab8fe9" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>addVectorBatch</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>Backend</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a53a9476aac5b89871be682d9320b5028" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>buildIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46da" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>DistanceMetric</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a451515769805d397d8b691087109e461" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>getActiveBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1aa3b5d0bb5bb0cc94648cc9c0e9580811" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>getAvailableBackends</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a83f86816d2c190c5bd146a5f25abaa0a" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>getOversubscriptionStats</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a216b15207b271ab0b8cc92039644a6af" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a057cde9d17cae72bac204bf2167f0dad" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>GPUVectorIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a74504383081d83fd4bf9cd8a309d563c" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>GPUVectorIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a4347b30692cb71487ac8ee6d921892e3" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a88c8efa84471ee74d36eedb2cb4e6710" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>loadIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a9d12e0ebe85314e9c39e319d64903795" prot="private" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>pImpl</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a508cde7590d65de20a670f2963b9d56f" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>removeVector</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a72d407fdc20dbaed816670c57dd4b6f6" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>saveIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1aff9c444db6d3fdd67ea22278d04d0d8f" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a7d49a8049b312d1919ab1362fecf26c5" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>searchBatch</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a650af8261628b933af7dcd2b00dcb24b" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>setBatchSize</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1ae75cb4ea4e41013a763c210932e027ec" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>setEfSearch</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1ae10144f33f46c57b3a6bcf7feaa4afc1" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1ab967a59495cee605fe52392d5b44468e" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>switchBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a5cb13a807b258e773ac2a3d7a680204b" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>updateVector</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a1ac33b7efeaa7fece8c5d6b95c683844" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex</scope><name>~GPUVectorIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

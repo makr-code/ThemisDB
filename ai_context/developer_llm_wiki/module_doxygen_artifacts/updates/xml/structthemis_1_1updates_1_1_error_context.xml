@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ErrorContext</compoundname>
+    <includes refid="updates__diagnostics_8h" local="no">updates_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1a56c89a406b9b1555e215eac26ddf6472" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::updates::ErrorContext::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::updates::ErrorContext::timestamp</qualifiedname>
+        <briefdescription>
+<para>Timestamp when the error occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="123" column="43" bodyfile="include/updates/updates_diagnostics.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1a896189f4e413bfcf6fa9fd429bd62229" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>DiagnosticErrorCode themis::updates::ErrorContext::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::updates::ErrorContext::error_code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">DiagnosticErrorCode::UNKNOWN_ERROR</ref></initializer>
+        <briefdescription>
+<para>Error code (see <ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="126" column="25" bodyfile="include/updates/updates_diagnostics.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1afc2020e840c58889bde43dd5b73581b7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57d" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>DiagnosticSeverity themis::updates::ErrorContext::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::updates::ErrorContext::severity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57dabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">DiagnosticSeverity::ERROR</ref></initializer>
+        <briefdescription>
+<para>Severity level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="129" column="24" bodyfile="include/updates/updates_diagnostics.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1adbd7525c4851eeab965a5c14af359f86" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7a" kindref="member">RootCauseClass</ref></type>
+        <definition>RootCauseClass themis::updates::ErrorContext::root_cause</definition>
+        <argsstring></argsstring>
+        <name>root_cause</name>
+        <qualifiedname>themis::updates::ErrorContext::root_cause</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">RootCauseClass::UNKNOWN</ref></initializer>
+        <briefdescription>
+<para>Root cause classification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="132" column="20" bodyfile="include/updates/updates_diagnostics.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1a683dafbeae5e2109449787790a21bfed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ErrorContext::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::updates::ErrorContext::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="135" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1a2420776cb10dc87218457bf877979c03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ErrorContext::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::updates::ErrorContext::operation</qualifiedname>
+        <briefdescription>
+<para>Operation in progress when error occurred (e.g., &quot;apply_update&quot;, &quot;rollback&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="138" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1ad17d60f1ad4d838ffbdd31244ccba01b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ErrorContext::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::updates::ErrorContext::phase</qualifiedname>
+        <briefdescription>
+<para>Update phase (e.g., &quot;downloading&quot;, &quot;verifying&quot;, &quot;applying&quot;, &quot;rolling_back&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="141" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1abfd2d0efcabfa5151ab9ede2dcd808a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ErrorContext::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::updates::ErrorContext::node_id</qualifiedname>
+        <briefdescription>
+<para>Node ID where error occurred (empty if local/global). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="144" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1ab8f614067159e331204198ecaca62bce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ErrorContext::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::ErrorContext::version</qualifiedname>
+        <briefdescription>
+<para>Version being processed at time of error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="147" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_error_context_1a08138da309021dfefeeb42a103e18bae" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::ErrorContext::extra_context</definition>
+        <argsstring></argsstring>
+        <name>extra_context</name>
+        <qualifiedname>themis::updates::ErrorContext::extra_context</qualifiedname>
+        <briefdescription>
+<para>Additional context (e.g., affected file path, network peer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="150" column="10" bodyfile="include/updates/updates_diagnostics.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_error_context_1a782e9e5de071b4e515424401ea71da04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::ErrorContext::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::ErrorContext::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON for structured logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="155" column="10" bodyfile="src/updates/updates_diagnostics.cpp" bodystart="19" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_error_context_1a7fb20d34ddc333b287f1355f628726f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &gt;</type>
+        <definition>std::optional&lt; ErrorContext &gt; themis::updates::ErrorContext::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::updates::ErrorContext::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Construct from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), empty(), ss(), std::get_time(), fail(), _mkgmtime(), timegm(), std::chrono::system_clock::from_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="160" column="26" bodyfile="src/updates/updates_diagnostics.cpp" bodystart="52" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured error context for diagnostic events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides machine-parseable context for errors, enabling:<itemizedlist>
+<listitem><para>Automated routing and remediation</para>
+</listitem><listitem><para>Historical analysis and pattern detection</para>
+</listitem><listitem><para>Operator dashboards and alerting </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/updates_diagnostics.h" line="121" column="1" bodyfile="include/updates/updates_diagnostics.h" bodystart="121" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_error_context_1a896189f4e413bfcf6fa9fd429bd62229" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1a08138da309021dfefeeb42a103e18bae" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>extra_context</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1a7fb20d34ddc333b287f1355f628726f6" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1a683dafbeae5e2109449787790a21bfed" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>message</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1abfd2d0efcabfa5151ab9ede2dcd808a8" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1a2420776cb10dc87218457bf877979c03" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>operation</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1ad17d60f1ad4d838ffbdd31244ccba01b" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>phase</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1adbd7525c4851eeab965a5c14af359f86" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>root_cause</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1afc2020e840c58889bde43dd5b73581b7" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>severity</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1a56c89a406b9b1555e215eac26ddf6472" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1a782e9e5de071b4e515424401ea71da04" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_error_context_1ab8f614067159e331204198ecaca62bce" prot="public" virt="non-virtual"><scope>themis::updates::ErrorContext</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

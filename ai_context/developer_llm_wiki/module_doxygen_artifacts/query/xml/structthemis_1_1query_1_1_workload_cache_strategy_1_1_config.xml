@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::WorkloadCacheStrategy::Config</compoundname>
+    <includes refid="workload__cache__strategy_8h" local="no">workload_cache_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1af567a923d923ae5203495f577cb48a9c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::WorkloadCacheStrategy::Config::enable_workload_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_workload_detection</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::Config::enable_workload_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="99" column="14" bodyfile="include/query/workload_cache_strategy.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1adfcbb6a2ec4022fdaac8dc2830292ee9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::WorkloadCacheStrategy::Config::detection_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>detection_sample_rate</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::Config::detection_sample_rate</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="100" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1acf2c086472cbcf4e93fe87a8ad1c92c0" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::WorkloadCacheStrategy::Config::detection_window</definition>
+        <argsstring></argsstring>
+        <name>detection_window</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::Config::detection_window</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="101" column="30" bodyfile="include/query/workload_cache_strategy.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1accea77edda1446ec330a1fc829cac058" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheStrategy::Config::min_samples_for_detection</definition>
+        <argsstring></argsstring>
+        <name>min_samples_for_detection</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::Config::min_samples_for_detection</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="102" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a05b061f381bbcff8ce197c6fd9e41e36" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::WorkloadCacheStrategy::Config::oltp_frequency_threshold</definition>
+        <argsstring></argsstring>
+        <name>oltp_frequency_threshold</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::Config::oltp_frequency_threshold</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="105" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a1153551dcfca96fab753193feea7c64d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::WorkloadCacheStrategy::Config::olap_frequency_threshold</definition>
+        <argsstring></argsstring>
+        <name>olap_frequency_threshold</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::Config::olap_frequency_threshold</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="106" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a1026b00aab6750ab161bf9944dc09525" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheStrategy::Config::oltp_result_size_threshold</definition>
+        <argsstring></argsstring>
+        <name>oltp_result_size_threshold</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::Config::oltp_result_size_threshold</qualifiedname>
+        <initializer>= 50 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="107" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a9d88f2ea9c266180c3ece9027eda09e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheStrategy::Config::olap_result_size_threshold</definition>
+        <argsstring></argsstring>
+        <name>olap_result_size_threshold</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::Config::olap_result_size_threshold</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="108" column="16" bodyfile="include/query/workload_cache_strategy.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/workload_cache_strategy.h" line="98" column="5" bodyfile="include/query/workload_cache_strategy.h" bodystart="98" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1adfcbb6a2ec4022fdaac8dc2830292ee9" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::Config</scope><name>detection_sample_rate</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1acf2c086472cbcf4e93fe87a8ad1c92c0" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::Config</scope><name>detection_window</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1af567a923d923ae5203495f577cb48a9c" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::Config</scope><name>enable_workload_detection</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1accea77edda1446ec330a1fc829cac058" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::Config</scope><name>min_samples_for_detection</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a1153551dcfca96fab753193feea7c64d" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::Config</scope><name>olap_frequency_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a9d88f2ea9c266180c3ece9027eda09e2" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::Config</scope><name>olap_result_size_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a05b061f381bbcff8ce197c6fd9e41e36" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::Config</scope><name>oltp_frequency_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a1026b00aab6750ab161bf9944dc09525" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy::Config</scope><name>oltp_result_size_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_read_write_ratio_bench" kind="class" language="C++" prot="public">
+    <compoundname>ReadWriteRatioBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_read_write_ratio_bench_1ada2811ddf205cb623333d1d524f6d8b6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; DatabaseFixture &gt;</type>
+        <definition>std::unique_ptr&lt;DatabaseFixture&gt; ReadWriteRatioBench::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>ReadWriteRatioBench::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2036" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2036" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_read_write_ratio_bench_1abe00f23d20831574adfff0cacfc87e79" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; ReadWriteRatioBench::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>ReadWriteRatioBench::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2037" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2037" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_read_write_ratio_bench_1a660b8e59d33e438fc450536ff1e9444a" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 ReadWriteRatioBench::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>ReadWriteRatioBench::rng_</qualifiedname>
+        <initializer>{std::random_device{}()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2038" column="18" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2038" bodyend="2038"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_read_write_ratio_bench_1a9ed01d29e9477209d6cfeac362de5981" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReadWriteRatioBench::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ReadWriteRatioBench::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="1997" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="1997" bodyend="2004"/>
+      </memberdef>
+      <memberdef kind="function" id="class_read_write_ratio_bench_1a4c8589be974eaf38c14596ada1c7b962" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReadWriteRatioBench::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ReadWriteRatioBench::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2006" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2006" bodyend="2009"/>
+      </memberdef>
+      <memberdef kind="function" id="class_read_write_ratio_bench_1af5b2f97cb9614e8237b1b92dbc154d9c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReadWriteRatioBench::populateDataset</definition>
+        <argsstring>(int count)</argsstring>
+        <name>populateDataset</name>
+        <qualifiedname>ReadWriteRatioBench::populateDataset</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2011" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2011" bodyend="2019"/>
+      </memberdef>
+      <memberdef kind="function" id="class_read_write_ratio_bench_1ab25c35fd19d584cb9690c1fbbca62a68" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReadWriteRatioBench::performRead</definition>
+        <argsstring>(int entity_id)</argsstring>
+        <name>performRead</name>
+        <qualifiedname>ReadWriteRatioBench::performRead</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>entity_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2021" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2021" bodyend="2025"/>
+      </memberdef>
+      <memberdef kind="function" id="class_read_write_ratio_bench_1aa2a1f9667aa2cf2063498aead50a6f5e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReadWriteRatioBench::performWrite</definition>
+        <argsstring>(int entity_id)</argsstring>
+        <name>performWrite</name>
+        <qualifiedname>ReadWriteRatioBench::performWrite</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>entity_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2027" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2027" bodyend="2033"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Base fixture for read/write ratio testing </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ReadWriteRatioBench</label>
+        <link refid="class_read_write_ratio_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ReadWriteRatioBench</label>
+        <link refid="class_read_write_ratio_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="1995" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="1995" bodyend="2039"/>
+    <listofallmembers>
+      <member refid="class_read_write_ratio_bench_1ada2811ddf205cb623333d1d524f6d8b6" prot="protected" virt="non-virtual"><scope>ReadWriteRatioBench</scope><name>fixture_</name></member>
+      <member refid="class_read_write_ratio_bench_1ab25c35fd19d584cb9690c1fbbca62a68" prot="protected" virt="non-virtual"><scope>ReadWriteRatioBench</scope><name>performRead</name></member>
+      <member refid="class_read_write_ratio_bench_1aa2a1f9667aa2cf2063498aead50a6f5e" prot="protected" virt="non-virtual"><scope>ReadWriteRatioBench</scope><name>performWrite</name></member>
+      <member refid="class_read_write_ratio_bench_1af5b2f97cb9614e8237b1b92dbc154d9c" prot="protected" virt="non-virtual"><scope>ReadWriteRatioBench</scope><name>populateDataset</name></member>
+      <member refid="class_read_write_ratio_bench_1a660b8e59d33e438fc450536ff1e9444a" prot="protected" virt="non-virtual"><scope>ReadWriteRatioBench</scope><name>rng_</name></member>
+      <member refid="class_read_write_ratio_bench_1a9ed01d29e9477209d6cfeac362de5981" prot="protected" virt="non-virtual"><scope>ReadWriteRatioBench</scope><name>SetUp</name></member>
+      <member refid="class_read_write_ratio_bench_1abe00f23d20831574adfff0cacfc87e79" prot="protected" virt="non-virtual"><scope>ReadWriteRatioBench</scope><name>sim_</name></member>
+      <member refid="class_read_write_ratio_bench_1a4c8589be974eaf38c14596ada1c7b962" prot="protected" virt="non-virtual"><scope>ReadWriteRatioBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

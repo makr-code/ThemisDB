@@ -1,0 +1,475 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__saga_8h" kind="file" language="C++">
+    <compoundname>distributed_saga.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">future</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="distributed__saga_8cpp" local="yes">src/transaction/distributed_saga.cpp</includedby>
+    <includedby refid="test__saga__orchestration__hardening_8cpp" local="yes">tests/transaction/test_saga_orchestration_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/transaction/distributed_saga.h</label>
+        <link refid="distributed__saga_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>future</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>set</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/transaction/distributed_saga.h</label>
+        <link refid="distributed__saga_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/transaction/distributed_saga.cpp</label>
+        <link refid="distributed__saga_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/transaction/test_saga_orchestration_hardening.cpp</label>
+        <link refid="test__saga__orchestration__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_distributed_saga_status" prot="public">themis::DistributedSagaStatus</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_step" prot="public">themis::DistributedSagaStep</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_definition" prot="public">themis::DistributedSagaDefinition</innerclass>
+    <innerclass refid="structthemis_1_1_step_record" prot="public">themis::StepRecord</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_report" prot="public">themis::DistributedSagaReport</innerclass>
+    <innerclass refid="structthemis_1_1_remote_step" prot="public">themis::RemoteStep</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_s_a_g_a_definition" prot="public">themis::DistributedSAGADefinition</innerclass>
+    <innerclass refid="structthemis_1_1_saga_visualization" prot="public">themis::SagaVisualization</innerclass>
+    <innerclass refid="structthemis_1_1_consensus_verification_result" prot="public">themis::ConsensusVerificationResult</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_coordinator_config" prot="public">themis::DistributedSagaCoordinatorConfig</innerclass>
+    <innerclass refid="classthemis_1_1_distributed_saga_coordinator" prot="public">themis::DistributedSagaCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics" prot="public">themis::DistributedSagaCoordinator::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result<sp/>type<sp/>(mirrors<sp/>TransactionManager::Status<sp/>for<sp/>consistency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_distributed_saga_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_distributed_saga_status_1a1bff7b62aed0f242c5a889074201241d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_status_1a1bff7b62aed0f242c5a889074201241d" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_distributed_saga_status_1af3359b7a6054e9652066c7aa25f96c3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_saga_status_1af3359b7a6054e9652066c7aa25f96c3e" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_distributed_saga_status_1a1ab36643fb7b5b56c13dcf92f44dfd52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref><sp/><ref refid="structthemis_1_1_distributed_saga_status_1a1ab36643fb7b5b56c13dcf92f44dfd52" kindref="member">OK</ref>()<sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_distributed_saga_status_1a57f415ce8d9c8972a8578e87a41cca23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref><sp/><ref refid="structthemis_1_1_distributed_saga_status_1a57f415ce8d9c8972a8578e87a41cca23" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-SAGA<sp/>execution<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60" kindref="member">SagaExecutionState</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ac69f06e1a9b016d133907b4e5f5864d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a43491564ebcfd38568918efbd6e840fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a43491564ebcfd38568918efbd6e840fd" kindref="member">RUNNING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60af7eb1a2119233b7d89c3c76589a10664" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60af7eb1a2119233b7d89c3c76589a10664" kindref="member">COMPENSATING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a2df8d8245b6e73417307f431a21ae041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a2df8d8245b6e73417307f431a21ae041" kindref="member">COMPENSATED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Step<sp/>definition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_distributed_saga_step" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_distributed_saga_step_1a70b979da7d6306224b9b4819eb90c631" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_saga_step_1a70b979da7d6306224b9b4819eb90c631" kindref="member">Action</ref><sp/>=<sp/>std::function&lt;<ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref>()&gt;;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1_distributed_saga_step_1a2c88d2ec5b021e545b5c00b607404b07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_saga_step_1a2c88d2ec5b021e545b5c00b607404b07" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1_distributed_saga_step_1aac9f17468abc47764a0cd6fa46d839cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_saga_step_1aac9f17468abc47764a0cd6fa46d839cd" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_distributed_saga_step_1acc90dcb7195fbf6b45f84e3b0bcd45b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_step_1a70b979da7d6306224b9b4819eb90c631" kindref="member">Action</ref><sp/><ref refid="structthemis_1_1_distributed_saga_step_1acc90dcb7195fbf6b45f84e3b0bcd45b8" kindref="member">forward</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_distributed_saga_step_1a3c0c04f727e4cc47c9050a19fb18072f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_step_1a70b979da7d6306224b9b4819eb90c631" kindref="member">Action</ref><sp/><ref refid="structthemis_1_1_distributed_saga_step_1a3c0c04f727e4cc47c9050a19fb18072f" kindref="member">compensate</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_distributed_saga_step_1a30ceef9c6465288126af68615fc87daa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_distributed_saga_step_1a30ceef9c6465288126af68615fc87daa" kindref="member">depends_on</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_distributed_saga_step_1a329984b47001f19c024170923bbd1c7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_distributed_saga_step_1a329984b47001f19c024170923bbd1c7c" kindref="member">forward_timeout</ref>{5000};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_distributed_saga_step_1a1283050147d235f15a5a07c3850e3533" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_distributed_saga_step_1a1283050147d235f15a5a07c3850e3533" kindref="member">compensate_timeout</ref>{10000};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_distributed_saga_step_1a7694e7fca2a28153ec52ecc5cd7fdc8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_step_1a7694e7fca2a28153ec52ecc5cd7fdc8b" kindref="member">max_retries</ref>{3};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_distributed_saga_step_1a42d5d5e1328ba0e3c5427e8d99271c87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_distributed_saga_step_1a42d5d5e1328ba0e3c5427e8d99271c87" kindref="member">retry_backoff</ref>{std::chrono::milliseconds(100)};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SAGA<sp/>definition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_distributed_saga_definition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1_distributed_saga_definition_1a2dab4a009f3ee32796d58148d909d3f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_saga_definition_1a2dab4a009f3ee32796d58148d909d3f7" kindref="member">saga_id</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1_distributed_saga_definition_1a78d47f435e0247d3022736249d11835c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DistributedSagaStep&gt;<sp/><ref refid="structthemis_1_1_distributed_saga_definition_1a78d47f435e0247d3022736249d11835c" kindref="member">steps</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1_distributed_saga_definition_1a7517f36cfe831fc59350699d11eefdc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1_distributed_saga_definition_1a7517f36cfe831fc59350699d11eefdc0" kindref="member">context</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-step<sp/>runtime<sp/>record<sp/>(used<sp/>for<sp/>status<sp/>reporting<sp/>and<sp/>recovery)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_step_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6a2df8d8245b6e73417307f431a21ae041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6" kindref="member">Phase</ref><sp/>{<sp/><ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,<sp/><ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6ac6e6064fdaf5aa9b04472acaffdcea5b" kindref="member">EXECUTING</ref>,<sp/><ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6a2ba22e58ca17bb728d522bba36cf8350" kindref="member">DONE</ref>,<sp/><ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6af7eb1a2119233b7d89c3c76589a10664" kindref="member">COMPENSATING</ref>,<sp/><ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6a2df8d8245b6e73417307f431a21ae041" kindref="member">COMPENSATED</ref>,<sp/><ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1_step_record_1a534d2488552ff8b83c69d4a931a90ef2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1a534d2488552ff8b83c69d4a931a90ef2" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1_step_record_1ad33b4dc1bb4a22125d6148b071a614bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6" kindref="member">Phase</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1ad33b4dc1bb4a22125d6148b071a614bc" kindref="member">phase</ref>{<ref refid="structthemis_1_1_step_record_1a3cec72412b182868012e0aa20a45cce6ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">Phase::PENDING</ref>};</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_step_record_1a18d07fec2fbefb019ad99d080496f659" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1a18d07fec2fbefb019ad99d080496f659" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1_step_record_1ae306bb10595217762617d4b7396613e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_step_record_1ae306bb10595217762617d4b7396613e3" kindref="member">started_at</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1_step_record_1a0ace202437534ef79556093d0caacb18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_step_record_1a0ace202437534ef79556093d0caacb18" kindref="member">finished_at</ref>;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1_step_record_1a490ad42a7d4b9cea3ac86450bfdc37b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1a490ad42a7d4b9cea3ac86450bfdc37b8" kindref="member">attempts</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1_step_record_1a1e959214f034e27a02d3ee7c10502794" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1a1e959214f034e27a02d3ee7c10502794" kindref="member">comp_attempts</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consensus<sp/>tracking<sp/>(QW-39)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1_step_record_1acf25ae8784a150370622b7bb0b3fd21c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1acf25ae8784a150370622b7bb0b3fd21c" kindref="member">consensus_reached</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_step_record_1a3941f49946fb57dd83d4d7e84d33830f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1a3941f49946fb57dd83d4d7e84d33830f" kindref="member">consensus_timestamp_ms</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1_step_record_1a9912451224ac9b50c9a3cfdd7bc95771" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1a9912451224ac9b50c9a3cfdd7bc95771" kindref="member">quorum_size</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_step_record_1a154812ac9af766e78cbab08b696992dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record_1a154812ac9af766e78cbab08b696992dd" kindref="member">ack_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Execution<sp/>report<sp/>returned<sp/>from<sp/>execute()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1_distributed_saga_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_distributed_saga_report_1a590475259cada500c6aa08d32402ddbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_report_1a590475259cada500c6aa08d32402ddbe" kindref="member">saga_id</ref>;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1_distributed_saga_report_1aec6b6ef57dea8044139b966c18f7365c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60" kindref="member">SagaExecutionState</ref><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_report_1aec6b6ef57dea8044139b966c18f7365c" kindref="member">state</ref>{<ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">SagaExecutionState::PENDING</ref>};</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1_distributed_saga_report_1aa8570943483efa6496c2794f0c1f76db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_report_1aa8570943483efa6496c2794f0c1f76db" kindref="member">failure_reason</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1_distributed_saga_report_1ad3c421fbd0e2a01d624134b49558b7bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StepRecord&gt;<sp/><ref refid="structthemis_1_1_distributed_saga_report_1ad3c421fbd0e2a01d624134b49558b7bd" kindref="member">step_records</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1_distributed_saga_report_1a52150af8d257c30edc5db4d4bbd07005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_report_1a52150af8d257c30edc5db4d4bbd07005" kindref="member">total_duration_ms</ref>{0};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1_distributed_saga_report_1a61b8bbef1d70cec852a8c27575b34035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_report_1a61b8bbef1d70cec852a8c27575b34035" kindref="member">succeeded</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_report_1aec6b6ef57dea8044139b966c18f7365c" kindref="member">state</ref><sp/>==<sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">SagaExecutionState::COMPLETED</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Remote<sp/>step<sp/>(for<sp/>multi-cluster<sp/>/<sp/>service-mesh<sp/>orchestration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1_remote_step" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_remote_step" kindref="compound">RemoteStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1_remote_step_1ab0f84d506faef6f04b740dd6c7500a77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_remote_step_1ab0f84d506faef6f04b740dd6c7500a77" kindref="member">service_endpoint</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1_remote_step_1affd42fe9372470fbb175ef541be0a4ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_remote_step_1affd42fe9372470fbb175ef541be0a4ef" kindref="member">operation</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1_remote_step_1ae516625f1832fea4cbd1c1f0077124f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_remote_step_1ae516625f1832fea4cbd1c1f0077124f3" kindref="member">params</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1_remote_step_1af4b868513986ee78c8543e482d11acc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_remote_step_1af4b868513986ee78c8543e482d11acc8" kindref="member">compensate_operation</ref>;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1_remote_step_1a329deda5727974ae8de870f107e75a75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_remote_step_1a329deda5727974ae8de870f107e75a75" kindref="member">compensate_params</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1_remote_step_1afe44516c497d050377d61a2818d9fb51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_remote_step_1afe44516c497d050377d61a2818d9fb51" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1_remote_step_1a27f6d1c4ac406c956353edab7ddfc317" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_remote_step_1a27f6d1c4ac406c956353edab7ddfc317" kindref="member">depends_on</ref>;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1_remote_step_1adab011df818ba76d00468bf593d3524a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_remote_step_1adab011df818ba76d00468bf593d3524a" kindref="member">forward_timeout</ref>{std::chrono::milliseconds(5000)};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1_remote_step_1aa8fdbad32e83e90c0e500b6a4330ab9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_remote_step_1aa8fdbad32e83e90c0e500b6a4330ab9b" kindref="member">compensate_timeout</ref>{std::chrono::milliseconds(10000)};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1_remote_step_1a0a2b2ef6a9c464f1e9b07d4d64cfa625" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_remote_step_1a0a2b2ef6a9c464f1e9b07d4d64cfa625" kindref="member">max_retries</ref>{3};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1_remote_step_1a2a4504d5f0212fbff075bfc947ef8658" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_remote_step_1a2a4504d5f0212fbff075bfc947ef8658" kindref="member">retry_backoff</ref>{std::chrono::milliseconds(100)};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Distributed<sp/>SAGA<sp/>definition<sp/>(multi-cluster<sp/>/<sp/>remote-step<sp/>variant)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1_distributed_s_a_g_a_definition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_s_a_g_a_definition" kindref="compound">DistributedSAGADefinition</ref><sp/>{</highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1_distributed_s_a_g_a_definition_1ad05c57f2d87626bc5bae4936b62b0185" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_s_a_g_a_definition_1ad05c57f2d87626bc5bae4936b62b0185" kindref="member">saga_id</ref>;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1_distributed_s_a_g_a_definition_1a59fdc105325f745b4ce92dc8ef34e7fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RemoteStep&gt;<sp/><ref refid="structthemis_1_1_distributed_s_a_g_a_definition_1a59fdc105325f745b4ce92dc8ef34e7fc" kindref="member">steps</ref>;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1_distributed_s_a_g_a_definition_1afd3a0d54c612853ec57b2d18d79df190" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1_distributed_s_a_g_a_definition_1afd3a0d54c612853ec57b2d18d79df190" kindref="member">context</ref>;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SAGA<sp/>visualization<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1_saga_visualization" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_saga_visualization" kindref="compound">SagaVisualization</ref><sp/>{</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1_saga_visualization_1ae81133b78c0d5784d65c356355186539" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_saga_visualization_1ae81133b78c0d5784d65c356355186539" kindref="member">dot_graph</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1_saga_visualization_1ab89da219c0d8a20742f28a08eb2e9298" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_saga_visualization_1ab89da219c0d8a20742f28a08eb2e9298" kindref="member">text_summary</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Coordinator<sp/>configuration<sp/>(defined<sp/>outside<sp/>the<sp/>class<sp/>so<sp/>it<sp/>can<sp/>be<sp/>used<sp/>as<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>default<sp/>argument<sp/>in<sp/>the<sp/>constructor<sp/>declaration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1ae9b414355433f4198b8e49a3cdde1220" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1ae9b414355433f4198b8e49a3cdde1220" kindref="member">RemoteStepExecutor</ref><sp/>=</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref>(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*endpoint*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*operation*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/></highlight><highlight class="comment">/*params*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1_consensus_verification_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_consensus_verification_result" kindref="compound">ConsensusVerificationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1_consensus_verification_result_1a6b1f59137c468112b84e6a1d57a19b96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_consensus_verification_result_1a6b1f59137c468112b84e6a1d57a19b96" kindref="member">verified</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="structthemis_1_1_consensus_verification_result_1a06275040357bc55d832249d8685ff805" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_consensus_verification_result_1a06275040357bc55d832249d8685ff805" kindref="member">quorum_size</ref>{0};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1_consensus_verification_result_1afcb9a059d3fe4bb6518d7bb6dbd77150" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_consensus_verification_result_1afcb9a059d3fe4bb6518d7bb6dbd77150" kindref="member">ack_count</ref>{0};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1_consensus_verification_result_1ad9d260190893561c8e69440f5d5866b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_consensus_verification_result_1ad9d260190893561c8e69440f5d5866b4" kindref="member">detail</ref>;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="namespacethemis_1aaa66fd1a69f9fb4a31117bedf313e60a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1aaa66fd1a69f9fb4a31117bedf313e60a" kindref="member">ConsensusVerifier</ref><sp/>=</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="structthemis_1_1_consensus_verification_result" kindref="compound">ConsensusVerificationResult</ref>(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*step_name*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*node_id*/</highlight><highlight class="normal">)&gt;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1_distributed_saga_coordinator_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_saga_coordinator_config" kindref="compound">DistributedSagaCoordinatorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="222" refid="structthemis_1_1_distributed_saga_coordinator_config_1ae5287d5d958732f987b4160334ff3349" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config_1ae5287d5d958732f987b4160334ff3349" kindref="member">enable_parallel</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1_distributed_saga_coordinator_config_1affb73dda3b6f241f79a5e6323c88f400" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config_1affb73dda3b6f241f79a5e6323c88f400" kindref="member">journal_path</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1_distributed_saga_coordinator_config_1ad38c74458b9c1d96787bff823553fed3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config_1ad38c74458b9c1d96787bff823553fed3" kindref="member">saga_timeout</ref>{std::chrono::milliseconds(0)};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1_distributed_saga_coordinator_config_1a641229660c1ccae4361a66eb2cc0f2d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config_1a641229660c1ccae4361a66eb2cc0f2d9" kindref="member">default_forward_timeout</ref>{std::chrono::milliseconds(5000)};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1_distributed_saga_coordinator_config_1a64831329621c97116d00e1691b338fb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config_1a64831329621c97116d00e1691b338fb8" kindref="member">default_compensate_timeout</ref>{std::chrono::milliseconds(10000)};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1_distributed_saga_coordinator_config_1a59f8219a7628cd2c2754c6f27ccca09d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config_1a59f8219a7628cd2c2754c6f27ccca09d" kindref="member">enable_consensus_verification</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1_distributed_saga_coordinator_config_1ac7dc545b95a4d8d4baa7254cb17d5828" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1aaa66fd1a69f9fb4a31117bedf313e60a" kindref="member">ConsensusVerifier</ref><sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config_1ac7dc545b95a4d8d4baa7254cb17d5828" kindref="member">consensus_verifier</ref>;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1_distributed_saga_coordinator_config_1aa935d6b394f4b77eb70ca0518f24ae9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae9b414355433f4198b8e49a3cdde1220" kindref="member">RemoteStepExecutor</ref><sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config_1aa935d6b394f4b77eb70ca0518f24ae9b" kindref="member">remote_executor</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Coordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="classthemis_1_1_distributed_saga_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="245" refid="classthemis_1_1_distributed_saga_coordinator_1a43cbaa6f382196050808380230b091ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_distributed_saga_coordinator_1a43cbaa6f382196050808380230b091ff" kindref="member">Config</ref><sp/>=<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_config" kindref="compound">DistributedSagaCoordinatorConfig</ref>;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref>(<ref refid="classthemis_1_1_distributed_saga_coordinator_1a43cbaa6f382196050808380230b091ff" kindref="member">Config</ref><sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1_distributed_saga_coordinator_1aa8b502a99741642e2ec18469ed488ba1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1aa8b502a99741642e2ec18469ed488ba1" kindref="member">~DistributedSagaCoordinator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1_distributed_saga_coordinator_1ab6ff4f568db27aaea352eba5f95ba877" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1ab6ff4f568db27aaea352eba5f95ba877" kindref="member">DistributedSagaCoordinator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1_distributed_saga_coordinator_1a8e5f84f999ac4f6f6d9e2a341e12991a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref>&amp;<sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1a8e5f84f999ac4f6f6d9e2a341e12991a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1_distributed_saga_coordinator_1a64499a02d07ec90cea26024463da37a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1a64499a02d07ec90cea26024463da37a8" kindref="member">DistributedSagaCoordinator</ref>(<ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1_distributed_saga_coordinator_1a19bda96bd25bed9dd116b2922073f128" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1af5c1cb15b1b7a990b52e76f2719ad983" kindref="member">execute</ref>(const<sp/><ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref>&amp;<sp/>saga);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1a8e89c60a2fd1ab8561b8dcb3d4a3caec" kindref="member">validate</ref>(const<sp/><ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref>&amp;<sp/>saga)<sp/>const;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1a0faeffce1e1774b97784d5e789cdfeb9" kindref="member">executeDistributed</ref>(const<sp/><ref refid="structthemis_1_1_distributed_s_a_g_a_definition" kindref="compound">DistributedSAGADefinition</ref>&amp;<sp/>saga);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref>&gt;<sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1a055b7ed691024f21033bf3fd30fbef98" kindref="member">getDistributedStatus</ref>(</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>saga_id)<sp/>const;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1ad88ea21295ded87ace2252ec17fb9441" kindref="member">recoverInProgressSAGAs</ref>();</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_saga_visualization" kindref="compound">SagaVisualization</ref><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1a9b8ec9e18c8bbe9f04f369425cc38323" kindref="member">visualize</ref>(const<sp/><ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref>&amp;<sp/>saga)<sp/>const;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1acc222d672cf672e7defe0032c467d9ee" kindref="member">forceCompensate</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>saga_id);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1aec6adaff798fe91371c6b412f6c86e39" kindref="member">forceComplete</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>saga_id);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref>&gt;<sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1ae7301175e70503a53a91b56a1bdaf89b" kindref="member">getReport</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>saga_id)<sp/>const;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a18cc5dc8af5f6b224b646bd085be8a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a18cc5dc8af5f6b224b646bd085be8a58" kindref="member">sagas_started</ref>{0};</highlight></codeline>
+<codeline lineno="327" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a2bb279599fa597ff13bdb4c0b00b7fa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a2bb279599fa597ff13bdb4c0b00b7fa5" kindref="member">sagas_completed</ref>{0};</highlight></codeline>
+<codeline lineno="328" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1aa70c266ea390759808c2c2173c97cf9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1aa70c266ea390759808c2c2173c97cf9e" kindref="member">sagas_compensated</ref>{0};</highlight></codeline>
+<codeline lineno="329" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a58a2c3420a838d85ddc8f416aaffc52f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a58a2c3420a838d85ddc8f416aaffc52f" kindref="member">sagas_failed</ref>{0};</highlight></codeline>
+<codeline lineno="330" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a88629d5d968935df501f0b2ed5094f35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a88629d5d968935df501f0b2ed5094f35" kindref="member">total_step_executions</ref>{0};</highlight></codeline>
+<codeline lineno="331" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a68ea17ed74fdd9e6522693c62f9c0e09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a68ea17ed74fdd9e6522693c62f9c0e09" kindref="member">total_compensations</ref>{0};</highlight></codeline>
+<codeline lineno="332" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a69063b214772ece5365591ff0780e385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a69063b214772ece5365591ff0780e385" kindref="member">total_step_retries</ref>{0};</highlight></codeline>
+<codeline lineno="333" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a2c8a83cde5040edc461b43b7b2c3239b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a2c8a83cde5040edc461b43b7b2c3239b" kindref="member">total_timeout_aborts</ref>{0};</highlight></codeline>
+<codeline lineno="334" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a18940007f8199e89aaae8d3e976f8244" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a18940007f8199e89aaae8d3e976f8244" kindref="member">consensus_checks_total</ref>{0};</highlight></codeline>
+<codeline lineno="335" refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a1f72ddde53f4ecfa8f07878f987df02a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a1f72ddde53f4ecfa8f07878f987df02a" kindref="member">consensus_checks_failed</ref>{0};</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>Metrics<sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1aaa76bc95b647da12822f1a979a46a3a2" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_distributed_saga_coordinator_1a43cbaa6f382196050808380230b091ff" kindref="member">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>reports_mutex_;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>DistributedSagaReport&gt;<sp/>reports_;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>metrics<sp/>(updated<sp/>atomically)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>metrics_mutex_;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>Metrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>topologicalSort(</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref>&amp;<sp/>saga</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>index<sp/>type<sp/>for<sp/>O(1)<sp/>step-record<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">RecordIndex<sp/>=<sp/>std::unordered_map&lt;std::string,<sp/>StepRecord*&gt;;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref><sp/>executeWave(</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wave,</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>DistributedSagaStep&gt;&amp;<sp/><sp/>step_map,</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RecordIndex&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index,</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>failure_reason,</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::steady_clock::time_point&gt;<sp/>deadline</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref><sp/>executeStep(</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref>&amp;<sp/>step,</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>record,</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::steady_clock::time_point&gt;<sp/>deadline</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyStepConsensus(</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>step_name,</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref>&amp;<sp/>record,</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string*<sp/>failure_detail<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>compensate(</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>DistributedSagaStep&gt;&amp;<sp/>step_map,</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>executed_order,</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RecordIndex&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref><sp/>compensateStep(</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref>&amp;<sp/>step,</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>record</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>journalWrite(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>saga_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event,</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>detail<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>DistributedSagaStep<sp/>remoteStepToLocal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RemoteStep&amp;<sp/>remote)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/distributed_saga.h"/>
+  </compounddef>
+</doxygen>

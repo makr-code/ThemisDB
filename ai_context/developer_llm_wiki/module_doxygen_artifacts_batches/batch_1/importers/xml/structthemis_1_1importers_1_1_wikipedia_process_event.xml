@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_process_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaProcessEvent</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_process_event_1a9575a24cd0a37164226fd3793db54023" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::WikipediaProcessEvent::page_id</definition>
+        <argsstring></argsstring>
+        <name>page_id</name>
+        <qualifiedname>themis::importers::WikipediaProcessEvent::page_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="204" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_process_event_1a73bfc5a13edd0799e2510be846bf2978" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaProcessEvent::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::importers::WikipediaProcessEvent::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="205" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_process_event_1afbad4fdb41ce5292ce5a3574a57926fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaProcessEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::importers::WikipediaProcessEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="206" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_process_event_1a9bffc7b4a0dc72e310d7a7d5c61aa22e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaProcessEvent::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::importers::WikipediaProcessEvent::payload</qualifiedname>
+        <initializer>= json::object()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="207" column="10" bodyfile="include/importers/wikipedia_types.hpp" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_process_event_1a429e580d14ccaff89d7a6e24e2c8e112" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaProcessEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaProcessEvent::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="209" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="209" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Process/event-log row for page and revision lifecycle activity. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="203" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="203" bodyend="217"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_process_event_1a73bfc5a13edd0799e2510be846bf2978" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProcessEvent</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_process_event_1a9575a24cd0a37164226fd3793db54023" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProcessEvent</scope><name>page_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_process_event_1a9bffc7b4a0dc72e310d7a7d5c61aa22e" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProcessEvent</scope><name>payload</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_process_event_1afbad4fdb41ce5292ce5a3574a57926fa" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProcessEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_process_event_1a429e580d14ccaff89d7a6e24e2c8e112" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProcessEvent</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

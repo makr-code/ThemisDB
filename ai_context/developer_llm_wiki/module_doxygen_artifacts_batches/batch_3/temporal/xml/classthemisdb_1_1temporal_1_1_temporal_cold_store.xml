@@ -1,0 +1,807 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_cold_store" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalColdStore</compoundname>
+    <includes refid="temporal__cold__store_8h" local="no">temporal_cold_store.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1afb5f5406960317f3645393dc74f9da2f" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::TemporalColdStore::kTimestampBias</definition>
+        <argsstring></argsstring>
+        <name>kTimestampBias</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::kTimestampBias</qualifiedname>
+        <initializer>                                     =
+static_cast&lt;uint64_t&gt;(std::numeric_limits&lt;int64_t&gt;::max()) + 1ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="402" column="31" bodyfile="include/temporal/temporal_cold_store.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a68953d12fc06f9fa73124e9969206801" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend" kindref="compound">IColdStoreBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IColdStoreBackend&gt; themisdb::temporal::TemporalColdStore::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="411" column="21" bodyfile="include/temporal/temporal_cold_store.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a435acd66d81dc5d4e9d49d180b36d44f" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::temporal::TemporalColdStore::key_index_</definition>
+        <argsstring></argsstring>
+        <name>key_index_</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::key_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sorted set of composite keys — the RAM index. Holds only key strings, no values. ~60 bytes per entry. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="415" column="14" bodyfile="include/temporal/temporal_cold_store.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a066562e33c21130e4c7fd15b0e74900e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themisdb::temporal::TemporalColdStore::total_count_</definition>
+        <argsstring></argsstring>
+        <name>total_count_</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::total_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="417" column="17" bodyfile="include/temporal/temporal_cold_store.h" bodystart="417" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a33a2dc3b6c56eaa96200e5c05df72a6e" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::temporal::TemporalColdStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="419" column="31" bodyfile="include/temporal/temporal_cold_store.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a3a37f83eb8e667e14b969cfbf3c6aa4c" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_cold_store_stats" kindref="compound">ColdStoreStats</ref></type>
+        <definition>ColdStoreStats themisdb::temporal::TemporalColdStore::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="420" column="28" bodyfile="include/temporal/temporal_cold_store.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1adde09b9342be35a1c09ff412825603f7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalColdStore::TemporalColdStore</definition>
+        <argsstring>(std::unique_ptr&lt; IColdStoreBackend &gt; backend=nullptr)</argsstring>
+        <name>TemporalColdStore</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::TemporalColdStore</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend" kindref="compound">IColdStoreBackend</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with a custom backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If backend is nullptr an <ref refid="classthemisdb_1_1temporal_1_1_in_memory_backend" kindref="compound">InMemoryBackend</ref> is created automatically. When using <ref refid="classthemisdb_1_1temporal_1_1_file_system_backend" kindref="compound">FileSystemBackend</ref> the constructor calls <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a810fb58ec7a9796ed86e23c225c3f846" kindref="member">rebuildIndexFromBackend()</ref></computeroutput> to populate the RAM index from disk. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="284" column="14" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="469" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1aa2b59c0bb076f9ccb97ff1bcc78536ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalColdStore::TemporalColdStore</definition>
+        <argsstring>(const TemporalColdStore &amp;)=delete</argsstring>
+        <name>TemporalColdStore</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::TemporalColdStore</qualifiedname>
+        <param>
+          <type>const TemporalColdStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="288" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1adb82ee128c7e5ca99a61cb8c5edf0355" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1adde09b9342be35a1c09ff412825603f7" kindref="member">TemporalColdStore</ref> &amp;</type>
+        <definition>TemporalColdStore &amp; themisdb::temporal::TemporalColdStore::operator=</definition>
+        <argsstring>(const TemporalColdStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1adde09b9342be35a1c09ff412825603f7" kindref="member">TemporalColdStore</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="289" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1af2f335570f1ac3aaf6a33f646b6f06ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalColdStore::store</definition>
+        <argsstring>(const std::string &amp;table_name, const VersionedDocument &amp;doc)</argsstring>
+        <name>store</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::store</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Persist a historical version to the cold store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store.</para>
+<para>Storing a version that is still current (<computeroutput>isCurrent() == true</computeroutput>) is explicitly rejected — only closed (non-current) versions belong in the cold tier.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical table the version belongs to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The historical <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> to store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if doc.isCurrent() is true or on backend write failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isCurrent(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a4d58856eed06fcb0246087c5d006abba" kindref="member">encodeKey()</ref>, toJson(), dump(), put(), lk(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="305" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="503" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a6c5ca627aa181ff7a68044caa9762f5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalColdStore::remove</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+<para>Remove all cold-tier versions for (table_name, doc_key). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><simplesect kind="return"><para>Number of versions removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a976d2a1d24f3f321313a5bbd9ee7d2d6" kindref="member">keyPrefix()</ref>, lk(), lower_bound(), end(), substr(), size(), push_back(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="311" column="12" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="534" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a03be2722273075aa5b1d0390fb7d3933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalColdStore::removeTable</definition>
+        <argsstring>(const std::string &amp;table_name)</argsstring>
+        <name>removeTable</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::removeTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove all cold-tier versions for table_name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Table.</para>
+<para><simplesect kind="return"><para>Number of versions removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1aa63a9f081a057c832ac8f27e7c9b6107" kindref="member">tablePrefix()</ref>, lk(), lower_bound(), end(), substr(), size(), push_back(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="317" column="12" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="562" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a176a720633d78072ee5f4fd0c5b9c8b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalColdStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove everything (index + backend).</para>
+<para>Calls: lk(), clearAll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="320" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="587" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a71e5e7f7000e10bfe33076c9d34457a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::optional&lt; VersionedDocument &gt; themisdb::temporal::TemporalColdStore::getAsOf</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key, Timestamp as_of) const</argsstring>
+        <name>getAsOf</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::getAsOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <briefdescription>
+<para>Return the version of (table_name, doc_key) valid at timestamp as_of, i.e. <computeroutput>v.sys_time.contains(as_of)</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses <computeroutput>upper_bound(prefix + encode(as_of))</computeroutput> on the RAM index — O(log N) — then issues at most O(1) backend reads in the common case.</para>
+<para><simplesect kind="return"><para>nullopt if no matching cold-tier version exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="333" column="19" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="600" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1ac0661b7ea2f914b16bd46601cb5b6909" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalColdStore::getAll</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key) const</argsstring>
+        <name>getAll</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::getAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+<para>Return all cold-tier versions for (table_name, doc_key), sorted ascending by sys_start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="341" column="17" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="637" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1ac41a376195cda0326c1836ae25122583" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalColdStore::getRange</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key, const TimeRange &amp;range) const</argsstring>
+        <name>getRange</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::getRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Return cold-tier versions whose sys_time overlaps range, sorted ascending by sys_start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="348" column="17" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="663" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1aeea01a1e6835d54300b673f04f65fc6c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalColdStore::versionCount</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key) const</argsstring>
+        <name>versionCount</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::versionCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of cold-tier versions for (table_name, doc_key). O(log N + k). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="355" column="12" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="699" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a79fa5ef3cc2facbb03e553aefe0eeafc" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalColdStore::totalVersionCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalVersionCount</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::totalVersionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total versions in the RAM index. O(1). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="359" column="12" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="715" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a07ed4497b4eb45f89adb02b681c9bdc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_cold_store_stats" kindref="compound">ColdStoreStats</ref></type>
+        <definition>ColdStoreStats themisdb::temporal::TemporalColdStore::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Snapshot of cumulative statistics. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="362" column="20" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="719" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a73295ee59e0c5928bcaa40681f0644c6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend" kindref="compound">IColdStoreBackend</ref> &amp;</type>
+        <definition>IColdStoreBackend &amp; themisdb::temporal::TemporalColdStore::backend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>backend</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Access the underlying backend (for testing / inspection). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="365" column="23" bodyfile="include/temporal/temporal_cold_store.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a83adfa64db8dd59b43cc2241fbbfa64d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend" kindref="compound">IColdStoreBackend</ref> &amp;</type>
+        <definition>const IColdStoreBackend &amp; themisdb::temporal::TemporalColdStore::backend</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>backend</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="366" column="29" bodyfile="include/temporal/temporal_cold_store.h" bodystart="366" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a810fb58ec7a9796ed86e23c225c3f846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalColdStore::rebuildIndexFromBackend</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildIndexFromBackend</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::rebuildIndexFromBackend</qualifiedname>
+        <briefdescription>
+<para>Rebuild the RAM index from the backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rebuild Index From Backend.</para>
+<para>Called automatically by the constructor when a non-null backend is provided. May also be called manually after crash recovery.</para>
+<para>For <ref refid="classthemisdb_1_1temporal_1_1_in_memory_backend" kindref="compound">InMemoryBackend</ref> this is a no-op (the RAM map already holds all keys). For <ref refid="classthemisdb_1_1temporal_1_1_file_system_backend" kindref="compound">FileSystemBackend</ref> it scans <computeroutput>base_dir</computeroutput> and reconstructs <computeroutput>key_index_</computeroutput> in O(N) time.</para>
+<para>Calls: listKeysWithPrefix(), lk(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a176a720633d78072ee5f4fd0c5b9c8b7" kindref="member">clear()</ref>, insert(), std::move(), size(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="380" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="481" bodyend="490"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a4d58856eed06fcb0246087c5d006abba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalColdStore::encodeKey</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key, Timestamp sys_start)</argsstring>
+        <name>encodeKey</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::encodeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>sys_start</declname>
+        </param>
+        <briefdescription>
+<para>Encode a (table, doc_key, sys_start) triple into a sortable composite key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Format: <computeroutput>&lt;table&gt;\x01&lt;doc_key&gt;\x01&lt;016llx biased timestamp&gt;</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sys_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::snprintf(), biasedTimestamp(), reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="390" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="396" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a976d2a1d24f3f321313a5bbd9ee7d2d6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalColdStore::keyPrefix</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key)</argsstring>
+        <name>keyPrefix</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::keyPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefix for all versions of (table_name, doc_key): <computeroutput>&lt;table&gt;\x01&lt;key&gt;\x01</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="395" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="420" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1aa63a9f081a057c832ac8f27e7c9b6107" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalColdStore::tablePrefix</definition>
+        <argsstring>(const std::string &amp;table_name)</argsstring>
+        <name>tablePrefix</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::tablePrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefix for all versions of table_name: <computeroutput>&lt;table&gt;\x01</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements tablePrefix without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="399" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="437" bodyend="439"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1ae0a0017cfa80ead5221237b5f3d71d47" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::TemporalColdStore::biasedTimestamp</definition>
+        <argsstring>(Timestamp t) noexcept</argsstring>
+        <name>biasedTimestamp</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::biasedTimestamp</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="405" column="21" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="384" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a886a03c207c6cd5e43b61fb5ab0bbbac" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::optional&lt; VersionedDocument &gt; themisdb::temporal::TemporalColdStore::parseDocument</definition>
+        <argsstring>(const std::string &amp;json_str)</argsstring>
+        <name>parseDocument</name>
+        <qualifiedname>themisdb::temporal::TemporalColdStore::parseDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise a JSON string into a <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="409" column="5" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="447" bodyend="463"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Sorted cold-tier store for historical <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> entries. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Maintains a sorted RAM index (<computeroutput>std::set&lt;std::string&gt;</computeroutput> of composite keys) for O(log N) AS-OF and range query resolution without loading values into RAM. Value retrieval is delegated to the configured <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend" kindref="compound">IColdStoreBackend</ref></computeroutput>.</para>
+<sect1 id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1autotoc_md17_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_temporal_cold_store_1autotoc_md17">
+<title>Complexity</title><para><table rows="8" cols="2"><row>
+<entry thead="yes"><para>Operation  </para>
+</entry><entry thead="yes"><para>Complexity  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1af2f335570f1ac3aaf6a33f646b6f06ec" kindref="member">store()</ref>  </para>
+</entry><entry thead="no"><para>O(log N) + 1 backend write  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>getAsOf(key, t)  </para>
+</entry><entry thead="no"><para>O(log N) + O(1) backend reads  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>getAll(key)  </para>
+</entry><entry thead="no"><para>O(log N + k) + k backend reads  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>getRange(key, from, to)  </para>
+</entry><entry thead="no"><para>O(log N + k) + k backend reads  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>versionCount(key)  </para>
+</entry><entry thead="no"><para>O(log N + k) — index only  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>remove(key)  </para>
+</entry><entry thead="no"><para>O(log N + k) backend deletes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a79fa5ef3cc2facbb03e553aefe0eeafc" kindref="member">totalVersionCount()</ref>  </para>
+</entry><entry thead="no"><para>O(1) — atomic  </para>
+</entry></row>
+</table>
+</para>
+<para>N = total stored versions, k = versions for the queried (table, key).</para>
+<para>Thread-safety: all public methods are thread-safe via std::shared_mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/temporal/temporal_cold_store.h" line="275" column="1" bodyfile="include/temporal/temporal_cold_store.h" bodystart="275" bodyend="421"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a73295ee59e0c5928bcaa40681f0644c6" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>backend</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a83adfa64db8dd59b43cc2241fbbfa64d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>backend</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a68953d12fc06f9fa73124e9969206801" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>backend_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1ae0a0017cfa80ead5221237b5f3d71d47" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>biasedTimestamp</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a176a720633d78072ee5f4fd0c5b9c8b7" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>clear</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a4d58856eed06fcb0246087c5d006abba" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>encodeKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1ac0661b7ea2f914b16bd46601cb5b6909" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>getAll</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a71e5e7f7000e10bfe33076c9d34457a4" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>getAsOf</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1ac41a376195cda0326c1836ae25122583" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>getRange</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a435acd66d81dc5d4e9d49d180b36d44f" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>key_index_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a976d2a1d24f3f321313a5bbd9ee7d2d6" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>keyPrefix</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1afb5f5406960317f3645393dc74f9da2f" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>kTimestampBias</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a33a2dc3b6c56eaa96200e5c05df72a6e" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1adb82ee128c7e5ca99a61cb8c5edf0355" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a886a03c207c6cd5e43b61fb5ab0bbbac" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>parseDocument</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a810fb58ec7a9796ed86e23c225c3f846" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>rebuildIndexFromBackend</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a6c5ca627aa181ff7a68044caa9762f5a" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>remove</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a03be2722273075aa5b1d0390fb7d3933" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>removeTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a07ed4497b4eb45f89adb02b681c9bdc1" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>stats</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a3a37f83eb8e667e14b969cfbf3c6aa4c" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1af2f335570f1ac3aaf6a33f646b6f06ec" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>store</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1aa63a9f081a057c832ac8f27e7c9b6107" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>tablePrefix</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1adde09b9342be35a1c09ff412825603f7" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>TemporalColdStore</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1aa2b59c0bb076f9ccb97ff1bcc78536ea" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>TemporalColdStore</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a066562e33c21130e4c7fd15b0e74900e" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>total_count_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1a79fa5ef3cc2facbb03e553aefe0eeafc" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>totalVersionCount</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_cold_store_1aeea01a1e6835d54300b673f04f65fc6c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalColdStore</scope><name>versionCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

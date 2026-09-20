@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_flush_controller_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FlushControllerConfig</compoundname>
+    <includes refid="ts__auto__buffer__adaptive_8h" local="no">ts_auto_buffer_adaptive.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1a9c084c711a95b5b4536e18d05b857395" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FlushControllerConfig::slo_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>slo_threshold_ms</name>
+        <qualifiedname>themis::FlushControllerConfig::slo_threshold_ms</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+<para>SLO threshold in milliseconds. Latencies above this trigger backpressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="32" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1a0589d94232dff09262b73e453d70c9e2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FlushControllerConfig::ewma_alpha</definition>
+        <argsstring></argsstring>
+        <name>ewma_alpha</name>
+        <qualifiedname>themis::FlushControllerConfig::ewma_alpha</qualifiedname>
+        <initializer>= 0.25</initializer>
+        <briefdescription>
+<para>EWMA smoothing factor α ∈ (0, 1]. Higher = more weight on recent samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="34" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1ac073f1c7ba1e0c518401724e2671b9fc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FlushControllerConfig::headroom_factor</definition>
+        <argsstring></argsstring>
+        <name>headroom_factor</name>
+        <qualifiedname>themis::FlushControllerConfig::headroom_factor</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Headroom factor: grow batch size when EWMA &lt; slo * headroom. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="36" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1a3cb4d4092d534433d91bbeae4699e324" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FlushControllerConfig::grow_factor</definition>
+        <argsstring></argsstring>
+        <name>grow_factor</name>
+        <qualifiedname>themis::FlushControllerConfig::grow_factor</qualifiedname>
+        <initializer>= 1.25</initializer>
+        <briefdescription>
+<para>Step factor for growing batch size (multiplicative). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="38" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1a3f23ece30d7a1faa8d4a6d72785054af" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FlushControllerConfig::shrink_factor</definition>
+        <argsstring></argsstring>
+        <name>shrink_factor</name>
+        <qualifiedname>themis::FlushControllerConfig::shrink_factor</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Step factor for shrinking batch size (multiplicative). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="40" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1a9dfff89e2348860268e75a3a6f69a12a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FlushControllerConfig::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::FlushControllerConfig::min_batch_size</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Minimum allowed batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="43" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1a187b3781fd2d54a8aeb066868fcb7c33" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FlushControllerConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::FlushControllerConfig::max_batch_size</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Maximum allowed batch size (must be ≤ <ref refid="structthemis_1_1_t_s_auto_buffer_config_1a1907ca83f7d26ec1703c24087d0a26c5" kindref="member">TSAutoBufferConfig::flush_batch_size</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="45" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1aae7bca7251c731b35eefe53d1defe120" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FlushControllerConfig::initial_batch_size</definition>
+        <argsstring></argsstring>
+        <name>initial_batch_size</name>
+        <qualifiedname>themis::FlushControllerConfig::initial_batch_size</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Initial batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="47" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1abd30262a00a3459521a52f551e105b61" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FlushControllerConfig::low_water_mark</definition>
+        <argsstring></argsstring>
+        <name>low_water_mark</name>
+        <qualifiedname>themis::FlushControllerConfig::low_water_mark</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Queue low-water mark: block producers until buffered points drop below this. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="50" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_config_1ad44a699bf43a330f4d0dc732cf63cd2b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FlushControllerConfig::warmup_samples</definition>
+        <argsstring></argsstring>
+        <name>warmup_samples</name>
+        <qualifiedname>themis::FlushControllerConfig::warmup_samples</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Minimum number of flush samples before adaptation kicks in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="53" column="12" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the adaptive flush controller. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="30" column="1" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="30" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_flush_controller_config_1a0589d94232dff09262b73e453d70c9e2" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>ewma_alpha</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1a3cb4d4092d534433d91bbeae4699e324" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>grow_factor</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1ac073f1c7ba1e0c518401724e2671b9fc" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>headroom_factor</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1aae7bca7251c731b35eefe53d1defe120" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>initial_batch_size</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1abd30262a00a3459521a52f551e105b61" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>low_water_mark</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1a187b3781fd2d54a8aeb066868fcb7c33" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1a9dfff89e2348860268e75a3a6f69a12a" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>min_batch_size</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1a3f23ece30d7a1faa8d4a6d72785054af" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>shrink_factor</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1a9c084c711a95b5b4536e18d05b857395" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>slo_threshold_ms</name></member>
+      <member refid="structthemis_1_1_flush_controller_config_1ad44a699bf43a330f4d0dc732cf63cd2b" prot="public" virt="non-virtual"><scope>themis::FlushControllerConfig</scope><name>warmup_samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

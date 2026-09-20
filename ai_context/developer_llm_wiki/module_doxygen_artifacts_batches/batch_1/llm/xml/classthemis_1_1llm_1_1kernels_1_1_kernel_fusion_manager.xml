@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::kernels::KernelFusionManager</compoundname>
+    <includes refid="kernel__fusion_8h" local="no">kernel_fusion.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config" prot="public">themis::llm::kernels::KernelFusionManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats" prot="public">themis::llm::kernels::KernelFusionManager::FusionStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a6af9b992ef6124547e325ff16532b9d7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::kernels::KernelFusionManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="196" column="12" bodyfile="include/llm/kernel_fusion.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a17ed4d79f4bf5d828521296dbf3dcadd" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats" kindref="compound">FusionStats</ref></type>
+        <definition>FusionStats themis::llm::kernels::KernelFusionManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="197" column="25" bodyfile="include/llm/kernel_fusion.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a8dc54c9f53892297fdb8cb465456fe8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::kernels::KernelFusionManager::~KernelFusionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~KernelFusionManager</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::~KernelFusionManager</qualifiedname>
+        <briefdescription>
+<para>Kernel Fusion Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="140" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a9f98170a830ed2fc73d169ce466a4790" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::kernels::KernelFusionManager::KernelFusionManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>KernelFusionManager</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::KernelFusionManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Kernel Fusion Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="158" column="14" bodyfile="src/llm/kernel_fusion.cpp" bodystart="503" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a158ac22da82763b06fbb92938f098848" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::shouldFuseLayerNormLinear</definition>
+        <argsstring>(int batch, int seq_len, int hidden_dim) const</argsstring>
+        <name>shouldFuseLayerNormLinear</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::shouldFuseLayerNormLinear</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <briefdescription>
+<para>Check if fusion is beneficial for given dimensions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="167" column="10" bodyfile="src/llm/kernel_fusion.cpp" bodystart="512" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a40302b91d2331df57a5b4e7ff3b54f32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::shouldFuseQKV</definition>
+        <argsstring>(int batch, int seq_len, int hidden_dim) const</argsstring>
+        <name>shouldFuseQKV</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::shouldFuseQKV</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="168" column="10" bodyfile="src/llm/kernel_fusion.cpp" bodystart="525" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a23254485f0fd53f85958de44fedce265" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::shouldFuseFFN</definition>
+        <argsstring>(int batch, int seq_len, int hidden_dim) const</argsstring>
+        <name>shouldFuseFFN</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::shouldFuseFFN</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="170" column="10" bodyfile="src/llm/kernel_fusion.cpp" bodystart="541" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1af50e17b69451b5a6ab81bc6d38069fc6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::kernels::KernelFusionManager::estimateSpeedup</definition>
+        <argsstring>(const std::string &amp;fusion_type, int batch, int seq_len, int hidden_dim) const</argsstring>
+        <name>estimateSpeedup</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::estimateSpeedup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fusion_type</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="173" column="12" bodyfile="src/llm/kernel_fusion.cpp" bodystart="553" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a2341a1db38badb4750bbf780d79945ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats" kindref="compound">FusionStats</ref></type>
+        <definition>KernelFusionManager::FusionStats themis::llm::kernels::KernelFusionManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="193" column="17" bodyfile="src/llm/kernel_fusion.cpp" bodystart="578" bodyend="580"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kernel_fusion.h" line="134" column="1" bodyfile="include/llm/kernel_fusion.h" bodystart="134" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a6af9b992ef6124547e325ff16532b9d7" prot="private" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1af50e17b69451b5a6ab81bc6d38069fc6" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>estimateSpeedup</name></member>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a2341a1db38badb4750bbf780d79945ec" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a9f98170a830ed2fc73d169ce466a4790" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>KernelFusionManager</name></member>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a23254485f0fd53f85958de44fedce265" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>shouldFuseFFN</name></member>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a158ac22da82763b06fbb92938f098848" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>shouldFuseLayerNormLinear</name></member>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a40302b91d2331df57a5b4e7ff3b54f32" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>shouldFuseQKV</name></member>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a17ed4d79f4bf5d828521296dbf3dcadd" prot="private" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a8dc54c9f53892297fdb8cb465456fe8f" prot="public" virt="virtual"><scope>themis::llm::kernels::KernelFusionManager</scope><name>~KernelFusionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

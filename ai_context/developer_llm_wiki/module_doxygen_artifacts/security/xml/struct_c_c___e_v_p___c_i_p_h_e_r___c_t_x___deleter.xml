@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_c_c___e_v_p___c_i_p_h_e_r___c_t_x___deleter" kind="struct" language="C++" prot="public">
+    <compoundname>CC_EVP_CIPHER_CTX_Deleter</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_c_c___e_v_p___c_i_p_h_e_r___c_t_x___deleter_1a3fa527cc81047339ba359ce382fb3af6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CC_EVP_CIPHER_CTX_Deleter::operator()</definition>
+        <argsstring>(EVP_CIPHER_CTX *p) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>CC_EVP_CIPHER_CTX_Deleter::operator()</qualifiedname>
+        <param>
+          <type>EVP_CIPHER_CTX *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="120" column="10" bodyfile="src/security/confidential_computing.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Confidential Computing support — Intel TDX and AMD SEV / SEV-SNP</para>
+<para>Detection strategy ──────────────────<orderedlist>
+<listitem><para>CPUID (x86-64 only, no privileges required):<itemizedlist>
+<listitem><para>Intel TDX: leaf 0x21, sub-leaf 0 returns &quot;IntelTDX    &quot; in EBX/EDX/ECX when executed inside a TD.</para>
+</listitem><listitem><para>AMD SEV: leaf 0x8000_001F bit 1 of EAX indicates SEV support; MSR 0xC001_0131 bit 0 means SEV is active in this VM.</para>
+</listitem><listitem><para>AMD SEV-SNP: same leaf, bit 4 of EAX; MSR bit 3 for active SNP.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Kernel driver probe (Linux, optional — graceful fallback if absent):<itemizedlist>
+<listitem><para>TDX: /dev/tdx_guest + TDX_CMD_GET_REPORT0 ioctl</para>
+</listitem><listitem><para>SEV-SNP: /dev/sev-guest + SNP_GET_REPORT ioctl</para>
+</listitem></itemizedlist>
+</para>
+</listitem></orderedlist>
+</para>
+<para>Non-Linux or non-x86 builds fall back to software mode automatically.</para>
+<para>Seal / Unseal ───────────── Data is protected with AES-256-GCM. The sealing key is:<itemizedlist>
+<listitem><para>TEE mode: a 32-byte key derived from RAND_bytes(), stored only inside the TEE memory region. In a production deployment this key should be persisted through a remote attestation + KMS flow so that it survives planned VM migration while still being bound to the TEE measurement.</para>
+</listitem><listitem><para>Software mode: identical mechanism; survives only within the current process lifetime.</para>
+</listitem></itemizedlist>
+</para>
+<para>The measurement_binding field in SealedBlob stores a SHA-256 digest of the raw attestation bytes (or zeros in software mode) so that a future unseal call can detect measurement drift and reject the blob. </para>
+    </detaileddescription>
+    <location file="src/security/confidential_computing.cpp" line="119" column="1" bodyfile="src/security/confidential_computing.cpp" bodystart="119" bodyend="121"/>
+    <listofallmembers>
+      <member refid="struct_c_c___e_v_p___c_i_p_h_e_r___c_t_x___deleter_1a3fa527cc81047339ba359ce382fb3af6" prot="public" virt="non-virtual"><scope>CC_EVP_CIPHER_CTX_Deleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

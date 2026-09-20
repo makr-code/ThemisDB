@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::Error</compoundname>
+    <includes refid="expected_8h" local="no">expected.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_error_1a0e57a345d591b51c1c3e08d37260a838" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+        <definition>errors::ErrorCode themis::Error::code_</definition>
+        <argsstring></argsstring>
+        <name>code_</name>
+        <qualifiedname>themis::Error::code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="296" column="23" bodyfile="include/utils/expected.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_error_1af89a20981196bf8e9002a231b9959824" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Error::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::Error::context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="297" column="17" bodyfile="include/utils/expected.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_error_1aadad2d3684ec4f9965245794a01ae1ab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Error::Error</definition>
+        <argsstring>()</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::Error::Error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="254" column="5" bodyfile="include/utils/expected.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_error_1a9b2c565551a86bed74d62371df0874a2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Error::Error</definition>
+        <argsstring>(errors::ErrorCode code)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::Error::Error</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="256" column="14" bodyfile="include/utils/expected.h" bodystart="256" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_error_1a0561c1de51611747543f450119dea32e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Error::Error</definition>
+        <argsstring>(errors::ErrorCode code, std::string context)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::Error::Error</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="259" column="5" bodyfile="include/utils/expected.h" bodystart="259" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_error_1a0eed7fa74b917d043d7e5b421c481146" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+        <definition>errors::ErrorCode themis::Error::code</definition>
+        <argsstring>() const</argsstring>
+        <name>code</name>
+        <qualifiedname>themis::Error::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="263" column="23" bodyfile="include/utils/expected.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_error_1abae985c264b04cb1daf5a10de9d54a74" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::Error::context</definition>
+        <argsstring>() const</argsstring>
+        <name>context</name>
+        <qualifiedname>themis::Error::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="264" column="23" bodyfile="include/utils/expected.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_error_1ae3b144bcd97647502945095897a330f9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::Error::message</definition>
+        <argsstring>() const</argsstring>
+        <name>message</name>
+        <qualifiedname>themis::Error::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="267" column="17" bodyfile="include/utils/expected.h" bodystart="267" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_error_1aa0394078e9ab4596627e3c73b10b1a6c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1errors_1_1_error_metadata" kindref="compound">errors::ErrorMetadata</ref></type>
+        <definition>errors::ErrorMetadata themis::Error::metadata</definition>
+        <argsstring>() const</argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::Error::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="281" column="27" bodyfile="include/utils/expected.h" bodystart="281" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_error_1a5f000c4cd6a744407148c9f3a2cbc44f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Error::operator==</definition>
+        <argsstring>(const Error &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::Error::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_error_1aadad2d3684ec4f9965245794a01ae1ab" kindref="member">Error</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="287" column="10" bodyfile="include/utils/expected.h" bodystart="287" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_error_1a3537d433f586ed268e94a1757792fe83" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Error::operator!=</definition>
+        <argsstring>(const Error &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::Error::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_error_1aadad2d3684ec4f9965245794a01ae1ab" kindref="member">Error</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="291" column="10" bodyfile="include/utils/expected.h" bodystart="291" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref> class wrapping ErrorCode with optional context information</para>
+<para>Provides a production-ready error type that:<itemizedlist>
+<listitem><para>Carries structured error codes from ErrorRegistry</para>
+</listitem><listitem><para>Includes dynamic context (e.g., file paths, resource IDs)</para>
+</listitem><listitem><para>Supports error chaining and propagation </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/expected.h" line="251" column="1" bodyfile="include/utils/expected.h" bodystart="251" bodyend="298"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_error_1a0eed7fa74b917d043d7e5b421c481146" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>code</name></member>
+      <member refid="classthemis_1_1_error_1a0e57a345d591b51c1c3e08d37260a838" prot="private" virt="non-virtual"><scope>themis::Error</scope><name>code_</name></member>
+      <member refid="classthemis_1_1_error_1abae985c264b04cb1daf5a10de9d54a74" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>context</name></member>
+      <member refid="classthemis_1_1_error_1af89a20981196bf8e9002a231b9959824" prot="private" virt="non-virtual"><scope>themis::Error</scope><name>context_</name></member>
+      <member refid="classthemis_1_1_error_1aadad2d3684ec4f9965245794a01ae1ab" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>Error</name></member>
+      <member refid="classthemis_1_1_error_1a9b2c565551a86bed74d62371df0874a2" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>Error</name></member>
+      <member refid="classthemis_1_1_error_1a0561c1de51611747543f450119dea32e" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>Error</name></member>
+      <member refid="classthemis_1_1_error_1ae3b144bcd97647502945095897a330f9" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>message</name></member>
+      <member refid="classthemis_1_1_error_1aa0394078e9ab4596627e3c73b10b1a6c" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>metadata</name></member>
+      <member refid="classthemis_1_1_error_1a3537d433f586ed268e94a1757792fe83" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1_error_1a5f000c4cd6a744407148c9f3a2cbc44f" prot="public" virt="non-virtual"><scope>themis::Error</scope><name>operator==</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

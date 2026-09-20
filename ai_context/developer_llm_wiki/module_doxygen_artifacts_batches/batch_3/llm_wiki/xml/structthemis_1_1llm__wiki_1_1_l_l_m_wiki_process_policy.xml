@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::LLMWikiProcessPolicy</compoundname>
+    <includes refid="process__policy__manager_8h" local="no">process_policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1abba97b3844d6cc2620b239c346c12d79" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm_wiki::LLMWikiProcessPolicy::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::version</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="84" column="9" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2636897f64a1cf98a05afa58e2345b78" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::LLMWikiProcessPolicy::policy_id</definition>
+        <argsstring></argsstring>
+        <name>policy_id</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::policy_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="85" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ac77e0f35f43273e14f57325a948b87ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::LLMWikiProcessPolicy::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="86" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aaa4ef139e838f494750b94567274cb7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::LLMWikiProcessPolicy::planner_owner</definition>
+        <argsstring></argsstring>
+        <name>planner_owner</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::planner_owner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="88" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a9d9652f670f9a7e3d5a8ba765eb0ad7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::LLMWikiProcessPolicy::second_planner_allowed</definition>
+        <argsstring></argsstring>
+        <name>second_planner_allowed</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::second_planner_allowed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="89" column="10" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a1a2c146b8e0837f90d6c584a0c59f877" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm_wiki::LLMWikiProcessPolicy::interactive_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>interactive_timeout_ms</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::interactive_timeout_ms</qualifiedname>
+        <initializer>= 1500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="90" column="9" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a42a0516bbe194c31f72f2b6dcdd1c9aa" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref></type>
+        <definition>StagePolicy themis::llm_wiki::LLMWikiProcessPolicy::ingest</definition>
+        <argsstring></argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::ingest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="92" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ad5185709cc54e61ab247439730632f26" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref></type>
+        <definition>StagePolicy themis::llm_wiki::LLMWikiProcessPolicy::extract</definition>
+        <argsstring></argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::extract</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="93" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a6605322bc957a3e74c1e0186c927b00e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref></type>
+        <definition>StagePolicy themis::llm_wiki::LLMWikiProcessPolicy::synthesize</definition>
+        <argsstring></argsstring>
+        <name>synthesize</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::synthesize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="94" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1acad92b6970be17829cb622a31ef686b7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref></type>
+        <definition>StagePolicy themis::llm_wiki::LLMWikiProcessPolicy::validate</definition>
+        <argsstring></argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="95" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a7dd26a961164652ae7e8cd37d275660f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref></type>
+        <definition>StagePolicy themis::llm_wiki::LLMWikiProcessPolicy::re_anchor</definition>
+        <argsstring></argsstring>
+        <name>re_anchor</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::re_anchor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="96" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afdfbf4290e38a17de6caa04814fdcd18" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm_wiki::LLMWikiProcessPolicy::synthesize_max_evidence_items</definition>
+        <argsstring></argsstring>
+        <name>synthesize_max_evidence_items</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::synthesize_max_evidence_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="100" column="9" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afaea809266b4d79b19e66d7a9c139c6e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm_wiki::LLMWikiProcessPolicy::synthesize_min_provenance_confidence</definition>
+        <argsstring></argsstring>
+        <name>synthesize_min_provenance_confidence</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::synthesize_min_provenance_confidence</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="101" column="12" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a4b27d20af92a00355ace014ecd51f85d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::LLMWikiProcessPolicy::policy_snapshot_required</definition>
+        <argsstring></argsstring>
+        <name>policy_snapshot_required</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::policy_snapshot_required</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="103" column="10" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aa9cb15acb7824a0febaaf304bad05b88" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::LLMWikiProcessPolicy::require_reason_codes</definition>
+        <argsstring></argsstring>
+        <name>require_reason_codes</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::require_reason_codes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="104" column="10" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ae571043f3eb81d3b12450ac622bfbdaa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm_wiki::LLMWikiProcessPolicy::adjustable_knobs</definition>
+        <argsstring></argsstring>
+        <name>adjustable_knobs</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::adjustable_knobs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="106" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2a9c23f63391baac8513ad8df1112e31" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm__wiki_1_1_knob_bounds" kindref="compound">KnobBounds</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, KnobBounds&gt; themis::llm_wiki::LLMWikiProcessPolicy::hard_bounds</definition>
+        <argsstring></argsstring>
+        <name>hard_bounds</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::hard_bounds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="107" column="24" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a77770af1c589b6c98c2f0b39437286be" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm_wiki::LLMWikiProcessPolicy::never_adjust</definition>
+        <argsstring></argsstring>
+        <name>never_adjust</name>
+        <qualifiedname>themis::llm_wiki::LLMWikiProcessPolicy::never_adjust</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="108" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Materialized process policy used at runtime. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm_wiki::LLMWikiProcessPolicy</label>
+        <link refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>extract</edgelabel>
+          <edgelabel>ingest</edgelabel>
+          <edgelabel>re_anchor</edgelabel>
+          <edgelabel>synthesize</edgelabel>
+          <edgelabel>validate</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm_wiki::StagePolicy</label>
+        <link refid="structthemis_1_1llm__wiki_1_1_stage_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm_wiki/process_policy_manager.h" line="83" column="1" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="83" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ae571043f3eb81d3b12450ac622bfbdaa" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>adjustable_knobs</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ad5185709cc54e61ab247439730632f26" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>extract</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2a9c23f63391baac8513ad8df1112e31" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>hard_bounds</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a42a0516bbe194c31f72f2b6dcdd1c9aa" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>ingest</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a1a2c146b8e0837f90d6c584a0c59f877" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>interactive_timeout_ms</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ac77e0f35f43273e14f57325a948b87ab" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>mode</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a77770af1c589b6c98c2f0b39437286be" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>never_adjust</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aaa4ef139e838f494750b94567274cb7d" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>planner_owner</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2636897f64a1cf98a05afa58e2345b78" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>policy_id</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a4b27d20af92a00355ace014ecd51f85d" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>policy_snapshot_required</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a7dd26a961164652ae7e8cd37d275660f" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>re_anchor</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aa9cb15acb7824a0febaaf304bad05b88" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>require_reason_codes</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a9d9652f670f9a7e3d5a8ba765eb0ad7e" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>second_planner_allowed</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a6605322bc957a3e74c1e0186c927b00e" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>synthesize</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afdfbf4290e38a17de6caa04814fdcd18" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>synthesize_max_evidence_items</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afaea809266b4d79b19e66d7a9c139c6e" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>synthesize_min_provenance_confidence</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1acad92b6970be17829cb622a31ef686b7" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>validate</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1abba97b3844d6cc2620b239c346c12d79" prot="public" virt="non-virtual"><scope>themis::llm_wiki::LLMWikiProcessPolicy</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

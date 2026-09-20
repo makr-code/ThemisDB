@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::test::ApprovalWorkflowTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1test_1_1_approval_workflow_test_1ae5f291bda9f465d8ff02630c03b7d849" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_approval_workflow" kindref="compound">PolicyApprovalWorkflow</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PolicyApprovalWorkflow&gt; themis::governance::test::ApprovalWorkflowTest::workflow_</definition>
+        <argsstring></argsstring>
+        <name>workflow_</name>
+        <qualifiedname>themis::governance::test::ApprovalWorkflowTest::workflow_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="76" column="21" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_approval_workflow_test_1a125d787fd83aedaacbe4cbbc27a88097" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::test::ApprovalWorkflowTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::governance::test::ApprovalWorkflowTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="72" column="10" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="72" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::governance::test::ApprovalWorkflowTest</label>
+        <link refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::governance::test::ApprovalWorkflowTest</label>
+        <link refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="70" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="70" bodyend="77"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test_1a125d787fd83aedaacbe4cbbc27a88097" prot="protected" virt="non-virtual"><scope>themis::governance::test::ApprovalWorkflowTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test_1ae5f291bda9f465d8ff02630c03b7d849" prot="protected" virt="non-virtual"><scope>themis::governance::test::ApprovalWorkflowTest</scope><name>workflow_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

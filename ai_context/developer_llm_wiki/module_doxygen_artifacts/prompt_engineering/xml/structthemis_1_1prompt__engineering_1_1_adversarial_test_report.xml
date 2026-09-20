@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_adversarial_test_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::AdversarialTestReport</compoundname>
+    <includes refid="adversarial__prompt__tester_8h" local="no">adversarial_prompt_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1ae8753e48ee115c1d04408a71ca2e485d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result" kindref="compound">AdversarialTestResult</ref> &gt;</type>
+        <definition>std::vector&lt;AdversarialTestResult&gt; themis::prompt_engineering::AdversarialTestReport::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestReport::results</qualifiedname>
+        <briefdescription>
+<para>One entry per test case. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="78" column="17" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a8194b373633b5756a721c236d0a84456" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::AdversarialTestReport::total</definition>
+        <argsstring></argsstring>
+        <name>total</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestReport::total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total cases run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="79" column="40" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1af13f1fc611cf135cf792a1414d3ff486" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::AdversarialTestReport::blocked_count</definition>
+        <argsstring></argsstring>
+        <name>blocked_count</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestReport::blocked_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cases where blocked == true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="80" column="40" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a4e287e84745d8181e7585a5847c58f24" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::AdversarialTestReport::passed_count</definition>
+        <argsstring></argsstring>
+        <name>passed_count</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestReport::passed_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cases where result.passed(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="81" column="40" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a6c90bb700f8e2802adf9210afc09dc96" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::AdversarialTestReport::passRate</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>passRate</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestReport::passRate</qualifiedname>
+        <briefdescription>
+<para>Fraction of cases where the detector correctly blocked/allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 1.0 if no cases were run. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="88" column="12" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a449d78ec2241b378f387a0eec12fec3d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::AdversarialTestReport::blockRate</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>blockRate</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestReport::blockRate</qualifiedname>
+        <briefdescription>
+<para>Fraction of cases that were blocked (regardless of expected outcome). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="97" column="12" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1ab3315ee063b281270d71a8063d9e11ef" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::AdversarialTestReport::passed</definition>
+        <argsstring>(double min_pass_rate=1.0) const noexcept</argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestReport::passed</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>min_pass_rate</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+<para>Returns <computeroutput>true</computeroutput> iff <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a6c90bb700f8e2802adf9210afc09dc96" kindref="member">passRate()</ref> &gt;= min_pass_rate</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min_pass_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum acceptable pass rate (0.0–1.0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="108" column="10" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="108" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated result of a full adversarial test run. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="77" column="1" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="77" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1af13f1fc611cf135cf792a1414d3ff486" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestReport</scope><name>blocked_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a449d78ec2241b378f387a0eec12fec3d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestReport</scope><name>blockRate</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1ab3315ee063b281270d71a8063d9e11ef" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestReport</scope><name>passed</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a4e287e84745d8181e7585a5847c58f24" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestReport</scope><name>passed_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a6c90bb700f8e2802adf9210afc09dc96" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestReport</scope><name>passRate</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1ae8753e48ee115c1d04408a71ca2e485d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestReport</scope><name>results</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report_1a8194b373633b5756a721c236d0a84456" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestReport</scope><name>total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_approximate_count_distinct" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::ApproximateCountDistinct</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1_i_approximate_aggregator" prot="public" virt="non-virtual">themis::query::IApproximateAggregator</basecompoundref>
+    <includes refid="approximate__aggregator_8h" local="no">approximate_aggregator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_approximate_count_distinct_1adba8da7c5654c0a6402d0d379c97bd57" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::ApproximateCountDistinct::precision_</definition>
+        <argsstring></argsstring>
+        <name>precision_</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::precision_</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="82" column="9" bodyfile="include/query/approximate_aggregator.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_approximate_count_distinct_1a64cf45dd0eee05619c4e34430fe0d107" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::ApproximateCountDistinct::num_registers_</definition>
+        <argsstring></argsstring>
+        <name>num_registers_</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::num_registers_</qualifiedname>
+        <initializer>= 1 &lt;&lt; 12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="83" column="9" bodyfile="include/query/approximate_aggregator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_approximate_count_distinct_1a0df44ce9d4f96142711168e723d13eac" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::query::ApproximateCountDistinct::registers_</definition>
+        <argsstring></argsstring>
+        <name>registers_</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::registers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="84" column="17" bodyfile="include/query/approximate_aggregator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_approximate_count_distinct_1a0cddc462c4bab6b70b57dc6deaefb699" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ApproximateCountDistinct::~ApproximateCountDistinct</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ApproximateCountDistinct</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::~ApproximateCountDistinct</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_approximate_count_distinct_1a2afcf8582bbd354bf873e45513cf25f7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ApproximateCountDistinct::ApproximateCountDistinct</definition>
+        <argsstring>(int precision=12)</argsstring>
+        <name>ApproximateCountDistinct</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::ApproximateCountDistinct</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>precision</declname>
+          <defval>12</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="70" column="14" bodyfile="src/query/approximate_aggregator.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_approximate_count_distinct_1a1515241558f3884589ef7b8936326d40" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::ApproximateCountDistinct::add</definition>
+        <argsstring>(const nlohmann::json &amp;value) override</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::add</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a7ba1f4a7e5d64a0b5a40612402c9809a">add</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: hashValue(), rho(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="72" column="10" bodyfile="src/query/approximate_aggregator.cpp" bodystart="82" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_approximate_count_distinct_1a1a3890cdb9f43eb17991582426cc74e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::ApproximateCountDistinct::merge</definition>
+        <argsstring>(const IApproximateAggregator &amp;other) override</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::merge</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a4ce88665bce35a41d85cebec961c53f8">merge</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_i_approximate_aggregator" kindref="compound">IApproximateAggregator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements merge without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="73" column="10" bodyfile="src/query/approximate_aggregator.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_approximate_count_distinct_1a7813e1bf7077e3e74bcf14a7245a17f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::ApproximateCountDistinct::estimate</definition>
+        <argsstring>() const override</argsstring>
+        <name>estimate</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::estimate</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a7a3ebe6ca0df0cf8a50c6dd380b97e33">estimate</reimplements>
+        <briefdescription>
+<para>Estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="75" column="20" bodyfile="src/query/approximate_aggregator.cpp" bodystart="113" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_approximate_count_distinct_1aa884ad6facf47c876b3240882ff5b349" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double themis::query::ApproximateCountDistinct::errorRate</definition>
+        <argsstring>() const override</argsstring>
+        <name>errorRate</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::errorRate</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a8e960b8bf0a180e9d1a6588c0dbdbb97">errorRate</reimplements>
+        <briefdescription>
+<para>Error Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="76" column="12" bodyfile="src/query/approximate_aggregator.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_approximate_count_distinct_1ace48ed8aae25d403f7c743d2955aa97e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::ApproximateCountDistinct::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a593255b733c4cb87cc5f7edfdfd90cf2">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::fill(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="77" column="10" bodyfile="src/query/approximate_aggregator.cpp" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_approximate_count_distinct_1a17f283d86dcaae225d3d663096137cf1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::query::ApproximateCountDistinct::precision</definition>
+        <argsstring>() const</argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::query::ApproximateCountDistinct::precision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="79" column="9" bodyfile="include/query/approximate_aggregator.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::query::ApproximateCountDistinct</label>
+        <link refid="classthemis_1_1query_1_1_approximate_count_distinct"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::IApproximateAggregator</label>
+        <link refid="classthemis_1_1query_1_1_i_approximate_aggregator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::ApproximateCountDistinct</label>
+        <link refid="classthemis_1_1query_1_1_approximate_count_distinct"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::IApproximateAggregator</label>
+        <link refid="classthemis_1_1query_1_1_i_approximate_aggregator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/approximate_aggregator.h" line="67" column="1" bodyfile="include/query/approximate_aggregator.h" bodystart="67" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1a1515241558f3884589ef7b8936326d40" prot="public" virt="virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>add</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1a2afcf8582bbd354bf873e45513cf25f7" prot="public" virt="non-virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>ApproximateCountDistinct</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1aa884ad6facf47c876b3240882ff5b349" prot="public" virt="virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>errorRate</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1a7813e1bf7077e3e74bcf14a7245a17f3" prot="public" virt="virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>estimate</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1a1a3890cdb9f43eb17991582426cc74e8" prot="public" virt="virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>merge</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1a64cf45dd0eee05619c4e34430fe0d107" prot="private" virt="non-virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>num_registers_</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1a17f283d86dcaae225d3d663096137cf1" prot="public" virt="non-virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>precision</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1adba8da7c5654c0a6402d0d379c97bd57" prot="private" virt="non-virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>precision_</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1a0df44ce9d4f96142711168e723d13eac" prot="private" virt="non-virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>registers_</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1ace48ed8aae25d403f7c743d2955aa97e" prot="public" virt="virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>reset</name></member>
+      <member refid="classthemis_1_1query_1_1_approximate_count_distinct_1a0cddc462c4bab6b70b57dc6deaefb699" prot="public" virt="non-virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>~ApproximateCountDistinct</name></member>
+      <member refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a94d61c4a77b22eef7b3f51452588978f" prot="public" virt="virtual"><scope>themis::query::ApproximateCountDistinct</scope><name>~IApproximateAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

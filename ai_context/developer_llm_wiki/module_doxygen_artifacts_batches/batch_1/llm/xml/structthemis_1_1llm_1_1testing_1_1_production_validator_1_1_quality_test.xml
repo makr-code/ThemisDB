@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::testing::ProductionValidator::QualityTest</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test_1a8fbb0cf0505af5d86e74ff5d6031b8e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::testing::ProductionValidator::QualityTest::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::QualityTest::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="316" column="21" bodyfile="include/llm/production_validator.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test_1a8573765e8f9426dc51673696bdf93ed8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::testing::ProductionValidator::QualityTest::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::QualityTest::prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="317" column="21" bodyfile="include/llm/production_validator.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test_1ac4871d9cd5f717337bcb1f67de4ac1c1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::testing::ProductionValidator::QualityTest::expected_answers</definition>
+        <argsstring></argsstring>
+        <name>expected_answers</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::QualityTest::expected_answers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="318" column="21" bodyfile="include/llm/production_validator.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/production_validator.h" line="315" column="5" bodyfile="include/llm/production_validator.h" bodystart="315" bodyend="319"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test_1a8fbb0cf0505af5d86e74ff5d6031b8e7" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::QualityTest</scope><name>category</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test_1ac4871d9cd5f717337bcb1f67de4ac1c1" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::QualityTest</scope><name>expected_answers</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test_1a8573765e8f9426dc51673696bdf93ed8" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::QualityTest</scope><name>prompt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

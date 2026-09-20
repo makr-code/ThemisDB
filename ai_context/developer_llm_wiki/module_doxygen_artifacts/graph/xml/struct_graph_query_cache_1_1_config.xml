@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_graph_query_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>GraphQueryCache::Config</compoundname>
+    <includes refid="graph__query__cache_8h" local="no">graph_query_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_graph_query_cache_1_1_config_1aef315aaf9ee668ae5f0207075230818e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Config::l1_capacity</definition>
+        <argsstring></argsstring>
+        <name>l1_capacity</name>
+        <qualifiedname>GraphQueryCache::Config::l1_capacity</qualifiedname>
+        <initializer>{64}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="34" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_graph_query_cache_1_1_config_1a7068b70f1535922bcce206674907255d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::Config::l2_capacity</definition>
+        <argsstring></argsstring>
+        <name>l2_capacity</name>
+        <qualifiedname>GraphQueryCache::Config::l2_capacity</qualifiedname>
+        <initializer>{512}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="36" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_graph_query_cache_1_1_config_1a09d9ddb90a640871c514048c44042ab0" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::graph::GraphQueryCache::Config::ttl</definition>
+        <argsstring></argsstring>
+        <name>ttl</name>
+        <qualifiedname>GraphQueryCache::Config::ttl</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="38" column="35" bodyfile="include/graph/graph_query_cache.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_graph_query_cache_1_1_config_1aaec89cdad915d960a78554620433b548" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryCache::Config::default_cost</definition>
+        <argsstring></argsstring>
+        <name>default_cost</name>
+        <qualifiedname>GraphQueryCache::Config::default_cost</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="40" column="16" bodyfile="include/graph/graph_query_cache.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_cache.h" line="33" column="5" bodyfile="include/graph/graph_query_cache.h" bodystart="33" bodyend="41"/>
+    <listofallmembers>
+      <member refid="struct_graph_query_cache_1_1_config_1aaec89cdad915d960a78554620433b548" prot="public" virt="non-virtual"><scope>GraphQueryCache::Config</scope><name>default_cost</name></member>
+      <member refid="struct_graph_query_cache_1_1_config_1aef315aaf9ee668ae5f0207075230818e" prot="public" virt="non-virtual"><scope>GraphQueryCache::Config</scope><name>l1_capacity</name></member>
+      <member refid="struct_graph_query_cache_1_1_config_1a7068b70f1535922bcce206674907255d" prot="public" virt="non-virtual"><scope>GraphQueryCache::Config</scope><name>l2_capacity</name></member>
+      <member refid="struct_graph_query_cache_1_1_config_1a09d9ddb90a640871c514048c44042ab0" prot="public" virt="non-virtual"><scope>GraphQueryCache::Config</scope><name>ttl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

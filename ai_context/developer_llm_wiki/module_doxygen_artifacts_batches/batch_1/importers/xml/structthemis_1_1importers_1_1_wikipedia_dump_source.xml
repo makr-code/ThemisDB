@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_dump_source" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaDumpSource</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dump_source_1a4618317a4c3e984d3835d4863115b321" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDumpSource::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>themis::importers::WikipediaDumpSource::source_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="38" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dump_source_1a5022b05571ff61db6e24695303569a29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDumpSource::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::importers::WikipediaDumpSource::source_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="39" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dump_source_1a1e9fd7a480b5c71fc8e4260201429182" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDumpSource::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::importers::WikipediaDumpSource::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="40" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dump_source_1a6d49b4d4f882ca6ef3a9f09c3b4ed2dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDumpSource::dump_date</definition>
+        <argsstring></argsstring>
+        <name>dump_date</name>
+        <qualifiedname>themis::importers::WikipediaDumpSource::dump_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="41" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dump_source_1a75390367d2c90ed70e0f764886ae183b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDumpSource::producer_hint</definition>
+        <argsstring></argsstring>
+        <name>producer_hint</name>
+        <qualifiedname>themis::importers::WikipediaDumpSource::producer_hint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="42" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_dump_source_1a57a5724d36d147f0d2ebd8546379ba6b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaDumpSource::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaDumpSource::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="44" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="44" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Logical description of a Wikimedia dump source. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="37" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="37" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dump_source_1a6d49b4d4f882ca6ef3a9f09c3b4ed2dd" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDumpSource</scope><name>dump_date</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dump_source_1a1e9fd7a480b5c71fc8e4260201429182" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDumpSource</scope><name>language</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dump_source_1a75390367d2c90ed70e0f764886ae183b" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDumpSource</scope><name>producer_hint</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dump_source_1a5022b05571ff61db6e24695303569a29" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDumpSource</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dump_source_1a4618317a4c3e984d3835d4863115b321" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDumpSource</scope><name>source_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dump_source_1a57a5724d36d147f0d2ebd8546379ba6b" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDumpSource</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

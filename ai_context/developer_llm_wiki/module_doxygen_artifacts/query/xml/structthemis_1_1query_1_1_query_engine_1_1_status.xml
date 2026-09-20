@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_engine_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryEngine::Status</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_status_1afe10693bd927532866f322ff47401c23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryEngine::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::query::QueryEngine::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="303" column="14" bodyfile="include/query/query_engine.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_status_1acfcbd99ab89fccdcef936adb865a7c03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryEngine::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::query::QueryEngine::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="304" column="21" bodyfile="include/query/query_engine.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_status_1ab56036452e37f20190d4a390edf57b8b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_engine_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::query::QueryEngine::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::query::QueryEngine::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="310" column="23" bodyfile="include/query/query_engine.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_status_1ad24c3cadbfac6d0e9723f530057fd2dd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_engine_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::query::QueryEngine::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::query::QueryEngine::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="317" column="23" bodyfile="include/query/query_engine.h" bodystart="317" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="302" column="5" bodyfile="include/query/query_engine.h" bodystart="302" bodyend="318"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_status_1ad24c3cadbfac6d0e9723f530057fd2dd" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_status_1acfcbd99ab89fccdcef936adb865a7c03" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_status_1ab56036452e37f20190d4a390edf57b8b" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_status_1afe10693bd927532866f322ff47401c23" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

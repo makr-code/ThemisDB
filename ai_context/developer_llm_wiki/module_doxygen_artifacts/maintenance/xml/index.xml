@@ -1,0 +1,853 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker" kind="struct"><name>themis::maintenance::test::ChurnTracker</name>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1afdf5c53d3e26c14d1017c8530db4a268" kind="variable"><name>mu</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1add3699fcae3f9b0383f6c4a8b110df11" kind="variable"><name>counts</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1a5f9011da4d1edc8d5a6979e24b1f5bc3" kind="function"><name>nowMs</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1a7c3b2ad030b8685a1736ded76e620d17" kind="function"><name>check</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator" kind="class"><name>themis::maintenance::DatabaseMaintenanceOrchestrator</name>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a288df9a9ebd6e9296ed4776b691acd78" kind="variable"><name>scheduler_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab04c87bf8f9192d21dc72b65f7a801d5" kind="variable"><name>index_maintenance_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aa9ddd11970f1063b8347e8b36faf042d" kind="variable"><name>audit_logger_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a09ed4b72b23ab51a74e5af331170cb54" kind="variable"><name>schedule_store_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1af0bc6e15bd07eede0234eb5918dcd948" kind="variable"><name>schedules_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a9b035766dbfed0f2ade4804739a584cd" kind="variable"><name>schedules_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2f2d0302d36a84744d8601fc940feeef" kind="variable"><name>jobs_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a3019334050ab814ce8e387ab209035bf" kind="variable"><name>jobs_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4dfc30523da2724516a0a2d5ee86540b" kind="variable"><name>probes_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a23d2849d58d360b74eb28564f81dca99" kind="variable"><name>health_probes_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a670873ff258d99a37f9e61f6b2278f08" kind="variable"><name>handlers_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac9ac11291fbfedf4e3ec7fa387641b10" kind="variable"><name>task_handlers_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0ee25e2a2c534a7fa47f1bb7c562dbdc" kind="variable"><name>dist_lock_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a24fa63ea43a1b63342e2d6061e40429c" kind="variable"><name>dist_lock_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae63cd254ea5872e5cd6caeccd675670c" kind="variable"><name>tenant_configs_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a83527a632003296dfddd802d16129e00" kind="variable"><name>tenant_configs_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a1ed1e62c9966b0584a359b0434abe675" kind="variable"><name>in_flight_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a650c2538ec7c9db7538df19746fcf270" kind="variable"><name>in_flight_schedules_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a661dd2e20c93faffeb5f91cbd34bb8e8" kind="variable"><name>churn_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2803b32b7549ed66a36806f67b2741f4" kind="variable"><name>churn_counts_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a39cfb4d19f5515e871ed2c3eaf286160" kind="variable"><name>ring_buffer_mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a6334c5a74de8702a4c5bc72b6c28cc55" kind="variable"><name>dispatch_ring_buffer_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4619ab6471cba5ce591b2902cdc49f9e" kind="variable"><name>ring_buffer_capacity_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4c6f6dd7596e84a22795def53693bc9a" kind="variable"><name>running_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac7d82f857272c6a2e17b06d18fe08539" kind="variable"><name>id_counter_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a66395b3b3499d49b1ae52c2754567ba0" kind="variable"><name>kJobRetentionMs</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a21dc0ff6c5addc71a5437b75fbe4e452" kind="variable"><name>kChurnIntervalMs</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac539759ce2a447c9358f8ac517676d47" kind="variable"><name>kDefaultRingBufferCapacity</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a51934df73f36fe4426c5b6ce137d1449" kind="function"><name>DatabaseMaintenanceOrchestrator</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a3d7309240ad2064cf42800f843db622b" kind="function"><name>~DatabaseMaintenanceOrchestrator</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a79e6880030ba0a3e134128e7e028dbbe" kind="function"><name>DatabaseMaintenanceOrchestrator</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab4bb35de5b9481494720106a0a068fe5" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a7a735aa8011b4e410712684c851f15f9" kind="function"><name>start</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4d90941d9c5eec97ea240dc7e5115af4" kind="function"><name>stop</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0d9e02370990aa3c43537e014346f9ba" kind="function"><name>isRunning</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ad01190ab92830199fd3b262790451a7b" kind="function"><name>createSchedule</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1acf0c579c7da51e870c60e90de6f92be7" kind="function"><name>getSchedule</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aee91ae3ea1860819da41f532fca7ac8d" kind="function"><name>listSchedules</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a39984f60a6de1956c748cf8a53a64342" kind="function"><name>updateSchedule</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab581a56f286f0ea0f30a9f10d44f924e" kind="function"><name>patchSchedule</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a393ae6e9e9aae01ea1d5f2badf349da1" kind="function"><name>deleteSchedule</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a20dfbabc12e334612a2fc3ee7eaf6924" kind="function"><name>triggerNow</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aa675646f45eee3fd6c5026484e3a580c" kind="function"><name>cancelJob</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a98eb76a1aa4942872299a72e412bf3b7" kind="function"><name>getJob</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a73851360999c27a87681b8915380eb62" kind="function"><name>listJobs</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac5df4486bc5d56f2d20b05df9093f693" kind="function"><name>getStatus</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a91f0cf205ab5059c376a23c936bf067e" kind="function"><name>getHealthReport</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1afe3d1d19ac83662472f398b39e8afa74" kind="function"><name>setTenantMaintenanceConfig</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aca189f427a5cb659099d9ff5863e03de" kind="function"><name>getTenantMaintenanceConfig</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac5db1198d543fa41a6431534ee472b01" kind="function"><name>registerHealthProbe</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a50f8555857f10dc1602e3e85733ab00a" kind="function"><name>setDistributedLock</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a8d86ecf403206443653d7b7e44bf1e4c" kind="function"><name>registerTaskHandler</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a358d164c49a8b5dc0fef223c15f59149" kind="function"><name>listTaskHandlers</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1af250da3e4633e4f991e5114e30015f50" kind="function"><name>resolveTaskExecutionOrder</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a31f619294e1d986e4459a372ef3cdf9d" kind="function"><name>generateId</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0605909d331530db562bba34cac1eebe" kind="function"><name>nowMs</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0ee2da5c2dddb7d80e65ffe61aea8f35" kind="function"><name>registerWithScheduler</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2ba4455a47c3a36eb627832ff5fb8e57" kind="function"><name>deregisterFromScheduler</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a809c831740f16e6f97601b19dddff18f" kind="function"><name>schedulerTaskId</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a9a3a65cfe7b53d34df3135023227eb80" kind="function"><name>executeSchedule</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae6cbe34454625f5be11f2afddd2af6ba" kind="function"><name>executeTask</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aebc7a2f3248420bbb84386eb46bd010d" kind="function"><name>pruneCompletedJobs</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a31408df4f99dac8199ce16cd254eed90" kind="function"><name>validateEntry</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae5cbb62bdaf939e53a9b35c10be909e1" kind="function"><name>recordDispatchOutcome</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4b8b782a5caf3f3d71d6a68539c14ab6" kind="function"><name>checkChurnLimit</name></member>
+  </compound>
+  <compound refid="class_delta_engine_bench_fixture" kind="class"><name>DeltaEngineBenchFixture</name>
+    <member refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kind="variable"><name>work_dir_</name></member>
+    <member refid="class_delta_engine_bench_fixture_1a428f3e2004d1d29db2417c57323ffebd" kind="variable"><name>base_path_</name></member>
+    <member refid="class_delta_engine_bench_fixture_1a2d52027dc8e6489fdc989534910df783" kind="variable"><name>patch_path_</name></member>
+    <member refid="class_delta_engine_bench_fixture_1a848d029f06eb6bc3b9f290c1140766a3" kind="variable"><name>target_path_</name></member>
+    <member refid="class_delta_engine_bench_fixture_1af02caa40e4f42eef06b098292cb5f5f9" kind="variable"><name>new_path_</name></member>
+    <member refid="class_delta_engine_bench_fixture_1abcd14352f1aa831412c918500f80c7b1" kind="variable"><name>engine_</name></member>
+    <member refid="class_delta_engine_bench_fixture_1a481dbd5237a00701f4dfec1df81a886c" kind="function"><name>SetUp</name></member>
+    <member refid="class_delta_engine_bench_fixture_1abbbcb239de3a710d7cc2903519cb54c2" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome" kind="struct"><name>themis::bench::mtn::themis::maintenance::DispatchOutcome</name>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1add82adbecee4a408764808e2760c7ae1" kind="variable"><name>schedule_id</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a090860750bd30c59d0ea5eac268ad031" kind="variable"><name>task_type</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1acb2aa207703bd76b58e493f49f5ae6e2" kind="variable"><name>outcome</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a1d82c59d4c21676ea255904c92dd290a" kind="variable"><name>latency_us</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1adae4ef3c059f329a40333aa1334281d1" kind="variable"><name>error_message</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a4ed753823ae344d08477563c32d63ac5" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kind="struct"><name>themis::maintenance::DispatchOutcome</name>
+    <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a399fc8de449c463f7e40656175dd3218" kind="variable"><name>schedule_id</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a8d79bb50ddc8d9da76f4aa1bd4ea26a4" kind="variable"><name>task_type</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a91a33588d93144c29826c8e16f7f6f76" kind="variable"><name>outcome</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1adf54d7b4fe6625dc5971df4799e57b2c" kind="variable"><name>latency_us</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a3c527e2b3e16be36b3f86f1f405b72e1" kind="variable"><name>error_message</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1ac3f4b3552a124d0157f538d8698c1fa2" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container" kind="class"><name>themis::benchmarks::docker_raid::DockerContainer</name>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a6d20910aecadc1374f9a4c87dd8f8b2f" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1abed1c7a38b99558a1a329b7f3abab770" kind="variable"><name>running_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1aa52bc920a17d88f99cbd6f4a78ede3a8" kind="variable"><name>container_id_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a3c0d1fed274c6997bf6f02342841f504" kind="variable"><name>data_mutex_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a997bd843624dba0f6f3f50e016ca2570" kind="variable"><name>data_store_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a83b1bb77d014b65247c55df4950cec9b" kind="variable"><name>bytes_written_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a0be9e3b020f071aa21cfc51166c1db41" kind="variable"><name>bytes_read_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1abd1967023d4bffce393f9e9dfa76bb94" kind="function"><name>DockerContainer</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1ae6b4ed7974266931e08d65269e370b30" kind="function"><name>start</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a9d56514b10e06f966d3820e000c48cc8" kind="function"><name>stop</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a260a7ff774613aae1ba8d4f31780b4ee" kind="function"><name>restart</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a44c4dc8c43a1cdae732de01e4d4919e0" kind="function"><name>isRunning</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a218291b5ac25e53f47dfdddb4a374d63" kind="function"><name>getId</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a6812fd6a0e2f9f8a3a84d3e279a8ea93" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a8baa1986abd67ec397b5b3092edafff8" kind="function"><name>writeData</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a397f05b16cc7e6a4b70c7a41255da813" kind="function"><name>readData</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1aa542dfe9385c5e9833ec7011e370e8dd" kind="function"><name>getDataCount</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1a749176dc3fc0b128c015a7f2410b209c" kind="function"><name>getBytesWritten</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_1ab885ea62443d4797cd71e09f77164556" kind="function"><name>getBytesRead</name></member>
+  </compound>
+  <compound refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config" kind="struct"><name>themis::benchmarks::docker_raid::DockerContainerConfig</name>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1aa0dbd35f0b658e6d72304ea576dcefa4" kind="variable"><name>container_name</name></member>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1ae513f84ce3ceb7106cb6bd91c4a09c44" kind="variable"><name>image</name></member>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1afee2a10132c5e885a386fa63754014d6" kind="variable"><name>port</name></member>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1a8d0251d81bce8149b2cd6631f96ffa23" kind="variable"><name>hostname</name></member>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1ab21db613d7c071da5c84216894d3fbf1" kind="variable"><name>memory_limit_mb</name></member>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1adf870fa8e26ca7d15e28d4b384f0ed46" kind="variable"><name>cpu_limit</name></member>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1a9fe65668033f5820d05c0080e0354b62" kind="variable"><name>network_name</name></member>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1a9463d7a922d691a2cfde3e8de4993a0e" kind="variable"><name>volumes</name></member>
+    <member refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config_1a55d8de570d199d0af86953494fe62754" kind="variable"><name>env_vars</name></member>
+  </compound>
+  <compound refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base" kind="class"><name>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</name>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1ac9a0f0ca3b474d75e31e67e5f335aa27" kind="variable"><name>num_containers_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a5410891856423405498d1806b2a7bcd6" kind="variable"><name>raid_level_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a263f0ee26a4c63bdaed886ec4debffa4" kind="variable"><name>controller_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a6efad0a1d2d399d552d935dd87b74d99" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1af1aee91f24d662c403997a5ceb15b3c0" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller" kind="class"><name>themis::benchmarks::docker_raid::DockerRAIDController</name>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a7a0bcbe0c3551b496d0acc88570bd9c2" kind="variable"><name>raid_level_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1ad47fa8d5327c113f3ba5204b3f9e5246" kind="variable"><name>num_containers_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a165835bd978a3c088fd11bb2f19b9431" kind="variable"><name>containers_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a79becd7af1fdbc6a96e0f7823680300f" kind="variable"><name>failed_containers_</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a65c0b7b92c4e728654c9360d75cf519a" kind="function"><name>DockerRAIDController</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a9f2ecb19191b9c2d23a9478a8cb18b59" kind="function"><name>~DockerRAIDController</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a46f3d92fb22db56e73aeb47d9b9c15d7" kind="function"><name>start</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a76c939e043452b3910f893abaadec9d2" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1ab13392e4a66989961cd7b0499cbe79fa" kind="function"><name>writeData</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a773b9d2c35d1382e52c8b4989ba12b05" kind="function"><name>readData</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a09b469f41938fefda95382ade94f8cec" kind="function"><name>failContainer</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1acf3d2e32dac9b0e90e9e871a6d3865a0" kind="function"><name>recoverContainer</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1af8f8adf51de1f7283a35b97064164180" kind="function"><name>getTotalBytesWritten</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a33ddd5749b8d26ee614f1897b3d611fa" kind="function"><name>getTotalBytesRead</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a53762d8b4b057e264f5c81920dc5f235" kind="function"><name>getNumContainers</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1af0b1b283b0f3e0c22384b58568f27f62" kind="function"><name>getNumFailedContainers</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a55906f35d1d7b25243fef59626553059" kind="function"><name>initializeContainers</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1af615867a36d24603bb449321c70dd821" kind="function"><name>writeRAID0</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a9b4f3052b1d3b0056771c8ae206ea736" kind="function"><name>readRAID0</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1ab6251ca50fde68c408bbd418ea844bca" kind="function"><name>writeRAID1</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a08a274e7d140f48e7b1c73356adb00e6" kind="function"><name>readRAID1</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a60e21dd990678c6c7c16fe800e30af7d" kind="function"><name>writeRAID5</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a2fac3d12a7090c4a31cd202ac51f00fe" kind="function"><name>readRAID5</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a092d0ae9c1a40329880fae5fbd0741e5" kind="function"><name>writeRAID6</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a6b27057fe826efd9b7775b6542888937" kind="function"><name>readRAID6</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a44441a233d8a3e5d83b71d9365bcbb32" kind="function"><name>writeRAID10</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1ac09af0731d05075dae10680e0fa7c070" kind="function"><name>readRAID10</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1ad511ba93824f9baacd9078fd947c5374" kind="function"><name>computeParity</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a93aff2624f4e38b9be5ac901b72474be" kind="function"><name>computeDualParity</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1a3ba4a22ec946dcfcbaf57b7f459a053a" kind="function"><name>reconstructFromParity</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller_1af5a82f8e841348683dce614aea03c4d6" kind="function"><name>reconstructFromDualParity</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler" kind="class"><name>themis::maintenance::FunctionMaintenanceTaskHandler</name>
+    <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a3334e22bba1b01cec88c38e9fb23deb3" kind="typedef"><name>ExecuteFn</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a4fcec08ca2e5184b33440eab9c97b31c" kind="variable"><name>name_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1ada15c12a8f0ce55bc59924389173aae5" kind="variable"><name>fn_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a6333ec1c943ed5f2a74c74e699b0393c" kind="function"><name>FunctionMaintenanceTaskHandler</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1adee8a95d74935feabc4ffc28144da9ea" kind="function"><name>execute</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a43bf90a8e529e9e26eb82dd36c603299" kind="function"><name>handlerName</name></member>
+  </compound>
+  <compound refid="class_hot_reload_bench_fixture" kind="class"><name>HotReloadBenchFixture</name>
+    <member refid="class_hot_reload_bench_fixture_1abead9a62d4808cbd799bd4b38c5dcc7b" kind="variable"><name>mgr</name></member>
+    <member refid="class_hot_reload_bench_fixture_1a5f80dd42423d1173bb7dadc9356acf93" kind="variable"><name>loader</name></member>
+    <member refid="class_hot_reload_bench_fixture_1a0cb3407f18e31d6a7643abb44f675cb5" kind="function"><name>SetUp</name></member>
+    <member refid="class_hot_reload_bench_fixture_1a70edbae42b3d316ea94af59a1964509d" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_i_distributed_lock" kind="class"><name>themis::maintenance::IDistributedLock</name>
+    <member refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1aacaa5999673ef23c015ea3cd29b1d550" kind="function"><name>~IDistributedLock</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1a3190862489e8902b70f6b02a49fd73e4" kind="function"><name>tryAcquire</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1a11c4fefd85cf92aae8a9e023726686f8" kind="function"><name>release</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1a769eba22848aabf9c9faea706c617799" kind="function"><name>getHolderNodeId</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1a16400a9d809cf05906d5558eff9c7e52" kind="function"><name>nodeId</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" kind="class"><name>themis::maintenance::IMaintenanceTaskHandler</name>
+    <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a02df22c7fc7ff41510208a7fa0673de9" kind="function"><name>~IMaintenanceTaskHandler</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a0c02379595c393103648c8cf3191b259" kind="function"><name>execute</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a944d9bb4ec535eb3b5003129b43157f9" kind="function"><name>handlerName</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard" kind="struct"><name>themis::maintenance::test::InFlightGuard</name>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1af03de8c6ebd577180d229ef25c4bf15d" kind="variable"><name>mu</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a2000668772ed7108428aad40c810cc9a" kind="variable"><name>in_flight</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a64b8d801068bea91fa6f833e59bc327b" kind="function"><name>tryEnter</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a14d0082fd8985167ba62bb98e6ddfc95" kind="function"><name>leave</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock" kind="class"><name>themis::maintenance::InProcessDistributedLock</name>
+    <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1acbac34bbe5661447f37dfa3e6baf972d" kind="variable"><name>node_id_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a3ef01c66ad965671b930eb88c6ad6358" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1ac102af5dc5466ecaa2fbaa7a88d854ae" kind="variable"><name>locks_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a960029ea3fecbc42b778be1e29989097" kind="function"><name>InProcessDistributedLock</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a4ecb88a3612a2c307ade797518724b7a" kind="function"><name>tryAcquire</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a737423a79df5fde1d083017e7d0a7d8f" kind="function"><name>release</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1acd63d140de523de31290b5b40f5014e1" kind="function"><name>getHolderNodeId</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1ae120b4f4591814bc307a4559b2ee2edd" kind="function"><name>nodeId</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry" kind="struct"><name>themis::maintenance::InProcessDistributedLock::LockEntry</name>
+    <member refid="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry_1aa7bab5927afc88738a5afc92726b23e6" kind="variable"><name>holder</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry_1a5bae613a7c81d0953bf04f5700cbf1fb" kind="variable"><name>expires_at</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report" kind="struct"><name>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</name>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1a6393dade0fd201a6cc3bf54b42a1d0da" kind="variable"><name>overall_status</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ad9f1439f557c009182c59295a2322c3d" kind="variable"><name>module_signals</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ae95081e8319586d10a208fac5e9f0ead" kind="variable"><name>generated_at_ms</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ad28f9ec8d4dccfd2e106143bd0624973" kind="variable"><name>active_jobs</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1a644cca940b2d0c76eb72b82a84d12c08" kind="variable"><name>total_schedules</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1abae0df02c38fc8c9bba8b8ae0cd3d2d5" kind="variable"><name>enabled_schedules</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1aee9cb5262aa686730e62fb7c1ee88808" kind="variable"><name>failed_jobs_24h</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1afabcf42e737047a77d37a668a790cd70" kind="variable"><name>success_jobs_24h</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ada2b3ae58f6e7c7a239db358383e19d3" kind="variable"><name>recent_dispatch_outcomes</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ade87b5ce9b9bf513f92b95837deead42" kind="variable"><name>dispatch_outcome_ring_buffer_capacity</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1afbbf31fb9c67ba30e3196db38fed401a" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_maintenance_health_report" kind="struct"><name>themis::maintenance::MaintenanceHealthReport</name>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1afafab041760904b68dbe8e0829052a72" kind="variable"><name>overall_status</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a0c2114eaecd5c37f99c64e04e558d8cc" kind="variable"><name>module_signals</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a928c8d22ef6e2c03905431458ec3f3a3" kind="variable"><name>generated_at_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1aa2bc44745df0b4afcf0538e548d93fa7" kind="variable"><name>active_jobs</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1ab31375875126d6efb19d8057dd52f88e" kind="variable"><name>total_schedules</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a53ab871f4cbf37e66c48587f2933ef7a" kind="variable"><name>enabled_schedules</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1aa55998e32ac90c045905fcb00f397613" kind="variable"><name>failed_jobs_24h</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1af564b74999663f6de6c62b57808c5b99" kind="variable"><name>success_jobs_24h</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a27229d7185db1fc12c9ae23a3307d891" kind="variable"><name>recent_dispatch_outcomes</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a989996089c0abb0ba51c0f92797ccf9b" kind="variable"><name>dispatch_outcome_ring_buffer_capacity</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a363c574f608e6f59fb110894e5997fa5" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot" kind="struct"><name>themis::maintenance::MaintenanceHealthSnapshot</name>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae8c066c6ad4617475f485b60f33be23e" kind="variable"><name>is_healthy</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae2b48a52dc6400b93b18fba1d9073c69" kind="variable"><name>active_schedule_count</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a2d0fba71eb26cdbd66178eb81adb1cf5" kind="variable"><name>failed_execution_count</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a409c609bee026003ccea62ba8bbc5c01" kind="variable"><name>last_error_message</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor" kind="struct"><name>themis::maintenance::MaintenanceScheduleDescriptor</name>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a14acec90a7eb14e8100ebae11b6696de" kind="variable"><name>schedule_id</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a221e2511bb5868fc4d869254bd47cca0" kind="variable"><name>task_type</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a1102218f593517f3beadf3336ae4d6bd" kind="variable"><name>interval</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a2b79a694945e92ad088e250083586738" kind="variable"><name>enabled</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1aa8ce645bafd0254ff465240ff7213e7e" kind="variable"><name>timeout</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a9b8c9be6b77b29dfeca46043e39224e0" kind="variable"><name>max_schedule_changes_per_interval</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kind="struct"><name>themis::maintenance::MaintenanceScheduleEntry</name>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a907a09f316dd3318cb66d829b4a3a99b" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad1560c81ceb9546c4ca14869cc3857e6" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a594f19f925fdc131b410155ad42d3f13" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aff8cf6b81c816731d54d06ad590568b3" kind="variable"><name>tenant_id</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a4376e8d06d774c63aa545bbe5dedf07a" kind="variable"><name>frequency</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aad275d6df3f6b9bfa3924c65884a57ea" kind="variable"><name>cron_expression</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a8235b1489e9179df1be4ea55e24f9b9f" kind="variable"><name>tasks</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a8e2dba0d1ffdbcf60e4bc162bcf90417" kind="variable"><name>task_dependencies</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a9f8ec0426924954745619c023f786583" kind="variable"><name>enabled</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aaaa82f9b8e34d694fab5683592c846a4" kind="variable"><name>enforce_window</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a86760e8fc4540df38534ad3d618f58cb" kind="variable"><name>window_start_hour</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a0556a4657097e756ca713c65a0db27d2" kind="variable"><name>window_end_hour</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a566a378170fd45838cff3daf98348f7e" kind="variable"><name>halt_on_task_failure</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a3bfcf2191572df7e5bc7ca2aa4640ac0" kind="variable"><name>lock_ttl_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad24bf9f0f5a1c21b8eabf0fe7c8038be" kind="variable"><name>max_schedule_changes_per_interval</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a5facc5dc3479702fb8ac213cac2ec882" kind="variable"><name>created_at_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad0801b24244572fc03c824d4be2f66b0" kind="variable"><name>updated_at_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab1273d7ccf2e6b31a7328dee12b9f984" kind="variable"><name>created_by</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab641c0e36a49a8018397796fbe2041ef" kind="variable"><name>updated_by</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a6897ba239cdc537fb3f8e217938f39e1" kind="variable"><name>last_run_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a117313d9c495df979215cac30a16eec7" kind="variable"><name>next_run_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aeb2f344d017e3974d667761899a1cdaf" kind="variable"><name>last_run_state</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aeaea37615ea01f7326f93df16ef3d794" kind="variable"><name>last_job_id</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab27924726307c45b44785dfe673bb3a7" kind="function"><name>toJson</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1af458505fbd9d619976b74a8a05b45f0c" kind="function"><name>applyPatch</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a29a4acd08c1aa547258eaeb8b22ee70c" kind="function"><name>fromJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store" kind="class"><name>themis::maintenance::MaintenanceScheduleStore</name>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a547dd161c1b06fd31c8065773989fa82" kind="variable"><name>kKeyPrefix</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1aefa831b328843c34df0f27e7aaf01fa1" kind="variable"><name>engine_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a234f2bfec1bbd8151795d8912416e481" kind="function"><name>MaintenanceScheduleStore</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1ab7a9009992c90d9277c78b11c904e220" kind="function"><name>~MaintenanceScheduleStore</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a424b84e44751bd75c0fc240392101c85" kind="function"><name>MaintenanceScheduleStore</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a24f7c84472604b54eee7957681f6bcab" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1ab1ac9d5ccefd0e1ca9f838be5cacb7d5" kind="function"><name>save</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1af8ad6183ee2b1e4c07043e44740412f3" kind="function"><name>remove</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1aa882298603be5b9e006290a87d9b3772" kind="function"><name>loadAll</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a5dbc2c9a2b71000a1647224417f59b3e" kind="function"><name>makeKey</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency" kind="struct"><name>themis::maintenance::MaintenanceTaskDependency</name>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a05126727c3f283cb6ad4e01a15ade23e" kind="variable"><name>task_type</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a2ac9b43de53c69a3df482477219f0069" kind="variable"><name>depends_on</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1ac0e0e9b067239f9729825a39dbc3737a" kind="function"><name>toJson</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a8d09b8539d6b32fcc476b50d0122d349" kind="function"><name>fromJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store" kind="struct"><name>themis::maintenance::test::MockScheduleStore</name>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a35f5b81ae3866eff1ac017ac050c3a7d" kind="variable"><name>data</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a4bdbf9bd8846bff134b79eb7b01f5104" kind="variable"><name>simulate_corrupt</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a325693d96be94a884d84414325e24348" kind="function"><name>save</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a3472b6c7ba6053d9c049179bf1ffdc3d" kind="function"><name>remove</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a7725f0fbfc0b97824fee619f021083aa" kind="function"><name>loadAll</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal" kind="struct"><name>themis::bench::mtn::themis::maintenance::ModuleHealthSignal</name>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal_1aa26c725fb3b36e92e2b1db1ee2b7dbd7" kind="variable"><name>module_name</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal_1aa30aa0faa07ec4453886a0a2daea3485" kind="variable"><name>status</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal_1af152a53cc7f73745051230e5115ec62c" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal_1aa4cd5f7f3e021386dc2113aa46012f1e" kind="variable"><name>checked_at_ms</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal_1a77833ac98f1b810b1305eda044d9d57f" kind="variable"><name>details</name></member>
+    <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal_1a417c721e48b510275256576d3e71d2a4" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_module_health_signal" kind="struct"><name>themis::maintenance::ModuleHealthSignal</name>
+    <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8c9178e36aeef6ef39b008b6ae4cb0a7" kind="variable"><name>module_name</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac1bbea07d7324dabe1115915fe8265a8" kind="variable"><name>status</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8223e6258c0553ab356653622cac6ec4" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1af345fcc4c29a64f644b9c70410652b74" kind="variable"><name>checked_at_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1a3efe1185213315532ce945116f2f746f" kind="variable"><name>details</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac8f05dbb9b92fa702e709c9146fc6edc" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler" kind="class"><name>themis::maintenance::MvccCleanupHandler</name>
+    <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1ae7860edb20b0cf17bd1b1fbd765a88a3" kind="variable"><name>kDefaultWatermarkMs</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1abbcf461ab55d17adb3777dd30ef7224d" kind="variable"><name>mvcc_store_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1ab2b3f3e301d97b9454a3b1bf80b63b93" kind="variable"><name>watermark_ms_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1a3e4aadfeb7dbaee133aea98b10604aa6" kind="function"><name>MvccCleanupHandler</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1acd59a272b176c6ec9862e12c493c77ee" kind="function"><name>execute</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1aa14d69fa0b2b35daeb017e70c161fb30" kind="function"><name>handlerName</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_orchestrator_job" kind="struct"><name>themis::maintenance::OrchestratorJob</name>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a68ddebbf6ebe17c7cce16f751ab3b69f" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1af20e85a97b560a48cdf5eb3f54a0f6d5" kind="variable"><name>schedule_id</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1adf1fc908f757daa118ec5134688cdd35" kind="variable"><name>tenant_id</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a965eafb364270391f21d16196223f254" kind="variable"><name>task_type</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1afda48e69b24bf1ec54eb8089adaf78c5" kind="variable"><name>state</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1ad4a287121c058cec5b0d42f20ad755d4" kind="variable"><name>error_message</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a1c101f625b02edd1e91e4c922245970b" kind="variable"><name>result_summary</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a5bd9bcf4945ac8debf8160cca7c95f55" kind="variable"><name>progress_pct</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a2a30b4a0178bfa78bb1c39cb779b432e" kind="variable"><name>started_at_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1ac95754adc5022f24dca328ec79b999f4" kind="variable"><name>finished_at_ms</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a0f424de19adea73feaf5001fcd5d354c" kind="variable"><name>forced</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a4f4aca0d540884d4f6917f66c038ee34" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_replica_validation_handler" kind="class"><name>themis::maintenance::ReplicaValidationHandler</name>
+    <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1ae88c57da9724cc1cdb3da493a940bca6" kind="typedef"><name>CheckFn</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1a32c9abfa0123e1a923f0d6eba6cf9df4" kind="variable"><name>check_fn_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1a4912bbf1e32665495d76f3c9d3bd988f" kind="function"><name>ReplicaValidationHandler</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1ac846e954e1c6e7d23ba2b027ca2f149a" kind="function"><name>execute</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1aac84162b127496650e53d15c87ec4133" kind="function"><name>handlerName</name></member>
+  </compound>
+  <compound refid="class_saga_benchmark_fixture" kind="class"><name>SagaBenchmarkFixture</name>
+    <member refid="class_saga_benchmark_fixture_1aad7baeb414eebc4ef94eb1dfb48df578" kind="variable"><name>test_db_path_</name></member>
+    <member refid="class_saga_benchmark_fixture_1a97d067856a0538fcb5436e0767979a7e" kind="variable"><name>db_</name></member>
+    <member refid="class_saga_benchmark_fixture_1a9ff83e82fd7b51228af47f3d631d0353" kind="variable"><name>secondary_index_</name></member>
+    <member refid="class_saga_benchmark_fixture_1a24088fd16ac4e8a81c148b9c759a4963" kind="variable"><name>graph_index_</name></member>
+    <member refid="class_saga_benchmark_fixture_1a83a13eb5ad2fb9d7452ff710ac0735cb" kind="variable"><name>vector_index_</name></member>
+    <member refid="class_saga_benchmark_fixture_1adb448b24fa051e9f57e6fc822bb94765" kind="function"><name>SetUp</name></member>
+    <member refid="class_saga_benchmark_fixture_1a7a3d3d83922f794e4a4ada7159a88196" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_snapshot_manager_benchmark" kind="class"><name>SnapshotManagerBenchmark</name>
+    <member refid="class_snapshot_manager_benchmark_1ad8cb74c23e8896c53037f49d3e134ebe" kind="variable"><name>test_db_path_</name></member>
+    <member refid="class_snapshot_manager_benchmark_1a05612227b0220971b40047f6957c8b25" kind="variable"><name>db_</name></member>
+    <member refid="class_snapshot_manager_benchmark_1a2f59c08ccd932ab4c75acd1e0b5fcdb6" kind="variable"><name>changefeed_</name></member>
+    <member refid="class_snapshot_manager_benchmark_1abbd7aadb7788a91f3cf9bdb64d1a974c" kind="variable"><name>snapshot_manager_</name></member>
+    <member refid="class_snapshot_manager_benchmark_1a9bb586f24c7a908714d7defc55582620" kind="function"><name>SetUp</name></member>
+    <member refid="class_snapshot_manager_benchmark_1ace32894da10377fb7a0f814c20256f22" kind="function"><name>TearDown</name></member>
+    <member refid="class_snapshot_manager_benchmark_1a35eccbd9d54c4cb9ad6e88f6451ee69c" kind="function"><name>populateTags</name></member>
+    <member refid="class_snapshot_manager_benchmark_1abe5b7a54894458b0f14f40385ede18c9" kind="function"><name>recordEvents</name></member>
+  </compound>
+  <compound refid="classthemis_1_1maintenance_1_1_storage_compaction_handler" kind="class"><name>themis::maintenance::StorageCompactionHandler</name>
+    <member refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a4214259a64336353bcc76690f0e4d90b" kind="variable"><name>compaction_manager_</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1afa5795c51b3883263fb4e942573b4d05" kind="function"><name>StorageCompactionHandler</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a4d40cdcd78e3058663b4f5ec43710e8a" kind="function"><name>execute</name></member>
+    <member refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a5214d38e6f12934bf4899f8800deb883" kind="function"><name>handlerName</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard" kind="struct"><name>themis::test::wave_d::StubCompactionShard</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a040f4b73d1a412876b79706d829da9bf" kind="variable"><name>mu_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a1d803355e73c260557ed89852920aa4c" kind="variable"><name>compacted_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a7d67d6d81b6798bf3f3fb8fa3c1163a4" kind="variable"><name>compact_count_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a899cd309f1be8084609376539e673eeb" kind="variable"><name>stall_count_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a4aed34baf025db8611a078277b1f761e" kind="function"><name>compact</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1ab67b6d23e6ed86ac7317782de8404307" kind="function"><name>compactCount</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1aad7ebd45841a756abeaa410e1909d3db" kind="function"><name>stallCount</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer" kind="struct"><name>themis::test::wave_d::StubRetentionEnforcer</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a4113a7fdece8f12e5a4442f5a9e9606e" kind="variable"><name>checked_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1afd8969ca539009e0f1d814f32b1d80cb" kind="variable"><name>evicted_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1af07e449988798d65efa7ed60a79b4d06" kind="variable"><name>violations_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1ad136802012d8c578af1bee318bb8422d" kind="function"><name>enforce</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1aeee901257f0b64a419c03b9a74dac621" kind="function"><name>checked</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a2e922dac641c2aaeca11174fa2ee5e21" kind="function"><name>evicted</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a0ed97e9379cf020ca5dd638827defff1" kind="function"><name>violations</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_vacuum_task_store" kind="struct"><name>themis::test::wave_d::StubVacuumTaskStore</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_vacuum_task_store_1a69717ebc0be8cd3deefd05064b3b8b67" kind="variable"><name>mu_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_vacuum_task_store_1af77e0134e1fa35e8d482da32fa3cc67c" kind="variable"><name>tasks_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_vacuum_task_store_1ab3d0114b9d82a246045e3724c5f8d021" kind="variable"><name>writes_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_vacuum_task_store_1a04d80ad90e061cca675b20d5d2dd9110" kind="function"><name>submit</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_vacuum_task_store_1ac2c76179d1c3f174c5f08a0b0e265424" kind="function"><name>size</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_vacuum_task_store_1a93b5c158eab9113a1a9eacf8f28f077a" kind="function"><name>writes</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config" kind="struct"><name>themis::maintenance::TenantMaintenanceConfig</name>
+    <member refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a13c2af413df484063a89760a6173604b" kind="variable"><name>enforce_window</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a72a6a638c21a7fc771f673a58ff2be8c" kind="variable"><name>window_start_hour</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1afdcb90d3138a20bd6b0e0cd0cd53469a" kind="variable"><name>window_end_hour</name></member>
+    <member refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a0a22158591a3a617e2cc342fd81f7490" kind="variable"><name>max_concurrent_jobs</name></member>
+  </compound>
+  <compound refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator" kind="class"><name>themis::benchmarks::docker_raid::TestDataGenerator</name>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a6bd9be9f97e006b539589f0062d24c6a" kind="function"><name>generateData</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a46f932f3da6e7026cdc5520ae45b93b5" kind="function"><name>generateDocumentJSON</name></member>
+    <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a5eaf16617a226f0f9a7feef4ac59f248" kind="function"><name>generateUUID</name></member>
+  </compound>
+  <compound refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer" kind="struct"><name>themis::maintenance::test::TestRingBuffer</name>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a26857dedac38862f1c44b4bfe021458b" kind="variable"><name>kDefaultCapacity</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" kind="variable"><name>buf</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a43b39128216565c35e9c0b050f8e44b8" kind="variable"><name>capacity</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a631b6edf748d8188525ffdaeae75497a" kind="variable"><name>mu</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a39f0d68200483035d0613b8ea07babe7" kind="function"><name>TestRingBuffer</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1adc3faf06628c2e8bef88dd6469b7c18a" kind="function"><name>push</name></member>
+    <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a733fd39fb6010cb6d2964b7e9952df42" kind="function"><name>snapshot</name></member>
+  </compound>
+  <compound refid="namespace_0d120015360271013217111206345057267231305211324075" kind="namespace"><name>@120015360271013217111206345057267231305211324075</name>
+  </compound>
+  <compound refid="namespacebenchmark" kind="namespace"><name>benchmark</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench" kind="namespace"><name>themis::bench</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1mtn" kind="namespace"><name>themis::bench::mtn</name>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a0e9af5fd5a91c5a2aa520aa31772d52a" kind="variable"><name>kCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a9e9cf15136c0283c8ee74c54c65b7773" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a0e9af5fd5a91c5a2aa520aa31772d52a" kind="variable"><name>kCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a9e9cf15136c0283c8ee74c54c65b7773" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a49f7cf205511d7319c13d9c5291cad0c" kind="function"><name>BM_MTN_DIST01_LeaderGatedDispatch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1ab74179b6bf23bf4b135512fb45dc8875" kind="function"><name>Repetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a8cbbcec0acc4c41f01511da9b2833905" kind="function"><name>BM_MTN_DIST02_ScheduleListing</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a5562e75232fc0f17478e90c3f91170fd" kind="function"><name>BM_MTN01_ErrorEnumCast</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a04072527066aee686651fefec89c01ef" kind="function"><name>BM_MTN02_SwitchDispatch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a502fb13c6fd80e0d55e63c9e85e9ea52" kind="function"><name>BM_MTN03_StructAlloc</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1aa9ad1a5aaf3e7a18168acbe5e07790bd" kind="function"><name>BM_MTN04_BatchCast</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1acc27b02024bcf7f68e1ca1b93f7b7ce1" kind="function"><name>BM_MTN05_InFlightGuard</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a619a3b037d93c5e095e656de140e4f8d" kind="function"><name>BM_MTN06_PersistReloadRoundTrip</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1a41cb70b53430a1bc83630920dc9c23f1" kind="function"><name>BM_MTN07_RingBufferWrite</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1mtn_1_1_0d223335055325354072056021255276227072066257021250" kind="namespace"><name>themis::bench::mtn::@223335055325354072056021255276227072066257021250</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1mtn_1_1themis" kind="namespace"><name>themis::bench::mtn::themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance" kind="namespace"><name>themis::bench::mtn::themis::maintenance</name>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8" kind="enum"><name>ModuleHealthStatus</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8ae0aa021e21dddbd6d8cecec71e9cf564" kind="enumvalue"><name>OK</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8a0021017005f0e5134b204c2e69d3d4ed" kind="enumvalue"><name>DEGRADED</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8a99cd1c61610c76a57cb8d10d6df6b870" kind="enumvalue"><name>CRITICAL</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8a696b031073e74bf2cb98e5ef201d4aa3" kind="enumvalue"><name>UNKNOWN</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31e" kind="enum"><name>DispatchOutcomeType</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31ead0749aaba8b833466dfcbb0428e4f89c" kind="enumvalue"><name>SUCCESS</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31ea7e3ae277b577a5e6879fd7c1f842a5c2" kind="enumvalue"><name>SKIPPED_NO_HANDLER</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31ea3624804b46a56b1b5d7b09875834aa73" kind="enumvalue"><name>SKIPPED_CONCURRENT</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31eab57c10a5f3e6901566d3f7ac773f3ed4" kind="enumvalue"><name>FAILED_PERSISTENCE</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31eab1dbae1b20b78825b1e0d7808631ecec" kind="enumvalue"><name>FAILED_DISPATCH</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a876eb5e3d4802b8afab7800491278116" kind="function"><name>moduleHealthStatusToString</name></member>
+    <member refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a1cf9abf98188baf6498d6fc9978c2e0e" kind="function"><name>dispatchOutcomeTypeToString</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1benchmarks" kind="namespace"><name>themis::benchmarks</name>
+  </compound>
+  <compound refid="namespacethemis_1_1benchmarks_1_1docker__raid" kind="namespace"><name>themis::benchmarks::docker_raid</name>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4" kind="enum"><name>RAIDLevel</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4af64edeba3236e43862427641fbc5876a" kind="enumvalue"><name>RAID0</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4aafd0c6e27d41e812892b94f43171ae3d" kind="enumvalue"><name>RAID1</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4a67dd612c2e96ae789ee22fffe6e751bd" kind="enumvalue"><name>RAID5</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4a8c68f6195fb0884b2462b9fa9b70d6b6" kind="enumvalue"><name>RAID6</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4aa7018f03b18f085514eba335923e334a" kind="enumvalue"><name>RAID10</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1ae37098d6c2ce5f54fb1a1147bc65475b" kind="variable"><name>KB</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3001f8f1bb67a9dc3efc2351c8e12d7c" kind="variable"><name>MB</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a50bf9473df6a9d55cb7889ad01987b98" kind="variable"><name>GB</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a96489fa1edb53b7adad492286d080b82" kind="variable"><name>SMALL_DOCUMENT_SIZE</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a7ff70c8249f739cb4cf96bca03b19805" kind="variable"><name>MEDIUM_DOCUMENT_SIZE</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1ae31b945cfc4ed229f69e3ea2c8f9496b" kind="variable"><name>LARGE_DOCUMENT_SIZE</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1af26452d66d01f6434b026bf8bb22c61b" kind="variable"><name>BLOB_SIZE</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a734a49119762ff49ae94495cd5000f29" kind="variable"><name>MIN_CONTAINERS</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1afe214320dcfd977ecb011fd4813f192e" kind="variable"><name>MAX_CONTAINERS</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a62e4d54c3584729a454754f1e2b05879" kind="variable"><name>DEFAULT_REPLICAS</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a0d46c9fc5d49d7eaf0eba3ccaee0ba3f" kind="variable"><name>LOCAL_NETWORK_LATENCY_US</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a370e1aaf36977c6b0fd1b539a3b2371c" kind="variable"><name>CROSS_DC_LATENCY_US</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a00512a5891a15120bf31bda5a5b42e92" kind="variable"><name>INTERNET_LATENCY_US</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1ab0676da2ae1e58c55d6936fc7b166ec5" kind="variable"><name>QUICK_ITERATIONS</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1afaab4959d924bf71bc4bfa5248670d6b" kind="variable"><name>STANDARD_ITERATIONS</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a763f9f7f4353a756e5f5dd3eca703df9" kind="variable"><name>LONG_ITERATIONS</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a6471b116a02a93ce41b75321f0a1b612" kind="variable"><name>EXTREME_ITERATIONS</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kind="variable"><name>state</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1aaf30a8a775988d77de54ef1717492e77" kind="variable"><name>counters</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1ad376c12bb06b3df36ae3b3081ac778f9" kind="variable"><name>reads_per_iteration</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a1a74fa01d28c0fba74548044b2b74bc9" kind="variable"><name>stripe_counter</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a973b4146863ba4f51c179cf0e1b6880e" kind="variable"><name>read_ratio</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a2e81151336c683bd9021d17913ac14f3" kind="variable"><name>operations_per_iteration</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1aef7255b7a2638f2b048333b22165c508" kind="variable"><name>queries_per_iteration</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a92b2ea33d5c33a8cc8f2bd7f6a46116b" kind="function"><name>for</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1acc23b502bb9d22984a9be9f0adab63e5" kind="function"><name>SetBytesProcessed</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a4a60ea2826114878f8ece966bf6199c8" kind="function"><name>Args</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a2a49cd84b7c08852ed5d4e71ee7c689f" kind="function"><name>Args</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a94272b9848a0bb78c43b8cc194da23ee" kind="function"><name>SetBytesProcessed</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a484f72254b0263ef5fd03b43fec05f7d" kind="function"><name>Args</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a02f8ac94de594947dcc31508984ada68" kind="function"><name>for</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a8d4e762a4f9c702482b6100fadd0ebe0" kind="function"><name>rng</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1aad02915b857e2d79ea512987da3a0b77" kind="function"><name>dist</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a2a003530e8c395287bef297599b65963" kind="function"><name>SetItemsProcessed</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a58c9f362c353699cb204f34f443b9aa5" kind="function"><name>Args</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a25e499c0e695cbed6f197be3a421dc93" kind="function"><name>SetItemsProcessed</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1aafeb8b11166f4486292d01a3e75d217c" kind="function"><name>Args</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1af6cd06fb2db0ac03beb47773dbc94764" kind="function"><name>doc_dist</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a7581b9df5500bdefafaddc1da85083d1" kind="function"><name>op_dist</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a1f726dfecf0d8e9f21ef5617fe3f5a95" kind="function"><name>Args</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1af02a28246559e1ce544cc1689b56d883" kind="function"><name>Args</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a4051621867f699597215645fdc5d1c16" kind="function"><name>SetItemsProcessed</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1af0e90087060bfe2237116c7ac1f6b2bf" kind="function"><name>SetItemsProcessed</name></member>
+    <member refid="namespacethemis_1_1benchmarks_1_1docker__raid_1aad82500420f0478ede502bec96555c29" kind="function"><name>Args</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1maintenance" kind="namespace"><name>themis::maintenance</name>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05b" kind="enum"><name>MaintenanceError</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba8c632159fa131f09d04f94e3cbcd8782" kind="enumvalue"><name>kSuccess</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baa703b7a8f5a57cc89ec098bbc8d7921e" kind="enumvalue"><name>kScheduleNotFound</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baaa93e518e6b373a4c9e78b62c86289b4" kind="enumvalue"><name>kHandlerNotRegistered</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba1a8c39fbba29f3e60545f11c3e52554f" kind="enumvalue"><name>kPersistenceFailed</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba7b53e5920b10cd9111864160d63d4551" kind="enumvalue"><name>kExecutionTimeout</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05babb0ee3b1441d38aefa3c275454364672" kind="enumvalue"><name>kConcurrentModification</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baf9eda1609c7b45d5e676a071d930fe66" kind="enumvalue"><name>kInvalidSchedule</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05bafaeac8adc13cccde1fe33242942b568b" kind="enumvalue"><name>kOrchestratorDegraded</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05bafcd417a134c251034b0d61b07c826394" kind="enumvalue"><name>kInternalError</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba692130a30f1b5f94f7e56f43ccf28859" kind="enumvalue"><name>kSkippedConcurrent</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba97936e12dd1ee2f3b5f45e00d05c9a0c" kind="enumvalue"><name>kPersistenceCorrupt</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba89eb04a7d77d4cd399ea2e4ee8cbd63e" kind="enumvalue"><name>kChurnLimitExceeded</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5" kind="enum"><name>ModuleHealthStatus</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5ae0aa021e21dddbd6d8cecec71e9cf564" kind="enumvalue"><name>OK</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a0021017005f0e5134b204c2e69d3d4ed" kind="enumvalue"><name>DEGRADED</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a99cd1c61610c76a57cb8d10d6df6b870" kind="enumvalue"><name>CRITICAL</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a696b031073e74bf2cb98e5ef201d4aa3" kind="enumvalue"><name>UNKNOWN</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" kind="enum"><name>DispatchOutcomeType</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kind="enumvalue"><name>SUCCESS</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a7e3ae277b577a5e6879fd7c1f842a5c2" kind="enumvalue"><name>SKIPPED_NO_HANDLER</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a3624804b46a56b1b5d7b09875834aa73" kind="enumvalue"><name>SKIPPED_CONCURRENT</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab57c10a5f3e6901566d3f7ac773f3ed4" kind="enumvalue"><name>FAILED_PERSISTENCE</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab1dbae1b20b78825b1e0d7808631ecec" kind="enumvalue"><name>FAILED_DISPATCH</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5" kind="enum"><name>ScheduleFrequency</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5a791490f9f4842958f00f3791f6c01576" kind="enumvalue"><name>DAILY</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5a35f20feb221d809190e45545c933c9dc" kind="enumvalue"><name>WEEKLY</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5ac107927c39e34b357b10099c2d852c75" kind="enumvalue"><name>MONTHLY</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5a0976e7e5df06fb0ad7da6371db933af7" kind="enumvalue"><name>QUARTERLY</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5a72baef04098f035e8a320b03ad197818" kind="enumvalue"><name>CUSTOM</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kind="enum"><name>MaintenanceTaskType</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a8cfea6fc57b1e03cc6de38c4c24d444c" kind="enumvalue"><name>METRICS_COLLECTION</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8ab56cf8b4f1f012e6ee24d084e42a41f0" kind="enumvalue"><name>FRAGMENTATION_MONITORING</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a65ec89d68ac3d5ef1e4fad4f75023ec3" kind="enumvalue"><name>QUOTA_CHECK</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a9c28f82f7589ec786410a6723417d568" kind="enumvalue"><name>CONSISTENCY_CHECK</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a7713156cac2432ef10558065aa5a5457" kind="enumvalue"><name>REPLICA_VALIDATION</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a297a0241c38179f605e04b7f77a690a6" kind="enumvalue"><name>PERFORMANCE_ANALYSIS</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a5daef987791f6d59d0292b235ab51ba3" kind="enumvalue"><name>MVCC_CLEANUP</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a07a555950ea46c4540fff53d96d32ad1" kind="enumvalue"><name>FULL_CHECKDB</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a936ab193469399845a5f9dfda28e5de8" kind="enumvalue"><name>BACKUP_VERIFICATION</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8aed8da1cd2cb501aab404d709de1b1aa6" kind="enumvalue"><name>CAPACITY_TREND_ANALYSIS</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8acc5cea36983546f31e2298cba25297a3" kind="enumvalue"><name>INDEX_FRAGMENTATION_REPORT</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8ac6badc85aba3812bff0effd469655fe9" kind="enumvalue"><name>DISASTER_RECOVERY_DRILL</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a777f7ab7b16f06153f584212c01119a2" kind="enumvalue"><name>BASELINE_UPDATE</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a0274b877a6bbb61375021f4342b02df9" kind="enumvalue"><name>INDEX_REBUILD</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a7fdc447a936ef09751b0d0aedb9622a5" kind="enumvalue"><name>INDEX_REORGANIZE</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8aab8db97a0da9954d006b5a3c4ae711c2" kind="enumvalue"><name>STATISTICS_UPDATE</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a01379fc604f07ec6c9c0002ee6f6c308" kind="enumvalue"><name>STORAGE_COMPACTION</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a7cf8ec1d41324ddd9744d6e39d5de16c" kind="enumvalue"><name>ORPHAN_CLEANUP</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8afdd654218396b9967e400e4838640abe" kind="enumvalue"><name>VECTOR_REINDEX</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3" kind="enum"><name>MaintenanceJobState</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3ac69f06e1a9b016d133907b4e5f5864d2" kind="enumvalue"><name>PENDING</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3a43491564ebcfd38568918efbd6e840fd" kind="enumvalue"><name>RUNNING</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3afd9f6519d3f45276829fe74eb2c4bb85" kind="enumvalue"><name>SUCCEEDED</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3ab9e14d9b2886bcff408b85aefa780419" kind="enumvalue"><name>FAILED</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3a9f935beb31030ad0d4d26126c0f39bf2" kind="enumvalue"><name>CANCELLED</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3a203ec08f57cb105eeb2b121ba6503b52" kind="enumvalue"><name>SKIPPED</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a890124b4577c8d5c8db64124abb77d0f" kind="typedef"><name>HealthProbe</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ad584937359225d65be45866c0af1a900" kind="variable"><name>kMaxScheduleIdBytes</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a3d32eb246b07c0b46ec8c02764abf969" kind="variable"><name>kMaxSchedulesPerOrchestrator</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a763a6c1c63038d36c0b022e5dfab220b" kind="variable"><name>kMaxTaskExecutionDuration</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aaba091ac3157dd8d72df48fef7fd2b62" kind="variable"><name>kMinRecurringIntervalSeconds</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aa19c0036b10981566f5bacf51f96c4e0" kind="function"><name>isMaintenanceFailClosed</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a2ccf704d6e9bd8d66c5e0db2aafab421" kind="function"><name>moduleHealthStatusToString</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a65178a3e7fd84f9a4ed163fefe924c11" kind="function"><name>dispatchOutcomeTypeToString</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a446c0e6547423c84f8443e1c7751849e" kind="function"><name>frequencyToString</name></member>
+    <member refid="namespacethemis_1_1maintenance_1aef88f4f5d4ebfe10eb397c6c3ae490c2" kind="function"><name>frequencyFromString</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a3fa62491ebfb328df5a942bae1a8e5a0" kind="function"><name>frequencyToCron</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a57cc2ee688b2e88c162c19fe84bce972" kind="function"><name>taskTypeToString</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a4d6ea137ddef33add03327eaaf8e36ff" kind="function"><name>taskTypeFromString</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae4ef1c375987c85c113c257649cbfe6f" kind="function"><name>jobStateToString</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a20570d8dc02d8fae1930e2ac6e327858" kind="function"><name>makeReplicaValidationHandler</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a3a104f8b199eaba404bd6a52de78338d" kind="function"><name>defaultDailySchedule</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ae581eb381abfa0a7229f7b128487199f" kind="function"><name>defaultWeeklySchedule</name></member>
+    <member refid="namespacethemis_1_1maintenance_1acf25311dbd59e87f275c97cb946ae10b" kind="function"><name>defaultMonthlySchedule</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a4bca0dacfe41f208c008d1e9db7211f6" kind="function"><name>defaultQuarterlySchedule</name></member>
+    <member refid="namespacethemis_1_1maintenance_1ac936794d75fbec63f6a159073dd8f793" kind="function"><name>makeIndexMaintenanceHealthProbe</name></member>
+    <member refid="namespacethemis_1_1maintenance_1a28b67eb8c3ecdd3ef0b5072a9a3b5088" kind="function"><name>registerDefaultMaintenanceSetup</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1maintenance_1_1_0d241250374054354327267172123244300177271222370260" kind="namespace"><name>themis::maintenance::@241250374054354327267172123244300177271222370260</name>
+  </compound>
+  <compound refid="namespacethemis_1_1maintenance_1_1test" kind="namespace"><name>themis::maintenance::test</name>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" kind="variable"><name>kSeed</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a3f9cb685532b97bc9b833df823c28de4" kind="variable"><name>kChurnIntervalMs</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" kind="variable"><name>kSeed</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" kind="variable"><name>kSeed</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" kind="variable"><name>kSeed</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" kind="variable"><name>kSeed</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1aa7efbec822323d91c9990de552c0c319" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a8b9dafc0380b74c622be263af371509d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a6ccd405d8693da06af8a4ae3630fb13d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1ab3f055d1ec9736fd470d30a54dc282b3" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a8b72d4277c86c458c00ea86080015e4e" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a68596fa31b8f3aad956fb6e39846bd25" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a4054453c2f0899bcc507075b1ee6e40f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1ad3e8199b1db562584f500e5cb18a45d3" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a353f027e052d54bef829549d80614571" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1aed19f41ca6ba87b565042c869c356bef" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a5f6d757cbd55886a18bc3495c51ad88f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a9ede7f454dbe22e26196f7e37aa921d6" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a2c9c0ed339a074a164d26f284768fadb" kind="function"><name>makeOutcome</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a2721b8a14efcda3d172862937f81c07e" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a833246adb54186fd634cf3fabc374810" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a237a1b44e2ddb3ba47e0ef85dcf841f5" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a407cf94ae5b274ab231f719368d1e796" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a7ecc59e679107b5ba8adfe0a079f1123" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a4ee9ed2ca14f9dec6bdc63377b73bdab" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a7d48db3f3efefb9ce3c62efe71b04763" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a12360e1095983b68b1e7c556886a7ed5" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a280ae5e2a52779f290fcc0b216d88b6d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1afb120888bad010893396c7ec1fb8857f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1ae4b80a597afb00e8dc9ec9e06e52d737" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1acc077e2d637132714d099b44b9c7678f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a7289418ec5a5555a88a4e476811db082" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1aa3e1e73c4f32effc17ee8cbb3e256f61" kind="function"><name>makeSchedule</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1ac26ad3db514e8ba8294e8ad7942ce952" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1af6ed09be8b74909cb9f71fc9260fa89f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a48b85795ca9007584864966369a2ac52" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a440f5d73e13a047c04c92dfca8ade463" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a90848bfa7d392b8d70703cc0c93ff55f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1a218cf4e8efa47f159f4deda139f3d8b7" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1ab831f2ab834f12baac5d37f7e7fef76f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1maintenance_1_1test_1ad311a9c5533d1ee46cb2aefca54ee9a0" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1modules" kind="namespace"><name>themis::modules</name>
+  </compound>
+  <compound refid="namespacethemis_1_1observability" kind="namespace"><name>themis::observability</name>
+  </compound>
+  <compound refid="namespacethemis_1_1test" kind="namespace"><name>themis::test</name>
+  </compound>
+  <compound refid="namespacethemis_1_1test_1_1wave__d" kind="namespace"><name>themis::test::wave_d</name>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1a41e69cb75be43e706fdf10fc07c22acd" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1a15e89d19891976866c95099aa6049df7" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1ae27c5b50c38e5acd54d9b740e08c455c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1transaction" kind="namespace"><name>themis::transaction</name>
+  </compound>
+  <compound refid="namespacethemis_1_1updates" kind="namespace"><name>themis::updates</name>
+  </compound>
+  <compound refid="namespacethemis_1_1utils" kind="namespace"><name>themis::utils</name>
+  </compound>
+  <compound refid="bench__docker__raid__comprehensive_8cpp" kind="file"><name>bench_docker_raid_comprehensive.cpp</name>
+    <member refid="bench__docker__raid__comprehensive_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="bench__hot__reload__manager_8cpp" kind="file"><name>bench_hot_reload_manager.cpp</name>
+    <member refid="bench__hot__reload__manager_8cpp_1ab0af3e64fbf3fa2c6882ef8a50188e33" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1af59b596a22901a067140982f6f3e7ac9" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1a644322822a24343bcf8dd5f3f80a5b14" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1a27bb2d946f080d8ca3ebc150987c846c" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1aaa179072c04e472affd0d1870e12ffde" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1a259c2836dab65f71c1a178859c58d864" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1ab96fbffbd67e94e0beee93db59901095" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1abc380810fc9232968088b4d8872a3af9" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1a99f75ec9eb3789abeefed348e0b63ae7" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1a1cde8d2f5e8a80527f73536763e220e7" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1af8e5fc92532ac9ccd86c99a54371215c" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1a7b3656105ad1992bb640b52a23989893" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1a0c314081aec9cd5492feb835cef5f446" kind="function"><name>Arg</name></member>
+    <member refid="bench__hot__reload__manager_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__lock__contention_8cpp" kind="file"><name>bench_lock_contention.cpp</name>
+    <member refid="bench__lock__contention_8cpp_1a9dbdbbb014d851f7c457fcaac05f4fc6" kind="function"><name>BM_LockContention_Disjoint</name></member>
+    <member refid="bench__lock__contention_8cpp_1a7faaaa5fbf238117de28b8571550a555" kind="function"><name>BM_LockContention_Overlapping</name></member>
+    <member refid="bench__lock__contention_8cpp_1a77abae36d537e75f1dab4d53ae8c6f76" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__lock__contention_8cpp_1acb04284b3480b6a13256c68a6f2f8971" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__lock__contention_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__maintenance__distributed__gates_8cpp" kind="file"><name>bench_maintenance_distributed_gates.cpp</name>
+    <member refid="bench__maintenance__distributed__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__maintenance__release__gates_8cpp" kind="file"><name>bench_maintenance_release_gates.cpp</name>
+    <member refid="bench__maintenance__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__metrics__collector_8cpp" kind="file"><name>bench_metrics_collector.cpp</name>
+    <member refid="bench__metrics__collector_8cpp_1ae710202c73a87f3b7bf7e1d6adb9a9bf" kind="function"><name>ResetCollector</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a150c5567d81cdc2ec6dc08ada79947ce" kind="function"><name>generateMetricNames</name></member>
+    <member refid="bench__metrics__collector_8cpp_1af2a72b7b0377d6fd3d7537b9294696fe" kind="function"><name>BM_RecordQuery</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a6fa8dc70f0f4006846a4b6a0315d7d0a" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a420a8dce368c76474ef1fde498309512" kind="function"><name>BM_RecordCacheHit</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a13bfe314b450142a46421c7978183c43" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a9b972b204318d2092127b949e50f50e1" kind="function"><name>BM_RecordTSStoreWrite</name></member>
+    <member refid="bench__metrics__collector_8cpp_1abaceebe5d67c711732a61ee56049ab62" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a1fe2d28863acb11dee5bcd2956de578a" kind="function"><name>BM_RecordShardLatency</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ab5a5a4d89ad1bd054b270e6ffc517cca" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a0e33c6b56c72572ace8fb01744b7075a" kind="function"><name>BM_MixedMetrics</name></member>
+    <member refid="bench__metrics__collector_8cpp_1aa8639f7ff784fc1c9fbe88e0ec7b61c3" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ae960a53338e8ccd8afebed55a8873395" kind="function"><name>BM_HighVolumeRecording</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a0c9c8d0faf23870a781d7ee0c2c2a91d" kind="function"><name>Arg</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ac555abe6923d8919dc26ac0b807b6940" kind="function"><name>BM_ManyUniqueMetrics</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a44f8631a31a7f49ad410ee9a1c006b8d" kind="function"><name>BM_PrometheusExport_Empty</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a4d59240bdab0c7a942d1e24933194f94" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ac86534a8a683066cbf1c02ff69423559" kind="function"><name>BM_PrometheusExport_WithData</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a6c97da60c7685e7e591788197e9bbaa2" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a927d00494f7c83730a636ea88ab4076a" kind="function"><name>BM_PrometheusExport_LargeDataset</name></member>
+    <member refid="bench__metrics__collector_8cpp_1aef0d091b29e49f3f30d4584a12bf99ae" kind="function"><name>Arg</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ad07eb42feb0738d9ea1a7529be1472dd" kind="function"><name>BM_ConcurrentRecording</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ae44014d28802bc4d973b733826c541e2" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1aeb1032f2d668d059768bcff28d4f4a08" kind="function"><name>BM_ConcurrentMixedOperations</name></member>
+    <member refid="bench__metrics__collector_8cpp_1aa2e04d1deff6159fc4e0864be1261035" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a725e01f17de96598710fa62abf7697b3" kind="function"><name>BM_ConcurrentExport</name></member>
+    <member refid="bench__metrics__collector_8cpp_1aeeb16bdd6abdade6cf1e1ad9e881f7b5" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a89a227583ad4e95c6fc3096478c6fd25" kind="function"><name>BM_TSStoreMetricsBatch</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a261429475f0a3c40feff2a066b568f92" kind="function"><name>BM_ShardingMetricsBatch</name></member>
+    <member refid="bench__metrics__collector_8cpp_1abaa54eaecb119e20f2d9129dda20b664" kind="function"><name>Arg</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a2753d013d24dcfb39da2cddff4baa37f" kind="function"><name>BM_CacheMetricsBatch</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ad57c1e685ecc4e288d5c18a4b2109f5b" kind="function"><name>BM_SecurityMetricsBatch</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ae6416156b3596179282bbf369a1b0d13" kind="function"><name>BM_HistogramRecording</name></member>
+    <member refid="bench__metrics__collector_8cpp_1af3ef20e1bc201b1dd2782fb232224c9f" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ac2a7bcbdf191a9db4ed6c8a8aaf6c4a8" kind="function"><name>BM_MultipleHistograms</name></member>
+    <member refid="bench__metrics__collector_8cpp_1af43ab2afa6270ab8f58e0c8b4f04d2f1" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ac124b1069d0d275da7367ee6e5f2ff80" kind="function"><name>BM_MemoryFootprint</name></member>
+    <member refid="bench__metrics__collector_8cpp_1ae0f0eedba3661153cd1a8e2e952342bc" kind="function"><name>BM_ResetEmpty</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a2eea1215b7d62932684ff77f76faf7d0" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a558863fa30db285e1e207d51576cec96" kind="function"><name>BM_ResetWithData</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a458212eebbb718462509018dbac0d4ee" kind="function"><name>BM_SimulateQueryWorkload</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a51baca73dc08bc44bc4f419220312e1f" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a2f7ecd42d42c8c7686227b492f61257b" kind="function"><name>BM_SimulateMonitoringWorkload</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a76a4a475abdcd9ba430528bcb80267a7" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__metrics__collector_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__saga__compensation_8cpp" kind="file"><name>bench_saga_compensation.cpp</name>
+    <member refid="bench__saga__compensation_8cpp_1a71a786ec8ab91b9cd8b1da538d5d15c8" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__saga__compensation_8cpp_1a033e21e9feafc3970463df4c430409e2" kind="function"><name>Arg</name></member>
+    <member refid="bench__saga__compensation_8cpp_1adc76b0a3ff290493a7aa96f63bd7eb33" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__saga__compensation_8cpp_1a6298179b5bcaef2596b9830715a58426" kind="function"><name>Arg</name></member>
+    <member refid="bench__saga__compensation_8cpp_1acf54d3541e194442c25ccdf254babe68" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__saga__compensation_8cpp_1a4b648b1cf035f2a860fee0d61b3dfe5d" kind="function"><name>BM_ConcurrentSagaCompensation</name></member>
+    <member refid="bench__saga__compensation_8cpp_1a87f4a5e74097d61e76679175dd962197" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__saga__compensation_8cpp_1addb7f92b39baa1ba52f6d9029a10fbf7" kind="function"><name>Unit</name></member>
+    <member refid="bench__saga__compensation_8cpp_1a694eb3c5bc07d6cb0c59a3abaecd76b7" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__saga__compensation_8cpp_1a6fc1d68e5e909c6e79e44277b9309f88" kind="function"><name>BM_CompensationLatencyDistribution</name></member>
+    <member refid="bench__saga__compensation_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__sanity_8cpp" kind="file"><name>bench_sanity.cpp</name>
+    <member refid="bench__sanity_8cpp_1af4cd8cbbd942749906a883823c1378d7" kind="function"><name>BM_Sanity</name></member>
+    <member refid="bench__sanity_8cpp_1a64db93eb74ada42c81ff9e0cce9658a9" kind="function"><name>BENCHMARK</name></member>
+  </compound>
+  <compound refid="bench__snapshot__manager_8cpp" kind="file"><name>bench_snapshot_manager.cpp</name>
+    <member refid="bench__snapshot__manager_8cpp_1adbf43d36727f025d446bfebb9a6a9ba8" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1aeb789e645a33a3cdfdb1b647c198e88d" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1ac48956ff95ab0a1e3527475cec6e605d" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a5d5e8cdfa67fe3381a31d609cf37560f" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1ac57166dd94c09447a75bba4a57763b4d" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1aa5e97ada60fb11b9ab86335bfc3f18c5" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a2add4843b634036ff09e38cf3f954efa" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1aad484af063b8dd540658cd0117575b39" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1adf5b12c930deb2d39edd4f8e97c2f25d" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a3af6e5a3a97b4876d6d967a4ebf7074a" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a7a61d5ce38f7daaa381e13893af06ef2" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a3c4cd378c57747bdcacf27c939bec2ee" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1ada7e8d41c1a3eb3b6a63b6d59f427e87" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a7e169d6953a321e36cd06421947f575d" kind="function"><name>Arg</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a79bfb0bdb98bf2102890f91dd0f83fd5" kind="function"><name>Arg</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a2429e06e5903b75b825dcb17a8146feb" kind="function"><name>Arg</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a5e3a24acad11757daec608a46706fe25" kind="function"><name>Arg</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a1950f966316b8d6d298497c1b265b52e" kind="function"><name>Arg</name></member>
+    <member refid="bench__snapshot__manager_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__update__pipeline_8cpp" kind="file"><name>bench_update_pipeline.cpp</name>
+    <member refid="bench__update__pipeline_8cpp_1ac1d989a9081099675eef76ba44f95a17" kind="function"><name>BM_UpdateStateMachine_Transition</name></member>
+    <member refid="bench__update__pipeline_8cpp_1ad50291f834c562cbcada56e9b94f8485" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__update__pipeline_8cpp_1a96c1614382eff9e13c4f4ccea25d9063" kind="function"><name>BM_UpdateStateMachine_CurrentState</name></member>
+    <member refid="bench__update__pipeline_8cpp_1a05a1b00bd4c2bc18ddc7be4d02639719" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__update__pipeline_8cpp_1a1236649de642b2c372a25480ec5d5304" kind="function"><name>BM_UpdateStateMachine_RollbackPath</name></member>
+    <member refid="bench__update__pipeline_8cpp_1aa352041dcd7afb3b4f63c8c9f5f42a41" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__update__pipeline_8cpp_1ad0197e522ce3aaf4bb201a22b2637b7a" kind="function"><name>BM_ReleaseManifest_JsonRoundTrip</name></member>
+    <member refid="bench__update__pipeline_8cpp_1a5c7b3aba80df6ff3446523642d6f206b" kind="function"><name>Arg</name></member>
+    <member refid="bench__update__pipeline_8cpp_1af7aca12fc0370c9e11c281384f2ba069" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__update__pipeline_8cpp_1a446cde30b1a8bff5a795306805ee3db2" kind="function"><name>Unit</name></member>
+    <member refid="bench__update__pipeline_8cpp_1aba6722b22b928907e6e8113829ca7283" kind="function"><name>BENCHMARK_DEFINE_F</name></member>
+    <member refid="bench__update__pipeline_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="database__maintenance__orchestrator_8h" kind="file"><name>database_maintenance_orchestrator.h</name>
+  </compound>
+  <compound refid="i__distributed__lock_8h" kind="file"><name>i_distributed_lock.h</name>
+  </compound>
+  <compound refid="i__maintenance__task__handler_8h" kind="file"><name>i_maintenance_task_handler.h</name>
+  </compound>
+  <compound refid="maintenance__api__contract_8h" kind="file"><name>maintenance_api_contract.h</name>
+  </compound>
+  <compound refid="maintenance__health__report_8h" kind="file"><name>maintenance_health_report.h</name>
+  </compound>
+  <compound refid="maintenance__schedule_8h" kind="file"><name>maintenance_schedule.h</name>
+  </compound>
+  <compound refid="maintenance__schedule__store_8h" kind="file"><name>maintenance_schedule_store.h</name>
+  </compound>
+  <compound refid="maintenance__task_8h" kind="file"><name>maintenance_task.h</name>
+  </compound>
+  <compound refid="maintenance__task__handler__impls_8h" kind="file"><name>maintenance_task_handler_impls.h</name>
+  </compound>
+  <compound refid="database__maintenance__orchestrator_8cpp" kind="file"><name>database_maintenance_orchestrator.cpp</name>
+  </compound>
+  <compound refid="maintenance__registry_8cpp" kind="file"><name>maintenance_registry.cpp</name>
+  </compound>
+  <compound refid="maintenance__schedule__store_8cpp" kind="file"><name>maintenance_schedule_store.cpp</name>
+  </compound>
+  <compound refid="test__maintenance__churn__hardening__focused_8cpp" kind="file"><name>test_maintenance_churn_hardening_focused.cpp</name>
+  </compound>
+  <compound refid="test__maintenance__contract__hardening__focused_8cpp" kind="file"><name>test_maintenance_contract_hardening_focused.cpp</name>
+  </compound>
+  <compound refid="test__maintenance__diagnostics__focused_8cpp" kind="file"><name>test_maintenance_diagnostics_focused.cpp</name>
+  </compound>
+  <compound refid="test__maintenance__endurance__focused_8cpp" kind="file"><name>test_maintenance_endurance_focused.cpp</name>
+  </compound>
+  <compound refid="test__maintenance__hardening__phase23__focused_8cpp" kind="file"><name>test_maintenance_hardening_phase23_focused.cpp</name>
+  </compound>
+  <compound refid="test__maintenance__highcardinality__stress_8cpp" kind="file"><name>test_maintenance_highcardinality_stress.cpp</name>
+  </compound>
+  <compound refid="test__maintenance__stress__focused_8cpp" kind="file"><name>test_maintenance_stress_focused.cpp</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_a2ed48b987f6592efea1e35a3749f1b6" kind="dir"><name>benchmarks/maintenance</name>
+  </compound>
+  <compound refid="dir_10f35c9fc895640005eba274fbdfc1c3" kind="dir"><name>include/maintenance</name>
+  </compound>
+  <compound refid="dir_2bdfc3051880dded5158e5105a1aa91b" kind="dir"><name>src/maintenance</name>
+  </compound>
+  <compound refid="dir_3a7a2c7aed6a254612ccf9a8dc966ce7" kind="dir"><name>tests/maintenance</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DocsAssistant::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1afaafee13c6567505ee299eb415defea0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_docs_assistant_config" kindref="compound">DocsAssistantConfig</ref></type>
+        <definition>DocsAssistantConfig themis::llm::DocsAssistant::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/docs_assistant.cpp" line="32" column="25" bodyfile="src/llm/docs_assistant.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1aa343bf9d863b29fb32f5cbd030dce220" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_document_entry" kindref="compound">DocumentEntry</ref> &gt;</type>
+        <definition>std::vector&lt;DocumentEntry&gt; themis::llm::DocsAssistant::Impl::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/docs_assistant.cpp" line="33" column="17" bodyfile="src/llm/docs_assistant.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1af0d30678fea5275a14f6c16191bb3f46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistant::Impl::database_loaded</definition>
+        <argsstring></argsstring>
+        <name>database_loaded</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::database_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/docs_assistant.cpp" line="34" column="10" bodyfile="src/llm/docs_assistant.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a42eb84c7eae4e28ff5e7fb94efad8d23" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::DocsAssistant::Impl::database_metadata</definition>
+        <argsstring></argsstring>
+        <name>database_metadata</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::database_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/docs_assistant.cpp" line="35" column="10" bodyfile="src/llm/docs_assistant.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1af4fe5650be48bd0bb8ed3fc9dfeadea2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistant::Impl::semantic_embedding_compatible</definition>
+        <argsstring></argsstring>
+        <name>semantic_embedding_compatible</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::semantic_embedding_compatible</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/docs_assistant.cpp" line="36" column="10" bodyfile="src/llm/docs_assistant.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1af482c7214253792a7b34a9bb976ca5ea" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DocsAssistant::Impl::embedding_dimension</definition>
+        <argsstring></argsstring>
+        <name>embedding_dimension</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::embedding_dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/docs_assistant.cpp" line="37" column="9" bodyfile="src/llm/docs_assistant.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1ad7eb85303a8ce79beea362f884654ed7" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_docs_query_result" kindref="compound">DocsQueryResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, DocsQueryResult&gt; themis::llm::DocsAssistant::Impl::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/docs_assistant.cpp" line="40" column="24" bodyfile="src/llm/docs_assistant.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; IDocsAssistant &gt;</type>
+        <definition>std::shared_ptr&lt;IDocsAssistant&gt; themis::llm::DocsAssistant::Impl::impl</definition>
+        <argsstring></argsstring>
+        <name>impl</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="12" column="21" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a505914f98b15d68a2f8c23b0ae6dc1c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DocsAssistant::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="11" column="5" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="11" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abbbfd7c3890b8db9507ede796e72063e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistant::Impl::loadDatabase</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadDatabase</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::loadDatabase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements loadDatabase without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="19" column="10" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a634bae27e6257ed7d92867deb1dd539c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistant::Impl::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="20" column="10" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1afb0b27313a5409fb76f39789bb04b41b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_docs_query_result" kindref="compound">DocsQueryResult</ref></type>
+        <definition>DocsQueryResult themis::llm::DocsAssistant::Impl::queryResult</definition>
+        <argsstring>(const std::string &amp;q)</argsstring>
+        <name>queryResult</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::queryResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Query Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_docs_assistant_1aa0bc41361d8f46457134cd7207fba874" kindref="member">query()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="27" column="21" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a809a673bf616b8f3607fb086e566d4e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_document_entry" kindref="compound">DocumentEntry</ref> &gt;</type>
+        <definition>std::vector&lt; DocumentEntry &gt; themis::llm::DocsAssistant::Impl::searchDocs</definition>
+        <argsstring>(const std::string &amp;q, int max_results)</argsstring>
+        <name>searchDocs</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::searchDocs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_results</declname>
+        </param>
+        <briefdescription>
+<para>Search Docs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements searchDocs without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="43" column="17" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1ad0f423ed7188b788e3e4c064350b4d03" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DocsAssistant::Impl::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clearCache without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="53" column="10" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1ad863a8808e279430033f7e8ead9984e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_docs_query_result" kindref="compound">DocsQueryResult</ref></type>
+        <definition>DocsQueryResult themis::llm::DocsAssistant::Impl::getConfigHelp</definition>
+        <argsstring>(const std::string &amp;topic)</argsstring>
+        <name>getConfigHelp</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::getConfigHelp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <briefdescription>
+<para>Get Config Help. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getConfigHelp without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="60" column="21" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a422e80223da6c0b653496769e87972bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_docs_query_result" kindref="compound">DocsQueryResult</ref></type>
+        <definition>DocsQueryResult themis::llm::DocsAssistant::Impl::getTroubleshootingHelp</definition>
+        <argsstring>(const std::string &amp;topic)</argsstring>
+        <name>getTroubleshootingHelp</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::getTroubleshootingHelp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <briefdescription>
+<para>Get Troubleshooting Help. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getTroubleshootingHelp without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="73" column="21" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="73" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a40998335d1c2dd7d46b5ef19a1e24ccb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::DocsAssistant::Impl::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::DocsAssistant::Impl::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/docs_assistant_adapter.cpp" line="80" column="20" bodyfile="src/llm/api/docs_assistant_adapter.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::DocsAssistant::Impl</label>
+        <link refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::DocsAssistantConfig</label>
+        <link refid="structthemis_1_1llm_1_1_docs_assistant_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/docs_assistant.cpp" line="31" column="1" bodyfile="src/llm/docs_assistant.cpp" bodystart="31" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1ad7eb85303a8ce79beea362f884654ed7" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>cache</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1ad0f423ed7188b788e3e4c064350b4d03" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>clearCache</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1afaafee13c6567505ee299eb415defea0" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1af0d30678fea5275a14f6c16191bb3f46" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>database_loaded</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a42eb84c7eae4e28ff5e7fb94efad8d23" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>database_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1aa343bf9d863b29fb32f5cbd030dce220" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>documents</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1af482c7214253792a7b34a9bb976ca5ea" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>embedding_dimension</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1ad863a8808e279430033f7e8ead9984e7" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>getConfigHelp</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a40998335d1c2dd7d46b5ef19a1e24ccb" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>getStats</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a422e80223da6c0b653496769e87972bc" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>getTroubleshootingHelp</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a505914f98b15d68a2f8c23b0ae6dc1c0" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>impl</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a634bae27e6257ed7d92867deb1dd539c" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>isReady</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abbbfd7c3890b8db9507ede796e72063e" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>loadDatabase</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1afb0b27313a5409fb76f39789bb04b41b" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>queryResult</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a809a673bf616b8f3607fb086e566d4e4" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>searchDocs</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1af4fe5650be48bd0bb8ed3fc9dfeadea2" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistant::Impl</scope><name>semantic_embedding_compatible</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

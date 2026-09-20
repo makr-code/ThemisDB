@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1srg_1_1_stub_shard_health" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::srg::StubShardHealth</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1a3bdfe0b37f9179b3d2ad8823deb522b2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::bench::srg::StubShardHealth::health_</definition>
+        <argsstring></argsstring>
+        <name>health_</name>
+        <qualifiedname>themis::bench::srg::StubShardHealth::health_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="151" column="17" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1aec6e5c32187acfd2c8676803c89d4be2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srg::StubShardHealth::StubShardHealth</definition>
+        <argsstring>(int num_shards)</argsstring>
+        <name>StubShardHealth</name>
+        <qualifiedname>themis::bench::srg::StubShardHealth::StubShardHealth</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="143" column="14" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1a5665ca9d079c732e76464c37675b33ab" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::srg::StubShardHealth::isHealthy</definition>
+        <argsstring>(int shard_id) const noexcept</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::bench::srg::StubShardHealth::isHealthy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="144" column="10" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="144" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub shard health state (in-memory, no network probes). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="141" column="1" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="141" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1a3bdfe0b37f9179b3d2ad8823deb522b2" prot="private" virt="non-virtual"><scope>themis::bench::srg::StubShardHealth</scope><name>health_</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1a5665ca9d079c732e76464c37675b33ab" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubShardHealth</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1aec6e5c32187acfd2c8676803c89d4be2" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubShardHealth</scope><name>StubShardHealth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

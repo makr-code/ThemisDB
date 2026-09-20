@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_prosody_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::ProsodyConfig</compoundname>
+    <includes refid="voice__tts__customizer_8h" local="no">voice_tts_customizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_prosody_config_1abd27c0264cbfeae0dccd3451f8ec6448" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::ProsodyConfig::pitch</definition>
+        <argsstring></argsstring>
+        <name>pitch</name>
+        <qualifiedname>themis::voice::ProsodyConfig::pitch</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="26" column="11" bodyfile="include/voice/voice_tts_customizer.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_prosody_config_1a20bf3a05670c54fa9b94fd9a0a1847d7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::ProsodyConfig::speed</definition>
+        <argsstring></argsstring>
+        <name>speed</name>
+        <qualifiedname>themis::voice::ProsodyConfig::speed</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="27" column="11" bodyfile="include/voice/voice_tts_customizer.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_prosody_config_1adc7a912feea685e9e54f7ed7a9add01b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::ProsodyConfig::volume</definition>
+        <argsstring></argsstring>
+        <name>volume</name>
+        <qualifiedname>themis::voice::ProsodyConfig::volume</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="28" column="11" bodyfile="include/voice/voice_tts_customizer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_prosody_config_1a510d1078d4e4e1b5abd226947cdfcfb6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::ProsodyConfig::emphasis</definition>
+        <argsstring></argsstring>
+        <name>emphasis</name>
+        <qualifiedname>themis::voice::ProsodyConfig::emphasis</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="29" column="11" bodyfile="include/voice/voice_tts_customizer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_prosody_config_1a619bc4a1eda44c9205263ff456960d21" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ProsodyConfig::style</definition>
+        <argsstring></argsstring>
+        <name>style</name>
+        <qualifiedname>themis::voice::ProsodyConfig::style</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="30" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_prosody_config_1a826e289652d0a752c091a09bbdc4cf66" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ProsodyConfig::enable_ssml</definition>
+        <argsstring></argsstring>
+        <name>enable_ssml</name>
+        <qualifiedname>themis::voice::ProsodyConfig::enable_ssml</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="31" column="10" bodyfile="include/voice/voice_tts_customizer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_tts_customizer.h" line="25" column="1" bodyfile="include/voice/voice_tts_customizer.h" bodystart="25" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_prosody_config_1a510d1078d4e4e1b5abd226947cdfcfb6" prot="public" virt="non-virtual"><scope>themis::voice::ProsodyConfig</scope><name>emphasis</name></member>
+      <member refid="structthemis_1_1voice_1_1_prosody_config_1a826e289652d0a752c091a09bbdc4cf66" prot="public" virt="non-virtual"><scope>themis::voice::ProsodyConfig</scope><name>enable_ssml</name></member>
+      <member refid="structthemis_1_1voice_1_1_prosody_config_1abd27c0264cbfeae0dccd3451f8ec6448" prot="public" virt="non-virtual"><scope>themis::voice::ProsodyConfig</scope><name>pitch</name></member>
+      <member refid="structthemis_1_1voice_1_1_prosody_config_1a20bf3a05670c54fa9b94fd9a0a1847d7" prot="public" virt="non-virtual"><scope>themis::voice::ProsodyConfig</scope><name>speed</name></member>
+      <member refid="structthemis_1_1voice_1_1_prosody_config_1a619bc4a1eda44c9205263ff456960d21" prot="public" virt="non-virtual"><scope>themis::voice::ProsodyConfig</scope><name>style</name></member>
+      <member refid="structthemis_1_1voice_1_1_prosody_config_1adc7a912feea685e9e54f7ed7a9add01b" prot="public" virt="non-virtual"><scope>themis::voice::ProsodyConfig</scope><name>volume</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

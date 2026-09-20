@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_tracing_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::TracingConfig</compoundname>
+    <includes refid="federated__span__contract_8h" local="no">federated_span_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1a5c5293923e277175b13d6137e105e9b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::TracingConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::process::TracingConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true to enable tracing; false to disable </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="520" column="10" bodyfile="include/process/federated_span_contract.h" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1af577e21b9cd07db4bcde94df11e8f68a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TracingConfig::sampling_strategy</definition>
+        <argsstring></argsstring>
+        <name>sampling_strategy</name>
+        <qualifiedname>themis::process::TracingConfig::sampling_strategy</qualifiedname>
+        <initializer>= &quot;slow_only&quot;</initializer>
+        <briefdescription>
+<para>Sampling strategy: &quot;all&quot; | &quot;percentile&quot; | &quot;slow_only&quot; | &quot;adaptive&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="523" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1acc6b7c9696a5de95002340af250d9401" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::TracingConfig::sampling_percentile</definition>
+        <argsstring></argsstring>
+        <name>sampling_percentile</name>
+        <qualifiedname>themis::process::TracingConfig::sampling_percentile</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Percentile for percentile sampling (1-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="526" column="14" bodyfile="include/process/federated_span_contract.h" bodystart="526" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1a7883d97be8e3a8b773311602e6ab4e29" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::TracingConfig::slow_operation_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>slow_operation_threshold_ms</name>
+        <qualifiedname>themis::process::TracingConfig::slow_operation_threshold_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Threshold for slow_only sampling (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="529" column="14" bodyfile="include/process/federated_span_contract.h" bodystart="529" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1aaeb27fe3c3e03dc40eab2640b572dd09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TracingConfig::exporter_endpoint</definition>
+        <argsstring></argsstring>
+        <name>exporter_endpoint</name>
+        <qualifiedname>themis::process::TracingConfig::exporter_endpoint</qualifiedname>
+        <initializer>= &quot;http://localhost:4317&quot;</initializer>
+        <briefdescription>
+<para>Exporter endpoint (OTLP, Jaeger, or Zipkin). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="532" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="532" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1a4e06438a0e8537ada124059aef37bbad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TracingConfig::exporter_type</definition>
+        <argsstring></argsstring>
+        <name>exporter_type</name>
+        <qualifiedname>themis::process::TracingConfig::exporter_type</qualifiedname>
+        <initializer>= &quot;otlp&quot;</initializer>
+        <briefdescription>
+<para>Exporter type: &quot;otlp&quot; | &quot;jaeger&quot; | &quot;zipkin&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="535" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1a9862a60c2d8c33c5f6dd909e77f2ea14" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::TracingConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::process::TracingConfig::batch_size</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Batch size for span export. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="538" column="14" bodyfile="include/process/federated_span_contract.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1a08921ac408ad246538a6c2b8e98bf298" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::TracingConfig::export_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>export_timeout_ms</name>
+        <qualifiedname>themis::process::TracingConfig::export_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Timeout for span export (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="541" column="14" bodyfile="include/process/federated_span_contract.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1a83b0d305f8c546a6e56b30472e08627e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::TracingConfig::async_export</definition>
+        <argsstring></argsstring>
+        <name>async_export</name>
+        <qualifiedname>themis::process::TracingConfig::async_export</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true to export asynchronously (non-blocking) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="544" column="10" bodyfile="include/process/federated_span_contract.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1a57546dd8ae8c392b23f819b4bf93f1ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TracingConfig::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::process::TracingConfig::service_name</qualifiedname>
+        <initializer>= &quot;themisdb-process&quot;</initializer>
+        <briefdescription>
+<para>Service name embedded in spans. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="547" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1a431ef5c4502ceb166bab7741cbdfe800" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TracingConfig::service_version</definition>
+        <argsstring></argsstring>
+        <name>service_version</name>
+        <qualifiedname>themis::process::TracingConfig::service_version</qualifiedname>
+        <briefdescription>
+<para>Service version embedded in spans. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="550" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_tracing_config_1ae06d44585bc2b702df1575c48cfcaba2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TracingConfig::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::TracingConfig::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for this tracer instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="553" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="553" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for process module tracing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federated_span_contract.h" line="518" column="1" bodyfile="include/process/federated_span_contract.h" bodystart="518" bodyend="554"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1a83b0d305f8c546a6e56b30472e08627e" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>async_export</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1a9862a60c2d8c33c5f6dd909e77f2ea14" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1a5c5293923e277175b13d6137e105e9b9" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1a08921ac408ad246538a6c2b8e98bf298" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>export_timeout_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1aaeb27fe3c3e03dc40eab2640b572dd09" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>exporter_endpoint</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1a4e06438a0e8537ada124059aef37bbad" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>exporter_type</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1acc6b7c9696a5de95002340af250d9401" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>sampling_percentile</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1af577e21b9cd07db4bcde94df11e8f68a" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>sampling_strategy</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1a57546dd8ae8c392b23f819b4bf93f1ea" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>service_name</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1a431ef5c4502ceb166bab7741cbdfe800" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>service_version</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1a7883d97be8e3a8b773311602e6ab4e29" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>slow_operation_threshold_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_tracing_config_1ae06d44585bc2b702df1575c48cfcaba2" prot="public" virt="non-virtual"><scope>themis::process::TracingConfig</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

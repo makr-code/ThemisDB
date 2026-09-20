@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftSnapshotChunk</compoundname>
+    <includes refid="raft__log_8h" local="no">raft_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a92df53caa840dbd5d00f06039b0d671f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftSnapshotChunk::snapshot_index</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotChunk::snapshot_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Identifies which snapshot this chunk belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="264" column="14" bodyfile="include/sharding/raft_log.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a8eb637858ee2fde3e28f5a5b7584b5eb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftSnapshotChunk::chunk_index</definition>
+        <argsstring></argsstring>
+        <name>chunk_index</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotChunk::chunk_index</qualifiedname>
+        <briefdescription>
+<para>0-based index of this chunk </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="265" column="14" bodyfile="include/sharding/raft_log.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1ae7e61deaf40b4c227d3f26d7e9a86f2e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftSnapshotChunk::total_chunks</definition>
+        <argsstring></argsstring>
+        <name>total_chunks</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotChunk::total_chunks</qualifiedname>
+        <briefdescription>
+<para>Total number of chunks in the snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="266" column="14" bodyfile="include/sharding/raft_log.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1ae0b68efe96671101d57e16a706540bee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::sharding::RaftSnapshotChunk::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotChunk::data</qualifiedname>
+        <briefdescription>
+<para>Chunk payload (compressed snapshot bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="267" column="17" bodyfile="include/sharding/raft_log.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a2cb1eb924feb4cbd6996bd3840075037" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftSnapshotChunk::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotChunk::checksum</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of this chunk&apos;s data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="268" column="17" bodyfile="include/sharding/raft_log.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a02bb5ca2d91ad362d31a2b614c549e10" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftSnapshotChunk::last_chunk</definition>
+        <argsstring></argsstring>
+        <name>last_chunk</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotChunk::last_chunk</qualifiedname>
+        <briefdescription>
+<para>True if this is the final chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="269" column="10" bodyfile="include/sharding/raft_log.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single chunk of a snapshot suitable for wire transfer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Large snapshots are split into fixed-size chunks. Each chunk carries a SHA-256 checksum of its own payload so that the receiver can detect corruption or a truncated transfer without waiting for the final chunk. </para>
+    </detaileddescription>
+    <location file="include/sharding/raft_log.h" line="263" column="1" bodyfile="include/sharding/raft_log.h" bodystart="263" bodyend="270"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a2cb1eb924feb4cbd6996bd3840075037" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotChunk</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a8eb637858ee2fde3e28f5a5b7584b5eb" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotChunk</scope><name>chunk_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1ae0b68efe96671101d57e16a706540bee" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotChunk</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a02bb5ca2d91ad362d31a2b614c549e10" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotChunk</scope><name>last_chunk</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a92df53caa840dbd5d00f06039b0d671f" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotChunk</scope><name>snapshot_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1ae7e61deaf40b4c227d3f26d7e9a86f2e" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotChunk</scope><name>total_chunks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

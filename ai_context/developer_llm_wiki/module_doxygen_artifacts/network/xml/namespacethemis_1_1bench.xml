@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::bench</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench_1_1nrg">themis::bench::nrg</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1nrg__p">themis::bench::nrg_p</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1nrg__routing">themis::bench::nrg_routing</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/network/bench_network_protocol_path.cpp" line="52" column="1"/>
+  </compounddef>
+</doxygen>

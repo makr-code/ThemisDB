@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_p_i_i_redacting_sink" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::PIIRedactingSink</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">spdlog::sinks::sink</basecompoundref>
+    <includes refid="pii__redacting__sink_8h" local="no">pii_redacting_sink.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a0b18156904ae702618380733c23b265c" prot="private" static="no" mutable="no">
+        <type>spdlog::sink_ptr</type>
+        <definition>spdlog::sink_ptr themis::utils::PIIRedactingSink::wrapped_</definition>
+        <argsstring></argsstring>
+        <name>wrapped_</name>
+        <qualifiedname>themis::utils::PIIRedactingSink::wrapped_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_redacting_sink.h" line="113" column="22" bodyfile="include/utils/pii_redacting_sink.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a7e1c5041ee4d139d50cc22238c37c2e4" prot="private" static="yes" mutable="no" thread_local="yes">
+        <type>bool</type>
+        <definition>bool themis::utils::PIIRedactingSink::in_redaction_</definition>
+        <argsstring></argsstring>
+        <name>in_redaction_</name>
+        <qualifiedname>themis::utils::PIIRedactingSink::in_redaction_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_redacting_sink.h" line="117" column="30" bodyfile="include/utils/pii_redacting_sink.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a7c1a89151f69447130ad89aaa649461e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::PIIRedactingSink::PIIRedactingSink</definition>
+        <argsstring>(spdlog::sink_ptr wrapped)</argsstring>
+        <name>PIIRedactingSink</name>
+        <qualifiedname>themis::utils::PIIRedactingSink::PIIRedactingSink</qualifiedname>
+        <param>
+          <type>spdlog::sink_ptr</type>
+          <declname>wrapped</declname>
+        </param>
+        <briefdescription>
+<para>Construct a PII-redacting wrapper around <computeroutput>wrapped</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wrapped</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The real destination sink (e.g. stdout_color_sink_mt, file_sink). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_redacting_sink.h" line="31" column="14" bodyfile="include/utils/pii_redacting_sink.h" bodystart="31" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a3159d59b709f80746d749055754025c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::PIIRedactingSink::log</definition>
+        <argsstring>(const spdlog::details::log_msg &amp;msg) override</argsstring>
+        <name>log</name>
+        <qualifiedname>themis::utils::PIIRedactingSink::log</qualifiedname>
+        <param>
+          <type>const spdlog::details::log_msg &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_redacting_sink.h" line="38" column="10" bodyfile="include/utils/pii_redacting_sink.h" bodystart="38" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a8945c0231117dea86e0969cd13899cb4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::PIIRedactingSink::flush</definition>
+        <argsstring>() override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::utils::PIIRedactingSink::flush</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_redacting_sink.h" line="94" column="10" bodyfile="include/utils/pii_redacting_sink.h" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a10b700835811fabd9e7f3a5052c8cae7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::PIIRedactingSink::set_pattern</definition>
+        <argsstring>(const std::string &amp;pattern) override</argsstring>
+        <name>set_pattern</name>
+        <qualifiedname>themis::utils::PIIRedactingSink::set_pattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_redacting_sink.h" line="100" column="10" bodyfile="include/utils/pii_redacting_sink.h" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a6e68092a713a3e2d675f1d06e359077f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::PIIRedactingSink::set_formatter</definition>
+        <argsstring>(std::unique_ptr&lt; spdlog::formatter &gt; sink_formatter) override</argsstring>
+        <name>set_formatter</name>
+        <qualifiedname>themis::utils::PIIRedactingSink::set_formatter</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; spdlog::formatter &gt;</type>
+          <declname>sink_formatter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_redacting_sink.h" line="106" column="10" bodyfile="include/utils/pii_redacting_sink.h" bodystart="106" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Delegating spdlog sink that redacts PII before writing to a wrapped sink. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safety: the wrapped sink is responsible for its own locking. PIIRedactionPolicy is itself thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>spdlog::sinks::sink</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::PIIRedactingSink</label>
+        <link refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>spdlog::sinks::sink</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::PIIRedactingSink</label>
+        <link refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/pii_redacting_sink.h" line="25" column="1" bodyfile="include/utils/pii_redacting_sink.h" bodystart="25" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a8945c0231117dea86e0969cd13899cb4" prot="public" virt="non-virtual"><scope>themis::utils::PIIRedactingSink</scope><name>flush</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a7e1c5041ee4d139d50cc22238c37c2e4" prot="private" virt="non-virtual"><scope>themis::utils::PIIRedactingSink</scope><name>in_redaction_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a3159d59b709f80746d749055754025c3" prot="public" virt="non-virtual"><scope>themis::utils::PIIRedactingSink</scope><name>log</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a7c1a89151f69447130ad89aaa649461e" prot="public" virt="non-virtual"><scope>themis::utils::PIIRedactingSink</scope><name>PIIRedactingSink</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a6e68092a713a3e2d675f1d06e359077f" prot="public" virt="non-virtual"><scope>themis::utils::PIIRedactingSink</scope><name>set_formatter</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a10b700835811fabd9e7f3a5052c8cae7" prot="public" virt="non-virtual"><scope>themis::utils::PIIRedactingSink</scope><name>set_pattern</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_redacting_sink_1a0b18156904ae702618380733c23b265c" prot="private" virt="non-virtual"><scope>themis::utils::PIIRedactingSink</scope><name>wrapped_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

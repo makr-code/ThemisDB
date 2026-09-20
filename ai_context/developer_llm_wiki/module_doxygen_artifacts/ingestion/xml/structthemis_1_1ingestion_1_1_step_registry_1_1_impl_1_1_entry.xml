@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_step_registry_1_1_impl_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::StepRegistry::Impl::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_registry_1_1_impl_1_1_entry_1ad356c7444f5eebb2e9532e0124ca1884" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IIngestionStep&gt; themis::ingestion::StepRegistry::Impl::Entry::step</definition>
+        <argsstring></argsstring>
+        <name>step</name>
+        <qualifiedname>themis::ingestion::StepRegistry::Impl::Entry::step</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/workflow_engine.cpp" line="218" column="25" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_registry_1_1_impl_1_1_entry_1acbaa39f1674019d4bdecfe28817b7ebd" prot="public" static="no" mutable="no">
+        <type>DynamicLibHandle</type>
+        <definition>DynamicLibHandle themis::ingestion::StepRegistry::Impl::Entry::dl_handle</definition>
+        <argsstring></argsstring>
+        <name>dl_handle</name>
+        <qualifiedname>themis::ingestion::StepRegistry::Impl::Entry::dl_handle</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-null for dynamically loaded plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/workflow_engine.cpp" line="219" column="26" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="219" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/workflow_engine.cpp" line="217" column="5" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="217" bodyend="220"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_step_registry_1_1_impl_1_1_entry_1acbaa39f1674019d4bdecfe28817b7ebd" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry::Impl::Entry</scope><name>dl_handle</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_registry_1_1_impl_1_1_entry_1ad356c7444f5eebb2e9532e0124ca1884" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry::Impl::Entry</scope><name>step</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

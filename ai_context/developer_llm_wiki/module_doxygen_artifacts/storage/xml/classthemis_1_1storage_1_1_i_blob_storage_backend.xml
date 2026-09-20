@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_i_blob_storage_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::storage::IBlobStorageBackend</compoundname>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_azure_blob_backend" prot="public" virt="non-virtual">themis::storage::AzureBlobBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_encrypted_blob_backend" prot="public" virt="non-virtual">themis::storage::EncryptedBlobBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_filesystem_blob_backend" prot="public" virt="non-virtual">themis::storage::FilesystemBlobBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" prot="public" virt="non-virtual">themis::storage::GCSBlobBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_s3_blob_backend" prot="public" virt="non-virtual">themis::storage::S3BlobBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend" prot="public" virt="non-virtual">themis::storage::WebDAVBlobBackend</derivedcompoundref>
+    <includes refid="blob__storage__backend_8h" local="no">blob_storage_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_blob_storage_backend_1a9298452bf506be5cc61866a8010e8cd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::storage::IBlobStorageBackend::~IBlobStorageBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IBlobStorageBackend</name>
+        <qualifiedname>themis::storage::IBlobStorageBackend::~IBlobStorageBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="66" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_blob_storage_backend_1a95f20c9781e8494ebd196b26fa907fe7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &gt;</type>
+        <definition>virtual Result&lt; BlobRef &gt; themis::storage::IBlobStorageBackend::put</definition>
+        <argsstring>(const std::string &amp;blob_id, const std::vector&lt; uint8_t &gt; &amp;data)=0</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::IBlobStorageBackend::put</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_azure_blob_backend_1aa110fb3141111e75694db45ab1ccd6ae">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1aa2cf9d4ac9cc64d30eb7ce8b71c55152">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_filesystem_blob_backend_1a18607764e4a40374ee68f1f568eb8b3a">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a828b50dace19c714c2b3b22476a2e1f0">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_s3_blob_backend_1a133eca76aeb08c3008374c1340aad756">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a9c41d8983de5e1bc777497ec7542576d">put</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Store a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique blob identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;BlobRef&gt; Reference to stored blob or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="74" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_blob_storage_backend_1ad9be71e35853a3f8fa0eb3ca8cd720e0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>virtual Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::IBlobStorageBackend::get</definition>
+        <argsstring>(const BlobRef &amp;ref)=0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::IBlobStorageBackend::get</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_azure_blob_backend_1a355c7913c4811f441ebfc35b2c801594">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1abcd3a585d4f61892c41d61414f7d4d95">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_filesystem_blob_backend_1a16733ce98a709e41ef9492eea7d95809">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1aa272b5138edf46927cddf3ff85464c9b">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_s3_blob_backend_1af1bc389701f1850bcf28317b668f4374">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1aa7a224a7668e288d572f7eb1f02e7192">get</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;vector&lt;uint8_t&gt;&gt; Blob data or error if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="84" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_blob_storage_backend_1adfcf671215efaedc0b1b8dcf3a04aaf4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::storage::IBlobStorageBackend::remove</definition>
+        <argsstring>(const BlobRef &amp;ref)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::storage::IBlobStorageBackend::remove</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_azure_blob_backend_1a4be3748c465ed734fbdb9d4e9b2a837b">remove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1ac5e7954ebebb616c0e4c3a64c9c7aec0">remove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_filesystem_blob_backend_1a60121224b2a9dc9c58139c0d828fa138">remove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a4625bbfdb50dbc841f1db98041c6cf0e">remove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_s3_blob_backend_1a9167949cb9d6a53e80a29a239cb55d54">remove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a588a3215a3a78722d1b5bf4452223d5a">remove</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Delete a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;bool&gt; Success or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="93" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_blob_storage_backend_1a12a0da5953ed62e43fd0c7781ea2bffb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::IBlobStorageBackend::exists</definition>
+        <argsstring>(const BlobRef &amp;ref)=0</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::storage::IBlobStorageBackend::exists</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_azure_blob_backend_1ad0221e016abe8162829ebd996a9d8293">exists</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a3a693dbe52b2c0d0be08b7c8bb7d10d4">exists</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_filesystem_blob_backend_1ab5a8214ee629797b8d910273af9c8202">exists</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a30ddde9fce3aecb4877f86e9a0b04dc1">exists</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_s3_blob_backend_1a52865c13ffdf155bc6f4072de83bfd5c">exists</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ac5e65345f2481f36091a40a31baf64a5">exists</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Check if blob exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="100" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_blob_storage_backend_1a2ca43ee09ac2171de91232e3791ef3b6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::storage::IBlobStorageBackend::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::storage::IBlobStorageBackend::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_azure_blob_backend_1abb0ba77eb6a4c148269369e2b78b6e4c">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a14d88dce2fb8268242a897b387902bc8">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_filesystem_blob_backend_1af12c0dbbe5cd8764d17ac603db05e8f2">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a83df7f4058dcf541ec95786e5d4ca516">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_s3_blob_backend_1a4c062f4f74f3c260356c038e54f29f92">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ae78967e6b62c67c16fe5243a0c10026f">name</reimplementedby>
+        <briefdescription>
+<para>Get backend name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Backend name (e.g., &quot;filesystem&quot;, &quot;s3&quot;, &quot;webdav&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="106" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_blob_storage_backend_1a7bca1f3bdefb0139f6988710880ef2c4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::IBlobStorageBackend::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::storage::IBlobStorageBackend::isAvailable</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_azure_blob_backend_1a84acee7a5ad42f3d7306fb6f52ef66fe">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a90452cb63a298c8d89b1a52074f42c49">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_filesystem_blob_backend_1ab7ea61939cab2bac5c64d217b77988c8">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1aec87009306753d1ba2836ab122afadb1">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_s3_blob_backend_1a5a37654c88f2ff8959ce0a46dd160cf3">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1aa76430d8b87b6a30c08699b9e6792f44">isAvailable</reimplementedby>
+        <briefdescription>
+<para>Check if backend is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if backend can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="112" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Blob Storage Backend Interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Abstract interface for external blob storage backends. Implementations include: Filesystem, S3, Azure Blob, WebDAV (ActiveDirectory).</para>
+<para>Thread-Safety: Implementations must be thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::storage::AzureBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_azure_blob_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::storage::EncryptedBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_encrypted_blob_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::storage::FilesystemBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_filesystem_blob_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::storage::GCSBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_g_c_s_blob_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+      <node id="6">
+        <label>themis::storage::S3BlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_s3_blob_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::storage::WebDAVBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/storage/blob_storage_backend.h" line="64" column="1" bodyfile="include/storage/blob_storage_backend.h" bodystart="64" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a12a0da5953ed62e43fd0c7781ea2bffb" prot="public" virt="pure-virtual"><scope>themis::storage::IBlobStorageBackend</scope><name>exists</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1ad9be71e35853a3f8fa0eb3ca8cd720e0" prot="public" virt="pure-virtual"><scope>themis::storage::IBlobStorageBackend</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a7bca1f3bdefb0139f6988710880ef2c4" prot="public" virt="pure-virtual"><scope>themis::storage::IBlobStorageBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a2ca43ee09ac2171de91232e3791ef3b6" prot="public" virt="pure-virtual"><scope>themis::storage::IBlobStorageBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a95f20c9781e8494ebd196b26fa907fe7" prot="public" virt="pure-virtual"><scope>themis::storage::IBlobStorageBackend</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1adfcf671215efaedc0b1b8dcf3a04aaf4" prot="public" virt="pure-virtual"><scope>themis::storage::IBlobStorageBackend</scope><name>remove</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a9298452bf506be5cc61866a8010e8cd5" prot="public" virt="virtual"><scope>themis::storage::IBlobStorageBackend</scope><name>~IBlobStorageBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

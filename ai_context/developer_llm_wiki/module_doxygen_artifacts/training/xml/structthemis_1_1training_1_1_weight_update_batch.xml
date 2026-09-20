@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_weight_update_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::WeightUpdateBatch</compoundname>
+    <includes refid="lora__adapter_8h" local="no">lora_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_weight_update_batch_1a5ee5c05e219cef4d715c6f940a078d2b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::training::WeightUpdateBatch::layer_names</definition>
+        <argsstring></argsstring>
+        <name>layer_names</name>
+        <qualifiedname>themis::training::WeightUpdateBatch::layer_names</qualifiedname>
+        <briefdescription>
+<para>Target layer identifiers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="52" column="28" bodyfile="include/training/lora_adapter.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_weight_update_batch_1a9e7c22ec0a8937daae9b135d1b8ae4fb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::training::WeightUpdateBatch::delta_B</definition>
+        <argsstring></argsstring>
+        <name>delta_B</name>
+        <qualifiedname>themis::training::WeightUpdateBatch::delta_B</qualifiedname>
+        <briefdescription>
+<para>Additive delta for each B. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="53" column="21" bodyfile="include/training/lora_adapter.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_weight_update_batch_1a8d9edb9bdeb33b84e775be42799b29b6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::training::WeightUpdateBatch::delta_A</definition>
+        <argsstring></argsstring>
+        <name>delta_A</name>
+        <qualifiedname>themis::training::WeightUpdateBatch::delta_A</qualifiedname>
+        <briefdescription>
+<para>Additive delta for each A. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="54" column="21" bodyfile="include/training/lora_adapter.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A batch of additive weight deltas for one or more layers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All three parallel vectors must have the same length. </para>
+    </detaileddescription>
+    <location file="include/training/lora_adapter.h" line="51" column="1" bodyfile="include/training/lora_adapter.h" bodystart="51" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_weight_update_batch_1a8d9edb9bdeb33b84e775be42799b29b6" prot="public" virt="non-virtual"><scope>themis::training::WeightUpdateBatch</scope><name>delta_A</name></member>
+      <member refid="structthemis_1_1training_1_1_weight_update_batch_1a9e7c22ec0a8937daae9b135d1b8ae4fb" prot="public" virt="non-virtual"><scope>themis::training::WeightUpdateBatch</scope><name>delta_B</name></member>
+      <member refid="structthemis_1_1training_1_1_weight_update_batch_1a5ee5c05e219cef4d715c6f940a078d2b" prot="public" virt="non-virtual"><scope>themis::training::WeightUpdateBatch</scope><name>layer_names</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

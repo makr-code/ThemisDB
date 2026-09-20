@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_rewrite_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RewriteContext</compoundname>
+    <includes refid="rewrite__engine_8h" local="no">rewrite_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a6593fc0513bff34e96a6c0ebf86985b8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+        <definition>RewritePhase themis::prompt_engineering::RewriteContext::current_phase</definition>
+        <argsstring></argsstring>
+        <name>current_phase</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::current_phase</qualifiedname>
+        <briefdescription>
+<para>Current execution phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="96" column="18" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a424d8d963f1fd5e9f63680504eb72cec" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::prompt_engineering::RewriteContext::max_steps</definition>
+        <argsstring></argsstring>
+        <name>max_steps</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::max_steps</qualifiedname>
+        <briefdescription>
+<para>Maximum transformation steps (prevents infinite loops). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="97" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a9c0aa0ac7911470ab7c03fb5810ac2c5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::prompt_engineering::RewriteContext::current_step</definition>
+        <argsstring></argsstring>
+        <name>current_step</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::current_step</qualifiedname>
+        <briefdescription>
+<para>Current step count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="98" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad31772ffc6d902727949c7839db5ed50" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteContext::deadline_micros</definition>
+        <argsstring></argsstring>
+        <name>deadline_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::deadline_micros</qualifiedname>
+        <briefdescription>
+<para>Deadline (microseconds since epoch) for execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="99" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a61af90b51fe68747ae5d399ba598f1d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteContext::environment_tag</definition>
+        <argsstring></argsstring>
+        <name>environment_tag</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::environment_tag</qualifiedname>
+        <briefdescription>
+<para>Environment tag (prod/staging/test) for conditional rules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="100" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a8e140f1d6841d737cfaf3c8a6a807a4f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RewriteContext::allow_unsafe_transformations</definition>
+        <argsstring></argsstring>
+        <name>allow_unsafe_transformations</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::allow_unsafe_transformations</qualifiedname>
+        <briefdescription>
+<para>Whether to apply higher-risk rules (policy-controlled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="101" column="10" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a12629a86b135230b5fcce716abe007e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::user_id</qualifiedname>
+        <briefdescription>
+<para>User ID for audit/permission checks (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="102" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a413ce2c405548d2a32f60ffbe751096d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RewriteContext::trace_enabled</definition>
+        <argsstring></argsstring>
+        <name>trace_enabled</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::trace_enabled</qualifiedname>
+        <briefdescription>
+<para>Whether to collect detailed trace information. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="103" column="10" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad58e9f4ed39db30351af0fefd2e4bb19" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::prompt_engineering::RewriteContext::max_trace_entries</definition>
+        <argsstring></argsstring>
+        <name>max_trace_entries</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::max_trace_entries</qualifiedname>
+        <briefdescription>
+<para>Maximum number of trace entries to retain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="104" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a4818938ff2c56c8743cecf0465d22a3d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::RewriteContext::RewriteContext</definition>
+        <argsstring>()</argsstring>
+        <name>RewriteContext</name>
+        <qualifiedname>themis::prompt_engineering::RewriteContext::RewriteContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="106" column="5" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="106" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Execution context for rewrite operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries configuration, phase information, and operational state during rewrite execution. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rewrite_engine.h" line="95" column="1" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="95" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a8e140f1d6841d737cfaf3c8a6a807a4f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>allow_unsafe_transformations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a6593fc0513bff34e96a6c0ebf86985b8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>current_phase</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a9c0aa0ac7911470ab7c03fb5810ac2c5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>current_step</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad31772ffc6d902727949c7839db5ed50" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>deadline_micros</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a61af90b51fe68747ae5d399ba598f1d8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>environment_tag</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a424d8d963f1fd5e9f63680504eb72cec" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>max_steps</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad58e9f4ed39db30351af0fefd2e4bb19" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>max_trace_entries</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a4818938ff2c56c8743cecf0465d22a3d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>RewriteContext</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a413ce2c405548d2a32f60ffbe751096d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>trace_enabled</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a12629a86b135230b5fcce716abe007e5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteContext</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

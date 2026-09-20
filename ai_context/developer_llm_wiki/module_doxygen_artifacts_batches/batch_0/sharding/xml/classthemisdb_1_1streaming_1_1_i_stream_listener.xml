@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1streaming_1_1_i_stream_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::streaming::IStreamListener</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_i_stream_listener_1a79be83765de57e80bedf8ebfd1954188" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::streaming::IStreamListener::~IStreamListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStreamListener</name>
+        <qualifiedname>themisdb::streaming::IStreamListener::~IStreamListener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="341" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_i_stream_listener_1a68d829e9ae5885e7baf4e2c42c7152cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::streaming::IStreamListener::onSessionStarted</definition>
+        <argsstring>(uint32_t session_id, const std::string &amp;remote_shard)=0</argsstring>
+        <name>onSessionStarted</name>
+        <qualifiedname>themisdb::streaming::IStreamListener::onSessionStarted</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_shard</declname>
+        </param>
+        <briefdescription>
+<para>Called when a session transitions to started state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="344" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_i_stream_listener_1a9f8404b7c1cb88e9af995e50bb9504c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::streaming::IStreamListener::onSessionProgress</definition>
+        <argsstring>(const StreamSessionProgress &amp;progress)=0</argsstring>
+        <name>onSessionProgress</name>
+        <qualifiedname>themisdb::streaming::IStreamListener::onSessionProgress</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1streaming_1_1_stream_session_progress" kindref="compound">StreamSessionProgress</ref> &amp;</type>
+          <declname>progress</declname>
+        </param>
+        <briefdescription>
+<para>Called when session progress updates are available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="347" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_i_stream_listener_1aa8665a852a7ca87c102aa084bcaf2be0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::streaming::IStreamListener::onSessionCompleted</definition>
+        <argsstring>(uint32_t session_id, bool success)=0</argsstring>
+        <name>onSessionCompleted</name>
+        <qualifiedname>themisdb::streaming::IStreamListener::onSessionCompleted</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Called when a session completes successfully or with failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="350" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_i_stream_listener_1af2d25451b801264772fa6e205fa04148" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::streaming::IStreamListener::onFileTransferStarted</definition>
+        <argsstring>(uint32_t session_id, const StreamFileInfo &amp;file)=0</argsstring>
+        <name>onFileTransferStarted</name>
+        <qualifiedname>themisdb::streaming::IStreamListener::onFileTransferStarted</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1streaming_1_1_stream_file_info" kindref="compound">StreamFileInfo</ref> &amp;</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Called before transfer of one file begins. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="353" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_i_stream_listener_1a3360d58c4e4fa625acff46d0aebfb9b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::streaming::IStreamListener::onFileTransferCompleted</definition>
+        <argsstring>(uint32_t session_id, const std::string &amp;file_id, bool success)=0</argsstring>
+        <name>onFileTransferCompleted</name>
+        <qualifiedname>themisdb::streaming::IStreamListener::onFileTransferCompleted</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Called when one file transfer completes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="356" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Listener interface for stream events </para>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="339" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="339" bodyend="357"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1streaming_1_1_i_stream_listener_1a3360d58c4e4fa625acff46d0aebfb9b0" prot="public" virt="pure-virtual"><scope>themisdb::streaming::IStreamListener</scope><name>onFileTransferCompleted</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_i_stream_listener_1af2d25451b801264772fa6e205fa04148" prot="public" virt="pure-virtual"><scope>themisdb::streaming::IStreamListener</scope><name>onFileTransferStarted</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_i_stream_listener_1aa8665a852a7ca87c102aa084bcaf2be0" prot="public" virt="pure-virtual"><scope>themisdb::streaming::IStreamListener</scope><name>onSessionCompleted</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_i_stream_listener_1a9f8404b7c1cb88e9af995e50bb9504c5" prot="public" virt="pure-virtual"><scope>themisdb::streaming::IStreamListener</scope><name>onSessionProgress</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_i_stream_listener_1a68d829e9ae5885e7baf4e2c42c7152cd" prot="public" virt="pure-virtual"><scope>themisdb::streaming::IStreamListener</scope><name>onSessionStarted</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_i_stream_listener_1a79be83765de57e80bedf8ebfd1954188" prot="public" virt="virtual"><scope>themisdb::streaming::IStreamListener</scope><name>~IStreamListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

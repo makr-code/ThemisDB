@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_h_s_m_runtime_security_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::HSMRuntimeSecurityDecision</compoundname>
+    <includes refid="hsm__startup__policy_8h" local="no">hsm_startup_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1ac28e8769d2b3efba449b313125b83276" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMRuntimeSecurityDecision::allow_startup</definition>
+        <argsstring></argsstring>
+        <name>allow_startup</name>
+        <qualifiedname>themis::security::HSMRuntimeSecurityDecision::allow_startup</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when startup may continue; false means startup must abort. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="51" column="10" bodyfile="include/security/hsm_startup_policy.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1adbc4a4420f000f9c2aa22c4520882e5b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMRuntimeSecurityDecision::runtime_stub_active</definition>
+        <argsstring></argsstring>
+        <name>runtime_stub_active</name>
+        <qualifiedname>themis::security::HSMRuntimeSecurityDecision::runtime_stub_active</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>True when the active runtime provider is the software stub. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="53" column="10" bodyfile="include/security/hsm_startup_policy.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a6430c64fe22c5cf85634034117650476" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMRuntimeSecurityDecision::security_classification</definition>
+        <argsstring></argsstring>
+        <name>security_classification</name>
+        <qualifiedname>themis::security::HSMRuntimeSecurityDecision::security_classification</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Stable security class string (e.g. HSM-HARDENED-PKCS11, HSM-DEGRADED-EXPLICIT-STUB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="55" column="17" bodyfile="include/security/hsm_startup_policy.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMRuntimeSecurityDecision::audit_event</definition>
+        <argsstring></argsstring>
+        <name>audit_event</name>
+        <qualifiedname>themis::security::HSMRuntimeSecurityDecision::audit_event</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Human-readable audit trail message for logs/audit sinks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="57" column="17" bodyfile="include/security/hsm_startup_policy.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Evaluates the effective startup security class after HSM initialization. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This maps policy intent (<computeroutput><ref refid="namespacethemis_1_1security_1a71f1c3c981a929aa3c6f0abbbff2e908" kindref="member">resolveHSMStartupPolicy</ref></computeroutput>) and the observed runtime provider state (real PKCS#11 vs. stub) into a hard gate decision.</para>
+<para>Failure/edge cases:<itemizedlist>
+<listitem><para>If a stub provider is active without explicit insecure opt-in, startup must be blocked.</para>
+</listitem><listitem><para>If PKCS#11 was configured but runtime still fell back to stub, startup must be blocked unless explicit insecure opt-in is present. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/security/hsm_startup_policy.h" line="49" column="1" bodyfile="include/security/hsm_startup_policy.h" bodystart="49" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1ac28e8769d2b3efba449b313125b83276" prot="public" virt="non-virtual"><scope>themis::security::HSMRuntimeSecurityDecision</scope><name>allow_startup</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" prot="public" virt="non-virtual"><scope>themis::security::HSMRuntimeSecurityDecision</scope><name>audit_event</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1adbc4a4420f000f9c2aa22c4520882e5b" prot="public" virt="non-virtual"><scope>themis::security::HSMRuntimeSecurityDecision</scope><name>runtime_stub_active</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a6430c64fe22c5cf85634034117650476" prot="public" virt="non-virtual"><scope>themis::security::HSMRuntimeSecurityDecision</scope><name>security_classification</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

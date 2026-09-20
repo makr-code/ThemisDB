@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_self_consistency_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::SelfConsistencyEvaluator</compoundname>
+    <includes refid="claim__extractor_8h" local="no">claim_extractor.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result" prot="public">themis::rag::SelfConsistencyEvaluator::ConsistencyResult</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_consistency_evaluator_1a5b04f398b5566420eba8571610375410" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result" kindref="compound">ConsistencyResult</ref></type>
+        <definition>SelfConsistencyEvaluator::ConsistencyResult themis::rag::SelfConsistencyEvaluator::evaluate</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;samples)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::SelfConsistencyEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate consistency across multiple samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated samples to compare </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Consistency evaluation result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), size(), empty(), <ref refid="classthemis_1_1rag_1_1_self_consistency_evaluator_1a7e5d8c7398886f66f7b48417fba1aa41" kindref="member">calculateSimilarityMatrix()</ref>, <ref refid="classthemis_1_1rag_1_1_self_consistency_evaluator_1a9295cee4b52094d1b380765b71a0c05d" kindref="member">extractConsensus()</ref>, <ref refid="classthemis_1_1rag_1_1_prompt_library_1aa40a951f0c55cd93081c2e1aba9b27c5" kindref="member">PromptLibrary::getConsistencyCheckPrompt()</ref>, format(), <ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a76bf439c2811dd578ce9714a5a305456" kindref="member">LLMIntegration::generate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="111" column="30" bodyfile="src/rag/claim_extractor.cpp" bodystart="240" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_consistency_evaluator_1a9295cee4b52094d1b380765b71a0c05d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SelfConsistencyEvaluator::extractConsensus</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;samples)</argsstring>
+        <name>extractConsensus</name>
+        <qualifiedname>themis::rag::SelfConsistencyEvaluator::extractConsensus</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Extract consensus answer from samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Consensus.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated samples </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Consensus answer with highest agreement</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), <ref refid="classthemis_1_1rag_1_1_self_consistency_evaluator_1a7e5d8c7398886f66f7b48417fba1aa41" kindref="member">calculateSimilarityMatrix()</ref>, THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="118" column="24" bodyfile="src/rag/claim_extractor.cpp" bodystart="326" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_consistency_evaluator_1a7e5d8c7398886f66f7b48417fba1aa41" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; double &gt; &gt; themis::rag::SelfConsistencyEvaluator::calculateSimilarityMatrix</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;samples)</argsstring>
+        <name>calculateSimilarityMatrix</name>
+        <qualifiedname>themis::rag::SelfConsistencyEvaluator::calculateSimilarityMatrix</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Calculate pairwise similarity matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Similarity Matrix.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated samples </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Matrix of similarity scores</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), matrix(), <ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a006bf9ab8dfca8de8336b655641eda65" kindref="member">LLMIntegration::calculateSemanticSimilarity()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="125" column="24" bodyfile="src/rag/claim_extractor.cpp" bodystart="371" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Self-consistency evaluation for multiple generated samples. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/claim_extractor.h" line="93" column="1" bodyfile="include/rag/claim_extractor.h" bodystart="93" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_self_consistency_evaluator_1a7e5d8c7398886f66f7b48417fba1aa41" prot="public" virt="non-virtual"><scope>themis::rag::SelfConsistencyEvaluator</scope><name>calculateSimilarityMatrix</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_consistency_evaluator_1a5b04f398b5566420eba8571610375410" prot="public" virt="non-virtual"><scope>themis::rag::SelfConsistencyEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_consistency_evaluator_1a9295cee4b52094d1b380765b71a0c05d" prot="public" virt="non-virtual"><scope>themis::rag::SelfConsistencyEvaluator</scope><name>extractConsensus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

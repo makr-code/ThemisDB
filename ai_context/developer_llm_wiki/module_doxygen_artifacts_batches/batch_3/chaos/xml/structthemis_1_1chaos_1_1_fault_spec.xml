@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1chaos_1_1_fault_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::chaos::FaultSpec</compoundname>
+    <includes refid="chaos__framework_8h" local="no">chaos_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_fault_spec_1a29bdc99058f91b898bbd80ac1d006f74" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref></type>
+        <definition>FaultType themis::chaos::FaultSpec::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::chaos::FaultSpec::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="41" column="17" bodyfile="include/chaos/chaos_framework.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_fault_spec_1ae97597938f85504cb6483e9815f442ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::chaos::FaultSpec::target_node_id</definition>
+        <argsstring></argsstring>
+        <name>target_node_id</name>
+        <qualifiedname>themis::chaos::FaultSpec::target_node_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="42" column="17" bodyfile="include/chaos/chaos_framework.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_fault_spec_1a41833b93f57bbea54d6b24c93511af9a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::chaos::FaultSpec::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::chaos::FaultSpec::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = permanent until manually cleared </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="43" column="31" bodyfile="include/chaos/chaos_framework.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_fault_spec_1a5ea402919ffb8da55c0c470e4c37b304" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::chaos::FaultSpec::probability</definition>
+        <argsstring></argsstring>
+        <name>probability</name>
+        <qualifiedname>themis::chaos::FaultSpec::probability</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+<para>[0.0, 1.0] — used for RANDOM_FAILURE </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="44" column="17" bodyfile="include/chaos/chaos_framework.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_fault_spec_1a25800786ad94756c59c6e7dbc7dbbe95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::chaos::FaultSpec::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::chaos::FaultSpec::description</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="45" column="17" bodyfile="include/chaos/chaos_framework.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1chaos_1_1_fault_spec_1ab9d013fe105800f37c3493dde23d89e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::chaos::FaultSpec::FaultSpec</definition>
+        <argsstring>()=default</argsstring>
+        <name>FaultSpec</name>
+        <qualifiedname>themis::chaos::FaultSpec::FaultSpec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1chaos_1_1_fault_spec_1a24172b83337e19332d5b99fbf81cad08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::chaos::FaultSpec::FaultSpec</definition>
+        <argsstring>(FaultType t, std::string node, std::chrono::milliseconds dur={}, double prob=1.0, std::string desc=&quot;&quot;)</argsstring>
+        <name>FaultSpec</name>
+        <qualifiedname>themis::chaos::FaultSpec::FaultSpec</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>dur</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>prob</declname>
+          <defval>1.0</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>desc</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="48" column="5" bodyfile="include/chaos/chaos_framework.h" bodystart="48" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chaos/chaos_framework.h" line="40" column="1" bodyfile="include/chaos/chaos_framework.h" bodystart="40" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1chaos_1_1_fault_spec_1a25800786ad94756c59c6e7dbc7dbbe95" prot="public" virt="non-virtual"><scope>themis::chaos::FaultSpec</scope><name>description</name></member>
+      <member refid="structthemis_1_1chaos_1_1_fault_spec_1a41833b93f57bbea54d6b24c93511af9a" prot="public" virt="non-virtual"><scope>themis::chaos::FaultSpec</scope><name>duration</name></member>
+      <member refid="structthemis_1_1chaos_1_1_fault_spec_1ab9d013fe105800f37c3493dde23d89e3" prot="public" virt="non-virtual"><scope>themis::chaos::FaultSpec</scope><name>FaultSpec</name></member>
+      <member refid="structthemis_1_1chaos_1_1_fault_spec_1a24172b83337e19332d5b99fbf81cad08" prot="public" virt="non-virtual"><scope>themis::chaos::FaultSpec</scope><name>FaultSpec</name></member>
+      <member refid="structthemis_1_1chaos_1_1_fault_spec_1a5ea402919ffb8da55c0c470e4c37b304" prot="public" virt="non-virtual"><scope>themis::chaos::FaultSpec</scope><name>probability</name></member>
+      <member refid="structthemis_1_1chaos_1_1_fault_spec_1ae97597938f85504cb6483e9815f442ce" prot="public" virt="non-virtual"><scope>themis::chaos::FaultSpec</scope><name>target_node_id</name></member>
+      <member refid="structthemis_1_1chaos_1_1_fault_spec_1a29bdc99058f91b898bbd80ac1d006f74" prot="public" virt="non-virtual"><scope>themis::chaos::FaultSpec</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

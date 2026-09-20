@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::InMemoryRbacMetadataSecurityProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1metadata_1_1_i_metadata_security_provider" prot="public" virt="non-virtual">themis::metadata::IMetadataSecurityProvider</basecompoundref>
+    <includes refid="imetadata__security__provider_8h" local="no">imetadata_security_provider.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a1e8156e84394fb8ff851af988ea6c00f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::metadata::InMemoryRbacMetadataSecurityProvider::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::metadata::InMemoryRbacMetadataSecurityProvider::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="264" column="24" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a0fe60b55ccf0646b53a4056da233a83a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; <ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref>, std::set&lt; std::string &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;MetadataOperation, std::set&lt;std::string&gt; &gt; &gt; themis::metadata::InMemoryRbacMetadataSecurityProvider::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::metadata::InMemoryRbacMetadataSecurityProvider::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="270" column="2" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a1b0110c8f79db897ad925f15783368b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::InMemoryRbacMetadataSecurityProvider::grant</definition>
+        <argsstring>(std::string_view principal, MetadataOperation op, std::string_view resource)</argsstring>
+        <name>grant</name>
+        <qualifiedname>themis::metadata::InMemoryRbacMetadataSecurityProvider::grant</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Grant <computeroutput>principal</computeroutput> permission to execute <computeroutput>op</computeroutput> on <computeroutput>resource</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The operation to permit. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resource name, or &quot;*&quot; for all resources. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="181" column="10" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="181" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1aee44bcf787c2b2cabed283376755d5ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::InMemoryRbacMetadataSecurityProvider::revoke</definition>
+        <argsstring>(std::string_view principal, MetadataOperation op, std::string_view resource)</argsstring>
+        <name>revoke</name>
+        <qualifiedname>themis::metadata::InMemoryRbacMetadataSecurityProvider::revoke</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Revoke a previously granted permission. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op if the (principal, op, resource) triple was never granted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="193" column="10" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="193" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a88cb64b182ed3d92037b71ac6ab4243d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::InMemoryRbacMetadataSecurityProvider::revokeAll</definition>
+        <argsstring>(std::string_view principal)</argsstring>
+        <name>revokeAll</name>
+        <qualifiedname>themis::metadata::InMemoryRbacMetadataSecurityProvider::revokeAll</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <briefdescription>
+<para>Remove all permissions for <computeroutput>principal</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="211" column="10" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="211" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1aa39da90ebe3591d26792e1943f7a12fe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::metadata::InMemoryRbacMetadataSecurityProvider::hasPermission</definition>
+        <argsstring>(std::string_view principal, MetadataOperation op, std::string_view resource) const override</argsstring>
+        <name>hasPermission</name>
+        <qualifiedname>themis::metadata::InMemoryRbacMetadataSecurityProvider::hasPermission</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_security_provider_1a62761324446d3449d397df12a2e587bf">hasPermission</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Return true if <computeroutput>principal</computeroutput> may perform <computeroutput>op</computeroutput> on <computeroutput>resource</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity string (user, service account, role, …). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The requested metadata operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The affected resource name, or &quot;*&quot; for any resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the operation is permitted; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="218" column="10" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="218" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a98e022543ab43f54252b48495ac4b9e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::metadata::InMemoryRbacMetadataSecurityProvider::assertPermission</definition>
+        <argsstring>(std::string_view principal, MetadataOperation op, std::string_view resource) const override</argsstring>
+        <name>assertPermission</name>
+        <qualifiedname>themis::metadata::InMemoryRbacMetadataSecurityProvider::assertPermission</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_security_provider_1a887256b7866e60113db5e41a1a92d2e8">assertPermission</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Assert that <computeroutput>principal</computeroutput> may perform <computeroutput>op</computeroutput> on <computeroutput>resource</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MetadataAccessDeniedException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if permission is denied. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="225" column="10" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="225" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1af0fdd0eec3e561cc03913e354dee6817" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::metadata::InMemoryRbacMetadataSecurityProvider::hasPermission_</definition>
+        <argsstring>(std::string_view principal, MetadataOperation op, std::string_view resource) const</argsstring>
+        <name>hasPermission_</name>
+        <qualifiedname>themis::metadata::InMemoryRbacMetadataSecurityProvider::hasPermission_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="236" column="10" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="236" bodyend="262"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-memory RBAC implementation of <ref refid="classthemis_1_1metadata_1_1_i_metadata_security_provider" kindref="compound">IMetadataSecurityProvider</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Permissions are granted per (principal, operation, resource) triple. Two special rules apply:<itemizedlist>
+<listitem><para>Wildcard resource &quot;*&quot; grants the operation on every resource.</para>
+</listitem><listitem><para>ADMIN operation implies all other operations on all resources.</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting><codeline><highlight class="normal">InMemoryRbacMetadataSecurityProvider<sp/>sec;</highlight></codeline>
+<codeline><highlight class="normal">sec.grant(</highlight><highlight class="stringliteral">&quot;analyst&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8aa69c5667eb138400b1cfe907b120290e" kindref="member">MetadataOperation::READ_SCHEMA</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">sec.grant(</highlight><highlight class="stringliteral">&quot;dba&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8ada731cb77a482e42259b0a2e8142944f" kindref="member">MetadataOperation::WRITE_SCHEMA</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">sec.grant(</highlight><highlight class="stringliteral">&quot;ops&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8a73acd9a5972130b75066c82595a1fae3" kindref="member">MetadataOperation::ADMIN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::metadata::IMetadataSecurityProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_security_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::metadata::InMemoryRbacMetadataSecurityProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::metadata::IMetadataSecurityProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_security_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::metadata::InMemoryRbacMetadataSecurityProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/imetadata_security_provider.h" line="170" column="1" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="170" bodyend="271"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a98e022543ab43f54252b48495ac4b9e7" prot="public" virt="virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>assertPermission</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a1b0110c8f79db897ad925f15783368b6" prot="public" virt="non-virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>grant</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1aa39da90ebe3591d26792e1943f7a12fe" prot="public" virt="virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>hasPermission</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1af0fdd0eec3e561cc03913e354dee6817" prot="private" virt="non-virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>hasPermission_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a1e8156e84394fb8ff851af988ea6c00f" prot="private" virt="non-virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1aee44bcf787c2b2cabed283376755d5ed" prot="public" virt="non-virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>revoke</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a88cb64b182ed3d92037b71ac6ab4243d" prot="public" virt="non-virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>revokeAll</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider_1a0fe60b55ccf0646b53a4056da233a83a" prot="private" virt="non-virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>rules_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_security_provider_1aec947089c69baae3a23694cec7e76180" prot="public" virt="virtual"><scope>themis::metadata::InMemoryRbacMetadataSecurityProvider</scope><name>~IMetadataSecurityProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

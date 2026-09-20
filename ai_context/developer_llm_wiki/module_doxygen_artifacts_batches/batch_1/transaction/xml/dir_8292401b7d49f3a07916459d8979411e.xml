@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8292401b7d49f3a07916459d8979411e" kind="dir">
+    <compoundname>include/transaction</compoundname>
+    <innerdir refid="dir_5d24fffe0e29d7e665a905e55c24f93f">include/transaction/examples</innerdir>
+    <innerfile refid="branch__manager_8h">branch_manager.h</innerfile>
+    <innerfile refid="compensation__log_8h">compensation_log.h</innerfile>
+    <innerfile refid="connection__resource__guard_8h">connection_resource_guard.h</innerfile>
+    <innerfile refid="crash__recovery__manager_8h">crash_recovery_manager.h</innerfile>
+    <innerfile refid="deadlock__predictor_8h">deadlock_predictor.h</innerfile>
+    <innerfile refid="distributed__saga_8h">distributed_saga.h</innerfile>
+    <innerfile refid="distributed__transaction__manager_8h">distributed_transaction_manager.h</innerfile>
+    <innerfile refid="global__transaction__manager_8h">global_transaction_manager.h</innerfile>
+    <innerfile refid="grpc__rpc__adapter_8h">grpc_rpc_adapter.h</innerfile>
+    <innerfile refid="in__doubt__recovery__coordinator_8h">in_doubt_recovery_coordinator.h</innerfile>
+    <innerfile refid="isolation__level_8h">isolation_level.h</innerfile>
+    <innerfile refid="lock__manager_8h">lock_manager.h</innerfile>
+    <innerfile refid="merge__engine_8h">merge_engine.h</innerfile>
+    <innerfile refid="recoverable__two__phase__coordinator_8h">recoverable_two_phase_coordinator.h</innerfile>
+    <innerfile refid="saga_8h">saga.h</innerfile>
+    <innerfile refid="saga__orchestrator_8h">saga_orchestrator.h</innerfile>
+    <innerfile refid="saga__plugin__bridge_8h">saga_plugin_bridge.h</innerfile>
+    <innerfile refid="snapshot__manager_8h">snapshot_manager.h</innerfile>
+    <innerfile refid="transaction__auditor_8h">transaction_auditor.h</innerfile>
+    <innerfile refid="transaction__batcher_8h">transaction_batcher.h</innerfile>
+    <innerfile refid="transaction__coordinator_8h">transaction_coordinator.h</innerfile>
+    <innerfile refid="transaction__manager_8h">transaction_manager.h</innerfile>
+    <innerfile refid="transaction__semantic__advisor_8h">transaction_semantic_advisor.h</innerfile>
+    <innerfile refid="two__phase__commit__wal__recovery_8h">two_phase_commit_wal_recovery.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/"/>
+  </compounddef>
+</doxygen>

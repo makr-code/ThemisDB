@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1functions_1_1graph__helpers" kind="namespace" language="C++">
+    <compoundname>themis::query::functions::graph_helpers</compoundname>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph" prot="public">themis::query::functions::graph_helpers::SimpleGraph</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1a5a940a6daf176d4faf05177cdb1f2467" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Direction</name>
+        <qualifiedname>themis::query::functions::graph_helpers::Direction</qualifiedname>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1a5a940a6daf176d4faf05177cdb1f2467a25831eea29609bc6ae3b24eca13dd682" prot="public">
+          <name>OUTBOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1a5a940a6daf176d4faf05177cdb1f2467adf8068ff1ff686a6956977a30ed264b1" prot="public">
+          <name>INBOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1a5a940a6daf176d4faf05177cdb1f2467a8e1bde3c3d303163521522cf1d62f21f" prot="public">
+          <name>ANY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="37" column="1" bodyfile="include/query/functions/graph_functions.h" bodystart="37" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1a98c834b8d472cf64b3a2804a879a335b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; themis::query::functions::graph_helpers::parseIdentifier</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>parseIdentifier</name>
+        <qualifiedname>themis::query::functions::graph_helpers::parseIdentifier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="44" column="18" bodyfile="include/query/functions/graph_functions.h" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1aa0bd2d9151e49d63017d4958c6e2d722" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::functions::graph_helpers::isEdge</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>isEdge</name>
+        <qualifiedname>themis::query::functions::graph_helpers::isEdge</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Is Edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="58" column="13" bodyfile="include/query/functions/graph_functions.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1aa4129121ddb249ba0706adac49534886" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::functions::graph_helpers::isVertex</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>isVertex</name>
+        <qualifiedname>themis::query::functions::graph_helpers::isVertex</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Is Vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="68" column="13" bodyfile="include/query/functions/graph_functions.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1acdf3553c99ea732a2b5b6fa0a787cf54" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::graph_helpers::getVertexId</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>getVertexId</name>
+        <qualifiedname>themis::query::functions::graph_helpers::getVertexId</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Get Vertex Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: is_string(), is_object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="79" column="20" bodyfile="include/query/functions/graph_functions.h" bodystart="79" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1a9a28516651163882f4bf8e4fae32f95f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph" kindref="compound">SimpleGraph</ref></type>
+        <definition>SimpleGraph themis::query::functions::graph_helpers::buildGraph</definition>
+        <argsstring>(const nlohmann::json &amp;edges)</argsstring>
+        <name>buildGraph</name>
+        <qualifiedname>themis::query::functions::graph_helpers::buildGraph</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Build Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1query_1_1functions_1_1graph__helpers_1aa0bd2d9151e49d63017d4958c6e2d722" kindref="member">isEdge()</ref>, contains(), addEdge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="150" column="20" bodyfile="include/query/functions/graph_functions.h" bodystart="150" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/graph_functions.h" line="34" column="1"/>
+  </compounddef>
+</doxygen>

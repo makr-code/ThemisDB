@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_update_state_machine_test" kind="class" language="C++" prot="public">
+    <compoundname>UpdateStateMachineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_update_state_machine_test_1a2619a494cee68ea1c65d5566e0baf7fb" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string UpdateStateMachineTest::tmp_log_</definition>
+        <argsstring></argsstring>
+        <name>tmp_log_</name>
+        <qualifiedname>UpdateStateMachineTest::tmp_log_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="228" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="228" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_update_state_machine_test_1a8b98c190a0050ee78b29853a3b25ddea" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void UpdateStateMachineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>UpdateStateMachineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="230" column="10" bodyfile="tests/updates/test_updates_production.cpp" bodystart="230" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="class_update_state_machine_test_1a0ae83c64d6a2f1d28d516c72ede60aef" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void UpdateStateMachineTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>UpdateStateMachineTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="235" column="10" bodyfile="tests/updates/test_updates_production.cpp" bodystart="235" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>UpdateStateMachineTest</label>
+        <link refid="class_update_state_machine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>UpdateStateMachineTest</label>
+        <link refid="class_update_state_machine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_production.cpp" line="226" column="1" bodyfile="tests/updates/test_updates_production.cpp" bodystart="226" bodyend="238"/>
+    <listofallmembers>
+      <member refid="class_update_state_machine_test_1a8b98c190a0050ee78b29853a3b25ddea" prot="protected" virt="non-virtual"><scope>UpdateStateMachineTest</scope><name>SetUp</name></member>
+      <member refid="class_update_state_machine_test_1a0ae83c64d6a2f1d28d516c72ede60aef" prot="protected" virt="non-virtual"><scope>UpdateStateMachineTest</scope><name>TearDown</name></member>
+      <member refid="class_update_state_machine_test_1a2619a494cee68ea1c65d5566e0baf7fb" prot="protected" virt="non-virtual"><scope>UpdateStateMachineTest</scope><name>tmp_log_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

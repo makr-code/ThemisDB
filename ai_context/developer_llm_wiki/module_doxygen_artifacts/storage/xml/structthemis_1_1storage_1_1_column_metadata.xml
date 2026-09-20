@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_column_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ColumnMetadata</compoundname>
+    <includes refid="columnar__format_8h" local="no">columnar_format.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_metadata_1a34b141a416d41b9f3146ed2463940b1c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0" kindref="member">ColumnType</ref></type>
+        <definition>ColumnType themis::storage::ColumnMetadata::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::storage::ColumnMetadata::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="81" column="16" bodyfile="include/storage/columnar_format.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_metadata_1a9ab2cceebb491eb0de89bd7cff752afb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7" kindref="member">CompressionCodec</ref></type>
+        <definition>CompressionCodec themis::storage::ColumnMetadata::codec</definition>
+        <argsstring></argsstring>
+        <name>codec</name>
+        <qualifiedname>themis::storage::ColumnMetadata::codec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="82" column="22" bodyfile="include/storage/columnar_format.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_metadata_1a034a9f35bd2fe5313e4b37e1dabcdecc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnMetadata::uncompressed_size</definition>
+        <argsstring></argsstring>
+        <name>uncompressed_size</name>
+        <qualifiedname>themis::storage::ColumnMetadata::uncompressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="83" column="12" bodyfile="include/storage/columnar_format.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_metadata_1a95dca64b887fbfa1e0d1585d1de3b320" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnMetadata::compressed_size</definition>
+        <argsstring></argsstring>
+        <name>compressed_size</name>
+        <qualifiedname>themis::storage::ColumnMetadata::compressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="84" column="12" bodyfile="include/storage/columnar_format.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_metadata_1a30c5f97ecac985881b47610dc3881c61" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnMetadata::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::storage::ColumnMetadata::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="85" column="12" bodyfile="include/storage/columnar_format.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_metadata_1ab95baa0b62a39fe3efc920577fa88b23" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_zone_map" kindref="compound">ZoneMap</ref></type>
+        <definition>ZoneMap themis::storage::ColumnMetadata::zone_map</definition>
+        <argsstring></argsstring>
+        <name>zone_map</name>
+        <qualifiedname>themis::storage::ColumnMetadata::zone_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="86" column="13" bodyfile="include/storage/columnar_format.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_metadata_1ae03126522ead804108086b228f2374b1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::ColumnMetadata::compressionRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>compressionRatio</name>
+        <qualifiedname>themis::storage::ColumnMetadata::compressionRatio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="89" column="12" bodyfile="include/storage/columnar_format.h" bodystart="89" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::storage::ColumnMetadata</label>
+        <link refid="structthemis_1_1storage_1_1_column_metadata"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>zone_map</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::storage::ZoneMap</label>
+        <link refid="structthemis_1_1storage_1_1_zone_map"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/columnar_format.h" line="80" column="1" bodyfile="include/storage/columnar_format.h" bodystart="80" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_column_metadata_1a9ab2cceebb491eb0de89bd7cff752afb" prot="public" virt="non-virtual"><scope>themis::storage::ColumnMetadata</scope><name>codec</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_metadata_1a95dca64b887fbfa1e0d1585d1de3b320" prot="public" virt="non-virtual"><scope>themis::storage::ColumnMetadata</scope><name>compressed_size</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_metadata_1ae03126522ead804108086b228f2374b1" prot="public" virt="non-virtual"><scope>themis::storage::ColumnMetadata</scope><name>compressionRatio</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_metadata_1a30c5f97ecac985881b47610dc3881c61" prot="public" virt="non-virtual"><scope>themis::storage::ColumnMetadata</scope><name>row_count</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_metadata_1a34b141a416d41b9f3146ed2463940b1c" prot="public" virt="non-virtual"><scope>themis::storage::ColumnMetadata</scope><name>type</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_metadata_1a034a9f35bd2fe5313e4b37e1dabcdecc" prot="public" virt="non-virtual"><scope>themis::storage::ColumnMetadata</scope><name>uncompressed_size</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_metadata_1ab95baa0b62a39fe3efc920577fa88b23" prot="public" virt="non-virtual"><scope>themis::storage::ColumnMetadata</scope><name>zone_map</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

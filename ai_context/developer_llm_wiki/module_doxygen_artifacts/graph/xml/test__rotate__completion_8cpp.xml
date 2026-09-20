@@ -1,0 +1,769 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rotate__completion_8cpp" kind="file" language="C++">
+    <compoundname>test_rotate_completion.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="rotate__completion_8h" local="yes">graph/rotate_completion.h</includes>
+    <includes refid="knowledge__graph__reasoner_8h" local="yes">graph/knowledge_graph_reasoner.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>graph/knowledge_graph_reasoner.h</label>
+        <link refid="knowledge__graph__reasoner_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>graph/rotate_completion.h</label>
+        <link refid="rotate__completion_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_rotate_completion.cpp</label>
+        <link refid="test__rotate__completion_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>algorithm</label>
+      </node>
+      <node id="17">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="20">
+        <label>cmath</label>
+      </node>
+      <node id="18">
+        <label>cstddef</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>list</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>themis/export.h</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>unordered_set</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a7c892460988f26b5c58bf707916a8c4e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_rotat_e_config" kindref="compound">RotatEConfig</ref></type>
+        <definition>static RotatEConfig smallCfg</definition>
+        <argsstring>()</argsstring>
+        <name>smallCfg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="39" column="21" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="39" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a283138b631f59670856d89d4d4e95bd4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void populateSmall</definition>
+        <argsstring>(RotatEModel &amp;model)</argsstring>
+        <name>populateSmall</name>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="50" column="13" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a855de44352da1ba5aeb6357212609b8c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_k_g_triple" kindref="compound">KGTriple</ref> &gt;</type>
+        <definition>static std::vector&lt; KGTriple &gt; smallTriples</definition>
+        <argsstring>()</argsstring>
+        <name>smallTriples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="57" column="20" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_01_UniqueIndices)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_01_UniqueIndices</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="67" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="67" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1ac85527d1fea27cb4c2d536db58696031" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_02_DuplicateEntitySameIndex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_02_DuplicateEntitySameIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="81" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a50a33b167727a39e1c73d31f502ade9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_03_CountsCorrect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_03_CountsCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="91" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="91" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1aabbef8a3ff093cb20bf6ce2c139990ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_04_ScoreThrowsUnregistered)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_04_ScoreThrowsUnregistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="105" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="105" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a29a5225b815310945095c319a786f827" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_05_ScoreThrowsNotTrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_05_ScoreThrowsNotTrained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="117" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="117" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1af4f024b474180d6db5448456d6338349" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_06_TrainSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_06_TrainSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="127" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="127" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1ad3ab79cc7ff0ae86904a9428fbbc652f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_07_TrainResultCounts)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_07_TrainResultCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="139" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="139" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1ad9420d9b15b3c844191a2458ef8c902f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_08_ScoreFiniteNonNegative)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_08_ScoreFiniteNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="154" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="154" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1abb18feac425479bf8fda2440428db19a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_09_ScoreDeterministic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_09_ScoreDeterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="167" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="167" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a01d23bb86ced698ff2b949e6488db59f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_10_EntityEmbeddingSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_10_EntityEmbeddingSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="180" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="180" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a4e557bcbc483e8937d6eaf546bd78c5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_11_RelationPhaseSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_11_RelationPhaseSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="193" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="193" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a231b55bbcc1c698136a9292fe8c2090a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_12_PredictTailSorted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_12_PredictTailSorted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="206" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="206" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1ab779086e9fefcdfc70a5cbb9f3c579c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_13_PredictHeadSorted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_13_PredictHeadSorted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="227" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="227" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1a08c0532d077d60906e40648a7dedf18b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGCompletionEngineTest, KGC_14_ReasonerInjection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGCompletionEngineTest</type>
+        </param>
+        <param>
+          <type>KGC_14_ReasonerInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="242" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="242" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1ae53e00acbceb745a44366ba8a57278f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGCompletionEngineTest, KGC_15_CompleteHeadDelegates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGCompletionEngineTest</type>
+        </param>
+        <param>
+          <type>KGC_15_CompleteHeadDelegates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="266" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="266" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rotate__completion_8cpp_1aa97a7b69758cba614a17e767e86a54e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RotatEModelTest, KGC_16_EpochCountInfluencesScore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RotatEModelTest</type>
+        </param>
+        <param>
+          <type>KGC_16_EpochCountInfluencesScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_rotate_completion.cpp" line="284" column="1" bodyfile="tests/graph/test_rotate_completion.cpp" bodystart="284" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for RotatE Knowledge Graph Completion — KGC-01..15. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coverage: KGC-01 addEntity/addRelation return unique indices KGC-02 Duplicate addEntity returns same index KGC-03 entityCount/relationCount reflect registry state KGC-04 score() throws on unregistered entity before training KGC-05 score() throws when model is not yet trained KGC-06 train() succeeds with valid triples KGC-07 train() result reports correct entity/relation/triple counts KGC-08 score() returns finite non-negative distance after training KGC-09 score() is symmetric-ish: same triple produces same score twice KGC-10 entityEmbedding() returns 2*dim values after training KGC-11 relationPhase() returns dim values after training KGC-12 predictTail returns top_k results sorted by ascending score KGC-13 predictHead returns top_k results sorted by ascending score KGC-14 <ref refid="classthemis_1_1graph_1_1_k_g_completion_engine" kindref="compound">KGCompletionEngine</ref> injects high-confidence predictions into reasoner KGC-15 <ref refid="classthemis_1_1graph_1_1_k_g_completion_engine" kindref="compound">KGCompletionEngine</ref> completeHead delegates to <ref refid="classthemis_1_1graph_1_1_link_prediction_head" kindref="compound">LinkPredictionHead</ref> KGC-16 Training is not a no-op: epoch count influences learned scores </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rotate__completion_8h" kindref="compound">graph/rotate_completion.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="knowledge__graph__reasoner_8h" kindref="compound">graph/knowledge_graph_reasoner.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">themis::graph</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_rotat_e_config" kindref="compound">RotatEConfig</ref><sp/>smallCfg()<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_rotat_e_config" kindref="compound">RotatEConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1graph_1_1_rotat_e_config_1a371deb17237106fe8a724c820739617f" kindref="member">embedding_dim</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1graph_1_1_rotat_e_config_1a13fab35c9999ca66ae04c96e1f1d5ad4" kindref="member">neg_samples</ref><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1graph_1_1_rotat_e_config_1af95d26cfc4d471c586cd017c568fefaf" kindref="member">epochs</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1graph_1_1_rotat_e_config_1adca44477bdf68c3d5f126ab1ff5bc02d" kindref="member">learning_rate</ref><sp/>=<sp/>1e-3f;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1graph_1_1_rotat_e_config_1afe6876d3b10a897c2d975e99cec52b40" kindref="member">batch_size</ref><sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>tiny<sp/>graph:<sp/>alice<sp/>--knows--&gt;<sp/>bob,<sp/>bob<sp/>--knows--&gt;<sp/>carol</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>populateSmall(<ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref>&amp;<sp/>model)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a41df5bb0d444b214b688d23ce2d4c000" kindref="member">addRelation</ref>(</highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;KGTriple&gt;<sp/>smallTriples()<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-01<sp/><sp/>addEntity/addRelation<sp/>return<sp/>unique<sp/>indices</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_01_UniqueIndices)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i0<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i1<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i2<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a41df5bb0d444b214b688d23ce2d4c000" kindref="member">addRelation</ref>(</highlight><highlight class="stringliteral">&quot;r1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i3<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a41df5bb0d444b214b688d23ce2d4c000" kindref="member">addRelation</ref>(</highlight><highlight class="stringliteral">&quot;r2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(i0,<sp/>i1);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(i2,<sp/>i3);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-02<sp/><sp/>Duplicate<sp/>addEntity<sp/>returns<sp/>same<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_02_DuplicateEntitySameIndex)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>first<sp/><sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>second<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(first,<sp/>second);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-03<sp/><sp/>entityCount/relationCount<sp/>reflect<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_03_CountsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a89513595f3d12b147236edcb3ea401f9" kindref="member">entityCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a4ac05d112e8a83f3ac9301363fbba9fc" kindref="member">addEntity</ref>(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a89513595f3d12b147236edcb3ea401f9" kindref="member">entityCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a41df5bb0d444b214b688d23ce2d4c000" kindref="member">addRelation</ref>(</highlight><highlight class="stringliteral">&quot;r1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a6cfa0939cebcffa3869b32c0cd6ff47c" kindref="member">relationCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-04<sp/><sp/>score()<sp/>throws<sp/>on<sp/>unregistered<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_04_ScoreThrowsUnregistered)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(smallTriples());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a36868a4beb923c7e85a4777114feb0ac" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a36868a4beb923c7e85a4777114feb0ac" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unknown_rel&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-05<sp/><sp/>score()<sp/>throws<sp/>when<sp/>model<sp/>not<sp/>trained</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_05_ScoreThrowsNotTrained)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a36868a4beb923c7e85a4777114feb0ac" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a627de105dcd039248d9d29fa378d50b2" kindref="member">isTrained</ref>());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-06<sp/><sp/>train()<sp/>succeeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_06_TrainSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(smallTriples());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a627de105dcd039248d9d29fa378d50b2" kindref="member">isTrained</ref>());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-07<sp/><sp/>train()<sp/>result<sp/>has<sp/>correct<sp/>counts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_07_TrainResultCounts)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>triples<sp/>=<sp/>smallTriples();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/><sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(triples);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.entities,<sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a89513595f3d12b147236edcb3ea401f9" kindref="member">entityCount</ref>());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.relations,<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a6cfa0939cebcffa3869b32c0cd6ff47c" kindref="member">relationCount</ref>());</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.triples,<sp/><sp/><sp/>triples.size());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.epochs_run,<sp/>smallCfg().epochs);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-08<sp/><sp/>score()<sp/>returns<sp/>finite<sp/>non-negative<sp/>value<sp/>after<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_08_ScoreFiniteNonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(smallTriples());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a36868a4beb923c7e85a4777114feb0ac" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::isfinite(s));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s,<sp/>0.0);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-09<sp/><sp/>score()<sp/>is<sp/>deterministic<sp/>(same<sp/>triple<sp/>→<sp/>same<sp/>score<sp/>twice)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_09_ScoreDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(smallTriples());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s1<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a36868a4beb923c7e85a4777114feb0ac" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a36868a4beb923c7e85a4777114feb0ac" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s1,<sp/>s2);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-10<sp/><sp/>entityEmbedding<sp/>returns<sp/>2*dim<sp/>values<sp/>after<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_10_EntityEmbeddingSize)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>smallCfg();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(cfg);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(smallTriples());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>emb<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a424f763a2ead9d68a488f3fb5b2a1ae3" kindref="member">entityEmbedding</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emb.size(),<sp/>2<sp/>*<sp/>cfg.embedding_dim);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-11<sp/><sp/>relationPhase<sp/>returns<sp/>dim<sp/>values<sp/>after<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_11_RelationPhaseSize)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>smallCfg();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(cfg);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(smallTriples());</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>phase<sp/>=<sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a40f511be807557a3487254bc9d55c94a" kindref="member">relationPhase</ref>(</highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(phase.size(),<sp/>cfg.embedding_dim);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-12<sp/><sp/>predictTail<sp/>returns<sp/>top_k<sp/>results<sp/>sorted<sp/>by<sp/>ascending<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_12_PredictTailSorted)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(smallTriples());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_link_prediction_head" kindref="compound">LinkPredictionHead</ref><sp/>lph(model);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds<sp/>=<sp/>lph.predictTail(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(preds.size(),<sp/>3u);<sp/></highlight><highlight class="comment">//<sp/>3<sp/>entities<sp/>total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>preds.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(preds[i<sp/>-<sp/>1].score,<sp/>preds[i].score);<sp/></highlight><highlight class="comment">//<sp/>ascending</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ranks<sp/>should<sp/>be<sp/>1-based<sp/>sequential</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>preds.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(preds[i].rank,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-13<sp/><sp/>predictHead<sp/>returns<sp/>top_k<sp/>results<sp/>sorted<sp/>by<sp/>ascending<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_13_PredictHeadSorted)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>model(smallCfg());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(model);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>model.<ref refid="classthemis_1_1graph_1_1_rotat_e_model_1a0bdc2a7de368d7fc700108cb240871bb" kindref="member">train</ref>(smallTriples());</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_link_prediction_head" kindref="compound">LinkPredictionHead</ref><sp/>lph(model);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds<sp/>=<sp/>lph.predictHead(</highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(preds.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(preds[0].score,<sp/>preds[1].score);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-14<sp/><sp/>KGCompletionEngine<sp/>injects<sp/>predictions<sp/>into<sp/>reasoner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(KGCompletionEngineTest,<sp/>KGC_14_ReasonerInjection)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_k_g_completion_engine" kindref="compound">KGCompletionEngine</ref><sp/>engine(smallCfg());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.addEntity(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.addEntity(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.addEntity(</highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.addRelation(</highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.train({{</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner" kindref="compound">KnowledgeGraphReasoner</ref><sp/>reasoner;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>very<sp/>high<sp/>threshold<sp/>so<sp/>all<sp/>predictions<sp/>get<sp/>injected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.setReasoner(&amp;reasoner,<sp/>1e9);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds<sp/>=<sp/>engine.completeTail(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(preds.empty());</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reasoner<sp/>should<sp/>now<sp/>have<sp/>facts<sp/>injected<sp/>—<sp/>verify<sp/>no<sp/>exception<sp/>thrown</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>that<sp/>addFact<sp/>calls<sp/>were<sp/>accepted<sp/>(derivedTripleCount<sp/>includes<sp/>inferred<sp/>triples).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>completeTail<sp/>injected<sp/>via<sp/>addFact;<sp/>no<sp/>exception<sp/>=<sp/>success.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-15<sp/><sp/>KGCompletionEngine<sp/>completeHead<sp/>delegates<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(KGCompletionEngineTest,<sp/>KGC_15_CompleteHeadDelegates)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_k_g_completion_engine" kindref="compound">KGCompletionEngine</ref><sp/>engine(smallCfg());</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.addEntity(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.addEntity(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.addEntity(</highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.addRelation(</highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.train({{</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds<sp/>=<sp/>engine.completeHead(</highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(preds.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>preds.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(preds[i<sp/>-<sp/>1].score,<sp/>preds[i].score);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGC-16<sp/><sp/>More<sp/>epochs<sp/>should<sp/>alter<sp/>learned<sp/>scores<sp/>(training<sp/>is<sp/>not<sp/>a<sp/>no-op)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="test__rotate__completion_8cpp_1a7fe64afab44059598094c29c4771e231" kindref="member">TEST</ref>(RotatEModelTest,<sp/>KGC_16_EpochCountInfluencesScore)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg_short<sp/>=<sp/>smallCfg();</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_short.epochs<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>short_model(cfg_short);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(short_model);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>short_model.train(smallTriples());</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>short_score<sp/>=<sp/>short_model.score(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg_long<sp/>=<sp/>smallCfg();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_long.epochs<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref><sp/>long_model(cfg_long);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>populateSmall(long_model);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>long_model.train(smallTriples());</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>long_score<sp/>=<sp/>long_model.score(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(std::fabs(short_score<sp/>-<sp/>long_score),<sp/>1e-6);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_rotate_completion.cpp"/>
+  </compounddef>
+</doxygen>

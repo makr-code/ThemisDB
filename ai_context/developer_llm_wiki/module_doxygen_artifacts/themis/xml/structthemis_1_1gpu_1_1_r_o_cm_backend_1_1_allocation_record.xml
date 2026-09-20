@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::ROCmBackend::AllocationRecord</compoundname>
+    <includes refid="rocm__backend_8h" local="no">rocm_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1a62351b4f6e8cc2fb76a3fef49f28debf" prot="public" static="no" mutable="no">
+        <type>uintptr_t</type>
+        <definition>uintptr_t themis::gpu::ROCmBackend::AllocationRecord::device_ptr</definition>
+        <argsstring></argsstring>
+        <name>device_ptr</name>
+        <qualifiedname>themis::gpu::ROCmBackend::AllocationRecord::device_ptr</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>hipMalloc return value cast to uintptr_t; 0 = invalid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="84" column="21" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1acd53265c30e82668316a89f3beb50db3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::ROCmBackend::AllocationRecord::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::gpu::ROCmBackend::AllocationRecord::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="85" column="21" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1a73c6c34b8b7f57d4c518b07d1bb29c38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ROCmBackend::AllocationRecord::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::gpu::ROCmBackend::AllocationRecord::tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="86" column="21" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1adedfd16decf4baf7d580e2e90b14f9b5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::ROCmBackend::AllocationRecord::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::gpu::ROCmBackend::AllocationRecord::is_valid</qualifiedname>
+        <briefdescription>
+<para>True when the allocation holds a real device pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="89" column="14" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/rocm_backend.h" line="82" column="5" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="82" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1a62351b4f6e8cc2fb76a3fef49f28debf" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::AllocationRecord</scope><name>device_ptr</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1adedfd16decf4baf7d580e2e90b14f9b5" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::AllocationRecord</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1acd53265c30e82668316a89f3beb50db3" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::AllocationRecord</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1a73c6c34b8b7f57d4c518b07d1bb29c38" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::AllocationRecord</scope><name>tag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

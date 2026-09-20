@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::AdaptiveQueryCompiler::CompilationStats</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a841e84b678194f2ad0243170aec427e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationStats::queries_compiled</definition>
+        <argsstring></argsstring>
+        <name>queries_compiled</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationStats::queries_compiled</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of distinct query fingerprints that have been compiled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="372" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a4be1312435d2bf08062d696d2e38d63b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationStats::compilation_failures</definition>
+        <argsstring></argsstring>
+        <name>compilation_failures</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationStats::compilation_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of compilation attempts that failed (timeout or error). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="375" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a5cb4ccb8206592444fe9d696036e63e5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::AdaptiveQueryCompiler::CompilationStats::total_compilation_time_us</definition>
+        <argsstring></argsstring>
+        <name>total_compilation_time_us</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationStats::total_compilation_time_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total wall-clock time spent in compilation steps (µs). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="378" column="18" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1adfbd3b0b6d1bd96b2534e6171c68d180" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::AdaptiveQueryCompiler::CompilationStats::average_speedup_percent</definition>
+        <argsstring></argsstring>
+        <name>average_speedup_percent</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationStats::average_speedup_percent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimated average execution speedup over the interpreted path (%). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="381" column="18" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1aebac2cf6f269a5eeb5bd9e8f5306c018" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationStats::cache_size</definition>
+        <argsstring></argsstring>
+        <name>cache_size</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationStats::cache_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Current number of live entries in the compilation cache. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="384" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a754e30875bc7d5e9c00dcabe5f3df278" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationStats::recompilations</definition>
+        <argsstring></argsstring>
+        <name>recompilations</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationStats::recompilations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total recompilations triggered by cardinality drift. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="387" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a3a73a64f1e7c9df1897ea573e5827398" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationStats::hot_path_invocations</definition>
+        <argsstring></argsstring>
+        <name>hot_path_invocations</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationStats::hot_path_invocations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total calls routed through the compiled (hot) path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="390" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a6a080b8562fbd2df33596ea85c97ce6a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationStats::cold_path_invocations</definition>
+        <argsstring></argsstring>
+        <name>cold_path_invocations</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationStats::cold_path_invocations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total calls routed through the interpreted (cold) path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="393" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate compiler statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="370" column="5" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="370" bodyend="394"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1adfbd3b0b6d1bd96b2534e6171c68d180" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationStats</scope><name>average_speedup_percent</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1aebac2cf6f269a5eeb5bd9e8f5306c018" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationStats</scope><name>cache_size</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a6a080b8562fbd2df33596ea85c97ce6a" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationStats</scope><name>cold_path_invocations</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a4be1312435d2bf08062d696d2e38d63b" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationStats</scope><name>compilation_failures</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a3a73a64f1e7c9df1897ea573e5827398" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationStats</scope><name>hot_path_invocations</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a841e84b678194f2ad0243170aec427e2" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationStats</scope><name>queries_compiled</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a754e30875bc7d5e9c00dcabe5f3df278" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationStats</scope><name>recompilations</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats_1a5cb4ccb8206592444fe9d696036e63e5" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationStats</scope><name>total_compilation_time_us</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

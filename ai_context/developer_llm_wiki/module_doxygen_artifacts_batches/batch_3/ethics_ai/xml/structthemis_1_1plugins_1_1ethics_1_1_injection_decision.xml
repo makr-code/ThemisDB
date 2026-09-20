@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_injection_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::InjectionDecision</compoundname>
+    <includes refid="cross__school__tension__resolver_8h" local="no">cross_school_tension_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a204455e04d0de8e61b3d166b3b15dcd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::InjectionDecision::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::InjectionDecision::school_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="31" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a2664cb1ef5cbf38e967add357436e8a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::InjectionDecision::argument_content</definition>
+        <argsstring></argsstring>
+        <name>argument_content</name>
+        <qualifiedname>themis::plugins::ethics::InjectionDecision::argument_content</qualifiedname>
+        <briefdescription>
+<para>Full content (empty when inject_full=false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="32" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a4792f53567eeb68d4fc9c7942cb44772" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::InjectionDecision::headline</definition>
+        <argsstring></argsstring>
+        <name>headline</name>
+        <qualifiedname>themis::plugins::ethics::InjectionDecision::headline</qualifiedname>
+        <briefdescription>
+<para>Always populated: &quot;[school:thesis_name]&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="33" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a1bd1768d20b2473f2a35604a8781650f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::InjectionDecision::inject_full</definition>
+        <argsstring></argsstring>
+        <name>inject_full</name>
+        <qualifiedname>themis::plugins::ethics::InjectionDecision::inject_full</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true when rebuttal_cite_weight &gt;= threshold </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="34" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a51f97ea7a1d2291c971dbf3a2eae4020" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::InjectionDecision::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::plugins::ethics::InjectionDecision::relevance_score</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="35" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/cross_school_tension_resolver.h" line="30" column="1" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a2664cb1ef5cbf38e967add357436e8a7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::InjectionDecision</scope><name>argument_content</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a4792f53567eeb68d4fc9c7942cb44772" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::InjectionDecision</scope><name>headline</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a1bd1768d20b2473f2a35604a8781650f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::InjectionDecision</scope><name>inject_full</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a51f97ea7a1d2291c971dbf3a2eae4020" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::InjectionDecision</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a204455e04d0de8e61b3d166b3b15dcd1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::InjectionDecision</scope><name>school_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

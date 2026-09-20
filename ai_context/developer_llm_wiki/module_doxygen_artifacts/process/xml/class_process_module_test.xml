@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_module_test" kind="class" language="C++" prot="public">
+    <compoundname>ProcessModuleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <derivedcompoundref refid="class_ocel_exporter_test" prot="public" virt="non-virtual">OcelExporterTest</derivedcompoundref>
+    <derivedcompoundref refid="class_process_graph_rag_test" prot="public" virt="non-virtual">ProcessGraphRagTest</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_process_module_test_1ac73fd6391b06d16ad72ce7ed900f7a4a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ProcessModuleTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ProcessModuleTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="80" column="17" bodyfile="tests/process/test_process_module.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_module_test_1ae97136ece33455d4e5507949445015bd" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; ProcessModuleTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ProcessModuleTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="81" column="33" bodyfile="tests/process/test_process_module.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_module_test_1aa33fd0280903fa5a812bdb9ba65e8a05" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::ProcessGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::ProcessGraphManager&gt; ProcessModuleTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>ProcessModuleTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="82" column="28" bodyfile="tests/process/test_process_module.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_module_test_1a90799ff28d977b64c6344371cc847484" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">themis::process::ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessModelManager&gt; ProcessModuleTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>ProcessModuleTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="83" column="21" bodyfile="tests/process/test_process_module.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_module_test_1a64424a174f9a7b12d1113d95479e2a43" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">themis::process::ProcessLinker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessLinker&gt; ProcessModuleTest::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>ProcessModuleTest::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="84" column="25" bodyfile="tests/process/test_process_module.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_module_test_1a06c756404c7e9e405569c5da20366a26" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">themis::process::ProcessGraphRag</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessGraphRag&gt; ProcessModuleTest::rag_</definition>
+        <argsstring></argsstring>
+        <name>rag_</name>
+        <qualifiedname>ProcessModuleTest::rag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="85" column="23" bodyfile="tests/process/test_process_module.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_process_module_test_1a13ff91789ed1e932fc7446f62dc5e16d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessModuleTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProcessModuleTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="48" column="10" bodyfile="tests/process/test_process_module.cpp" bodystart="48" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_module_test_1a078c810d24c7a0bfa03f5b0363389d18" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessModuleTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProcessModuleTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="71" column="10" bodyfile="tests/process/test_process_module.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>OcelExporterTest</label>
+        <link refid="class_ocel_exporter_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ProcessGraphRagTest</label>
+        <link refid="class_process_graph_rag_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ProcessModuleTest</label>
+        <link refid="class_process_module_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessModuleTest</label>
+        <link refid="class_process_module_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_module.cpp" line="46" column="1" bodyfile="tests/process/test_process_module.cpp" bodystart="46" bodyend="86"/>
+    <listofallmembers>
+      <member refid="class_process_module_test_1ae97136ece33455d4e5507949445015bd" prot="protected" virt="non-virtual"><scope>ProcessModuleTest</scope><name>db_</name></member>
+      <member refid="class_process_module_test_1ac73fd6391b06d16ad72ce7ed900f7a4a" prot="protected" virt="non-virtual"><scope>ProcessModuleTest</scope><name>db_path_</name></member>
+      <member refid="class_process_module_test_1aa33fd0280903fa5a812bdb9ba65e8a05" prot="protected" virt="non-virtual"><scope>ProcessModuleTest</scope><name>engine_</name></member>
+      <member refid="class_process_module_test_1a64424a174f9a7b12d1113d95479e2a43" prot="protected" virt="non-virtual"><scope>ProcessModuleTest</scope><name>linker_</name></member>
+      <member refid="class_process_module_test_1a90799ff28d977b64c6344371cc847484" prot="protected" virt="non-virtual"><scope>ProcessModuleTest</scope><name>mgr_</name></member>
+      <member refid="class_process_module_test_1a06c756404c7e9e405569c5da20366a26" prot="protected" virt="non-virtual"><scope>ProcessModuleTest</scope><name>rag_</name></member>
+      <member refid="class_process_module_test_1a13ff91789ed1e932fc7446f62dc5e16d" prot="protected" virt="non-virtual"><scope>ProcessModuleTest</scope><name>SetUp</name></member>
+      <member refid="class_process_module_test_1a078c810d24c7a0bfa03f5b0363389d18" prot="protected" virt="non-virtual"><scope>ProcessModuleTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

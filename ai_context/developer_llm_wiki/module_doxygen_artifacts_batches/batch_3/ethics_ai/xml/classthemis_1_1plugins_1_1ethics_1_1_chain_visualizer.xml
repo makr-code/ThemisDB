@@ -1,0 +1,396 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::ChainVisualizer</compoundname>
+    <includes refid="chain__visualizer_8h" local="no">chain_visualizer.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a68ed23282093750e5af00774e52dd3d5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ChainVisualizer::exportDot</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;argument_ids, ArgumentStore &amp;store, const std::string &amp;graph_name=&quot;ethics_debate&quot;)</argsstring>
+        <name>exportDot</name>
+        <qualifiedname>themis::plugins::ethics::ChainVisualizer::exportDot</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>argument_ids</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graph_name</declname>
+          <defval>&quot;ethics_debate&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Export Dot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">argument_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/chain_visualizer.h" line="30" column="24" bodyfile="src/ethics_ai/chain_visualizer.cpp" bodystart="112" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a66907d33588a0138abf534c30cb8c119" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ChainVisualizer::exportMermaid</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;argument_ids, ArgumentStore &amp;store)</argsstring>
+        <name>exportMermaid</name>
+        <qualifiedname>themis::plugins::ethics::ChainVisualizer::exportMermaid</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>argument_ids</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &amp;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Export Mermaid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">argument_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/chain_visualizer.h" line="42" column="24" bodyfile="src/ethics_ai/chain_visualizer.cpp" bodystart="171" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a0ff44ba226774849de4be37ca2c030ab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ChainVisualizer::chainToDot</definition>
+        <argsstring>(const ArgumentChain &amp;chain, ArgumentStore &amp;store, const std::string &amp;graph_name=&quot;ethics_chain&quot;)</argsstring>
+        <name>chainToDot</name>
+        <qualifiedname>themis::plugins::ethics::ChainVisualizer::chainToDot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kindref="compound">ArgumentChain</ref> &amp;</type>
+          <declname>chain</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graph_name</declname>
+          <defval>&quot;ethics_chain&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Chain To Dot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/chain_visualizer.h" line="47" column="24" bodyfile="src/ethics_ai/chain_visualizer.cpp" bodystart="242" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a5326e5ab73d226449e615b85fce520a8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ChainVisualizer::chainToMermaid</definition>
+        <argsstring>(const ArgumentChain &amp;chain, ArgumentStore &amp;store)</argsstring>
+        <name>chainToMermaid</name>
+        <qualifiedname>themis::plugins::ethics::ChainVisualizer::chainToMermaid</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kindref="compound">ArgumentChain</ref> &amp;</type>
+          <declname>chain</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &amp;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Chain To Mermaid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/chain_visualizer.h" line="59" column="24" bodyfile="src/ethics_ai/chain_visualizer.cpp" bodystart="256" bodyend="261"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a408ade6713ba641f468f64b5ac0338bf" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::ethics::ChainVisualizer::dotFillColor</definition>
+        <argsstring>(ArgumentType type)</argsstring>
+        <name>dotFillColor</name>
+        <qualifiedname>themis::plugins::ethics::ChainVisualizer::dotFillColor</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" kindref="member">ArgumentType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Node colour (DOT fillcolor) based on argument type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Dot Fill Color.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements dotFillColor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/chain_visualizer.h" line="70" column="23" bodyfile="src/ethics_ai/chain_visualizer.cpp" bodystart="33" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1ae803ec99878cccce54957fbccd626475" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ChainVisualizer::makeLabel</definition>
+        <argsstring>(const EthicalArgument &amp;arg)</argsstring>
+        <name>makeLabel</name>
+        <qualifiedname>themis::plugins::ethics::ChainVisualizer::makeLabel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+<para>Short label string: &quot;&lt;school&gt;\n&lt;type&gt; | &lt;strength&gt;&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Label.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1plugins_1_1ethics_1a38d2de2f1069d8fba4a07ffb5762f187" kindref="member">argumentTypeToString()</ref>, <ref refid="namespacethemis_1_1plugins_1_1ethics_1a50d8a74b3d728784317577ccad997b97" kindref="member">argumentStrengthToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/chain_visualizer.h" line="77" column="24" bodyfile="src/ethics_ai/chain_visualizer.cpp" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1aeefd1d6c8e86a328b567dc00c66d6794" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ChainVisualizer::dotEscape</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>dotEscape</name>
+        <qualifiedname>themis::plugins::ethics::ChainVisualizer::dotEscape</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a string for use inside DOT double-quoted attributes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Dot Escape.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/chain_visualizer.h" line="84" column="24" bodyfile="src/ethics_ai/chain_visualizer.cpp" bodystart="70" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1af4345ea6b35c559df4721f36c39b98b7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ChainVisualizer::mermaidEscape</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>mermaidEscape</name>
+        <qualifiedname>themis::plugins::ethics::ChainVisualizer::mermaidEscape</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a string for use inside Mermaid node labels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mermaid Escape.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/chain_visualizer.h" line="91" column="24" bodyfile="src/ethics_ai/chain_visualizer.cpp" bodystart="88" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/chain_visualizer.h" line="24" column="1" bodyfile="src/ethics_ai/chain_visualizer.h" bodystart="24" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a0ff44ba226774849de4be37ca2c030ab" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ChainVisualizer</scope><name>chainToDot</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a5326e5ab73d226449e615b85fce520a8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ChainVisualizer</scope><name>chainToMermaid</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1aeefd1d6c8e86a328b567dc00c66d6794" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ChainVisualizer</scope><name>dotEscape</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a408ade6713ba641f468f64b5ac0338bf" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ChainVisualizer</scope><name>dotFillColor</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a68ed23282093750e5af00774e52dd3d5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ChainVisualizer</scope><name>exportDot</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a66907d33588a0138abf534c30cb8c119" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ChainVisualizer</scope><name>exportMermaid</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1ae803ec99878cccce54957fbccd626475" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ChainVisualizer</scope><name>makeLabel</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1af4345ea6b35c559df4721f36c39b98b7" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ChainVisualizer</scope><name>mermaidEscape</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

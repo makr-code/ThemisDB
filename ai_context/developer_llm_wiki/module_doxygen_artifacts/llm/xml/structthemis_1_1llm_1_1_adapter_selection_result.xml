@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_selection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterSelectionResult</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_selection_result_1a3a0ef23f555622112eaaced4481991bb" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::AdapterSelectionResult::selected_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>selected_adapter_id</name>
+        <qualifiedname>themis::llm::AdapterSelectionResult::selected_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="397" column="19" bodyfile="include/llm/ai_orchestrator.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_selection_result_1a2848604762bd799d8b9d4af299823726" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_adapter_candidate" kindref="compound">AdapterCandidate</ref> &gt;</type>
+        <definition>std::vector&lt;AdapterCandidate&gt; themis::llm::AdapterSelectionResult::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themis::llm::AdapterSelectionResult::candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="398" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_selection_result_1a9b4e9a3586fb046a899f1f11b4db5db4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterSelectionResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::AdapterSelectionResult::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="399" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="396" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="396" bodyend="400"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_selection_result_1a2848604762bd799d8b9d4af299823726" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSelectionResult</scope><name>candidates</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_selection_result_1a9b4e9a3586fb046a899f1f11b4db5db4" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSelectionResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_selection_result_1a3a0ef23f555622112eaaced4481991bb" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSelectionResult</scope><name>selected_adapter_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1memory_1_1_buddy_allocator_1_1_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::memory::BuddyAllocator::Block</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_block_1a769a04e468d07e6e86031f7ad24bdaa0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::BuddyAllocator::Block::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Block::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="79" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_block_1a6c61919ad5329e9e483b6db04edd99b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::memory::BuddyAllocator::Block::is_free</definition>
+        <argsstring></argsstring>
+        <name>is_free</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Block::is_free</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="80" column="10" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_block_1a829b51b9b9b5d966e808323bef78d4ab" prot="public" static="no" mutable="no">
+        <type>uintptr_t</type>
+        <definition>uintptr_t themis::memory::BuddyAllocator::Block::next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Block::next</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="81" column="15" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/memory/pool_allocator.cpp" line="78" column="1" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="78" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_block_1a6c61919ad5329e9e483b6db04edd99b4" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Block</scope><name>is_free</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_block_1a829b51b9b9b5d966e808323bef78d4ab" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Block</scope><name>next</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_block_1a769a04e468d07e6e86031f7ad24bdaa0" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Block</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

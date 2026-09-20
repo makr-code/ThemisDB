@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::IIngestionQualityObserver</compoundname>
+    <derivedcompoundref refid="class_null_quality_observer" prot="public" virt="non-virtual">NullQualityObserver</derivedcompoundref>
+    <includes refid="ingestion__quality__judge_8h" local="no">ingestion_quality_judge.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer_1ad6eeda4de380fc4277390f76c1c38cd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::IIngestionQualityObserver::~IIngestionQualityObserver</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IIngestionQualityObserver</name>
+        <qualifiedname>themis::ingestion::IIngestionQualityObserver::~IIngestionQualityObserver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="151" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer_1abdd61133c99b4ed97130d334db97af4b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::ingestion::IIngestionQualityObserver::onQualityEvaluated</definition>
+        <argsstring>(const std::string &amp;doc_id, const IngestionQualityReport &amp;report) noexcept=0</argsstring>
+        <name>onQualityEvaluated</name>
+        <qualifiedname>themis::ingestion::IIngestionQualityObserver::onQualityEvaluated</qualifiedname>
+        <reimplementedby refid="class_null_quality_observer_1aca7b249a67e95d893d0006481c7d9aec">onQualityEvaluated</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_quality_report" kindref="compound">IngestionQualityReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Called after every quality evaluation (pass or fail). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source URI or generated document identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full quality report for this pass. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="159" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer_1ae91cba9f072f7546ae8801536bda3e92" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::ingestion::IIngestionQualityObserver::onReIngestionTriggered</definition>
+        <argsstring>(const std::string &amp;doc_id, int attempt, const std::vector&lt; std::string &gt; &amp;reasons) noexcept=0</argsstring>
+        <name>onReIngestionTriggered</name>
+        <qualifiedname>themis::ingestion::IIngestionQualityObserver::onReIngestionTriggered</qualifiedname>
+        <reimplementedby refid="class_null_quality_observer_1aca80586ca9956f39798bb19c46194ab9">onReIngestionTriggered</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reasons</declname>
+        </param>
+        <briefdescription>
+<para>Called just before a re-ingestion pass is launched. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document being re-ingested. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attempt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>1-based attempt counter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reasons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which dimension thresholds were not met. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="169" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer_1aa221d5cdf659ae1bd4ff9208c4257574" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::ingestion::IIngestionQualityObserver::onReIngestionComplete</definition>
+        <argsstring>(const std::string &amp;doc_id, int attempt, bool improved) noexcept=0</argsstring>
+        <name>onReIngestionComplete</name>
+        <qualifiedname>themis::ingestion::IIngestionQualityObserver::onReIngestionComplete</qualifiedname>
+        <reimplementedby refid="class_null_quality_observer_1a0c0fddeb7f9aa4941f64d7709efccae0">onReIngestionComplete</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>improved</declname>
+        </param>
+        <briefdescription>
+<para>Called after a re-ingestion pass finishes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attempt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>1-based attempt counter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>improved</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True when the overall_score improved compared to the previous pass; false when score stayed the same or fell. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="182" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Observer hook for ingestion quality events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations MUST be noexcept — all exceptions are swallowed by the judge to protect the ingestion pipeline. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>NullQualityObserver</label>
+        <link refid="class_null_quality_observer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::IIngestionQualityObserver</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/ingestion_quality_judge.h" line="149" column="1" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="149" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer_1abdd61133c99b4ed97130d334db97af4b" prot="public" virt="pure-virtual"><scope>themis::ingestion::IIngestionQualityObserver</scope><name>onQualityEvaluated</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer_1aa221d5cdf659ae1bd4ff9208c4257574" prot="public" virt="pure-virtual"><scope>themis::ingestion::IIngestionQualityObserver</scope><name>onReIngestionComplete</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer_1ae91cba9f072f7546ae8801536bda3e92" prot="public" virt="pure-virtual"><scope>themis::ingestion::IIngestionQualityObserver</scope><name>onReIngestionTriggered</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer_1ad6eeda4de380fc4277390f76c1c38cd2" prot="public" virt="virtual"><scope>themis::ingestion::IIngestionQualityObserver</scope><name>~IIngestionQualityObserver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

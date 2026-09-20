@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::RateLimiter::Bucket</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1aa6fdc9a7c1459896045f60f254689c7f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graphql::RateLimiter::Bucket::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>themis::graphql::RateLimiter::Bucket::tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="103" column="16" bodyfile="include/api/rate_limiter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a8e5f5b22d3d435976e88c5524bfb5e74" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::graphql::RateLimiter::Bucket::last_refill</definition>
+        <argsstring></argsstring>
+        <name>last_refill</name>
+        <qualifiedname>themis::graphql::RateLimiter::Bucket::last_refill</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="104" column="47" bodyfile="include/api/rate_limiter.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a964a527dada8359c986e32e073289bd3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::RateLimiter::Bucket::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::graphql::RateLimiter::Bucket::capacity</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="105" column="16" bodyfile="include/api/rate_limiter.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a5d454d98ac4bb8d208901d512bbcedc9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::RateLimiter::Bucket::refill_rate</definition>
+        <argsstring></argsstring>
+        <name>refill_rate</name>
+        <qualifiedname>themis::graphql::RateLimiter::Bucket::refill_rate</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="106" column="16" bodyfile="include/api/rate_limiter.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a8ce8862c43f6d3f924bbc58e9b9bd879" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::RateLimiter::Bucket::Bucket</definition>
+        <argsstring>(size_t cap, size_t rate)</argsstring>
+        <name>Bucket</name>
+        <qualifiedname>themis::graphql::RateLimiter::Bucket::Bucket</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>cap</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="108" column="9" bodyfile="include/api/rate_limiter.h" bodystart="108" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a43f3bad2ff2fbc053859209ba1b1a4cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::RateLimiter::Bucket::refill</definition>
+        <argsstring>(std::chrono::steady_clock::time_point now)</argsstring>
+        <name>refill</name>
+        <qualifiedname>themis::graphql::RateLimiter::Bucket::refill</qualifiedname>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+<para>Refill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">now</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="120" column="14" bodyfile="include/api/rate_limiter.h" bodystart="120" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a9443fbdfefaa1a609ee722b7f70b87bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::RateLimiter::Bucket::consume</definition>
+        <argsstring>(std::chrono::steady_clock::time_point now, size_t count=1)</argsstring>
+        <name>consume</name>
+        <qualifiedname>themis::graphql::RateLimiter::Bucket::consume</qualifiedname>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>now</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="132" column="14" bodyfile="include/api/rate_limiter.h" bodystart="132" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a6e6acee1da4b1f744bbef0d91b08e9d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::RateLimiter::Bucket::available</definition>
+        <argsstring>() const</argsstring>
+        <name>available</name>
+        <qualifiedname>themis::graphql::RateLimiter::Bucket::available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="142" column="16" bodyfile="include/api/rate_limiter.h" bodystart="142" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/rate_limiter.h" line="102" column="5" bodyfile="include/api/rate_limiter.h" bodystart="102" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a6e6acee1da4b1f744bbef0d91b08e9d9" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Bucket</scope><name>available</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a8ce8862c43f6d3f924bbc58e9b9bd879" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Bucket</scope><name>Bucket</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a964a527dada8359c986e32e073289bd3" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Bucket</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a9443fbdfefaa1a609ee722b7f70b87bb" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Bucket</scope><name>consume</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a8e5f5b22d3d435976e88c5524bfb5e74" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Bucket</scope><name>last_refill</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a43f3bad2ff2fbc053859209ba1b1a4cb" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Bucket</scope><name>refill</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a5d454d98ac4bb8d208901d512bbcedc9" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Bucket</scope><name>refill_rate</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1aa6fdc9a7c1459896045f60f254689c7f" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Bucket</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_global_transaction_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::GlobalTransactionManager</compoundname>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" prot="public" virt="non-virtual">themis::transaction::IRecoverableTwoPhaseCoordinator</basecompoundref>
+    <includes refid="global__transaction__manager_8h" local="no">global_transaction_manager.h</includes>
+    <innerclass refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config" prot="public">themis::transaction::GlobalTransactionManager::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1ad6ca50eae4c8c067baa4e188e4790804" prot="private" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::transaction::GlobalTransactionManager::coordinator_id_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_id_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::coordinator_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="269" column="47" bodyfile="include/transaction/global_transaction_manager.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1af1f8369b8d213c43bbdc9b55835f6cba" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::sharding::TrueTime &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::TrueTime&gt; themis::transaction::GlobalTransactionManager::truetime_</definition>
+        <argsstring></argsstring>
+        <name>truetime_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::truetime_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="270" column="21" bodyfile="include/transaction/global_transaction_manager.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a56a34daafca3b1065fc37b615c2297de" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::transaction::GlobalTransactionManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="271" column="47" bodyfile="include/transaction/global_transaction_manager.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1ab107990b9438fc3e335bd0aac2a12841" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::transaction::GlobalTransactionManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="273" column="24" bodyfile="include/transaction/global_transaction_manager.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a89c2c57b0cd29ba204d83a9529a46e9e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="classthemis_1_1transaction_1_1_i_global_region_participant" kindref="compound">IGlobalRegionParticipant</ref> * &gt;</type>
+        <definition>std::map&lt;std::string, IGlobalRegionParticipant*&gt; themis::transaction::GlobalTransactionManager::regions_</definition>
+        <argsstring></argsstring>
+        <name>regions_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::regions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="274" column="14" bodyfile="include/transaction/global_transaction_manager.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a6127f2b6d0263ce4183395fb8b76ae8f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1transaction_1_1_global_txn_record" kindref="compound">GlobalTxnRecord</ref> &gt;</type>
+        <definition>std::map&lt;std::string, GlobalTxnRecord&gt; themis::transaction::GlobalTransactionManager::transactions_</definition>
+        <argsstring></argsstring>
+        <name>transactions_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::transactions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="275" column="24" bodyfile="include/transaction/global_transaction_manager.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a897a0180c4c48f11c2256b8e4b73091b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::sharding::WALManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::sharding::WALManager&gt; themis::transaction::GlobalTransactionManager::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="277" column="21" bodyfile="include/transaction/global_transaction_manager.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a24901a07f63cae138f90722f0c28f9a6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::GlobalTransactionManager::total_transactions_</definition>
+        <argsstring></argsstring>
+        <name>total_transactions_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::total_transactions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="280" column="17" bodyfile="include/transaction/global_transaction_manager.h" bodystart="280" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a092050515e4054f3accc52f7813c8fd3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::GlobalTransactionManager::total_commits_</definition>
+        <argsstring></argsstring>
+        <name>total_commits_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::total_commits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="281" column="17" bodyfile="include/transaction/global_transaction_manager.h" bodystart="281" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a471678b41561dd735dd7de5358610b93" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::GlobalTransactionManager::total_aborts_</definition>
+        <argsstring></argsstring>
+        <name>total_aborts_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::total_aborts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="282" column="17" bodyfile="include/transaction/global_transaction_manager.h" bodystart="282" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a0801bac732ce669abb57b173c0c9195d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::GlobalTransactionManager::total_errors_</definition>
+        <argsstring></argsstring>
+        <name>total_errors_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::total_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="283" column="17" bodyfile="include/transaction/global_transaction_manager.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1ad153cc6596d9d9019b6c86ba915cf70a" prot="private" static="no" mutable="no">
+        <type>const std::chrono::steady_clock::time_point</type>
+        <definition>const std::chrono::steady_clock::time_point themis::transaction::GlobalTransactionManager::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::start_time_</qualifiedname>
+        <initializer>{
+        std::chrono::steady_clock::now()
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="285" column="49" bodyfile="include/transaction/global_transaction_manager.h" bodystart="285" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_global_transaction_manager_1afbc43a4195ea059a80e9d787bbc424be" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::GlobalTransactionManager::txn_counter_</definition>
+        <argsstring></argsstring>
+        <name>txn_counter_</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::txn_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="289" column="17" bodyfile="include/transaction/global_transaction_manager.h" bodystart="289" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::GlobalTransactionManager::GlobalTransactionManager</definition>
+        <argsstring>(const std::string &amp;coordinator_id, std::shared_ptr&lt; themis::sharding::TrueTime &gt; truetime)</argsstring>
+        <name>GlobalTransactionManager</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::GlobalTransactionManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coordinator_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::sharding::TrueTime &gt;</type>
+          <declname>truetime</declname>
+        </param>
+        <briefdescription>
+<para>Global Transaction Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the coordinator. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="158" column="14" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1ab597e8158788a62c3cc89e3ff5d70143" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::GlobalTransactionManager::GlobalTransactionManager</definition>
+        <argsstring>(const std::string &amp;coordinator_id, std::shared_ptr&lt; themis::sharding::TrueTime &gt; truetime, const Config &amp;config)</argsstring>
+        <name>GlobalTransactionManager</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::GlobalTransactionManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coordinator_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::sharding::TrueTime &gt;</type>
+          <declname>truetime</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_global_transaction_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Global Transaction Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the coordinator. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="170" column="14" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="38" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a26166aa1649834f62dd051ae33e8e98e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::GlobalTransactionManager::~GlobalTransactionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GlobalTransactionManager</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::~GlobalTransactionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="176" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1adb44bf8b792660a78382312242210226" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::GlobalTransactionManager::GlobalTransactionManager</definition>
+        <argsstring>(const GlobalTransactionManager &amp;)=delete</argsstring>
+        <name>GlobalTransactionManager</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::GlobalTransactionManager</qualifiedname>
+        <param>
+          <type>const GlobalTransactionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="179" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a299705d1aeaa9822cd990dfa8e463f70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" kindref="member">GlobalTransactionManager</ref> &amp;</type>
+        <definition>GlobalTransactionManager &amp; themis::transaction::GlobalTransactionManager::operator=</definition>
+        <argsstring>(const GlobalTransactionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" kindref="member">GlobalTransactionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="180" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a8f21618d14473eb23a36aed1e0921021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::GlobalTransactionManager::registerRegion</definition>
+        <argsstring>(const std::string &amp;region_id, IGlobalRegionParticipant *participant)</argsstring>
+        <name>registerRegion</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::registerRegion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_i_global_region_participant" kindref="compound">IGlobalRegionParticipant</ref> *</type>
+          <declname>participant</declname>
+        </param>
+        <briefdescription>
+<para>Register Region. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">region_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the region. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">region_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the region. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="188" column="10" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="72" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1aeab2294bd00f14139aabc1f55334d9b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::GlobalTransactionManager::unregisterRegion</definition>
+        <argsstring>(const std::string &amp;region_id)</argsstring>
+        <name>unregisterRegion</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::unregisterRegion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Region. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">region_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the region. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">region_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the region. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="198" column="10" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1ab6eba46730e8bc12c7d51adaf49d97db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::GlobalTransactionManager::regionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>regionCount</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::regionCount</qualifiedname>
+        <briefdescription>
+<para>Region Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="204" column="12" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="96" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a6cc5237ee87bcb183ab7ed42c554bd9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::GlobalTransactionManager::beginTransaction</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;region_ids)</argsstring>
+        <name>beginTransaction</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::beginTransaction</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>region_ids</declname>
+        </param>
+        <briefdescription>
+<para>Begin Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">region_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">region_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), find(), end(), generateTransactionId(), std::chrono::steady_clock::now(), nlohmann::json::array(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="212" column="17" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="117" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a565491edfba0c8803382ef251d279f09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::GlobalTransactionManager::addOperation</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;region_id, const nlohmann::json &amp;op)</argsstring>
+        <name>addOperation</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::addOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>Add Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">region_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the region. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">region_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the region. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="221" column="10" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="170" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a517961bd68f1a1e56b2462eb064de1e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_global_txn_outcome" kindref="compound">GlobalTxnOutcome</ref></type>
+        <definition>GlobalTxnOutcome themis::transaction::GlobalTransactionManager::commit</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), find(), end(), fetch_add(), runPhase1(), now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="232" column="22" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="208" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a9b5353abd6f26af7e24604d23d6f5d85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::GlobalTransactionManager::abort</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), runPhase2(), fetch_add(), logToWAL(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="239" column="10" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="345" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a243514ff91f17b59abf717932e186dde" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::GlobalTransactionManager::recoverInDoubtTransactions</definition>
+        <argsstring>() override</argsstring>
+        <name>recoverInDoubtTransactions</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::recoverInDoubtTransactions</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a1508f43768f357c83c88521a440a8194">recoverInDoubtTransactions</reimplements>
+        <briefdescription>
+<para>Recover In Doubt Transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), readRange(), getOldestLSN(), empty(), std::chrono::steady_clock::now(), contains(), nlohmann::json::array(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="243" column="12" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="392" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a61bfb28c0e3584ac459972a1e96edeee" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::GlobalTransactionManager::recoveryCoordinatorName</definition>
+        <argsstring>() const override</argsstring>
+        <name>recoveryCoordinatorName</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::recoveryCoordinatorName</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a6aaf8efa06e194acfa2590ada2449700">recoveryCoordinatorName</reimplements>
+        <briefdescription>
+<para>Return a stable coordinator identifier for recovery reports. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable coordinator type name (e.g. &quot;TwoPhaseCommitCoordinator&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="245" column="18" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="512" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1af7086970f9643f9a73a902f97b1337a3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::GlobalTransactionManager::recoveryBackendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>recoveryBackendName</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::recoveryBackendName</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a2d4aedbbba89842774501e3b4f15ad50">recoveryBackendName</reimplements>
+        <briefdescription>
+<para>Return the durable backend used by this coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Backend name such as &quot;WAL&quot;, &quot;WAL/snapshot&quot;, or &quot;disabled&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="247" column="18" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="516" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a5717bb4312d20054813cd8f84530e5ea" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction" kindref="compound">RecoverableTwoPhaseTransaction</ref> &gt;</type>
+        <definition>std::vector&lt; RecoverableTwoPhaseTransaction &gt; themis::transaction::GlobalTransactionManager::getRecoverableTransactions</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRecoverableTransactions</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::getRecoverableTransactions</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a9a0c50bc7f8da31d51b9f44f1c7e7cb1">getRecoverableTransactions</reimplements>
+        <briefdescription>
+<para>Return the currently known recoverable/non-final transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned snapshot reflects the coordinator&apos;s view at the time of the call. Non-final means any state except COMPLETED.</para>
+<para><simplesect kind="return"><para>Canonical recovery snapshot for global orchestration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="250" column="5" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="521" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a219b969b7d9f8b76a2aad6210b3eb1a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761faf" kindref="member">GlobalTxnState</ref> &gt;</type>
+        <definition>std::optional&lt; GlobalTxnState &gt; themis::transaction::GlobalTransactionManager::getTransactionState</definition>
+        <argsstring>(const std::string &amp;txn_id) const</argsstring>
+        <name>getTransactionState</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::getTransactionState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Transaction State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="258" column="19" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="575" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a4e6f09298a9320a91ea72927e6108c96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::transaction::GlobalTransactionManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="266" column="20" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="589" bodyend="619"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1ae2ac4ac0a59fcd29ca51ea6c379e2b25" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::GlobalTransactionManager::runPhase1</definition>
+        <argsstring>(GlobalTxnRecord &amp;rec)</argsstring>
+        <name>runPhase1</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::runPhase1</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1transaction_1_1_global_txn_record" kindref="compound">GlobalTxnRecord</ref> &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+<para>Run Phase1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Internal helpers (may be called with mutex_ held) ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), THEMIS_ERROR(), count(), at(), nlohmann::json::array(), prepare(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="297" column="10" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="628" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a399b949308ab9ea3256c2248c034afc0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::GlobalTransactionManager::runPhase2</definition>
+        <argsstring>(GlobalTxnRecord &amp;rec, bool do_commit)</argsstring>
+        <name>runPhase2</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::runPhase2</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1transaction_1_1_global_txn_record" kindref="compound">GlobalTxnRecord</ref> &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>do_commit</declname>
+        </param>
+        <briefdescription>
+<para>Run Phase2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">do_commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">do_commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), THEMIS_WARN(), <ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a517961bd68f1a1e56b2462eb064de1e8" kindref="member">commit()</ref>, <ref refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a9b5353abd6f26af7e24604d23d6f5d85" kindref="member">abort()</ref>, THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="304" column="10" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="672" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a7273c16ba3fa3beb36e6e271d0e75fbf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::GlobalTransactionManager::logToWAL</definition>
+        <argsstring>(themis::sharding::WALEntryType type, const std::string &amp;txn_id, const nlohmann::json &amp;data)</argsstring>
+        <name>logToWAL</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::logToWAL</qualifiedname>
+        <param>
+          <type>themis::sharding::WALEntryType</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Log To WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), append(), flush(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="312" column="10" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="706" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_transaction_manager_1a0aa8c8c67300b036413c1b06a05b300b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::GlobalTransactionManager::generateTransactionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateTransactionId</name>
+        <qualifiedname>themis::transaction::GlobalTransactionManager::generateTransactionId</qualifiedname>
+        <briefdescription>
+<para>Generate Transaction Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="322" column="17" bodyfile="src/transaction/global_transaction_manager.cpp" bodystart="741" bodyend="750"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::transaction::GlobalTransactionManager</label>
+        <link refid="classthemis_1_1transaction_1_1_global_transaction_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::transaction::IInDoubtRecoveryCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator"/>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::transaction::GlobalTransactionManager</label>
+        <link refid="classthemis_1_1transaction_1_1_global_transaction_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::transaction::IInDoubtRecoveryCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator"/>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/transaction/global_transaction_manager.h" line="144" column="1" bodyfile="include/transaction/global_transaction_manager.h" bodystart="144" bodyend="323"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a9b5353abd6f26af7e24604d23d6f5d85" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>abort</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a565491edfba0c8803382ef251d279f09" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>addOperation</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a6cc5237ee87bcb183ab7ed42c554bd9f" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>beginTransaction</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a517961bd68f1a1e56b2462eb064de1e8" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>commit</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a56a34daafca3b1065fc37b615c2297de" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1ad6ca50eae4c8c067baa4e188e4790804" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>coordinator_id_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a0aa8c8c67300b036413c1b06a05b300b" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>generateTransactionId</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a5717bb4312d20054813cd8f84530e5ea" prot="public" virt="virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>getRecoverableTransactions</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a4e6f09298a9320a91ea72927e6108c96" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a219b969b7d9f8b76a2aad6210b3eb1a1" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>getTransactionState</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af11845f6d0811ff7f80283ea41ad5597" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>GlobalTransactionManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1ab597e8158788a62c3cc89e3ff5d70143" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>GlobalTransactionManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1adb44bf8b792660a78382312242210226" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>GlobalTransactionManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a7273c16ba3fa3beb36e6e271d0e75fbf" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>logToWAL</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1ab107990b9438fc3e335bd0aac2a12841" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a299705d1aeaa9822cd990dfa8e463f70" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a243514ff91f17b59abf717932e186dde" prot="public" virt="virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>recoverInDoubtTransactions</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af7086970f9643f9a73a902f97b1337a3" prot="public" virt="virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>recoveryBackendName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a61bfb28c0e3584ac459972a1e96edeee" prot="public" virt="virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>recoveryCoordinatorName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1ab6eba46730e8bc12c7d51adaf49d97db" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>regionCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a89c2c57b0cd29ba204d83a9529a46e9e" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>regions_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a8f21618d14473eb23a36aed1e0921021" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>registerRegion</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1ae2ac4ac0a59fcd29ca51ea6c379e2b25" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>runPhase1</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a399b949308ab9ea3256c2248c034afc0" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>runPhase2</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1ad153cc6596d9d9019b6c86ba915cf70a" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a471678b41561dd735dd7de5358610b93" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>total_aborts_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a092050515e4054f3accc52f7813c8fd3" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>total_commits_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a0801bac732ce669abb57b173c0c9195d" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>total_errors_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a24901a07f63cae138f90722f0c28f9a6" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>total_transactions_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a6127f2b6d0263ce4183395fb8b76ae8f" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>transactions_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af1f8369b8d213c43bbdc9b55835f6cba" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>truetime_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1afbc43a4195ea059a80e9d787bbc424be" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>txn_counter_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1aeab2294bd00f14139aabc1f55334d9b3" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>unregisterRegion</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a897a0180c4c48f11c2256b8e4b73091b" prot="private" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>wal_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a26166aa1649834f62dd051ae33e8e98e" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>~GlobalTransactionManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a2bf59187a7b469b2af380a9b45244e1b" prot="public" virt="virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>~IInDoubtRecoveryCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a7ce953ae55f220fd6ed76521d7a829c6" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTransactionManager</scope><name>~IRecoverableTwoPhaseCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

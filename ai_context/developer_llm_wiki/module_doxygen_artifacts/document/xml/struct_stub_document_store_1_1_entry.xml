@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_document_store_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>StubDocumentStore::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stub_document_store_1_1_entry_1a76e4812ee5c4aa8ec702ce583b1d1935" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StubDocumentStore::Entry::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>StubDocumentStore::Entry::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="61" column="21" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_document_store_1_1_entry_1af3b396eb9fc345998f4b9f5bfb238a1b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t StubDocumentStore::Entry::schema_version</definition>
+        <argsstring></argsstring>
+        <name>schema_version</name>
+        <qualifiedname>StubDocumentStore::Entry::schema_version</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="62" column="21" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/document/test_document_highcardinality_stress.cpp" line="60" column="5" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="60" bodyend="63"/>
+    <listofallmembers>
+      <member refid="struct_stub_document_store_1_1_entry_1a76e4812ee5c4aa8ec702ce583b1d1935" prot="public" virt="non-virtual"><scope>StubDocumentStore::Entry</scope><name>content</name></member>
+      <member refid="struct_stub_document_store_1_1_entry_1af3b396eb9fc345998f4b9f5bfb238a1b" prot="public" virt="non-virtual"><scope>StubDocumentStore::Entry</scope><name>schema_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

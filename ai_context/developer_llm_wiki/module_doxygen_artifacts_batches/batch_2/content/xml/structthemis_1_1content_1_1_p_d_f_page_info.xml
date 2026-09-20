@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_p_d_f_page_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::PDFPageInfo</compoundname>
+    <includes refid="pdf__processor_8h" local="no">pdf_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_page_info_1ada3e8853db7bedebfb6b2ec61ce05315" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::PDFPageInfo::page_number</definition>
+        <argsstring></argsstring>
+        <name>page_number</name>
+        <qualifiedname>themis::content::PDFPageInfo::page_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>1-based page index (CON-020) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="29" column="9" bodyfile="include/content/pdf_processor.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_page_info_1aee53d988a9df381edd7d3b3b9a49a731" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFPageInfo::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::content::PDFPageInfo::text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="30" column="17" bodyfile="include/content/pdf_processor.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_page_info_1a5eb01ab16981e223910a202f72ac648b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::PDFPageInfo::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::content::PDFPageInfo::width</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Width in points (1/72 inch) (CON-020). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="31" column="9" bodyfile="include/content/pdf_processor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_page_info_1a67ea3c88ead27a72e3d4d0d32f537ba9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::PDFPageInfo::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::content::PDFPageInfo::height</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Height in points (CON-020). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="32" column="9" bodyfile="include/content/pdf_processor.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_page_info_1abcd6904c5df4ddbd0cbf449f41202e16" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::PDFPageInfo::rotation</definition>
+        <argsstring></argsstring>
+        <name>rotation</name>
+        <qualifiedname>themis::content::PDFPageInfo::rotation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rotation: 0, 90, 180, or 270 degrees (CON-020). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="33" column="9" bodyfile="include/content/pdf_processor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_page_info_1a6c0a3bc781647f3aa26abd67a3b32626" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; float, float &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;float, float&gt; &gt; themis::content::PDFPageInfo::text_positions</definition>
+        <argsstring></argsstring>
+        <name>text_positions</name>
+        <qualifiedname>themis::content::PDFPageInfo::text_positions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="34" column="17" bodyfile="include/content/pdf_processor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pdf_processor.h" line="28" column="1" bodyfile="include/content/pdf_processor.h" bodystart="28" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_p_d_f_page_info_1a67ea3c88ead27a72e3d4d0d32f537ba9" prot="public" virt="non-virtual"><scope>themis::content::PDFPageInfo</scope><name>height</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_page_info_1ada3e8853db7bedebfb6b2ec61ce05315" prot="public" virt="non-virtual"><scope>themis::content::PDFPageInfo</scope><name>page_number</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_page_info_1abcd6904c5df4ddbd0cbf449f41202e16" prot="public" virt="non-virtual"><scope>themis::content::PDFPageInfo</scope><name>rotation</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_page_info_1aee53d988a9df381edd7d3b3b9a49a731" prot="public" virt="non-virtual"><scope>themis::content::PDFPageInfo</scope><name>text</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_page_info_1a6c0a3bc781647f3aa26abd67a3b32626" prot="public" virt="non-virtual"><scope>themis::content::PDFPageInfo</scope><name>text_positions</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_page_info_1a5eb01ab16981e223910a202f72ac648b" prot="public" virt="non-virtual"><scope>themis::content::PDFPageInfo</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

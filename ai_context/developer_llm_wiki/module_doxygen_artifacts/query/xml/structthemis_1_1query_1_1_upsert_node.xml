@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_upsert_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::UpsertNode</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_mutation_node" prot="public" virt="non-virtual">themis::query::MutationNode</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_upsert_node_1a671d2e00e9f563dcdcb00ddd03c733aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::UpsertNode::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::UpsertNode::collection</qualifiedname>
+        <briefdescription>
+<para>Target collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="502" column="17" bodyfile="include/query/aql_parser.h" bodystart="502" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_upsert_node_1aced88b1bf1a9d8305e3b1f8c8fbc6a95" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::UpsertNode::search_expr</definition>
+        <argsstring></argsstring>
+        <name>search_expr</name>
+        <qualifiedname>themis::query::UpsertNode::search_expr</qualifiedname>
+        <briefdescription>
+<para>Search / match expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="503" column="21" bodyfile="include/query/aql_parser.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_upsert_node_1a60ffb6b37510049a65ec5e112548a3ea" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::UpsertNode::insert_doc</definition>
+        <argsstring></argsstring>
+        <name>insert_doc</name>
+        <qualifiedname>themis::query::UpsertNode::insert_doc</qualifiedname>
+        <briefdescription>
+<para>Document to insert when no match. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="504" column="21" bodyfile="include/query/aql_parser.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_upsert_node_1acf1a4151b1fa81f5d1254b2a7670e997" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::UpsertNode::update_doc</definition>
+        <argsstring></argsstring>
+        <name>update_doc</name>
+        <qualifiedname>themis::query::UpsertNode::update_doc</qualifiedname>
+        <briefdescription>
+<para>Update expression when match found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="505" column="21" bodyfile="include/query/aql_parser.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_upsert_node_1af376a084e19677ac81d92d6358bfa033" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::UpsertNode::return_new</definition>
+        <argsstring></argsstring>
+        <name>return_new</name>
+        <qualifiedname>themis::query::UpsertNode::return_new</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>RETURN NEW. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="506" column="10" bodyfile="include/query/aql_parser.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_upsert_node_1aae0c8d85f12caae039fe13334229dc71" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::UpsertNode::return_old</definition>
+        <argsstring></argsstring>
+        <name>return_old</name>
+        <qualifiedname>themis::query::UpsertNode::return_old</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>RETURN OLD. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="507" column="10" bodyfile="include/query/aql_parser.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_upsert_node_1ae20f3173e298a5a42e72eccf6ec72f0e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::UpsertNode::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::UpsertNode::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_node_1a9b4bff2190784e1368f6b31a64cf102c">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="509" column="17" bodyfile="include/query/aql_parser.h" bodystart="509" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_upsert_node_1a514aeaef7ae21f86632e85091e5e9f07" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::UpsertNode::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::UpsertNode::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_node_1a9d3378cb4d267be61a7849f3674d42d4">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="510" column="20" bodyfile="include/query/aql_parser.h" bodystart="510" bodyend="524"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::MutationNode</label>
+        <link refid="structthemis_1_1query_1_1_mutation_node"/>
+      </node>
+      <node id="1">
+        <label>themis::query::UpsertNode</label>
+        <link refid="structthemis_1_1query_1_1_upsert_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::MutationNode</label>
+        <link refid="structthemis_1_1query_1_1_mutation_node"/>
+      </node>
+      <node id="1">
+        <label>themis::query::UpsertNode</label>
+        <link refid="structthemis_1_1query_1_1_upsert_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="501" column="1" bodyfile="include/query/aql_parser.h" bodystart="501" bodyend="525"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_upsert_node_1a671d2e00e9f563dcdcb00ddd03c733aa" prot="public" virt="non-virtual"><scope>themis::query::UpsertNode</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_upsert_node_1ae20f3173e298a5a42e72eccf6ec72f0e" prot="public" virt="virtual"><scope>themis::query::UpsertNode</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_upsert_node_1a60ffb6b37510049a65ec5e112548a3ea" prot="public" virt="non-virtual"><scope>themis::query::UpsertNode</scope><name>insert_doc</name></member>
+      <member refid="structthemis_1_1query_1_1_upsert_node_1af376a084e19677ac81d92d6358bfa033" prot="public" virt="non-virtual"><scope>themis::query::UpsertNode</scope><name>return_new</name></member>
+      <member refid="structthemis_1_1query_1_1_upsert_node_1aae0c8d85f12caae039fe13334229dc71" prot="public" virt="non-virtual"><scope>themis::query::UpsertNode</scope><name>return_old</name></member>
+      <member refid="structthemis_1_1query_1_1_upsert_node_1aced88b1bf1a9d8305e3b1f8c8fbc6a95" prot="public" virt="non-virtual"><scope>themis::query::UpsertNode</scope><name>search_expr</name></member>
+      <member refid="structthemis_1_1query_1_1_upsert_node_1a514aeaef7ae21f86632e85091e5e9f07" prot="public" virt="virtual"><scope>themis::query::UpsertNode</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_upsert_node_1acf1a4151b1fa81f5d1254b2a7670e997" prot="public" virt="non-virtual"><scope>themis::query::UpsertNode</scope><name>update_doc</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_node_1a7913ed037b1bd83a2ce5c87f4985acd9" prot="public" virt="virtual"><scope>themis::query::UpsertNode</scope><name>~MutationNode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

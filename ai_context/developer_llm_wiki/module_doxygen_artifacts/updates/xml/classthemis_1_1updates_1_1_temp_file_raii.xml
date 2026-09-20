@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_temp_file_raii" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::TempFileRaii</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_temp_file_raii_1a479571562aed1ae6080daa48ba1d6250" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TempFileRaii::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themis::updates::TempFileRaii::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="87" column="17" bodyfile="src/updates/manifest_database.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temp_file_raii_1aaffd09a9188e4f4fa1a0e1a878d5329a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TempFileRaii::TempFileRaii</definition>
+        <argsstring>(const std::string &amp;path=&quot;&quot;)</argsstring>
+        <name>TempFileRaii</name>
+        <qualifiedname>themis::updates::TempFileRaii::TempFileRaii</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="41" column="14" bodyfile="src/updates/manifest_database.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temp_file_raii_1a58aed9893845c9d0d6230e2a1b8d0751" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TempFileRaii::~TempFileRaii</definition>
+        <argsstring>()</argsstring>
+        <name>~TempFileRaii</name>
+        <qualifiedname>themis::updates::TempFileRaii::~TempFileRaii</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="43" column="5" bodyfile="src/updates/manifest_database.cpp" bodystart="43" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temp_file_raii_1aa3aeff0f2e6f349b7400fcf78cd9dc7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TempFileRaii::TempFileRaii</definition>
+        <argsstring>(const TempFileRaii &amp;)=delete</argsstring>
+        <name>TempFileRaii</name>
+        <qualifiedname>themis::updates::TempFileRaii::TempFileRaii</qualifiedname>
+        <param>
+          <type>const TempFileRaii &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temp_file_raii_1ab408b9e0e6eeb9988e558f117c7f1de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_temp_file_raii_1aaffd09a9188e4f4fa1a0e1a878d5329a" kindref="member">TempFileRaii</ref> &amp;</type>
+        <definition>TempFileRaii &amp; themis::updates::TempFileRaii::operator=</definition>
+        <argsstring>(const TempFileRaii &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::TempFileRaii::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_temp_file_raii_1aaffd09a9188e4f4fa1a0e1a878d5329a" kindref="member">TempFileRaii</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="59" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temp_file_raii_1a1dc6577e971291c5426acdd05ebba1e7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TempFileRaii::TempFileRaii</definition>
+        <argsstring>(TempFileRaii &amp;&amp;other) noexcept</argsstring>
+        <name>TempFileRaii</name>
+        <qualifiedname>themis::updates::TempFileRaii::TempFileRaii</qualifiedname>
+        <param>
+          <type>TempFileRaii &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="62" column="5" bodyfile="src/updates/manifest_database.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temp_file_raii_1a320b294cb5f928f6a5dcb4dcabdf0fe8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_temp_file_raii_1aaffd09a9188e4f4fa1a0e1a878d5329a" kindref="member">TempFileRaii</ref> &amp;</type>
+        <definition>TempFileRaii &amp; themis::updates::TempFileRaii::operator=</definition>
+        <argsstring>(TempFileRaii &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::TempFileRaii::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_temp_file_raii_1aaffd09a9188e4f4fa1a0e1a878d5329a" kindref="member">TempFileRaii</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="65" column="18" bodyfile="src/updates/manifest_database.cpp" bodystart="65" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temp_file_raii_1a55c93ed674407ba5478dc97230447964" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::updates::TempFileRaii::path</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>path</name>
+        <qualifiedname>themis::updates::TempFileRaii::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="78" column="23" bodyfile="src/updates/manifest_database.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temp_file_raii_1ae35b480c588af03eb8632aa0e6237e0a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TempFileRaii::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::updates::TempFileRaii::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/manifest_database.cpp" line="80" column="17" bodyfile="src/updates/manifest_database.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/updates/manifest_database.cpp" line="39" column="1" bodyfile="src/updates/manifest_database.cpp" bodystart="39" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1ab408b9e0e6eeb9988e558f117c7f1de0" prot="public" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1a320b294cb5f928f6a5dcb4dcabdf0fe8" prot="public" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1a55c93ed674407ba5478dc97230447964" prot="public" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>path</name></member>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1a479571562aed1ae6080daa48ba1d6250" prot="private" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>path_</name></member>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1ae35b480c588af03eb8632aa0e6237e0a" prot="public" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>release</name></member>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1aaffd09a9188e4f4fa1a0e1a878d5329a" prot="public" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>TempFileRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1aa3aeff0f2e6f349b7400fcf78cd9dc7d" prot="public" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>TempFileRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1a1dc6577e971291c5426acdd05ebba1e7" prot="public" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>TempFileRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_temp_file_raii_1a58aed9893845c9d0d6230e2a1b8d0751" prot="public" virt="non-virtual"><scope>themis::updates::TempFileRaii</scope><name>~TempFileRaii</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

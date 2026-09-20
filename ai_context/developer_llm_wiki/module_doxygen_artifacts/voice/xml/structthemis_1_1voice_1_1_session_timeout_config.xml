@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_session_timeout_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::SessionTimeoutConfig</compoundname>
+    <includes refid="voice__session__manager_8h" local="no">voice_session_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_timeout_config_1a2b8c9b2b5733393034cc8743c1f7f131" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::SessionTimeoutConfig::idle_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout_ms</name>
+        <qualifiedname>themis::voice::SessionTimeoutConfig::idle_timeout_ms</qualifiedname>
+        <initializer>= 5 * 60 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="113" column="13" bodyfile="include/voice/voice_session_manager.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_timeout_config_1a92631f2fc02a0ebd39eb7c2d28e5c742" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::SessionTimeoutConfig::max_session_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>max_session_duration_ms</name>
+        <qualifiedname>themis::voice::SessionTimeoutConfig::max_session_duration_ms</qualifiedname>
+        <initializer>= 30 * 60 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="114" column="13" bodyfile="include/voice/voice_session_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_timeout_config_1ad089b58db2b5bac301392b5ce9e83ad0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::SessionTimeoutConfig::cleanup_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>cleanup_interval_ms</name>
+        <qualifiedname>themis::voice::SessionTimeoutConfig::cleanup_interval_ms</qualifiedname>
+        <initializer>= 30 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="115" column="13" bodyfile="include/voice/voice_session_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_timeout_config_1a1d2ad784099186e0809aeefa6e6bcdb3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::SessionTimeoutConfig::teardown_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>teardown_timeout_ms</name>
+        <qualifiedname>themis::voice::SessionTimeoutConfig::teardown_timeout_ms</qualifiedname>
+        <initializer>= 5 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="116" column="13" bodyfile="include/voice/voice_session_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_timeout_config_1a6e241c50f7b422bb2884f6c132523b92" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::SessionTimeoutConfig::closing_grace_period_ms</definition>
+        <argsstring></argsstring>
+        <name>closing_grace_period_ms</name>
+        <qualifiedname>themis::voice::SessionTimeoutConfig::closing_grace_period_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="117" column="13" bodyfile="include/voice/voice_session_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_timeout_config_1a784f92db542dff02024205eb98a7490f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::SessionTimeoutConfig::auto_expire</definition>
+        <argsstring></argsstring>
+        <name>auto_expire</name>
+        <qualifiedname>themis::voice::SessionTimeoutConfig::auto_expire</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="118" column="10" bodyfile="include/voice/voice_session_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_timeout_config_1a8f305bc3ca9edbe3536da7db58251faa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::SessionTimeoutConfig::enable_timeout_guards</definition>
+        <argsstring></argsstring>
+        <name>enable_timeout_guards</name>
+        <qualifiedname>themis::voice::SessionTimeoutConfig::enable_timeout_guards</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="119" column="10" bodyfile="include/voice/voice_session_manager.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Session lifecycle and teardown timeout configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="structthemis_1_1voice_1_1_session_timeout_config_1autotoc_md30_1s1"><sect2 id="structthemis_1_1voice_1_1_session_timeout_config_1autotoc_md30">
+<title>Wave A Block 2: Teardown Safety Enhancements</title><para><itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a1d2ad784099186e0809aeefa6e6bcdb3" kindref="member">teardown_timeout_ms</ref></computeroutput>: Force-terminate sessions exceeding this time</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a6e241c50f7b422bb2884f6c132523b92" kindref="member">closing_grace_period_ms</ref></computeroutput>: Wait for graceful shutdown before forced terminate</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a8f305bc3ca9edbe3536da7db58251faa" kindref="member">enable_timeout_guards</ref></computeroutput>: When true, enforce strict teardown timeouts </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/voice/voice_session_manager.h" line="112" column="1" bodyfile="include/voice/voice_session_manager.h" bodystart="112" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_session_timeout_config_1a784f92db542dff02024205eb98a7490f" prot="public" virt="non-virtual"><scope>themis::voice::SessionTimeoutConfig</scope><name>auto_expire</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_timeout_config_1ad089b58db2b5bac301392b5ce9e83ad0" prot="public" virt="non-virtual"><scope>themis::voice::SessionTimeoutConfig</scope><name>cleanup_interval_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_timeout_config_1a6e241c50f7b422bb2884f6c132523b92" prot="public" virt="non-virtual"><scope>themis::voice::SessionTimeoutConfig</scope><name>closing_grace_period_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_timeout_config_1a8f305bc3ca9edbe3536da7db58251faa" prot="public" virt="non-virtual"><scope>themis::voice::SessionTimeoutConfig</scope><name>enable_timeout_guards</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_timeout_config_1a2b8c9b2b5733393034cc8743c1f7f131" prot="public" virt="non-virtual"><scope>themis::voice::SessionTimeoutConfig</scope><name>idle_timeout_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_timeout_config_1a92631f2fc02a0ebd39eb7c2d28e5c742" prot="public" virt="non-virtual"><scope>themis::voice::SessionTimeoutConfig</scope><name>max_session_duration_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_timeout_config_1a1d2ad784099186e0809aeefa6e6bcdb3" prot="public" virt="non-virtual"><scope>themis::voice::SessionTimeoutConfig</scope><name>teardown_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

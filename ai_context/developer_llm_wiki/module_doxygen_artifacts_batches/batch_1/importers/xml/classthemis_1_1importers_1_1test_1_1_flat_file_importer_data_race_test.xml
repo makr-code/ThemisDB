@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::test::FlatFileImporterDataRaceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test_1a08cfa9f2c0cb76ad6fd578dc65af3e28" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_flat_file_importer" kindref="compound">FlatFileImporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FlatFileImporter&gt; themis::importers::test::FlatFileImporterDataRaceTest::importer_</definition>
+        <argsstring></argsstring>
+        <name>importer_</name>
+        <qualifiedname>themis::importers::test::FlatFileImporterDataRaceTest::importer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="344" column="21" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="344" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test_1acb9f83a1155d7b0554fd9cd044986c13" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::test::FlatFileImporterDataRaceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::importers::test::FlatFileImporterDataRaceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="338" column="10" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="338" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::FlatFileImporterDataRaceTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::FlatFileImporterDataRaceTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="336" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="336" bodyend="345"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test_1a08cfa9f2c0cb76ad6fd578dc65af3e28" prot="protected" virt="non-virtual"><scope>themis::importers::test::FlatFileImporterDataRaceTest</scope><name>importer_</name></member>
+      <member refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test_1acb9f83a1155d7b0554fd9cd044986c13" prot="protected" virt="non-virtual"><scope>themis::importers::test::FlatFileImporterDataRaceTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

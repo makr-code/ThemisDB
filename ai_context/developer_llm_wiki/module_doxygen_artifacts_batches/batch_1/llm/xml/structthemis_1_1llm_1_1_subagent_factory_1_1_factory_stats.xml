@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentFactory::FactoryStats</compoundname>
+    <includes refid="subagent__factory_8h" local="no">subagent_factory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1a7892ec40ac649240e6e736ffd66fb1bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentFactory::FactoryStats::total_created</definition>
+        <argsstring></argsstring>
+        <name>total_created</name>
+        <qualifiedname>themis::llm::SubagentFactory::FactoryStats::total_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total subagents created (lifetime). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="215" column="16" bodyfile="include/llm/subagent_factory.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1abbe6eb403c3d68a22a895c4ee3d0b305" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentFactory::FactoryStats::total_destroyed</definition>
+        <argsstring></argsstring>
+        <name>total_destroyed</name>
+        <qualifiedname>themis::llm::SubagentFactory::FactoryStats::total_destroyed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total subagents destroyed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="216" column="16" bodyfile="include/llm/subagent_factory.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1a18c286b0af1cdda7f7e4dfe636ccc288" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentFactory::FactoryStats::currently_active</definition>
+        <argsstring></argsstring>
+        <name>currently_active</name>
+        <qualifiedname>themis::llm::SubagentFactory::FactoryStats::currently_active</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Currently active subagents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="217" column="16" bodyfile="include/llm/subagent_factory.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1ad1e244d0b99f76743093564843fea50a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentFactory::FactoryStats::total_inference_requests</definition>
+        <argsstring></argsstring>
+        <name>total_inference_requests</name>
+        <qualifiedname>themis::llm::SubagentFactory::FactoryStats::total_inference_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total inference requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="218" column="16" bodyfile="include/llm/subagent_factory.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1a4579d8ecb24074de1d17ee79f81f77c4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentFactory::FactoryStats::total_successful_inferences</definition>
+        <argsstring></argsstring>
+        <name>total_successful_inferences</name>
+        <qualifiedname>themis::llm::SubagentFactory::FactoryStats::total_successful_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful inferences. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="219" column="16" bodyfile="include/llm/subagent_factory.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1a3865cec7637149e99b7e24c563565aed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentFactory::FactoryStats::total_failed_inferences</definition>
+        <argsstring></argsstring>
+        <name>total_failed_inferences</name>
+        <qualifiedname>themis::llm::SubagentFactory::FactoryStats::total_failed_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Failed inferences. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="220" column="16" bodyfile="include/llm/subagent_factory.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1aa37f7236b4f2ee6c99642901f141dc6e" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::SubagentFactory::FactoryStats::factory_start_time</definition>
+        <argsstring></argsstring>
+        <name>factory_start_time</name>
+        <qualifiedname>themis::llm::SubagentFactory::FactoryStats::factory_start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="221" column="47" bodyfile="include/llm/subagent_factory.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_factory.h" line="214" column="5" bodyfile="include/llm/subagent_factory.h" bodystart="214" bodyend="222"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1a18c286b0af1cdda7f7e4dfe636ccc288" prot="public" virt="non-virtual"><scope>themis::llm::SubagentFactory::FactoryStats</scope><name>currently_active</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1aa37f7236b4f2ee6c99642901f141dc6e" prot="public" virt="non-virtual"><scope>themis::llm::SubagentFactory::FactoryStats</scope><name>factory_start_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1a7892ec40ac649240e6e736ffd66fb1bf" prot="public" virt="non-virtual"><scope>themis::llm::SubagentFactory::FactoryStats</scope><name>total_created</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1abbe6eb403c3d68a22a895c4ee3d0b305" prot="public" virt="non-virtual"><scope>themis::llm::SubagentFactory::FactoryStats</scope><name>total_destroyed</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1a3865cec7637149e99b7e24c563565aed" prot="public" virt="non-virtual"><scope>themis::llm::SubagentFactory::FactoryStats</scope><name>total_failed_inferences</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1ad1e244d0b99f76743093564843fea50a" prot="public" virt="non-virtual"><scope>themis::llm::SubagentFactory::FactoryStats</scope><name>total_inference_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_factory_1_1_factory_stats_1a4579d8ecb24074de1d17ee79f81f77c4" prot="public" virt="non-virtual"><scope>themis::llm::SubagentFactory::FactoryStats</scope><name>total_successful_inferences</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,429 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::MTLSConnectionPoolManager</compoundname>
+    <includes refid="mtls__connection__pool_8h" local="no">mtls_connection_pool.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" prot="public">themis::sharding::MTLSConnectionPoolManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics" prot="public">themis::sharding::MTLSConnectionPoolManager::GlobalStatistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a3b50adda983a34c00c8b924d0e845794" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool" kindref="compound">EndpointConnectionPool</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;EndpointConnectionPool&gt; &gt; themis::sharding::MTLSConnectionPoolManager::pools_</definition>
+        <argsstring></argsstring>
+        <name>pools_</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::pools_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="321" column="14" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a7ad0d006c6f51510aaa8b28655be1977" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::sharding::MTLSConnectionPoolManager::pools_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pools_mutex_</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::pools_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="322" column="31" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab0a773d623de84dfc141f29ed1f2de94" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::MTLSConnectionPoolManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="324" column="12" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab98639224a2d30a1358f81646d97536a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::MTLSConnectionPoolManager::total_connections_</definition>
+        <argsstring></argsstring>
+        <name>total_connections_</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::total_connections_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="325" column="17" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="325" bodyend="325"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionPoolManager::MTLSConnectionPoolManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>MTLSConnectionPoolManager</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::MTLSConnectionPoolManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct pool manager with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manager configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="253" column="14" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="394" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a8c59b5ac4781190737c75ff9238bd954" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionPoolManager::MTLSConnectionPoolManager</definition>
+        <argsstring>()</argsstring>
+        <name>MTLSConnectionPoolManager</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::MTLSConnectionPoolManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="254" column="5" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="399" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a89f5350df8fb702075d0acb28e6f63ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionPoolManager::~MTLSConnectionPoolManager</definition>
+        <argsstring>()</argsstring>
+        <name>~MTLSConnectionPoolManager</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::~MTLSConnectionPoolManager</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="259" column="5" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="404" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a5dd133ebcc839f8d1f1b7c0266d14650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionPoolManager::MTLSConnectionPoolManager</definition>
+        <argsstring>(const MTLSConnectionPoolManager &amp;)=delete</argsstring>
+        <name>MTLSConnectionPoolManager</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::MTLSConnectionPoolManager</qualifiedname>
+        <param>
+          <type>const MTLSConnectionPoolManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="262" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab6696763163ce383a2c63bef1aacb2d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref> &amp;</type>
+        <definition>MTLSConnectionPoolManager &amp; themis::sharding::MTLSConnectionPoolManager::operator=</definition>
+        <argsstring>(const MTLSConnectionPoolManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="263" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab85ade67c8286f6ddaf3d8f67ba9d273" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSConnectionPoolManager::MTLSConnectionPoolManager</definition>
+        <argsstring>(MTLSConnectionPoolManager &amp;&amp;)=delete</argsstring>
+        <name>MTLSConnectionPoolManager</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::MTLSConnectionPoolManager</qualifiedname>
+        <param>
+          <type>MTLSConnectionPoolManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="264" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a861d0a0c7ff0ce3cefcf6c27e95e3b65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref> &amp;</type>
+        <definition>MTLSConnectionPoolManager &amp; themis::sharding::MTLSConnectionPoolManager::operator=</definition>
+        <argsstring>(MTLSConnectionPoolManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="265" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a5cc3df91894a7ee399ff3c600adb2edc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool" kindref="compound">EndpointConnectionPool</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; EndpointConnectionPool &gt; themis::sharding::MTLSConnectionPoolManager::getPool</definition>
+        <argsstring>(const std::string &amp;endpoint)</argsstring>
+        <name>getPool</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::getPool</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Get pool for specific endpoint (creates if needed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Pool.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target endpoint </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to endpoint pool</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="272" column="21" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="414" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a56a1eb45f2b77c158db302596d70ab86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::unique_ptr&lt; <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>, <ref refid="structthemis_1_1sharding_1_1_s_s_l_deleter" kindref="compound">SSLDeleter</ref> &gt; &gt;</type>
+        <definition>std::optional&lt; std::unique_ptr&lt; SSL, SSLDeleter &gt; &gt; themis::sharding::MTLSConnectionPoolManager::getConnection</definition>
+        <argsstring>(const std::string &amp;endpoint, std::chrono::milliseconds timeout=std::chrono::seconds(5))</argsstring>
+        <name>getConnection</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::getConnection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(5)</defval>
+        </param>
+        <briefdescription>
+<para>Get connection directly (convenience method). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum wait time </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> connection or nullopt </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="280" column="19" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="452" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a0cd8280ab6ef5d31138f1d5f1325ebf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::MTLSConnectionPoolManager::releaseConnection</definition>
+        <argsstring>(const std::string &amp;endpoint, std::unique_ptr&lt; SSL, SSLDeleter &gt; conn)</argsstring>
+        <name>releaseConnection</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::releaseConnection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>, <ref refid="structthemis_1_1sharding_1_1_s_s_l_deleter" kindref="compound">SSLDeleter</ref> &gt;</type>
+          <declname>conn</declname>
+        </param>
+        <briefdescription>
+<para>Return connection to appropriate pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> connection to return </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pools_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="290" column="10" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="469" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab4dbf004b23d1622293aa795f0ab5027" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics" kindref="compound">GlobalStatistics</ref></type>
+        <definition>MTLSConnectionPoolManager::GlobalStatistics themis::sharding::MTLSConnectionPoolManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get global statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Global pool statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pools_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="296" column="22" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="493" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a4f43af64982ff670964ed292dfa1a70e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::MTLSConnectionPoolManager::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::shutdown</qualifiedname>
+        <briefdescription>
+<para>Close all connections and clear pools. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown.</para>
+<para>Calls: lock(), size(), closeAll(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="301" column="10" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="542" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a41989cb14b9813ac1b21c500f78fcbba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::MTLSConnectionPoolManager::onCertificateRotated</definition>
+        <argsstring>()</argsstring>
+        <name>onCertificateRotated</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::onCertificateRotated</qualifiedname>
+        <briefdescription>
+<para>Graceful connection drain triggered by a certificate rotation event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Certificate Rotated.</para>
+<para>Closes all idle connections immediately (they will be re-established with the new certificate on the next request). In-flight connections are allowed to complete; each endpoint pool stops issuing new connections from its current TLS context until the drain completes.</para>
+<para>This method is non-blocking: it schedules the drain and returns. Callers that need to await completion should poll <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab4dbf004b23d1622293aa795f0ab5027" kindref="member">getStatistics()</ref> or wait for the idle-connection count to return to its expected level.</para>
+<para>Wire-up: call this from the PKI client&apos;s certificate-rotation callback so that stale TLS sessions are not reused after a cert rotation.</para>
+<para>Calls: lock(), size(), closeAll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="318" column="10" bodyfile="src/sharding/mtls_connection_pool.cpp" bodystart="520" bodyend="536"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Global Connection Pool Manager for all endpoints. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages per-endpoint connection pools with global resource limits </para>
+    </detaileddescription>
+    <location file="include/sharding/mtls_connection_pool.h" line="223" column="1" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="223" bodyend="326"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab0a773d623de84dfc141f29ed1f2de94" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a56a1eb45f2b77c158db302596d70ab86" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>getConnection</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a5cc3df91894a7ee399ff3c600adb2edc" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>getPool</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab4dbf004b23d1622293aa795f0ab5027" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>MTLSConnectionPoolManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a8c59b5ac4781190737c75ff9238bd954" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>MTLSConnectionPoolManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a5dd133ebcc839f8d1f1b7c0266d14650" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>MTLSConnectionPoolManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab85ade67c8286f6ddaf3d8f67ba9d273" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>MTLSConnectionPoolManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a41989cb14b9813ac1b21c500f78fcbba" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>onCertificateRotated</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab6696763163ce383a2c63bef1aacb2d7" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a861d0a0c7ff0ce3cefcf6c27e95e3b65" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a3b50adda983a34c00c8b924d0e845794" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>pools_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a7ad0d006c6f51510aaa8b28655be1977" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>pools_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a0cd8280ab6ef5d31138f1d5f1325ebf8" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>releaseConnection</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a4f43af64982ff670964ed292dfa1a70e" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab98639224a2d30a1358f81646d97536a" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>total_connections_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a89f5350df8fb702075d0acb28e6f63ad" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager</scope><name>~MTLSConnectionPoolManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

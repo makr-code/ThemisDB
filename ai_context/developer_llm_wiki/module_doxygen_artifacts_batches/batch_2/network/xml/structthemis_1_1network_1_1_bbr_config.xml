@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_bbr_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::BbrConfig</compoundname>
+    <includes refid="bbr__congestion__control_8h" local="no">bbr_congestion_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_bbr_config_1ad7195b98f37b7d839507275914317266" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::BbrConfig::probe_bw_cwnd_gain</definition>
+        <argsstring></argsstring>
+        <name>probe_bw_cwnd_gain</name>
+        <qualifiedname>themis::network::BbrConfig::probe_bw_cwnd_gain</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Target congestion window gain during ProbeBW phase (BBRv2 only). Expressed as a fraction (e.g., 1.25 = 125 % of BDP). 0 = kernel default. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="72" column="12" bodyfile="include/network/bbr_congestion_control.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_bbr_config_1a62b5e7ffa8769c087fc6667b149fae9c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::BbrConfig::probe_bw_pacing_gain</definition>
+        <argsstring></argsstring>
+        <name>probe_bw_pacing_gain</name>
+        <qualifiedname>themis::network::BbrConfig::probe_bw_pacing_gain</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Target pacing gain during ProbeBW UP phase. 0 = kernel default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="75" column="12" bodyfile="include/network/bbr_congestion_control.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_bbr_config_1a34074d8b4feb9c3d0a7b6c2732983880" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::BbrConfig::probe_rtt_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>probe_rtt_duration_ms</name>
+        <qualifiedname>themis::network::BbrConfig::probe_rtt_duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ProbeRTT duration in milliseconds. 0 = kernel default (200 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="78" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_bbr_config_1ab4ffb8b60684acabf8488ada64e3a217" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::BbrConfig::probe_rtt_cwnd_gain</definition>
+        <argsstring></argsstring>
+        <name>probe_rtt_cwnd_gain</name>
+        <qualifiedname>themis::network::BbrConfig::probe_rtt_cwnd_gain</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Minimum number of packets in flight during ProbeRTT. 0 = kernel default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="81" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_bbr_config_1ae4148e526f9ccb52887d7e522bffcd7b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::BbrConfig::enable_ecn</definition>
+        <argsstring></argsstring>
+        <name>enable_ecn</name>
+        <qualifiedname>themis::network::BbrConfig::enable_ecn</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable ECN (Explicit Congestion Notification) support (BBRv2 + ECN). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="84" column="10" bodyfile="include/network/bbr_congestion_control.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_bbr_config_1a6f4e11edc2f319dab769eab28e4e2000" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::BbrConfig::BbrConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>BbrConfig</name>
+        <qualifiedname>themis::network::BbrConfig::BbrConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="86" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tunable BBRv2 parameters for a connection or listener. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields are optional overrides. The default-constructed value means &quot;use the kernel/system default&quot; for that parameter.</para>
+<para><simplesect kind="note"><para>Not all kernels expose all parameters. Unsupported fields are silently ignored by <computeroutput><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1ad28a5e8ae8ad063694f9d72155a428b8" kindref="member">BbrCongestionController::applyConfig()</ref></computeroutput>. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/network/bbr_congestion_control.h" line="69" column="1" bodyfile="include/network/bbr_congestion_control.h" bodystart="69" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_bbr_config_1a6f4e11edc2f319dab769eab28e4e2000" prot="public" virt="non-virtual"><scope>themis::network::BbrConfig</scope><name>BbrConfig</name></member>
+      <member refid="structthemis_1_1network_1_1_bbr_config_1ae4148e526f9ccb52887d7e522bffcd7b" prot="public" virt="non-virtual"><scope>themis::network::BbrConfig</scope><name>enable_ecn</name></member>
+      <member refid="structthemis_1_1network_1_1_bbr_config_1ad7195b98f37b7d839507275914317266" prot="public" virt="non-virtual"><scope>themis::network::BbrConfig</scope><name>probe_bw_cwnd_gain</name></member>
+      <member refid="structthemis_1_1network_1_1_bbr_config_1a62b5e7ffa8769c087fc6667b149fae9c" prot="public" virt="non-virtual"><scope>themis::network::BbrConfig</scope><name>probe_bw_pacing_gain</name></member>
+      <member refid="structthemis_1_1network_1_1_bbr_config_1ab4ffb8b60684acabf8488ada64e3a217" prot="public" virt="non-virtual"><scope>themis::network::BbrConfig</scope><name>probe_rtt_cwnd_gain</name></member>
+      <member refid="structthemis_1_1network_1_1_bbr_config_1a34074d8b4feb9c3d0a7b6c2732983880" prot="public" virt="non-virtual"><scope>themis::network::BbrConfig</scope><name>probe_rtt_duration_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

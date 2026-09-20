@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_coordinator_txn_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CoordinatorTxnRecord</compoundname>
+    <includes refid="two__phase__commit__coordinator_8h" local="no">two_phase_commit_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_coordinator_txn_record_1a4626f1b5123a223bd3e2c17f4b5dc93f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CoordinatorTxnRecord::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::sharding::CoordinatorTxnRecord::transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_coordinator.h" line="97" column="25" bodyfile="include/sharding/two_phase_commit_coordinator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_coordinator_txn_record_1ac60c1b8f1ffe954d9344641338b6368b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a8551483e89a488558caa762f38497a8d" kindref="member">CoordinatorTxnState</ref></type>
+        <definition>CoordinatorTxnState themis::sharding::CoordinatorTxnRecord::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::sharding::CoordinatorTxnRecord::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a8551483e89a488558caa762f38497a8da18ff74f43da410c5529f7d6fca84f115" kindref="member">CoordinatorTxnState::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_coordinator.h" line="98" column="25" bodyfile="include/sharding/two_phase_commit_coordinator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_coordinator_txn_record_1ada2735d5933e5d84e389a54c91152662" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::CoordinatorTxnRecord::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::sharding::CoordinatorTxnRecord::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_coordinator.h" line="99" column="43" bodyfile="include/sharding/two_phase_commit_coordinator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_coordinator_txn_record_1a41063f74a37f44c03b5e48e3b55bf8df" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CoordinatorTxnRecord::participant_shards</definition>
+        <argsstring></argsstring>
+        <name>participant_shards</name>
+        <qualifiedname>themis::sharding::CoordinatorTxnRecord::participant_shards</qualifiedname>
+        <briefdescription>
+<para>Ordered list of participant shard IDs used for Phase 2 replay after recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_coordinator.h" line="102" column="17" bodyfile="include/sharding/two_phase_commit_coordinator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_coordinator_txn_record_1a1e7fa6495041756197c3f16a2df982c5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::sharding::CoordinatorTxnRecord::shard_payloads</definition>
+        <argsstring></argsstring>
+        <name>shard_payloads</name>
+        <qualifiedname>themis::sharding::CoordinatorTxnRecord::shard_payloads</qualifiedname>
+        <briefdescription>
+<para>Map: shard_id → serialised per-shard operations (JSON). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_coordinator.h" line="105" column="14" bodyfile="include/sharding/two_phase_commit_coordinator.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_coordinator_txn_record_1a7bbffdddf499b7f7b7b318d4ba2b00c8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, bool &gt;</type>
+        <definition>std::map&lt;std::string, bool&gt; themis::sharding::CoordinatorTxnRecord::votes</definition>
+        <argsstring></argsstring>
+        <name>votes</name>
+        <qualifiedname>themis::sharding::CoordinatorTxnRecord::votes</qualifiedname>
+        <briefdescription>
+<para>Map: shard_id → PREPARE vote (true=COMMIT, false=ABORT, absent=not-yet). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_coordinator.h" line="108" column="21" bodyfile="include/sharding/two_phase_commit_coordinator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_coordinator_txn_record_1a29a76eca07ac6332612f2ad2532d21d3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CoordinatorTxnRecord::phase2_acked</definition>
+        <argsstring></argsstring>
+        <name>phase2_acked</name>
+        <qualifiedname>themis::sharding::CoordinatorTxnRecord::phase2_acked</qualifiedname>
+        <briefdescription>
+<para>Shards that have acknowledged Phase 2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_coordinator.h" line="111" column="27" bodyfile="include/sharding/two_phase_commit_coordinator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-transaction tracking record kept by the coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/two_phase_commit_coordinator.h" line="96" column="1" bodyfile="include/sharding/two_phase_commit_coordinator.h" bodystart="96" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_coordinator_txn_record_1a41063f74a37f44c03b5e48e3b55bf8df" prot="public" virt="non-virtual"><scope>themis::sharding::CoordinatorTxnRecord</scope><name>participant_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_coordinator_txn_record_1a29a76eca07ac6332612f2ad2532d21d3" prot="public" virt="non-virtual"><scope>themis::sharding::CoordinatorTxnRecord</scope><name>phase2_acked</name></member>
+      <member refid="structthemis_1_1sharding_1_1_coordinator_txn_record_1a1e7fa6495041756197c3f16a2df982c5" prot="public" virt="non-virtual"><scope>themis::sharding::CoordinatorTxnRecord</scope><name>shard_payloads</name></member>
+      <member refid="structthemis_1_1sharding_1_1_coordinator_txn_record_1ada2735d5933e5d84e389a54c91152662" prot="public" virt="non-virtual"><scope>themis::sharding::CoordinatorTxnRecord</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_coordinator_txn_record_1ac60c1b8f1ffe954d9344641338b6368b" prot="public" virt="non-virtual"><scope>themis::sharding::CoordinatorTxnRecord</scope><name>state</name></member>
+      <member refid="structthemis_1_1sharding_1_1_coordinator_txn_record_1a4626f1b5123a223bd3e2c17f4b5dc93f" prot="public" virt="non-virtual"><scope>themis::sharding::CoordinatorTxnRecord</scope><name>transaction_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_coordinator_txn_record_1a7bbffdddf499b7f7b7b318d4ba2b00c8" prot="public" virt="non-virtual"><scope>themis::sharding::CoordinatorTxnRecord</scope><name>votes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_query_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::QueryParams</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_params_1aca99036419461f81d848464ae3e0635b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1performance_1a4b5c55a5414421d460094d7033233c09" kindref="member">QueryValue</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, QueryValue&gt; themis::performance::QueryParams::bindings</definition>
+        <argsstring></argsstring>
+        <name>bindings</name>
+        <qualifiedname>themis::performance::QueryParams::bindings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="54" column="24" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_query_params_1a64792b12f0e2226e0379e18c1cfe7aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::QueryParams::QueryParams</definition>
+        <argsstring>()=default</argsstring>
+        <name>QueryParams</name>
+        <qualifiedname>themis::performance::QueryParams::QueryParams</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_query_params_1a6cd977f62070527466430b056062d4ab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_query_params_1a64792b12f0e2226e0379e18c1cfe7aac" kindref="member">QueryParams</ref> &amp;</type>
+        <definition>QueryParams &amp; themis::performance::QueryParams::set</definition>
+        <argsstring>(std::string name, QueryValue value)</argsstring>
+        <name>set</name>
+        <qualifiedname>themis::performance::QueryParams::set</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1a4b5c55a5414421d460094d7033233c09" kindref="member">QueryValue</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="58" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_query_params_1af77595e1ab5af0c0e295d3deca9ccef8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="namespacethemis_1_1performance_1a4b5c55a5414421d460094d7033233c09" kindref="member">QueryValue</ref> *</type>
+        <definition>const QueryValue * themis::performance::QueryParams::get</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::performance::QueryParams::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="63" column="22" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="63" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bind parameters supplied at query execution time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Named parameters (e.g. &quot;@age&quot;, &quot;@name&quot;) are resolved by name. </para>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="53" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="53" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_query_params_1aca99036419461f81d848464ae3e0635b" prot="public" virt="non-virtual"><scope>themis::performance::QueryParams</scope><name>bindings</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_params_1af77595e1ab5af0c0e295d3deca9ccef8" prot="public" virt="non-virtual"><scope>themis::performance::QueryParams</scope><name>get</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_params_1a64792b12f0e2226e0379e18c1cfe7aac" prot="public" virt="non-virtual"><scope>themis::performance::QueryParams</scope><name>QueryParams</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_params_1a6cd977f62070527466430b056062d4ab" prot="public" virt="non-virtual"><scope>themis::performance::QueryParams</scope><name>set</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

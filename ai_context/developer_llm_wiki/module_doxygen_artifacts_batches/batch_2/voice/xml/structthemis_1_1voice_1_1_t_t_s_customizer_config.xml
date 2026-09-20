@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_t_t_s_customizer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::TTSCustomizerConfig</compoundname>
+    <includes refid="voice__tts__customizer_8h" local="no">voice_tts_customizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_t_t_s_customizer_config_1aee1f996a6e43b02bd061e689527b3d12" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_prosody_config" kindref="compound">ProsodyConfig</ref></type>
+        <definition>ProsodyConfig themis::voice::TTSCustomizerConfig::default_prosody</definition>
+        <argsstring></argsstring>
+        <name>default_prosody</name>
+        <qualifiedname>themis::voice::TTSCustomizerConfig::default_prosody</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="82" column="19" bodyfile="include/voice/voice_tts_customizer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_t_t_s_customizer_config_1aa3bfd647ceb61ee85ac7690c2a7de590" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TTSCustomizerConfig::default_engine</definition>
+        <argsstring></argsstring>
+        <name>default_engine</name>
+        <qualifiedname>themis::voice::TTSCustomizerConfig::default_engine</qualifiedname>
+        <initializer>= &quot;piper&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="83" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_t_t_s_customizer_config_1a64e2676cb7e12bb758f4b8ab49046ab8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::TTSCustomizerConfig::auto_detect_language</definition>
+        <argsstring></argsstring>
+        <name>auto_detect_language</name>
+        <qualifiedname>themis::voice::TTSCustomizerConfig::auto_detect_language</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="84" column="10" bodyfile="include/voice/voice_tts_customizer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_t_t_s_customizer_config_1a0ff28ddfd5a589ce0254956b12c7617d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::TTSCustomizerConfig::enable_quality_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_quality_metrics</name>
+        <qualifiedname>themis::voice::TTSCustomizerConfig::enable_quality_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="85" column="10" bodyfile="include/voice/voice_tts_customizer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_t_t_s_customizer_config_1a950644f274a7808f1cc2971dd2c1225e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_voice_profile" kindref="compound">VoiceProfile</ref> &gt;</type>
+        <definition>std::vector&lt;VoiceProfile&gt; themis::voice::TTSCustomizerConfig::profiles</definition>
+        <argsstring></argsstring>
+        <name>profiles</name>
+        <qualifiedname>themis::voice::TTSCustomizerConfig::profiles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="86" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::voice::ProsodyConfig</label>
+        <link refid="structthemis_1_1voice_1_1_prosody_config"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::TTSCustomizerConfig</label>
+        <link refid="structthemis_1_1voice_1_1_t_t_s_customizer_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>default_prosody</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_tts_customizer.h" line="81" column="1" bodyfile="include/voice/voice_tts_customizer.h" bodystart="81" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_t_t_s_customizer_config_1a64e2676cb7e12bb758f4b8ab49046ab8" prot="public" virt="non-virtual"><scope>themis::voice::TTSCustomizerConfig</scope><name>auto_detect_language</name></member>
+      <member refid="structthemis_1_1voice_1_1_t_t_s_customizer_config_1aa3bfd647ceb61ee85ac7690c2a7de590" prot="public" virt="non-virtual"><scope>themis::voice::TTSCustomizerConfig</scope><name>default_engine</name></member>
+      <member refid="structthemis_1_1voice_1_1_t_t_s_customizer_config_1aee1f996a6e43b02bd061e689527b3d12" prot="public" virt="non-virtual"><scope>themis::voice::TTSCustomizerConfig</scope><name>default_prosody</name></member>
+      <member refid="structthemis_1_1voice_1_1_t_t_s_customizer_config_1a0ff28ddfd5a589ce0254956b12c7617d" prot="public" virt="non-virtual"><scope>themis::voice::TTSCustomizerConfig</scope><name>enable_quality_metrics</name></member>
+      <member refid="structthemis_1_1voice_1_1_t_t_s_customizer_config_1a950644f274a7808f1cc2971dd2c1225e" prot="public" virt="non-virtual"><scope>themis::voice::TTSCustomizerConfig</scope><name>profiles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

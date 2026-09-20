@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_adversarial_test_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::AdversarialTestResult</compoundname>
+    <includes refid="adversarial__prompt__tester_8h" local="no">adversarial_prompt_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1a1c686ffbb1a9383cdc2ea88ad999868d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case" kindref="compound">AdversarialTestCase</ref></type>
+        <definition>AdversarialTestCase themis::prompt_engineering::AdversarialTestResult::test_case</definition>
+        <argsstring></argsstring>
+        <name>test_case</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestResult::test_case</qualifiedname>
+        <briefdescription>
+<para>The case that was run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="56" column="25" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1ad8f6de485e6a2b4c974c9f8da8be6383" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::AdversarialTestResult::blocked</definition>
+        <argsstring></argsstring>
+        <name>blocked</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestResult::blocked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the detector blocked it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="57" column="25" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1a5ebcd28ab20312a34efba21556b6f2d0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::AdversarialTestResult::detection_ms</definition>
+        <argsstring></argsstring>
+        <name>detection_ms</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestResult::detection_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Time taken to detect (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="58" column="25" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1a0456f0cc38a3a4c12d665059dd29cff1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::AdversarialTestResult::passed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestResult::passed</qualifiedname>
+        <briefdescription>
+<para>Returns <computeroutput>true</computeroutput> iff the outcome matches <computeroutput>expected_blocked</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A case passes when:<itemizedlist>
+<listitem><para><computeroutput>expected_blocked == true</computeroutput> AND <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1ad8f6de485e6a2b4c974c9f8da8be6383" kindref="member">blocked</ref> == true</computeroutput> (true positive), or</para>
+</listitem><listitem><para><computeroutput>expected_blocked == false</computeroutput> AND <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1ad8f6de485e6a2b4c974c9f8da8be6383" kindref="member">blocked</ref> == false</computeroutput> (true negative). </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="67" column="10" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="67" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of running a single adversarial test case. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::AdversarialTestCase</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::AdversarialTestResult</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>test_case</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="55" column="1" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="55" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1ad8f6de485e6a2b4c974c9f8da8be6383" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestResult</scope><name>blocked</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1a5ebcd28ab20312a34efba21556b6f2d0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestResult</scope><name>detection_ms</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1a0456f0cc38a3a4c12d665059dd29cff1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestResult</scope><name>passed</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result_1a1c686ffbb1a9383cdc2ea88ad999868d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestResult</scope><name>test_case</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

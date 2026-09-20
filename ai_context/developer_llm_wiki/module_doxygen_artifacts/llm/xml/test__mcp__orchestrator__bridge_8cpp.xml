@@ -1,0 +1,470 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__mcp__orchestrator__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_mcp_orchestrator_bridge.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ai__orchestrator_8h" local="yes">llm/ai_orchestrator.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/ai_orchestrator.h</label>
+        <link refid="ai__orchestrator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/themis_tool_interface.h</label>
+        <link refid="themis__tool__interface_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_mcp_orchestrator_bridge.cpp</label>
+        <link refid="test__mcp__orchestrator__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="20">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="18">
+        <label>plugins/plugin_manager.h</label>
+      </node>
+      <node id="21">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__mcp__orchestrator__bridge_8cpp_1adfd00b16825fe6a2e1700e26baa28fdf" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kTwoModePack</definition>
+        <argsstring></argsstring>
+        <name>kTwoModePack</name>
+        <initializer>                               = R&quot;yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+metadata:
+  name: bridge-<ref refid="namespacethemis_1_1llm_1_1test" kindref="compound">test</ref>-pack
+  version: &quot;0.1.0&quot;
+default_mode: ask
+models:
+  - id: default
+    path: &quot;&quot;
+modes:
+  - id: ask
+    description: &quot;Direct Q&amp;A&quot;
+    budgets: {max_tokens: 64, timeout_ms: 5000}
+  - id: rag
+    description: &quot;RAG pipeline&quot;
+    tools_allowed: [docs_search]
+    retrieval:
+      enabled: true
+      top_k: 2
+      threshold: 0.4
+    budgets: {max_tokens: 128, timeout_ms: 10000}
+)yaml&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_mcp_orchestrator_bridge.cpp" line="27" column="19" bodyfile="tests/llm/test_mcp_orchestrator_bridge.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__mcp__orchestrator__bridge_8cpp_1ad108ed083cfb0b4576afcf3880361b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(McpBridgeBaseTest, PackLoads_TwoModes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>McpBridgeBaseTest</type>
+        </param>
+        <param>
+          <type>PackLoads_TwoModes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_mcp_orchestrator_bridge.cpp" line="56" column="1" bodyfile="tests/llm/test_mcp_orchestrator_bridge.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for the MCP ↔ <ref refid="classthemis_1_1llm_1_1_a_i_orchestrator" kindref="compound">AIOrchestrator</ref> integration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>McpServer::attachOrchestrator registers llm_orchestrate and llm_list_modes tools</para>
+</listitem><listitem><para>llm_orchestrate forwards to <ref refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a8c551baa631a75dc3812c5d4c8a33a64" kindref="member">AIOrchestrator::run()</ref></para>
+</listitem><listitem><para>llm_list_modes returns correct mode list</para>
+</listitem><listitem><para>McpToolBridge::bridgeTool / bridgeTools populates <ref refid="classthemis_1_1llm_1_1_tool_registry" kindref="compound">ToolRegistry</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>These tests compile only when THEMIS_ENABLE_MCP and THEMIS_ENABLE_LLM are both defined, matching the CMake exclusion pattern &quot;.*test_mcp_orchestrator_bridge\\.cpp$&quot;. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ai__orchestrator_8h" kindref="compound">llm/ai_orchestrator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_MCP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/mcp_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Test<sp/>YAML<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kTwoModePack<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;yaml(</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral">apiVersion:<sp/>themis.ai/v1</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">kind:<sp/>ThemisModePack</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral">metadata:</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/>name:<sp/>bridge-test-pack</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/>version:<sp/>&quot;0.1.0&quot;</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral">default_mode:<sp/>ask</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">models:</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>default</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>path:<sp/>&quot;&quot;</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral">modes:</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>ask</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>description:<sp/>&quot;Direct<sp/>Q&amp;A&quot;</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>budgets:<sp/>{max_tokens:<sp/>64,<sp/>timeout_ms:<sp/>5000}</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>rag</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>description:<sp/>&quot;RAG<sp/>pipeline&quot;</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>tools_allowed:<sp/>[docs_search]</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>retrieval:</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>enabled:<sp/>true</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>top_k:<sp/>2</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>threshold:<sp/>0.4</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>budgets:<sp/>{max_tokens:<sp/>128,<sp/>timeout_ms:<sp/>10000}</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral">)yaml&quot;;</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AIOrchestrator<sp/>–<sp/>no-plugin<sp/>tests<sp/>(already<sp/>covered<sp/>in<sp/>test_ai_orchestrator.cpp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>baseline<sp/>tests<sp/>confirm<sp/>the<sp/>pack<sp/>loads<sp/>correctly<sp/>for<sp/>bridge<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(McpBridgeBaseTest,<sp/>PackLoads_TwoModes)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>res;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_mode_pack" kindref="compound">ModePack</ref><sp/>pack<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_mode_spec_loader_1a7706666ef9f0cb4cbbf437c139e0a384" kindref="member">ModeSpecLoader::loadFromString</ref>(kTwoModePack,<sp/>&amp;res);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.<ref refid="structthemis_1_1llm_1_1_validation_result_1af28db529960c5cda685657ed58ba53a5" kindref="member">ok</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Errors:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(res.<ref refid="structthemis_1_1llm_1_1_validation_result_1af9b30d56092e9a32ab5265051de2cbbc" kindref="member">errors</ref>.empty()<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>res.<ref refid="structthemis_1_1llm_1_1_validation_result_1af9b30d56092e9a32ab5265051de2cbbc" kindref="member">errors</ref>[0]);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pack.<ref refid="structthemis_1_1llm_1_1_mode_pack_1aceb2c41fa9bd71b1434a73a89b8bed8e" kindref="member">modes</ref>.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pack.<ref refid="structthemis_1_1llm_1_1_mode_pack_1a64cb0c7eb564783b9b1e4c920da5d914" kindref="member">default_mode</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ask&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP<sp/>integration<sp/>tests<sp/>(only<sp/>when<sp/>MCP<sp/>is<sp/>compiled)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_MCP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Fixture<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">McpOrchestratorBridgeTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_<sp/>=<sp/>std::make_shared&lt;boost::asio::io_context&gt;();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimal<sp/>McpServer<sp/>config:<sp/>no<sp/>transports<sp/>so<sp/>start()<sp/>doesn&apos;t<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::server::McpServer::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_stdio<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_sse<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_websocket<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mcp_<sp/>=<sp/>std::make_shared&lt;themis::server::McpServer&gt;(*io_,<sp/>cfg);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ValidationResult<sp/>res;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pack<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_mode_spec_loader_1a7706666ef9f0cb4cbbf437c139e0a384" kindref="member">ModeSpecLoader::loadFromString</ref>(kTwoModePack,<sp/>&amp;res);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.<ref refid="structthemis_1_1llm_1_1_validation_result_1af28db529960c5cda685657ed58ba53a5" kindref="member">ok</ref>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>orch_<sp/>=<sp/>std::make_shared&lt;AIOrchestrator&gt;(pack);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;boost::asio::io_context&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::server::McpServer&gt;<sp/><sp/><sp/><sp/><sp/>mcp_;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AIOrchestrator&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>orch_;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>attachOrchestrator<sp/>tests<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_LLM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>AttachOrchestrator_RegistersLlmOrchestrateTool)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;attachOrchestrator(orch_);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Issue<sp/>a<sp/>tools/list<sp/>request<sp/>and<sp/>confirm<sp/>llm_orchestrate<sp/>is<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>list_req<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jsonrpc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.0&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;method&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tools/list&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;params&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>resp<sp/>=<sp/>mcp_-&gt;handleRequest(list_req);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_orchestrate<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_list_modes<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resp.contains(</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>resp[</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;tools&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>resp[</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;tools&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>name<sp/>=<sp/>t.value(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;llm_orchestrate&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_orchestrate<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;llm_list_modes&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_list_modes<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_orchestrate)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;llm_orchestrate&apos;<sp/>in<sp/>MCP<sp/>tools<sp/>list&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_list_modes)<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;llm_list_modes&apos;<sp/>in<sp/>MCP<sp/>tools<sp/>list&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>LlmListModes_ReturnsExpectedModes)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;attachOrchestrator(orch_);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>call_req<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jsonrpc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.0&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>1},</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;method&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;tools/call&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;params&quot;</highlight><highlight class="normal">,<sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;llm_list_modes&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;arguments&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()}}}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>resp<sp/>=<sp/>mcp_-&gt;handleRequest(call_req);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>lives<sp/>inside<sp/>resp[&quot;result&quot;][&quot;content&quot;]<sp/>or<sp/>resp[&quot;result&quot;]<sp/>depending</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>on<sp/>the<sp/>MCP<sp/>server&apos;s<sp/>response<sp/>format.<sp/><sp/>Check<sp/>for<sp/>either.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>result_payload;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resp.contains(</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result_payload<sp/>=<sp/>resp[</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Some<sp/>MCP<sp/>servers<sp/>wrap<sp/>the<sp/>tool<sp/>result<sp/>in<sp/>a<sp/>content<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result_payload.is_array()<sp/>&amp;&amp;<sp/>!result_payload.empty())<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result_payload<sp/>=<sp/>result_payload[0].value(</highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>result_payload[0]);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>tool<sp/>itself<sp/>returns<sp/>the<sp/>JSON<sp/>directly;<sp/>in<sp/>test<sp/>environment<sp/>we<sp/>can</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>also<sp/>call<sp/>the<sp/>internal<sp/>handler<sp/>via<sp/>the<sp/>stored<sp/>orchestrator<sp/>reference.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>As<sp/>a<sp/>simpler<sp/>approach:<sp/>call<sp/>toolLLMListModes<sp/>through<sp/>the<sp/>request<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.is_null());</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>resp.dump();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>LlmOrchestrate_AskMode_NoPlugin_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;attachOrchestrator(orch_);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>call_req<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jsonrpc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.0&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>2},</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;method&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;tools/call&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;params&quot;</highlight><highlight class="normal">,<sp/><sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;llm_orchestrate&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;arguments&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>ThemisDB?&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;mode&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ask&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>resp<sp/>=<sp/>mcp_-&gt;handleRequest(call_req);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.is_null());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>MCP<sp/>error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>resp.dump();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>AttachNullOrchestrator_IsGraceful)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>attachOrchestrator<sp/>with<sp/>nullptr<sp/>must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(mcp_-&gt;attachOrchestrator(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>McpToolBridge<sp/>tests<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>BridgeTool_SingleTool_RegistersInRegistry)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>simple<sp/>tool<sp/>on<sp/>the<sp/>MCP<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;registerTool(</highlight><highlight class="stringliteral">&quot;ping&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Echo<sp/>ping&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;object&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()}},</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;pong&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bridge<sp/>it<sp/>into<sp/>the<sp/>orchestrator&apos;s<sp/>ToolRegistry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>McpToolBridge::bridgeTool(*mcp_,<sp/></highlight><highlight class="stringliteral">&quot;ping&quot;</highlight><highlight class="normal">,<sp/>orch_-&gt;toolRegistry());</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>spec<sp/>=<sp/>orch_-&gt;toolRegistry().getSpec(</highlight><highlight class="stringliteral">&quot;ping&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(spec.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;ping&apos;<sp/>to<sp/>be<sp/>registered<sp/>after<sp/>bridge&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(spec-&gt;name,<sp/></highlight><highlight class="stringliteral">&quot;ping&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>BridgeTool_WithAlias_RegistersUnderAlias)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;registerTool(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Run<sp/>query&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;object&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()}},</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;rows&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array()}};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>McpToolBridge::bridgeTool(*mcp_,<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/>orch_-&gt;toolRegistry(),<sp/></highlight><highlight class="stringliteral">&quot;mcp_query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch_-&gt;toolRegistry().getSpec(</highlight><highlight class="stringliteral">&quot;mcp_query&quot;</highlight><highlight class="normal">).has_value())</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;mcp_query&apos;<sp/>alias<sp/>after<sp/>bridge&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>original<sp/>name<sp/>should<sp/>not<sp/>be<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(orch_-&gt;toolRegistry().getSpec(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>BridgeTools_WithPrefix_RegistersAllWithPrefix)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;registerTool(</highlight><highlight class="stringliteral">&quot;tool_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Tool<sp/>A&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json::object(),</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>1}};<sp/>});</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;registerTool(</highlight><highlight class="stringliteral">&quot;tool_b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Tool<sp/>B&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json::object(),</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>2}};<sp/>});</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>McpToolBridge::bridgeTools(*mcp_,<sp/>orch_-&gt;toolRegistry(),<sp/></highlight><highlight class="stringliteral">&quot;mcp_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch_-&gt;toolRegistry().getSpec(</highlight><highlight class="stringliteral">&quot;mcp_tool_a&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch_-&gt;toolRegistry().getSpec(</highlight><highlight class="stringliteral">&quot;mcp_tool_b&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>prefix,<sp/>originals<sp/>should<sp/>not<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(orch_-&gt;toolRegistry().getSpec(</highlight><highlight class="stringliteral">&quot;tool_a&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>BridgedTool_Invocation_ForwardedToMcpServer)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handler_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;registerTool(</highlight><highlight class="stringliteral">&quot;echo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Echo<sp/>args&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json::object(),</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;handler_called](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>args)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handler_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;echoed&quot;</highlight><highlight class="normal">,<sp/>args}};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>McpToolBridge::bridgeTool(*mcp_,<sp/></highlight><highlight class="stringliteral">&quot;echo&quot;</highlight><highlight class="normal">,<sp/>orch_-&gt;toolRegistry());</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invoke<sp/>the<sp/>bridged<sp/>tool<sp/>through<sp/>the<sp/>ToolRegistry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref><sp/>mode;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>mode.<ref refid="structthemis_1_1llm_1_1_mode_spec_1a63c07e3083fa1848c34cafb5733a975d" kindref="member">id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ask&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>mode.<ref refid="structthemis_1_1llm_1_1_mode_spec_1a32d2d34473bac5d7a99f1fbe8144487f" kindref="member">tools_allowed</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;echo&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;msg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>result<sp/>=<sp/>orch_-&gt;toolRegistry().invokeTool(</highlight><highlight class="stringliteral">&quot;echo&quot;</highlight><highlight class="normal">,<sp/>args,<sp/>mode);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handler_called)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;MCP<sp/>handler<sp/>was<sp/>not<sp/>called<sp/>through<sp/>bridge&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.dump();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(McpOrchestratorBridgeTest,<sp/>BridgeTools_NoPrefix_RegistersOriginalNames)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>mcp_-&gt;registerTool(</highlight><highlight class="stringliteral">&quot;get_schema&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Get<sp/>schema&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json::object(),</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">}};<sp/>});</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>McpToolBridge::bridgeTools(*mcp_,<sp/>orch_-&gt;toolRegistry()<sp/></highlight><highlight class="comment">/*,<sp/>prefix=&quot;&quot;<sp/>*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch_-&gt;toolRegistry().getSpec(</highlight><highlight class="stringliteral">&quot;get_schema&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_LLM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_MCP</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_mcp_orchestrator_bridge.cpp"/>
+  </compounddef>
+</doxygen>

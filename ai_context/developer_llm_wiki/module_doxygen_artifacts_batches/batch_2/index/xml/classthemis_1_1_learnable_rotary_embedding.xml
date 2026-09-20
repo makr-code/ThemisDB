@@ -1,0 +1,945 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_learnable_rotary_embedding" kind="class" language="C++" prot="public">
+    <compoundname>themis::LearnableRotaryEmbedding</compoundname>
+    <basecompoundref refid="classthemis_1_1_rotary_embedding" prot="public" virt="non-virtual">themis::RotaryEmbedding</basecompoundref>
+    <includes refid="learnable__rope_8h" local="no">learnable_rope.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_learnable_rotary_embedding_1a21e5eef218671053d32f8b8072d9c695" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LearnableRotaryEmbedding::trainable_</definition>
+        <argsstring></argsstring>
+        <name>trainable_</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::trainable_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="164" column="10" bodyfile="include/index/learnable_rope.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learnable_rotary_embedding_1a4dceb407b22b1f49bfae511278daf430" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LearnableRotaryEmbedding::training_mode_</definition>
+        <argsstring></argsstring>
+        <name>training_mode_</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::training_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="165" column="10" bodyfile="include/index/learnable_rope.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learnable_rotary_embedding_1a209ba5d2b617383f6677ad0ea3b38064" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::LearnableRotaryEmbedding::learnable_theta_</definition>
+        <argsstring></argsstring>
+        <name>learnable_theta_</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::learnable_theta_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="166" column="17" bodyfile="include/index/learnable_rope.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learnable_rotary_embedding_1a29528dbe0cc36a15a92ba03d651a09ad" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::LearnableRotaryEmbedding::theta_gradients_</definition>
+        <argsstring></argsstring>
+        <name>theta_gradients_</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::theta_gradients_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="167" column="17" bodyfile="include/index/learnable_rope.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learnable_rotary_embedding_1a89a819ec7a1ddd6b7faf37f430c18281" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::LearnableRotaryEmbedding::adam_m_</definition>
+        <argsstring></argsstring>
+        <name>adam_m_</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::adam_m_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="170" column="17" bodyfile="include/index/learnable_rope.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learnable_rotary_embedding_1a5f2363432f1ff753f69bf975ad2971e2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::LearnableRotaryEmbedding::adam_v_</definition>
+        <argsstring></argsstring>
+        <name>adam_v_</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::adam_v_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="171" column="17" bodyfile="include/index/learnable_rope.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learnable_rotary_embedding_1af2a1d4eb751bf8df0c0f252661dfe201" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LearnableRotaryEmbedding::adam_t_</definition>
+        <argsstring></argsstring>
+        <name>adam_t_</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::adam_t_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="172" column="12" bodyfile="include/index/learnable_rope.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a2cd4a3802a29d388e510b908fd5ff502" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LearnableRotaryEmbedding::LearnableRotaryEmbedding</definition>
+        <argsstring>(const RotationConfig &amp;config, bool trainable=true)</argsstring>
+        <name>LearnableRotaryEmbedding</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::LearnableRotaryEmbedding</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_rotation_config" kindref="compound">RotationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trainable</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize with configuration and optional trainable mode <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rotation configuration (must have theta_cache computed) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trainable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, theta values are trainable; if false, frozen </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="72" column="14" bodyfile="src/index/learnable_rope.cpp" bodystart="27" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1af59d164ccf5b0a6702978525349555c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearnableRotaryEmbedding::setTrainingMode</definition>
+        <argsstring>(bool training)</argsstring>
+        <name>setTrainingMode</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::setTrainingMode</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>training</declname>
+        </param>
+        <briefdescription>
+<para>Set Training Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set training mode (affects gradient computation) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>training</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, gradients are computed during rotation</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">training</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTrainingMode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="78" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1aa1d7f8c4416a2f3a54d61d623ec2ce8c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LearnableRotaryEmbedding::isTraining</definition>
+        <argsstring>() const</argsstring>
+        <name>isTraining</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::isTraining</qualifiedname>
+        <briefdescription>
+<para>Check if in training mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="81" column="10" bodyfile="include/index/learnable_rope.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a68b43e39f50df859e36e0eef4da24a24" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LearnableRotaryEmbedding::isTrainable</definition>
+        <argsstring>() const</argsstring>
+        <name>isTrainable</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::isTrainable</qualifiedname>
+        <briefdescription>
+<para>Check if parameters are trainable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="84" column="10" bodyfile="include/index/learnable_rope.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1ac1994fc66aad3c6ecee995561c2b5bbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::LearnableRotaryEmbedding::train</definition>
+        <argsstring>(const std::vector&lt; TrainingSample &gt; &amp;samples, const TrainingConfig &amp;config)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_training_config" kindref="compound">TrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train the learnable theta parameters on a dataset Uses contrastive learning objective to optimize positional encoding <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training samples with embeddings, positions, and targets </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training configuration (learning rate, batch size, etc.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Training loss history (one value per epoch)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), initializeOptimizer(), splitTrainValidation(), reserve(), max(), <ref refid="classthemis_1_1_learnable_rotary_embedding_1af59d164ccf5b0a6702978525349555c8" kindref="member">setTrainingMode()</ref>, g(), rd(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="93" column="17" bodyfile="src/index/learnable_rope.cpp" bodystart="396" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1af56343d8a5df03d6d7de2905789087ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::LearnableRotaryEmbedding::computeGradients</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, float target_similarity, size_t position)</argsstring>
+        <name>computeGradients</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::computeGradients</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>target_similarity</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+<para>Compute Gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute gradients for a single sample (used internally during training) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input embedding </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_similarity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target similarity for contrastive loss </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position index </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Gradients with respect to theta parameters</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_similarity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: gradients(), size(), <ref refid="classthemis_1_1_learnable_rotary_embedding_1a3a96844699da4ba6caf17c99a4d540ab" kindref="member">rotate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="103" column="17" bodyfile="src/index/learnable_rope.cpp" bodystart="161" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a0c993ae17fab2aaa08d26a7c8d694aca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearnableRotaryEmbedding::updateParameters</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;gradients, float learning_rate)</argsstring>
+        <name>updateParameters</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::updateParameters</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+        </param>
+        <briefdescription>
+<para>Update Parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update theta parameters using computed gradients <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gradients for each theta value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>learning_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Learning rate for the update</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">learning_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="112" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="228" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1ae1f3965c3cf63bce765fa20b933dfcfa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; double &gt; &amp;</type>
+        <definition>const std::vector&lt; double &gt; &amp; themis::LearnableRotaryEmbedding::getLearnableTheta</definition>
+        <argsstring>() const</argsstring>
+        <name>getLearnableTheta</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::getLearnableTheta</qualifiedname>
+        <briefdescription>
+<para>Get current learnable theta values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="120" column="23" bodyfile="include/index/learnable_rope.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a8b6a7aebe820545962258fe5fc0d7905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearnableRotaryEmbedding::setLearnableTheta</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;theta)</argsstring>
+        <name>setLearnableTheta</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::setLearnableTheta</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>theta</declname>
+        </param>
+        <briefdescription>
+<para>Set learnable theta values (e.g., from loaded checkpoint). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Learnable Theta.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">theta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="123" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="56" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a3a5665d3b681610d146531df880273ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearnableRotaryEmbedding::resetToBase</definition>
+        <argsstring>()</argsstring>
+        <name>resetToBase</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::resetToBase</qualifiedname>
+        <briefdescription>
+<para>Reset learnable theta to base configuration values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset To Base.</para>
+<para>Calls: <ref refid="classthemis_1_1_rotary_embedding_1a26a58fabc6a707462466dc379e598451" kindref="member">getConfig()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="126" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a858f8e500aceb7a113cdbea9b23d37e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LearnableRotaryEmbedding::saveParameters</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>saveParameters</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::saveParameters</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Save trained parameters to file (JSON format) Stores theta values, configuration, and training metadata <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File path for saving </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if successful, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="134" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="504" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1ac5715a5b8559c4d7bb8dccb6d2747fd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LearnableRotaryEmbedding::loadParameters</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadParameters</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::loadParameters</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load trained parameters from file <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File path for loading </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if successful, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), std::getline(), find(), substr(), ss(), erase(), std::remove_if(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="139" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="547" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1ac67973ff37f036a7bf8b570955dd9503" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::LearnableRotaryEmbedding::computeValidationLoss</definition>
+        <argsstring>(const std::vector&lt; TrainingSample &gt; &amp;samples) const</argsstring>
+        <name>computeValidationLoss</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::computeValidationLoss</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute validation loss on a held-out dataset <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Validation samples </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Average validation loss </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="146" column="11" bodyfile="src/index/learnable_rope.cpp" bodystart="355" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a3a96844699da4ba6caf17c99a4d540ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::LearnableRotaryEmbedding::rotate</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, size_t position) const</argsstring>
+        <name>rotate</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::rotate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="150" column="17" bodyfile="src/index/learnable_rope.cpp" bodystart="78" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a214d0a6ca9df89f6b2dbc0bd035d5475" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; double, double &gt;</type>
+        <definition>std::pair&lt; double, double &gt; themis::LearnableRotaryEmbedding::computeLearnableRotationAngles</definition>
+        <argsstring>(size_t position, size_t pair_idx) const</argsstring>
+        <name>computeLearnableRotationAngles</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::computeLearnableRotationAngles</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pair_idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute rotation angles using learnable theta (Similar to base class but uses learnable parameters) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="160" column="15" bodyfile="src/index/learnable_rope.cpp" bodystart="130" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1ad470434e8c9b8aefec140dd69002696a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::LearnableRotaryEmbedding::computeContrastiveLoss</definition>
+        <argsstring>(const std::vector&lt; TrainingSample &gt; &amp;batch, float temperature) const</argsstring>
+        <name>computeContrastiveLoss</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::computeContrastiveLoss</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>temperature</declname>
+        </param>
+        <briefdescription>
+<para>Compute contrastive loss for a batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="177" column="11" bodyfile="src/index/learnable_rope.cpp" bodystart="322" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a5021f2c565993ff29bec8bde849bd1ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearnableRotaryEmbedding::updateSGD</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;gradients, float learning_rate)</argsstring>
+        <name>updateSGD</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::updateSGD</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+        </param>
+        <briefdescription>
+<para>Update parameters using SGD. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update SGD.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">learning_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_learnable_rotary_embedding_1a0c993ae17fab2aaa08d26a7c8d694aca" kindref="member">updateParameters()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="183" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="257" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a533cd07f17b7b6d7f2ee3365e074c9a2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearnableRotaryEmbedding::updateAdam</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;gradients, float learning_rate, const TrainingConfig &amp;config)</argsstring>
+        <name>updateAdam</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::updateAdam</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_training_config" kindref="compound">TrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update parameters using Adam optimizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Adam.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">learning_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), initializeOptimizer(), size(), std::pow(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="186" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="271" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a24924609c4d59e34c23379d85dae5009" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearnableRotaryEmbedding::initializeOptimizer</definition>
+        <argsstring>(const TrainingConfig &amp;config)</argsstring>
+        <name>initializeOptimizer</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::initializeOptimizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_training_config" kindref="compound">TrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize optimizer state (Adam). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize Optimizer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: resize(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="193" column="10" bodyfile="src/index/learnable_rope.cpp" bodystart="310" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learnable_rotary_embedding_1a26d9983a655768b537006a2089b7b736" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; <ref refid="structthemis_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;, std::vector&lt; <ref refid="structthemis_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; TrainingSample &gt;, std::vector&lt; TrainingSample &gt; &gt; themis::LearnableRotaryEmbedding::splitTrainValidation</definition>
+        <argsstring>(const std::vector&lt; TrainingSample &gt; &amp;samples, float validation_split) const</argsstring>
+        <name>splitTrainValidation</name>
+        <qualifiedname>themis::LearnableRotaryEmbedding::splitTrainValidation</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>validation_split</declname>
+        </param>
+        <briefdescription>
+<para>Split samples into training and validation sets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="197" column="5" bodyfile="src/index/learnable_rope.cpp" bodystart="362" bodyend="385"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Learnable Rotary Position Embeddings</para>
+<para>Extends the base <ref refid="classthemis_1_1_rotary_embedding" kindref="compound">RotaryEmbedding</ref> class with trainable theta parameters. Enables domain-specific adaptation of rotation frequencies through contrastive learning or other training objectives.</para>
+<para>Key features:<itemizedlist>
+<listitem><para>Learnable theta values (initialized from base RoPE)</para>
+</listitem><listitem><para>Gradient computation and backpropagation</para>
+</listitem><listitem><para>Parameter updates with SGD or Adam optimizer</para>
+</listitem><listitem><para>Serialization/deserialization of trained parameters</para>
+</listitem><listitem><para>Training/inference mode switching</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1_rotary_embedding" kindref="compound">RotaryEmbedding</ref> for base functionality </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="structthemis_1_1_training_config" kindref="compound">TrainingConfig</ref> for hyperparameters </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::LearnableRotaryEmbedding</label>
+        <link refid="classthemis_1_1_learnable_rotary_embedding"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::RotaryEmbedding</label>
+        <link refid="classthemis_1_1_rotary_embedding"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::LearnableRotaryEmbedding</label>
+        <link refid="classthemis_1_1_learnable_rotary_embedding"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::RotaryEmbedding</label>
+        <link refid="classthemis_1_1_rotary_embedding"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/learnable_rope.h" line="67" column="1" bodyfile="include/index/learnable_rope.h" bodystart="67" bodyend="201"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a89a819ec7a1ddd6b7faf37f430c18281" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>adam_m_</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1af2a1d4eb751bf8df0c0f252661dfe201" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>adam_t_</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a5f2363432f1ff753f69bf975ad2971e2" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>adam_v_</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1ad470434e8c9b8aefec140dd69002696a" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>computeContrastiveLoss</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1af56343d8a5df03d6d7de2905789087ee" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>computeGradients</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a214d0a6ca9df89f6b2dbc0bd035d5475" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>computeLearnableRotationAngles</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1ac67973ff37f036a7bf8b570955dd9503" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>computeValidationLoss</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a26a58fabc6a707462466dc379e598451" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1ae1f3965c3cf63bce765fa20b933dfcfa" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>getLearnableTheta</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a145991c63f923097b7539100c0686c68" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a24924609c4d59e34c23379d85dae5009" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>initializeOptimizer</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a68b43e39f50df859e36e0eef4da24a24" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>isTrainable</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1aa1d7f8c4416a2f3a54d61d623ec2ce8c" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>isTraining</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a209ba5d2b617383f6677ad0ea3b38064" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>learnable_theta_</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a2cd4a3802a29d388e510b908fd5ff502" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>LearnableRotaryEmbedding</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1ac5715a5b8559c4d7bb8dccb6d2747fd7" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>loadParameters</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a3a5665d3b681610d146531df880273ef" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>resetToBase</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a521359d8e492d96e07e05e7dc1cb054f" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>RotaryEmbedding</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a3a96844699da4ba6caf17c99a4d540ab" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>rotate</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1ac17198c4d4fe645c09f0d133fcaade42" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>rotateBatch</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a53c07bf4a0d724c5489ecb0083274ba9" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>rotateInverse</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a6c29186ae0026d91b8c114b8f8cc0af8" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>rotateRelational</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a858f8e500aceb7a113cdbea9b23d37e6" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>saveParameters</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a8b6a7aebe820545962258fe5fc0d7905" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>setLearnableTheta</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1af59d164ccf5b0a6702978525349555c8" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>setTrainingMode</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a26d9983a655768b537006a2089b7b736" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>splitTrainValidation</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a29528dbe0cc36a15a92ba03d651a09ad" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>theta_gradients_</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1ac1994fc66aad3c6ecee995561c2b5bbd" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>train</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a21e5eef218671053d32f8b8072d9c695" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>trainable_</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a4dceb407b22b1f49bfae511278daf430" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>training_mode_</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a533cd07f17b7b6d7f2ee3365e074c9a2" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>updateAdam</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a0c993ae17fab2aaa08d26a7c8d694aca" prot="public" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>updateParameters</name></member>
+      <member refid="classthemis_1_1_learnable_rotary_embedding_1a5021f2c565993ff29bec8bde849bd1ee" prot="private" virt="non-virtual"><scope>themis::LearnableRotaryEmbedding</scope><name>updateSGD</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

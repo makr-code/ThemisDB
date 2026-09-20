@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockCircuitBreakerRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry_1ad16f696fb96db2f67d7f73637b4882e1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker" kindref="compound">MockCircuitBreaker</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MockCircuitBreaker&gt; themis::aql::testing::MockCircuitBreakerRegistry::breakers_</definition>
+        <argsstring></argsstring>
+        <name>breakers_</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreakerRegistry::breakers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="147" column="24" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry_1a71d2d77c284d9878536f43c023ffe90b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockCircuitBreakerRegistry::registerBreaker</definition>
+        <argsstring>(const std::string &amp;op, const MockCircuitBreaker::Config &amp;cfg)</argsstring>
+        <name>registerBreaker</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreakerRegistry::registerBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config" kindref="compound">MockCircuitBreaker::Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="134" column="10" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry_1a50336131103ec7bb097e723fce302e1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker" kindref="compound">MockCircuitBreaker</ref> &amp;</type>
+        <definition>MockCircuitBreaker &amp; themis::aql::testing::MockCircuitBreakerRegistry::get</definition>
+        <argsstring>(const std::string &amp;op)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreakerRegistry::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="138" column="24" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry_1a1c2d72eb1acb43918d98c28da2c37861" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::MockCircuitBreakerRegistry::hasBreaker</definition>
+        <argsstring>(const std::string &amp;op) const</argsstring>
+        <name>hasBreaker</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreakerRegistry::hasBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="142" column="10" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry of per-operation-type circuit breakers. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="132" column="1" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="132" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry_1ad16f696fb96db2f67d7f73637b4882e1" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreakerRegistry</scope><name>breakers_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry_1a50336131103ec7bb097e723fce302e1c" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreakerRegistry</scope><name>get</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry_1a1c2d72eb1acb43918d98c28da2c37861" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreakerRegistry</scope><name>hasBreaker</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry_1a71d2d77c284d9878536f43c023ffe90b" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreakerRegistry</scope><name>registerBreaker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

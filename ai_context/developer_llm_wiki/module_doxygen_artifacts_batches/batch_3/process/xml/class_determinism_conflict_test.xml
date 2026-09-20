@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_determinism_conflict_test" kind="class" language="C++" prot="public">
+    <compoundname>DeterminismConflictTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_determinism_conflict_test_1a48a177ae54a5beaa31a8ce287c204c19" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t DeterminismConflictTest::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>DeterminismConflictTest::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_determinism_conflict_focused.cpp" line="28" column="30" bodyfile="tests/process/test_process_determinism_conflict_focused.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_determinism_conflict_test_1ac3e1603a9c69c38d9b6ce69ac03306d3" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t DeterminismConflictTest::kModelChurnRounds</definition>
+        <argsstring></argsstring>
+        <name>kModelChurnRounds</name>
+        <qualifiedname>DeterminismConflictTest::kModelChurnRounds</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_determinism_conflict_focused.cpp" line="29" column="30" bodyfile="tests/process/test_process_determinism_conflict_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_determinism_conflict_test_1afcdb4b99367bf503e5e2be09770f618f" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 DeterminismConflictTest::rng</definition>
+        <argsstring></argsstring>
+        <name>rng</name>
+        <qualifiedname>DeterminismConflictTest::rng</qualifiedname>
+        <initializer>{<ref refid="class_determinism_conflict_test_1a48a177ae54a5beaa31a8ce287c204c19" kindref="member">kCanonicalRngSeed</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_determinism_conflict_focused.cpp" line="32" column="18" bodyfile="tests/process/test_process_determinism_conflict_focused.cpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_determinism_conflict_test_1a1a378929aa5d3f39f90e6b316168db4d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeterminismConflictTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DeterminismConflictTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_determinism_conflict_focused.cpp" line="35" column="10" bodyfile="tests/process/test_process_determinism_conflict_focused.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DeterminismConflictTest</label>
+        <link refid="class_determinism_conflict_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DeterminismConflictTest</label>
+        <link refid="class_determinism_conflict_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_determinism_conflict_focused.cpp" line="26" column="1" bodyfile="tests/process/test_process_determinism_conflict_focused.cpp" bodystart="26" bodyend="38"/>
+    <listofallmembers>
+      <member refid="class_determinism_conflict_test_1a48a177ae54a5beaa31a8ce287c204c19" prot="protected" virt="non-virtual"><scope>DeterminismConflictTest</scope><name>kCanonicalRngSeed</name></member>
+      <member refid="class_determinism_conflict_test_1ac3e1603a9c69c38d9b6ce69ac03306d3" prot="protected" virt="non-virtual"><scope>DeterminismConflictTest</scope><name>kModelChurnRounds</name></member>
+      <member refid="class_determinism_conflict_test_1afcdb4b99367bf503e5e2be09770f618f" prot="protected" virt="non-virtual"><scope>DeterminismConflictTest</scope><name>rng</name></member>
+      <member refid="class_determinism_conflict_test_1a1a378929aa5d3f39f90e6b316168db4d" prot="protected" virt="non-virtual"><scope>DeterminismConflictTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

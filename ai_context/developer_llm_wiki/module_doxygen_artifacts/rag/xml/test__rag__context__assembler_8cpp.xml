@@ -1,0 +1,1089 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__context__assembler_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_context_assembler.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="rag__context__assembler_8h" local="yes">rag/rag_context_assembler.h</includes>
+    <includes local="yes">llm/context_window_budget.h</includes>
+    <includes local="no">limits</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rag/rag_context_assembler.h</label>
+        <link refid="rag__context__assembler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_context_assembler.cpp</label>
+        <link refid="test__rag__context__assembler_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>limits</label>
+      </node>
+      <node id="4">
+        <label>llm/context_window_budget.h</label>
+      </node>
+      <node id="5">
+        <label>prompt_engineering/rag_prompt_builder.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1aa583372d083e2281947b40ed7239af9c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>RetrievedChunk</type>
+        <definition>static RetrievedChunk makeChunk</definition>
+        <argsstring>(const std::string &amp;content, float relevance=1.0f, const std::string &amp;source=&quot;&quot;)</argsstring>
+        <name>makeChunk</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>relevance</declname>
+          <defval>1.0f</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="24" column="23" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="24" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, A1_EmptyChunksReturnsEmptyResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>A1_EmptyChunksReturnsEmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="37" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="37" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a2d8da33817b9beae0ad849f0f5ab7d76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, A2_NoBudgetReturnsEmptyResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>A2_NoBudgetReturnsEmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="44" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="44" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a7577f8f65ffb259d054870a20f9a1fe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, A3_EmptyQueryAndSystemUsesFullBudget)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>A3_EmptyQueryAndSystemUsesFullBudget</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="54" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="54" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1afa1f0972d27420b45f48cb1425ee6bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, A4_ZeroModelCtxFallsBackTo4096)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>A4_ZeroModelCtxFallsBackTo4096</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="64" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="64" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a6bbda2c1f85078efe2f591a3ed078290" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, A5_WasTruncatedFalseForEmptyInput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>A5_WasTruncatedFalseForEmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="73" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a7a4db2ee451c21d89d14fa5dfcd338dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, B1_SingleSmallChunkFits)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>B1_SingleSmallChunkFits</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="81" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="81" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1af6215fd0ffcf8edf2f39a7c52e1ef939" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, B2_OversizedChunkTruncatedByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>B2_OversizedChunkTruncatedByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="91" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="91" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a451e87f3e0eefa82976510902cf25cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, B3_OversizedChunkDroppedWhenPartialDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>B3_OversizedChunkDroppedWhenPartialDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="105" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1acf170319f85aac5740bf096a95b5a0a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, B4_SingleFittingChunkTokensUsedPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>B4_SingleFittingChunkTokensUsedPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="115" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a052eaea818bd1ce11b694ce8b9854d91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, B5_TruncatedContentLengthLessThanOriginal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>B5_TruncatedContentLengthLessThanOriginal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="124" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="124" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a3f99c5121fa9e42b5af9c0f7dbb69e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, C1_ChunksSortedByRelevance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>C1_ChunksSortedByRelevance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="138" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="138" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a9f3c8665c58eedc2e3faabe01d424b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, C2_AllSmallChunksFit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>C2_AllSmallChunksFit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="155" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="155" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1aa764d73a7ad53bd88319cf0ea3603612" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, C3_HighRelevanceChunkPreferred)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>C3_HighRelevanceChunkPreferred</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="170" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="170" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1aea4469f525879a2fe372ab82f37836d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, C4_TokensUsedIsNonDecreasing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>C4_TokensUsedIsNonDecreasing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="187" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="187" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1aeff1d25c6d8dbeaa6315351a69918c01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, C5_BudgetExhaustedChunksNotAdded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>C5_BudgetExhaustedChunksNotAdded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="202" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="202" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a27b54a30e4c5791da420591ac9a1ffd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, C6_EqualRelevanceUsesDeterministicTieBreak)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>C6_EqualRelevanceUsesDeterministicTieBreak</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="219" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="219" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a81c1651c5a331e776cfef33ef9f29e75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, D1_ResponseBudgetPositiveAfterAssembly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>D1_ResponseBudgetPositiveAfterAssembly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="243" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="243" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a97431839d1f90fc317b6ece58018e594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, D2_ResponseBudgetAtLeastReserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>D2_ResponseBudgetAtLeastReserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="252" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="252" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a64addd6bc426f79b6cbd66780d2cddf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, D3_ResponseBudgetEmptyChunks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>D3_ResponseBudgetEmptyChunks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="263" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="263" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a07d61afbfaf37eb1c823099860364b07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, D4_LargerContextWindowGivesLargerResponseBudget)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>D4_LargerContextWindowGivesLargerResponseBudget</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="274" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="274" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a7f109738150c00c63363e715ef2721ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, D5_GetAndSetConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>D5_GetAndSetConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="286" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="286" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a24571505d5e1afbf0c960f3f85a1dda2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, E1_DefaultTruncationMarker)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>E1_DefaultTruncationMarker</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="296" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="296" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1af5cd395780e5e5668a3266337ad195c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, E2_CustomTruncationMarker)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>E2_CustomTruncationMarker</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="309" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="309" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a82bace26992f68bb278907e806197495" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, E3_NoTruncationWhenChunkFits)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>E3_NoTruncationWhenChunkFits</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="323" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="323" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a16beca8928711f5d47466a9ca680eb97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, E4_OnlyLastChunkMayBeTruncated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>E4_OnlyLastChunkMayBeTruncated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="335" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="335" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a5ebd4731237754a4d0cb5f407510e832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, E5_AllowPartialDefaultIsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>E5_AllowPartialDefaultIsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="355" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="355" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a432dbc9d80d6b9b581b8c951b7c14996" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, F1_ComputeMaxTokensNonZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>F1_ComputeMaxTokensNonZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="362" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="362" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a60841340127f5d825cbf0cb5f22f198b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, F2_ComputeMaxTokensHonoursUserMax)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>F2_ComputeMaxTokensHonoursUserMax</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="367" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="367" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a6dc82b8b2ad3fabe337cc635d7689742" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, F3_ComputeMaxTokensIgnoresZeroUserMax)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>F3_ComputeMaxTokensIgnoresZeroUserMax</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="373" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="373" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a981efb1c27c4aacb8bf2c421a39a0ceb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, F4_ComputeMaxTokensAtLeastOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>F4_ComputeMaxTokensAtLeastOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="380" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="380" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1adbd5689e8954ec89e9114a1017d3e45f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, F5_LargerWindowLargerMaxTokens)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>F5_LargerWindowLargerMaxTokens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="386" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="386" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__assembler_8cpp_1a6521939b9e30937332f6a9c92cb1a731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagContextAssemblerFocusedTests, F6_ComputeMaxTokensClampsToIntMax)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagContextAssemblerFocusedTests</type>
+        </param>
+        <param>
+          <type>F6_ComputeMaxTokensClampsToIntMax</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_assembler.cpp" line="393" column="1" bodyfile="tests/rag/test_rag_context_assembler.cpp" bodystart="393" bodyend="400"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref> — Greedy Fill with Response Guard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test suite: RagContextAssemblerFocusedTests (32 tests) Group A (5) – empty input edge cases Group B (5) – single chunk: fits, too large, truncation Group C (6) – multiple chunks: greedy fill in relevance order Group D (5) – response-guard: tokens_remaining_for_response Group E (5) – truncation marker and allow_partial_chunk flag Group F (6) – computeMaxTokens static helper </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__context__assembler_8h" kindref="compound">rag/rag_context_assembler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/context_window_budget.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>make<sp/>a<sp/>chunk<sp/>with<sp/>given<sp/>content<sp/>and<sp/>relevance<sp/>score.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>RetrievedChunk<sp/>makeChunk(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>relevance<sp/>=<sp/>1.0f,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>RetrievedChunk<sp/>c;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>c.content<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>content;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>c.relevance_score<sp/>=<sp/>relevance;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>c.source<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>source;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>A<sp/>–<sp/>empty<sp/>input<sp/>edge<sp/>cases<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>A1_EmptyChunksReturnsEmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.chunks_used.empty());</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>ctx.tokens_used);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>A2_NoBudgetReturnsEmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>5u;<sp/><sp/></highlight><highlight class="comment">//<sp/>very<sp/>tiny<sp/>→<sp/>overhead<sp/>&gt;<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>1000u;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(</highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.chunks_used.empty());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>ctx.tokens_used);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>A3_EmptyQueryAndSystemUsesFullBudget)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ContextWindowBudget<sp/>b<sp/>=</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ContextWindowBudget::compute(4096u,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>512u);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(b.available_context_tokens,<sp/>0u);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>A4_ZeroModelCtxFallsBackTo4096)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>the<sp/>4096<sp/>fallback<sp/>a<sp/>short<sp/>chunk<sp/>must<sp/>fit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(</highlight><highlight class="stringliteral">&quot;short<sp/>text&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;short<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.chunks_used.empty());</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>A5_WasTruncatedFalseForEmptyInput)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({},<sp/></highlight><highlight class="stringliteral">&quot;sys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;qry&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.was_truncated);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>B<sp/>–<sp/>single<sp/>chunk<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>B1_SingleSmallChunkFits)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(</highlight><highlight class="stringliteral">&quot;Hello<sp/>world&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>ctx.chunks_used.size());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.was_truncated);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>B2_OversizedChunkTruncatedByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>100u;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>tokens<sp/>≈<sp/>350<sp/>chars<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>20u;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" kindref="member">allow_partial_chunk</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2000-char<sp/>chunk<sp/>clearly<sp/>exceeds<sp/>context<sp/>budget.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(std::string(2000,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">))},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>ctx.chunks_used.size());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.was_truncated);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.chunks_used[0].content.find(</highlight><highlight class="stringliteral">&quot;[TRUNCATED]&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>B3_OversizedChunkDroppedWhenPartialDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>100u;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>20u;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" kindref="member">allow_partial_chunk</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(std::string(2000,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">))},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.chunks_used.empty());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>B4_SingleFittingChunkTokensUsedPositive)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(</highlight><highlight class="stringliteral">&quot;Hello<sp/>world!&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(ctx.tokens_used,<sp/>0u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>B5_TruncatedContentLengthLessThanOriginal)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>50u;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>10u;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>big(1000,<sp/></highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(big)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx.chunks_used.empty())<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(ctx.chunks_used[0].content.size(),<sp/>big.size());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>C<sp/>–<sp/>multiple<sp/>chunks<sp/>in<sp/>relevance<sp/>order<sp/>──────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>C1_ChunksSortedByRelevance)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedChunk&gt;<sp/>chunks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>0.1f),</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>0.9f),</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;medium&quot;</highlight><highlight class="normal">,<sp/>0.5f),</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>(chunks,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(ctx.chunks_used.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>ctx.chunks_used[0].content);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;medium&quot;</highlight><highlight class="normal">,<sp/>ctx.chunks_used[1].content);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>C2_AllSmallChunksFit)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedChunk&gt;<sp/>chunks<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks.push_back(makeChunk(</highlight><highlight class="stringliteral">&quot;short<sp/>doc<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>1.0f));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>(chunks,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(5u,<sp/>ctx.chunks_used.size());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>C3_HighRelevanceChunkPreferred)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>very<sp/>small<sp/>budget<sp/>so<sp/>only<sp/>one<sp/>chunk<sp/>fits.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>50u;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>10u;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" kindref="member">allow_partial_chunk</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedChunk&gt;<sp/>chunks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">,<sp/><sp/>0.2f),</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;best&quot;</highlight><highlight class="normal">,<sp/>0.9f),</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>(chunks,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(ctx.chunks_used.empty());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;best&quot;</highlight><highlight class="normal">,<sp/>ctx.chunks_used[0].content);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>C4_TokensUsedIsNonDecreasing)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedChunk&gt;<sp/>chunks<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks.push_back(makeChunk(std::string(100,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal"><sp/>+<sp/>i))));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>(chunks,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ctx.tokens_used,<sp/>estimateTokens(chunks[0].content));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>C5_BudgetExhaustedChunksNotAdded)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>20u;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>4u;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" kindref="member">allow_partial_chunk</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>chunk<sp/>≈<sp/>3<sp/>tokens<sp/>(10<sp/>chars<sp/>/<sp/>3.5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedChunk&gt;<sp/>chunks<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks.push_back(makeChunk(</highlight><highlight class="stringliteral">&quot;abcdefghij&quot;</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>10<sp/>chars<sp/>≈<sp/>3<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>(chunks,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(ctx.chunks_used.size(),<sp/>20u);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>C6_EqualRelevanceUsesDeterministicTieBreak)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedChunk&gt;<sp/>chunks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;third&quot;</highlight><highlight class="normal">,<sp/>0.7f,<sp/></highlight><highlight class="stringliteral">&quot;src-z&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">,<sp/>0.7f,<sp/></highlight><highlight class="stringliteral">&quot;src-b&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;second&quot;</highlight><highlight class="normal">,<sp/>0.7f,<sp/></highlight><highlight class="stringliteral">&quot;src-a&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>chunks[0].chunk_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;c3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>chunks[1].chunk_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>chunks[2].chunk_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;c2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>(chunks,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ctx.chunks_used.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.chunks_used[0].chunk_id,<sp/></highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.chunks_used[1].chunk_id,<sp/></highlight><highlight class="stringliteral">&quot;c2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.chunks_used[2].chunk_id,<sp/></highlight><highlight class="stringliteral">&quot;c3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>D<sp/>–<sp/>response-guard<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>D1_ResponseBudgetPositiveAfterAssembly)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(ctx.tokens_remaining_for_response,<sp/>0u);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>D2_ResponseBudgetAtLeastReserved)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>filling<sp/>context,<sp/>remaining<sp/>must<sp/>be<sp/>&gt;=<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ctx.tokens_remaining_for_response,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ContextWindowBudget::compute(4096u,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>512u).reserved_response_tokens);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>D3_ResponseBudgetEmptyChunks)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ctx.tokens_remaining_for_response,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ContextWindowBudget::compute(4096u,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/>512u)</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.reserved_response_tokens);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>D4_LargerContextWindowGivesLargerResponseBudget)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>makeCtx<sp/>=<sp/>[](</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>window)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>window;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>a(cfg);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a.assemble({makeChunk(</highlight><highlight class="stringliteral">&quot;small<sp/>doc&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(makeCtx(8192u).tokens_remaining_for_response,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCtx(4096u).tokens_remaining_for_response);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>D5_GetAndSetConfig)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>8192u;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a26505e2bfb835da047c0b14bc2e4c93d" kindref="member">setConfig</ref>(cfg);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(8192u,<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a09d184bb500bab4b249b263118549335" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref>);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>E<sp/>–<sp/>truncation<sp/>marker<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>E1_DefaultTruncationMarker)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>30u;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>5u;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" kindref="member">allow_partial_chunk</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(std::string(500,<sp/></highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">))},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx.was_truncated<sp/>&amp;&amp;<sp/>!ctx.chunks_used.empty())<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.chunks_used[0].content.rfind(</highlight><highlight class="stringliteral">&quot;[TRUNCATED]&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>E2_CustomTruncationMarker)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>30u;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>5u;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" kindref="member">allow_partial_chunk</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a1d3b3ad14b88171b68b474762c79079c" kindref="member">truncation_marker</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;…ABGESCHNITTEN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(std::string(500,<sp/></highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">))},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx.was_truncated<sp/>&amp;&amp;<sp/>!ctx.chunks_used.empty())<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.chunks_used[0].content.find(</highlight><highlight class="stringliteral">&quot;ABGESCHNITTEN&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>E3_NoTruncationWhenChunkFits)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>4096u;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>512u;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>({makeChunk(</highlight><highlight class="stringliteral">&quot;fits<sp/>fine&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.was_truncated);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx.chunks_used.empty())<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;fits<sp/>fine&quot;</highlight><highlight class="normal">,<sp/>ctx.chunks_used[0].content);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>E4_OnlyLastChunkMayBeTruncated)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" kindref="member">model_context_tokens</ref><sp/>=<sp/>200u;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" kindref="member">min_response_tokens</ref><sp/><sp/>=<sp/>10u;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" kindref="member">allow_partial_chunk</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref><sp/>asm_{cfg};</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>chunk<sp/>small,<sp/>second<sp/>huge.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedChunk&gt;<sp/>chunks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(</highlight><highlight class="stringliteral">&quot;small&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2.0f),</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeChunk(std::string(3000,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">),<sp/>1.0f),</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>asm_.<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble</ref>(chunks,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>first<sp/>chunk<sp/>should<sp/>not<sp/>contain<sp/>the<sp/>truncation<sp/>marker.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx.chunks_used.size()<sp/>&gt;<sp/>0u)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.chunks_used[0].content.find(</highlight><highlight class="stringliteral">&quot;[TRUNCATED]&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>E5_AllowPartialDefaultIsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" kindref="member">allow_partial_chunk</ref>);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>F<sp/>–<sp/>computeMaxTokens<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>F1_ComputeMaxTokensNonZero)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>ContextWindowBudget::compute(4096u,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>512u);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(b),<sp/>0);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>F2_ComputeMaxTokensHonoursUserMax)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>ContextWindowBudget::compute(4096u,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>512u);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>requests<sp/>only<sp/>100<sp/>tokens.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(b,<sp/>100),<sp/>100);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>F3_ComputeMaxTokensIgnoresZeroUserMax)<sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>ContextWindowBudget::compute(4096u,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>512u);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>with_zero<sp/><sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(b,<sp/>0);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>with_large<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(b,<sp/>9999);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(with_zero,<sp/>with_large);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>F4_ComputeMaxTokensAtLeastOne)<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Degenerate<sp/>budget:<sp/>window=1<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>ContextWindowBudget::compute(1u,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>0u);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(b),<sp/>1);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>F5_LargerWindowLargerMaxTokens)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b1<sp/>=<sp/>ContextWindowBudget::compute(4096u,<sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>512u);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b2<sp/>=<sp/>ContextWindowBudget::compute(32768u,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>512u);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(b2),</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(b1));</highlight></codeline>
+<codeline lineno="391"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><ref refid="test__rag__context__assembler_8cpp_1a2f8fcd3c641b3c80a1b4009bc24f2eca" kindref="member">TEST</ref>(RagContextAssemblerFocusedTests,<sp/>F6_ComputeMaxTokensClampsToIntMax)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>ContextWindowBudget<sp/>b;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>b.model_max_tokens<sp/>=<sp/>std::numeric_limits&lt;size_t&gt;::max();</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>b.reserved_response_tokens<sp/>=<sp/>std::numeric_limits&lt;size_t&gt;::max();</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(b,<sp/>0);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/>std::numeric_limits&lt;int&gt;::max());</highlight></codeline>
+<codeline lineno="400"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_context_assembler.cpp"/>
+  </compounddef>
+</doxygen>

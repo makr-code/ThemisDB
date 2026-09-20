@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2e4df2f00d3ac0604b6f961a10c5a268" kind="dir">
+    <compoundname>tests/temporal</compoundname>
+    <innerfile refid="test__bi__temporal_8cpp">test_bi_temporal.cpp</innerfile>
+    <innerfile refid="test__interval__tree__index_8cpp">test_interval_tree_index.cpp</innerfile>
+    <innerfile refid="test__retention__manager_8cpp">test_retention_manager.cpp</innerfile>
+    <innerfile refid="test__snapshot__manager_8cpp">test_snapshot_manager.cpp</innerfile>
+    <innerfile refid="test__system__versioned__table_8cpp">test_system_versioned_table.cpp</innerfile>
+    <innerfile refid="test__temporal__aggregation_8cpp">test_temporal_aggregation.cpp</innerfile>
+    <innerfile refid="test__temporal__aggregation__property_8cpp">test_temporal_aggregation_property.cpp</innerfile>
+    <innerfile refid="test__temporal__aggregator_8cpp">test_temporal_aggregator.cpp</innerfile>
+    <innerfile refid="test__temporal__cdc_8cpp">test_temporal_cdc.cpp</innerfile>
+    <innerfile refid="test__temporal__cold__store_8cpp">test_temporal_cold_store.cpp</innerfile>
+    <innerfile refid="test__temporal__compressor_8cpp">test_temporal_compressor.cpp</innerfile>
+    <innerfile refid="test__temporal__conflict__resolver_8cpp">test_temporal_conflict_resolver.cpp</innerfile>
+    <innerfile refid="test__temporal__contract__hardening__focused_8cpp">test_temporal_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__temporal__graph_8cpp">test_temporal_graph.cpp</innerfile>
+    <innerfile refid="test__temporal__highcardinality__stress_8cpp">test_temporal_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__temporal__index_8cpp">test_temporal_index.cpp</innerfile>
+    <innerfile refid="test__temporal__migrator_8cpp">test_temporal_migrator.cpp</innerfile>
+    <innerfile refid="test__temporal__query__engine_8cpp">test_temporal_query_engine.cpp</innerfile>
+    <innerfile refid="test__temporal__tier__manager_8cpp">test_temporal_tier_manager.cpp</innerfile>
+    <innerfile refid="test__temporal__v18__v19_8cpp">test_temporal_v18_v19.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/temporal/"/>
+  </compounddef>
+</doxygen>

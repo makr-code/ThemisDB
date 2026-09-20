@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_retention_manager_1_1_scheduled_table" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::temporal::RetentionManager::ScheduledTable</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_manager_1_1_scheduled_table_1a3fbe6a29570777dbe33b30f3b400c6eb" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> *</type>
+        <definition>SystemVersionedTable* themisdb::temporal::RetentionManager::ScheduledTable::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themisdb::temporal::RetentionManager::ScheduledTable::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="289" column="30" bodyfile="include/temporal/retention_manager.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_manager_1_1_scheduled_table_1a473cb30c32db437ed4745beb8c64473e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::temporal::RetentionManager::ScheduledTable::interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <qualifiedname>themisdb::temporal::RetentionManager::ScheduledTable::interval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="290" column="35" bodyfile="include/temporal/retention_manager.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_manager_1_1_scheduled_table_1ad10bd24688439adbc33a00af93b8b62d" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::temporal::RetentionManager::ScheduledTable::next_run</definition>
+        <argsstring></argsstring>
+        <name>next_run</name>
+        <qualifiedname>themisdb::temporal::RetentionManager::ScheduledTable::next_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="291" column="47" bodyfile="include/temporal/retention_manager.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::RetentionManager::ScheduledTable</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>table</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::SystemVersionedTable</label>
+        <link refid="classthemisdb_1_1temporal_1_1_system_versioned_table"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/retention_manager.h" line="288" column="5" bodyfile="include/temporal/retention_manager.h" bodystart="288" bodyend="292"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_manager_1_1_scheduled_table_1a473cb30c32db437ed4745beb8c64473e" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionManager::ScheduledTable</scope><name>interval</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_manager_1_1_scheduled_table_1ad10bd24688439adbc33a00af93b8b62d" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionManager::ScheduledTable</scope><name>next_run</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_manager_1_1_scheduled_table_1a3fbe6a29570777dbe33b30f3b400c6eb" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionManager::ScheduledTable</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

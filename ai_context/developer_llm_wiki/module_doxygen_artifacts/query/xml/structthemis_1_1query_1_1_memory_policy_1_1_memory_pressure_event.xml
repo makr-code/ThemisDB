@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MemoryPolicy::MemoryPressureEvent</compoundname>
+    <includes refid="query__federation__memory_8h" local="no">query_federation_memory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a67b18530de7881c8437ef03c5f642812" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874ad" kindref="member">PressureLevel</ref></type>
+        <definition>PressureLevel themis::query::MemoryPolicy::MemoryPressureEvent::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPressureEvent::level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="46" column="23" bodyfile="include/query/query_federation_memory.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a57875c5811241227735cbc8e738c5d98" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MemoryPolicy::MemoryPressureEvent::current_bytes</definition>
+        <argsstring></argsstring>
+        <name>current_bytes</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPressureEvent::current_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="47" column="18" bodyfile="include/query/query_federation_memory.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a6240130b2c7a1b1362dd623b8c2e730d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MemoryPolicy::MemoryPressureEvent::max_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_bytes</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPressureEvent::max_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="48" column="18" bodyfile="include/query/query_federation_memory.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1abb34319ceb8df280c99d89a763f4839d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::MemoryPolicy::MemoryPressureEvent::utilization_percent</definition>
+        <argsstring></argsstring>
+        <name>utilization_percent</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPressureEvent::utilization_percent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="49" column="16" bodyfile="include/query/query_federation_memory.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a24ffd5ddd22b436c05d881ebcd640082" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MemoryPolicy::MemoryPressureEvent::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPressureEvent::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="50" column="21" bodyfile="include/query/query_federation_memory.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a66fe9f777cc83b17563cd54f7c0d5fd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MemoryPolicy::MemoryPressureEvent::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPressureEvent::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="51" column="21" bodyfile="include/query/query_federation_memory.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation_memory.h" line="45" column="5" bodyfile="include/query/query_federation_memory.h" bodystart="45" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a57875c5811241227735cbc8e738c5d98" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::MemoryPressureEvent</scope><name>current_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a66fe9f777cc83b17563cd54f7c0d5fd5" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::MemoryPressureEvent</scope><name>details</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a67b18530de7881c8437ef03c5f642812" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::MemoryPressureEvent</scope><name>level</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a6240130b2c7a1b1362dd623b8c2e730d" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::MemoryPressureEvent</scope><name>max_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1a24ffd5ddd22b436c05d881ebcd640082" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::MemoryPressureEvent</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event_1abb34319ceb8df280c99d89a763f4839d" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::MemoryPressureEvent</scope><name>utilization_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

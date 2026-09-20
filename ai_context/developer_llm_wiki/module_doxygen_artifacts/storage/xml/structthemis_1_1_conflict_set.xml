@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_conflict_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ConflictSet</compoundname>
+    <includes refid="history__manager_8h" local="no">history_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_conflict_set_1af64d0478faf213f5d19e434d3aff315f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ConflictSet::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::ConflictSet::version</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Format version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="96" column="17" bodyfile="include/storage/history_manager.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_set_1aeb9a9f1ba7d1d172203d8575102b7e63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConflictSet::conflict_set_id</definition>
+        <argsstring></argsstring>
+        <name>conflict_set_id</name>
+        <qualifiedname>themis::ConflictSet::conflict_set_id</qualifiedname>
+        <briefdescription>
+<para>Unique set ID (HLC timestamp string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="97" column="17" bodyfile="include/storage/history_manager.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_set_1a7a0537a0e9e213cbcd309b331aabc3f0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::ConflictSet::detected_at</definition>
+        <argsstring></argsstring>
+        <name>detected_at</name>
+        <qualifiedname>themis::ConflictSet::detected_at</qualifiedname>
+        <briefdescription>
+<para>When the conflict set was created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="98" column="18" bodyfile="include/storage/history_manager.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_set_1abed08092a5a9b929a8b0f6cfd8dfdf63" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ConflictSet::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::ConflictSet::txn_id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Transaction that encountered the conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="99" column="14" bodyfile="include/storage/history_manager.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_set_1ac7263aba8389709594c13a5040b10e22" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ConflictSet::conflict_record_ids</definition>
+        <argsstring></argsstring>
+        <name>conflict_record_ids</name>
+        <qualifiedname>themis::ConflictSet::conflict_record_ids</qualifiedname>
+        <briefdescription>
+<para>IDs of individual ConflictRecords. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="100" column="17" bodyfile="include/storage/history_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_set_1a3b0867e91db21c62b9ecfb56395bf598" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ConflictSet::affected_keys</definition>
+        <argsstring></argsstring>
+        <name>affected_keys</name>
+        <qualifiedname>themis::ConflictSet::affected_keys</qualifiedname>
+        <briefdescription>
+<para>Keys involved in the conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="101" column="17" bodyfile="include/storage/history_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Groups all <ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> artifacts produced by a single failed commit. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A single transaction that writes N keys and then fails will produce N individual <ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> entries (one per key) plus one <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> that references all of them. Callers receive the conflict_set_id in the returned Status so they can look up the full picture with a single key.</para>
+<para>Storage key: <computeroutput>conflictset:&lt;<ref refid="structthemis_1_1_conflict_set_1aeb9a9f1ba7d1d172203d8575102b7e63" kindref="member">conflict_set_id</ref>&gt;</computeroutput> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ConflictSet</label>
+        <link refid="structthemis_1_1_conflict_set"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>detected_at</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::HLCTimestamp</label>
+        <link refid="structthemis_1_1_h_l_c_timestamp"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/history_manager.h" line="95" column="1" bodyfile="include/storage/history_manager.h" bodystart="95" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_conflict_set_1a3b0867e91db21c62b9ecfb56395bf598" prot="public" virt="non-virtual"><scope>themis::ConflictSet</scope><name>affected_keys</name></member>
+      <member refid="structthemis_1_1_conflict_set_1ac7263aba8389709594c13a5040b10e22" prot="public" virt="non-virtual"><scope>themis::ConflictSet</scope><name>conflict_record_ids</name></member>
+      <member refid="structthemis_1_1_conflict_set_1aeb9a9f1ba7d1d172203d8575102b7e63" prot="public" virt="non-virtual"><scope>themis::ConflictSet</scope><name>conflict_set_id</name></member>
+      <member refid="structthemis_1_1_conflict_set_1a7a0537a0e9e213cbcd309b331aabc3f0" prot="public" virt="non-virtual"><scope>themis::ConflictSet</scope><name>detected_at</name></member>
+      <member refid="structthemis_1_1_conflict_set_1abed08092a5a9b929a8b0f6cfd8dfdf63" prot="public" virt="non-virtual"><scope>themis::ConflictSet</scope><name>txn_id</name></member>
+      <member refid="structthemis_1_1_conflict_set_1af64d0478faf213f5d19e434d3aff315f" prot="public" virt="non-virtual"><scope>themis::ConflictSet</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

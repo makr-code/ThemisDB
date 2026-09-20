@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_lo_r_a_weights" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::LoRAWeights</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weights_1afda2802ed9726d6c3788aa2353b649d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRAWeights::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::training::LoRAWeights::model_id</qualifiedname>
+        <briefdescription>
+<para>Base model identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="36" column="17" bodyfile="include/training/training_interfaces.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weights_1a765ef51acc071d0be1514987551e5ac1" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;float&gt; &gt; themis::training::LoRAWeights::A</definition>
+        <argsstring></argsstring>
+        <name>A</name>
+        <qualifiedname>themis::training::LoRAWeights::A</qualifiedname>
+        <briefdescription>
+<para>A matrices keyed by layer name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="37" column="14" bodyfile="include/training/training_interfaces.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weights_1ab374761544ada54567c497c752a652c6" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;float&gt; &gt; themis::training::LoRAWeights::B</definition>
+        <argsstring></argsstring>
+        <name>B</name>
+        <qualifiedname>themis::training::LoRAWeights::B</qualifiedname>
+        <briefdescription>
+<para>B matrices keyed by layer name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="38" column="14" bodyfile="include/training/training_interfaces.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weights_1a6b4e5e34131bbaa7304438941645a291" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::training::LoRAWeights::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::training::LoRAWeights::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="39" column="9" bodyfile="include/training/training_interfaces.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weights_1a907ced1f975c98c643a6a3789e4f88d7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::LoRAWeights::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::training::LoRAWeights::alpha</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="40" column="11" bodyfile="include/training/training_interfaces.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_lo_r_a_weights_1a547f9eb2a22bee722c8383f17915667a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRAWeights::LoRAWeights</definition>
+        <argsstring>()=default</argsstring>
+        <name>LoRAWeights</name>
+        <qualifiedname>themis::training::LoRAWeights::LoRAWeights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="42" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-layer LoRA weight matrices exported for checkpoint storage. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="35" column="1" bodyfile="include/training/training_interfaces.h" bodystart="35" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weights_1a765ef51acc071d0be1514987551e5ac1" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeights</scope><name>A</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weights_1a907ced1f975c98c643a6a3789e4f88d7" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeights</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weights_1ab374761544ada54567c497c752a652c6" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeights</scope><name>B</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weights_1a547f9eb2a22bee722c8383f17915667a" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeights</scope><name>LoRAWeights</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weights_1afda2802ed9726d6c3788aa2353b649d3" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeights</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weights_1a6b4e5e34131bbaa7304438941645a291" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeights</scope><name>rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

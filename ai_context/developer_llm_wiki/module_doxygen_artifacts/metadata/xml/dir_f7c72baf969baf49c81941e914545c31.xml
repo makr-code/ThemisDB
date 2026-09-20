@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f7c72baf969baf49c81941e914545c31" kind="dir">
+    <compoundname>src/metadata</compoundname>
+    <innerfile refid="catalog__exporter_8cpp">catalog_exporter.cpp</innerfile>
+    <innerfile refid="column__lineage_8cpp">column_lineage.cpp</innerfile>
+    <innerfile refid="distributed__catalog_8cpp">distributed_catalog.cpp</innerfile>
+    <innerfile refid="er__diagram__exporter_8cpp">er_diagram_exporter.cpp</innerfile>
+    <innerfile refid="index__recommender_8cpp">index_recommender.cpp</innerfile>
+    <innerfile refid="information__schema_8cpp">information_schema.cpp</innerfile>
+    <innerfile refid="schema__audit__log_8cpp">schema_audit_log.cpp</innerfile>
+    <innerfile refid="schema__consistency__checker_8cpp">schema_consistency_checker.cpp</innerfile>
+    <innerfile refid="schema__constraints_8cpp">schema_constraints.cpp</innerfile>
+    <innerfile refid="schema__manager_8cpp">schema_manager.cpp</innerfile>
+    <innerfile refid="schema__version__manager_8cpp">schema_version_manager.cpp</innerfile>
+    <innerfile refid="statistics__collector_8cpp">statistics_collector.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/metadata/"/>
+  </compounddef>
+</doxygen>

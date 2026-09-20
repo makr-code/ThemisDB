@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::FreshnessConsensusResult</compoundname>
+    <includes refid="shard__summary__coordinator_8h" local="no">shard_summary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1aa63d90c2b265eb478b09cfff8334bed1" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::FreshnessConsensusResult::total_shards</definition>
+        <argsstring></argsstring>
+        <name>total_shards</name>
+        <qualifiedname>themis::distributed_tensor::FreshnessConsensusResult::total_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="184" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a23823d8dc7381fcd0e480fa59d762dd7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::FreshnessConsensusResult::fresh_shards</definition>
+        <argsstring></argsstring>
+        <name>fresh_shards</name>
+        <qualifiedname>themis::distributed_tensor::FreshnessConsensusResult::fresh_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="186" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1ab86ec67e3d2dd89dc7059fc1844e8564" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::FreshnessConsensusResult::stale_shards</definition>
+        <argsstring></argsstring>
+        <name>stale_shards</name>
+        <qualifiedname>themis::distributed_tensor::FreshnessConsensusResult::stale_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="188" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a96a9e6a5630b733f40ff38531f1757c6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::FreshnessConsensusResult::invalid_shards</definition>
+        <argsstring></argsstring>
+        <name>invalid_shards</name>
+        <qualifiedname>themis::distributed_tensor::FreshnessConsensusResult::invalid_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="190" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a999d5de2debc1a16929269f4067d4dd4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::FreshnessConsensusResult::quorum_met</definition>
+        <argsstring></argsstring>
+        <name>quorum_met</name>
+        <qualifiedname>themis::distributed_tensor::FreshnessConsensusResult::quorum_met</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="192" column="10" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a65e8dca4eea760ed07e73dbc749bdb2b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::FreshnessConsensusResult::quorum_ratio</definition>
+        <argsstring></argsstring>
+        <name>quorum_ratio</name>
+        <qualifiedname>themis::distributed_tensor::FreshnessConsensusResult::quorum_ratio</qualifiedname>
+        <initializer>= 0.75f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="194" column="11" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="183" column="1" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="183" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a23823d8dc7381fcd0e480fa59d762dd7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FreshnessConsensusResult</scope><name>fresh_shards</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a96a9e6a5630b733f40ff38531f1757c6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FreshnessConsensusResult</scope><name>invalid_shards</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a999d5de2debc1a16929269f4067d4dd4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FreshnessConsensusResult</scope><name>quorum_met</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a65e8dca4eea760ed07e73dbc749bdb2b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FreshnessConsensusResult</scope><name>quorum_ratio</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1ab86ec67e3d2dd89dc7059fc1844e8564" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FreshnessConsensusResult</scope><name>stale_shards</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1aa63d90c2b265eb478b09cfff8334bed1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FreshnessConsensusResult</scope><name>total_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

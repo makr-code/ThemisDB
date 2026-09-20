@@ -1,0 +1,724 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1document" kind="namespace" language="C++">
+    <compoundname>themis::document</compoundname>
+    <innerclass refid="classthemis_1_1document_1_1_document_diagnostic_sink" prot="public">themis::document::DocumentDiagnosticSink</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_document_diff" prot="public">themis::document::DocumentDiff</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_document_lifecycle_event" prot="public">themis::document::DocumentLifecycleEvent</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_document_record" prot="public">themis::document::DocumentRecord</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_field_change" prot="public">themis::document::FieldChange</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_field_violation" prot="public">themis::document::FieldViolation</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_document_diff_merge" prot="public">themis::document::IDocumentDiffMerge</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" prot="public">themis::document::IDocumentLifecycleHook</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_document_manager" prot="public">themis::document::IDocumentManager</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_document_schema_evolution" prot="public">themis::document::IDocumentSchemaEvolution</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_document_store" prot="public">themis::document::IDocumentStore</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_encrypted_document_entity" prot="public">themis::document::IEncryptedDocumentEntity</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_in_memory_document_diff_merge" prot="public">themis::document::InMemoryDocumentDiffMerge</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_in_memory_document_manager" prot="public">themis::document::InMemoryDocumentManager</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" prot="public">themis::document::InMemoryDocumentSchemaEvolution</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_in_memory_document_store" prot="public">themis::document::InMemoryDocumentStore</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_in_memory_encrypted_entity" prot="public">themis::document::InMemoryEncryptedEntity</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector" prot="public">themis::document::InMemoryXDOMEAConnector</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_round_trip_editor" prot="public">themis::document::IRoundTripEditor</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector" prot="public">themis::document::IXDOMEAConnector</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_key_rotation_descriptor" prot="public">themis::document::KeyRotationDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_merge_conflict" prot="public">themis::document::MergeConflict</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_merge_result" prot="public">themis::document::MergeResult</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_round_trip_snapshot" prot="public">themis::document::RoundTripSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_schema_descriptor" prot="public">themis::document::SchemaDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_schema_field_descriptor" prot="public">themis::document::SchemaFieldDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" prot="public">themis::document::StoreBackedRoundTripEditor</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_validation_report" prot="public">themis::document::ValidationReport</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document" prot="public">themis::document::XDOMEADocument</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_x_d_o_m_e_a_export_result" prot="public">themis::document::XDOMEAExportResult</innerclass>
+    <innerclass refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result" prot="public">themis::document::XDOMEAImportResult</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DocumentErrorClass</name>
+        <qualifiedname>themis::document::DocumentErrorClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae65c584a1c1cce23636bc5e415560368" prot="public">
+          <name>STORE_FAILURE</name>
+          <briefdescription>
+<para>Backend storage-level errors (not-found, unavailable, ACL). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a13b2d7efee18e49c8d2a9f364c289c36" prot="public">
+          <name>SCHEMA_VIOLATION</name>
+          <briefdescription>
+<para>Schema validation or version ordering errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a17763dd8b1599489badf616d0a38518a" prot="public">
+          <name>MERGE_CONFLICT</name>
+          <briefdescription>
+<para>Three-way merge or concurrent-version conflict errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae8b36bb9c26e3401b23229252bc87768" prot="public">
+          <name>LIFECYCLE_ERROR</name>
+          <briefdescription>
+<para>Lifecycle hook or event terminal failure errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a0ec0e0af5e5e2c40aa5531fc3e936178" prot="public">
+          <name>ROUND_TRIP_ERROR</name>
+          <briefdescription>
+<para>Round-trip snapshot persistence errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ab2526a31f19f4f88f1aaf92df2f3d006" prot="public">
+          <name>EXCHANGE_ERROR</name>
+          <briefdescription>
+<para>XDOMEA/exchange boundary enforcement errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ac063281d4adc16ebccfec66aa885b4dd" prot="public">
+          <name>INVALID_INPUT</name>
+          <briefdescription>
+<para>Invalid argument, ID, or encryption operation errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Unclassified document errors (not in 9400–9419 range). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="54" column="1" bodyfile="include/document/document_diagnostics.h" bodystart="54" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1document_1a54a7955458d5a5e23c990e57b75b5bca" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MergeStrategy</name>
+        <qualifiedname>themis::document::MergeStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1a54a7955458d5a5e23c990e57b75b5bcaa4cc5a3e9c2fbf79c7982f10e65c85154" prot="public">
+          <name>OURS_WINS</name>
+          <briefdescription>
+<para>On conflict, &quot;ours&quot; value is used. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a54a7955458d5a5e23c990e57b75b5bcaae0c7968fff9e3d677c4320b7dc5810c9" prot="public">
+          <name>THEIRS_WINS</name>
+          <briefdescription>
+<para>On conflict, &quot;theirs&quot; value is used. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a54a7955458d5a5e23c990e57b75b5bcaac2759effffc94bb9acc71d69fe3e8a1f" prot="public">
+          <name>FAIL</name>
+          <briefdescription>
+<para>Return ERR_DOC_MERGE_CONFLICT if any conflict exists. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="79" column="1" bodyfile="include/document/document_diff_merge.h" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abe" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DocumentEventType</name>
+        <qualifiedname>themis::document::DocumentEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea3d9ed096df2b22cfcc9b49daf5022de6" prot="public">
+          <name>BEFORE_CREATE</name>
+          <briefdescription>
+<para>Fires before the document is written to the store. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abeaf9f0c567941ff6968e99dcbfbd84e468" prot="public">
+          <name>AFTER_CREATE</name>
+          <briefdescription>
+<para>Fires after Result&lt;DocumentId&gt; is returned to the caller. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea27a387fe7ad532f190dac2b2f42b3e1c" prot="public">
+          <name>BEFORE_UPDATE</name>
+          <briefdescription>
+<para>Fires before the document body is updated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea8ff09e86ed0c93f96b69e957e962c766" prot="public">
+          <name>AFTER_UPDATE</name>
+          <briefdescription>
+<para>Fires after a successful update. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea4b63d18d59849ea96b1cdeef41db3b4e" prot="public">
+          <name>BEFORE_DELETE</name>
+          <briefdescription>
+<para>Fires before the document is removed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea18c0172c3dd99fd4827ff996f7f4e120" prot="public">
+          <name>AFTER_DELETE</name>
+          <briefdescription>
+<para>Fires after removal; guaranteed even on storage failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="37" column="1" bodyfile="include/document/document_lifecycle.h" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SchemaFieldType</name>
+        <qualifiedname>themis::document::SchemaFieldType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434a34f55eca38e0605a84f169ff61a2a396" prot="public">
+          <name>NUMBER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434ac48d5da12d702e73d6966069f2687376" prot="public">
+          <name>BOOLEAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434a8eee8e217391199668cbac89472ace53" prot="public">
+          <name>OBJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434acb4fb1757fb37c43cded35d3eb857c43" prot="public">
+          <name>ARRAY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434a8e1bde3c3d303163521522cf1d62f21f" prot="public">
+          <name>ANY</name>
+          <briefdescription>
+<para>No type constraint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="50" column="1" bodyfile="include/document/document_schema_evolution.h" bodystart="50" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1document_1af20e43abbc72eafe458ffce895a1bcfa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FieldViolationKind</name>
+        <qualifiedname>themis::document::FieldViolationKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1af20e43abbc72eafe458ffce895a1bcfaa1f10b9245a6eb77c0e855e76d45d3003" prot="public">
+          <name>MISSING_REQUIRED_FIELD</name>
+          <briefdescription>
+<para>Required field absent from document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1af20e43abbc72eafe458ffce895a1bcfaa2f93918ef99e03b7b8e7230b2a28fb52" prot="public">
+          <name>TYPE_MISMATCH</name>
+          <briefdescription>
+<para>Field present but has wrong JSON type. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="82" column="1" bodyfile="include/document/document_schema_evolution.h" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1document_1a8345c500cc3c7209425a507d53801369" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>XDOMEAVersion</name>
+        <qualifiedname>themis::document::XDOMEAVersion</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1a8345c500cc3c7209425a507d53801369a9d9f647c0f7ec6b025758e9c77a633a1" prot="public">
+          <name>V2_1</name>
+          <briefdescription>
+<para>XDOMEA 2.1.0 (legacy). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a8345c500cc3c7209425a507d53801369abc6a02c77473f9d3fafb2cbebdbb38ee" prot="public">
+          <name>V3_0</name>
+          <briefdescription>
+<para>XDOMEA 3.0.0 (current). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="77" column="1" bodyfile="include/document/xdomea_connector.h" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1af" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>XDOMEAObjectType</name>
+        <qualifiedname>themis::document::XDOMEAObjectType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1afaaf5e6294374dfefde7b49f36d388e9ba" prot="public">
+          <name>AKTE</name>
+          <briefdescription>
+<para>Akte (dossier / folder). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1afaa5ec0844992c9c0842524182ad8192f5" prot="public">
+          <name>VORGANG</name>
+          <briefdescription>
+<para>Vorgang (business process / sub-folder). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1afa6fb2c509ca56fbd0d9d932592c8e6e28" prot="public">
+          <name>DOKUMENT</name>
+          <briefdescription>
+<para>Dokument (document with one or more electronic files). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1afa3116a3a6d33e47deb7197072ea36cf37" prot="public">
+          <name>DATEI</name>
+          <briefdescription>
+<para>Datei (electronic file — binary attachment). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1afad111a1f92d88742896dc7a0cdcb78f12" prot="public">
+          <name>BENUTZER</name>
+          <briefdescription>
+<para>Benutzer (user / principal record). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1afad560e13d92f166504f398af875931a5d" prot="public">
+          <name>SCHRIFTGUT</name>
+          <briefdescription>
+<para>Schriftgut-Objekt (generic records object). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="84" column="1" bodyfile="include/document/xdomea_connector.h" bodystart="84" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1document_1aa8f4314205d0f230309b84b619d42073" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>XDOMEARetentionCategory</name>
+        <qualifiedname>themis::document::XDOMEARetentionCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1aa8f4314205d0f230309b84b619d42073a7d9cac95dd832a3ab3c35ab8256ed095" prot="public">
+          <name>ARCHIVWUERDIG</name>
+          <briefdescription>
+<para>Archivwürdig — to be permanently retained. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1aa8f4314205d0f230309b84b619d42073a773b04f4ee8b31474569793bea7f9e6b" prot="public">
+          <name>NICHT_ARCHIVWUERDIG</name>
+          <briefdescription>
+<para>Nicht archivwürdig — to be destroyed after retention period. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1aa8f4314205d0f230309b84b619d42073a406ff6406b04d200b6884f808e71afef" prot="public">
+          <name>UNGEKLAERT</name>
+          <briefdescription>
+<para>Ungeklärt — retention status not yet determined. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="95" column="1" bodyfile="include/document/xdomea_connector.h" bodystart="95" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>XDOMEAMessageType</name>
+        <qualifiedname>themis::document::XDOMEAMessageType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9a18ef187299469775bdfb0cb770725e50" prot="public">
+          <name>ANBIETUNG</name>
+          <briefdescription>
+<para>0201 — Offer for archival </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9a958dbf503c4229dba12f215524c23e95" prot="public">
+          <name>BEWERTUNG</name>
+          <briefdescription>
+<para>0202 — Appraisal / retention decision </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9a71f932cd015f72d3d64de99be2f06c58" prot="public">
+          <name>AUSSONDERUNG</name>
+          <briefdescription>
+<para>0203 — Disposal / transfer to archive </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9aca09f4cc2bb94a5596fb437b15cf7730" prot="public">
+          <name>ABGABE_AN_ARCHIV</name>
+          <briefdescription>
+<para>0401 — Transfer to federal / state archive </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9a700fd46a1e0c125a6b317c1e7b1f5e6b" prot="public">
+          <name>ANFORDERUNG</name>
+          <briefdescription>
+<para>0501 — Retrieval request </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9a34e3455b9d49967a17a3e449770f3a38" prot="public">
+          <name>ERFASSUNG</name>
+          <briefdescription>
+<para>0601 — Ingestion / registration in DMS </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="103" column="1" bodyfile="include/document/xdomea_connector.h" bodystart="103" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1a14dc47eea47cf8c4c597bee79d57ba15" prot="public" static="no">
+        <type>themis::projects::DocumentManager</type>
+        <definition>using themis::document::DocumentManager = themis::projects::DocumentManager</definition>
+        <argsstring></argsstring>
+        <name>DocumentManager</name>
+        <qualifiedname>themis::document::DocumentManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager_deprecated.h" line="16" column="5" bodyfile="include/document/document_manager_deprecated.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1ac97bc06fd5539427736b87f3b1f146c6" prot="public" static="no">
+        <type>themis::projects::DocumentMeta</type>
+        <definition>using themis::document::DocumentMeta = themis::projects::DocumentMeta</definition>
+        <argsstring></argsstring>
+        <name>DocumentMeta</name>
+        <qualifiedname>themis::document::DocumentMeta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager_deprecated.h" line="17" column="5" bodyfile="include/document/document_manager_deprecated.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1a3887f3b5fc02c93a6dd69a9ec215a03e" prot="public" static="no">
+        <type>themis::projects::ChunkMeta</type>
+        <definition>using themis::document::ChunkMeta = themis::projects::ChunkMeta</definition>
+        <argsstring></argsstring>
+        <name>ChunkMeta</name>
+        <qualifiedname>themis::document::ChunkMeta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager_deprecated.h" line="18" column="5" bodyfile="include/document/document_manager_deprecated.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1a8aaaf513ed60ba35eef871502ed07b02" prot="public" static="no">
+        <type>themis::projects::ChunkingConfig</type>
+        <definition>using themis::document::ChunkingConfig = themis::projects::ChunkingConfig</definition>
+        <argsstring></argsstring>
+        <name>ChunkingConfig</name>
+        <qualifiedname>themis::document::ChunkingConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager_deprecated.h" line="19" column="5" bodyfile="include/document/document_manager_deprecated.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1a7b1d5e7791390e273a413ac46eedbc4c" prot="public" static="no">
+        <type>themis::projects::UploadResult</type>
+        <definition>using themis::document::UploadResult = themis::projects::UploadResult</definition>
+        <argsstring></argsstring>
+        <name>UploadResult</name>
+        <qualifiedname>themis::document::UploadResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager_deprecated.h" line="20" column="5" bodyfile="include/document/document_manager_deprecated.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1a514d79328a330d1cc8885ad63185978d" prot="public" static="no">
+        <type>themis::projects::Status</type>
+        <definition>using themis::document::Status = themis::projects::Status</definition>
+        <argsstring></argsstring>
+        <name>Status</name>
+        <qualifiedname>themis::document::Status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager_deprecated.h" line="21" column="5" bodyfile="include/document/document_manager_deprecated.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1a6fc149b60d2235ab81213ad5634d7d9b" prot="public" static="no">
+        <type>std::uint32_t</type>
+        <definition>using themis::document::SchemaVersion = std::uint32_t</definition>
+        <argsstring></argsstring>
+        <name>SchemaVersion</name>
+        <qualifiedname>themis::document::SchemaVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="44" column="1" bodyfile="include/document/document_schema_evolution.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::document::DocumentId = std::string</definition>
+        <argsstring></argsstring>
+        <name>DocumentId</name>
+        <qualifiedname>themis::document::DocumentId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="45" column="1" bodyfile="include/document/document_store.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::document::CollectionId = std::string</definition>
+        <argsstring></argsstring>
+        <name>CollectionId</name>
+        <qualifiedname>themis::document::CollectionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="47" column="1" bodyfile="include/document/document_store.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1document_1aa2c043cd325abdd7526e543ca08253ed" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::document::kDefaultRoundTripCollection</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRoundTripCollection</name>
+        <qualifiedname>themis::document::kDefaultRoundTripCollection</qualifiedname>
+        <initializer>= &quot;delegate_round_trip&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/round_trip_editor.h" line="34" column="29" bodyfile="include/document/round_trip_editor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1document_1a3368a041f18baa0ecc3d3f5028a6987f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref></type>
+        <definition>DocumentErrorClass themis::document::classifyDocumentError</definition>
+        <argsstring>(errors::ErrorCode code) noexcept</argsstring>
+        <name>classifyDocumentError</name>
+        <qualifiedname>themis::document::classifyDocumentError</qualifiedname>
+        <param>
+          <type>errors::ErrorCode</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="97" column="1" bodyfile="include/document/document_diagnostics.h" bodystart="97" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1document_1a2284036c6db2425a222228dfcb93d794" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::document::documentErrorClassName</definition>
+        <argsstring>(DocumentErrorClass cls) noexcept</argsstring>
+        <name>documentErrorClassName</name>
+        <qualifiedname>themis::document::documentErrorClassName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref></type>
+          <declname>cls</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="152" column="1" bodyfile="include/document/document_diagnostics.h" bodystart="152" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1document_1a35fe1901e4724d2c5d4c054fa510b878" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::document::documentErrorDescription</definition>
+        <argsstring>(errors::ErrorCode code) noexcept</argsstring>
+        <name>documentErrorDescription</name>
+        <qualifiedname>themis::document::documentErrorDescription</qualifiedname>
+        <param>
+          <type>errors::ErrorCode</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="171" column="1" bodyfile="include/document/document_diagnostics.h" bodystart="171" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1document_1ab71b895d39e3eecbe09ab639cbba57dd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream &amp; themis::document::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;os, DocumentErrorClass cls)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <qualifiedname>themis::document::operator&lt;&lt;</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>os</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref></type>
+          <declname>cls</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="223" column="8" bodyfile="include/document/document_diagnostics.h" bodystart="223" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1document_1a8780db39a809d8b94134ae31470d482d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::document::formatDocumentError</definition>
+        <argsstring>(const themis::Error &amp;err)</argsstring>
+        <name>formatDocumentError</name>
+        <qualifiedname>themis::document::formatDocumentError</qualifiedname>
+        <param>
+          <type>const themis::Error &amp;</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="232" column="21" bodyfile="include/document/document_diagnostics.h" bodystart="232" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_diagnostics.h" line="52" column="1"/>
+  </compounddef>
+</doxygen>

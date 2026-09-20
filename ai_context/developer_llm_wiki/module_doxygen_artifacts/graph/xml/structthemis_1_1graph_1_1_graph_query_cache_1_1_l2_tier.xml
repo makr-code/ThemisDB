@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_cache_1_1_l2_tier" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphQueryCache::L2Tier</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_l2_tier_1ab9ef1dc2b559bccbea81d131c1159cc0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, L2Entry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, L2Entry&gt; themis::graph::GraphQueryCache::L2Tier::map</definition>
+        <argsstring></argsstring>
+        <name>map</name>
+        <qualifiedname>themis::graph::GraphQueryCache::L2Tier::map</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="154" column="28" bodyfile="include/graph/graph_query_cache.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_l2_tier_1ad39cdda5c8b09dd334c10f88bf379c65" prot="public" static="no" mutable="no">
+        <type>LruList</type>
+        <definition>LruList themis::graph::GraphQueryCache::L2Tier::lru</definition>
+        <argsstring></argsstring>
+        <name>lru</name>
+        <qualifiedname>themis::graph::GraphQueryCache::L2Tier::lru</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Used for recency ordering; eviction score combines cost + recency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="155" column="17" bodyfile="include/graph/graph_query_cache.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_cache.h" line="153" column="5" bodyfile="include/graph/graph_query_cache.h" bodystart="153" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_l2_tier_1ad39cdda5c8b09dd334c10f88bf379c65" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::L2Tier</scope><name>lru</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_l2_tier_1ab9ef1dc2b559bccbea81d131c1159cc0" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::L2Tier</scope><name>map</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1test_1_1_wal_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::WalEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1test_1_1_wal_entry_1a89a6d87c1e7b2c3bb6919453aae5908c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::test::WalEntry::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themisdb::sharding::test::WalEntry::operation</qualifiedname>
+        <briefdescription>
+<para>BEGIN | PREPARE | PREPARED | PRECOMMIT | COMMIT | COMMITTED | ABORT | ABORTED | COMPENSATE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="59" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1test_1_1_wal_entry_1ae3a8ec81614192af1c61a1b96b074dac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::test::WalEntry::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themisdb::sharding::test::WalEntry::txn_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="60" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1test_1_1_wal_entry_1a288030fb0f4f3adbb6291ef923e543e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::test::WalEntry::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::test::WalEntry::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="61" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1test_1_1_wal_entry_1a3ed5a0741135ab4fdc1720e555d4d57a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::test::WalEntry::timestamp_us</definition>
+        <argsstring></argsstring>
+        <name>timestamp_us</name>
+        <qualifiedname>themisdb::sharding::test::WalEntry::timestamp_us</qualifiedname>
+        <briefdescription>
+<para>Monotonic microsecond timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="62" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>WAL entry for in-process simulation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Mirrors the field layout of <ref refid="namespacethemisdb_1_1sharding_1a5e99a9e1412de0fb10fd8146f63c77eb" kindref="member">TransactionWALEntry</ref> but is self-contained so no production filesystem headers are required. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="58" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="58" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1test_1_1_wal_entry_1a89a6d87c1e7b2c3bb6919453aae5908c" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::WalEntry</scope><name>operation</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1test_1_1_wal_entry_1a288030fb0f4f3adbb6291ef923e543e3" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::WalEntry</scope><name>shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1test_1_1_wal_entry_1a3ed5a0741135ab4fdc1720e555d4d57a" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::WalEntry</scope><name>timestamp_us</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1test_1_1_wal_entry_1ae3a8ec81614192af1c61a1b96b074dac" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::WalEntry</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

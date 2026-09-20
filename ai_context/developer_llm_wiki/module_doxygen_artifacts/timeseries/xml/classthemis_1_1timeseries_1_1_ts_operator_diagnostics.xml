@@ -1,0 +1,622 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics" kind="class" language="C++" prot="public">
+    <compoundname>themis::timeseries::TsOperatorDiagnostics</compoundname>
+    <includes refid="ts__operator__diagnostics_8h" local="no">ts_operator_diagnostics.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ae3640d0c6607c0dd0ddabff6e3cf670c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::timeseries::TsOperatorDiagnostics::kMaxIncidents</definition>
+        <argsstring></argsstring>
+        <name>kMaxIncidents</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::kMaxIncidents</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum incidents retained in the ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="102" column="34" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1aec2f591fd98e2af1484fea5e01970567" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::timeseries::TsOperatorDiagnostics::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="192" column="30" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1aef0e87e1c7f3dc14987b4b422b33dead" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1_ts_incident" kindref="compound">TsIncident</ref> &gt;</type>
+        <definition>std::vector&lt;TsIncident&gt; themis::timeseries::TsOperatorDiagnostics::incidents_</definition>
+        <argsstring></argsstring>
+        <name>incidents_</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::incidents_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="193" column="18" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1aafb88d6d5233a7911ed64c55634e05ac" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsOperatorDiagnostics::total_count_</definition>
+        <argsstring></argsstring>
+        <name>total_count_</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::total_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="194" column="30" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsOperatorDiagnostics::TsOperatorDiagnostics</definition>
+        <argsstring>()=default</argsstring>
+        <name>TsOperatorDiagnostics</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::TsOperatorDiagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="104" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a0a7caafc0e543209ff12dbc51484476d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsOperatorDiagnostics::TsOperatorDiagnostics</definition>
+        <argsstring>(const TsOperatorDiagnostics &amp;)=delete</argsstring>
+        <name>TsOperatorDiagnostics</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::TsOperatorDiagnostics</qualifiedname>
+        <param>
+          <type>const TsOperatorDiagnostics &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a007294297b6dc1fc577c50fa52195b10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref> &amp;</type>
+        <definition>TsOperatorDiagnostics &amp; themis::timeseries::TsOperatorDiagnostics::operator=</definition>
+        <argsstring>(const TsOperatorDiagnostics &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="108" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a602133e8a268377d7a7951415dcf8b55" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsOperatorDiagnostics::TsOperatorDiagnostics</definition>
+        <argsstring>(TsOperatorDiagnostics &amp;&amp;) noexcept=default</argsstring>
+        <name>TsOperatorDiagnostics</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::TsOperatorDiagnostics</qualifiedname>
+        <param>
+          <type>TsOperatorDiagnostics &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a4ab43a5b5ef431be3962b91701fa500d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref> &amp;</type>
+        <definition>TsOperatorDiagnostics &amp; themis::timeseries::TsOperatorDiagnostics::operator=</definition>
+        <argsstring>(TsOperatorDiagnostics &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="110" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ad5ff024e49e847ac77705c28bfd47f66" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::timeseries::TsOperatorDiagnostics::recordIncident</definition>
+        <argsstring>(std::string_view incident_id, TsIncidentSeverity severity, std::string_view description, std::string_view remediation, std::optional&lt; TimeseriesErrorCode &gt; error_code=std::nullopt) noexcept</argsstring>
+        <name>recordIncident</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::recordIncident</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>incident_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>remediation</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref> &gt;</type>
+          <declname>error_code</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Record a structured incident. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique incident identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>severity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Severity level. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable description. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remediation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operator action hint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional associated <ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="125" column="10" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="25" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a3bdbfd7ae8bec01c1ce6a7568f418d2f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::timeseries::TsOperatorDiagnostics::recordFromCallback</definition>
+        <argsstring>(std::string_view incident_id, std::string_view description) noexcept</argsstring>
+        <name>recordFromCallback</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::recordFromCallback</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>incident_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+<para>Convenience overload for use as a <ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler" kindref="compound">TsEdgeCaseHandler</ref> incident callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Infers severity from the incident_id suffix convention:<itemizedlist>
+<listitem><para>*-CRITICAL / *-PERSISTENT → CRITICAL</para>
+</listitem><listitem><para>*-TIMEOUT / *-ROTATION-INVALID → ERROR</para>
+</listitem><listitem><para>*-UNAVAILABLE / *-FALLBACK → WARNING</para>
+</listitem><listitem><para>other → INFO <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incident_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="144" column="10" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a8e94dd9a12289bf1c8a67b19c8785914" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1_ts_incident" kindref="compound">TsIncident</ref> &gt;</type>
+        <definition>std::vector&lt; TsIncident &gt; themis::timeseries::TsOperatorDiagnostics::recentIncidents</definition>
+        <argsstring>(std::size_t max_count=0) const noexcept</argsstring>
+        <name>recentIncidents</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::recentIncidents</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_count</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Return the N most-recent incidents (newest first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum to return (0 = all). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="156" column="18" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="68" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ab7abc7d51b1827745e997145f1ea5d1b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1_ts_incident" kindref="compound">TsIncident</ref> &gt;</type>
+        <definition>std::vector&lt; TsIncident &gt; themis::timeseries::TsOperatorDiagnostics::incidentsBySeverity</definition>
+        <argsstring>(TsIncidentSeverity min_severity) const noexcept</argsstring>
+        <name>incidentsBySeverity</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::incidentsBySeverity</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref></type>
+          <declname>min_severity</declname>
+        </param>
+        <briefdescription>
+<para>Return all incidents with severity &gt;= min_severity (newest first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="162" column="18" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="84" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a029efedca309085f008e8738d0a57778" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::timeseries::TsOperatorDiagnostics::countBySeverity</definition>
+        <argsstring>(TsIncidentSeverity severity) const noexcept</argsstring>
+        <name>countBySeverity</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::countBySeverity</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <briefdescription>
+<para>Count incidents with the given severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="168" column="18" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="102" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a07223031e9eb0332b0cb50ee92a53a60" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::TsOperatorDiagnostics::hasCriticalIncidents</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasCriticalIncidents</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::hasCriticalIncidents</qualifiedname>
+        <briefdescription>
+<para>True when any CRITICAL incidents are in the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="171" column="11" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a206906b4804a13421dbd2abaf7f39e3e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsOperatorDiagnostics::totalIncidentCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalIncidentCount</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::totalIncidentCount</qualifiedname>
+        <briefdescription>
+<para>Total incidents recorded since construction (monotonic). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="174" column="15" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1abf34e3a38cf351b51790d7cfe0b3328c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::timeseries::TsOperatorDiagnostics::formatSummary</definition>
+        <argsstring>(std::size_t max_count=10) const noexcept</argsstring>
+        <name>formatSummary</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::formatSummary</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_count</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Format recent incidents as an operator summary string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum incidents to include (0 = all). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Multi-line formatted summary. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="186" column="18" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="132" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a121ce33ec2c387f022b72494ac655bf4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::timeseries::TsOperatorDiagnostics::clearIncidents</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>clearIncidents</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::clearIncidents</qualifiedname>
+        <briefdescription>
+<para>Clear all incidents from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="189" column="10" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="152" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a81cd21507993a096b41e3055dae0bacc" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::timeseries::TsOperatorDiagnostics::nowNs</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>nowNs</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::nowNs</qualifiedname>
+        <briefdescription>
+<para>Now Ns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="201" column="20" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a33d4704384c161f6ff8e1c598c4065a5" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref></type>
+        <definition>TsIncidentSeverity themis::timeseries::TsOperatorDiagnostics::severityFromId</definition>
+        <argsstring>(std::string_view id) noexcept</argsstring>
+        <name>severityFromId</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::severityFromId</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Severity From Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="208" column="31" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="171" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1aec3a935bd2e3e82bb616c857e1e3752a" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::timeseries::TsOperatorDiagnostics::remediationForId</definition>
+        <argsstring>(std::string_view id) noexcept</argsstring>
+        <name>remediationForId</name>
+        <qualifiedname>themis::timeseries::TsOperatorDiagnostics::remediationForId</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remediation For Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="215" column="24" bodyfile="src/timeseries/ts_operator_diagnostics.cpp" bodystart="189" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Operator-facing diagnostics registry for the timeseries module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Collects and exposes timeseries incidents for operator runbooks and dashboards.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref><sp/>diag;</highlight></codeline>
+<codeline><highlight class="normal">diag.recordIncident(</highlight><highlight class="stringliteral">&quot;TS-ECH-RW-TIMEOUT&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a059e9861e0400dfbe05c98a841f3f96b" kindref="member">TsIncidentSeverity::WARNING</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Remote-write<sp/>timed<sp/>out&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Check<sp/>prometheus<sp/>endpoint<sp/>availability&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>summary<sp/>=<sp/>diag.formatSummary(10);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/timeseries/ts_operator_diagnostics.h" line="99" column="1" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="99" bodyend="216"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a121ce33ec2c387f022b72494ac655bf4" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>clearIncidents</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a029efedca309085f008e8738d0a57778" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>countBySeverity</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1abf34e3a38cf351b51790d7cfe0b3328c" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>formatSummary</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a07223031e9eb0332b0cb50ee92a53a60" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>hasCriticalIncidents</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1aef0e87e1c7f3dc14987b4b422b33dead" prot="private" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>incidents_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ab7abc7d51b1827745e997145f1ea5d1b" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>incidentsBySeverity</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ae3640d0c6607c0dd0ddabff6e3cf670c" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>kMaxIncidents</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1aec2f591fd98e2af1484fea5e01970567" prot="private" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a81cd21507993a096b41e3055dae0bacc" prot="private" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>nowNs</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a007294297b6dc1fc577c50fa52195b10" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a4ab43a5b5ef431be3962b91701fa500d" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a8e94dd9a12289bf1c8a67b19c8785914" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>recentIncidents</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a3bdbfd7ae8bec01c1ce6a7568f418d2f" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>recordFromCallback</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ad5ff024e49e847ac77705c28bfd47f66" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>recordIncident</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1aec3a935bd2e3e82bb616c857e1e3752a" prot="private" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>remediationForId</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a33d4704384c161f6ff8e1c598c4065a5" prot="private" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>severityFromId</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1aafb88d6d5233a7911ed64c55634e05ac" prot="private" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>total_count_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a206906b4804a13421dbd2abaf7f39e3e" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>totalIncidentCount</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>TsOperatorDiagnostics</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a0a7caafc0e543209ff12dbc51484476d" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>TsOperatorDiagnostics</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a602133e8a268377d7a7951415dcf8b55" prot="public" virt="non-virtual"><scope>themis::timeseries::TsOperatorDiagnostics</scope><name>TsOperatorDiagnostics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

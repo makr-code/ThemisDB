@@ -1,0 +1,741 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::CrossTenantPolicyInheritance</compoundname>
+    <includes refid="cross__tenant__policy__inheritance_8h" local="no">cross_tenant_policy_inheritance.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1_1_tenant_entry" prot="private">themis::governance::CrossTenantPolicyInheritance::TenantEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a379f35ec492c27bfd2c31b67d6185ab3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::CrossTenantPolicyInheritance::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="127" column="24" bodyfile="include/governance/cross_tenant_policy_inheritance.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a77c210e07076ee4bf8a13e444d7ec122" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TenantEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantEntry&gt; themis::governance::CrossTenantPolicyInheritance::tenants_</definition>
+        <argsstring></argsstring>
+        <name>tenants_</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::tenants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="134" column="24" bodyfile="include/governance/cross_tenant_policy_inheritance.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a447a9b04c877806fce28ed90536d98f0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::utils::AuditLogger &gt;</type>
+        <definition>std::shared_ptr&lt;themis::utils::AuditLogger&gt; themis::governance::CrossTenantPolicyInheritance::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="135" column="21" bodyfile="include/governance/cross_tenant_policy_inheritance.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aeb7f1edf35f5487c5e72e0cc37942121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::CrossTenantPolicyInheritance::CrossTenantPolicyInheritance</definition>
+        <argsstring>()=default</argsstring>
+        <name>CrossTenantPolicyInheritance</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::CrossTenantPolicyInheritance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="29" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aea09038d7ac519bc17db14a1a54498b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::CrossTenantPolicyInheritance::CrossTenantPolicyInheritance</definition>
+        <argsstring>(const CrossTenantPolicyInheritance &amp;)=delete</argsstring>
+        <name>CrossTenantPolicyInheritance</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::CrossTenantPolicyInheritance</qualifiedname>
+        <param>
+          <type>const CrossTenantPolicyInheritance &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="32" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a5d47e49315d5ca7a2d95b5f669b623f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aeb7f1edf35f5487c5e72e0cc37942121" kindref="member">CrossTenantPolicyInheritance</ref> &amp;</type>
+        <definition>CrossTenantPolicyInheritance &amp; themis::governance::CrossTenantPolicyInheritance::operator=</definition>
+        <argsstring>(const CrossTenantPolicyInheritance &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aeb7f1edf35f5487c5e72e0cc37942121" kindref="member">CrossTenantPolicyInheritance</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="33" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a73cdc9890000e1684ceedf04430656aa" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::CrossTenantPolicyInheritance::CrossTenantPolicyInheritance</definition>
+        <argsstring>(CrossTenantPolicyInheritance &amp;&amp;) noexcept=default</argsstring>
+        <name>CrossTenantPolicyInheritance</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::CrossTenantPolicyInheritance</qualifiedname>
+        <param>
+          <type>CrossTenantPolicyInheritance &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1af6d5364bd648ced44b255588e9c20b03" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aeb7f1edf35f5487c5e72e0cc37942121" kindref="member">CrossTenantPolicyInheritance</ref> &amp;</type>
+        <definition>CrossTenantPolicyInheritance &amp; themis::governance::CrossTenantPolicyInheritance::operator=</definition>
+        <argsstring>(CrossTenantPolicyInheritance &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aeb7f1edf35f5487c5e72e0cc37942121" kindref="member">CrossTenantPolicyInheritance</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="35" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a68a554d99b1662edf27054830a9c9b8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::CrossTenantPolicyInheritance::setAuditLogger</definition>
+        <argsstring>(std::shared_ptr&lt; themis::utils::AuditLogger &gt; logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::setAuditLogger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::utils::AuditLogger &gt;</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="45" column="10" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a672d53f73dd2ea188135d1ea089b30db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CrossTenantPolicyInheritance::registerTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;parent_tenant_id=&quot;&quot;)</argsstring>
+        <name>registerTenant</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::registerTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Register Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_ERROR(), lock(), wouldCreateCycle(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="51" column="10" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="49" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1ab8257a565ef39e95adc3af925001bdf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::CrossTenantPolicyInheritance::unregisterTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>unregisterTenant</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::unregisterTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="58" column="10" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="92" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1af7ee470db31bbfd7037235975c1a983b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::CrossTenantPolicyInheritance::setTenantPolicyManager</definition>
+        <argsstring>(const std::string &amp;tenant_id, std::shared_ptr&lt; PolicyManager &gt; policy_manager)</argsstring>
+        <name>setTenantPolicyManager</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::setTenantPolicyManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+          <declname>policy_manager</declname>
+        </param>
+        <briefdescription>
+<para>Set Tenant Policy Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="65" column="10" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="118" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1adb877aa36fa825bfa8b1b2be4b9f39f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; PolicyManager &gt; themis::governance::CrossTenantPolicyInheritance::getTenantPolicyManager</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantPolicyManager</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::getTenantPolicyManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Tenant Policy Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="73" column="21" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="126" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a4660e5f80d349dd61d4af68ab7c85215" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::CrossTenantPolicyInheritance::getParentTenantId</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getParentTenantId</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::getParentTenantId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Parent Tenant Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="85" column="17" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="144" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aa54a9750317a162d8d79d6d70d44e28b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::CrossTenantPolicyInheritance::getAncestors</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getAncestors</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::getAncestors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Ancestors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="92" column="17" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="158" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a7d17a14a7ec3e29c4c0a3db91aa6e07f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::CrossTenantPolicyInheritance::listTenants</definition>
+        <argsstring>() const</argsstring>
+        <name>listTenants</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::listTenants</qualifiedname>
+        <briefdescription>
+<para>List Tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="98" column="17" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="168" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1acbe26c790c7af103f249df5496fe3cdc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_decision" kindref="compound">PolicyManager::PolicyDecision</ref></type>
+        <definition>PolicyManager::PolicyDecision themis::governance::CrossTenantPolicyInheritance::evaluateEffectivePolicy</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;resource, const std::string &amp;action, const std::vector&lt; std::string &gt; &amp;user_roles) const</argsstring>
+        <name>evaluateEffectivePolicy</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::evaluateEffectivePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>user_roles</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Effective Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="112" column="35" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="189" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aeb0e1cbf6c965b5bd6d7d4ec887810cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyRule &gt; themis::governance::CrossTenantPolicyInheritance::resolveEffectiveRules</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>resolveEffectiveRules</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::resolveEffectiveRules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Effective Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="123" column="17" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="262" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a5094352ef520e289cb3ecdf63de691ab" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CrossTenantPolicyInheritance::wouldCreateCycle</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;parent_id) const</argsstring>
+        <name>wouldCreateCycle</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::wouldCreateCycle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_id</declname>
+        </param>
+        <briefdescription>
+<para>Would Create Cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="144" column="10" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="305" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a1c8d4c20000c0bfe3f569658de0f6e41" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::CrossTenantPolicyInheritance::getAncestorsLocked</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getAncestorsLocked</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::getAncestorsLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Ancestors Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="152" column="17" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="327" bodyend="352"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a8421f503c6f7a13a6cba4b6747abbc9d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_decision" kindref="compound">PolicyManager::PolicyDecision</ref></type>
+        <definition>PolicyManager::PolicyDecision themis::governance::CrossTenantPolicyInheritance::mergeDecisions</definition>
+        <argsstring>(const PolicyManager::PolicyDecision &amp;base, const PolicyManager::PolicyDecision &amp;override_decision)</argsstring>
+        <name>mergeDecisions</name>
+        <qualifiedname>themis::governance::CrossTenantPolicyInheritance::mergeDecisions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_decision" kindref="compound">PolicyManager::PolicyDecision</ref> &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_decision" kindref="compound">PolicyManager::PolicyDecision</ref> &amp;</type>
+          <declname>override_decision</declname>
+        </param>
+        <briefdescription>
+<para>Merge Decisions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">override_decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_tenant_policy_inheritance.h" line="161" column="42" bodyfile="src/governance/cross_tenant_policy_inheritance.cpp" bodystart="356" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/cross_tenant_policy_inheritance.h" line="27" column="1" bodyfile="include/governance/cross_tenant_policy_inheritance.h" bodystart="27" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a447a9b04c877806fce28ed90536d98f0" prot="private" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aeb7f1edf35f5487c5e72e0cc37942121" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>CrossTenantPolicyInheritance</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aea09038d7ac519bc17db14a1a54498b1" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>CrossTenantPolicyInheritance</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a73cdc9890000e1684ceedf04430656aa" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>CrossTenantPolicyInheritance</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1acbe26c790c7af103f249df5496fe3cdc" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>evaluateEffectivePolicy</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aa54a9750317a162d8d79d6d70d44e28b" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>getAncestors</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a1c8d4c20000c0bfe3f569658de0f6e41" prot="private" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>getAncestorsLocked</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a4660e5f80d349dd61d4af68ab7c85215" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>getParentTenantId</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1adb877aa36fa825bfa8b1b2be4b9f39f7" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>getTenantPolicyManager</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a7d17a14a7ec3e29c4c0a3db91aa6e07f" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>listTenants</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a8421f503c6f7a13a6cba4b6747abbc9d" prot="private" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>mergeDecisions</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a379f35ec492c27bfd2c31b67d6185ab3" prot="private" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a5d47e49315d5ca7a2d95b5f669b623f1" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1af6d5364bd648ced44b255588e9c20b03" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a672d53f73dd2ea188135d1ea089b30db" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>registerTenant</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1aeb0e1cbf6c965b5bd6d7d4ec887810cc" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>resolveEffectiveRules</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a68a554d99b1662edf27054830a9c9b8a" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1af7ee470db31bbfd7037235975c1a983b" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>setTenantPolicyManager</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a77c210e07076ee4bf8a13e444d7ec122" prot="private" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>tenants_</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1ab8257a565ef39e95adc3af925001bdf9" prot="public" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>unregisterTenant</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance_1a5094352ef520e289cb3ecdf63de691ab" prot="private" virt="non-virtual"><scope>themis::governance::CrossTenantPolicyInheritance</scope><name>wouldCreateCycle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

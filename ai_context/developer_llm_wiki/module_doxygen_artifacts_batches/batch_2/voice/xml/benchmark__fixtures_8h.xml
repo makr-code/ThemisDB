@@ -1,0 +1,501 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="benchmark__fixtures_8h" kind="file" language="C++">
+    <compoundname>benchmark_fixtures.h</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">random</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cmath</includes>
+    <includedby refid="bench__voice__assistant__latency_8cpp" local="yes">benchmarks/voice/bench_voice_assistant_latency.cpp</includedby>
+    <includedby refid="bench__voice__audio__preprocessing_8cpp" local="yes">benchmarks/voice/bench_voice_audio_preprocessing.cpp</includedby>
+    <includedby refid="bench__voice__session__lifecycle_8cpp" local="yes">benchmarks/voice/bench_voice_session_lifecycle.cpp</includedby>
+    <includedby refid="bench__voice__streaming__throughput_8cpp" local="yes">benchmarks/voice/bench_voice_streaming_throughput.cpp</includedby>
+    <includedby refid="bench__voice__stt__tts__latency_8cpp" local="yes">benchmarks/voice/bench_voice_stt_tts_latency.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/voice/benchmark_fixtures.h</label>
+        <link refid="benchmark__fixtures_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="4">
+        <label>cstring</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>queue</label>
+      </node>
+      <node id="5">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/voice/bench_voice_assistant_latency.cpp</label>
+        <link refid="bench__voice__assistant__latency_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/voice/bench_voice_audio_preprocessing.cpp</label>
+        <link refid="bench__voice__audio__preprocessing_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/voice/bench_voice_session_lifecycle.cpp</label>
+        <link refid="bench__voice__session__lifecycle_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/voice/bench_voice_streaming_throughput.cpp</label>
+        <link refid="bench__voice__streaming__throughput_8cpp"/>
+      </node>
+      <node id="6">
+        <label>benchmarks/voice/bench_voice_stt_tts_latency.cpp</label>
+        <link refid="bench__voice__stt__tts__latency_8cpp"/>
+      </node>
+      <node id="1">
+        <label>benchmarks/voice/benchmark_fixtures.h</label>
+        <link refid="benchmark__fixtures_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor" prot="public">themis::voice::benchmark::MockSTTProcessor</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor" prot="public">themis::voice::benchmark::MockTTSProcessor</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_mock_l_l_m_processor" prot="public">themis::voice::benchmark::MockLLMProcessor</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer" prot="public">themis::voice::benchmark::MockStreamBuffer</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" prot="public">themis::voice::benchmark::VoiceBenchmarkFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" prot="public">themis::voice::benchmark::STTTTSLatencyFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_streaming_throughput_fixture" prot="public">themis::voice::benchmark::StreamingThroughputFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture" prot="public">themis::voice::benchmark::SessionLifecycleFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_audio_preprocessing_fixture" prot="public">themis::voice::benchmark::AudioPreprocessingFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_assistant_latency_fixture" prot="public">themis::voice::benchmark::AssistantLatencyFixture</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice_1_1benchmark">themis::voice::benchmark</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice_1_1benchmark_1_1gates">themis::voice::benchmark::gates</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice_1_1benchmark_1_1utils">themis::voice::benchmark::utils</innernamespace>
+    <briefdescription>
+<para>Common fixtures, mocks, and utilities for Voice Module Phase 5 benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>Deterministic RNG seed (kCanonicalRngSeed=42)</para>
+</listitem><listitem><para>Mock implementations of STT, TTS, LLM, streaming</para>
+</listitem><listitem><para>Shared benchmark fixtures</para>
+</listitem><listitem><para>Utility functions for audio/timing generation</para>
+</listitem><listitem><para>SLA gate definitions </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1voice_1_1benchmark" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1benchmark" kindref="compound">themis::voice::benchmark</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RNG<sp/>seed<sp/>(per<sp/>MEASUREMENT_HYGIENE.md)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kCanonicalRngSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timing<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kMicrosecondToNanosecond<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kMillisecondToMicrosecond<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kSecondToMillisecond<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audio<sp/>format<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kAudioSampleRate<sp/>=<sp/>16000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>kHz</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kAudioChannels<sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mono</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kAudioBitsPerSample<sp/>=<sp/>16;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>16-bit<sp/>PCM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kAudioBytesPerSecond<sp/>=<sp/>kAudioSampleRate<sp/>*<sp/>kAudioChannels<sp/>*<sp/>(kAudioBitsPerSample<sp/>/<sp/>8);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>mock<sp/>latencies<sp/>(deterministic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kMockSTTLatencyMicroseconds<sp/>=<sp/>500&apos;000;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>500ms<sp/>base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kMockTTSLatencyMicroseconds<sp/>=<sp/>300&apos;000;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>300ms<sp/>base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kMockLLMLatencyMicroseconds<sp/>=<sp/>1&apos;500&apos;000;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.5s<sp/>base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kMockStreamChunkLatencyMicroseconds<sp/>=<sp/>10&apos;000;<sp/></highlight><highlight class="comment">//<sp/>10ms<sp/>per<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Session<sp/>and<sp/>memory<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kSessionMemoryBytesBase<sp/>=<sp/>5&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5MB<sp/>per<sp/>session</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kStreamBufferBytesBase<sp/>=<sp/>10&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10MB<sp/>per<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kChunksPerSecondTarget<sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1000<sp/>chunks/sec<sp/>target</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA<sp/>Gate<sp/>Thresholds<sp/>(nanoseconds<sp/>for<sp/>consistency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1voice_1_1benchmark_1_1gates" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1gates" kindref="compound">gates</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>STT<sp/>latencies<sp/>(Task<sp/>5.1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSTTLatencyP95_100ms<sp/>=<sp/>2&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSTTLatencyP99_100ms<sp/>=<sp/>5&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSTTLatencyP95_5s<sp/>=<sp/>10&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSTTLatencyP99_5s<sp/>=<sp/>15&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>15000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSTTLatencyP95_60s<sp/>=<sp/>60&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>60000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSTTLatencyP99_60s<sp/>=<sp/>120&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>120000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TTS<sp/>latencies<sp/>(Task<sp/>5.1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateTTSLatencyP95_ShortText<sp/>=<sp/>1&apos;000&apos;000&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>1000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateTTSLatencyP99_ShortText<sp/>=<sp/>2&apos;000&apos;000&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>2000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateTTSLatencyP95_MediumText<sp/>=<sp/>3&apos;000&apos;000&apos;000;<sp/></highlight><highlight class="comment">//<sp/>3000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateTTSLatencyP99_MediumText<sp/>=<sp/>5&apos;000&apos;000&apos;000;<sp/></highlight><highlight class="comment">//<sp/>5000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Streaming<sp/>(Task<sp/>5.2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateStreamThroughput<sp/>=<sp/>1&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>chunks/sec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateStreamLatencyP95<sp/>=<sp/>50&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50ms<sp/>per<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateStreamMemory<sp/>=<sp/>10&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10MB<sp/>per<sp/>session</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateStreamRecovery<sp/>=<sp/>500&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>500ms<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Session<sp/>lifecycle<sp/>(Task<sp/>5.3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSessionCreate<sp/>=<sp/>100&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSessionDelete<sp/>=<sp/>50&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSessionMemory100<sp/>=<sp/>500&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>500MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSessionMemory1000<sp/>=<sp/>2&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateSessionCleanupLeak<sp/>=<sp/>10&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audio<sp/>preprocessing<sp/>(Task<sp/>5.4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateAudioValidateSmall<sp/>=<sp/>10&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateAudioValidateLarge<sp/>=<sp/>50&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateAudioPreprocess<sp/>=<sp/>500&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>500ms<sp/>per<sp/>5s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateWakeWordLatency<sp/>=<sp/>1&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateIntentLatency<sp/>=<sp/>500&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>500ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Assistant<sp/>(Task<sp/>5.5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateLLMLatencyP95<sp/>=<sp/>3&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateLLMLatencyP99<sp/>=<sp/>10&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateTTSSynthesis<sp/>=<sp/>2&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateE2ELatencyP95<sp/>=<sp/>6&apos;000&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>6000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>kGateCommandParse<sp/>=<sp/>100&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>Implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor_1ac8acb3f847de14e60d4699453206cdd4" kindref="member">MockSTTProcessor</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor_1ac8acb3f847de14e60d4699453206cdd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor_1ac8acb3f847de14e60d4699453206cdd4" kindref="member">MockSTTProcessor</ref>(int64_t<sp/>base_latency_us<sp/>=<sp/>kMockSTTLatencyMicroseconds)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>base_latency_us_(base_latency_us)<sp/>{}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>STT<sp/>processing<sp/>with<sp/>deterministic<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor_1af9422ee93a97f1833e521a5d716e0185" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor_1af9422ee93a97f1833e521a5d716e0185" kindref="member">transcribe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>processing<sp/>time<sp/>proportional<sp/>to<sp/>audio<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>duration_us<sp/>=<sp/>base_latency_us_<sp/>+<sp/>(audio.size()<sp/>/<sp/>1000);<sp/><sp/></highlight><highlight class="comment">//<sp/>add<sp/>1us<sp/>per<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(duration_us));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;mock<sp/>transcription&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>streaming<sp/>chunk<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor_1ac22e9f41c50e461e9c0c86c81505513f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor_1ac22e9f41c50e461e9c0c86c81505513f" kindref="member">processChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>chunk)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(kMockStreamChunkLatencyMicroseconds));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;chunk&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>base_latency_us_;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a38eeb5ed374de4e06e3e9eefb26e65f0" kindref="member">MockTTSProcessor</ref><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a38eeb5ed374de4e06e3e9eefb26e65f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a38eeb5ed374de4e06e3e9eefb26e65f0" kindref="member">MockTTSProcessor</ref>(int64_t<sp/>base_latency_us<sp/>=<sp/>kMockTTSLatencyMicroseconds)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>base_latency_us_(base_latency_us)<sp/>{}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>TTS<sp/>synthesis<sp/>with<sp/>deterministic<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a5d50a6706ad635fdce6c8595ae3ee478" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a5d50a6706ad635fdce6c8595ae3ee478" kindref="member">synthesize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>processing<sp/>time<sp/>proportional<sp/>to<sp/>text<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>duration_us<sp/>=<sp/>base_latency_us_<sp/>+<sp/>(text.length()<sp/>*<sp/>100);<sp/><sp/></highlight><highlight class="comment">//<sp/>add<sp/>100us<sp/>per<sp/>character</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(duration_us));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>mock<sp/>audio<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;(text.length()<sp/>*<sp/>1000,<sp/>0);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>base_latency_us_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_l_l_m_processor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_l_l_m_processor_1a4772507da23dacbc4e0dd9d0590c471f" kindref="member">MockLLMProcessor</ref><sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_l_l_m_processor_1a4772507da23dacbc4e0dd9d0590c471f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_l_l_m_processor_1a4772507da23dacbc4e0dd9d0590c471f" kindref="member">MockLLMProcessor</ref>(int64_t<sp/>base_latency_us<sp/>=<sp/>kMockLLMLatencyMicroseconds)</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>base_latency_us_(base_latency_us)<sp/>{}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>LLM<sp/>response<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_l_l_m_processor_1a8d7d10aefa66e7b8aeb4d77baf74dd28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_l_l_m_processor_1a8d7d10aefa66e7b8aeb4d77baf74dd28" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>processing<sp/>time<sp/>(constant<sp/>+<sp/>prompt-dependent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>duration_us<sp/>=<sp/>base_latency_us_<sp/>+<sp/>(prompt.length()<sp/>*<sp/>10);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(duration_us));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;mock<sp/>response&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>base_latency_us_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1afe64902f9c61baded960f5db20af1b06" kindref="member">MockStreamBuffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1afe64902f9c61baded960f5db20af1b06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1afe64902f9c61baded960f5db20af1b06" kindref="member">MockStreamBuffer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_size_bytes<sp/>=<sp/>kStreamBufferBytesBase)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>max_size_(max_size_bytes),<sp/>current_size_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>chunk<sp/>to<sp/>buffer<sp/>(simulates<sp/>network<sp/>arrival)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a2e0a6c887951c799ee4cf78f07a7eb83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a2e0a6c887951c799ee4cf78f07a7eb83" kindref="member">addChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>chunk)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(current_size_<sp/>+<sp/>chunk.size()<sp/>&gt;<sp/>max_size_)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>buffer<sp/>full</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_size_<sp/>+=<sp/>chunk.size();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>queue_.push(chunk);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cv_.notify_one();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>chunk<sp/>from<sp/>buffer<sp/>(simulates<sp/>processing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a56c2868d47ddd39db4d6da10c1b7557b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a56c2868d47ddd39db4d6da10c1b7557b" kindref="member">getChunk</ref>(std::vector&lt;uint8_t&gt;&amp;<sp/>chunk)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(queue_.empty())<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunk<sp/>=<sp/>queue_.front();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>queue_.pop();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_size_<sp/>=<sp/>(current_size_<sp/>&gt;=<sp/>chunk.size())<sp/>?<sp/>current_size_<sp/>-<sp/>chunk.size()<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a571e0f802aa015d6526311c8cab68a0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a571e0f802aa015d6526311c8cab68a0b" kindref="member">getMemoryUsage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_size_;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a5f9ef99ef85a1c9bdeb87a97cf53ae7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a5f9ef99ef85a1c9bdeb87a97cf53ae7b" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!queue_.empty())<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>queue_.pop();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_size_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>queue_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_size_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_size_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture<sp/>Classes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" kindref="compound">VoiceBenchmarkFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad6b60dfcdc2047cd98e2151c6a56efb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad6b60dfcdc2047cd98e2151c6a56efb9" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*unused*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>deterministic<sp/>RNG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a1169e907f1f75a134ea2ef71d4ce91cb" kindref="member">rng_</ref>.seed(kCanonicalRngSeed);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>mock<sp/>processors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a4373e88e5437baec54e131620dd0ba1b" kindref="member">stt_processor_</ref><sp/>=<sp/>std::make_unique&lt;MockSTTProcessor&gt;();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a5ae284b10413be0b1ad8dfef2f2401ca" kindref="member">tts_processor_</ref><sp/>=<sp/>std::make_unique&lt;MockTTSProcessor&gt;();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a02cdbfc4bac9702f1db46d8982d7f382" kindref="member">llm_processor_</ref><sp/>=<sp/>std::make_unique&lt;MockLLMProcessor&gt;();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abeefe60c46bd9f7c51c6fdeb3f8558a7" kindref="member">stream_buffer_</ref><sp/>=<sp/>std::make_unique&lt;MockStreamBuffer&gt;();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abb20815cbc18d879fbb7bb17a9a59ab1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abb20815cbc18d879fbb7bb17a9a59ab1" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*unused*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a4373e88e5437baec54e131620dd0ba1b" kindref="member">stt_processor_</ref>.reset();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a5ae284b10413be0b1ad8dfef2f2401ca" kindref="member">tts_processor_</ref>.reset();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a02cdbfc4bac9702f1db46d8982d7f382" kindref="member">llm_processor_</ref>.reset();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abeefe60c46bd9f7c51c6fdeb3f8558a7" kindref="member">stream_buffer_</ref>.reset();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a1169e907f1f75a134ea2ef71d4ce91cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a1169e907f1f75a134ea2ef71d4ce91cb" kindref="member">rng_</ref>;</highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a4373e88e5437baec54e131620dd0ba1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockSTTProcessor&gt;<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a4373e88e5437baec54e131620dd0ba1b" kindref="member">stt_processor_</ref>;</highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a5ae284b10413be0b1ad8dfef2f2401ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockTTSProcessor&gt;<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a5ae284b10413be0b1ad8dfef2f2401ca" kindref="member">tts_processor_</ref>;</highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a02cdbfc4bac9702f1db46d8982d7f382" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockLLMProcessor&gt;<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a02cdbfc4bac9702f1db46d8982d7f382" kindref="member">llm_processor_</ref>;</highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abeefe60c46bd9f7c51c6fdeb3f8558a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockStreamBuffer&gt;<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abeefe60c46bd9f7c51c6fdeb3f8558a7" kindref="member">stream_buffer_</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utility:<sp/>generate<sp/>random<sp/>audio<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1af4d357267ecd08ecc0c6a50c9ba1a5d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1af4d357267ecd08ecc0c6a50c9ba1a5d8" kindref="member">generateAudio</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>duration_ms)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_samples<sp/>=<sp/>(duration_ms<sp/>*<sp/>kAudioSampleRate)<sp/>/<sp/>1000;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_bytes<sp/>=<sp/>num_samples<sp/>*<sp/>kAudioChannels<sp/>*<sp/>(kAudioBitsPerSample<sp/>/<sp/>8);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>audio(num_bytes);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;&gt;<sp/>dis(0,<sp/>255);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>:<sp/>audio)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dis(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a1169e907f1f75a134ea2ef71d4ce91cb" kindref="member">rng_</ref>));</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>audio;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utility:<sp/>generate<sp/>session<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad43061488e0b85f871ab1a7285f92bdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad43061488e0b85f871ab1a7285f92bdb" kindref="member">generateSessionId</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/>counter(0);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;session-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(counter++);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utility:<sp/>sleep<sp/>for<sp/>specified<sp/>microseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a4781f0de1af36d0d9b1933f8a372640b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a4781f0de1af36d0d9b1933f8a372640b" kindref="member">sleepMicroseconds</ref>(int64_t<sp/>us)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(us));</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" kindref="compound">VoiceBenchmarkFixture</ref><sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture_1ae0ca19fe3fe7b0a9755818ea12e2028a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture_1ae0ca19fe3fe7b0a9755818ea12e2028a" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad6b60dfcdc2047cd98e2151c6a56efb9" kindref="member">VoiceBenchmarkFixture::SetUp</ref>(state);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>STT/TTS<sp/>setup<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="classthemis_1_1voice_1_1benchmark_1_1_streaming_throughput_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_streaming_throughput_fixture" kindref="compound">StreamingThroughputFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" kindref="compound">VoiceBenchmarkFixture</ref><sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="303" refid="classthemis_1_1voice_1_1benchmark_1_1_streaming_throughput_fixture_1a5ad6918fcb53439a175c2c54731f5310" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_streaming_throughput_fixture_1a5ad6918fcb53439a175c2c54731f5310" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad6b60dfcdc2047cd98e2151c6a56efb9" kindref="member">VoiceBenchmarkFixture::SetUp</ref>(state);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abeefe60c46bd9f7c51c6fdeb3f8558a7" kindref="member">stream_buffer_</ref>-&gt;clear();</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308" refid="classthemis_1_1voice_1_1benchmark_1_1_streaming_throughput_fixture_1aef6284f888f8ab13a650d69956539f6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_streaming_throughput_fixture_1aef6284f888f8ab13a650d69956539f6a" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abeefe60c46bd9f7c51c6fdeb3f8558a7" kindref="member">stream_buffer_</ref>-&gt;clear();</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abb20815cbc18d879fbb7bb17a9a59ab1" kindref="member">VoiceBenchmarkFixture::TearDown</ref>(state);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture" kindref="compound">SessionLifecycleFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" kindref="compound">VoiceBenchmarkFixture</ref><sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="319" refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a3f821b243ae6cd64625f55d83bf380df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a3f821b243ae6cd64625f55d83bf380df" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad6b60dfcdc2047cd98e2151c6a56efb9" kindref="member">VoiceBenchmarkFixture::SetUp</ref>(state);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a7c59098faa4b0c3cefe824aca31042d7" kindref="member">sessions_</ref>.clear();</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a78391928760c034a584fd847dd2e54ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a78391928760c034a584fd847dd2e54ef" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a7c59098faa4b0c3cefe824aca31042d7" kindref="member">sessions_</ref>.clear();</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abb20815cbc18d879fbb7bb17a9a59ab1" kindref="member">VoiceBenchmarkFixture::TearDown</ref>(state);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="330" refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a7c59098faa4b0c3cefe824aca31042d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a7c59098faa4b0c3cefe824aca31042d7" kindref="member">sessions_</ref>;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="classthemis_1_1voice_1_1benchmark_1_1_audio_preprocessing_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_audio_preprocessing_fixture" kindref="compound">AudioPreprocessingFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" kindref="compound">VoiceBenchmarkFixture</ref><sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="338" refid="classthemis_1_1voice_1_1benchmark_1_1_audio_preprocessing_fixture_1a1d0817bb5c6df17379aec850629be432" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_audio_preprocessing_fixture_1a1d0817bb5c6df17379aec850629be432" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad6b60dfcdc2047cd98e2151c6a56efb9" kindref="member">VoiceBenchmarkFixture::SetUp</ref>(state);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="classthemis_1_1voice_1_1benchmark_1_1_assistant_latency_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1benchmark_1_1_assistant_latency_fixture" kindref="compound">AssistantLatencyFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" kindref="compound">VoiceBenchmarkFixture</ref><sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="348" refid="classthemis_1_1voice_1_1benchmark_1_1_assistant_latency_fixture_1abcbc696411579e4fc945ee6996ce7341" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_assistant_latency_fixture_1abcbc696411579e4fc945ee6996ce7341" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad6b60dfcdc2047cd98e2151c6a56efb9" kindref="member">VoiceBenchmarkFixture::SetUp</ref>(state);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Utility<sp/>Functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357" refid="namespacethemis_1_1voice_1_1benchmark_1_1utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362" refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" kindref="member">calculateP95</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;&amp;<sp/>latencies)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latencies.empty())<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(latencies.size()<sp/>*<sp/>0.95);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(idx<sp/>&gt;=<sp/>latencies.size())<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>idx<sp/>=<sp/>latencies.size()<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>latencies[idx];</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376" refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" kindref="member">calculateP99</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;&amp;<sp/>latencies)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latencies.empty())<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(latencies.size()<sp/>*<sp/>0.99);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(idx<sp/>&gt;=<sp/>latencies.size())<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>idx<sp/>=<sp/>latencies.size()<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>latencies[idx];</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391" refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">checkGate</ref>(int64_t<sp/>current_ns,<sp/>int64_t<sp/>threshold_ns,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gate_name)<sp/>{</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>passes<sp/>=<sp/>current_ns<sp/>&lt;=<sp/>threshold_ns;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!passes)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::fprintf(stderr,<sp/></highlight><highlight class="stringliteral">&quot;GATE<sp/>FAILED:<sp/>%s<sp/>(%.2fms<sp/>&gt;<sp/>%.2fms)\n&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gate_name,<sp/>current_ns<sp/>/<sp/>1&apos;000&apos;000.0,<sp/>threshold_ns<sp/>/<sp/>1&apos;000&apos;000.0);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>passes;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice::benchmark</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/voice/benchmark_fixtures.h"/>
+  </compounddef>
+</doxygen>

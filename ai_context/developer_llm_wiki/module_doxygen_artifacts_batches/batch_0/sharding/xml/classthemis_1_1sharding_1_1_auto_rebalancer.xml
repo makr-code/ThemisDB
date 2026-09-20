@@ -1,0 +1,1078 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_auto_rebalancer" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::AutoRebalancer</compoundname>
+    <includes refid="auto__rebalancer_8h" local="no">auto_rebalancer.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config" prot="public">themis::sharding::AutoRebalancer::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_operation_status" prot="public">themis::sharding::AutoRebalancer::OperationStatus</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a7e7480066588f7fd54109888e389dd99" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::sharding::AutoRebalancer::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="337" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1adeba0644e4b8c1d070ead82f4bc3cc94" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardLoadDetector&gt; themis::sharding::AutoRebalancer::load_detector_</definition>
+        <argsstring></argsstring>
+        <name>load_detector_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::load_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="338" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a8142230fca11ae32369e8b54baa7b7b8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PrometheusMetrics&gt; themis::sharding::AutoRebalancer::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="339" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a7f5f8825a05c926f7d3d00c09e625cc0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_data_migrator" kindref="compound">DataMigrator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DataMigrator&gt; themis::sharding::AutoRebalancer::migrator_</definition>
+        <argsstring></argsstring>
+        <name>migrator_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::migrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="340" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ae0562f333778e215ab9765f2f7693563" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::AutoRebalancer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="341" column="12" bodyfile="include/sharding/auto_rebalancer.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a05a3300bea57b744f343cb4e17580cb5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_hot_shard_split_policy" kindref="compound">HotShardSplitPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HotShardSplitPolicy&gt; themis::sharding::AutoRebalancer::split_policy_</definition>
+        <argsstring></argsstring>
+        <name>split_policy_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::split_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="344" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a698640c6b0bdf5efe76f65220809e48a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::utils::AuditLogger &gt;</type>
+        <definition>std::shared_ptr&lt;themis::utils::AuditLogger&gt; themis::sharding::AutoRebalancer::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="347" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a3b75ee85ceb70a617562d4993f60d0be" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a77065eabe23820330e4f91552683c9e9" kindref="member">SignOperationFn</ref></type>
+        <definition>SignOperationFn themis::sharding::AutoRebalancer::sign_fn_</definition>
+        <argsstring></argsstring>
+        <name>sign_fn_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::sign_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="350" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a4d50dc0aa5f7dc3da67102e4d8e43880" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::AutoRebalancer::sign_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sign_fn_mutex_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::sign_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="351" column="24" bodyfile="include/sharding/auto_rebalancer.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1af03329d3e8c9159fff98ffb08c84e4c9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::AutoRebalancer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="354" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="354" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1aa1ca841eadbd16f3409660a47abbe8df" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::AutoRebalancer::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="355" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a5a2781ed1866f4d5e35778732cfafed4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::AutoRebalancer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="356" column="24" bodyfile="include/sharding/auto_rebalancer.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a7f8b4f0325d14e9762e9283ce83c37a1" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::sharding::AutoRebalancer::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="357" column="29" bodyfile="include/sharding/auto_rebalancer.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ac388cfd7a4ca053b51e6f3300414398e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_rebalance_operation" kindref="compound">RebalanceOperation</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;RebalanceOperation&gt; &gt; themis::sharding::AutoRebalancer::active_operations_</definition>
+        <argsstring></argsstring>
+        <name>active_operations_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::active_operations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="360" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ac68a12c10333a8b67ba815dca4243c1c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_operation_status" kindref="compound">OperationStatus</ref> &gt;</type>
+        <definition>std::vector&lt;OperationStatus&gt; themis::sharding::AutoRebalancer::operation_history_</definition>
+        <argsstring></argsstring>
+        <name>operation_history_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::operation_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="361" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a3277144a59763dba044982c9bab5a162" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation" kindref="compound">LoadImbalanceResult::RebalanceRecommendation</ref> &gt;</type>
+        <definition>std::map&lt;std::string, LoadImbalanceResult::RebalanceRecommendation&gt; themis::sharding::AutoRebalancer::pending_approvals_</definition>
+        <argsstring></argsstring>
+        <name>pending_approvals_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::pending_approvals_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="364" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1aaefc19a578f297e1487feebe6bc29e69" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AutoRebalancer::total_checks_</definition>
+        <argsstring></argsstring>
+        <name>total_checks_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::total_checks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="367" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="367" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a24ab7d2b82582fdb6693e1cbfb4b2ef5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AutoRebalancer::triggered_operations_</definition>
+        <argsstring></argsstring>
+        <name>triggered_operations_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::triggered_operations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="368" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="368" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a983de1f4033a572dcfedefd907682ac1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AutoRebalancer::completed_operations_</definition>
+        <argsstring></argsstring>
+        <name>completed_operations_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::completed_operations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="369" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="369" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ac7c69581a6be0de910e72c6327d4a507" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AutoRebalancer::failed_operations_</definition>
+        <argsstring></argsstring>
+        <name>failed_operations_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::failed_operations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="370" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="370" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a796b796818352f17a52c60f03045cb42" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AutoRebalancer::split_proposals_total_</definition>
+        <argsstring></argsstring>
+        <name>split_proposals_total_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::split_proposals_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="371" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="371" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ae16d4bb1cb8390576ba59f7d54179f17" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::AutoRebalancer::last_check_time_</definition>
+        <argsstring></argsstring>
+        <name>last_check_time_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::last_check_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="372" column="43" bodyfile="include/sharding/auto_rebalancer.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ab2283580645efdd436b704ea4209b5a2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::AutoRebalancer::last_known_topology_</definition>
+        <argsstring></argsstring>
+        <name>last_known_topology_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::last_known_topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="375" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a46d8baa847c02ef25b991ade41b8a935" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AutoRebalancer::topology_change_count_</definition>
+        <argsstring></argsstring>
+        <name>topology_change_count_</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::topology_change_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="376" column="17" bodyfile="include/sharding/auto_rebalancer.h" bodystart="376" bodyend="376"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a178eebda6a0c04be4b96331040f61097" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AutoRebalancer::AutoRebalancer</definition>
+        <argsstring>(std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; ShardLoadDetector &gt; load_detector, std::shared_ptr&lt; PrometheusMetrics &gt; metrics, std::shared_ptr&lt; DataMigrator &gt; migrator)</argsstring>
+        <name>AutoRebalancer</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::AutoRebalancer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> &gt;</type>
+          <declname>load_detector</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_data_migrator" kindref="compound">DataMigrator</ref> &gt;</type>
+          <declname>migrator</declname>
+        </param>
+        <briefdescription>
+<para>Construct coordinator with default config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="246" column="14" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ac9e6bf71a8340b5f23590c1bd51baba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AutoRebalancer::AutoRebalancer</definition>
+        <argsstring>(std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; ShardLoadDetector &gt; load_detector, std::shared_ptr&lt; PrometheusMetrics &gt; metrics, std::shared_ptr&lt; DataMigrator &gt; migrator, const Config &amp;config)</argsstring>
+        <name>AutoRebalancer</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::AutoRebalancer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> &gt;</type>
+          <declname>load_detector</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_data_migrator" kindref="compound">DataMigrator</ref> &gt;</type>
+          <declname>migrator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct coordinator with explicit config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="254" column="5" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="157" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a4ab697521f53c44347e5450b28837ea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AutoRebalancer::~AutoRebalancer</definition>
+        <argsstring>()</argsstring>
+        <name>~AutoRebalancer</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::~AutoRebalancer</qualifiedname>
+        <briefdescription>
+<para>Stop monitor thread and active coordination on destruction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="263" column="5" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="174" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a76d8040b70813057bec20159a3b72866" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start automatic rebalancing monitoring</para>
+<para>Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), std::thread(), monitorLoop(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="268" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="182" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a353b024401d121554fadecdfd6c6d69e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop automatic rebalancing</para>
+<para>Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="273" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="203" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1aed9048bf285c12de8e105be195f87586" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if rebalancer is running </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="278" column="10" bodyfile="include/sharding/auto_rebalancer.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a5c125693e7c6ae02621189fe3e7d0a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::triggerCheck</definition>
+        <argsstring>()</argsstring>
+        <name>triggerCheck</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::triggerCheck</qualifiedname>
+        <briefdescription>
+<para>Trigger Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Manually trigger rebalance check <simplesect kind="return"><para>true if rebalance was triggered</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), THEMIS_WARN(), THEMIS_INFO(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="284" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="658" bodyend="667"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a1222a15aa3d14963a36f0088bd16b7d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::approveOperation</definition>
+        <argsstring>(const std::string &amp;operation_id)</argsstring>
+        <name>approveOperation</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::approveOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <briefdescription>
+<para>Approve Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Approve pending rebalance operation (Only needed if require_manual_approval=true) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation to approve </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if approved successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), erase(), THEMIS_INFO(), executeRebalance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="292" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="675" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ae068cef422d147d03778b86a182c2e9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::cancelOperation</definition>
+        <argsstring>(const std::string &amp;operation_id)</argsstring>
+        <name>cancelOperation</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::cancelOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel active rebalance operation <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation to cancel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if cancelled successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), rollback(), THEMIS_INFO(), incrementCounter(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="299" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="699" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1aab7ecd942e2f382b93f2dc2a1ad60325" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_operation_status" kindref="compound">OperationStatus</ref> &gt;</type>
+        <definition>std::vector&lt; AutoRebalancer::OperationStatus &gt; themis::sharding::AutoRebalancer::getOperationStatuses</definition>
+        <argsstring>() const</argsstring>
+        <name>getOperationStatuses</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::getOperationStatuses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get status of all operations <simplesect kind="return"><para>Vector of operation statuses </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="305" column="17" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="724" bodyend="757"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a1b4e4deb81f74273e3f733198786ea43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AutoRebalancer::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get statistics <simplesect kind="return"><para>JSON statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="311" column="20" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="759" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a5b26da89f3d993486213703d28fe276e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::setSplitPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; HotShardSplitPolicy &gt; policy)</argsstring>
+        <name>setSplitPolicy</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::setSplitPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_hot_shard_split_policy" kindref="compound">HotShardSplitPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Split Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a <ref refid="classthemis_1_1sharding_1_1_hot_shard_split_policy" kindref="compound">HotShardSplitPolicy</ref> so the monitor loop also evaluates hot-shard splits. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy instance (may be nullptr to disable)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="317" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="793" bodyend="796"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a6880eb849f3584fef5d23fd55fdac671" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::setAuditLogger</definition>
+        <argsstring>(std::shared_ptr&lt; themis::utils::AuditLogger &gt; audit_logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::setAuditLogger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::utils::AuditLogger &gt;</type>
+          <declname>audit_logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach an audit logger for emitting SHARD_SPLIT / SHARD_MERGE compliance events. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logger instance (may be nullptr to disable audit)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="323" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="803" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ab0a3eccda39862d95e85aec6785c63bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::setSignOperationFn</definition>
+        <argsstring>(SignOperationFn fn)</argsstring>
+        <name>setSignOperationFn</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::setSignOperationFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a77065eabe23820330e4f91552683c9e9" kindref="member">SignOperationFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a custom signing function for rebalance operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Sign Operation Fn.</para>
+<para>When set, this function is called instead of the built-in RSA-SHA256 path. Allows production deployments to use HSM, remote KMS, or custom key-stores. Thread-safe: can be called before or after <ref refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a76d8040b70813057bec20159a3b72866" kindref="member">start()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signing callback. Passing nullptr removes the override.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="334" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="949" bodyend="952"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1abe6dc0a10d421e0bf616720d3bfd2f25" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::monitorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>monitorLoop</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::monitorLoop</qualifiedname>
+        <briefdescription>
+<para>Background monitoring loop driving periodic detection/execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Monitor Loop.</para>
+<para>Calls: THEMIS_INFO(), load(), Tracer::startSpan(), lock(), std::chrono::system_clock::now(), cleanupCompletedOperations(), handleTopologyChange(), canTriggerRebalance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="380" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="230" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a015d09831f2009f16bde7c46bf4f0102" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::handleTopologyChange</definition>
+        <argsstring>()</argsstring>
+        <name>handleTopologyChange</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::handleTopologyChange</qualifiedname>
+        <briefdescription>
+<para>Detect and handle automatic rebalancing for topology changes (node join/leave). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Topology Change.</para>
+<para>Calls: getAllShards(), push_back(), size(), THEMIS_WARN(), canTriggerRebalance(), THEMIS_DEBUG(), THEMIS_INFO(), incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="384" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="958" bodyend="1016"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a291ce1ee67b1144d3f036d1035695241" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::evaluateAndExecuteSplits</definition>
+        <argsstring>()</argsstring>
+        <name>evaluateAndExecuteSplits</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::evaluateAndExecuteSplits</qualifiedname>
+        <briefdescription>
+<para>Evaluate split policy proposals and dispatch eligible split operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Hot-shard split evaluation and execution ─────────────────────────────────────────────────────────────────────────────</para>
+<para>Calls: lock(), evaluate(), empty(), THEMIS_DEBUG(), THEMIS_INFO(), size(), setGauge(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="388" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="815" bodyend="849"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a6dd04557c876786a628eaeb620d60507" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::executeSplitProposal</definition>
+        <argsstring>(const HotShardSplitPolicy::SplitProposal &amp;proposal)</argsstring>
+        <name>executeSplitProposal</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::executeSplitProposal</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal" kindref="compound">HotShardSplitPolicy::SplitProposal</ref> &amp;</type>
+          <declname>proposal</declname>
+        </param>
+        <briefdescription>
+<para>Execute one split proposal by translating it into rebalance operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Split Proposal.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">proposal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), THEMIS_INFO(), lock(), logSecurityEvent(), THEMIS_WARN(), what(), detectImbalance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="390" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="857" bodyend="942"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a6cb909fe2c05d053ea7a7abe7ef6d6b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::executeRebalance</definition>
+        <argsstring>(const LoadImbalanceResult::RebalanceRecommendation &amp;recommendation)</argsstring>
+        <name>executeRebalance</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::executeRebalance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation" kindref="compound">LoadImbalanceResult::RebalanceRecommendation</ref> &amp;</type>
+          <declname>recommendation</declname>
+        </param>
+        <briefdescription>
+<para>Execute one rebalance recommendation end-to-end. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Rebalance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recommendation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), generateOperationId(), THEMIS_INFO(), signOperation(), empty(), THEMIS_ERROR(), recordError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="394" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="331" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1aa886b70596b0e5c756d2bc58b7884204" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AutoRebalancer::generateOperationId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateOperationId</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::generateOperationId</qualifiedname>
+        <briefdescription>
+<para>Generate unique rebalance operation identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="396" column="17" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="399" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1add554073dfa6b6f0f814e8c5368d0644" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AutoRebalancer::signOperation</definition>
+        <argsstring>(const std::string &amp;operation_id) const</argsstring>
+        <name>signOperation</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::signOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <briefdescription>
+<para>Sign operation intent using override callback or built-in crypto path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Allocate buffer and perform signing <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sig_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+B64 buf. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">b64_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="398" column="17" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="410" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1a508f5c3c32186dff409e1d8340501990" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::canTriggerRebalance</definition>
+        <argsstring>() const</argsstring>
+        <name>canTriggerRebalance</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::canTriggerRebalance</qualifiedname>
+        <briefdescription>
+<para>Return whether policy/cooldown/concurrency limits allow new operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="402" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="551" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1aefdf21f122c97fdc85ffb2862767af18" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::isWithinSafetyLimits</definition>
+        <argsstring>(const LoadImbalanceResult &amp;imbalance) const</argsstring>
+        <name>isWithinSafetyLimits</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::isWithinSafetyLimits</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref> &amp;</type>
+          <declname>imbalance</declname>
+        </param>
+        <briefdescription>
+<para>Return whether imbalance recommendations satisfy configured safety limits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="404" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="589" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1aadec36b191924addbd91fb6bcd70118b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::cleanupCompletedOperations</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupCompletedOperations</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::cleanupCompletedOperations</qualifiedname>
+        <briefdescription>
+<para>Purge finished operations and update counters/history snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Completed Operations.</para>
+<para>Calls: lock(), getState(), push_back(), std::chrono::system_clock::now(), getProgress(), THEMIS_INFO(), erase(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="408" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="605" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_auto_rebalancer_1ab15f229232aab08ab79ac886607487f9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AutoRebalancer::updateOperationStatus</definition>
+        <argsstring>(const std::string &amp;operation_id, RebalanceState state)</argsstring>
+        <name>updateOperationStatus</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::updateOperationStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Update one operation status entry in persistent history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="410" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Auto rebalancer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/auto_rebalancer.h" line="200" column="1" bodyfile="include/sharding/auto_rebalancer.h" bodystart="200" bodyend="411"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ac388cfd7a4ca053b51e6f3300414398e" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>active_operations_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a1222a15aa3d14963a36f0088bd16b7d0" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>approveOperation</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a698640c6b0bdf5efe76f65220809e48a" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a178eebda6a0c04be4b96331040f61097" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>AutoRebalancer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ac9e6bf71a8340b5f23590c1bd51baba4" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>AutoRebalancer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ae068cef422d147d03778b86a182c2e9b" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>cancelOperation</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a508f5c3c32186dff409e1d8340501990" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>canTriggerRebalance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1aadec36b191924addbd91fb6bcd70118b" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>cleanupCompletedOperations</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a983de1f4033a572dcfedefd907682ac1" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>completed_operations_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ae0562f333778e215ab9765f2f7693563" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a7f8b4f0325d14e9762e9283ce83c37a1" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a291ce1ee67b1144d3f036d1035695241" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>evaluateAndExecuteSplits</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a6cb909fe2c05d053ea7a7abe7ef6d6b6" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>executeRebalance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a6dd04557c876786a628eaeb620d60507" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>executeSplitProposal</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ac7c69581a6be0de910e72c6327d4a507" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>failed_operations_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1aa886b70596b0e5c756d2bc58b7884204" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>generateOperationId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1aab7ecd942e2f382b93f2dc2a1ad60325" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>getOperationStatuses</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a1b4e4deb81f74273e3f733198786ea43" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a015d09831f2009f16bde7c46bf4f0102" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>handleTopologyChange</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1aed9048bf285c12de8e105be195f87586" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1aefdf21f122c97fdc85ffb2862767af18" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>isWithinSafetyLimits</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ae16d4bb1cb8390576ba59f7d54179f17" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>last_check_time_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ab2283580645efdd436b704ea4209b5a2" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>last_known_topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1adeba0644e4b8c1d070ead82f4bc3cc94" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>load_detector_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a8142230fca11ae32369e8b54baa7b7b8" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a7f5f8825a05c926f7d3d00c09e625cc0" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>migrator_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1aa1ca841eadbd16f3409660a47abbe8df" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1abe6dc0a10d421e0bf616720d3bfd2f25" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>monitorLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a5a2781ed1866f4d5e35778732cfafed4" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ac68a12c10333a8b67ba815dca4243c1c" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>operation_history_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a3277144a59763dba044982c9bab5a162" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>pending_approvals_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1af03329d3e8c9159fff98ffb08c84e4c9" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a6880eb849f3584fef5d23fd55fdac671" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ab0a3eccda39862d95e85aec6785c63bc" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>setSignOperationFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a5b26da89f3d993486213703d28fe276e" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>setSplitPolicy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a3b75ee85ceb70a617562d4993f60d0be" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>sign_fn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a4d50dc0aa5f7dc3da67102e4d8e43880" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>sign_fn_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1add554073dfa6b6f0f814e8c5368d0644" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>signOperation</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a05a3300bea57b744f343cb4e17580cb5" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>split_policy_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a796b796818352f17a52c60f03045cb42" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>split_proposals_total_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a76d8040b70813057bec20159a3b72866" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>start</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a353b024401d121554fadecdfd6c6d69e" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a7e7480066588f7fd54109888e389dd99" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a46d8baa847c02ef25b991ade41b8a935" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>topology_change_count_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1aaefc19a578f297e1487feebe6bc29e69" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>total_checks_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a5c125693e7c6ae02621189fe3e7d0a88" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>triggerCheck</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a24ab7d2b82582fdb6693e1cbfb4b2ef5" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>triggered_operations_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1ab15f229232aab08ab79ac886607487f9" prot="private" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>updateOperationStatus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_auto_rebalancer_1a4ab697521f53c44347e5450b28837ea7" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer</scope><name>~AutoRebalancer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prometheus__metrics_8cpp" kind="file" language="C++">
+    <compoundname>prometheus_metrics.cpp</compoundname>
+    <includes refid="prometheus__metrics__adapter_8h" local="yes">core/concerns/prometheus_metrics_adapter.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>core/concerns/i_metrics.h</label>
+        <link refid="i__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>core/concerns/lifecycle.h</label>
+        <link refid="lifecycle_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>core/concerns/prometheus_metrics_adapter.h</label>
+        <link refid="prometheus__metrics__adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/core/concerns/prometheus_metrics.cpp</label>
+        <link refid="prometheus__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>observability/metrics_collector.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>Compilation<sp/>unit<sp/>for<sp/>PrometheusMetricsAdapter.</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>The<sp/>adapter<sp/>bridges<sp/>the<sp/>generic<sp/>IMetrics<sp/>interface<sp/>to<sp/>the<sp/>ThemisDB</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>MetricsCollector<sp/>singleton,<sp/>which<sp/>exposes<sp/>metrics<sp/>in<sp/>Prometheus</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>text-exposition<sp/>format<sp/>suitable<sp/>for<sp/>scraping<sp/>by<sp/>a<sp/>Prometheus<sp/>server.</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/>All<sp/>method<sp/>definitions<sp/>live<sp/>in<sp/>the<sp/>header</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>(include/core/concerns/prometheus_metrics_adapter.h)<sp/>because<sp/>they<sp/>are</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>thin,<sp/>inline<sp/>forwarding<sp/>wrappers<sp/>around<sp/>MetricsCollector.<sp/><sp/>This</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>translation<sp/>unit<sp/>exists<sp/>to:</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/><sp/><sp/>1.<sp/>Give<sp/>the<sp/>adapter<sp/>a<sp/>dedicated<sp/>object<sp/>file<sp/>in<sp/>the<sp/>build<sp/>graph,</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>ensuring<sp/>that<sp/>linkers<sp/>that<sp/>perform<sp/>whole-archive<sp/>elimination<sp/>still</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>retain<sp/>the<sp/>adapter<sp/>symbols.</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*<sp/><sp/><sp/>2.<sp/>Provide<sp/>an<sp/>explicit<sp/>boundary<sp/>between<sp/>the<sp/>adapter<sp/>interface<sp/>and<sp/>the</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>MetricsCollector<sp/>backend<sp/>so<sp/>that<sp/>future<sp/>non-inline<sp/>logic<sp/>(e.g.</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>metric<sp/>name<sp/>validation,<sp/>push-based<sp/>export)<sp/>can<sp/>be<sp/>added<sp/>here</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>without<sp/>changing<sp/>the<sp/>header.</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prometheus__metrics__adapter_8h" kindref="compound">core/concerns/prometheus_metrics_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PrometheusMetricsAdapter<sp/>is<sp/>fully<sp/>defined<sp/>inline<sp/>in<sp/>the<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>virtual-table<sp/>symbols<sp/>are<sp/>emitted<sp/>from<sp/>this<sp/>translation<sp/>unit.</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/core/concerns/prometheus_metrics.cpp"/>
+  </compounddef>
+</doxygen>

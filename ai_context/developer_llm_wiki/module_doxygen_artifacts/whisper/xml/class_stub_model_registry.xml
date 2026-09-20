@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_model_registry" kind="class" language="C++" prot="public">
+    <compoundname>StubModelRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_model_registry_1a09190896d7815de13a894ad2e5ea3a18" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubModelRegistry::loads_</definition>
+        <argsstring></argsstring>
+        <name>loads_</name>
+        <qualifiedname>StubModelRegistry::loads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="73" column="17" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_model_registry_1a3d083eecb014eda6065c5d115ea271ba" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubModelRegistry::unloads_</definition>
+        <argsstring></argsstring>
+        <name>unloads_</name>
+        <qualifiedname>StubModelRegistry::unloads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="74" column="17" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_model_registry_1a57ad16c87d88b4e23bd8c36b0b58a452" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubModelRegistry::loadModel</definition>
+        <argsstring>(const std::string &amp;path) noexcept</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>StubModelRegistry::loadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="62" column="10" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_model_registry_1accc74271e71fb7b816454809826f3b9e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubModelRegistry::unload</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>unload</name>
+        <qualifiedname>StubModelRegistry::unload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="67" column="10" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_model_registry_1aa640af4ab1fcf8f0e309bfa4abcb3763" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubModelRegistry::loads</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>loads</name>
+        <qualifiedname>StubModelRegistry::loads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="70" column="14" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_model_registry_1a98a1be0846d4277bb4f1d1cf5491468c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubModelRegistry::unloads</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>unloads</name>
+        <qualifiedname>StubModelRegistry::unloads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="71" column="14" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="60" column="1" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="60" bodyend="75"/>
+    <listofallmembers>
+      <member refid="class_stub_model_registry_1a57ad16c87d88b4e23bd8c36b0b58a452" prot="public" virt="non-virtual"><scope>StubModelRegistry</scope><name>loadModel</name></member>
+      <member refid="class_stub_model_registry_1aa640af4ab1fcf8f0e309bfa4abcb3763" prot="public" virt="non-virtual"><scope>StubModelRegistry</scope><name>loads</name></member>
+      <member refid="class_stub_model_registry_1a09190896d7815de13a894ad2e5ea3a18" prot="private" virt="non-virtual"><scope>StubModelRegistry</scope><name>loads_</name></member>
+      <member refid="class_stub_model_registry_1accc74271e71fb7b816454809826f3b9e" prot="public" virt="non-virtual"><scope>StubModelRegistry</scope><name>unload</name></member>
+      <member refid="class_stub_model_registry_1a98a1be0846d4277bb4f1d1cf5491468c" prot="public" virt="non-virtual"><scope>StubModelRegistry</scope><name>unloads</name></member>
+      <member refid="class_stub_model_registry_1a3d083eecb014eda6065c5d115ea271ba" prot="private" virt="non-virtual"><scope>StubModelRegistry</scope><name>unloads_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

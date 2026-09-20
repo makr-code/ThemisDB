@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="encoder__interface_8h" kind="file" language="C++">
+    <compoundname>encoder_interface.h</compoundname>
+    <includes local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="utr__converter_8h" local="yes">include/tensor/utr_converter.h</includedby>
+    <includedby refid="test__tensor__utr_8cpp" local="yes">tests/tensor/test_tensor_utr.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/tensor/encoder_interface.h</label>
+        <link refid="encoder__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/tensor/encoder_interface.h</label>
+        <link refid="encoder__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/tensor/utr_converter.h</label>
+        <link refid="utr__converter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/tensor/utr_converter.cpp</label>
+        <link refid="utr__converter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/tensor/test_tensor_utr.cpp</label>
+        <link refid="test__tensor__utr_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_text_encoder" prot="public">themis::tensor::ITextEncoder</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_image_encoder" prot="public">themis::tensor::IImageEncoder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_train_decomposer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>—<sp/>UTRConfig<sp/>is<sp/>defined<sp/>in<sp/>utr_converter.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_u_t_r_config" kindref="compound">UTRConfig</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EncoderQuality<sp/>—<sp/>quality<sp/>tier<sp/>for<sp/>encoder<sp/>outputs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4" kindref="member">EncoderQuality</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4a0dfb69ba8b5b824dfb9c6a2f63532707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4a0dfb69ba8b5b824dfb9c6a2f63532707" kindref="member">SEMANTIC</ref><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4af176338d29d8c14985e566b91bdb7991" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4af176338d29d8c14985e566b91bdb7991" kindref="member">LEXICAL</ref><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4a50b7748612b28db487d115f220bb77ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4a50b7748612b28db487d115f220bb77ab" kindref="member">HASH</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITextEncoder<sp/>—<sp/>abstract<sp/>interface<sp/>for<sp/>text<sp/>segment<sp/>encoders</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1tensor_1_1_i_text_encoder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1tensor_1_1_i_text_encoder_1a1fd238d6a8ae9547b32c5dc18686c061" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_i_text_encoder_1a1fd238d6a8ae9547b32c5dc18686c061" kindref="member">~ITextEncoder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1tensor_1_1_i_text_encoder_1a62722113d276f296d1c47fee3003c5ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_i_text_encoder_1a62722113d276f296d1c47fee3003c5ed" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>segment,<sp/>std::size_t<sp/>embed_dim)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1tensor_1_1_i_text_encoder_1a1ebd415649b21134f82826f317690240" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_i_text_encoder_1a1ebd415649b21134f82826f317690240" kindref="member">isAvailable</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1tensor_1_1_i_text_encoder_1af2985eab20ee345ca49cecf72f8a5439" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4" kindref="member">EncoderQuality</ref><sp/><ref refid="classthemis_1_1tensor_1_1_i_text_encoder_1af2985eab20ee345ca49cecf72f8a5439" kindref="member">quality</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1tensor_1_1_i_text_encoder_1ae13d3e9540b21648bfb510ead870e3a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::string_view<sp/><ref refid="classthemis_1_1tensor_1_1_i_text_encoder_1ae13d3e9540b21648bfb510ead870e3a5" kindref="member">description</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IImageEncoder<sp/>—<sp/>abstract<sp/>interface<sp/>for<sp/>image<sp/>encoders</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1tensor_1_1_i_image_encoder" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1tensor_1_1_i_image_encoder_1ad737d4fbbc17934998b905db702b5541" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_i_image_encoder_1ad737d4fbbc17934998b905db702b5541" kindref="member">~IImageEncoder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>storage::TTTrain</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1tensor_1_1_i_image_encoder_1a6c71cc37e6b704e5b52c9544610e0bb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_i_image_encoder_1a6c71cc37e6b704e5b52c9544610e0bb4" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pixels,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>h,<sp/>std::size_t<sp/>w,<sp/>std::size_t<sp/>c,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_u_t_r_config" kindref="compound">UTRConfig</ref>&amp;<sp/>cfg)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1tensor_1_1_i_image_encoder_1ac0a25869a53721b6254ef883fde92692" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_i_image_encoder_1ac0a25869a53721b6254ef883fde92692" kindref="member">isAvailable</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1tensor_1_1_i_image_encoder_1a5a8e07cd43604570da8e1afe62b35b57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4" kindref="member">EncoderQuality</ref><sp/><ref refid="classthemis_1_1tensor_1_1_i_image_encoder_1a5a8e07cd43604570da8e1afe62b35b57" kindref="member">quality</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1tensor_1_1_i_image_encoder_1a35282ec669a5dfd5ca6052850dd8eeb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::string_view<sp/><ref refid="classthemis_1_1tensor_1_1_i_image_encoder_1a35282ec669a5dfd5ca6052850dd8eeb6" kindref="member">description</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/encoder_interface.h"/>
+  </compounddef>
+</doxygen>

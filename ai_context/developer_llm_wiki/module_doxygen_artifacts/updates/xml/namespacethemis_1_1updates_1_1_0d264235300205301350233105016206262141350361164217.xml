@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1updates_1_1_0d264235300205301350233105016206262141350361164217" kind="namespace" language="C++">
+    <compoundname>themis::updates::@264235300205301350233105016206262141350361164217</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/updates/test_updates_diagnostics_focused.cpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KGRetrieverConfig</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a7850ae148ec39ecdd77dbd2d832a4c94" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::KGRetrieverConfig::max_traversal_depth</definition>
+        <argsstring></argsstring>
+        <name>max_traversal_depth</name>
+        <qualifiedname>themis::rag::kg::KGRetrieverConfig::max_traversal_depth</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Maximum BFS hops from a query-linked node during graph traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="173" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a302b9a2baae927fc03d2212968987f8d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGRetrieverConfig::min_edge_weight</definition>
+        <argsstring></argsstring>
+        <name>min_edge_weight</name>
+        <qualifiedname>themis::rag::kg::KGRetrieverConfig::min_edge_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>Minimum edge weight to follow during traversal [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="176" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a8e637a796e936604bbf2149008d5b6d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGRetrieverConfig::kg_score_weight</definition>
+        <argsstring></argsstring>
+        <name>kg_score_weight</name>
+        <qualifiedname>themis::rag::kg::KGRetrieverConfig::kg_score_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Weight given to the KG-derived score when fusing with the original vector-search score. Final score = orig * (1 - kg_score_weight)<itemizedlist>
+<listitem><para>kg_score * kg_score_weight. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="181" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a3f358a34445af70b8705b9a5e7ec144f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::KGRetrieverConfig::max_nodes_visited</definition>
+        <argsstring></argsstring>
+        <name>max_nodes_visited</name>
+        <qualifiedname>themis::rag::kg::KGRetrieverConfig::max_nodes_visited</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum number of unique nodes to visit per query (circuit-breaker). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="184" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a6839ca07482b8ded4285ec9079c7a0ce" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kindref="compound">EntityLinkerConfig</ref></type>
+        <definition>EntityLinkerConfig themis::rag::kg::KGRetrieverConfig::linker_config</definition>
+        <argsstring></argsstring>
+        <name>linker_config</name>
+        <qualifiedname>themis::rag::kg::KGRetrieverConfig::linker_config</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1rag_1_1kg_1_1_entity" kindref="compound">Entity</ref> linker configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="187" column="24" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ac0452fbfe24b5ec2efb87a308415a818" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::kg::KGRetrieverConfig::max_inference_hops</definition>
+        <argsstring></argsstring>
+        <name>max_inference_hops</name>
+        <qualifiedname>themis::rag::kg::KGRetrieverConfig::max_inference_hops</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum inference hops when a KnowledgeGraphReasoner is attached. Set to 0 to disable reasoning even when a reasoner is registered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="193" column="9" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1afdd95bd54cb2bca9d17cda5ef6ad233b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::kg::KGRetrieverConfig::attach_reasoning_chain_to_metadata</definition>
+        <argsstring></argsstring>
+        <name>attach_reasoning_chain_to_metadata</name>
+        <qualifiedname>themis::rag::kg::KGRetrieverConfig::attach_reasoning_chain_to_metadata</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, the serialised InferenceChain for each query entity is stored in <computeroutput>RetrievedDocument::metadata["reasoning_chain"]</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="197" column="10" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ad317dbb87f57c2efe84109b7f3a90a2b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGRetrieverConfig::reasoning_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>reasoning_timeout_ms</name>
+        <qualifiedname>themis::rag::kg::KGRetrieverConfig::reasoning_timeout_ms</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Timeout budget for reasoning per query entity (ms). Inference that exceeds this budget is skipped gracefully (fallback to direct KG query). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="201" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::kg::EntityLinkerConfig</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::kg::KGRetrieverConfig</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>linker_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/knowledge_graph_retriever.h" line="171" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="171" bodyend="202"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1afdd95bd54cb2bca9d17cda5ef6ad233b" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrieverConfig</scope><name>attach_reasoning_chain_to_metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a8e637a796e936604bbf2149008d5b6d9" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrieverConfig</scope><name>kg_score_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a6839ca07482b8ded4285ec9079c7a0ce" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrieverConfig</scope><name>linker_config</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ac0452fbfe24b5ec2efb87a308415a818" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrieverConfig</scope><name>max_inference_hops</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a3f358a34445af70b8705b9a5e7ec144f" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrieverConfig</scope><name>max_nodes_visited</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a7850ae148ec39ecdd77dbd2d832a4c94" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrieverConfig</scope><name>max_traversal_depth</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a302b9a2baae927fc03d2212968987f8d" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrieverConfig</scope><name>min_edge_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ad317dbb87f57c2efe84109b7f3a90a2b" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrieverConfig</scope><name>reasoning_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

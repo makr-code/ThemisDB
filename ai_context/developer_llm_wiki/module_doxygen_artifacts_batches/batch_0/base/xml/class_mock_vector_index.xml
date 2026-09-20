@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_vector_index" kind="class" language="C++" prot="public">
+    <compoundname>MockVectorIndex</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IVectorIndex</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_vector_index_1aec22d3c7d1ec114806b99f28f44025d2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;float&gt; &gt; MockVectorIndex::vectors_</definition>
+        <argsstring></argsstring>
+        <name>vectors_</name>
+        <qualifiedname>MockVectorIndex::vectors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="271" column="14" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="271" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_vector_index_1aa78fe123b54f88cfafb4642fe3c0d5c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockVectorIndex::insert</definition>
+        <argsstring>(std::string_view primary_key, const std::vector&lt; float &gt; &amp;vector) override</argsstring>
+        <name>insert</name>
+        <qualifiedname>MockVectorIndex::insert</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="231" column="10" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_vector_index_1a69ad87a4820934cb4603f3c1755ce38e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockVectorIndex::remove</definition>
+        <argsstring>(std::string_view primary_key) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>MockVectorIndex::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="237" column="10" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="237" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_vector_index_1a54c5755e440e2ea3616733547e19ff33" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; VectorSearchResult &gt;</type>
+        <definition>std::vector&lt; VectorSearchResult &gt; MockVectorIndex::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;, uint32_t k, const IExpressionEvaluator *=nullptr) const override</argsstring>
+        <name>search</name>
+        <qualifiedname>MockVectorIndex::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const IExpressionEvaluator *</type>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="241" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="241" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_vector_index_1a08bd20abea0dd0c3d1ff9195f2ac625b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; VectorSearchResult &gt;</type>
+        <definition>std::vector&lt; VectorSearchResult &gt; MockVectorIndex::rangeSearch</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;, float, const IExpressionEvaluator *=nullptr) const override</argsstring>
+        <name>rangeSearch</name>
+        <qualifiedname>MockVectorIndex::rangeSearch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <param>
+          <type>const IExpressionEvaluator *</type>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="255" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="255" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_vector_index_1a56c2aba456ec5361a6720bada1a79b8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockVectorIndex::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>MockVectorIndex::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="266" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_vector_index_1a1d287649cdd3179ff258a2f5c428a5af" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t MockVectorIndex::getDimension</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDimension</name>
+        <qualifiedname>MockVectorIndex::getDimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="267" column="14" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_vector_index_1a0d46dab69bc439474867b668b09a6692" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockVectorIndex::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>MockVectorIndex::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="268" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="268" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IVectorIndex</label>
+      </node>
+      <node id="1">
+        <label>MockVectorIndex</label>
+        <link refid="class_mock_vector_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IVectorIndex</label>
+      </node>
+      <node id="1">
+        <label>MockVectorIndex</label>
+        <link refid="class_mock_vector_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_interfaces.cpp" line="229" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="229" bodyend="272"/>
+    <listofallmembers>
+      <member refid="class_mock_vector_index_1a1d287649cdd3179ff258a2f5c428a5af" prot="public" virt="non-virtual"><scope>MockVectorIndex</scope><name>getDimension</name></member>
+      <member refid="class_mock_vector_index_1a56c2aba456ec5361a6720bada1a79b8e" prot="public" virt="non-virtual"><scope>MockVectorIndex</scope><name>getName</name></member>
+      <member refid="class_mock_vector_index_1a0d46dab69bc439474867b668b09a6692" prot="public" virt="non-virtual"><scope>MockVectorIndex</scope><name>getStatistics</name></member>
+      <member refid="class_mock_vector_index_1aa78fe123b54f88cfafb4642fe3c0d5c9" prot="public" virt="non-virtual"><scope>MockVectorIndex</scope><name>insert</name></member>
+      <member refid="class_mock_vector_index_1a08bd20abea0dd0c3d1ff9195f2ac625b" prot="public" virt="non-virtual"><scope>MockVectorIndex</scope><name>rangeSearch</name></member>
+      <member refid="class_mock_vector_index_1a69ad87a4820934cb4603f3c1755ce38e" prot="public" virt="non-virtual"><scope>MockVectorIndex</scope><name>remove</name></member>
+      <member refid="class_mock_vector_index_1a54c5755e440e2ea3616733547e19ff33" prot="public" virt="non-virtual"><scope>MockVectorIndex</scope><name>search</name></member>
+      <member refid="class_mock_vector_index_1aec22d3c7d1ec114806b99f28f44025d2" prot="private" virt="non-virtual"><scope>MockVectorIndex</scope><name>vectors_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

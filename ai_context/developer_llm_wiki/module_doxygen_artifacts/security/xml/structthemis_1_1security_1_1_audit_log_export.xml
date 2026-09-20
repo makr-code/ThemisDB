@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_audit_log_export" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AuditLogExport</compoundname>
+    <includes refid="security__evidence__collector_8h" local="no">security_evidence_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_audit_log_export_1adb72265894dbd752b6c2bcf7dd5f3ab7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::AuditLogExport::from_ms</definition>
+        <argsstring></argsstring>
+        <name>from_ms</name>
+        <qualifiedname>themis::security::AuditLogExport::from_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Window start (Unix epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="39" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_audit_log_export_1a66f7b32565b687a67d88ac4a28f0affe" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::AuditLogExport::to_ms</definition>
+        <argsstring></argsstring>
+        <name>to_ms</name>
+        <qualifiedname>themis::security::AuditLogExport::to_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Window end (Unix epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="40" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_audit_log_export_1a68010817d151525d70d568d493aebe67" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::AuditLogExport::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>themis::security::AuditLogExport::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total events in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="41" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_audit_log_export_1a2d55d4cdf332812eee71bff4d5bc8822" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::AuditLogExport::security_events</definition>
+        <argsstring></argsstring>
+        <name>security_events</name>
+        <qualifiedname>themis::security::AuditLogExport::security_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Authentication / authorisation events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="42" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_audit_log_export_1ae13516151fd4d981a63aeca6294df904" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::AuditLogExport::data_access_events</definition>
+        <argsstring></argsstring>
+        <name>data_access_events</name>
+        <qualifiedname>themis::security::AuditLogExport::data_access_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Data read / write events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="43" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_audit_log_export_1ad554b43562de8641c3af7ce6a2848018" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::AuditLogExport::key_management_events</definition>
+        <argsstring></argsstring>
+        <name>key_management_events</name>
+        <qualifiedname>themis::security::AuditLogExport::key_management_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Key create / rotate / delete events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="44" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_audit_log_export_1a76c6a078d52eb144541fa8feda7c9f61" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AuditLogExport::chain_intact</definition>
+        <argsstring></argsstring>
+        <name>chain_intact</name>
+        <qualifiedname>themis::security::AuditLogExport::chain_intact</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when hash-chain is unbroken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="45" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_audit_log_export_1aa62ea4ad10632f70c2679e530c364851" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt;nlohmann::json&gt; themis::security::AuditLogExport::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::security::AuditLogExport::entries</qualifiedname>
+        <briefdescription>
+<para>Raw JSON records (chronological). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="46" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_audit_log_export_1a16e102628e7cb3bdaecac96bc3e2b181" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::AuditLogExport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::AuditLogExport::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="52" column="20" bodyfile="src/security/security_evidence_collector.cpp" bodystart="34" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>An exported snapshot of the tamper-evident audit log. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains summary statistics and every raw log entry within the requested time window, together with chain-integrity verification results. </para>
+    </detaileddescription>
+    <location file="include/security/security_evidence_collector.h" line="38" column="1" bodyfile="include/security/security_evidence_collector.h" bodystart="38" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1a76c6a078d52eb144541fa8feda7c9f61" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>chain_intact</name></member>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1ae13516151fd4d981a63aeca6294df904" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>data_access_events</name></member>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1aa62ea4ad10632f70c2679e530c364851" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>entries</name></member>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1adb72265894dbd752b6c2bcf7dd5f3ab7" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>from_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1ad554b43562de8641c3af7ce6a2848018" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>key_management_events</name></member>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1a2d55d4cdf332812eee71bff4d5bc8822" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>security_events</name></member>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1a66f7b32565b687a67d88ac4a28f0affe" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>to_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1a16e102628e7cb3bdaecac96bc3e2b181" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1security_1_1_audit_log_export_1a68010817d151525d70d568d493aebe67" prot="public" virt="non-virtual"><scope>themis::security::AuditLogExport</scope><name>total_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

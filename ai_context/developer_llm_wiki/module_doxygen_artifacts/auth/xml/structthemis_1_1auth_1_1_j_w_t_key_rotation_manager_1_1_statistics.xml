@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWTKeyRotationManager::Statistics</compoundname>
+    <includes refid="jwt__key__rotation__manager_8h" local="no">jwt_key_rotation_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1ad4fae37d0c4c4cbf234a0600c10a0e24" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::JWTKeyRotationManager::Statistics::total_keys</definition>
+        <argsstring></argsstring>
+        <name>total_keys</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Statistics::total_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="154" column="16" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1ad5fd22c94dfe166108952f34efc0ef37" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::JWTKeyRotationManager::Statistics::active_keys</definition>
+        <argsstring></argsstring>
+        <name>active_keys</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Statistics::active_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="155" column="16" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1a4b1e77656bdadcb3e756b97e8f889a95" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::JWTKeyRotationManager::Statistics::passive_keys</definition>
+        <argsstring></argsstring>
+        <name>passive_keys</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Statistics::passive_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="156" column="16" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1adc9db1017dd231a71f56e8f3c783d6db" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::JWTKeyRotationManager::Statistics::revoked_keys</definition>
+        <argsstring></argsstring>
+        <name>revoked_keys</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Statistics::revoked_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="157" column="16" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1a8c0d5c49bab5021c3e432cff24d15efc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::JWTKeyRotationManager::Statistics::total_rotations</definition>
+        <argsstring></argsstring>
+        <name>total_rotations</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Statistics::total_rotations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="158" column="18" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1aefa3ae7b5c5a74faad1656b93ffecb20" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::JWTKeyRotationManager::Statistics::total_revocations</definition>
+        <argsstring></argsstring>
+        <name>total_revocations</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Statistics::total_revocations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="159" column="18" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwt_key_rotation_manager.h" line="153" column="5" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="153" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1ad5fd22c94dfe166108952f34efc0ef37" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Statistics</scope><name>active_keys</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1a4b1e77656bdadcb3e756b97e8f889a95" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Statistics</scope><name>passive_keys</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1adc9db1017dd231a71f56e8f3c783d6db" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Statistics</scope><name>revoked_keys</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1ad4fae37d0c4c4cbf234a0600c10a0e24" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Statistics</scope><name>total_keys</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1aefa3ae7b5c5a74faad1656b93ffecb20" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Statistics</scope><name>total_revocations</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1a8c0d5c49bab5021c3e432cff24d15efc" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Statistics</scope><name>total_rotations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

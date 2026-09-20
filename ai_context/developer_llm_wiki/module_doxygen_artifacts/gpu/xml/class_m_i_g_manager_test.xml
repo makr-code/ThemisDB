@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_m_i_g_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>MIGManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_m_i_g_manager_test_1a90f8a7984fc4fd4e3f0c1e0c3f9b6593" prot="protected" static="no" mutable="no">
+        <type>MIGManager</type>
+        <definition>MIGManager MIGManagerTest::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>MIGManagerTest::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_mig_manager.cpp" line="52" column="16" bodyfile="tests/gpu/test_gpu_mig_manager.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_m_i_g_manager_test_1a11e4ea684ba56b99c0ae87c3463d8941" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MIGManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MIGManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_mig_manager.cpp" line="54" column="10" bodyfile="tests/gpu/test_gpu_mig_manager.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_i_g_manager_test_1a00314485cb503c41f6a04e868ca22061" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MIGManagerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MIGManagerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_mig_manager.cpp" line="59" column="10" bodyfile="tests/gpu/test_gpu_mig_manager.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_i_g_manager_test_1a302eea6ab3acd97588a65dfbd9dca0f2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="test__gpu__mig__manager_8cpp_1a5e8744a934d85de25cb1e8122abb16d7" kindref="member">Status</ref></type>
+        <definition>Status MIGManagerTest::create</definition>
+        <argsstring>(const std::string &amp;profile, std::string &amp;out_id)</argsstring>
+        <name>create</name>
+        <qualifiedname>MIGManagerTest::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_mig_manager.cpp" line="65" column="12" bodyfile="tests/gpu/test_gpu_mig_manager.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MIGManagerTest</label>
+        <link refid="class_m_i_g_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MIGManagerTest</label>
+        <link refid="class_m_i_g_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_mig_manager.cpp" line="50" column="1" bodyfile="tests/gpu/test_gpu_mig_manager.cpp" bodystart="50" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_m_i_g_manager_test_1a302eea6ab3acd97588a65dfbd9dca0f2" prot="protected" virt="non-virtual"><scope>MIGManagerTest</scope><name>create</name></member>
+      <member refid="class_m_i_g_manager_test_1a90f8a7984fc4fd4e3f0c1e0c3f9b6593" prot="protected" virt="non-virtual"><scope>MIGManagerTest</scope><name>mgr</name></member>
+      <member refid="class_m_i_g_manager_test_1a11e4ea684ba56b99c0ae87c3463d8941" prot="protected" virt="non-virtual"><scope>MIGManagerTest</scope><name>SetUp</name></member>
+      <member refid="class_m_i_g_manager_test_1a00314485cb503c41f6a04e868ca22061" prot="protected" virt="non-virtual"><scope>MIGManagerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

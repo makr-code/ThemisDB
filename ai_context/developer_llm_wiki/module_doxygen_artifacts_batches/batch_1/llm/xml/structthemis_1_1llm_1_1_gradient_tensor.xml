@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_gradient_tensor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GradientTensor</compoundname>
+    <includes refid="distributed__training__coordinator_8h" local="no">distributed_training_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_tensor_1ab9257f084a87eae7f4c2b3b8e85eb507" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GradientTensor::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::llm::GradientTensor::layer_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="140" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_tensor_1a67aa539bf45e336c8e49272201f2812c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::GradientTensor::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::llm::GradientTensor::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="141" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_tensor_1a448f8e9c1f5bf49e9f9033f224235cbe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::GradientTensor::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::llm::GradientTensor::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="142" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_tensor_1a139509cf45d2d1fbedcc6c42a0a0b088" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GradientTensor::source_shard</definition>
+        <argsstring></argsstring>
+        <name>source_shard</name>
+        <qualifiedname>themis::llm::GradientTensor::source_shard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="145" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_tensor_1abd71591c72d089a7ab7bb33ce735fef7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::GradientTensor::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::llm::GradientTensor::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="146" column="13" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_tensor_1af92b48be4bc87b07530c88b8c081f57f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GradientTensor::step_number</definition>
+        <argsstring></argsstring>
+        <name>step_number</name>
+        <qualifiedname>themis::llm::GradientTensor::step_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="147" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_tensor_1ab99fc9185e263e79f1bc1cdeec19cc6d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ac5e91df8ef993aab52e0957b63ea582f" kindref="member">GradientCompressionType</ref></type>
+        <definition>GradientCompressionType themis::llm::GradientTensor::compression_type</definition>
+        <argsstring></argsstring>
+        <name>compression_type</name>
+        <qualifiedname>themis::llm::GradientTensor::compression_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1ac5e91df8ef993aab52e0957b63ea582fab50339a10e1de285ac99d4c3990b8693" kindref="member">GradientCompressionType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="150" column="29" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_tensor_1ae4c3483b32ff0616d582f821c7d27a42" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;uint8_t&gt; &gt; themis::llm::GradientTensor::compressed_data</definition>
+        <argsstring></argsstring>
+        <name>compressed_data</name>
+        <qualifiedname>themis::llm::GradientTensor::compressed_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="151" column="19" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_tensor_1ad0b6ef04d077614081aa08bccd955e81" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::GradientTensor::~GradientTensor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GradientTensor</name>
+        <qualifiedname>themis::llm::GradientTensor::~GradientTensor</qualifiedname>
+        <briefdescription>
+<para>Gradient Tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="139" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_tensor_1a9b97eafdaa00053c5eb7309e60fd86f9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GradientTensor::uncompressed_size</definition>
+        <argsstring>() const</argsstring>
+        <name>uncompressed_size</name>
+        <qualifiedname>themis::llm::GradientTensor::uncompressed_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="153" column="12" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_tensor_1a0a0a92c4bdce6bc7e1dc15fce8e89769" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GradientTensor::compressed_size</definition>
+        <argsstring>() const</argsstring>
+        <name>compressed_size</name>
+        <qualifiedname>themis::llm::GradientTensor::compressed_size</qualifiedname>
+        <briefdescription>
+<para>Compressed size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="158" column="12" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_tensor_1a2304b07d6a7f2ea2f15740504597706d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GradientTensor::compress</definition>
+        <argsstring>(GradientCompressionType type)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::llm::GradientTensor::compress</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1ac5e91df8ef993aab52e0957b63ea582f" kindref="member">GradientCompressionType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Compress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: reset(), empty(), std::min_element(), begin(), end(), std::max_element(), reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="164" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="128" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_tensor_1a5811851d0d30f91662260572989c0198" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GradientTensor::decompress</definition>
+        <argsstring>()</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::llm::GradientTensor::decompress</qualifiedname>
+        <briefdescription>
+<para>Decompress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: has_value(), value(), size(), memcpy(), clear(), reserve(), push_back(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="168" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="276" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_tensor_1a625267f3e32e448efda0bd04b71beed4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::GradientTensor::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::GradientTensor::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="174" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="372" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_tensor_1a16f4fe2dad6f8cfab5e523926c42aab1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref></type>
+        <definition>GradientTensor themis::llm::GradientTensor::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::GradientTensor::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="180" column="27" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="396" bodyend="423"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/distributed_training_coordinator.h" line="134" column="1" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="134" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a2304b07d6a7f2ea2f15740504597706d" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>compress</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1ae4c3483b32ff0616d582f821c7d27a42" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>compressed_data</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a0a0a92c4bdce6bc7e1dc15fce8e89769" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>compressed_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1ab99fc9185e263e79f1bc1cdeec19cc6d" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>compression_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a67aa539bf45e336c8e49272201f2812c" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>data</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a5811851d0d30f91662260572989c0198" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>decompress</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a16f4fe2dad6f8cfab5e523926c42aab1" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1ab9257f084a87eae7f4c2b3b8e85eb507" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a448f8e9c1f5bf49e9f9033f224235cbe" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>shape</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a139509cf45d2d1fbedcc6c42a0a0b088" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>source_shard</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1af92b48be4bc87b07530c88b8c081f57f" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>step_number</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1abd71591c72d089a7ab7bb33ce735fef7" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a625267f3e32e448efda0bd04b71beed4" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1a9b97eafdaa00053c5eb7309e60fd86f9" prot="public" virt="non-virtual"><scope>themis::llm::GradientTensor</scope><name>uncompressed_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_tensor_1ad0b6ef04d077614081aa08bccd955e81" prot="public" virt="virtual"><scope>themis::llm::GradientTensor</scope><name>~GradientTensor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

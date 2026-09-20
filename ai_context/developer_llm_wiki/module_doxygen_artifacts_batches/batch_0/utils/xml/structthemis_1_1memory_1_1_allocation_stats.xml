@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1memory_1_1_allocation_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::memory::AllocationStats</compoundname>
+    <includes refid="pool__allocator_8h" local="no">pool_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_allocation_stats_1a3e49d48e575c10abd88951b91ceeeb71" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::memory::AllocationStats::total_allocations</definition>
+        <argsstring></argsstring>
+        <name>total_allocations</name>
+        <qualifiedname>themis::memory::AllocationStats::total_allocations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="54" column="17" bodyfile="include/utils/memory/pool_allocator.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_allocation_stats_1a4992ca8f26c971a2a16f391e0b8398bd" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::memory::AllocationStats::total_deallocations</definition>
+        <argsstring></argsstring>
+        <name>total_deallocations</name>
+        <qualifiedname>themis::memory::AllocationStats::total_deallocations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="55" column="17" bodyfile="include/utils/memory/pool_allocator.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_allocation_stats_1a1f43d98a66ef4cc56cc66f65f5dd1bc5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::memory::AllocationStats::allocation_failures</definition>
+        <argsstring></argsstring>
+        <name>allocation_failures</name>
+        <qualifiedname>themis::memory::AllocationStats::allocation_failures</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="56" column="17" bodyfile="include/utils/memory/pool_allocator.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_allocation_stats_1a42b0ed5b40f97aee309f76aa90a9dbf8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::memory::AllocationStats::bytes_allocated</definition>
+        <argsstring></argsstring>
+        <name>bytes_allocated</name>
+        <qualifiedname>themis::memory::AllocationStats::bytes_allocated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="57" column="17" bodyfile="include/utils/memory/pool_allocator.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_allocation_stats_1aeb8107b028f08a461483213abd7cf838" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::memory::AllocationStats::bytes_freed</definition>
+        <argsstring></argsstring>
+        <name>bytes_freed</name>
+        <qualifiedname>themis::memory::AllocationStats::bytes_freed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="58" column="17" bodyfile="include/utils/memory/pool_allocator.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_allocation_stats_1a4099353017cc3e2e8d836f671348a407" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::memory::AllocationStats::peak_memory_usage</definition>
+        <argsstring></argsstring>
+        <name>peak_memory_usage</name>
+        <qualifiedname>themis::memory::AllocationStats::peak_memory_usage</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="59" column="17" bodyfile="include/utils/memory/pool_allocator.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::AllocationStats::AllocationStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>AllocationStats</name>
+        <qualifiedname>themis::memory::AllocationStats::AllocationStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_allocation_stats_1acdd2be6f46d7f7eb1c842197e4c29f4c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::AllocationStats::AllocationStats</definition>
+        <argsstring>(const AllocationStats &amp;other) noexcept</argsstring>
+        <name>AllocationStats</name>
+        <qualifiedname>themis::memory::AllocationStats::AllocationStats</qualifiedname>
+        <param>
+          <type>const AllocationStats &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="62" column="5" bodyfile="include/utils/memory/pool_allocator.h" bodystart="62" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_allocation_stats_1ac1c30dccfa760d4cd760458e8363da01" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" kindref="member">AllocationStats</ref> &amp;</type>
+        <definition>AllocationStats &amp; themis::memory::AllocationStats::operator=</definition>
+        <argsstring>(const AllocationStats &amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::memory::AllocationStats::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" kindref="member">AllocationStats</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="70" column="21" bodyfile="include/utils/memory/pool_allocator.h" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_allocation_stats_1a8e78b96ad9f1002b5df0cfa7aab49209" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::memory::AllocationStats::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::memory::AllocationStats::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="80" column="10" bodyfile="include/utils/memory/pool_allocator.h" bodystart="80" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_allocation_stats_1ab05f6fe8eaf2704cab20a2c28541c2b7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::memory::AllocationStats::getCurrentUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentUsage</name>
+        <qualifiedname>themis::memory::AllocationStats::getCurrentUsage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="89" column="14" bodyfile="include/utils/memory/pool_allocator.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_allocation_stats_1ab635aa34dc14f910ef11eddb42fa8a45" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::memory::AllocationStats::getSuccessRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessRate</name>
+        <qualifiedname>themis::memory::AllocationStats::getSuccessRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="93" column="12" bodyfile="include/utils/memory/pool_allocator.h" bodystart="93" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Allocation statistics for monitoring. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/memory/pool_allocator.h" line="53" column="1" bodyfile="include/utils/memory/pool_allocator.h" bodystart="53" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1a1f43d98a66ef4cc56cc66f65f5dd1bc5" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>allocation_failures</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>AllocationStats</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1acdd2be6f46d7f7eb1c842197e4c29f4c" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>AllocationStats</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1a42b0ed5b40f97aee309f76aa90a9dbf8" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>bytes_allocated</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1aeb8107b028f08a461483213abd7cf838" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>bytes_freed</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1ab05f6fe8eaf2704cab20a2c28541c2b7" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>getCurrentUsage</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1ab635aa34dc14f910ef11eddb42fa8a45" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>getSuccessRate</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1ac1c30dccfa760d4cd760458e8363da01" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1a4099353017cc3e2e8d836f671348a407" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>peak_memory_usage</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1a8e78b96ad9f1002b5df0cfa7aab49209" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>reset</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1a3e49d48e575c10abd88951b91ceeeb71" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>total_allocations</name></member>
+      <member refid="structthemis_1_1memory_1_1_allocation_stats_1a4992ca8f26c971a2a16f391e0b8398bd" prot="public" virt="non-virtual"><scope>themis::memory::AllocationStats</scope><name>total_deallocations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

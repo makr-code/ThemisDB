@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1ethics_1_1_0d262313363104051226064104026164164351062126303172" kind="namespace" language="C++">
+    <compoundname>themis::plugins::ethics::@262313363104051226064104026164164351062126303172</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/meta_verdict_builder.cpp" line="39" column="1"/>
+  </compounddef>
+</doxygen>

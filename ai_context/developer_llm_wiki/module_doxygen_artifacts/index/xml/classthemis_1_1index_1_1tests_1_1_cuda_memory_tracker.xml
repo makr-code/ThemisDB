@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::tests::CudaMemoryTracker</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker_1a48e37e014782ed7f4e8dbb0f3c0e21d0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::index::tests::CudaMemoryTracker::getFreeFenceMemory</definition>
+        <argsstring>()</argsstring>
+        <name>getFreeFenceMemory</name>
+        <qualifiedname>themis::index::tests::CudaMemoryTracker::getFreeFenceMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="35" column="19" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="35" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker_1a3588a8aaf532e0aa801bc086f8d112e4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::index::tests::CudaMemoryTracker::getTotalGpuMemory</definition>
+        <argsstring>()</argsstring>
+        <name>getTotalGpuMemory</name>
+        <qualifiedname>themis::index::tests::CudaMemoryTracker::getTotalGpuMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="48" column="19" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker_1a61ecc8c0be6a849a4d0ea9a63b17c391" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::index::tests::CudaMemoryTracker::hasCudaErrors</definition>
+        <argsstring>()</argsstring>
+        <name>hasCudaErrors</name>
+        <qualifiedname>themis::index::tests::CudaMemoryTracker::hasCudaErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="60" column="17" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker_1a95fea3b2a6d456b23fb139b3452782b4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::tests::CudaMemoryTracker::resetCudaErrors</definition>
+        <argsstring>()</argsstring>
+        <name>resetCudaErrors</name>
+        <qualifiedname>themis::index::tests::CudaMemoryTracker::resetCudaErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="70" column="17" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="70" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/test_index_gpu_memory_safety.cpp" line="32" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="32" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker_1a48e37e014782ed7f4e8dbb0f3c0e21d0" prot="public" virt="non-virtual"><scope>themis::index::tests::CudaMemoryTracker</scope><name>getFreeFenceMemory</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker_1a3588a8aaf532e0aa801bc086f8d112e4" prot="public" virt="non-virtual"><scope>themis::index::tests::CudaMemoryTracker</scope><name>getTotalGpuMemory</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker_1a61ecc8c0be6a849a4d0ea9a63b17c391" prot="public" virt="non-virtual"><scope>themis::index::tests::CudaMemoryTracker</scope><name>hasCudaErrors</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker_1a95fea3b2a6d456b23fb139b3452782b4" prot="public" virt="non-virtual"><scope>themis::index::tests::CudaMemoryTracker</scope><name>resetCudaErrors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

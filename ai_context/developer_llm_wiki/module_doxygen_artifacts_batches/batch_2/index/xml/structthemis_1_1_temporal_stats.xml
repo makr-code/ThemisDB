@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_temporal_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TemporalStats</compoundname>
+    <includes refid="temporal__graph_8h" local="no">temporal_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1ae164fa34896d66425f8459ff0c888376" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TemporalStats::edge_count</definition>
+        <argsstring></argsstring>
+        <name>edge_count</name>
+        <qualifiedname>themis::TemporalStats::edge_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="196" column="12" bodyfile="include/index/temporal_graph.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1a4aa4037bcf6eb583b9bf2e44fc477077" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TemporalStats::fully_contained_count</definition>
+        <argsstring></argsstring>
+        <name>fully_contained_count</name>
+        <qualifiedname>themis::TemporalStats::fully_contained_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="197" column="12" bodyfile="include/index/temporal_graph.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1a06b54f18d402a3801ecf49e511ec93b1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TemporalStats::bounded_edge_count</definition>
+        <argsstring></argsstring>
+        <name>bounded_edge_count</name>
+        <qualifiedname>themis::TemporalStats::bounded_edge_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="200" column="12" bodyfile="include/index/temporal_graph.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1aad65877cd156b574096db4c82b41675e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TemporalStats::avg_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_duration_ms</name>
+        <qualifiedname>themis::TemporalStats::avg_duration_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="201" column="12" bodyfile="include/index/temporal_graph.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1a3e8a0e8ff3f10828fad397d8671f3f99" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TemporalStats::total_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>total_duration_ms</name>
+        <qualifiedname>themis::TemporalStats::total_duration_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="202" column="12" bodyfile="include/index/temporal_graph.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1a0864d03031085ee7cb404da9b46c6cc4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::TemporalStats::min_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>min_duration_ms</name>
+        <qualifiedname>themis::TemporalStats::min_duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="203" column="19" bodyfile="include/index/temporal_graph.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1a47b7fd0dbe24cc026d1fee9fcc7cb21f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::TemporalStats::max_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>max_duration_ms</name>
+        <qualifiedname>themis::TemporalStats::max_duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="204" column="19" bodyfile="include/index/temporal_graph.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1a3e79fa45741a38ad6875f7888ceac656" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::TemporalStats::earliest_start</definition>
+        <argsstring></argsstring>
+        <name>earliest_start</name>
+        <qualifiedname>themis::TemporalStats::earliest_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="207" column="19" bodyfile="include/index/temporal_graph.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_temporal_stats_1adb613f08c960aa3c934c8698ca9f21aa" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::TemporalStats::latest_end</definition>
+        <argsstring></argsstring>
+        <name>latest_end</name>
+        <qualifiedname>themis::TemporalStats::latest_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="208" column="19" bodyfile="include/index/temporal_graph.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_temporal_stats_1a9b093e4e7b4ae248a012d65244f65e7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TemporalStats::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::TemporalStats::toString</qualifiedname>
+        <briefdescription>
+<para>Pretty-print statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="213" column="17" bodyfile="src/index/temporal_graph.cpp" bodystart="18" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Temporal Statistics for edges in a time range. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides aggregated metrics over edges valid during a specific time window. </para>
+    </detaileddescription>
+    <location file="include/index/temporal_graph.h" line="195" column="1" bodyfile="include/index/temporal_graph.h" bodystart="195" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_temporal_stats_1aad65877cd156b574096db4c82b41675e" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>avg_duration_ms</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1a06b54f18d402a3801ecf49e511ec93b1" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>bounded_edge_count</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1a3e79fa45741a38ad6875f7888ceac656" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>earliest_start</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1ae164fa34896d66425f8459ff0c888376" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>edge_count</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1a4aa4037bcf6eb583b9bf2e44fc477077" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>fully_contained_count</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1adb613f08c960aa3c934c8698ca9f21aa" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>latest_end</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1a47b7fd0dbe24cc026d1fee9fcc7cb21f" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>max_duration_ms</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1a0864d03031085ee7cb404da9b46c6cc4" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>min_duration_ms</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1a9b093e4e7b4ae248a012d65244f65e7a" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>toString</name></member>
+      <member refid="structthemis_1_1_temporal_stats_1a3e8a0e8ff3f10828fad397d8671f3f99" prot="public" virt="non-virtual"><scope>themis::TemporalStats</scope><name>total_duration_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

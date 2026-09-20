@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_validation_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ValidationReport</compoundname>
+    <includes refid="huggingface__ingest__plugin_8h" local="no">huggingface_ingest_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_validation_report_1a123d42ba4afdad3c46114456ed9cb7af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ValidationReport::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::importers::ValidationReport::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="70" column="10" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_validation_report_1a6e12ca0393cb09e0bd7276057d8ece65" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::ValidationReport::checked_examples</definition>
+        <argsstring></argsstring>
+        <name>checked_examples</name>
+        <qualifiedname>themis::importers::ValidationReport::checked_examples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="71" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_validation_report_1abfa2013433dcd15e54ef13017a1b67c4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::ValidationReport::failed_examples</definition>
+        <argsstring></argsstring>
+        <name>failed_examples</name>
+        <qualifiedname>themis::importers::ValidationReport::failed_examples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="72" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_validation_report_1abe6c9f3503aa1d8298a7a416cd283dbe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ValidationReport::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::importers::ValidationReport::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="73" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="69" column="1" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="69" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_validation_report_1a6e12ca0393cb09e0bd7276057d8ece65" prot="public" virt="non-virtual"><scope>themis::importers::ValidationReport</scope><name>checked_examples</name></member>
+      <member refid="structthemis_1_1importers_1_1_validation_report_1abe6c9f3503aa1d8298a7a416cd283dbe" prot="public" virt="non-virtual"><scope>themis::importers::ValidationReport</scope><name>errors</name></member>
+      <member refid="structthemis_1_1importers_1_1_validation_report_1abfa2013433dcd15e54ef13017a1b67c4" prot="public" virt="non-virtual"><scope>themis::importers::ValidationReport</scope><name>failed_examples</name></member>
+      <member refid="structthemis_1_1importers_1_1_validation_report_1a123d42ba4afdad3c46114456ed9cb7af" prot="public" virt="non-virtual"><scope>themis::importers::ValidationReport</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

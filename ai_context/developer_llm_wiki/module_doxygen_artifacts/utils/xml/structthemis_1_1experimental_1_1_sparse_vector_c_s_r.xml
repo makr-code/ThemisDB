@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1experimental_1_1_sparse_vector_c_s_r" kind="struct" language="C++" prot="public">
+    <compoundname>themis::experimental::SparseVectorCSR</compoundname>
+    <includes refid="lossless__vector__compression_8h" local="no">lossless_vector_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a1df50d017f4f188e69fd6e24ac013556" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::experimental::SparseVectorCSR::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::experimental::SparseVectorCSR::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="48" column="17" bodyfile="include/utils/lossless_vector_compression.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a64c965f64c1ce1284c1f2d12f7fadcc0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::experimental::SparseVectorCSR::indices</definition>
+        <argsstring></argsstring>
+        <name>indices</name>
+        <qualifiedname>themis::experimental::SparseVectorCSR::indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="49" column="17" bodyfile="include/utils/lossless_vector_compression.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a500e97b03b29baeec959305a9c1adff5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::experimental::SparseVectorCSR::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::experimental::SparseVectorCSR::dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="50" column="14" bodyfile="include/utils/lossless_vector_compression.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a8241f14296b14afb03f33f29c888e014" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::experimental::SparseVectorCSR::compressed_bytes</definition>
+        <argsstring>() const</argsstring>
+        <name>compressed_bytes</name>
+        <qualifiedname>themis::experimental::SparseVectorCSR::compressed_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="52" column="12" bodyfile="include/utils/lossless_vector_compression.h" bodystart="52" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1ad529aa2cf7b09a174db15595fa7b5bea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::experimental::SparseVectorCSR::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::experimental::SparseVectorCSR::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="59" column="17" bodyfile="include/utils/lossless_vector_compression.h" bodystart="59" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a308bfa842db7b1e30b8d8ad72ec422ed" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r" kindref="compound">SparseVectorCSR</ref></type>
+        <definition>static SparseVectorCSR themis::experimental::SparseVectorCSR::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::experimental::SparseVectorCSR::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="83" column="28" bodyfile="include/utils/lossless_vector_compression.h" bodystart="83" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lossless_vector_compression.h" line="47" column="1" bodyfile="include/utils/lossless_vector_compression.h" bodystart="47" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a8241f14296b14afb03f33f29c888e014" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCSR</scope><name>compressed_bytes</name></member>
+      <member refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a308bfa842db7b1e30b8d8ad72ec422ed" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCSR</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a500e97b03b29baeec959305a9c1adff5" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCSR</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a64c965f64c1ce1284c1f2d12f7fadcc0" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCSR</scope><name>indices</name></member>
+      <member refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1ad529aa2cf7b09a174db15595fa7b5bea" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCSR</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r_1a1df50d017f4f188e69fd6e24ac013556" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCSR</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

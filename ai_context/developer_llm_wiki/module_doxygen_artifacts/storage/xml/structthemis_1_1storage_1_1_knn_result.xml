@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_knn_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::KnnResult</compoundname>
+    <includes refid="vector__index__backend_8h" local="no">vector_index_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_knn_result_1a597f2b122cef79dcf20ae5177ac50a02" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::KnnResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::storage::KnnResult::id</qualifiedname>
+        <briefdescription>
+<para>Document / vector identifier (as supplied to <computeroutput>add()</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="76" column="17" bodyfile="include/storage/vector_index_backend.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_knn_result_1aa40acc37d19125fa17ab9b04069ba42b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::KnnResult::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::storage::KnnResult::distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Raw distance (metric-dependent; lower is more similar for L2). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="79" column="11" bodyfile="include/storage/vector_index_backend.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_knn_result_1ac54d7293330cf5bd380b9bec76cd8832" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::KnnResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::storage::KnnResult::score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalised similarity score ∈ [0, 1] where 1 is most similar. For L2: score = 1 / (1 + distance). For DOT_PRODUCT / COSINE: score = (distance + 1) / 2 (clamped to [0,1]). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="84" column="11" bodyfile="include/storage/vector_index_backend.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single element of a k-nearest-neighbour result set. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/vector_index_backend.h" line="74" column="1" bodyfile="include/storage/vector_index_backend.h" bodystart="74" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_knn_result_1aa40acc37d19125fa17ab9b04069ba42b" prot="public" virt="non-virtual"><scope>themis::storage::KnnResult</scope><name>distance</name></member>
+      <member refid="structthemis_1_1storage_1_1_knn_result_1a597f2b122cef79dcf20ae5177ac50a02" prot="public" virt="non-virtual"><scope>themis::storage::KnnResult</scope><name>id</name></member>
+      <member refid="structthemis_1_1storage_1_1_knn_result_1ac54d7293330cf5bd380b9bec76cd8832" prot="public" virt="non-virtual"><scope>themis::storage::KnnResult</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

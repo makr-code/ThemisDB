@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_select_statement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLSelectStatement</compoundname>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_select_statement_1a04853460aa4f0ea91eb69e1f318b008f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::SQLSelectStatement::star</definition>
+        <argsstring></argsstring>
+        <name>star</name>
+        <qualifiedname>themis::query::SQLSelectStatement::star</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="121" column="10" bodyfile="include/query/sql_parser.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_select_statement_1a385e0943f3bc6b340a59de3f1dd71163" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::SQLSelectStatement::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::query::SQLSelectStatement::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="122" column="17" bodyfile="include/query/sql_parser.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_select_statement_1a7bfbec94fda9ce593dcdcff2b6711cff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLSelectStatement::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::query::SQLSelectStatement::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="123" column="17" bodyfile="include/query/sql_parser.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_select_statement_1ae11d50c0a30f94f0c67b1776a4c194a2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref> &gt; &gt;</type>
+        <definition>std::optional&lt;std::shared_ptr&lt;SQLExpr&gt; &gt; themis::query::SQLSelectStatement::where</definition>
+        <argsstring></argsstring>
+        <name>where</name>
+        <qualifiedname>themis::query::SQLSelectStatement::where</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="124" column="19" bodyfile="include/query/sql_parser.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_select_statement_1a09330987bff82e410468331cddb0cc01" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_sort_spec" kindref="compound">SQLSortSpec</ref> &gt;</type>
+        <definition>std::vector&lt;SQLSortSpec&gt; themis::query::SQLSelectStatement::order_by</definition>
+        <argsstring></argsstring>
+        <name>order_by</name>
+        <qualifiedname>themis::query::SQLSelectStatement::order_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="125" column="17" bodyfile="include/query/sql_parser.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_select_statement_1a8f98a3bd84fd6351e774360bd8400a43" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::query::SQLSelectStatement::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::SQLSelectStatement::limit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="126" column="19" bodyfile="include/query/sql_parser.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_select_statement_1ab3574c57e76bc2155c68e34d42804bc8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::query::SQLSelectStatement::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::query::SQLSelectStatement::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="127" column="19" bodyfile="include/query/sql_parser.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sql_parser.h" line="120" column="1" bodyfile="include/query/sql_parser.h" bodystart="120" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a385e0943f3bc6b340a59de3f1dd71163" prot="public" virt="non-virtual"><scope>themis::query::SQLSelectStatement</scope><name>columns</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a8f98a3bd84fd6351e774360bd8400a43" prot="public" virt="non-virtual"><scope>themis::query::SQLSelectStatement</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_select_statement_1ab3574c57e76bc2155c68e34d42804bc8" prot="public" virt="non-virtual"><scope>themis::query::SQLSelectStatement</scope><name>offset</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a09330987bff82e410468331cddb0cc01" prot="public" virt="non-virtual"><scope>themis::query::SQLSelectStatement</scope><name>order_by</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a04853460aa4f0ea91eb69e1f318b008f" prot="public" virt="non-virtual"><scope>themis::query::SQLSelectStatement</scope><name>star</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a7bfbec94fda9ce593dcdcff2b6711cff" prot="public" virt="non-virtual"><scope>themis::query::SQLSelectStatement</scope><name>table</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_select_statement_1ae11d50c0a30f94f0c67b1776a4c194a2" prot="public" virt="non-virtual"><scope>themis::query::SQLSelectStatement</scope><name>where</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

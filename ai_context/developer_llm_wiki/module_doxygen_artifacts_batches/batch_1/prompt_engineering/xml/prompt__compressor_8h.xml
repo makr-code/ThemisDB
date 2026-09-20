@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prompt__compressor_8h" kind="file" language="C++">
+    <compoundname>prompt_compressor.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="prompt__compressor_8cpp" local="yes">src/prompt_engineering/prompt_compressor.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_compressor.h</label>
+        <link refid="prompt__compressor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_compressor.h</label>
+        <link refid="prompt__compressor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/prompt_engineering/prompt_compressor.cpp</label>
+        <link refid="prompt__compressor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" prot="public">themis::prompt_engineering::PromptCompressionConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_compression_result" prot="public">themis::prompt_engineering::CompressionResult</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor" prot="public">themis::prompt_engineering::IPromptCompressor</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor" prot="public">themis::prompt_engineering::SimplePromptCompressor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Strategy<sp/>──────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735ec" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735ec" kindref="member">CompressionStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca7be66255e9086d26ebe7594696a68fe1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca7be66255e9086d26ebe7594696a68fe1" kindref="member">TRUNCATE_HEAD</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca6278dedff74149cbec8d704ab3669ac3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca6278dedff74149cbec8d704ab3669ac3" kindref="member">TRUNCATE_TAIL</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca14cb1f7f49ae4ae5b3971ad7d48032da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca14cb1f7f49ae4ae5b3971ad7d48032da" kindref="member">SELECTIVE_TRIM</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca36cbecb886c3fb994669cd10cdbd9f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca36cbecb886c3fb994669cd10cdbd9f5f" kindref="member">SUMMARY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca8c808b3010f4efbc21323826df2a71cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca8c808b3010f4efbc21323826df2a71cd" kindref="member">EMBEDDING_PRUNE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" kindref="compound">PromptCompressionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1ab345bb4b66d80eb3dfd8ef6dff3d883e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735ec" kindref="member">CompressionStrategy</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1ab345bb4b66d80eb3dfd8ef6dff3d883e" kindref="member">strategy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca14cb1f7f49ae4ae5b3971ad7d48032da" kindref="member">CompressionStrategy::SELECTIVE_TRIM</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1aecf3538038fa2ed1ec2fbee073bc03a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1aecf3538038fa2ed1ec2fbee073bc03a2" kindref="member">target_token_budget</ref><sp/><sp/><sp/>=<sp/>2048;<sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1a7f6cf39e76b667e7e62d508bea149e8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1a7f6cf39e76b667e7e62d508bea149e8d" kindref="member">max_compression_ratio</ref><sp/>=<sp/>1.0f;<sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1aeaa0753f7e132f685148a67a0729e6cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1aeaa0753f7e132f685148a67a0729e6cc" kindref="member">preserve_system_prompt</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1a27b0c9b24b99d49284a551d5a02dbbfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1a27b0c9b24b99d49284a551d5a02dbbfd" kindref="member">preserve_last_n_turns</ref><sp/><sp/>=<sp/>3;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1ac361e21de3d142275ed8f879b444bac2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config_1ac361e21de3d142275ed8f879b444bac2" kindref="member">summary_model_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Result<sp/>────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1prompt__engineering_1_1_compression_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result" kindref="compound">CompressionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1prompt__engineering_1_1_compression_result_1ab2801706dbd51b72168b1b03a66ce315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result_1ab2801706dbd51b72168b1b03a66ce315" kindref="member">compressed_prompt</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1prompt__engineering_1_1_compression_result_1acfd1063737059626d1f96969d4d8257e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result_1acfd1063737059626d1f96969d4d8257e" kindref="member">original_token_count</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1prompt__engineering_1_1_compression_result_1abb7198b2aab4b8b54fce173a85b82b47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result_1abb7198b2aab4b8b54fce173a85b82b47" kindref="member">compressed_token_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1prompt__engineering_1_1_compression_result_1acf3daac58418c9d47bcbc726db453019" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result_1acf3daac58418c9d47bcbc726db453019" kindref="member">compression_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1prompt__engineering_1_1_compression_result_1aabfebe286b52e7953576d09620f51bfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735ec" kindref="member">CompressionStrategy</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result_1aabfebe286b52e7953576d09620f51bfe" kindref="member">strategy_used</ref>{<ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca14cb1f7f49ae4ae5b3971ad7d48032da" kindref="member">CompressionStrategy::SELECTIVE_TRIM</ref>};</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1prompt__engineering_1_1_compression_result_1a6067215248b1779e12557fc2f68c6f6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result_1a6067215248b1779e12557fc2f68c6f6b" kindref="member">compression_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Abstract<sp/>interface<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor" kindref="compound">IPromptCompressor</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a9e4e3243e2d1c225e2bc9ba9aa518682" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a9e4e3243e2d1c225e2bc9ba9aa518682" kindref="member">~IPromptCompressor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a1dfb3656a6cecca2b99494ee83df3998" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result" kindref="compound">CompressionResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a1dfb3656a6cecca2b99494ee83df3998" kindref="member">compress</ref>(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prompt,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" kindref="compound">PromptCompressionConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a2f4966baae97e193ffdb62ba34fd7b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a2f4966baae97e193ffdb62ba34fd7b4b" kindref="member">estimateTokenCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a3e696160088670653bc3bad12e574b40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;CompressionStrategy&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a3e696160088670653bc3bad12e574b40" kindref="member">supportedStrategies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Concrete<sp/>implementation<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aadec243bcacd689bbd4dd54267f3734e" kindref="member">SimplePromptCompressor</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor" kindref="compound">IPromptCompressor</ref><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a86f6fff940e4d5252bde55d15a00cc8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a86f6fff940e4d5252bde55d15a00cc8a" kindref="member">TokenEstimatorFn</ref><sp/>=<sp/>std::function&lt;int(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a3281363c217d171f34896bcdfcca3293" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a3281363c217d171f34896bcdfcca3293" kindref="member">SummaryFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>omitted_text,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)&gt;;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aadec243bcacd689bbd4dd54267f3734e" kindref="member">SimplePromptCompressor</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a4a35a57238b8e5875b2007d5419151b9" kindref="member">setTokenEstimator</ref>(<ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a86f6fff940e4d5252bde55d15a00cc8a" kindref="member">TokenEstimatorFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a5df536684c5297bb6381a046da56eeab" kindref="member">setSummaryFn</ref>(<ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a3281363c217d171f34896bcdfcca3293" kindref="member">SummaryFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IPromptCompressor<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result" kindref="compound">CompressionResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af8c871b220449918a9c9ea5f360ad1c1" kindref="member">compress</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prompt,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" kindref="compound">PromptCompressionConfig</ref>&amp;<sp/>config)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aad5e78c8361b23d3d5584faf76d2098d" kindref="member">estimateTokenCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CompressionStrategy&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af29cb4a3d6739edb4cfb8b7f28ff6a4a" kindref="member">supportedStrategies</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Strategy<sp/>implementations<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>truncateHead(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>budget)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>truncateTail(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>budget)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>selectiveTrim(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>budget,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>preserve_system,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>preserve_turns)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>summarize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>budget,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>preserve_system,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>preserve_turns,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Helpers<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>splitParagraphs(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>splitWords(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>joinWords(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>words);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>State<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a86f6fff940e4d5252bde55d15a00cc8a" kindref="member">TokenEstimatorFn</ref><sp/>token_estimator_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a3281363c217d171f34896bcdfcca3293" kindref="member">SummaryFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>summary_fn_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/prompt_compressor.h"/>
+  </compounddef>
+</doxygen>

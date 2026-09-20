@@ -1,0 +1,1396 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_c_e_p_engine" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::CEPEngine</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats" prot="public">themisdb::analytics::CEPEngine::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a55376de91ad439e03228d77135f87ddb" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1analytics_1_1_alert" kindref="compound">Alert</ref> &amp;)&gt;</type>
+        <definition>using themisdb::analytics::CEPEngine::AlertCallback = std::function&lt;void(const Alert&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AlertCallback</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::AlertCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1089" column="5" bodyfile="include/analytics/cep_engine.h" bodystart="1089" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a4849310a33f35605c55bc0551d0a4ced" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_c_e_p_config" kindref="compound">CEPConfig</ref></type>
+        <definition>CEPConfig themisdb::analytics::CEPEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1148" column="15" bodyfile="include/analytics/cep_engine.h" bodystart="1148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a5988edb4921d9e5508b1f4de14f76e05" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_rule_engine" kindref="compound">RuleEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RuleEngine&gt; themisdb::analytics::CEPEngine::rule_engine_</definition>
+        <argsstring></argsstring>
+        <name>rule_engine_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::rule_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1149" column="21" bodyfile="include/analytics/cep_engine.h" bodystart="1149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a666c6b9a50283f500f75f2b99398c778" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_event_stream" kindref="compound">EventStream</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;EventStream&gt; &gt; themisdb::analytics::CEPEngine::streams_</definition>
+        <argsstring></argsstring>
+        <name>streams_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::streams_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1152" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="1152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ad5ff8a0f1904a575b4deefb63ce0a44b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_event_stream" kindref="compound">EventStream</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;EventStream&gt; themisdb::analytics::CEPEngine::default_stream_</definition>
+        <argsstring></argsstring>
+        <name>default_stream_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::default_stream_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1153" column="21" bodyfile="include/analytics/cep_engine.h" bodystart="1153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1acf88ee7b37f0c8e4ccf13e5a3223c971" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::analytics::CEPEngine::streams_mutex_</definition>
+        <argsstring></argsstring>
+        <name>streams_mutex_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::streams_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1154" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="1154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aea4e7dd6bbb3267d1afcdfcf218df512" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemisdb_1_1analytics_1_1_alert" kindref="compound">Alert</ref> &gt;</type>
+        <definition>std::deque&lt;Alert&gt; themisdb::analytics::CEPEngine::alerts_</definition>
+        <argsstring></argsstring>
+        <name>alerts_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::alerts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1157" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="1157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1af893c789af8bb6d52061b2caea7203ae" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a55376de91ad439e03228d77135f87ddb" kindref="member">AlertCallback</ref></type>
+        <definition>AlertCallback themisdb::analytics::CEPEngine::alert_callback_</definition>
+        <argsstring></argsstring>
+        <name>alert_callback_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::alert_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1158" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="1158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a99009d52f52626f07b51dd90344e704d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::CEPEngine::alerts_mutex_</definition>
+        <argsstring></argsstring>
+        <name>alerts_mutex_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::alerts_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1159" column="24" bodyfile="include/analytics/cep_engine.h" bodystart="1159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a8baba509d7fc40040dffc3a50d0c47b1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::CEPEngine::events_received_</definition>
+        <argsstring></argsstring>
+        <name>events_received_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::events_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1162" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1162" bodyend="1162"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1abd95b25224887ac1eaba8d7b5e8f727a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::CEPEngine::events_processed_</definition>
+        <argsstring></argsstring>
+        <name>events_processed_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::events_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1163" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1163" bodyend="1163"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a42a4bcf95a41a5376373fd78aaa28358" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::CEPEngine::events_dropped_</definition>
+        <argsstring></argsstring>
+        <name>events_dropped_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::events_dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1164" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1164" bodyend="1164"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1afb59c68bf2fb43d398ca9a7f574f29ee" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::CEPEngine::backpressure_events_</definition>
+        <argsstring></argsstring>
+        <name>backpressure_events_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::backpressure_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1165" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1165" bodyend="1165"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aa6161e0c3c48f82e2cb40216c922621c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::CEPEngine::pattern_matches_</definition>
+        <argsstring></argsstring>
+        <name>pattern_matches_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::pattern_matches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1166" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1166" bodyend="1166"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a66f53bec5eee71b9e9ee6caf2bf80e46" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::CEPEngine::alerts_generated_</definition>
+        <argsstring></argsstring>
+        <name>alerts_generated_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::alerts_generated_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1167" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1167" bodyend="1167"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a348f57773ce885d5089205beba4dffa7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::analytics::CEPEngine::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1170" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1170" bodyend="1170"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a4de543c861fbdcf598896b9b026dafef" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::analytics::CEPEngine::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1171" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1171" bodyend="1171"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a712997301784233b9196240a65573dd8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themisdb::analytics::CEPEngine::worker_threads_</definition>
+        <argsstring></argsstring>
+        <name>worker_threads_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::worker_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1172" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a36e00012be5b6cb5059d8fc1816041e9" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::analytics::CEPEngine::metrics_thread_</definition>
+        <argsstring></argsstring>
+        <name>metrics_thread_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::metrics_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1173" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="1173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a81a07717a89782f89399b5c374a1e188" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::analytics::CEPEngine::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1174" column="29" bodyfile="include/analytics/cep_engine.h" bodystart="1174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a03769dbb03ac43a2725881d387394b63" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::CEPEngine::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1175" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="1175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a27593a4ce75ceba4ba80d637d383b0b3" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::analytics::CEPEngine::metrics_cv_</definition>
+        <argsstring></argsstring>
+        <name>metrics_cv_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::metrics_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1177" column="29" bodyfile="include/analytics/cep_engine.h" bodystart="1177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a67eca4fac04e7bdff781088132fe06ac" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::CEPEngine::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1178" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="1178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a1f3a7aec3b7995f23ef29107789a3fb9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer" kindref="compound">themis::analytics::detail::EventRingBuffer</ref>&lt; std::pair&lt; std::string, <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &gt; &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;themis::analytics::detail::EventRingBuffer&lt; std::pair&lt;std::string, Event&gt; &gt; &gt; themisdb::analytics::CEPEngine::event_queue_</definition>
+        <argsstring></argsstring>
+        <name>event_queue_</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::event_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1184" column="2" bodyfile="include/analytics/cep_engine.h" bodystart="1184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ab5c061e2eb5fe42329f0e31e67f28bed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>CEPEngine &amp;</type>
+        <definition>CEPEngine &amp; themisdb::analytics::CEPEngine::getInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::getInstance</qualifiedname>
+        <briefdescription>
+<para>Get Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="975" column="22" bodyfile="src/analytics/cep_engine.cpp" bodystart="2722" bodyend="2725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aa11f1891dd9cb9edec41d585293ed424" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref></type>
+        <definition>Event themisdb::analytics::CEPEngine::createCDCEvent</definition>
+        <argsstring>(EventType type, const std::string &amp;collection, const std::string &amp;document_id, const std::map&lt; std::string, CepFieldValue &gt; &amp;fields)</argsstring>
+        <name>createCDCEvent</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::createCDCEvent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cf" kindref="member">EventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" kindref="member">CepFieldValue</ref> &gt; &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1034" column="18" bodyfile="src/analytics/cep_engine.cpp" bodystart="2941" bodyend="2953"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a52ccce04b34e76746d38782afafe1192" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::CEPEngine::initialize</definition>
+        <argsstring>(const CEPConfig &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_c_e_p_config" kindref="compound">CEPConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), spdlog::warn(), lk(), clear(), emplace_back(), workerLoop(), std::thread(), metricsLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="981" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2732" bodyend="2788"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a8ab8d194df2914e29242c1de3b709f1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::CEPEngine::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), notify_all(), joinable(), join(), clear(), reset(), lk(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="986" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2794" bodyend="2819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a71c0bae240d04d0908316223141aac6a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="988" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="988" bodyend="988"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a6b223cc304b16534ecdda1c549ad201e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_event_stream" kindref="compound">EventStream</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; EventStream &gt; themisdb::analytics::CEPEngine::createStream</definition>
+        <argsstring>(const StreamConfig &amp;config)</argsstring>
+        <name>createStream</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::createStream</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_stream_config" kindref="compound">StreamConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="996" column="21" bodyfile="src/analytics/cep_engine.cpp" bodystart="2827" bodyend="2833"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ae4301feb08d0fad8fd1f44401d1be878" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_event_stream" kindref="compound">EventStream</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; EventStream &gt; themisdb::analytics::CEPEngine::getStream</definition>
+        <argsstring>(const std::string &amp;stream_id) const</argsstring>
+        <name>getStream</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::getStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stream_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">streams_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1003" column="21" bodyfile="src/analytics/cep_engine.cpp" bodystart="2835" bodyend="2844"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a272a7ff257b4f420d55f9994b87b26db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_event_stream" kindref="compound">EventStream</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; EventStream &gt; &gt; themisdb::analytics::CEPEngine::getStreams</definition>
+        <argsstring>() const</argsstring>
+        <name>getStreams</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::getStreams</qualifiedname>
+        <briefdescription>
+<para>Get Streams. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">streams_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1009" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="2846" bodyend="2859"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a236ec73d072f346535f45bccfc17ea61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::removeStream</definition>
+        <argsstring>(const std::string &amp;stream_id)</argsstring>
+        <name>removeStream</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::removeStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stream_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1016" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2867" bodyend="2870"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a2ab02c51ae2852331093678ed4c849df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::submitEvent</definition>
+        <argsstring>(Event event)</argsstring>
+        <name>submitEvent</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::submitEvent</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Submit <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1024" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2878" bodyend="2880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ac2bc43dca89a5a43172fdece27cb8e92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::submitEvent</definition>
+        <argsstring>(const std::string &amp;stream_id, Event event)</argsstring>
+        <name>submitEvent</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::submitEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Submit <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), std::chrono::system_clock::now(), empty(), generateId(), size_approx(), capacity(), spdlog::debug(), push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1032" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2889" bodyend="2939"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a0d15b6e58faef0f89f586cd88f8463e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::addRule</definition>
+        <argsstring>(const RuleConfig &amp;config)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::addRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Add Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements addRule without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1046" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2961" bodyend="2966"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1af875c313e2630833c59e13b5909e51b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::addRuleFromEPL</definition>
+        <argsstring>(const std::string &amp;epl)</argsstring>
+        <name>addRuleFromEPL</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::addRuleFromEPL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>epl</declname>
+        </param>
+        <briefdescription>
+<para>Add Rule From EPL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1analytics_1_1_rule_engine_1ae99dcf1403fddce6fc71f8e46ff2415c" kindref="member">RuleEngine::parseEPL()</ref>, spdlog::error(), <ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a0d15b6e58faef0f89f586cd88f8463e2" kindref="member">addRule()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1053" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2974" bodyend="2981"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a1a719a94d1f7f0232c30cca3e84fcea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::removeRule</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>removeRule</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::removeRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements removeRule without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1060" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="2989" bodyend="2994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1adb2c698850a94305c33d7742ddfd060f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref> &gt;</type>
+        <definition>std::optional&lt; RuleConfig &gt; themisdb::analytics::CEPEngine::getRule</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getRule</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::getRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1067" column="19" bodyfile="src/analytics/cep_engine.cpp" bodystart="2996" bodyend="3001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a8cfc55ed911c115b40ebb8b5f44eb92a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::loadRulesFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadRulesFromFile</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::loadRulesFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Rules From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: f(), is_open(), spdlog::error(), std::getline(), empty(), <ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1af875c313e2630833c59e13b5909e51b3" kindref="member">addRuleFromEPL()</ref>, clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1074" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3009" bodyend="3034"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ae4e0201a4cc953d7928243525828a3ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_alert" kindref="compound">Alert</ref> &gt;</type>
+        <definition>std::vector&lt; Alert &gt; themisdb::analytics::CEPEngine::getAlerts</definition>
+        <argsstring>(size_t limit=100, bool unacknowledged_only=false) const</argsstring>
+        <name>getAlerts</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::getAlerts</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>unacknowledged_only</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alerts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1078" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="3036" bodyend="3053"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aeee7a729e9aa23d959a48b91a056a0fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::acknowledgeAlert</definition>
+        <argsstring>(const std::string &amp;alert_id)</argsstring>
+        <name>acknowledgeAlert</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::acknowledgeAlert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_id</declname>
+        </param>
+        <briefdescription>
+<para>Acknowledge <ref refid="structthemisdb_1_1analytics_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the alert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the alert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1087" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3061" bodyend="3070"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aac0a1090c6bc1ba5800fdb2539face8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::CEPEngine::setAlertCallback</definition>
+        <argsstring>(AlertCallback callback)</argsstring>
+        <name>setAlertCallback</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::setAlertCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a55376de91ad439e03228d77135f87ddb" kindref="member">AlertCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemisdb_1_1analytics_1_1_alert" kindref="compound">Alert</ref> Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1094" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3077" bodyend="3080"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a75e92fb82708ea76ce109a323d461002" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>CEPEngine::Stats themisdb::analytics::CEPEngine::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">streams_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1116" column="11" bodyfile="src/analytics/cep_engine.cpp" bodystart="3108" bodyend="3130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a3732055b9e07e1a67a66467c1adc9021" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::CEPEngine::toPrometheusFormat</definition>
+        <argsstring>() const</argsstring>
+        <name>toPrometheusFormat</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::toPrometheusFormat</qualifiedname>
+        <briefdescription>
+<para>To Prometheus Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1122" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="3132" bodyend="3163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a31c83331e1bf7718a31c7a0c2c29030e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::createCheckpoint</definition>
+        <argsstring>()</argsstring>
+        <name>createCheckpoint</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::createCheckpoint</qualifiedname>
+        <briefdescription>
+<para>Create Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: cp_dir(), std::filesystem::create_directories(), spdlog::error(), message(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1129" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3170" bodyend="3214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a0210d3d6a9c88c125dd918a18351d2f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPEngine::restoreFromCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_id)</argsstring>
+        <name>restoreFromCheckpoint</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::restoreFromCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <briefdescription>
+<para>Restore From Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parses the text checkpoint produced by <ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a31c83331e1bf7718a31c7a0c2c29030e" kindref="member">createCheckpoint()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+&quot;rule=&lt;id&gt;:&lt;name&gt;:&lt;1|0&gt;&quot; lines restore the enabled/disabled state of each rule. &quot;pm_rule=&quot; / &quot;pm_rule_end&quot; blocks restore the NFA partial match state of each pattern matcher, allowing in-progress stateful pattern sequences to survive a shutdown/restart cycle. Counter lines (events_received=, etc.) are intentionally skipped because they are cumulative since engine initialisation and cannot be meaningfully restored. Calls: std::filesystem::path(), std::filesystem::exists(), spdlog::error(), string(), spdlog::info(), f(), is_open(), std::getline(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1136" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3222" bodyend="3286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a5562d3214677b1f3e56105339f807384" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::analytics::CEPEngine::listCheckpoints</definition>
+        <argsstring>() const</argsstring>
+        <name>listCheckpoints</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::listCheckpoints</qualifiedname>
+        <briefdescription>
+<para>List Checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1142" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="3288" bodyend="3306"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a58348c2834b39cd1e14c2fc3db9ac7cb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::CEPEngine::CEPEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>CEPEngine</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::CEPEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a1cd6f1322f9c8b22d720bfc6f85ccb56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::CEPEngine::~CEPEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CEPEngine</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::~CEPEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a6ca3a34e53ef6adad6a37d5f9050ec7c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::CEPEngine::workerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::workerLoop</qualifiedname>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: pop(), lk(), wait_for(), std::chrono::milliseconds(), empty(), load(), processEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1189" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3312" bodyend="3329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a2e3f8d30d0c06c39990ef5d5d5b7e1e7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::CEPEngine::metricsLoop</definition>
+        <argsstring>()</argsstring>
+        <name>metricsLoop</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::metricsLoop</qualifiedname>
+        <briefdescription>
+<para>Metrics Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), wait_for(), load(), <ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a75e92fb82708ea76ce109a323d461002" kindref="member">getStats()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1193" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3369" bodyend="3383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a534d509b14c203f71408535ebd936bf9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::CEPEngine::processEvent</definition>
+        <argsstring>(const std::string &amp;stream_id, const Event &amp;event)</argsstring>
+        <name>processEvent</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::processEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Process <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), push(), size(), addAlert(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1199" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3337" bodyend="3363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_c_e_p_engine_1acb3c775d06a724df95a124c7a529d75a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::CEPEngine::addAlert</definition>
+        <argsstring>(Alert alert)</argsstring>
+        <name>addAlert</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::addAlert</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_alert" kindref="compound">Alert</ref></type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemisdb_1_1analytics_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), push_back(), size(), pop_front(), alert_callback_(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1204" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="3087" bodyend="3106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="969" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="969" bodyend="1205"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aeee7a729e9aa23d959a48b91a056a0fb" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>acknowledgeAlert</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1acb3c775d06a724df95a124c7a529d75a" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>addAlert</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a0d15b6e58faef0f89f586cd88f8463e2" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>addRule</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1af875c313e2630833c59e13b5909e51b3" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>addRuleFromEPL</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1af893c789af8bb6d52061b2caea7203ae" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>alert_callback_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a55376de91ad439e03228d77135f87ddb" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>AlertCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aea4e7dd6bbb3267d1afcdfcf218df512" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>alerts_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a66f53bec5eee71b9e9ee6caf2bf80e46" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>alerts_generated_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a99009d52f52626f07b51dd90344e704d" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>alerts_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1afb59c68bf2fb43d398ca9a7f574f29ee" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>backpressure_events_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a58348c2834b39cd1e14c2fc3db9ac7cb" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>CEPEngine</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a4849310a33f35605c55bc0551d0a4ced" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aa11f1891dd9cb9edec41d585293ed424" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>createCDCEvent</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a31c83331e1bf7718a31c7a0c2c29030e" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>createCheckpoint</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a6b223cc304b16534ecdda1c549ad201e" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>createStream</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a81a07717a89782f89399b5c374a1e188" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ad5ff8a0f1904a575b4deefb63ce0a44b" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>default_stream_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a1f3a7aec3b7995f23ef29107789a3fb9" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>event_queue_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a42a4bcf95a41a5376373fd78aaa28358" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>events_dropped_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1abd95b25224887ac1eaba8d7b5e8f727a" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>events_processed_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a8baba509d7fc40040dffc3a50d0c47b1" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>events_received_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ae4e0201a4cc953d7928243525828a3ec" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>getAlerts</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ab5c061e2eb5fe42329f0e31e67f28bed" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>getInstance</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1adb2c698850a94305c33d7742ddfd060f" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>getRule</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a75e92fb82708ea76ce109a323d461002" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ae4301feb08d0fad8fd1f44401d1be878" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>getStream</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a272a7ff257b4f420d55f9994b87b26db" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>getStreams</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a52ccce04b34e76746d38782afafe1192" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a348f57773ce885d5089205beba4dffa7" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>initialized_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a71c0bae240d04d0908316223141aac6a" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>isInitialized</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a5562d3214677b1f3e56105339f807384" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>listCheckpoints</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a8cfc55ed911c115b40ebb8b5f44eb92a" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>loadRulesFromFile</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a27593a4ce75ceba4ba80d637d383b0b3" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>metrics_cv_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a67eca4fac04e7bdff781088132fe06ac" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a36e00012be5b6cb5059d8fc1816041e9" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>metrics_thread_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a2e3f8d30d0c06c39990ef5d5d5b7e1e7" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>metricsLoop</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a03769dbb03ac43a2725881d387394b63" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aa6161e0c3c48f82e2cb40216c922621c" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>pattern_matches_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a534d509b14c203f71408535ebd936bf9" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>processEvent</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a1a719a94d1f7f0232c30cca3e84fcea5" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>removeRule</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a236ec73d072f346535f45bccfc17ea61" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>removeStream</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a0210d3d6a9c88c125dd918a18351d2f9" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>restoreFromCheckpoint</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a5988edb4921d9e5508b1f4de14f76e05" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>rule_engine_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a4de543c861fbdcf598896b9b026dafef" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1aac0a1090c6bc1ba5800fdb2539face8d" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>setAlertCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a8ab8d194df2914e29242c1de3b709f1c" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>shutdown</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a666c6b9a50283f500f75f2b99398c778" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>streams_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1acf88ee7b37f0c8e4ccf13e5a3223c971" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>streams_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a2ab02c51ae2852331093678ed4c849df" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>submitEvent</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1ac2bc43dca89a5a43172fdece27cb8e92" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>submitEvent</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a3732055b9e07e1a67a66467c1adc9021" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>toPrometheusFormat</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a712997301784233b9196240a65573dd8" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>worker_threads_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a6ca3a34e53ef6adad6a37d5f9050ec7c" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>workerLoop</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_c_e_p_engine_1a1cd6f1322f9c8b22d720bfc6f85ccb56" prot="private" virt="non-virtual"><scope>themisdb::analytics::CEPEngine</scope><name>~CEPEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

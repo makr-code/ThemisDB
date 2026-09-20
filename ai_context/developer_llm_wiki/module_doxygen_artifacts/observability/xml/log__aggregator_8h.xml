@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="log__aggregator_8h" kind="file" language="C++">
+    <compoundname>log_aggregator.h</compoundname>
+    <includes local="yes">core/concerns/i_async_logger.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="log__search__engine_8h" local="yes">include/observability/log_search_engine.h</includedby>
+    <includedby refid="log__aggregator_8cpp" local="yes">src/observability/log_aggregator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/log_aggregator.h</label>
+        <link refid="log__aggregator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>core/concerns/i_async_logger.h</label>
+      </node>
+      <node id="6">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>future</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>queue</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/log_aggregator.h</label>
+        <link refid="log__aggregator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/observability/log_search_engine.h</label>
+        <link refid="log__search__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/observability/log_aggregator.cpp</label>
+        <link refid="log__aggregator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/observability/log_search_engine.cpp</label>
+        <link refid="log__search__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_log_entry" prot="public">themis::observability::LogEntry</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_log_aggregator_config" prot="public">themis::observability::LogAggregatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_log_aggregator_stats" prot="public">themis::observability::LogAggregatorStats</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_log_aggregator" prot="public">themis::observability::LogAggregator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/i_async_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1observability_1_1_log_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1observability_1_1_log_entry_1aefe8dea4e5299dd47817b7b61b83a98e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_log_entry_1aefe8dea4e5299dd47817b7b61b83a98e" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1observability_1_1_log_entry_1ad715c1ce4d0e44fde841cd6cd197676b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>core::concerns::ILogger::Level<sp/><ref refid="structthemis_1_1observability_1_1_log_entry_1ad715c1ce4d0e44fde841cd6cd197676b" kindref="member">level</ref>{core::concerns::ILogger::Level::INFO};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1observability_1_1_log_entry_1a698a15567d60a23b2d079e7165554b93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_log_entry_1a698a15567d60a23b2d079e7165554b93" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_log_entry_1aaa6177b7b0fc3417b2b2ba26707dac3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_log_entry_1aaa6177b7b0fc3417b2b2ba26707dac3c" kindref="member">fields</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_log_entry_1aaa4cfd2747637a3b6ba727cb75bf8f30" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0" kindref="member">LogSinkType</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0a7014705458ee3cf0192f6aa52cfddea5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0a7014705458ee3cf0192f6aa52cfddea5" kindref="member">MEMORY</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0a9fc5887c030f7a3e19821ebec457e719" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0a9fc5887c030f7a3e19821ebec457e719" kindref="member">FILE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0a6328e5e3186c227a021ef2ff77e40197" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0a6328e5e3186c227a021ef2ff77e40197" kindref="member">BOTH</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1observability_1_1_log_aggregator_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_log_aggregator_config" kindref="compound">LogAggregatorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1observability_1_1_log_aggregator_config_1aa10249d07002d1487faa04b22eec7236" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>core::concerns::ILogger::Level<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config_1aa10249d07002d1487faa04b22eec7236" kindref="member">min_level</ref>{core::concerns::ILogger::Level::INFO};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1observability_1_1_log_aggregator_config_1adff94c1bc74568a2a28c6eff4bc81008" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0" kindref="member">LogSinkType</ref><sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config_1adff94c1bc74568a2a28c6eff4bc81008" kindref="member">sink_type</ref>{<ref refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0a7014705458ee3cf0192f6aa52cfddea5" kindref="member">LogSinkType::MEMORY</ref>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1observability_1_1_log_aggregator_config_1a65777d6836f0780ad1c37755e6eaa6af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config_1a65777d6836f0780ad1c37755e6eaa6af" kindref="member">file_path</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_log_aggregator_config_1a6fd12c7c89fb4f4daa9351881b0f588f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config_1a6fd12c7c89fb4f4daa9351881b0f588f" kindref="member">max_retained_entries</ref>{4096};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1observability_1_1_log_aggregator_config_1a8b9a0966a297bfb9d39449a8466d9e04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config_1a8b9a0966a297bfb9d39449a8466d9e04" kindref="member">async_queue_max_size</ref>{8192};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1observability_1_1_log_aggregator_config_1aef6bc7bb5480ce708fb541704b35632c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config_1aef6bc7bb5480ce708fb541704b35632c" kindref="member">format_pattern</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1observability_1_1_log_aggregator_config_1aceabcefdc060b05f5b887258326e82e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config_1aceabcefdc060b05f5b887258326e82e0" kindref="member">publish_metrics</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1observability_1_1_log_aggregator_config_1a859df6f174c556adba9af6ff8c0f5d8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config_1a859df6f174c556adba9af6ff8c0f5d8b" kindref="member">publish_interval</ref>{10};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1observability_1_1_log_aggregator_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_log_aggregator_stats" kindref="compound">LogAggregatorStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a9f438d21773557906d74e2f9b53441be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a9f438d21773557906d74e2f9b53441be" kindref="member">total_entries</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1observability_1_1_log_aggregator_stats_1aecc7da42c16718485dae58709c1fa692" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_stats_1aecc7da42c16718485dae58709c1fa692" kindref="member">dropped_entries</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a97d45c12b0cd622eb04315bc5b5ece99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a97d45c12b0cd622eb04315bc5b5ece99" kindref="member">entries_by_level</ref>[6]{0,<sp/>0,<sp/>0,<sp/>0,<sp/>0,<sp/>0};<sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a8490a1eafd0d88f16f2ef2246b423d6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a8490a1eafd0d88f16f2ef2246b423d6e" kindref="member">async_queue_overflows</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1observability_1_1_log_aggregator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad9f693d23c62064fdea6a267bb2ec36f" kindref="member">LogAggregator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>core::concerns::IAsyncLogger<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1observability_1_1_log_aggregator_1a98b62ab5a25d604e6fe1879b9822d08a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a98b62ab5a25d604e6fe1879b9822d08a" kindref="member">Fields</ref><sp/><sp/><sp/>=<sp/>core::concerns::ILogger::Fields;</highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/><sp/><sp/><sp/>=<sp/>core::concerns::ILogger::Level;</highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1observability_1_1_log_aggregator_1ad5ea7aa8c17d66f853cc0aa4112e99a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad5ea7aa8c17d66f853cc0aa4112e99a4" kindref="member">TraceCtx</ref><sp/>=<sp/>core::concerns::TraceContext;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1observability_1_1_log_aggregator_1a447be075ff2f921a69bbb032477fd323" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a447be075ff2f921a69bbb032477fd323" kindref="member">EntryCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad9f693d23c62064fdea6a267bb2ec36f" kindref="member">LogAggregator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config" kindref="compound">LogAggregatorConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1observability_1_1_log_aggregator_config" kindref="compound">LogAggregatorConfig</ref>{});</highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1observability_1_1_log_aggregator_1a492a70379151f97448d586010b5068c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a492a70379151f97448d586010b5068c7" kindref="member">~LogAggregator</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1observability_1_1_log_aggregator_1a26dd145ac11c697fd1f20b3a31a2ce5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a26dd145ac11c697fd1f20b3a31a2ce5d" kindref="member">LogAggregator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad9f693d23c62064fdea6a267bb2ec36f" kindref="member">LogAggregator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1observability_1_1_log_aggregator_1ab19e0c5d9d846cee270ba6e43c595f29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad9f693d23c62064fdea6a267bb2ec36f" kindref="member">LogAggregator</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ab19e0c5d9d846cee270ba6e43c595f29" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad9f693d23c62064fdea6a267bb2ec36f" kindref="member">LogAggregator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ILogger<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a956ad1089375bc499b1e7b05ad40a40e" kindref="member">log</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/>level,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a10f5bbdc279587de11a656e2abe91f8b" kindref="member">trace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a63449b0828ba07961d85251a8658b1ee" kindref="member">debug</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ab772a51a4d474e04eae78d79d34da5f9" kindref="member">info</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a985a5384eaa9a7c7cd6353902a8f1f4f" kindref="member">warn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ab24e0c4f0f4de4dc7f1f498551fb3c2f" kindref="member">error</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a77d9bc55dde947f12ae7aa8e932516be" kindref="member">critical</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a549ee8569eaa84f0937a47143ef65512" kindref="member">logStructured</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/>level,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a98b62ab5a25d604e6fe1879b9822d08a" kindref="member">Fields</ref>&amp;<sp/>fields<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a089a4f6eb54f6eca78378877b63c5909" kindref="member">logWithContext</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/>level,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad5ea7aa8c17d66f853cc0aa4112e99a4" kindref="member">TraceCtx</ref>&amp;<sp/>ctx,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a98b62ab5a25d604e6fe1879b9822d08a" kindref="member">Fields</ref>&amp;<sp/>fields<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ac55c4f5c582244f9514143b41c0015a0" kindref="member">setLevel</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/>level)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a78b64f2beee90d2278f17785d7942452" kindref="member">getLevel</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a12110b48f2ebba9f80e19520f7172edb" kindref="member">setPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a35008809a0b7d217f02762189d70f056" kindref="member">flush</ref>()<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ac30d4db08f56729b841309d35cdd3615" kindref="member">shutdown</ref>()<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>core::concerns::ProbeResult<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a5884fd1115d0ba0364e498210202c4d0" kindref="member">isHealthy</ref>()<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IAsyncLogger<sp/>overrides<sp/>—<sp/>worker-thread-backed<sp/>async<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad149cd3a0a3b141dc1013fa77d56afcf" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/>level,<sp/>std::string_view<sp/>message)<sp/>override;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a5c1992edaca1396ff22d59df659fa72b" kindref="member">logStructuredAsync</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/>level,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a98b62ab5a25d604e6fe1879b9822d08a" kindref="member">Fields</ref>&amp;<sp/>fields<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a6640c6abe2ed94af03d42f97047d6081" kindref="member">logWithContextAsync</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/>level,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ad5ea7aa8c17d66f853cc0aa4112e99a4" kindref="member">TraceCtx</ref>&amp;<sp/>ctx,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a98b62ab5a25d604e6fe1879b9822d08a" kindref="member">Fields</ref>&amp;<sp/>fields<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extended<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogEntry&gt;<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a28f21dc6ac500e9c462e13abeed24381" kindref="member">entries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogEntry&gt;<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1aae6b64fc2d697127276c862199c805bf" kindref="member">entriesAtLevel</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a8ae418c722506f42c0a3bcd5ca50efb6" kindref="member">Level</ref><sp/>min_level)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a6320ec0a32cd7f04a548a134ca8abe07" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a50185ccb2e7e58fc0e0f3c6c2d0055ad" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>LogAggregatorStats<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ac9a8af79340372a6268c268cd05543cc" kindref="member">stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1a3b4e3a85519f6fc0fa05d30ac833eb25" kindref="member">setEntryCallback</ref>(<ref refid="classthemis_1_1observability_1_1_log_aggregator_1a447be075ff2f921a69bbb032477fd323" kindref="member">EntryCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>LogAggregatorConfig<sp/><ref refid="classthemis_1_1observability_1_1_log_aggregator_1ab73403c41c1a8745d87d2bd90bcf04ad" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_log_aggregator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/log_aggregator.h"/>
+  </compounddef>
+</doxygen>

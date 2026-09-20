@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_deduplication_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::DeduplicationStats</compoundname>
+    <includes refid="tensor__deduplication__manager_8h" local="no">tensor_deduplication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_stats_1aab75c7c667388a462281754050764387" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::DeduplicationStats::total_tensors</definition>
+        <argsstring></argsstring>
+        <name>total_tensors</name>
+        <qualifiedname>themis::graph::DeduplicationStats::total_tensors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="78" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_stats_1a92058c3574c75b6578e2526cea60899f" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::DeduplicationStats::canonical_tensors</definition>
+        <argsstring></argsstring>
+        <name>canonical_tensors</name>
+        <qualifiedname>themis::graph::DeduplicationStats::canonical_tensors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="79" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_stats_1abae46c81136a099aec414950243af556" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::DeduplicationStats::delta_tensors</definition>
+        <argsstring></argsstring>
+        <name>delta_tensors</name>
+        <qualifiedname>themis::graph::DeduplicationStats::delta_tensors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="80" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_stats_1a13568afddeb041862bdca97e2bab136f" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::DeduplicationStats::total_bytes_stored</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_stored</name>
+        <qualifiedname>themis::graph::DeduplicationStats::total_bytes_stored</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="81" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_stats_1ae9eaf896541070064bba47601fdfc0a7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::DeduplicationStats::bytes_saved</definition>
+        <argsstring></argsstring>
+        <name>bytes_saved</name>
+        <qualifiedname>themis::graph::DeduplicationStats::bytes_saved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="82" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_stats_1a49647e1d433b131343fb98be5ce29824" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::DeduplicationStats::dedup_ratio</definition>
+        <argsstring></argsstring>
+        <name>dedup_ratio</name>
+        <qualifiedname>themis::graph::DeduplicationStats::dedup_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>full_bytes / stored_bytes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="83" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_deduplication_stats_1af67c9ec06a57d71446f90e58e1950d5a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::DeduplicationStats::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::graph::DeduplicationStats::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="85" column="10" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_deduplication_manager.h" line="77" column="1" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="77" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_deduplication_stats_1ae9eaf896541070064bba47601fdfc0a7" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationStats</scope><name>bytes_saved</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_stats_1a92058c3574c75b6578e2526cea60899f" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationStats</scope><name>canonical_tensors</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_stats_1a49647e1d433b131343fb98be5ce29824" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationStats</scope><name>dedup_ratio</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_stats_1abae46c81136a099aec414950243af556" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationStats</scope><name>delta_tensors</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_stats_1af67c9ec06a57d71446f90e58e1950d5a" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationStats</scope><name>reset</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_stats_1a13568afddeb041862bdca97e2bab136f" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationStats</scope><name>total_bytes_stored</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_stats_1aab75c7c667388a462281754050764387" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationStats</scope><name>total_tensors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

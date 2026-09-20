@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_hot_reload_load_fixture" kind="class" language="C++" prot="public">
+    <compoundname>HotReloadLoadFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_hot_reload_load_fixture_1a4778e3d8f4641d83253ea529f040d134" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HotReloadManager &gt;</type>
+        <definition>std::unique_ptr&lt;HotReloadManager&gt; HotReloadLoadFixture::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>HotReloadLoadFixture::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="153" column="21" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hot_reload_load_fixture_1a2bbff1ac76c94cea93c84b078c9cebd3" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModuleLoader &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleLoader&gt; HotReloadLoadFixture::loader</definition>
+        <argsstring></argsstring>
+        <name>loader</name>
+        <qualifiedname>HotReloadLoadFixture::loader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="154" column="25" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_hot_reload_load_fixture_1ab7ac14dae9f7510f755af25d44eadc6e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HotReloadLoadFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HotReloadLoadFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="138" column="10" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hot_reload_load_fixture_1abb870cea28eebfbd8cfddde004d3aa55" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HotReloadLoadFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HotReloadLoadFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="148" column="10" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="148" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HotReloadLoadFixture</label>
+        <link refid="class_hot_reload_load_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HotReloadLoadFixture</label>
+        <link refid="class_hot_reload_load_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="136" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="136" bodyend="155"/>
+    <listofallmembers>
+      <member refid="class_hot_reload_load_fixture_1a2bbff1ac76c94cea93c84b078c9cebd3" prot="public" virt="non-virtual"><scope>HotReloadLoadFixture</scope><name>loader</name></member>
+      <member refid="class_hot_reload_load_fixture_1a4778e3d8f4641d83253ea529f040d134" prot="public" virt="non-virtual"><scope>HotReloadLoadFixture</scope><name>mgr</name></member>
+      <member refid="class_hot_reload_load_fixture_1ab7ac14dae9f7510f755af25d44eadc6e" prot="public" virt="non-virtual"><scope>HotReloadLoadFixture</scope><name>SetUp</name></member>
+      <member refid="class_hot_reload_load_fixture_1abb870cea28eebfbd8cfddde004d3aa55" prot="public" virt="non-virtual"><scope>HotReloadLoadFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_graph_test" kind="class" language="C++" prot="public">
+    <compoundname>ProcessGraphTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_process_graph_test_1a7376a7d78be3ab33d50d0f6992911db8" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ProcessGraphTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>ProcessGraphTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_graph.cpp" line="192" column="17" bodyfile="tests/process/test_process_graph.cpp" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_graph_test_1ac56188bcc51362f025b8f7ff31814546" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; ProcessGraphTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ProcessGraphTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_graph.cpp" line="193" column="21" bodyfile="tests/process/test_process_graph.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_graph_test_1abfa8b614e1fdaae4188a8cff6e70b788" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::ProcessGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::ProcessGraphManager&gt; ProcessGraphTest::pgm_</definition>
+        <argsstring></argsstring>
+        <name>pgm_</name>
+        <qualifiedname>ProcessGraphTest::pgm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_graph.cpp" line="194" column="21" bodyfile="tests/process/test_process_graph.cpp" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_process_graph_test_1a2bcb0f2479587b7434d4932d707c20ac" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessGraphTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProcessGraphTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_graph.cpp" line="166" column="10" bodyfile="tests/process/test_process_graph.cpp" bodystart="166" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_graph_test_1a781c36ea4001f236c0ce739ab7e43e77" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessGraphTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProcessGraphTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_graph.cpp" line="186" column="10" bodyfile="tests/process/test_process_graph.cpp" bodystart="186" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProcessGraphTest</label>
+        <link refid="class_process_graph_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessGraphTest</label>
+        <link refid="class_process_graph_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_graph.cpp" line="164" column="1" bodyfile="tests/process/test_process_graph.cpp" bodystart="164" bodyend="195"/>
+    <listofallmembers>
+      <member refid="class_process_graph_test_1ac56188bcc51362f025b8f7ff31814546" prot="protected" virt="non-virtual"><scope>ProcessGraphTest</scope><name>db_</name></member>
+      <member refid="class_process_graph_test_1abfa8b614e1fdaae4188a8cff6e70b788" prot="protected" virt="non-virtual"><scope>ProcessGraphTest</scope><name>pgm_</name></member>
+      <member refid="class_process_graph_test_1a2bcb0f2479587b7434d4932d707c20ac" prot="protected" virt="non-virtual"><scope>ProcessGraphTest</scope><name>SetUp</name></member>
+      <member refid="class_process_graph_test_1a781c36ea4001f236c0ce739ab7e43e77" prot="protected" virt="non-virtual"><scope>ProcessGraphTest</scope><name>TearDown</name></member>
+      <member refid="class_process_graph_test_1a7376a7d78be3ab33d50d0f6992911db8" prot="protected" virt="non-virtual"><scope>ProcessGraphTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

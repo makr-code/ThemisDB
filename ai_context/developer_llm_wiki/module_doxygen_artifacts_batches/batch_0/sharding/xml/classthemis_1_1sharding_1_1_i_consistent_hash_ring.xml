@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_consistent_hash_ring" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IConsistentHashRing</compoundname>
+    <derivedcompoundref refid="class_mock_consistent_hash_ring" prot="public" virt="non-virtual">MockConsistentHashRing</derivedcompoundref>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1a4d0c601f38427108b922c52df517f889" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IConsistentHashRing::~IConsistentHashRing</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IConsistentHashRing</name>
+        <qualifiedname>themis::sharding::IConsistentHashRing::~IConsistentHashRing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="556" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1a70d70086ce72866bdc550b79a1bd81ae" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref></type>
+        <definition>virtual NodeId themis::sharding::IConsistentHashRing::getNode</definition>
+        <argsstring>(const ShardKey &amp;key) const =0</argsstring>
+        <name>getNode</name>
+        <qualifiedname>themis::sharding::IConsistentHashRing::getNode</qualifiedname>
+        <reimplementedby refid="class_mock_consistent_hash_ring_1aeb63eeda951e919a3153e1687f0086a6">getNode</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Look up the primary node responsible for <computeroutput>key</computeroutput>. Thread-safe; lock-free on the read path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="560" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1aab718f3d3d45dc84c3622471fa808870" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> &gt;</type>
+        <definition>virtual std::vector&lt; NodeId &gt; themis::sharding::IConsistentHashRing::getNodes</definition>
+        <argsstring>(const ShardKey &amp;key, size_t replication_factor) const =0</argsstring>
+        <name>getNodes</name>
+        <qualifiedname>themis::sharding::IConsistentHashRing::getNodes</qualifiedname>
+        <reimplementedby refid="class_mock_consistent_hash_ring_1ae98c61e6c37d66715d410abe210365bd">getNodes</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>replication_factor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return up to <computeroutput>replication_factor</computeroutput> distinct successor nodes for <computeroutput>key</computeroutput>. Thread-safe; lock-free on the read path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="564" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1aa93a4cf990a56e4795a55d84c50f3fca" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle" kindref="compound">RebalanceLockHandle</ref></type>
+        <definition>virtual RebalanceLockHandle themis::sharding::IConsistentHashRing::acquireRebalanceLock</definition>
+        <argsstring>()=0</argsstring>
+        <name>acquireRebalanceLock</name>
+        <qualifiedname>themis::sharding::IConsistentHashRing::acquireRebalanceLock</qualifiedname>
+        <reimplementedby refid="class_mock_consistent_hash_ring_1a29ad4e30be5b636e7b723c25c7ef30f3">acquireRebalanceLock</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire a rebalance lock. While the returned handle is alive the ring is frozen: addShard/removeShard on the underlying implementation will block until all outstanding handles are destroyed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="572" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1afeddc1dae72289ae627321afda70a775" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::sharding::IConsistentHashRing::virtualNodes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>virtualNodes</name>
+        <qualifiedname>themis::sharding::IConsistentHashRing::virtualNodes</qualifiedname>
+        <reimplementedby refid="class_mock_consistent_hash_ring_1a25482f872fed6e8920be520dc134fbd5">virtualNodes</reimplementedby>
+        <briefdescription>
+<para>Total number of virtual nodes currently in the ring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="575" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1a7be66e5daaf92d66b3bdbd54e08f7b6c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> &gt;</type>
+        <definition>virtual std::vector&lt; NodeId &gt; themis::sharding::IConsistentHashRing::physicalNodes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>physicalNodes</name>
+        <qualifiedname>themis::sharding::IConsistentHashRing::physicalNodes</qualifiedname>
+        <reimplementedby refid="class_mock_consistent_hash_ring_1a78ef42f31c52dbfc42e81736ad6ef40a">physicalNodes</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ordered list of unique physical node identifiers. Does NOT enumerate keys per node. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="579" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1acb6806c7ceee5523edb1c703aa609a48" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle" kindref="compound">RebalanceLockHandle</ref></type>
+        <definition>static RebalanceLockHandle themis::sharding::IConsistentHashRing::makeRebalanceLockHandle</definition>
+        <argsstring>(std::function&lt; void()&gt; release_fn)</argsstring>
+        <name>makeRebalanceLockHandle</name>
+        <qualifiedname>themis::sharding::IConsistentHashRing::makeRebalanceLockHandle</qualifiedname>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>release_fn</declname>
+        </param>
+        <briefdescription>
+<para>Helper for concrete implementations to create a <ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle" kindref="compound">RebalanceLockHandle</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="583" column="32" bodyfile="include/sharding/sharding_interfaces.h" bodystart="583" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Immutable-during-rebalance consistent hash ring interface.</para>
+<para>The ring is immutable while any <ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle" kindref="compound">RebalanceLockHandle</ref> is alive: callers observe the pre-rebalance ring state until all lock handles are destroyed.</para>
+<para>Security: <ref refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1a7be66e5daaf92d66b3bdbd54e08f7b6c" kindref="member">physicalNodes()</ref> returns node identifiers only — there is no mechanism to enumerate the keys stored on a node, limiting data- enumeration attack surface.</para>
+<para>Performance contracts: <ref refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1a70d70086ce72866bdc550b79a1bd81ae" kindref="member">getNode()</ref> with 1 024 virtual nodes: ≤ 300 ns. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockConsistentHashRing</label>
+        <link refid="class_mock_consistent_hash_ring"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::IConsistentHashRing</label>
+        <link refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/sharding_interfaces.h" line="554" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="554" bodyend="586"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1aa93a4cf990a56e4795a55d84c50f3fca" prot="public" virt="pure-virtual"><scope>themis::sharding::IConsistentHashRing</scope><name>acquireRebalanceLock</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1a70d70086ce72866bdc550b79a1bd81ae" prot="public" virt="pure-virtual"><scope>themis::sharding::IConsistentHashRing</scope><name>getNode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1aab718f3d3d45dc84c3622471fa808870" prot="public" virt="pure-virtual"><scope>themis::sharding::IConsistentHashRing</scope><name>getNodes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1acb6806c7ceee5523edb1c703aa609a48" prot="protected" virt="non-virtual"><scope>themis::sharding::IConsistentHashRing</scope><name>makeRebalanceLockHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1a7be66e5daaf92d66b3bdbd54e08f7b6c" prot="public" virt="pure-virtual"><scope>themis::sharding::IConsistentHashRing</scope><name>physicalNodes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1afeddc1dae72289ae627321afda70a775" prot="public" virt="pure-virtual"><scope>themis::sharding::IConsistentHashRing</scope><name>virtualNodes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1a4d0c601f38427108b922c52df517f889" prot="public" virt="virtual"><scope>themis::sharding::IConsistentHashRing</scope><name>~IConsistentHashRing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_opa_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::OpaError</compoundname>
+    <includes refid="opa__adapter_8h" local="no">opa_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_opa_error_1a1fba539c159e1cf242b761b819a9319f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1a22ad2640eb0f567525668c594ecc21f7" kindref="member">OpaErrorType</ref></type>
+        <definition>OpaErrorType themis::governance::OpaError::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::governance::OpaError::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1governance_1a22ad2640eb0f567525668c594ecc21f7a25c2dc47991b3df171ed5192bcf70390" kindref="member">OpaErrorType::kUnknown</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="33" column="18" bodyfile="include/governance/opa_adapter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_opa_error_1aa61408f4d18895573070ca03c45ddc32" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OpaError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::governance::OpaError::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="34" column="17" bodyfile="include/governance/opa_adapter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_opa_error_1a118eb30c461a366584b07ef6bcf37fd1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::OpaError::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::governance::OpaError::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="35" column="13" bodyfile="include/governance/opa_adapter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/opa_adapter.h" line="32" column="1" bodyfile="include/governance/opa_adapter.h" bodystart="32" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_opa_error_1aa61408f4d18895573070ca03c45ddc32" prot="public" virt="non-virtual"><scope>themis::governance::OpaError</scope><name>message</name></member>
+      <member refid="structthemis_1_1governance_1_1_opa_error_1a118eb30c461a366584b07ef6bcf37fd1" prot="public" virt="non-virtual"><scope>themis::governance::OpaError</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_opa_error_1a1fba539c159e1cf242b761b819a9319f" prot="public" virt="non-virtual"><scope>themis::governance::OpaError</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

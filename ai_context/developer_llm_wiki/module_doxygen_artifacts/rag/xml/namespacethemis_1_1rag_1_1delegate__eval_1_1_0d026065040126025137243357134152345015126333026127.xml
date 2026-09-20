@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1delegate__eval_1_1_0d026065040126025137243357134152345015126333026127" kind="namespace" language="C++">
+    <compoundname>themis::rag::delegate_eval::@026065040126025137243357134152345015126333026127</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/delegate_evaluator.cpp" line="36" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_t_t_l_adapter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::TTLAdapterConfig</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_t_t_l_adapter_config_1a619ad9136e1cd7a2f42361e5512bc6b6" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::TTLAdapterConfig::minTTL</definition>
+        <argsstring></argsstring>
+        <name>minTTL</name>
+        <qualifiedname>themis::cache::TTLAdapterConfig::minTTL</qualifiedname>
+        <initializer>{1&apos;000}</initializer>
+        <briefdescription>
+<para>Lower bound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="202" column="31" bodyfile="include/cache/cache_interfaces.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_t_t_l_adapter_config_1adcbc1e8e946fc00ebd6749d17776c994" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::TTLAdapterConfig::maxTTL</definition>
+        <argsstring></argsstring>
+        <name>maxTTL</name>
+        <qualifiedname>themis::cache::TTLAdapterConfig::maxTTL</qualifiedname>
+        <initializer>{3&apos;600&apos;000}</initializer>
+        <briefdescription>
+<para>Upper bound (hard cap). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="203" column="31" bodyfile="include/cache/cache_interfaces.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_t_t_l_adapter_config_1ab0feb44ee1d300f7aa26086e7bd9bfc2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::TTLAdapterConfig::aggressiveness</definition>
+        <argsstring></argsstring>
+        <name>aggressiveness</name>
+        <qualifiedname>themis::cache::TTLAdapterConfig::aggressiveness</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Scaling factor; higher = faster TTL growth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="204" column="12" bodyfile="include/cache/cache_interfaces.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_interfaces.h" line="201" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="201" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1ab0feb44ee1d300f7aa26086e7bd9bfc2" prot="public" virt="non-virtual"><scope>themis::cache::TTLAdapterConfig</scope><name>aggressiveness</name></member>
+      <member refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1adcbc1e8e946fc00ebd6749d17776c994" prot="public" virt="non-virtual"><scope>themis::cache::TTLAdapterConfig</scope><name>maxTTL</name></member>
+      <member refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1a619ad9136e1cd7a2f42361e5512bc6b6" prot="public" virt="non-virtual"><scope>themis::cache::TTLAdapterConfig</scope><name>minTTL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

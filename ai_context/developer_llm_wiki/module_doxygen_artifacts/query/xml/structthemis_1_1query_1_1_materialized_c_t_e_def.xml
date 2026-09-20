@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_materialized_c_t_e_def" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MaterializedCTEDef</compoundname>
+    <includes refid="materialized__cte_8h" local="no">materialized_cte.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_def_1afb59b43579dbcc0a9be2ef2109117725" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MaterializedCTEDef::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::MaterializedCTEDef::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="90" column="34" bodyfile="include/query/materialized_cte.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_def_1a42ac6b076e3086daa77b601ac0f70df5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MaterializedCTEDef::source_collection</definition>
+        <argsstring></argsstring>
+        <name>source_collection</name>
+        <qualifiedname>themis::query::MaterializedCTEDef::source_collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="91" column="34" bodyfile="include/query/materialized_cte.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_def_1a04c17ed133a6d710ccd5e0ed63ca39b2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::MaterializedCTEDef::dimensions</definition>
+        <argsstring></argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themis::query::MaterializedCTEDef::dimensions</qualifiedname>
+        <briefdescription>
+<para>GROUP BY key fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="92" column="21" bodyfile="include/query/materialized_cte.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_def_1a111a1df90bc198845cf8e6e35a5d5f4a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_c_t_e_agg_spec" kindref="compound">CTEAggSpec</ref> &gt;</type>
+        <definition>std::vector&lt;CTEAggSpec&gt; themis::query::MaterializedCTEDef::aggregations</definition>
+        <argsstring></argsstring>
+        <name>aggregations</name>
+        <qualifiedname>themis::query::MaterializedCTEDef::aggregations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="93" column="22" bodyfile="include/query/materialized_cte.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_def_1ad26cfd3df59541ad3d244c4095ddebaf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_c_t_e_base_filter" kindref="compound">CTEBaseFilter</ref> &gt;</type>
+        <definition>std::vector&lt;CTEBaseFilter&gt; themis::query::MaterializedCTEDef::base_filters</definition>
+        <argsstring></argsstring>
+        <name>base_filters</name>
+        <qualifiedname>themis::query::MaterializedCTEDef::base_filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="94" column="19" bodyfile="include/query/materialized_cte.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_def_1aa2c96cecbb75c651f264f8f3c0c1be12" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::MaterializedCTEDef::staleness_seconds</definition>
+        <argsstring></argsstring>
+        <name>staleness_seconds</name>
+        <qualifiedname>themis::query::MaterializedCTEDef::staleness_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = no time-based staleness </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="95" column="13" bodyfile="include/query/materialized_cte.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_cte.h" line="89" column="1" bodyfile="include/query/materialized_cte.h" bodystart="89" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_def_1a111a1df90bc198845cf8e6e35a5d5f4a" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEDef</scope><name>aggregations</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_def_1ad26cfd3df59541ad3d244c4095ddebaf" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEDef</scope><name>base_filters</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_def_1a04c17ed133a6d710ccd5e0ed63ca39b2" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEDef</scope><name>dimensions</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_def_1afb59b43579dbcc0a9be2ef2109117725" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEDef</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_def_1a42ac6b076e3086daa77b601ac0f70df5" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEDef</scope><name>source_collection</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_def_1aa2c96cecbb75c651f264f8f3c0c1be12" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEDef</scope><name>staleness_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

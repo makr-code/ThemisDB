@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_blockchain_anchor" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::BlockchainIntegrityVerifier::BlockchainAnchor</compoundname>
+    <includes refid="blockchain__integrity_8h" local="no">blockchain_integrity.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_blockchain_anchor_1a85f37c862b0474e8d148d6291fa967bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof" kindref="compound">IntegrityProof</ref></type>
+        <definition>BlockchainIntegrityVerifier::IntegrityProof themis::importers::BlockchainIntegrityVerifier::BlockchainAnchor::anchorToBlockchain</definition>
+        <argsstring>(const std::string &amp;merkle_root)</argsstring>
+        <name>anchorToBlockchain</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::BlockchainAnchor::anchorToBlockchain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>merkle_root</declname>
+        </param>
+        <briefdescription>
+<para>Anchor To Blockchain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">merkle_root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="75" column="24" bodyfile="src/importers/blockchain_integrity.cpp" bodystart="133" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_blockchain_anchor_1a1904121b706987818d381ae1ac4622c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::BlockchainIntegrityVerifier::BlockchainAnchor::verifyBlockchainAnchor</definition>
+        <argsstring>(const IntegrityProof &amp;proof)</argsstring>
+        <name>verifyBlockchainAnchor</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::BlockchainAnchor::verifyBlockchainAnchor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof" kindref="compound">IntegrityProof</ref> &amp;</type>
+          <declname>proof</declname>
+        </param>
+        <briefdescription>
+<para>Verify Blockchain Anchor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">proof</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">proof</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), size(), std::isxdigit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="84" column="14" bodyfile="src/importers/blockchain_integrity.cpp" bodystart="170" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/blockchain_integrity.h" line="68" column="5" bodyfile="include/importers/blockchain_integrity.h" bodystart="68" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_blockchain_anchor_1a85f37c862b0474e8d148d6291fa967bc" prot="public" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::BlockchainAnchor</scope><name>anchorToBlockchain</name></member>
+      <member refid="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_blockchain_anchor_1a1904121b706987818d381ae1ac4622c9" prot="public" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::BlockchainAnchor</scope><name>verifyBlockchainAnchor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

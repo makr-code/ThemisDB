@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_updates_contract_test" kind="class" language="C++" prot="public">
+    <compoundname>UpdatesContractTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_updates_contract_test_1a206979977ae315e3e99078e5e37f9222" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t UpdatesContractTest::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>UpdatesContractTest::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="23" column="31" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_updates_contract_test_1ae6879e6141b274275018901e8d928a2a" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 UpdatesContractTest::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>UpdatesContractTest::rng_</qualifiedname>
+        <initializer>{<ref refid="class_updates_contract_test_1a206979977ae315e3e99078e5e37f9222" kindref="member">kSeed</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="24" column="18" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>UpdatesContractTest</label>
+        <link refid="class_updates_contract_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>UpdatesContractTest</label>
+        <link refid="class_updates_contract_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="21" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="21" bodyend="25"/>
+    <listofallmembers>
+      <member refid="class_updates_contract_test_1a206979977ae315e3e99078e5e37f9222" prot="protected" virt="non-virtual"><scope>UpdatesContractTest</scope><name>kSeed</name></member>
+      <member refid="class_updates_contract_test_1ae6879e6141b274275018901e8d928a2a" prot="protected" virt="non-virtual"><scope>UpdatesContractTest</scope><name>rng_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

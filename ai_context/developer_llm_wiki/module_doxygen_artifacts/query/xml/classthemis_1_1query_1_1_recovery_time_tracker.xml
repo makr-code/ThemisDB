@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_recovery_time_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::RecoveryTimeTracker</compoundname>
+    <includes refid="federation__resilience_8h" local="no">federation_resilience.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_recovery_time_tracker_1ac78cea42c0e367546f5777bcc4e95f29" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::RecoveryTimeTracker::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="167" column="17" bodyfile="include/query/federation_resilience.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_recovery_time_tracker_1a7695f1bf4c44307bf2cfdca0a6f40577" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::RecoveryTimeTracker::recovery_sla_ms_</definition>
+        <argsstring></argsstring>
+        <name>recovery_sla_ms_</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::recovery_sla_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="168" column="14" bodyfile="include/query/federation_resilience.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_recovery_time_tracker_1a0510b2f007db2fc013548519bd43e7a2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::RecoveryTimeTracker::is_degraded_</definition>
+        <argsstring></argsstring>
+        <name>is_degraded_</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::is_degraded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="169" column="10" bodyfile="include/query/federation_resilience.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_recovery_time_tracker_1ab59f6f6fbe5d350050ae5c731c512df6" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::query::RecoveryTimeTracker::degradation_start_</definition>
+        <argsstring></argsstring>
+        <name>degradation_start_</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::degradation_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="170" column="43" bodyfile="include/query/federation_resilience.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_recovery_time_tracker_1a79a7bb12c03982dc1bc1457ac3758d2f" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::RecoveryTimeTracker::total_degradation_time_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_degradation_time_ms_</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::total_degradation_time_ms_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="171" column="14" bodyfile="include/query/federation_resilience.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_recovery_time_tracker_1a3213e217be9152af7a8b4015dca7ae84" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::RecoveryTimeTracker::recovery_event_count_</definition>
+        <argsstring></argsstring>
+        <name>recovery_event_count_</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::recovery_event_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="172" column="14" bodyfile="include/query/federation_resilience.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_recovery_time_tracker_1a6bc6ebe98fc35c395cb35779deb7d904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::RecoveryTimeTracker::RecoveryTimeTracker</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t recovery_sla_ms)</argsstring>
+        <name>RecoveryTimeTracker</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::RecoveryTimeTracker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>recovery_sla_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="144" column="5" bodyfile="src/query/federation_resilience.cpp" bodystart="266" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_recovery_time_tracker_1abb483e987cd8083d1bc18c1b92435374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::RecoveryTimeTracker::markDegraded</definition>
+        <argsstring>()</argsstring>
+        <name>markDegraded</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::markDegraded</qualifiedname>
+        <briefdescription>
+<para>Mark Degraded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="149" column="10" bodyfile="src/query/federation_resilience.cpp" bodystart="279" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_recovery_time_tracker_1a93c56d9cecf3319977575969dd488893" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::RecoveryTimeTracker::markRecovered</definition>
+        <argsstring>()</argsstring>
+        <name>markRecovered</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::markRecovered</qualifiedname>
+        <briefdescription>
+<para>Mark Recovered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), count(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="154" column="10" bodyfile="src/query/federation_resilience.cpp" bodystart="291" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_recovery_time_tracker_1a424e6cb7c17864c0b8b9ca866215890b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::RecoveryTimeTracker::isSLAMet</definition>
+        <argsstring>() const</argsstring>
+        <name>isSLAMet</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::isSLAMet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="156" column="11" bodyfile="src/query/federation_resilience.cpp" bodystart="311" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_recovery_time_tracker_1a3a60a62f54cedb4bb2b1d3e8a10ddee7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::RecoveryTimeTracker::getTimeSinceDegradation</definition>
+        <argsstring>() const</argsstring>
+        <name>getTimeSinceDegradation</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::getTimeSinceDegradation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="158" column="15" bodyfile="src/query/federation_resilience.cpp" bodystart="322" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_recovery_time_tracker_1a0fd247e79058a1bfbefc454752157b9c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::RecoveryTimeTracker::getRecoverySLAMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecoverySLAMs</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::getRecoverySLAMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="160" column="15" bodyfile="src/query/federation_resilience.cpp" bodystart="333" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_recovery_time_tracker_1a338254dcc6013d737df540c9603fab64" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::query::RecoveryTimeTracker::getShardId</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardId</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::getShardId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="162" column="24" bodyfile="src/query/federation_resilience.cpp" bodystart="337" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_recovery_time_tracker_1a0f9a855c9f4d56ca3fe74f63be341de6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::RecoveryTimeTracker::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::query::RecoveryTimeTracker::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="164" column="18" bodyfile="src/query/federation_resilience.cpp" bodystart="341" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/federation_resilience.h" line="142" column="1" bodyfile="include/query/federation_resilience.h" bodystart="142" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1ab59f6f6fbe5d350050ae5c731c512df6" prot="private" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>degradation_start_</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a0fd247e79058a1bfbefc454752157b9c" prot="public" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>getRecoverySLAMs</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a338254dcc6013d737df540c9603fab64" prot="public" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>getShardId</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a0f9a855c9f4d56ca3fe74f63be341de6" prot="public" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a3a60a62f54cedb4bb2b1d3e8a10ddee7" prot="public" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>getTimeSinceDegradation</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a0510b2f007db2fc013548519bd43e7a2" prot="private" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>is_degraded_</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a424e6cb7c17864c0b8b9ca866215890b" prot="public" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>isSLAMet</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1abb483e987cd8083d1bc18c1b92435374" prot="public" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>markDegraded</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a93c56d9cecf3319977575969dd488893" prot="public" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>markRecovered</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a3213e217be9152af7a8b4015dca7ae84" prot="private" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>recovery_event_count_</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a7695f1bf4c44307bf2cfdca0a6f40577" prot="private" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>recovery_sla_ms_</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a6bc6ebe98fc35c395cb35779deb7d904" prot="public" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>RecoveryTimeTracker</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1ac78cea42c0e367546f5777bcc4e95f29" prot="private" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1query_1_1_recovery_time_tracker_1a79a7bb12c03982dc1bc1457ac3758d2f" prot="private" virt="non-virtual"><scope>themis::query::RecoveryTimeTracker</scope><name>total_degradation_time_ms_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

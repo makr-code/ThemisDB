@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_index_analyze_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::IndexAnalyzeConfig</compoundname>
+    <includes refid="index__analyzer_8h" local="no">index_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_index_analyze_config_1a387d5db29654f9cb3a71e81d14721558" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::IndexAnalyzeConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="126" column="10" bodyfile="include/storage/index_analyzer.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analyze_config_1aec09d8348a980c40d178db446fad22e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexAnalyzeConfig::cron_expression</definition>
+        <argsstring></argsstring>
+        <name>cron_expression</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::cron_expression</qualifiedname>
+        <initializer>= &quot;0 2 * * *&quot;</initializer>
+        <briefdescription>
+<para>Default: daily at 02:00. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cron expression controlling when scheduled analysis runs. Standard 5-field POSIX cron syntax; @daily etc. shortcuts supported. Empty string disables cron scheduling (manual-trigger only). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="131" column="17" bodyfile="include/storage/index_analyzer.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analyze_config_1ab22e35e37252e13df5778af3af4f5fb0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref></type>
+        <definition>TierThresholds themis::IndexAnalyzeConfig::hot_thresholds</definition>
+        <argsstring></argsstring>
+        <name>hot_thresholds</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::hot_thresholds</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_tier_thresholds_1ada76e2dc2c33eb6095294a1743335eda" kindref="member">TierThresholds::hot</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="133" column="20" bodyfile="include/storage/index_analyzer.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analyze_config_1acd690fdfb84c7f032c443329824f5e38" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref></type>
+        <definition>TierThresholds themis::IndexAnalyzeConfig::warm_thresholds</definition>
+        <argsstring></argsstring>
+        <name>warm_thresholds</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::warm_thresholds</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_tier_thresholds_1a2f2f46290169903005f272c083b65c49" kindref="member">TierThresholds::warm</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="134" column="20" bodyfile="include/storage/index_analyzer.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analyze_config_1a7535b742ddcee124d3bbfa989b28f6cb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref></type>
+        <definition>TierThresholds themis::IndexAnalyzeConfig::cold_thresholds</definition>
+        <argsstring></argsstring>
+        <name>cold_thresholds</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::cold_thresholds</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_tier_thresholds_1a39ade5e98883a0b6034c3f5ef66e889b" kindref="member">TierThresholds::cold</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="135" column="20" bodyfile="include/storage/index_analyzer.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analyze_config_1a08ebc3dec472478b353e4f6de59db7a1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::IndexAnalyzeConfig::ai_advisor_enabled</definition>
+        <argsstring></argsstring>
+        <name>ai_advisor_enabled</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::ai_advisor_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="138" column="10" bodyfile="include/storage/index_analyzer.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analyze_config_1ab2d99eec82d0fb14a66c65c6e8e5e7dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexAnalyzeConfig::ai_advisor_model</definition>
+        <argsstring></argsstring>
+        <name>ai_advisor_model</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::ai_advisor_model</qualifiedname>
+        <briefdescription>
+<para>Model identifier forwarded to registered advisor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="139" column="17" bodyfile="include/storage/index_analyzer.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analyze_config_1a1a163085273977c43f5cfe9c89a6a266" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_index_entry" kindref="compound">IndexEntry</ref> &gt;</type>
+        <definition>std::vector&lt;IndexEntry&gt; themis::IndexAnalyzeConfig::indices</definition>
+        <argsstring></argsstring>
+        <name>indices</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="141" column="17" bodyfile="include/storage/index_analyzer.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_index_analyze_config_1a532822b8ee9ddb83a694877045e40a02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1_index_analyze_config" kindref="compound">IndexAnalyzeConfig</ref> &gt;</type>
+        <definition>Result&lt; IndexAnalyzeConfig &gt; themis::IndexAnalyzeConfig::fromYamlFile</definition>
+        <argsstring>(const std::string &amp;yaml_path)</argsstring>
+        <name>fromYamlFile</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::fromYamlFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load configuration from a YAML file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Yaml File.</para>
+<para>The file is expected to contain an &quot;index_analyze&quot; root key. Missing keys are filled with defaults; unknown keys are silently ignored.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute or relative path to the YAML file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Loaded config or an error string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: YAML::LoadFile(), IsMap(), THEMIS_WARN(), loadTierThresholds(), <ref refid="structthemis_1_1_tier_thresholds_1ada76e2dc2c33eb6095294a1743335eda" kindref="member">TierThresholds::hot()</ref>, <ref refid="structthemis_1_1_tier_thresholds_1a2f2f46290169903005f272c083b65c49" kindref="member">TierThresholds::warm()</ref>, <ref refid="structthemis_1_1_tier_thresholds_1a39ade5e98883a0b6034c3f5ef66e889b" kindref="member">TierThresholds::cold()</ref>, IsSequence(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="152" column="19" bodyfile="src/storage/index_analyzer.cpp" bodystart="135" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_index_analyze_config_1a4ab9aeb86db6522f712ea6bb5868c8cd" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref> &amp;</type>
+        <definition>const TierThresholds &amp; themis::IndexAnalyzeConfig::thresholdsFor</definition>
+        <argsstring>(storage::StorageTierLevel tier) const noexcept</argsstring>
+        <name>thresholdsFor</name>
+        <qualifiedname>themis::IndexAnalyzeConfig::thresholdsFor</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">storage::StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+<para>Return the threshold set that applies to the given tier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="157" column="26" bodyfile="src/storage/index_analyzer.cpp" bodystart="198" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full YAML-loadable configuration for <ref refid="classthemis_1_1_index_analyzer" kindref="compound">IndexAnalyzer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Maps to the top-level &quot;index_analyze&quot; key in config/index_analyze.yaml (or the main config.yaml).</para>
+<para><programlisting filename=".yaml"><codeline><highlight class="normal">index_analyze:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>enabled:<sp/>true</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>cron_expression:<sp/>&quot;0<sp/>2<sp/>*<sp/>*<sp/>*&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>thresholds:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>hot:<sp/><sp/><sp/>{<sp/>reorganize_pct:<sp/>10,<sp/>partial_rebuild_pct:<sp/>20,<sp/>full_rebuild_pct:<sp/>35,<sp/>stats_stale_hours:<sp/>1<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>warm:<sp/><sp/>{<sp/>reorganize_pct:<sp/>18,<sp/>partial_rebuild_pct:<sp/>32,<sp/>full_rebuild_pct:<sp/>50,<sp/>stats_stale_hours:<sp/>6<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cold:<sp/><sp/>{<sp/>reorganize_pct:<sp/>30,<sp/>partial_rebuild_pct:<sp/>50,<sp/>full_rebuild_pct:<sp/>70,<sp/>stats_stale_hours:<sp/>24<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ai_advisor:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>enabled:<sp/>false</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>model:<sp/>&quot;&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>indices:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>-<sp/>name:<sp/>primary</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>tier:<sp/>hot</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>-<sp/>name:<sp/>vectors</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>tier:<sp/>warm</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::IndexAnalyzeConfig</label>
+        <link refid="structthemis_1_1_index_analyze_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cold_thresholds</edgelabel>
+          <edgelabel>hot_thresholds</edgelabel>
+          <edgelabel>warm_thresholds</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::TierThresholds</label>
+        <link refid="structthemis_1_1_tier_thresholds"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/index_analyzer.h" line="125" column="1" bodyfile="include/storage/index_analyzer.h" bodystart="125" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_index_analyze_config_1a08ebc3dec472478b353e4f6de59db7a1" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>ai_advisor_enabled</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1ab2d99eec82d0fb14a66c65c6e8e5e7dd" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>ai_advisor_model</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1a7535b742ddcee124d3bbfa989b28f6cb" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>cold_thresholds</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1aec09d8348a980c40d178db446fad22e7" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>cron_expression</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1a387d5db29654f9cb3a71e81d14721558" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1a532822b8ee9ddb83a694877045e40a02" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>fromYamlFile</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1ab22e35e37252e13df5778af3af4f5fb0" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>hot_thresholds</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1a1a163085273977c43f5cfe9c89a6a266" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>indices</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1a4ab9aeb86db6522f712ea6bb5868c8cd" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>thresholdsFor</name></member>
+      <member refid="structthemis_1_1_index_analyze_config_1acd690fdfb84c7f032c443329824f5e38" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzeConfig</scope><name>warm_thresholds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

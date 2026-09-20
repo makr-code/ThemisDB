@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_query_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::QueryTimer</compoundname>
+    <includes refid="graphql__metrics_8h" local="no">graphql_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_timer_1a5bc9ac700cbf9ece3eca4fd80bff6e87" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::QueryTimer::operation_type_</definition>
+        <argsstring></argsstring>
+        <name>operation_type_</name>
+        <qualifiedname>themis::graphql::QueryTimer::operation_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="251" column="17" bodyfile="include/api/graphql_metrics.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_timer_1a34f76e01794fdc986088ff10a9168095" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryTimer::depth_</definition>
+        <argsstring></argsstring>
+        <name>depth_</name>
+        <qualifiedname>themis::graphql::QueryTimer::depth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="252" column="12" bodyfile="include/api/graphql_metrics.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_timer_1af8d2e2a65f44bebb999ab6648d333451" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryTimer::field_count_</definition>
+        <argsstring></argsstring>
+        <name>field_count_</name>
+        <qualifiedname>themis::graphql::QueryTimer::field_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="253" column="12" bodyfile="include/api/graphql_metrics.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_timer_1a03621882997d2806b5daa18668f53493" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::graphql::QueryTimer::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::graphql::QueryTimer::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="254" column="43" bodyfile="include/api/graphql_metrics.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_timer_1a27a0c1c5f070f96f723ea76938b19fcb" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::QueryTimer::success_</definition>
+        <argsstring></argsstring>
+        <name>success_</name>
+        <qualifiedname>themis::graphql::QueryTimer::success_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="255" column="10" bodyfile="include/api/graphql_metrics.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_timer_1af920b124b28f029edbecb9cd8096db68" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::QueryTimer::QueryTimer</definition>
+        <argsstring>(const std::string &amp;operation_type, size_t depth, size_t field_count)</argsstring>
+        <name>QueryTimer</name>
+        <qualifiedname>themis::graphql::QueryTimer::QueryTimer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_type</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>field_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="220" column="5" bodyfile="include/api/graphql_metrics.h" bodystart="220" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_timer_1af39ce0d753bd74e7cd03649d524e2ee0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::QueryTimer::~QueryTimer</definition>
+        <argsstring>()</argsstring>
+        <name>~QueryTimer</name>
+        <qualifiedname>themis::graphql::QueryTimer::~QueryTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="228" column="5" bodyfile="include/api/graphql_metrics.h" bodystart="228" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_timer_1a35f5bd5ed2a84cd47ba4a85a9afef92b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::QueryTimer::setSuccess</definition>
+        <argsstring>(bool success)</argsstring>
+        <name>setSuccess</name>
+        <qualifiedname>themis::graphql::QueryTimer::setSuccess</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Set Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSuccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="246" column="10" bodyfile="include/api/graphql_metrics.h" bodystart="246" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_metrics.h" line="218" column="1" bodyfile="include/api/graphql_metrics.h" bodystart="218" bodyend="256"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_query_timer_1a34f76e01794fdc986088ff10a9168095" prot="private" virt="non-virtual"><scope>themis::graphql::QueryTimer</scope><name>depth_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_timer_1af8d2e2a65f44bebb999ab6648d333451" prot="private" virt="non-virtual"><scope>themis::graphql::QueryTimer</scope><name>field_count_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_timer_1a5bc9ac700cbf9ece3eca4fd80bff6e87" prot="private" virt="non-virtual"><scope>themis::graphql::QueryTimer</scope><name>operation_type_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_timer_1af920b124b28f029edbecb9cd8096db68" prot="public" virt="non-virtual"><scope>themis::graphql::QueryTimer</scope><name>QueryTimer</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_timer_1a35f5bd5ed2a84cd47ba4a85a9afef92b" prot="public" virt="non-virtual"><scope>themis::graphql::QueryTimer</scope><name>setSuccess</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_timer_1a03621882997d2806b5daa18668f53493" prot="private" virt="non-virtual"><scope>themis::graphql::QueryTimer</scope><name>start_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_timer_1a27a0c1c5f070f96f723ea76938b19fcb" prot="private" virt="non-virtual"><scope>themis::graphql::QueryTimer</scope><name>success_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_timer_1af39ce0d753bd74e7cd03649d524e2ee0" prot="public" virt="non-virtual"><scope>themis::graphql::QueryTimer</scope><name>~QueryTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

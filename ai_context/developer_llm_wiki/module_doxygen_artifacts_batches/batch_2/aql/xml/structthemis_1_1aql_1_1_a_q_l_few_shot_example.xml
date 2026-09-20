@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLFewShotExample</compoundname>
+    <includes refid="aql__fewshot__example__library_8h" local="no">aql_fewshot_example_library.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a2233b088fa05a78a0f249b5262bfc75e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLFewShotExample::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::aql::AQLFewShotExample::id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier (e.g., &quot;doc_filter_city&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="61" column="23" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a60092692def4b40ffdec3c18a197e7e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLFewShotExample::nl_query</definition>
+        <argsstring></argsstring>
+        <name>nl_query</name>
+        <qualifiedname>themis::aql::AQLFewShotExample::nl_query</qualifiedname>
+        <briefdescription>
+<para>Natural-language query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="62" column="23" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1ae5cf9ec4c6dc70473d2f8eba84c6240e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLFewShotExample::aql_query</definition>
+        <argsstring></argsstring>
+        <name>aql_query</name>
+        <qualifiedname>themis::aql::AQLFewShotExample::aql_query</qualifiedname>
+        <briefdescription>
+<para>Corresponding AQL query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="63" column="23" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a72a5c8bb845cc1c50fe414b21abdf366" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40" kindref="member">AQLExampleDomain</ref></type>
+        <definition>AQLExampleDomain themis::aql::AQLFewShotExample::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::aql::AQLFewShotExample::domain</qualifiedname>
+        <briefdescription>
+<para>Primary query domain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="64" column="23" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a4c68224cebc0d891f61d0df07e3a04d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLFewShotExample::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::aql::AQLFewShotExample::description</qualifiedname>
+        <briefdescription>
+<para>Short human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="65" column="23" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a8ddcab41bcc09d33f5028312ebbff59a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::AQLFewShotExample::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::aql::AQLFewShotExample::tags</qualifiedname>
+        <briefdescription>
+<para>Searchable tags. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="66" column="17" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_fewshot_example_library.h" line="60" column="1" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="60" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1ae5cf9ec4c6dc70473d2f8eba84c6240e" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExample</scope><name>aql_query</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a4c68224cebc0d891f61d0df07e3a04d2" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExample</scope><name>description</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a72a5c8bb845cc1c50fe414b21abdf366" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExample</scope><name>domain</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a2233b088fa05a78a0f249b5262bfc75e" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExample</scope><name>id</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a60092692def4b40ffdec3c18a197e7e4" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExample</scope><name>nl_query</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a8ddcab41bcc09d33f5028312ebbff59a" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExample</scope><name>tags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

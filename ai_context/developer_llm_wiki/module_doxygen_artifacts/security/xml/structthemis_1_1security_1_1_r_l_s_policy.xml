@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_r_l_s_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::RLSPolicy</compoundname>
+    <includes refid="row__level__security_8h" local="no">row_level_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_policy_1aa64d28ba0cd8318be97de387803f6800" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::RLSPolicy::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::security::RLSPolicy::id</qualifiedname>
+        <briefdescription>
+<para>Unique policy identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="60" column="17" bodyfile="include/security/row_level_security.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_policy_1ad49ef4494b1aa2f9134f17c335ab8320" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::RLSPolicy::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::security::RLSPolicy::collection</qualifiedname>
+        <briefdescription>
+<para>Target collection (&quot;&quot; = all). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="61" column="17" bodyfile="include/security/row_level_security.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_policy_1aeaebc4f3fed9deb941442b456ecd216b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::RLSPolicy::applicable_roles</definition>
+        <argsstring></argsstring>
+        <name>applicable_roles</name>
+        <qualifiedname>themis::security::RLSPolicy::applicable_roles</qualifiedname>
+        <briefdescription>
+<para>Matching roles (empty = all users). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="62" column="17" bodyfile="include/security/row_level_security.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_policy_1a339f0694a0f1ac9d0790597993e76c88" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_r_l_s_predicate" kindref="compound">RLSPredicate</ref></type>
+        <definition>RLSPredicate themis::security::RLSPolicy::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>themis::security::RLSPolicy::predicate</qualifiedname>
+        <briefdescription>
+<para>Row filter condition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="63" column="18" bodyfile="include/security/row_level_security.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_policy_1ae0ca6e17491f0824c6f1978073669a51" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1abefdfe8af0aaca298772e062ed7f9101" kindref="member">RLSPolicyType</ref></type>
+        <definition>RLSPolicyType themis::security::RLSPolicy::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::security::RLSPolicy::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1abefdfe8af0aaca298772e062ed7f9101a57676e0bedd941be2b5a7138f24bfd97" kindref="member">RLSPolicyType::PERMISSIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="64" column="19" bodyfile="include/security/row_level_security.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_policy_1a2aad76c58dfdc82e447d625bea8e0d7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::RLSPolicy::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::security::RLSPolicy::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="65" column="10" bodyfile="include/security/row_level_security.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_r_l_s_policy_1a23cc1e09184476301c1cd37a1a5042dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::RLSPolicy::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::RLSPolicy::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="71" column="20" bodyfile="src/security/row_level_security.cpp" bodystart="183" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_r_l_s_policy_1a5d2216c391f893f4ce3c6cb4f43d3ab5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_r_l_s_policy" kindref="compound">RLSPolicy</ref></type>
+        <definition>RLSPolicy themis::security::RLSPolicy::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::security::RLSPolicy::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), is_array(), push_back(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="77" column="22" bodyfile="src/security/row_level_security.cpp" bodystart="200" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::security::RLSPolicy</label>
+        <link refid="structthemis_1_1security_1_1_r_l_s_policy"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>predicate</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::security::RLSPredicate</label>
+        <link refid="structthemis_1_1security_1_1_r_l_s_predicate"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/row_level_security.h" line="59" column="1" bodyfile="include/security/row_level_security.h" bodystart="59" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_r_l_s_policy_1aeaebc4f3fed9deb941442b456ecd216b" prot="public" virt="non-virtual"><scope>themis::security::RLSPolicy</scope><name>applicable_roles</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_policy_1ad49ef4494b1aa2f9134f17c335ab8320" prot="public" virt="non-virtual"><scope>themis::security::RLSPolicy</scope><name>collection</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_policy_1a2aad76c58dfdc82e447d625bea8e0d7e" prot="public" virt="non-virtual"><scope>themis::security::RLSPolicy</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_policy_1a5d2216c391f893f4ce3c6cb4f43d3ab5" prot="public" virt="non-virtual"><scope>themis::security::RLSPolicy</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_policy_1aa64d28ba0cd8318be97de387803f6800" prot="public" virt="non-virtual"><scope>themis::security::RLSPolicy</scope><name>id</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_policy_1a339f0694a0f1ac9d0790597993e76c88" prot="public" virt="non-virtual"><scope>themis::security::RLSPolicy</scope><name>predicate</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_policy_1a23cc1e09184476301c1cd37a1a5042dd" prot="public" virt="non-virtual"><scope>themis::security::RLSPolicy</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_policy_1ae0ca6e17491f0824c6f1978073669a51" prot="public" virt="non-virtual"><scope>themis::security::RLSPolicy</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

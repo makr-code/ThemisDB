@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="raft__log_8h" kind="file" language="C++">
+    <compoundname>raft_log.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="raft__consensus_8h" local="yes">include/sharding/raft_consensus.h</includedby>
+    <includedby refid="raft__state_8h" local="yes">include/sharding/raft_state.h</includedby>
+    <includedby refid="raft__wal__integration_8h" local="yes">include/sharding/raft_wal_integration.h</includedby>
+    <includedby refid="replica__consistency_8h" local="yes">include/sharding/replica_consistency.h</includedby>
+    <includedby refid="raft__log_8cpp" local="yes">src/sharding/raft_log.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/raft_log.h</label>
+        <link refid="raft__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/sharding/raft_consensus.h</label>
+        <link refid="raft__consensus_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/sharding/raft_consensus_adapter.h</label>
+        <link refid="raft__consensus__adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/raft_log.h</label>
+        <link refid="raft__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/sharding/raft_shard_manager.h</label>
+        <link refid="raft__shard__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/sharding/raft_state.h</label>
+        <link refid="raft__state_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/sharding/raft_wal_integration.h</label>
+        <link refid="raft__wal__integration_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/sharding/replica_consistency.h</label>
+        <link refid="replica__consistency_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/sharding/consensus_factory.cpp</label>
+        <link refid="consensus__factory_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/sharding/dual_consensus_orchestrator.cpp</label>
+        <link refid="dual__consensus__orchestrator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/sharding/raft_consensus.cpp</label>
+        <link refid="raft__consensus_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/sharding/raft_consensus_adapter.cpp</label>
+        <link refid="raft__consensus__adapter_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/sharding/raft_log.cpp</label>
+        <link refid="raft__log_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/sharding/raft_shard_manager.cpp</label>
+        <link refid="raft__shard__manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/sharding/raft_state.cpp</label>
+        <link refid="raft__state_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/sharding/raft_wal_integration.cpp</label>
+        <link refid="raft__wal__integration_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/sharding/redundancy_strategy.cpp</label>
+        <link refid="redundancy__strategy_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/sharding/replica_consistency.cpp</label>
+        <link refid="replica__consistency_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/sharding/test_sharding_phase5.cpp</label>
+        <link refid="test__sharding__phase5_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_log_entry" prot="public">themisdb::sharding::LogEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_append_entries_request" prot="public">themisdb::sharding::AppendEntriesRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_append_entries_response" prot="public">themisdb::sharding::AppendEntriesResponse</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_log" prot="public">themisdb::sharding::RaftLog</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_snapshot" prot="public">themisdb::sharding::RaftSnapshot</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk" prot="public">themisdb::sharding::RaftSnapshotChunk</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager" prot="public">themisdb::sharding::RaftSnapshotManager</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config" prot="public">themisdb::sharding::RaftSnapshotManager::Config</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemisdb_1_1sharding_1_1_log_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1afc78a864b8d6d68cb31797769ab777e9" kindref="member">LogEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemisdb_1_1sharding_1_1_log_entry_1a92cb923bc769c179c00dd1239b5e374a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a92cb923bc769c179c00dd1239b5e374a" kindref="member">term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemisdb_1_1sharding_1_1_log_entry_1a774bc66468fc0ef82e1ce28dcd51650b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a774bc66468fc0ef82e1ce28dcd51650b" kindref="member">index</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="40" refid="structthemisdb_1_1sharding_1_1_log_entry_1a9f45bbc3402a5cf07fc06f4d47891f8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a9f45bbc3402a5cf07fc06f4d47891f8e" kindref="member">command</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Serialized<sp/>WAL<sp/>entry<sp/>or<sp/>other<sp/>command</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemisdb_1_1sharding_1_1_log_entry_1a6ab090ef91f9e0903c357b4993d9ebef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a6ab090ef91f9e0903c357b4993d9ebef" kindref="member">timestamp_ns</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>TrueTime<sp/>timestamp<sp/>for<sp/>ordering<sp/>and<sp/>snapshot<sp/>isolation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemisdb_1_1sharding_1_1_log_entry_1afc78a864b8d6d68cb31797769ab777e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1afc78a864b8d6d68cb31797769ab777e9" kindref="member">LogEntry</ref>()<sp/>:<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a92cb923bc769c179c00dd1239b5e374a" kindref="member">term</ref>(0),<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a774bc66468fc0ef82e1ce28dcd51650b" kindref="member">index</ref>(0),<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a6ab090ef91f9e0903c357b4993d9ebef" kindref="member">timestamp_ns</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1sharding_1_1_log_entry_1ac4064dccf0e5a1dc75621f3ce64999ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1ac4064dccf0e5a1dc75621f3ce64999ef" kindref="member">LogEntry</ref>(uint64_t<sp/>t,<sp/>uint64_t<sp/>i,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cmd,<sp/>uint64_t<sp/>ts<sp/>=<sp/>0)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a92cb923bc769c179c00dd1239b5e374a" kindref="member">term</ref>(t),<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a774bc66468fc0ef82e1ce28dcd51650b" kindref="member">index</ref>(i),<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a9f45bbc3402a5cf07fc06f4d47891f8e" kindref="member">command</ref>(cmd),<sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry_1a6ab090ef91f9e0903c357b4993d9ebef" kindref="member">timestamp_ns</ref>(ts)<sp/>{}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemisdb_1_1sharding_1_1_append_entries_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1afdf6a33b349c8a4edf52354639b4ddb3" kindref="member">AppendEntriesRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemisdb_1_1sharding_1_1_append_entries_request_1aed1408a9d649d218a0d0149362967b47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1aed1408a9d649d218a0d0149362967b47" kindref="member">term</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader&apos;s<sp/>term</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1sharding_1_1_append_entries_request_1accbcb1cf52fac30b203d584a8884a022" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1accbcb1cf52fac30b203d584a8884a022" kindref="member">leader_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>So<sp/>follower<sp/>can<sp/>redirect<sp/>clients</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a3dada6ac040f9251cb7ee6a705b0f49a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a3dada6ac040f9251cb7ee6a705b0f49a" kindref="member">prev_log_index</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>of<sp/>log<sp/>entry<sp/>immediately<sp/>preceding<sp/>new<sp/>ones</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a8d5353f91c25625eb653cdaa4188d80a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a8d5353f91c25625eb653cdaa4188d80a" kindref="member">prev_log_term</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Term<sp/>of<sp/>prevLogIndex<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a0607903bda7355bed9bd5755523dcf8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogEntry&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a0607903bda7355bed9bd5755523dcf8a" kindref="member">entries</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>entries<sp/>to<sp/>store<sp/>(empty<sp/>for<sp/>heartbeat)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a3c2aa96750689eb8f0d767d344d50510" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a3c2aa96750689eb8f0d767d344d50510" kindref="member">leader_commit</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader&apos;s<sp/>commitIndex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemisdb_1_1sharding_1_1_append_entries_request_1afdf6a33b349c8a4edf52354639b4ddb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1afdf6a33b349c8a4edf52354639b4ddb3" kindref="member">AppendEntriesRequest</ref>()</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1aed1408a9d649d218a0d0149362967b47" kindref="member">term</ref>(0),<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a3dada6ac040f9251cb7ee6a705b0f49a" kindref="member">prev_log_index</ref>(0),<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a8d5353f91c25625eb653cdaa4188d80a" kindref="member">prev_log_term</ref>(0),<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a3c2aa96750689eb8f0d767d344d50510" kindref="member">leader_commit</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemisdb_1_1sharding_1_1_append_entries_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a456f9bb3a7698328bb1a8bd4301f7ddc" kindref="member">AppendEntriesResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a0d50553108dd81b79d280a2f0b42779e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a0d50553108dd81b79d280a2f0b42779e" kindref="member">term</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>term,<sp/>for<sp/>leader<sp/>to<sp/>update<sp/>itself</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemisdb_1_1sharding_1_1_append_entries_response_1aabc76af2853af0c89c4273ffc5a5098d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1aabc76af2853af0c89c4273ffc5a5098d" kindref="member">success</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>follower<sp/>contained<sp/>entry<sp/>matching<sp/>prevLogIndex<sp/>and<sp/>prevLogTerm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemisdb_1_1sharding_1_1_append_entries_response_1acd1548c7dc334d3bb472f0c43f9d7c6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1acd1548c7dc334d3bb472f0c43f9d7c6e" kindref="member">match_index</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Highest<sp/>log<sp/>index<sp/>known<sp/>to<sp/>match<sp/>(for<sp/>leader<sp/>tracking)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a456f9bb3a7698328bb1a8bd4301f7ddc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a456f9bb3a7698328bb1a8bd4301f7ddc" kindref="member">AppendEntriesResponse</ref>()<sp/>:<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a0d50553108dd81b79d280a2f0b42779e" kindref="member">term</ref>(0),<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1aabc76af2853af0c89c4273ffc5a5098d" kindref="member">success</ref>(false),<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1acd1548c7dc334d3bb472f0c43f9d7c6e" kindref="member">match_index</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="74" refid="structthemisdb_1_1sharding_1_1_append_entries_response_1abd696406b6eafcc4691135a3c8416fb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1abd696406b6eafcc4691135a3c8416fb3" kindref="member">AppendEntriesResponse</ref>(uint64_t<sp/>t,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>s,<sp/>uint64_t<sp/>mi)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a0d50553108dd81b79d280a2f0b42779e" kindref="member">term</ref>(t),<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1aabc76af2853af0c89c4273ffc5a5098d" kindref="member">success</ref>(s),<sp/><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response_1acd1548c7dc334d3bb472f0c43f9d7c6e" kindref="member">match_index</ref>(mi)<sp/>{}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemisdb_1_1sharding_1_1_raft_log" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" kindref="member">RaftLog</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" kindref="member">RaftLog</ref>();</highlight></codeline>
+<codeline lineno="96" refid="classthemisdb_1_1sharding_1_1_raft_log_1acb5fc1a2fecf96db02d6f96e34ea3647" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1acb5fc1a2fecf96db02d6f96e34ea3647" kindref="member">~RaftLog</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemisdb_1_1sharding_1_1_raft_log_1aefea752644f84dcf6cbd9cdc983150c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1aefea752644f84dcf6cbd9cdc983150c2" kindref="member">RaftLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" kindref="member">RaftLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100" refid="classthemisdb_1_1sharding_1_1_raft_log_1adf7f692095a18d7956e2714920866f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" kindref="member">RaftLog</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1adf7f692095a18d7956e2714920866f18" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" kindref="member">RaftLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a1f39aaf50386dc5a8aa48e1c63cf8587" kindref="member">append</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LogEntry&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a3bf6f5b5981ded39f048e38edaf17905" kindref="member">getEntry</ref>(uint64_t<sp/>index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogEntry&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a88a61444b28f557703f64b827ca1bcc8" kindref="member">getEntries</ref>(uint64_t<sp/>start_index,<sp/>uint64_t<sp/>end_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1aff9f417ccd0f81822b98de1be5b544ad" kindref="member">hasEntry</ref>(uint64_t<sp/>index,<sp/>uint64_t<sp/>term)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1ac245fc5f19b74564e62ee010a21ab711" kindref="member">truncateFrom</ref>(uint64_t<sp/>index);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1af20dd3c1d049320c4393beadb2d724bd" kindref="member">setCommitIndex</ref>(uint64_t<sp/>index);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1aa5422ef7451abd121d9e74c96bb67dd1" kindref="member">getCommitIndex</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1af913153aeaf29f6e3cb3e49a17e67cf5" kindref="member">getLastLogIndex</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a5edf03ce44e00336c9f84619a1072a15" kindref="member">getLastLogTerm</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1aca5bf83c8bc59f88381056dd575ed08a" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1aa05fa8affc6e26d0c2f05a06d94ed13e" kindref="member">estimatedSizeBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a08bd1f0cf2c8fe16c31ef4f1653a5e9c" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a4f74a636b1ed9d2cfcee6b607c19806a" kindref="member">compactUpTo</ref>(uint64_t<sp/>snapshot_index,<sp/>uint64_t<sp/>snapshot_term);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a3fee957329d096bcae9120fc4c226878" kindref="member">setSnapshotMeta</ref>(uint64_t<sp/>index,<sp/>uint64_t<sp/>term);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a8973bacd546b9b1852ca16cf20ab3a4d" kindref="member">getSnapshotIndex</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1ab692de4e99b70dc048c6b37360b98aff" kindref="member">getSnapshotTerm</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::timed_mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;uint64_t,<sp/>LogEntry&gt;<sp/>log_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>-&gt;<sp/>LogEntry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>commit_index_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>snapshot_index_{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>snapshot_term_{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RaftSnapshotManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="structthemisdb_1_1sharding_1_1_raft_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot" kindref="compound">RaftSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="248" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a195441f21f6a229ee6ad5fc80393fa91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a195441f21f6a229ee6ad5fc80393fa91" kindref="member">snapshot_index</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a1e1a22104d752a690a376375fd01ec48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a1e1a22104d752a690a376375fd01ec48" kindref="member">snapshot_term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a323381af04efd587e6e8ba34fa6edc98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a323381af04efd587e6e8ba34fa6edc98" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a16599be0f562845277b05278bc2fde6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a16599be0f562845277b05278bc2fde6d" kindref="member">checksum</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a4bfcf804c0291ea1c5a7d742d864e68a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a4bfcf804c0291ea1c5a7d742d864e68a" kindref="member">uncompressed_size</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1aef0b37b21a87b9880f453bdad4721db9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1aef0b37b21a87b9880f453bdad4721db9" kindref="member">timestamp</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk" kindref="compound">RaftSnapshotChunk</ref><sp/>{</highlight></codeline>
+<codeline lineno="264" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a92df53caa840dbd5d00f06039b0d671f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a92df53caa840dbd5d00f06039b0d671f" kindref="member">snapshot_index</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a8eb637858ee2fde3e28f5a5b7584b5eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a8eb637858ee2fde3e28f5a5b7584b5eb" kindref="member">chunk_index</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1ae7e61deaf40b4c227d3f26d7e9a86f2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1ae7e61deaf40b4c227d3f26d7e9a86f2e" kindref="member">total_chunks</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1ae0b68efe96671101d57e16a706540bee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1ae0b68efe96671101d57e16a706540bee" kindref="member">data</ref>;<sp/></highlight></codeline>
+<codeline lineno="268" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a2cb1eb924feb4cbd6996bd3840075037" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a2cb1eb924feb4cbd6996bd3840075037" kindref="member">checksum</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a02bb5ca2d91ad362d31a2b614c549e10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk_1a02bb5ca2d91ad362d31a2b614c549e10" kindref="member">last_chunk</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289" refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" kindref="member">RaftSnapshotManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="292" refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a3ef69e30a8553edbe02b7a80c2154d03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a3ef69e30a8553edbe02b7a80c2154d03" kindref="member">kDefaultChunkSizeBytes</ref><sp/>=<sp/>4<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="295" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a110a872d06d761427c1049c6e69f2633" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a110a872d06d761427c1049c6e69f2633" kindref="member">snapshot_directory</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./snapshots/raft&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a40efcbbbd81b1125df54e0a22c4defa0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a40efcbbbd81b1125df54e0a22c4defa0" kindref="member">compaction_threshold_bytes</ref><sp/>=<sp/>512ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a9feb75f3780315210a5778566b352965" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a9feb75f3780315210a5778566b352965" kindref="member">compression_level</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a37f69929ed3a624cbc385dd72f6480dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a37f69929ed3a624cbc385dd72f6480dd" kindref="member">max_snapshots</ref><sp/>=<sp/>5;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300" refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a0b3364443fc7b34ab49e2edfb8053b9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config_1a0b3364443fc7b34ab49e2edfb8053b9a" kindref="member">chunk_size_bytes</ref><sp/>=<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a3ef69e30a8553edbe02b7a80c2154d03" kindref="member">kDefaultChunkSizeBytes</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" kindref="member">RaftSnapshotManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="304" refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a954bfe0a2246b6cffdedd267e80bcee3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a954bfe0a2246b6cffdedd267e80bcee3" kindref="member">~RaftSnapshotManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307" refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a96e62a6748a9b657cde27432591140a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a96e62a6748a9b657cde27432591140a4" kindref="member">RaftSnapshotManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" kindref="member">RaftSnapshotManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308" refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a6c02f768071f3eda8a533586d4dafa11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" kindref="member">RaftSnapshotManager</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a6c02f768071f3eda8a533586d4dafa11" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" kindref="member">RaftSnapshotManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1accbd5db858d22d675c8f9bd8aeb089bd" kindref="member">createAndInstall</ref>(<ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>snapshot_index,</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>snapshot_term,</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>state_data);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RaftSnapshot&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a31330070436c603508fdd1c2690196c0" kindref="member">loadLatestSnapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RaftSnapshot&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a7f216263225b556dc3dcc0d1f519c3c4" kindref="member">loadSnapshot</ref>(uint64_t<sp/>snapshot_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1ad6a6d5b3ff1e2cc2ee171f4765dbd2ed" kindref="member">shouldCompact</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref>&amp;<sp/>log)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a129f59c5efe071c125b6739097637271" kindref="member">getChunkCount</ref>(uint64_t<sp/>snapshot_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RaftSnapshotChunk&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a96ce59d882a431187e859b45563f4175" kindref="member">getChunk</ref>(uint64_t<sp/>snapshot_index,</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>chunk_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a7193603b20fb0727743c65654235fbc4" kindref="member">listSnapshots</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376" refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a51d61cc40e43fa023d7e1405b14b6019" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a51d61cc40e43fa023d7e1405b14b6019" kindref="member">getSnapshotDirectory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.snapshot_directory;<sp/>}</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>snapshotPath(uint64_t<sp/>snapshot_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupOldSnapshots();</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>computeChecksum(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/raft_log.h"/>
+  </compounddef>
+</doxygen>

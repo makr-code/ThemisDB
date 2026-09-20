@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_08b03aabef5f7e8c5c26c812ba7beddf" kind="dir">
+    <compoundname>src/document</compoundname>
+    <innerfile refid="src_2document_2encrypted__entities_8h">encrypted_entities.h</innerfile>
+    <innerfile refid="round__trip__editor_8cpp">round_trip_editor.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/document/"/>
+  </compounddef>
+</doxygen>

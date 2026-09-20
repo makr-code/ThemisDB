@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1llm__wiki_1_1tests" kind="namespace" language="C++">
+    <compoundname>themis::plugins::llm_wiki::tests</compoundname>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status" prot="public">themis::plugins::llm_wiki::tests::MockStatus</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin" prot="public">themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1tests_1a067e39b8bd9dbe03ab0e31118f0a2c26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::tests::TEST</definition>
+        <argsstring>(LLMWikiRocksDbIntegrationTest, LW06_InitializeWithDbPathSucceeds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::TEST</qualifiedname>
+        <param>
+          <type>LLMWikiRocksDbIntegrationTest</type>
+        </param>
+        <param>
+          <type>LW06_InitializeWithDbPathSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="351" column="1" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="351" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1tests_1a9d597c6cfea0382babefbfbea5096082" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::tests::TEST</definition>
+        <argsstring>(LLMWikiRocksDbIntegrationTest, LW06_DoubleInitializeReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::TEST</qualifiedname>
+        <param>
+          <type>LLMWikiRocksDbIntegrationTest</type>
+        </param>
+        <param>
+          <type>LW06_DoubleInitializeReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="379" column="1" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="379" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1tests_1adb90b3b463b597a62da0c2901bf16ff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::tests::TEST</definition>
+        <argsstring>(LLMWikiRocksDbIntegrationTest, LW07_InitializeWithEmptyPathFallsBackToInMemory)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::TEST</qualifiedname>
+        <param>
+          <type>LLMWikiRocksDbIntegrationTest</type>
+        </param>
+        <param>
+          <type>LW07_InitializeWithEmptyPathFallsBackToInMemory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="395" column="1" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="395" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1tests_1a49d7eff023c1194820b2b2353a1903d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::tests::TEST</definition>
+        <argsstring>(LLMWikiRocksDbIntegrationTest, LW07_InitializeWithEmptyDbPathField)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::TEST</qualifiedname>
+        <param>
+          <type>LLMWikiRocksDbIntegrationTest</type>
+        </param>
+        <param>
+          <type>LW07_InitializeWithEmptyDbPathField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="413" column="1" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="413" bodyend="423"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="247" column="1"/>
+  </compounddef>
+</doxygen>

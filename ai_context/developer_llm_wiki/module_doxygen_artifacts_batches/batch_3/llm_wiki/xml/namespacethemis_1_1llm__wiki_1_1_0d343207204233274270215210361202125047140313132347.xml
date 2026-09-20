@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm__wiki_1_1_0d343207204233274270215210361202125047140313132347" kind="namespace" language="C++">
+    <compoundname>themis::llm_wiki::@343207204233274270215210361202125047140313132347</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm_wiki/process_policy_manager.cpp" line="15" column="1"/>
+  </compounddef>
+</doxygen>

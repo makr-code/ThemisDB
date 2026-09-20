@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_fingerprint_match" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::FingerprintMatch</compoundname>
+    <includes refid="graph__watermark_8h" local="no">graph_watermark.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_fingerprint_match_1ae7b77bffc3e749152c91d6b9a964aade" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::FingerprintMatch::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::graph::FingerprintMatch::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant whose watermark was detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="41" column="17" bodyfile="include/graph/graph_watermark.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_fingerprint_match_1a388a50d4e22beeb8e67ef98d57e5b21e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::FingerprintMatch::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::graph::FingerprintMatch::confidence</qualifiedname>
+        <briefdescription>
+<para>Jaccard similarity score [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="42" column="17" bodyfile="include/graph/graph_watermark.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_watermark.h" line="40" column="1" bodyfile="include/graph/graph_watermark.h" bodystart="40" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_fingerprint_match_1a388a50d4e22beeb8e67ef98d57e5b21e" prot="public" virt="non-virtual"><scope>themis::graph::FingerprintMatch</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1graph_1_1_fingerprint_match_1ae7b77bffc3e749152c91d6b9a964aade" prot="public" virt="non-virtual"><scope>themis::graph::FingerprintMatch</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

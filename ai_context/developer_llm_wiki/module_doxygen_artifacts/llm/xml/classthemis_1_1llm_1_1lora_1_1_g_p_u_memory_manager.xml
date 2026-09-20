@@ -1,0 +1,517 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUMemoryManager</compoundname>
+    <includes refid="gpu__memory_8h" local="no">gpu_memory.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info" prot="public">themis::llm::lora::GPUMemoryManager::BackendInfo</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a3dbd17707b944378110c43e0ad8b8599" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPUMemoryManager::default_device_</definition>
+        <argsstring></argsstring>
+        <name>default_device_</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::default_device_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="133" column="12" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1abc6d0bd76ef8d2f2451be9377d3c568d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::GPUMemoryManager::cpu_allocator_</definition>
+        <argsstring></argsstring>
+        <name>cpu_allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::cpu_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="136" column="21" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1af0bb1acb4c48519b56d8ed49f1156f73" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::GPUMemoryManager::cuda_allocator_</definition>
+        <argsstring></argsstring>
+        <name>cuda_allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::cuda_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="137" column="21" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ae50ab2ce4a118572764a38b206fe79ee" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::GPUMemoryManager::hip_allocator_</definition>
+        <argsstring></argsstring>
+        <name>hip_allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::hip_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="138" column="21" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ae72bc3a895661a06f0d6c7591b02858d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::GPUMemoryManager::vulkan_allocator_</definition>
+        <argsstring></argsstring>
+        <name>vulkan_allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::vulkan_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="139" column="21" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a2e2ed6f59f25302a10c3bf1ab5e7f595" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::GPUMemoryManager::directx_allocator_</definition>
+        <argsstring></argsstring>
+        <name>directx_allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::directx_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="140" column="21" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUMemoryManager::GPUMemoryManager</definition>
+        <argsstring>()</argsstring>
+        <name>GPUMemoryManager</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::GPUMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="65" column="5" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1aaae032084b420353322883a24bbc6424" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUMemoryManager::GPUMemoryManager</definition>
+        <argsstring>(acceleration::BackendType backend)</argsstring>
+        <name>GPUMemoryManager</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::GPUMemoryManager</qualifiedname>
+        <param>
+          <type>acceleration::BackendType</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>GPUMemory Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="72" column="14" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="51" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1abca5ba76049ed5716bcc130daa7b579b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUMemoryManager::~GPUMemoryManager</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUMemoryManager</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::~GPUMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a512675a81e8983e948c6510355b2e3cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUMemoryManager::GPUMemoryManager</definition>
+        <argsstring>(const GPUMemoryManager &amp;)=delete</argsstring>
+        <name>GPUMemoryManager</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::GPUMemoryManager</qualifiedname>
+        <param>
+          <type>const GPUMemoryManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a88b613080296a3ff89126c9ac1462287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref> &amp;</type>
+        <definition>GPUMemoryManager &amp; themis::llm::lora::GPUMemoryManager::operator=</definition>
+        <argsstring>(const GPUMemoryManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="78" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ac7b936325c522ddce2b68ac89ac8d776" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUMemoryManager::GPUMemoryManager</definition>
+        <argsstring>(GPUMemoryManager &amp;&amp;) noexcept</argsstring>
+        <name>GPUMemoryManager</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::GPUMemoryManager</qualifiedname>
+        <param>
+          <type>GPUMemoryManager &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="79" column="5" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="106" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a7da7b719a6b2b7ac6a4304acfcf3a345" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref> &amp;</type>
+        <definition>GPUMemoryManager &amp; themis::llm::lora::GPUMemoryManager::operator=</definition>
+        <argsstring>(GPUMemoryManager &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="80" column="22" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="115" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1aa2036bbfeed98750d99b59ff32ae4a76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> *</type>
+        <definition>VRAMAllocator * themis::llm::lora::GPUMemoryManager::get_allocator</definition>
+        <argsstring>(const Device &amp;device)</argsstring>
+        <name>get_allocator</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::get_allocator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>Get allocator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="87" column="19" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="133" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a99c37da1dc560431b2c3a78e0facbb58" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPUMemoryManager::default_device</definition>
+        <argsstring>() const</argsstring>
+        <name>default_device</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::default_device</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="89" column="12" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a01762919b00453d282cd44d1b0b63111" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUMemoryManager::is_device_available</definition>
+        <argsstring>(const Device &amp;device) const</argsstring>
+        <name>is_device_available</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::is_device_available</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>Is device available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="96" column="10" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="175" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a2b3026d081af27f5ba6366281ffef7a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &gt;</type>
+        <definition>std::vector&lt; Device &gt; themis::llm::lora::GPUMemoryManager::available_devices</definition>
+        <argsstring>() const</argsstring>
+        <name>available_devices</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::available_devices</qualifiedname>
+        <briefdescription>
+<para>Available devices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="102" column="17" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="188" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1aea830f45bb45b2841489c9c1cc2716d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1_1_stats" kindref="compound">VRAMAllocator::Stats</ref></type>
+        <definition>VRAMAllocator::Stats themis::llm::lora::GPUMemoryManager::get_stats</definition>
+        <argsstring>(const Device &amp;device) const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::get_stats</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>Get stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="130" column="26" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="491" bodyend="506"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ac9701eb8ded497e24583b95045466cfb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPUMemoryManager::auto_select_device</definition>
+        <argsstring>()</argsstring>
+        <name>auto_select_device</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::auto_select_device</qualifiedname>
+        <briefdescription>
+<para>Auto select device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a6e0e6da9722095bc0332de9534f8dc92" kindref="member">detect_backends()</ref>, <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2dadc00be8eeb748622cf5c22cf6a55e" kindref="member">Device::vulkan()</ref>, <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2b36573071ecbef41d06d30b2436928b" kindref="member">Device::cuda()</ref>, <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a65d6da6bf2c754a59f415e3808572609" kindref="member">Device::hip()</ref>, <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a36f6972d77f34cde786cd3cfa1bfe602" kindref="member">Device::directx()</ref>, <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="108" column="19" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="224" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a6e0e6da9722095bc0332de9534f8dc92" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info" kindref="compound">BackendInfo</ref> &gt;</type>
+        <definition>std::vector&lt; GPUMemoryManager::BackendInfo &gt; themis::llm::lora::GPUMemoryManager::detect_backends</definition>
+        <argsstring>()</argsstring>
+        <name>detect_backends</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::detect_backends</qualifiedname>
+        <briefdescription>
+<para>Detect backends. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: cudaGetDeviceCount(), cudaGetDeviceProperties(), spdlog::warn(), cudaGetErrorString(), cudaRuntimeGetVersion(), std::to_string(), push_back(), hipGetDeviceCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="123" column="24" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="265" bodyend="489"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ad8f2083b6d5987426f6c34a7e0ec0188" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUMemoryManager::initialize_allocators</definition>
+        <argsstring>(acceleration::BackendType preferred_backend)</argsstring>
+        <name>initialize_allocators</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::initialize_allocators</qualifiedname>
+        <param>
+          <type>acceleration::BackendType</type>
+          <declname>preferred_backend</declname>
+        </param>
+        <briefdescription>
+<para>Helper to initialize allocators. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize allocators.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">preferred_backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">preferred_backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: is_available(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="146" column="10" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="513" bodyend="550"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a683269e6dc7103ca0f28f9abbb68bc95" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>acceleration::BackendType</type>
+        <definition>acceleration::BackendType themis::llm::lora::GPUMemoryManager::device_to_backend</definition>
+        <argsstring>(DeviceType type)</argsstring>
+        <name>device_to_backend</name>
+        <qualifiedname>themis::llm::lora::GPUMemoryManager::device_to_backend</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" kindref="member">DeviceType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" kindref="member">DeviceType</ref> to BackendType. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> to backend.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements device_to_backend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="153" column="38" bodyfile="src/llm/lora_framework/gpu_memory.cpp" bodystart="558" bodyend="567"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_memory.h" line="63" column="1" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="63" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ac9701eb8ded497e24583b95045466cfb" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>auto_select_device</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a2b3026d081af27f5ba6366281ffef7a0" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>available_devices</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1abc6d0bd76ef8d2f2451be9377d3c568d" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>cpu_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1af0bb1acb4c48519b56d8ed49f1156f73" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>cuda_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a99c37da1dc560431b2c3a78e0facbb58" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>default_device</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a3dbd17707b944378110c43e0ad8b8599" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>default_device_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a6e0e6da9722095bc0332de9534f8dc92" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>detect_backends</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a683269e6dc7103ca0f28f9abbb68bc95" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>device_to_backend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a2e2ed6f59f25302a10c3bf1ab5e7f595" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>directx_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1aa2036bbfeed98750d99b59ff32ae4a76" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>get_allocator</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1aea830f45bb45b2841489c9c1cc2716d5" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>GPUMemoryManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1aaae032084b420353322883a24bbc6424" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>GPUMemoryManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a512675a81e8983e948c6510355b2e3cc" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>GPUMemoryManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ac7b936325c522ddce2b68ac89ac8d776" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>GPUMemoryManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ae50ab2ce4a118572764a38b206fe79ee" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>hip_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ad8f2083b6d5987426f6c34a7e0ec0188" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>initialize_allocators</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a01762919b00453d282cd44d1b0b63111" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>is_device_available</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a88b613080296a3ff89126c9ac1462287" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a7da7b719a6b2b7ac6a4304acfcf3a345" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ae72bc3a895661a06f0d6c7591b02858d" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>vulkan_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1abca5ba76049ed5716bcc130daa7b579b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUMemoryManager</scope><name>~GPUMemoryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

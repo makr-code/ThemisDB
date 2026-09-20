@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1knowledge__gap" kind="namespace" language="C++">
+    <compoundname>themis::rag::knowledge_gap</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" prot="public">themis::rag::knowledge_gap::RetrievedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context" prot="public">themis::rag::knowledge_gap::GenerationContext</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" prot="public">themis::rag::knowledge_gap::DetectionResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" prot="public">themis::rag::knowledge_gap::KnowledgeGapConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector" prot="public">themis::rag::knowledge_gap::KnowledgeGapDetector</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory" prot="public">themis::rag::knowledge_gap::KnowledgeGapDetectorFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GapType</name>
+        <qualifiedname>themis::rag::knowledge_gap::GapType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671da2d4660db26e141fe6357113cb62b3c26" prot="public">
+          <name>LOW_SIMILARITY</name>
+          <briefdescription>
+<para>Retrieved documents have low semantic similarity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671dad0d4fdde24b81269dbc8619c493cb0b1" prot="public">
+          <name>INSUFFICIENT_DOCS</name>
+          <briefdescription>
+<para>Not enough documents retrieved. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671da4021e66eb7eebd07235b3e4440bbd646" prot="public">
+          <name>UNCERTAIN_GENERATION</name>
+          <briefdescription>
+<para>LLM indicates low confidence in generation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671dad4b2cd27ea81b2ac6f07f6659cab51d3" prot="public">
+          <name>MISSING_ASPECTS</name>
+          <briefdescription>
+<para>Query aspects not covered by documents. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671da3cb65f7d3b8844ec24984debb5b5a303" prot="public">
+          <name>CONFLICTING_INFO</name>
+          <briefdescription>
+<para>Retrieved documents contain contradictions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671dadfb90d167f000337021c839771338afc" prot="public">
+          <name>OUTDATED_INFO</name>
+          <briefdescription>
+<para>Information may be outdated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671daf0e3496e8e19369c1159ba4e4d21ddd0" prot="public">
+          <name>ETHICAL_PERSPECTIVE_GAP</name>
+          <briefdescription>
+<para>Ethical context detected but insufficient diverse perspectives. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671dab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No gap detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of knowledge gap detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="24" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="24" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FallbackStrategy</name>
+        <qualifiedname>themis::rag::knowledge_gap::FallbackStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7a1d35c50caf4190053a9c5a2232ee3499" prot="public">
+          <name>EXPAND_SEARCH</name>
+          <briefdescription>
+<para>Broaden search with relaxed constraints. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7ad4306b95dcb1a5b514c7cceaea0d9ce6" prot="public">
+          <name>REFORMULATE_QUERY</name>
+          <briefdescription>
+<para>Rephrase and retry search. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7a5e2df2206d54a5023a7592e1885c22a2" prot="public">
+          <name>MULTI_HOP_RETRIEVAL</name>
+          <briefdescription>
+<para>Perform iterative retrieval. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7a27a2700aad54e274903d2ba270cd2d7e" prot="public">
+          <name>INSUFFICIENT_DATA_RESPONSE</name>
+          <briefdescription>
+<para>Return explicit &quot;insufficient information&quot; message. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7a0fa7525581ce17005960d860709e9ff5" prot="public">
+          <name>ESCALATE_TO_BROADER_SOURCE</name>
+          <briefdescription>
+<para>Query additional data sources. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No fallback needed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Recommended action when gap is detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="38" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="38" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1knowledge__gap_1aae26486dc6b85ba49669c70e5bd35a10" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DetectionMode</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1aae26486dc6b85ba49669c70e5bd35a10adca6e617f6fb54033deb311e7e7c93cc" prot="public">
+          <name>FAST</name>
+          <briefdescription>
+<para>Quick detection using only similarity scores (~10ms). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1aae26486dc6b85ba49669c70e5bd35a10a0cb4635d100151dcaac6f91db856c402" prot="public">
+          <name>BALANCED</name>
+          <briefdescription>
+<para>Moderate detection with some LLM checks (~100ms). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1knowledge__gap_1aae26486dc6b85ba49669c70e5bd35a10a648cb855bcd242bf927f02bd05b045a0" prot="public">
+          <name>THOROUGH</name>
+          <briefdescription>
+<para>Comprehensive detection with full validation (~500ms+). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Configuration for detection sensitivity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="50" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="50" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1knowledge__gap_1a249859ab352351e013351e4f395f3ea8" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;( const std::string &amp;<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, size_t k, const std::string &amp;tenant_id)&gt;</type>
+        <definition>using themis::rag::knowledge_gap::RetrievalCallback = 
+std::function&lt;std::vector&lt;RetrievedDocument&gt;(
+    const std::string&amp; query,
+    size_t k,
+    const std::string&amp; tenant_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RetrievalCallback</name>
+        <qualifiedname>themis::rag::knowledge_gap::RetrievalCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type for dynamic document retrieval in the FLARE loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callable receives a reformulated query string and the maximum number of documents to return (k). It must return a (possibly empty) vector of <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> values. An empty return value is interpreted as &quot;no
+additional documents found&quot; and stops the FLARE iteration early.</para>
+<para>Example wiring with VectorIndexManager: <programlisting><codeline><highlight class="normal">detector-&gt;setRetrievalCallback(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[&amp;vec_mgr,<sp/>&amp;db](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>q,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-&gt;<sp/>std::vector&lt;RetrievedDocument&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>embedding<sp/>=<sp/>embed(q);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(embedding.empty())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[st,<sp/>results]<sp/>=<sp/>vec_mgr.searchKnn(embedding,<sp/>k);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!st.ok)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1a8c55ddf4bc0edaaa3205132555fc033c" kindref="member">rag::convertToRetrievedDocuments</ref>(results,<sp/>db);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+</programlisting></para>
+<para>Retrieval callback invoked by FLARE active retrieval.</para>
+<para>F5-2: The callback receives the query, max result count, and a tenant identifier. The tenant_id MUST be forwarded to the underlying vector store so that dynamic re-retrieval always queries the same tenant&apos;s document corpus as the original request — without this, a reformulated FLARE query can silently cross tenant boundaries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="176" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1knowledge__gap_1ad6aad72fb6fd4554e85a84020a3f3b64" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;(const std::string &amp;<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, size_t num_samples)&gt;</type>
+        <definition>using themis::rag::knowledge_gap::LlmSampleFn = 
+std::function&lt;std::vector&lt;std::string&gt;(const std::string&amp; query,
+                                       size_t             num_samples)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmSampleFn</name>
+        <qualifiedname>themis::rag::knowledge_gap::LlmSampleFn</qualifiedname>
+        <briefdescription>
+<para>Callback type for LLM-based self-consistency sample generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When injected via <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a5d59ae754d21b368a79dac079b21b632" kindref="member">KnowledgeGapDetector::setLlmSampleFn()</ref>, the <computeroutput>generateMultipleSamples()</computeroutput> internal method delegates to this function instead of the built-in heuristic sentence-cycling path.</para>
+<para>The callable receives:<itemizedlist>
+<listitem><para><computeroutput>query</computeroutput> The original user query.</para>
+</listitem><listitem><para><computeroutput>num_samples</computeroutput> The requested number of answer candidates.</para>
+</listitem></itemizedlist>
+</para>
+<para>It must return a vector of strings (answer candidates) of any non-zero size. An empty return value causes <computeroutput>generateMultipleSamples()</computeroutput> to fall back to the heuristic path.</para>
+<para>Example wiring with an ILLMPlugin: <programlisting><codeline><highlight class="normal">detector-&gt;setLlmSampleFn(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[&amp;<ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref>](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>q,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>samples;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples.reserve(n);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples.push_back(<ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref>.generate(q,<sp/>0.8f));<sp/></highlight><highlight class="comment">//<sp/>temperature</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>samples;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="209" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1knowledge__gap_1a8ca6fe1c2f8d069929a0ebb2d7be8378" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;claim, const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;docs)&gt;</type>
+        <definition>using themis::rag::knowledge_gap::ClaimVerificationFn = 
+std::function&lt;bool(const std::string&amp; claim,
+                   const std::vector&lt;RetrievedDocument&gt;&amp; docs)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ClaimVerificationFn</name>
+        <qualifiedname>themis::rag::knowledge_gap::ClaimVerificationFn</qualifiedname>
+        <briefdescription>
+<para>Callback type for runtime claim verification (C1 groundedness). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When injected via <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a23603060866bd4c7ed5520e70995e9e2" kindref="member">KnowledgeGapDetector::setClaimVerificationFn()</ref>, the post-generation claim check delegates claim verification to this function. If unset, the detector falls back to the built-in term-overlap heuristic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="220" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_gap_detector.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

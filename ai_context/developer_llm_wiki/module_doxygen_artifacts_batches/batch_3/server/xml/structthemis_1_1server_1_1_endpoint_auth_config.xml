@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_endpoint_auth_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::EndpointAuthConfig</compoundname>
+    <includes refid="api__auth__config_8h" local="no">api_auth_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_endpoint_auth_config_1a7e88026b4aebed81fbece025bd033cec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::EndpointAuthConfig::endpoint_pattern</definition>
+        <argsstring></argsstring>
+        <name>endpoint_pattern</name>
+        <qualifiedname>themis::server::EndpointAuthConfig::endpoint_pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="24" column="17" bodyfile="include/server/api_auth_config.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_endpoint_auth_config_1acb7af356231b7db2f9548b148d8713f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::EndpointAuthConfig::http_method</definition>
+        <argsstring></argsstring>
+        <name>http_method</name>
+        <qualifiedname>themis::server::EndpointAuthConfig::http_method</qualifiedname>
+        <initializer>= &quot;*&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="27" column="17" bodyfile="include/server/api_auth_config.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_endpoint_auth_config_1ad913aced78edf627dfbc377a57f29b61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::EndpointAuthConfig::required_scope</definition>
+        <argsstring></argsstring>
+        <name>required_scope</name>
+        <qualifiedname>themis::server::EndpointAuthConfig::required_scope</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="30" column="17" bodyfile="include/server/api_auth_config.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_endpoint_auth_config_1a7f6e6f3fc9bfc7d52804a49d4b87d8d9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::EndpointAuthConfig::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::server::EndpointAuthConfig::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="33" column="17" bodyfile="include/server/api_auth_config.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_endpoint_auth_config_1a2f995d7db472236fdaa01cf69a2af972" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::EndpointAuthConfig::auth_required</definition>
+        <argsstring></argsstring>
+        <name>auth_required</name>
+        <qualifiedname>themis::server::EndpointAuthConfig::auth_required</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="36" column="10" bodyfile="include/server/api_auth_config.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_endpoint_auth_config_1ad52c77937f855782304e192a0e9075af" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::EndpointAuthConfig::rate_limit_per_minute</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_per_minute</name>
+        <qualifiedname>themis::server::EndpointAuthConfig::rate_limit_per_minute</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="39" column="14" bodyfile="include/server/api_auth_config.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_endpoint_auth_config_1aecfd56b2d66f75c095fe4fcfc31a4f6a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::EndpointAuthConfig::rate_limit_burst</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_burst</name>
+        <qualifiedname>themis::server::EndpointAuthConfig::rate_limit_burst</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="42" column="14" bodyfile="include/server/api_auth_config.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_auth_config.h" line="22" column="1" bodyfile="include/server/api_auth_config.h" bodystart="22" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_endpoint_auth_config_1a7f6e6f3fc9bfc7d52804a49d4b87d8d9" prot="public" virt="non-virtual"><scope>themis::server::EndpointAuthConfig</scope><name>action</name></member>
+      <member refid="structthemis_1_1server_1_1_endpoint_auth_config_1a2f995d7db472236fdaa01cf69a2af972" prot="public" virt="non-virtual"><scope>themis::server::EndpointAuthConfig</scope><name>auth_required</name></member>
+      <member refid="structthemis_1_1server_1_1_endpoint_auth_config_1a7e88026b4aebed81fbece025bd033cec" prot="public" virt="non-virtual"><scope>themis::server::EndpointAuthConfig</scope><name>endpoint_pattern</name></member>
+      <member refid="structthemis_1_1server_1_1_endpoint_auth_config_1acb7af356231b7db2f9548b148d8713f2" prot="public" virt="non-virtual"><scope>themis::server::EndpointAuthConfig</scope><name>http_method</name></member>
+      <member refid="structthemis_1_1server_1_1_endpoint_auth_config_1aecfd56b2d66f75c095fe4fcfc31a4f6a" prot="public" virt="non-virtual"><scope>themis::server::EndpointAuthConfig</scope><name>rate_limit_burst</name></member>
+      <member refid="structthemis_1_1server_1_1_endpoint_auth_config_1ad52c77937f855782304e192a0e9075af" prot="public" virt="non-virtual"><scope>themis::server::EndpointAuthConfig</scope><name>rate_limit_per_minute</name></member>
+      <member refid="structthemis_1_1server_1_1_endpoint_auth_config_1ad913aced78edf627dfbc377a57f29b61" prot="public" virt="non-virtual"><scope>themis::server::EndpointAuthConfig</scope><name>required_scope</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::AuditEvent</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_event_1ace9fe4c5ac1c098e6059d78c096279ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditEvent::eventType</definition>
+        <argsstring></argsstring>
+        <name>eventType</name>
+        <qualifiedname>themis::utils::AuditEvent::eventType</qualifiedname>
+        <briefdescription>
+<para>Machine-readable event type (e.g. &quot;auth.login&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="137" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_event_1adefbeaf52de33a73f2df9a63c4eece0a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditEvent::actorId</definition>
+        <argsstring></argsstring>
+        <name>actorId</name>
+        <qualifiedname>themis::utils::AuditEvent::actorId</qualifiedname>
+        <briefdescription>
+<para>Principal that triggered the event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="138" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_event_1a5fedccf2842b8dd65e5c2fa7f0c237a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditEvent::resourceId</definition>
+        <argsstring></argsstring>
+        <name>resourceId</name>
+        <qualifiedname>themis::utils::AuditEvent::resourceId</qualifiedname>
+        <briefdescription>
+<para>Affected resource identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="139" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_event_1a199521b5efba8c577c61cdf9650b50db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditEvent::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::utils::AuditEvent::payload</qualifiedname>
+        <briefdescription>
+<para>Serialised event body (JSON string recommended). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="140" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_event_1a6d53f4d54efa4e256a5c0f4d77c82a0e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::AuditEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::utils::AuditEvent::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="141" column="43" bodyfile="include/utils/utils_interfaces.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>An audit event to be appended to <ref refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log" kindref="compound">IHashChainAuditLog</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The payload is implementation-defined structured data (e.g. JSON). </para>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="136" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="136" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_event_1adefbeaf52de33a73f2df9a63c4eece0a" prot="public" virt="non-virtual"><scope>themis::utils::AuditEvent</scope><name>actorId</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_event_1ace9fe4c5ac1c098e6059d78c096279ce" prot="public" virt="non-virtual"><scope>themis::utils::AuditEvent</scope><name>eventType</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_event_1a199521b5efba8c577c61cdf9650b50db" prot="public" virt="non-virtual"><scope>themis::utils::AuditEvent</scope><name>payload</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_event_1a5fedccf2842b8dd65e5c2fa7f0c237a8" prot="public" virt="non-virtual"><scope>themis::utils::AuditEvent</scope><name>resourceId</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_event_1a6d53f4d54efa4e256a5c0f4d77c82a0e" prot="public" virt="non-virtual"><scope>themis::utils::AuditEvent</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

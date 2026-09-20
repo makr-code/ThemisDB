@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container" kind="struct" language="C++" prot="protected">
+    <compoundname>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1a98875c6a7614fef3d5929c2f11496fc3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::partition_ids</definition>
+        <argsstring></argsstring>
+        <name>partition_ids</name>
+        <qualifiedname>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::partition_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="41" column="21" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1a09e9ad3967249a5ae02aec2ae5278b4c" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::mtx</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="42" column="20" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1aeeda203f275a0553082990a31e74e44c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::addPartition</definition>
+        <argsstring>(size_t id)</argsstring>
+        <name>addPartition</name>
+        <qualifiedname>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::addPartition</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="44" column="14" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1a5235d3e9fdfabb590e2261192af813db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::removePartition</definition>
+        <argsstring>(size_t id)</argsstring>
+        <name>removePartition</name>
+        <qualifiedname>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::removePartition</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="49" column="14" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1af9553a7a71c512107b8672975d8cc38c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt; size_t &gt; themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::getAllPartitionIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllPartitionIds</name>
+        <qualifiedname>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::getAllPartitionIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="58" column="21" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1a847354046d60c144e6c5fc626764634e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::getPartitionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getPartitionCount</name>
+        <qualifiedname>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer::getPartitionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="63" column="16" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/test_index_iterator_validity.cpp" line="40" column="5" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="40" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1aeeda203f275a0553082990a31e74e44c" prot="public" virt="non-virtual"><scope>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer</scope><name>addPartition</name></member>
+      <member refid="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1af9553a7a71c512107b8672975d8cc38c" prot="public" virt="non-virtual"><scope>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer</scope><name>getAllPartitionIds</name></member>
+      <member refid="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1a847354046d60c144e6c5fc626764634e" prot="public" virt="non-virtual"><scope>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer</scope><name>getPartitionCount</name></member>
+      <member refid="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1a09e9ad3967249a5ae02aec2ae5278b4c" prot="public" virt="non-virtual"><scope>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer</scope><name>mtx</name></member>
+      <member refid="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1a98875c6a7614fef3d5929c2f11496fc3" prot="public" virt="non-virtual"><scope>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer</scope><name>partition_ids</name></member>
+      <member refid="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container_1a5235d3e9fdfabb590e2261192af813db" prot="public" virt="non-virtual"><scope>themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer</scope><name>removePartition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

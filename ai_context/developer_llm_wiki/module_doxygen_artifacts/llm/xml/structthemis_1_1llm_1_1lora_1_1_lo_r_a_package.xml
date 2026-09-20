@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAPackage</compoundname>
+    <includes refid="lora__package__provenance_8h" local="no">lora_package_provenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a4dc782892bf78dde1dbea1d093b023f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::package_id</definition>
+        <argsstring></argsstring>
+        <name>package_id</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::package_id</qualifiedname>
+        <briefdescription>
+<para>Unique package identifier (UUID-like hex). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="57" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a814706fa369417ec94444c615b86aa19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::adapter_id</qualifiedname>
+        <briefdescription>
+<para>Reference to the originating LoRA adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="58" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a19feae53e2fd2be1e4335a38e7044b56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string of this package. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="59" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a75bdf93bc9d60889510f02a5a95adc58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::format</qualifiedname>
+        <briefdescription>
+<para>Serialisation format: &quot;safetensors&quot; | &quot;gguf&quot; | &quot;onnx&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="60" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a50eface9582e3768642a7c2a2c95162a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::weights_hash</definition>
+        <argsstring></argsstring>
+        <name>weights_hash</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::weights_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the packaged adapter weights. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="61" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1ac6ad8e61554b73f6a63624717943e13d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::package_hash</definition>
+        <argsstring></argsstring>
+        <name>package_hash</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::package_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 over all content fields (set by ledger). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="62" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a04c49786bc03234f79f315d0ea62f715" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::parent_hash</definition>
+        <argsstring></argsstring>
+        <name>parent_hash</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::parent_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the previous package version; empty = genesis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="63" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1aaf7c8ba72d56e713f8ba0112e71d3ce4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="64" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a19d6a21d4b924216b8747d59697f9ca1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAPackage::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::metadata</qualifiedname>
+        <briefdescription>
+<para>Application-specific extensions (JSON object). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="65" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a84f5500f43ce1df94fb21bd7799b5676" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAPackage::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation of this package. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="71" column="11" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="163" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a268609b195f8b611d2db376060257e3c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAPackage::computeContentHash</definition>
+        <argsstring>() const</argsstring>
+        <name>computeContentHash</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::computeContentHash</qualifiedname>
+        <briefdescription>
+<para>Compute the canonical SHA-256 hash of all content fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers: adapter_id, version, format, weights_hash, parent_hash, created_at, and the serialised metadata. Does NOT cover package_hash itself to avoid a circular dependency.</para>
+<para><simplesect kind="return"><para>64-character lowercase hex string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="89" column="18" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="193" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a7c77139d2bb546d998c3237b06e52718" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref></type>
+        <definition>LoRAPackage themis::llm::lora::LoRAPackage::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAPackage::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source JSON object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="78" column="25" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="177" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Source-oriented artifact package for a LoRA adapter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> is the rebuildable, source-linked representation of an adapter artifact. It carries the adapter weights hash, the format descriptor, and a parent_hash that links it to the previous version so that the full version history forms a tamper-evident chain.</para>
+<para><simplesect kind="note"><para>package_hash covers all content fields (excluding package_hash itself) and is computed by <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a268609b195f8b611d2db376060257e3c" kindref="member">LoRAPackage::computeContentHash()</ref>. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_package_provenance.h" line="56" column="1" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="56" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a814706fa369417ec94444c615b86aa19" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a268609b195f8b611d2db376060257e3c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>computeContentHash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1aaf7c8ba72d56e713f8ba0112e71d3ce4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a75bdf93bc9d60889510f02a5a95adc58" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>format</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a7c77139d2bb546d998c3237b06e52718" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a19d6a21d4b924216b8747d59697f9ca1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1ac6ad8e61554b73f6a63624717943e13d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>package_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a4dc782892bf78dde1dbea1d093b023f1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>package_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a04c49786bc03234f79f315d0ea62f715" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>parent_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a84f5500f43ce1df94fb21bd7799b5676" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a19feae53e2fd2be1e4335a38e7044b56" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package_1a50eface9582e3768642a7c2a2c95162a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAPackage</scope><name>weights_hash</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

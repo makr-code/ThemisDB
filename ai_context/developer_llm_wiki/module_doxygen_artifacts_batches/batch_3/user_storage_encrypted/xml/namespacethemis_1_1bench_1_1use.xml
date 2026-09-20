@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1use" kind="namespace" language="C++">
+    <compoundname>themis::bench::use</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1use_1a8d002d88976a3456a469efd318222732" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::use::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::use::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all USE lifecycle benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="78" column="27" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1use_1a15c8ee6770f16cd21cdb68f8f299add6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::use::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::use::kRepetitions</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Number of repetitions for variance estimation (p95/p99). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="81" column="22" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1use_1ad592c82ccdbac87f1bff341d93b11cbb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::bench::use::kBenchDataDir</definition>
+        <argsstring></argsstring>
+        <name>kBenchDataDir</name>
+        <qualifiedname>themis::bench::use::kBenchDataDir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_bench_lifecycle&quot;</initializer>
+        <briefdescription>
+<para>Base directory for benchmark test data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="84" column="29" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1use_1a8d002d88976a3456a469efd318222732" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::use::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::use::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all USE benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" line="54" column="27" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1use_1a15c8ee6770f16cd21cdb68f8f299add6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::use::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::use::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of repetitions for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" line="57" column="22" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1ae640ea755b4c143cda8842f55d4e11ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::bench::use::ComputePercentile</definition>
+        <argsstring>(std::vector&lt; double &gt; &amp;times, double percentile)</argsstring>
+        <name>ComputePercentile</name>
+        <qualifiedname>themis::bench::use::ComputePercentile</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>times</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+        </param>
+        <briefdescription>
+<para>Helper to compute percentile from a vector of times (in milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="93" column="15" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="93" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1a3956cc7939112ce3e7c078c631835052" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USK_P5_01_MountLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USK_P5_01_MountLatency</name>
+        <qualifiedname>themis::bench::use::BM_USK_P5_01_MountLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="107" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="107" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1addc543d1bbac2a9793c6a1d5c1b636fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::use::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(false)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::use::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="137" column="5" declfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" declline="137" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1aa466352efe5077029b11bb5b50745c7a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USK_P5_02_UnmountLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USK_P5_02_UnmountLatency</name>
+        <qualifiedname>themis::bench::use::BM_USK_P5_02_UnmountLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="144" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="144" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1a050643fd70333646dab2badc9ca23743" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USK_P5_03_KeyDerivationLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USK_P5_03_KeyDerivationLatency</name>
+        <qualifiedname>themis::bench::use::BM_USK_P5_03_KeyDerivationLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="179" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="179" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1ae2a1d52c65fbb07471c1dcfed4ac1102" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USK_P5_04_KeyRotationLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USK_P5_04_KeyRotationLatency</name>
+        <qualifiedname>themis::bench::use::BM_USK_P5_04_KeyRotationLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="215" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="215" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1a6cd325bd873b8457fe1edbd8cbb82322" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USK_P5_05_ConcurrentMountThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USK_P5_05_ConcurrentMountThroughput</name>
+        <qualifiedname>themis::bench::use::BM_USK_P5_05_ConcurrentMountThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="248" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="248" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1ac79bef8f94bbe79f452ef8b78e964268" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USK_P5_06_EncryptedWriteThroughput_1MB</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USK_P5_06_EncryptedWriteThroughput_1MB</name>
+        <qualifiedname>themis::bench::use::BM_USK_P5_06_EncryptedWriteThroughput_1MB</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="284" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="284" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1ad1df94b96e13b7e1c186f443fd5f9f74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USK_P5_06_EncryptedWriteThroughput_10MB</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USK_P5_06_EncryptedWriteThroughput_10MB</name>
+        <qualifiedname>themis::bench::use::BM_USK_P5_06_EncryptedWriteThroughput_10MB</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="310" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="310" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1a7a1063c36827f8b34bcba3353d922072" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USK_P5_06_EncryptedWriteThroughput_100MB</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USK_P5_06_EncryptedWriteThroughput_100MB</name>
+        <qualifiedname>themis::bench::use::BM_USK_P5_06_EncryptedWriteThroughput_100MB</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="335" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" bodystart="335" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1a276ab7330d3135f36e5a9c8aebbce907" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USE01_ErrorEnumCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USE01_ErrorEnumCast</name>
+        <qualifiedname>themis::bench::use::BM_USE01_ErrorEnumCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" line="63" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1aa8bcc72b39c70be1d9f70e5f891bf321" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USE02_SwitchDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USE02_SwitchDispatch</name>
+        <qualifiedname>themis::bench::use::BM_USE02_SwitchDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" line="80" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" bodystart="80" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1ae0d91ea38d8910a5588bfd6797bafcc3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USE03_StructAlloc</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USE03_StructAlloc</name>
+        <qualifiedname>themis::bench::use::BM_USE03_StructAlloc</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" line="115" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" bodystart="115" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1use_1a7107857a2f3cc94aa9f9267ebf57196e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::use::BM_USE04_BatchCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_USE04_BatchCast</name>
+        <qualifiedname>themis::bench::use::BM_USE04_BatchCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" line="133" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp" bodystart="133" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp" line="73" column="1"/>
+  </compounddef>
+</doxygen>

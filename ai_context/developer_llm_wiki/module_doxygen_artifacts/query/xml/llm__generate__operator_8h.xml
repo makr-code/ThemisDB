@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__generate__operator_8h" kind="file" language="C++">
+    <compoundname>llm_generate_operator.h</compoundname>
+    <includes local="yes">aql/llm_query_context.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/llm_generate_operator.h</label>
+        <link refid="llm__generate__operator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>aql/llm_query_context.h</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_l_l_m_operator_cost" prot="public">themis::query::LLMOperatorCost</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_l_l_m_generate_operator" prot="public">themis::query::LLMGenerateOperator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>LLMGenerateOperator — first-class probabilistic query plan operator for LLM inference within the ThemisDB query executor. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="llm__generate__operator_8h_1autotoc_md0_1s1"><sect2 id="llm__generate__operator_8h_1autotoc_md0">
+<title>Motivation (P1.2)</title><para>LLM inference is a valid query-plan operator: it takes retrieved data as input, applies a probabilistic transformation (language model), and produces structured or unstructured output. Representing it as a first-class <computeroutput>QueryPlanNode</computeroutput> makes it visible in EXPLAIN output, enables cost-based decisions (skip LLM when budget exceeded, use cached result, fan-out to multiple models), and allows the optimizer to reason about combined plans (e.g. VectorSearch → GraphTraversal → LLMGenerate).</para>
+<para><heading level="3">Key design properties</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>is_deterministic = false</computeroutput> — the planner treats LLM outputs as probabilistic; results may differ between identical inputs.</para>
+</listitem><listitem><para>Cost model parameters: <computeroutput>estimated_input_tokens</computeroutput>, <computeroutput>estimated_output_tokens</computeroutput>, <computeroutput>latency_budget_ms</computeroutput>, <computeroutput>token_budget</computeroutput>. When budget is exceeded, the operator exposes a <computeroutput>FallbackPolicy</computeroutput> that the executor enforces.</para>
+</listitem><listitem><para><computeroutput>require_snapshot_context = true</computeroutput> by default — the operator requires that its input sub-operators (retrieval) have been evaluated in a consistent snapshot (see <computeroutput>LLMQueryContext</computeroutput>).</para>
+</listitem><listitem><para><computeroutput>audit_mode</computeroutput> — whether to persist an <computeroutput>AIDecisionAudit</computeroutput> record for this invocation (default: on for production builds).</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Integration points</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>QueryOptimizer::Plan</computeroutput> — extend <computeroutput>Plan</computeroutput> with an optional <computeroutput>llm_operator</computeroutput> when the query contains an LLM INFER / LLM RAG step.</para>
+</listitem><listitem><para><computeroutput>QueryPlanVisualizer</computeroutput> — rendered as node type <computeroutput>LLMGenerate</computeroutput>.</para>
+</listitem><listitem><para><computeroutput>LLMAQLHandler</computeroutput> — instantiates and executes <computeroutput>LLMGenerateOperator</computeroutput> for LLM_INFER and LLM_RAG AQL commands.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="query__plan__visualizer_8h" kindref="compound">include/query/query_plan_visualizer.h</ref> — QueryPlanNode / PlanNodeType </para>
+</simplesect>
+<simplesect kind="see"><para>include/aql/llm_query_context.h — MVCC snapshot context </para>
+</simplesect>
+<simplesect kind="see"><para>src/aql/llm_aql_handler.cpp — execution entry point </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/llm_query_context.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FallbackPolicy<sp/>—<sp/>what<sp/>the<sp/>executor<sp/>does<sp/>when<sp/>the<sp/>LLM<sp/>budget<sp/>is<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9b" kindref="member">LLMFallbackPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba0f1014265c88dc3ebeec7a3218758137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba0f1014265c88dc3ebeec7a3218758137" kindref="member">ReturnEmpty</ref>,</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba9b467d5d8a798eaa507e24e2c5578b92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba9b467d5d8a798eaa507e24e2c5578b92" kindref="member">ReturnRetrievalOnly</ref>,</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba2e5236cbd6f2a1d3abb17c3b74434566" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba2e5236cbd6f2a1d3abb17c3b74434566" kindref="member">PropagateError</ref>,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMOperatorCost<sp/>—<sp/>cost<sp/>model<sp/>for<sp/>the<sp/>LLM<sp/>generate<sp/>operator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1query_1_1_l_l_m_operator_cost" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a9d865893be4f9c1b28a2c80cd5b99d77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a9d865893be4f9c1b28a2c80cd5b99d77" kindref="member">estimated_input_tokens</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1abeddaf3da459c0f157154af95d4c7307" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1abeddaf3da459c0f157154af95d4c7307" kindref="member">estimated_output_tokens</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a4a95a44c39937cc55ebf7d0a4766384e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a4a95a44c39937cc55ebf7d0a4766384e" kindref="member">latency_budget_ms</ref><sp/>=<sp/>10&apos;000;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a5ded0fb48bc31565554145b2a828bcf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a5ded0fb48bc31565554145b2a828bcf5" kindref="member">estimated_cost_units</ref><sp/>=<sp/>5000.0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1ac588409ebfa8024a6a1fafe84f22fa11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1ac588409ebfa8024a6a1fafe84f22fa11" kindref="member">kvcache_miss_expected</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1ae6e016991d0a539d4cfd565637d8dee7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1ae6e016991d0a539d4cfd565637d8dee7" kindref="member">kvcache_miss_penalty_ms</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMGenerateOperator<sp/>—<sp/>the<sp/>operator<sp/>itself</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1query_1_1_l_l_m_generate_operator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa82280717d81f8fc1045a07471e95966" kindref="member">LLMGenerateOperator</ref><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa82280717d81f8fc1045a07471e95966" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa82280717d81f8fc1045a07471e95966" kindref="member">LLMGenerateOperator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1afd303f61f847a183a0f1d90daffc5301" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1afd303f61f847a183a0f1d90daffc5301" kindref="member">LLMGenerateOperator</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aql::LLMQueryContext<sp/>ctx,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6a626fafdec23347e6ba91116c95bdcd" kindref="member">cost</ref>,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>model_id)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>context_(std::move(ctx))</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>cost_(<ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6a626fafdec23347e6ba91116c95bdcd" kindref="member">cost</ref>)</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>model_id_(std::move(model_id))</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>properties</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a951ff9ece574d208e6f464cbc7a1eedd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a951ff9ece574d208e6f464cbc7a1eedd" kindref="member">isDeterministic</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a12b1db7d9e127bf18b848219781aedb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a12b1db7d9e127bf18b848219781aedb4" kindref="member">requiresSnapshotContext</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>require_snapshot_context_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a645f21aefdf46df5a28f7c13678bc0fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a645f21aefdf46df5a28f7c13678bc0fd" kindref="member">setRequireSnapshotContext</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>required)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>require_snapshot_context_<sp/>=<sp/>required;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6a626fafdec23347e6ba91116c95bdcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6a626fafdec23347e6ba91116c95bdcd" kindref="member">cost</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cost_;<sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a359a37a91a48dca6c2bf100327b8777b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a359a37a91a48dca6c2bf100327b8777b" kindref="member">cost</ref>()<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cost_;<sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Context<sp/>&amp;<sp/>routing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a11dd1ae3810b5062f2db0907f7d90a49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>aql::LLMQueryContext&amp;<sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a11dd1ae3810b5062f2db0907f7d90a49" kindref="member">context</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>context_;<sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a2eef476bfef6f216be0f74de5d588bcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a2eef476bfef6f216be0f74de5d588bcb" kindref="member">modelId</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>model_id_;<sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1ac807bfbe6ae63286960e9c38fd8601b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9b" kindref="member">LLMFallbackPolicy</ref><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1ac807bfbe6ae63286960e9c38fd8601b8" kindref="member">fallbackPolicy</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fallback_policy_;<sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1afc46d640a84b9a6ca357d2a3db80b5ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1afc46d640a84b9a6ca357d2a3db80b5ca" kindref="member">setFallbackPolicy</ref>(<ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9b" kindref="member">LLMFallbackPolicy</ref><sp/>p)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>fallback_policy_<sp/>=<sp/>p;<sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1ac6862f7c58e374db8aae5daa1abe0e6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1ac6862f7c58e374db8aae5daa1abe0e6f" kindref="member">withinBudget</ref>(</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>elapsed)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cost_.latency_budget_ms<sp/>==<sp/>0)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed.count())<sp/>&lt;<sp/>cost_.latency_budget_ms;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Governance<sp/>/<sp/>audit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1acad96439f8b0a7828402977376ee325a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1acad96439f8b0a7828402977376ee325a" kindref="member">auditEnabled</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>audit_enabled_;<sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa52aafa0d15868a6f2c568c7cf079fde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa52aafa0d15868a6f2c568c7cf079fde" kindref="member">setAuditEnabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>audit_enabled_<sp/>=<sp/>enabled;<sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>caching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1adb7aae9d2e6455dad7158389372d797c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1adb7aae9d2e6455dad7158389372d797c" kindref="member">allowCachedResult</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>allow_cached_result_;<sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1abfc5b3259d679a21caf8262581e65879" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1abfc5b3259d679a21caf8262581e65879" kindref="member">setAllowCachedResult</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allowed)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>allow_cached_result_<sp/>=<sp/>allowed;<sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>EXPLAIN<sp/>output<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6575ebf0c5800e2cd7385d80b07168b7" kindref="member">toExplainString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>aql::LLMQueryContext<sp/>context_;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref><sp/><sp/><sp/><sp/><sp/><sp/>cost_;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_id_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9b" kindref="member">LLMFallbackPolicy</ref><sp/><sp/><sp/><sp/>fallback_policy_<sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba9b467d5d8a798eaa507e24e2c5578b92" kindref="member">LLMFallbackPolicy::ReturnRetrievalOnly</ref>;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>require_snapshot_context_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit_enabled_<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>allow_cached_result_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inline<sp/>implementation<sp/>of<sp/>toExplainString</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296" refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6575ebf0c5800e2cd7385d80b07168b7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6575ebf0c5800e2cd7385d80b07168b7" kindref="member">LLMGenerateOperator::toExplainString</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>fb<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(fallback_policy_)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba0f1014265c88dc3ebeec7a3218758137" kindref="member">LLMFallbackPolicy::ReturnEmpty</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ReturnEmpty&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba9b467d5d8a798eaa507e24e2c5578b92" kindref="member">LLMFallbackPolicy::ReturnRetrievalOnly</ref>:<sp/><sp/>fb<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ReturnRetrievalOnly&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba2e5236cbd6f2a1d3abb17c3b74434566" kindref="member">LLMFallbackPolicy::PropagateError</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;PropagateError&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLMGenerate<sp/>[model=&quot;</highlight><highlight class="normal"><sp/>+<sp/>model_id_<sp/>+</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>est_cost=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cost_.estimated_cost_units))<sp/>+</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>budget=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(cost_.latency_budget_ms)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;ms&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>deterministic=false&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>snapshot=&quot;</highlight><highlight class="normal"><sp/>+<sp/>context_.isolation_mode<sp/>+</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>fallback=&quot;</highlight><highlight class="normal"><sp/>+<sp/>fb<sp/>+</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>audit=&quot;</highlight><highlight class="normal"><sp/>+<sp/>(audit_enabled_<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;on&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;off&quot;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;]&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/llm_generate_operator.h"/>
+  </compounddef>
+</doxygen>

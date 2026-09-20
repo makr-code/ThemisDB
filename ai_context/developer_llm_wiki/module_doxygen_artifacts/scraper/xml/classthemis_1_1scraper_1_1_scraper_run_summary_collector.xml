@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_scraper_run_summary_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperRunSummaryCollector</compoundname>
+    <includes refid="scraper__run__summary_8h" local="no">scraper_run_summary.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1ad71e11588d3acf6cd72badc1e66657f0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::scraper::ScraperRunSummaryCollector::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="236" column="24" bodyfile="include/scraper/scraper_run_summary.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a232990057900cabbde43587e8aded22b" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummaryCollector::total_urls_</definition>
+        <argsstring></argsstring>
+        <name>total_urls_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::total_urls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="237" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a9a1613c17b0bf84366a92aa000960b59" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummaryCollector::succeeded_</definition>
+        <argsstring></argsstring>
+        <name>succeeded_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::succeeded_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="238" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1ae944bfad9af92a991e4fe4805de6955c" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummaryCollector::failed_fetch_</definition>
+        <argsstring></argsstring>
+        <name>failed_fetch_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::failed_fetch_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="239" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="239" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a5c4d18c9ed57f71d3035f525305a0a7f" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummaryCollector::failed_parse_</definition>
+        <argsstring></argsstring>
+        <name>failed_parse_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::failed_parse_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="240" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1ab98122936661d02137517aad4e3034ac" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummaryCollector::failed_eval_</definition>
+        <argsstring></argsstring>
+        <name>failed_eval_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::failed_eval_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="241" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a063b55b67d981c2ece55ea5d595f18ff" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummaryCollector::failed_write_</definition>
+        <argsstring></argsstring>
+        <name>failed_write_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::failed_write_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="242" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1abd532988cec3f86a8e2564d5fc45991b" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummaryCollector::skipped_burst_</definition>
+        <argsstring></argsstring>
+        <name>skipped_burst_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::skipped_burst_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="243" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="243" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1afaf32fd1e7999328910ec0a04a48198e" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummaryCollector::pages_written_</definition>
+        <argsstring></argsstring>
+        <name>pages_written_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::pages_written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="244" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a419553e0033662a6f555d5ffe5e6309c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::scraper::ScraperRunSummaryCollector::run_duration_ms_</definition>
+        <argsstring></argsstring>
+        <name>run_duration_ms_</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::run_duration_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="245" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="245" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a2e5c5db25c789f35367c04790867e005" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperRunSummaryCollector::attach</definition>
+        <argsstring>(ListeningScraperDiagnosticSink &amp;sink)</argsstring>
+        <name>attach</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::attach</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" kindref="compound">ListeningScraperDiagnosticSink</ref> &amp;</type>
+          <declname>sink</declname>
+        </param>
+        <briefdescription>
+<para>Attach this collector as a listener to the given sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers a lambda that increments the appropriate counter for each emitted <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref>. The lambda holds a raw pointer to <computeroutput>*this</computeroutput>; the collector must outlive the sink (or be reset/detached before destruction).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sink whose events should be counted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="143" column="10" bodyfile="include/scraper/scraper_run_summary.h" bodystart="143" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a975bf589e3dbeefde0eae7b930bae407" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperRunSummaryCollector::recordSuccess</definition>
+        <argsstring>(uint32_t pages=1) noexcept</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::recordSuccess</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>pages</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Record a successful URL completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call once per URL that was successfully written.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of metadata records written for this URL (default 1). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="182" column="10" bodyfile="include/scraper/scraper_run_summary.h" bodystart="182" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a6276fee46324ad58a325d9f1e1d82150" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperRunSummaryCollector::setRunStats</definition>
+        <argsstring>(uint32_t total_urls, uint64_t run_duration_ms) noexcept</argsstring>
+        <name>setRunStats</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::setRunStats</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>total_urls</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>run_duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set aggregate run-level statistics after the run completes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_urls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total URLs that were attempted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>run_duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock run duration in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="194" column="10" bodyfile="include/scraper/scraper_run_summary.h" bodystart="194" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1afb1308c3b9ab678df014d891c9d8b5b8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary" kindref="compound">ScraperRunSummary</ref></type>
+        <definition>ScraperRunSummary themis::scraper::ScraperRunSummaryCollector::summary</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::summary</qualifiedname>
+        <briefdescription>
+<para>Returns a snapshot of the accumulated counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned <ref refid="structthemis_1_1scraper_1_1_scraper_run_summary" kindref="compound">ScraperRunSummary</ref> is a value copy taken under the internal mutex; it will not change after return. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="206" column="24" bodyfile="include/scraper/scraper_run_summary.h" bodystart="206" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a4d87455744a275f65062b70550503f6b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperRunSummaryCollector::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::scraper::ScraperRunSummaryCollector::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all counters to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="222" column="10" bodyfile="include/scraper/scraper_run_summary.h" bodystart="222" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Accumulates per-run fault counters by listening to a <ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" kindref="compound">ListeningScraperDiagnosticSink</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Attach once before the run starts via <ref refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a2e5c5db25c789f35367c04790867e005" kindref="member">attach()</ref>. After the run completes, call <ref refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a975bf589e3dbeefde0eae7b930bae407" kindref="member">recordSuccess()</ref> and <ref refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a6276fee46324ad58a325d9f1e1d82150" kindref="member">setRunStats()</ref>, then retrieve the snapshot with <ref refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1afb1308c3b9ab678df014d891c9d8b5b8" kindref="member">summary()</ref>.</para>
+<para>Thread-safety: all public methods are thread-safe; the listener lambda installed by <ref refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a2e5c5db25c789f35367c04790867e005" kindref="member">attach()</ref> may be invoked concurrently from the scraper bounded thread pool. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_run_summary.h" line="131" column="1" bodyfile="include/scraper/scraper_run_summary.h" bodystart="131" bodyend="246"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a2e5c5db25c789f35367c04790867e005" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>attach</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1ab98122936661d02137517aad4e3034ac" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>failed_eval_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1ae944bfad9af92a991e4fe4805de6955c" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>failed_fetch_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a5c4d18c9ed57f71d3035f525305a0a7f" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>failed_parse_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a063b55b67d981c2ece55ea5d595f18ff" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>failed_write_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1ad71e11588d3acf6cd72badc1e66657f0" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1afaf32fd1e7999328910ec0a04a48198e" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>pages_written_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a975bf589e3dbeefde0eae7b930bae407" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a4d87455744a275f65062b70550503f6b" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>reset</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a419553e0033662a6f555d5ffe5e6309c" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>run_duration_ms_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a6276fee46324ad58a325d9f1e1d82150" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>setRunStats</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1abd532988cec3f86a8e2564d5fc45991b" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>skipped_burst_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a9a1613c17b0bf84366a92aa000960b59" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>succeeded_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1afb1308c3b9ab678df014d891c9d8b5b8" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>summary</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1a232990057900cabbde43587e8aded22b" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRunSummaryCollector</scope><name>total_urls_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1util_1_1_self_awareness_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::util::SelfAwareness::Config</compoundname>
+    <includes refid="self__awareness_8h" local="no">self_awareness.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a4fa27bf4c16fd18632a67717e8bf0fac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::SelfAwareness::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="150" column="14" bodyfile="include/utils/self_awareness.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1ab2de774ae6834de8dd7e808bdeb6f0ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::SelfAwareness::Config::on_audit_signing</definition>
+        <argsstring></argsstring>
+        <name>on_audit_signing</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::on_audit_signing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="153" column="14" bodyfile="include/utils/self_awareness.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a0a18bfdd8ace95090b99ccf2694fb0e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::SelfAwareness::Config::on_schedule</definition>
+        <argsstring></argsstring>
+        <name>on_schedule</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::on_schedule</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="154" column="14" bodyfile="include/utils/self_awareness.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1ac1c51af6b2fba20e7124629b6bd2671c" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::util::SelfAwareness::Config::schedule_interval</definition>
+        <argsstring></argsstring>
+        <name>schedule_interval</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::schedule_interval</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="155" column="30" bodyfile="include/utils/self_awareness.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a44ede1751052547cfff1c7c0963f1a65" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::Config::cpu_warning_threshold</definition>
+        <argsstring></argsstring>
+        <name>cpu_warning_threshold</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::cpu_warning_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="158" column="16" bodyfile="include/utils/self_awareness.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a03b78d68a1b819ee225867651729cf78" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::Config::cpu_critical_threshold</definition>
+        <argsstring></argsstring>
+        <name>cpu_critical_threshold</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::cpu_critical_threshold</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="159" column="16" bodyfile="include/utils/self_awareness.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a90bf7382f741163e1489c1e0af60ea15" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::Config::memory_warning_threshold</definition>
+        <argsstring></argsstring>
+        <name>memory_warning_threshold</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::memory_warning_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="160" column="16" bodyfile="include/utils/self_awareness.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a4f541016de11308285cd6ada815a7776" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::Config::memory_critical_threshold</definition>
+        <argsstring></argsstring>
+        <name>memory_critical_threshold</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::memory_critical_threshold</qualifiedname>
+        <initializer>= 0.90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="161" column="16" bodyfile="include/utils/self_awareness.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a8047e78172c184fc4ba478d1d6cbd258" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::Config::disk_warning_threshold</definition>
+        <argsstring></argsstring>
+        <name>disk_warning_threshold</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::disk_warning_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="162" column="16" bodyfile="include/utils/self_awareness.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a4d34f089a00486d868ad61c356c17426" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::Config::disk_critical_threshold</definition>
+        <argsstring></argsstring>
+        <name>disk_critical_threshold</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::disk_critical_threshold</qualifiedname>
+        <initializer>= 0.90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="163" column="16" bodyfile="include/utils/self_awareness.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a4194ba5cc36158e25b7246d7e2ea51a0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::Config::max_snapshots_retained</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots_retained</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::max_snapshots_retained</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="166" column="18" bodyfile="include/utils/self_awareness.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a1e8bffa9c6a7e79245883865430adaff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::SelfAwareness::Config::persist_snapshots</definition>
+        <argsstring></argsstring>
+        <name>persist_snapshots</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::persist_snapshots</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="167" column="14" bodyfile="include/utils/self_awareness.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a2441214e76a9fc3a5ec6330e705470fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::util::SelfAwareness::Config::snapshot_directory</definition>
+        <argsstring></argsstring>
+        <name>snapshot_directory</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::snapshot_directory</qualifiedname>
+        <initializer>= &quot;/var/lib/themisdb/self-awareness&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="168" column="21" bodyfile="include/utils/self_awareness.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1util_1_1_self_awareness_1_1_config_1a33295f01069c3c0cb3139ff33cdc40d7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1util_1_1_self_awareness_1_1_config" kindref="compound">Config</ref></type>
+        <definition>SelfAwareness::Config themis::util::SelfAwareness::Config::loadFromYAML</definition>
+        <argsstring>(const std::string &amp;yaml_path)</argsstring>
+        <name>loadFromYAML</name>
+        <qualifiedname>themis::util::SelfAwareness::Config::loadFromYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load From YAML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load configuration from YAML</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="capability__auto__generator_8cpp_1a8e391d72e4b19d5d7230e64635855b3f" kindref="member">THEMIS_UTILS_HAS_YAML_CPP()</ref>, YAML::LoadFile(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="173" column="23" bodyfile="src/utils/self_awareness.cpp" bodystart="54" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for self-awareness system </para>
+    </detaileddescription>
+    <location file="include/utils/self_awareness.h" line="149" column="5" bodyfile="include/utils/self_awareness.h" bodystart="149" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a03b78d68a1b819ee225867651729cf78" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>cpu_critical_threshold</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a44ede1751052547cfff1c7c0963f1a65" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>cpu_warning_threshold</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a4d34f089a00486d868ad61c356c17426" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>disk_critical_threshold</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a8047e78172c184fc4ba478d1d6cbd258" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>disk_warning_threshold</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a4fa27bf4c16fd18632a67717e8bf0fac" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a33295f01069c3c0cb3139ff33cdc40d7" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>loadFromYAML</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a4194ba5cc36158e25b7246d7e2ea51a0" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>max_snapshots_retained</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a4f541016de11308285cd6ada815a7776" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>memory_critical_threshold</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a90bf7382f741163e1489c1e0af60ea15" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>memory_warning_threshold</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1ab2de774ae6834de8dd7e808bdeb6f0ae" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>on_audit_signing</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a0a18bfdd8ace95090b99ccf2694fb0e9" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>on_schedule</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a1e8bffa9c6a7e79245883865430adaff" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>persist_snapshots</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1ac1c51af6b2fba20e7124629b6bd2671c" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>schedule_interval</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_config_1a2441214e76a9fc3a5ec6330e705470fc" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Config</scope><name>snapshot_directory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

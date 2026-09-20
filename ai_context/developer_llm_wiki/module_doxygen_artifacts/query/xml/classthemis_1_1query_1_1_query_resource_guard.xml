@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_resource_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryResourceGuard</compoundname>
+    <includes refid="query__resource__limits_8h" local="no">query_resource_limits.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Violation</name>
+        <qualifiedname>themis::query::QueryResourceGuard::Violation</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a31d35d0204e351c69aa85aba9b410712" prot="public">
+          <name>RowLimit</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a2dd6f1d41cc4c4d5d2010adb8be27f96" prot="public">
+          <name>MemoryLimit</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1ac85a251cc457840f1e032f1b733e9398" prot="public">
+          <name>Timeout</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="52" column="5" bodyfile="include/query/query_resource_limits.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_resource_guard_1afd670124e4d0f4cc16f62adabe85e4c7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref></type>
+        <definition>QueryResourceLimits themis::query::QueryResourceGuard::limits_</definition>
+        <argsstring></argsstring>
+        <name>limits_</name>
+        <qualifiedname>themis::query::QueryResourceGuard::limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="79" column="25" bodyfile="include/query/query_resource_limits.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_resource_guard_1aa49e1ea73760d1863421912db5f308ee" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryResourceGuard::row_count_</definition>
+        <argsstring></argsstring>
+        <name>row_count_</name>
+        <qualifiedname>themis::query::QueryResourceGuard::row_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="80" column="12" bodyfile="include/query/query_resource_limits.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_resource_guard_1a0c4238ce99821a374736afa6871ffcb9" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryResourceGuard::memory_bytes_</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes_</name>
+        <qualifiedname>themis::query::QueryResourceGuard::memory_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="81" column="12" bodyfile="include/query/query_resource_limits.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_resource_guard_1a5ecb1e5bb5254bef243b89d5cf546c08" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::query::QueryResourceGuard::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::query::QueryResourceGuard::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="82" column="43" bodyfile="include/query/query_resource_limits.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_resource_guard_1aa07c6f13aba04627ef433d15b60a40d3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryResourceGuard::QueryResourceGuard</definition>
+        <argsstring>(const QueryResourceLimits &amp;limits)</argsstring>
+        <name>QueryResourceGuard</name>
+        <qualifiedname>themis::query::QueryResourceGuard::QueryResourceGuard</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref> &amp;</type>
+          <declname>limits</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Resource Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="36" column="14" bodyfile="include/query/query_resource_limits.h" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_resource_guard_1af89e027d816f6cede9f27a59162c6fb7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryResourceGuard::isTimedOut</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isTimedOut</name>
+        <qualifiedname>themis::query::QueryResourceGuard::isTimedOut</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="43" column="11" bodyfile="include/query/query_resource_limits.h" bodystart="43" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_resource_guard_1a4269fcb2d3248eb795df4a51ec9161ea" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1" kindref="member">Violation</ref></type>
+        <definition>Violation themis::query::QueryResourceGuard::checkRow</definition>
+        <argsstring>(size_t row_bytes=0) noexcept</argsstring>
+        <name>checkRow</name>
+        <qualifiedname>themis::query::QueryResourceGuard::checkRow</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>row_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="54" column="16" bodyfile="include/query/query_resource_limits.h" bodystart="54" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_resource_guard_1aaf7e9ad1854f46723f3bb951a1514857" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryResourceGuard::rowCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rowCount</name>
+        <qualifiedname>themis::query::QueryResourceGuard::rowCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="68" column="12" bodyfile="include/query/query_resource_limits.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_resource_guard_1a61adb26650922d46389e7e9e5c26a2d7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryResourceGuard::memoryBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>memoryBytes</name>
+        <qualifiedname>themis::query::QueryResourceGuard::memoryBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="69" column="12" bodyfile="include/query/query_resource_limits.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_resource_guard_1a9525bdb4787e27a2f8a5c8d4941a1d81" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryResourceGuard::elapsedMs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>elapsedMs</name>
+        <qualifiedname>themis::query::QueryResourceGuard::elapsedMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="70" column="14" bodyfile="include/query/query_resource_limits.h" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_resource_guard_1ae9ac2b5ef640de2e5e3b6652197cdef2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref> &amp;</type>
+        <definition>const QueryResourceLimits &amp; themis::query::QueryResourceGuard::limits</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>limits</name>
+        <qualifiedname>themis::query::QueryResourceGuard::limits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="76" column="31" bodyfile="include/query/query_resource_limits.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_resource_limits.h" line="29" column="1" bodyfile="include/query/query_resource_limits.h" bodystart="29" bodyend="83"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1a4269fcb2d3248eb795df4a51ec9161ea" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>checkRow</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1a9525bdb4787e27a2f8a5c8d4941a1d81" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>elapsedMs</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1af89e027d816f6cede9f27a59162c6fb7" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>isTimedOut</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1ae9ac2b5ef640de2e5e3b6652197cdef2" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>limits</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1afd670124e4d0f4cc16f62adabe85e4c7" prot="private" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>limits_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1a0c4238ce99821a374736afa6871ffcb9" prot="private" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>memory_bytes_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1a61adb26650922d46389e7e9e5c26a2d7" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>memoryBytes</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1aa07c6f13aba04627ef433d15b60a40d3" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>QueryResourceGuard</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1aa49e1ea73760d1863421912db5f308ee" prot="private" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>row_count_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1aaf7e9ad1854f46723f3bb951a1514857" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>rowCount</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1a5ecb1e5bb5254bef243b89d5cf546c08" prot="private" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>start_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceGuard</scope><name>Violation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

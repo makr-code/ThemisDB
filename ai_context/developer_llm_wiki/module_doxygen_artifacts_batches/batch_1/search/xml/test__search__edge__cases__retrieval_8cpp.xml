@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__search__edge__cases__retrieval_8cpp" kind="file" language="C++">
+    <compoundname>test_search_edge_cases_retrieval.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="hybrid__search_8h" local="yes">search/hybrid_search.h</includes>
+    <includes refid="search__error__codes_8h" local="yes">search/search_error_codes.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>search/hybrid_search.h</label>
+        <link refid="hybrid__search_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>search/search_error_codes.h</label>
+        <link refid="search__error__codes_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/search/test_search_edge_cases_retrieval.cpp</label>
+        <link refid="test__search__edge__cases__retrieval_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="16">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="4">
+        <label>limits</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>themis/export.h</label>
+      </node>
+      <node id="10">
+        <label>themis/search/llm_reranker_factory.h</label>
+      </node>
+      <node id="9">
+        <label>themis/search/llm_reranker_interface.h</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search">themis::search</innernamespace>
+    <briefdescription>
+<para>Current retrieval contract smoke tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hybrid__search_8h" kindref="compound">search/hybrid_search.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="search__error__codes_8h" kindref="compound">search/search_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1search" kindref="compound">themis::search</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RetrieverEdgeCasesTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockRetriever<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>bm25_available<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>vector_available<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bm25_results<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vector_results<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" kindref="member">SearchErrorCode</ref><sp/>retrieve_bm25([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;&amp;<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bm25_available)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda75ba1dc6d1326679b1e19a06c1e243e8" kindref="member">SearchErrorCode::BM25_BACKEND_UNAVAILABLE</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>results.resize(std::min(k,<sp/>bm25_results));</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>results.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results[i].document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bm25_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results[i].bm25_score<sp/>=<sp/>100.0<sp/>-<sp/>(i<sp/>*<sp/>5.0);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SearchErrorCode::SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" kindref="member">SearchErrorCode</ref><sp/>retrieve_vector([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;&amp;<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!vector_available)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda21155176002013a456016f838dfd876d" kindref="member">SearchErrorCode::VECTOR_BACKEND_UNAVAILABLE</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>results.resize(std::min(k,<sp/>vector_results));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>results.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results[i].document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vec_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results[i].vector_score<sp/>=<sp/>95.0<sp/>-<sp/>(i<sp/>*<sp/>4.0);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SearchErrorCode::SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(RetrieverEdgeCasesTest,<sp/>RET_01_EmptyBM25Results)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/>MockRetriever<sp/>retriever;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>retriever.bm25_results<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/>retriever.vector_results<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>retriever.retrieve_bm25(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>results);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>EXPECT_EQ(results.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>EXPECT_EQ(status,<sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SearchErrorCode::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(RetrieverEdgeCasesTest,<sp/>RET_02_EmptyVectorResults)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>MockRetriever<sp/>retriever;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/>retriever.bm25_results<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/>retriever.vector_results<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>retriever.retrieve_vector(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>results);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/>EXPECT_EQ(results.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/>EXPECT_EQ(status,<sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SearchErrorCode::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(RetrieverEdgeCasesTest,<sp/>RET_03_BothBackendsUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>MockRetriever<sp/>retriever;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>retriever.bm25_available<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>retriever.vector_available<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>bm25_results;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>vec_results;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bm25_status<sp/>=<sp/>retriever.retrieve_bm25(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>bm25_results);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vec_status<sp/>=<sp/>retriever.retrieve_vector(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>vec_results);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>EXPECT_EQ(bm25_status,<sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda75ba1dc6d1326679b1e19a06c1e243e8" kindref="member">SearchErrorCode::BM25_BACKEND_UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>EXPECT_EQ(vec_status,<sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda21155176002013a456016f838dfd876d" kindref="member">SearchErrorCode::VECTOR_BACKEND_UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/>EXPECT_EQ(bm25_results.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>EXPECT_EQ(vec_results.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(RetrieverEdgeCasesTest,<sp/>RET_06_PartialBackendDegradation)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>MockRetriever<sp/>retriever;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/>retriever.bm25_available<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>retriever.vector_available<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>retriever.bm25_results<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/>retriever.vector_results<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>retriever.retrieve_vector(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>results);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>EXPECT_EQ(status,<sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SearchErrorCode::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/>EXPECT_EQ(results.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(RetrieverEdgeCasesTest,<sp/>RET_09_BoundaryK1)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>MockRetriever<sp/>retriever;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/>retriever.bm25_results<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>retriever.retrieve_bm25(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>results);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>EXPECT_EQ(status,<sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SearchErrorCode::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/>EXPECT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(RetrieverEdgeCasesTest,<sp/>RET_11_BoundaryMaxK)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/>MockRetriever<sp/>retriever;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>retriever.vector_results<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>retriever.retrieve_vector(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>std::numeric_limits&lt;size_t&gt;::max(),<sp/>results);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/>EXPECT_EQ(status,<sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SearchErrorCode::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/>EXPECT_EQ(results.size(),<sp/>1000u);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(RetrieverEdgeCasesTest,<sp/>RET_12_BoundaryK0)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>MockRetriever<sp/>retriever;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>retriever.bm25_results<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>retriever.retrieve_bm25(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>results);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>EXPECT_EQ(status,<sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SearchErrorCode::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/>EXPECT_EQ(results.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::search</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/search/test_search_edge_cases_retrieval.cpp"/>
+  </compounddef>
+</doxygen>

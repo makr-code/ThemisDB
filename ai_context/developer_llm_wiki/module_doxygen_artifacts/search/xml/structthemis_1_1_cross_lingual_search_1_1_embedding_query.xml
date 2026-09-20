@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_cross_lingual_search_1_1_embedding_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CrossLingualSearch::EmbeddingQuery</compoundname>
+    <includes refid="cross__lingual__search_8h" local="no">cross_lingual_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_embedding_query_1ad896ec4003674bf289cf63f438402f5a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::CrossLingualSearch::EmbeddingQuery::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::CrossLingualSearch::EmbeddingQuery::embedding</qualifiedname>
+        <briefdescription>
+<para>Pre-computed multilingual embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="112" column="21" bodyfile="include/search/cross_lingual_search.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_embedding_query_1a5372949cfd1dbcbcd4a33f3195e52272" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::CrossLingualSearch::EmbeddingQuery::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::CrossLingualSearch::EmbeddingQuery::weight</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Relative weight in RRF fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="113" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single query embedding with its fusion weight. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/cross_lingual_search.h" line="111" column="5" bodyfile="include/search/cross_lingual_search.h" bodystart="111" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_embedding_query_1ad896ec4003674bf289cf63f438402f5a" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::EmbeddingQuery</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_embedding_query_1a5372949cfd1dbcbcd4a33f3195e52272" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::EmbeddingQuery</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

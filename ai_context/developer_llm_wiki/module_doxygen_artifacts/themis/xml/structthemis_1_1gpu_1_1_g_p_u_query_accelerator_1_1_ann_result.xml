@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator::AnnResult</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result_1a746e7fae5e584444372116bbec5389ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_neighbor" kindref="compound">AnnNeighbor</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;AnnNeighbor&gt; &gt; themis::gpu::GPUQueryAccelerator::AnnResult::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::AnnResult::results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>results[query_idx] holds the k nearest neighbors for that query, sorted ascending by distance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="159" column="21" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result_1ab875e638f7a9003eb690aa6dccce7575" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUQueryAccelerator::AnnResult::used_gpu</definition>
+        <argsstring></argsstring>
+        <name>used_gpu</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::AnnResult::used_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="160" column="14" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="156" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="156" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result_1a746e7fae5e584444372116bbec5389ab" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::AnnResult</scope><name>results</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result_1ab875e638f7a9003eb690aa6dccce7575" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::AnnResult</scope><name>used_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

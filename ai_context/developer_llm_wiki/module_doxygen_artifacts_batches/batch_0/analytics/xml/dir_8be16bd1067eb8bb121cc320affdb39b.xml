@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8be16bd1067eb8bb121cc320affdb39b" kind="dir">
+    <compoundname>include/analytics</compoundname>
+    <innerdir refid="dir_3d950e3ae3d55b8722a1d4c364174dbd">include/analytics/detail</innerdir>
+    <innerfile refid="aggregation_8h">aggregation.h</innerfile>
+    <innerfile refid="analytics__api__contract_8h">analytics_api_contract.h</innerfile>
+    <innerfile refid="analytics__engine_8h">analytics_engine.h</innerfile>
+    <innerfile refid="analytics__export_8h">analytics_export.h</innerfile>
+    <innerfile refid="anomaly__detection_8h">anomaly_detection.h</innerfile>
+    <innerfile refid="arrow__export_8h">arrow_export.h</innerfile>
+    <innerfile refid="arrow__flight_8h">arrow_flight.h</innerfile>
+    <innerfile refid="automl_8h">automl.h</innerfile>
+    <innerfile refid="cep__engine_8h">cep_engine.h</innerfile>
+    <innerfile refid="columnar__execution_8h">columnar_execution.h</innerfile>
+    <innerfile refid="connection__guard_8h">connection_guard.h</innerfile>
+    <innerfile refid="diff__engine_8h">diff_engine.h</innerfile>
+    <innerfile refid="distributed__analytics_8h">distributed_analytics.h</innerfile>
+    <innerfile refid="expert__system__engine_8h">expert_system_engine.h</innerfile>
+    <innerfile refid="forecasting_8h">forecasting.h</innerfile>
+    <innerfile refid="incremental__view_8h">incremental_view.h</innerfile>
+    <innerfile refid="jit__aggregation_8h">jit_aggregation.h</innerfile>
+    <innerfile refid="knowledge__base_8h">knowledge_base.h</innerfile>
+    <innerfile refid="llm__process__analyzer_8h">llm_process_analyzer.h</innerfile>
+    <innerfile refid="lora__pattern__classifier_8h">lora_pattern_classifier.h</innerfile>
+    <innerfile refid="ml__serving_8h">ml_serving.h</innerfile>
+    <innerfile refid="model__serving_8h">model_serving.h</innerfile>
+    <innerfile refid="nlp__text__analyzer_8h">nlp_text_analyzer.h</innerfile>
+    <innerfile refid="olap_8h">olap.h</innerfile>
+    <innerfile refid="process__mining_8h">process_mining.h</innerfile>
+    <innerfile refid="process__pattern__matcher_8h">process_pattern_matcher.h</innerfile>
+    <innerfile refid="result__aggregator_8h">result_aggregator.h</innerfile>
+    <innerfile refid="streaming__join_8h">streaming_join.h</innerfile>
+    <innerfile refid="streaming__window_8h">streaming_window.h</innerfile>
+    <innerfile refid="thread__guard_8h">thread_guard.h</innerfile>
+    <innerfile refid="time__series_8h">time_series.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/"/>
+  </compounddef>
+</doxygen>

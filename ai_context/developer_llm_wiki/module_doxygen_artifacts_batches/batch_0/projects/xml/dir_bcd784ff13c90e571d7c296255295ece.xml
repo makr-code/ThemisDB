@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_bcd784ff13c90e571d7c296255295ece" kind="dir">
+    <compoundname>src/projects</compoundname>
+    <innerfile refid="collaboration__manager_8cpp">collaboration_manager.cpp</innerfile>
+    <innerfile refid="in__memory__project__audit__log_8cpp">in_memory_project_audit_log.cpp</innerfile>
+    <innerfile refid="project__diff_8cpp">project_diff.cpp</innerfile>
+    <innerfile refid="project__lifecycle_8cpp">project_lifecycle.cpp</innerfile>
+    <innerfile refid="project__metrics_8cpp">project_metrics.cpp</innerfile>
+    <innerfile refid="project__template_8cpp">project_template.cpp</innerfile>
+    <innerfile refid="project__versioning_8cpp">project_versioning.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/projects/"/>
+  </compounddef>
+</doxygen>

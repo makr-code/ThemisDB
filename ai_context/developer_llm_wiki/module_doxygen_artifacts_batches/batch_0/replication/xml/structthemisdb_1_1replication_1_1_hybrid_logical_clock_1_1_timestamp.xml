@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::HybridLogicalClock::Timestamp</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1ab9787bf5b0b4d25c43420e3d06d76093" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::HybridLogicalClock::Timestamp::physical</definition>
+        <argsstring></argsstring>
+        <name>physical</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::Timestamp::physical</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="133" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1acda3c9fb2976ea0a720ef0a8a1bd9093" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::HybridLogicalClock::Timestamp::logical</definition>
+        <argsstring></argsstring>
+        <name>logical</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::Timestamp::logical</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="134" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1a3beb3138ec4fc35064ab371cc0a52c4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::HybridLogicalClock::Timestamp::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::Timestamp::node_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="135" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1a8d09a5773a596dba8011e868dc4a4e27" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::HybridLogicalClock::Timestamp::operator&lt;</definition>
+        <argsstring>(const Timestamp &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::Timestamp::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kindref="compound">Timestamp</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="137" column="9" bodyfile="include/replication/multi_master_replication.h" bodystart="137" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1aea9921f1d5a93f16db53ba15d1b8b51f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::HybridLogicalClock::Timestamp::operator==</definition>
+        <argsstring>(const Timestamp &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::Timestamp::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kindref="compound">Timestamp</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="146" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="146" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1a9a6379924d569d5ddd853a2f81e19f4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::HybridLogicalClock::Timestamp::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::Timestamp::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="151" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="151" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/multi_master_replication.h" line="132" column="5" bodyfile="include/replication/multi_master_replication.h" bodystart="132" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1acda3c9fb2976ea0a720ef0a8a1bd9093" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock::Timestamp</scope><name>logical</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1a3beb3138ec4fc35064ab371cc0a52c4b" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock::Timestamp</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1a8d09a5773a596dba8011e868dc4a4e27" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock::Timestamp</scope><name>operator&lt;</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1aea9921f1d5a93f16db53ba15d1b8b51f" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock::Timestamp</scope><name>operator==</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1ab9787bf5b0b4d25c43420e3d06d76093" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock::Timestamp</scope><name>physical</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp_1a9a6379924d569d5ddd853a2f81e19f4a" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock::Timestamp</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

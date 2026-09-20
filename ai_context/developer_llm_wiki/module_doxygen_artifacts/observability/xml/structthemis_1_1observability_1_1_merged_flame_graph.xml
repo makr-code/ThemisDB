@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_merged_flame_graph" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MergedFlameGraph</compoundname>
+    <includes refid="distributed__flame__graph_8h" local="no">distributed_flame_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_merged_flame_graph_1aef35e2b630775f3169c4ab1858867178" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::observability::MergedFlameGraph::stacks</definition>
+        <argsstring></argsstring>
+        <name>stacks</name>
+        <qualifiedname>themis::observability::MergedFlameGraph::stacks</qualifiedname>
+        <briefdescription>
+<para>Merged stacks: folded-stack-string → aggregate sample count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="60" column="14" bodyfile="include/observability/distributed_flame_graph.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_merged_flame_graph_1a73d1ae7de262ddd4a99918cb28390532" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::MergedFlameGraph::node_ids</definition>
+        <argsstring></argsstring>
+        <name>node_ids</name>
+        <qualifiedname>themis::observability::MergedFlameGraph::node_ids</qualifiedname>
+        <briefdescription>
+<para>Node IDs whose profiles contributed to this merge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="62" column="17" bodyfile="include/observability/distributed_flame_graph.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_merged_flame_graph_1ad16140632b43d92bc9838c6697506847" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::observability::MergedFlameGraph::node_versions</definition>
+        <argsstring></argsstring>
+        <name>node_versions</name>
+        <qualifiedname>themis::observability::MergedFlameGraph::node_versions</qualifiedname>
+        <briefdescription>
+<para>Node versions captured in the merged output for deterministic provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="64" column="14" bodyfile="include/observability/distributed_flame_graph.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_merged_flame_graph_1afbd0572ce0eeb8ddf90980e71f85fbf1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::MergedFlameGraph::generated_at</definition>
+        <argsstring></argsstring>
+        <name>generated_at</name>
+        <qualifiedname>themis::observability::MergedFlameGraph::generated_at</qualifiedname>
+        <briefdescription>
+<para>Timestamp at which the merge was performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="66" column="43" bodyfile="include/observability/distributed_flame_graph.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_merged_flame_graph_1aa671f7e6c36370ca12c19d7ded9857cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MergedFlameGraph::toFoldedText</definition>
+        <argsstring>() const</argsstring>
+        <name>toFoldedText</name>
+        <qualifiedname>themis::observability::MergedFlameGraph::toFoldedText</qualifiedname>
+        <briefdescription>
+<para>Return the merged profile as pprof folded-stacks text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each line has the form: <programlisting><codeline><highlight class="normal">frame1;frame2;frame3<sp/>&lt;count&gt;</highlight></codeline>
+</programlisting> Lines are sorted by stack string for deterministic output. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="77" column="17" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="73" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_merged_flame_graph_1ab4e382b67f3158957fb951af4d788478" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::MergedFlameGraph::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::MergedFlameGraph::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialize to JSON (metadata + folded text payload). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="80" column="10" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="81" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A flame graph merged from one or more <computeroutput><ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref></computeroutput> objects. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The merged stacks are stored in the pprof folded-stacks text format (one stack per line, space-separated frames, followed by an aggregate sample count). Sample counts are summed across all contributing nodes.</para>
+<para>Use <computeroutput><ref refid="structthemis_1_1observability_1_1_merged_flame_graph_1aa671f7e6c36370ca12c19d7ded9857cc" kindref="member">toFoldedText()</ref></computeroutput> to obtain the merged profile as a string that can be consumed directly by:<itemizedlist>
+<listitem><para><computeroutput>flamegraph.pl</computeroutput> (Brendan Gregg&apos;s FlameGraph toolkit)</para>
+</listitem><listitem><para><computeroutput>go tool pprof</computeroutput></para>
+</listitem><listitem><para>async-profiler&apos;s collapsed output pipeline </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/observability/distributed_flame_graph.h" line="58" column="1" bodyfile="include/observability/distributed_flame_graph.h" bodystart="58" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_merged_flame_graph_1afbd0572ce0eeb8ddf90980e71f85fbf1" prot="public" virt="non-virtual"><scope>themis::observability::MergedFlameGraph</scope><name>generated_at</name></member>
+      <member refid="structthemis_1_1observability_1_1_merged_flame_graph_1a73d1ae7de262ddd4a99918cb28390532" prot="public" virt="non-virtual"><scope>themis::observability::MergedFlameGraph</scope><name>node_ids</name></member>
+      <member refid="structthemis_1_1observability_1_1_merged_flame_graph_1ad16140632b43d92bc9838c6697506847" prot="public" virt="non-virtual"><scope>themis::observability::MergedFlameGraph</scope><name>node_versions</name></member>
+      <member refid="structthemis_1_1observability_1_1_merged_flame_graph_1aef35e2b630775f3169c4ab1858867178" prot="public" virt="non-virtual"><scope>themis::observability::MergedFlameGraph</scope><name>stacks</name></member>
+      <member refid="structthemis_1_1observability_1_1_merged_flame_graph_1aa671f7e6c36370ca12c19d7ded9857cc" prot="public" virt="non-virtual"><scope>themis::observability::MergedFlameGraph</scope><name>toFoldedText</name></member>
+      <member refid="structthemis_1_1observability_1_1_merged_flame_graph_1ab4e382b67f3158957fb951af4d788478" prot="public" virt="non-virtual"><scope>themis::observability::MergedFlameGraph</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

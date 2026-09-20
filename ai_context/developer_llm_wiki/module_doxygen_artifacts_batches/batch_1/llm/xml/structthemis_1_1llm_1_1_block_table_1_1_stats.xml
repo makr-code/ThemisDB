@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_block_table_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::BlockTable::Stats</compoundname>
+    <includes refid="block__table_8h" local="no">block_table.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_block_table_1_1_stats_1a80f5bf10868fb0a89e12a9d1233011dd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::BlockTable::Stats::num_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_blocks</name>
+        <qualifiedname>themis::llm::BlockTable::Stats::num_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="69" column="16" bodyfile="include/llm/block_table.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_block_table_1_1_stats_1ac01c4121baf359da55e8a09757ec1fbd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::BlockTable::Stats::num_shared_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_shared_blocks</name>
+        <qualifiedname>themis::llm::BlockTable::Stats::num_shared_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="70" column="16" bodyfile="include/llm/block_table.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_block_table_1_1_stats_1a3856048b8e68dc55219b4452b157d90c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::BlockTable::Stats::num_cow_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_cow_blocks</name>
+        <qualifiedname>themis::llm::BlockTable::Stats::num_cow_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="71" column="16" bodyfile="include/llm/block_table.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_block_table_1_1_stats_1a547672a5c0a35c9f292f94ee4750d882" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::BlockTable::Stats::sharing_ratio</definition>
+        <argsstring></argsstring>
+        <name>sharing_ratio</name>
+        <qualifiedname>themis::llm::BlockTable::Stats::sharing_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="72" column="16" bodyfile="include/llm/block_table.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/block_table.h" line="68" column="5" bodyfile="include/llm/block_table.h" bodystart="68" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a80f5bf10868fb0a89e12a9d1233011dd" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable::Stats</scope><name>num_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a3856048b8e68dc55219b4452b157d90c" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable::Stats</scope><name>num_cow_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1ac01c4121baf359da55e8a09757ec1fbd" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable::Stats</scope><name>num_shared_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a547672a5c0a35c9f292f94ee4750d882" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable::Stats</scope><name>sharing_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

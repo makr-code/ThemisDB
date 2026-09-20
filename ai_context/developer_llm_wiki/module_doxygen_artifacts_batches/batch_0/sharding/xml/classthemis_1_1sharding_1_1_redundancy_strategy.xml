@@ -1,0 +1,2181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_redundancy_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::RedundancyStrategy</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result" prot="public">themis::sharding::RedundancyStrategy::VersionedReadResult</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_chunk" prot="public">themis::sharding::RedundancyStrategy::VersionedChunk</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_document_health" prot="public">themis::sharding::RedundancyStrategy::DocumentHealth</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;shard_id, const std::string &amp;doc_id, const std::vector&lt; uint8_t &gt; &amp;data)&gt;</type>
+        <definition>using themis::sharding::RedundancyStrategy::WriteHandler = std::function&lt;bool(const std::string&amp; shard_id, 
+                                           const std::string&amp; doc_id,
+                                           const std::vector&lt;uint8_t&gt;&amp; data)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WriteHandler</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::WriteHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="543" column="5" bodyfile="include/sharding/redundancy_strategy.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt;( const std::string &amp;shard_id, const std::string &amp;doc_id)&gt;</type>
+        <definition>using themis::sharding::RedundancyStrategy::ReadHandler = std::function&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;(
+                                           const std::string&amp; shard_id,
+                                           const std::string&amp; doc_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReadHandler</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::ReadHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="547" column="5" bodyfile="include/sharding/redundancy_strategy.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a845bf20cc58eb1b6d39442d16ae950a4" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result" kindref="compound">VersionedReadResult</ref>( const std::string &amp;shard_id, const std::string &amp;doc_id)&gt;</type>
+        <definition>using themis::sharding::RedundancyStrategy::ReadHandlerWithVersion = std::function&lt;VersionedReadResult(
+                                           const std::string&amp; shard_id,
+                                           const std::string&amp; doc_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReadHandlerWithVersion</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::ReadHandlerWithVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="558" column="5" bodyfile="include/sharding/redundancy_strategy.h" bodystart="558" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a07e97f4ecfcddd88d299f142691cf691" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref></type>
+        <definition>RedundancyConfig themis::sharding::RedundancyStrategy::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="678" column="22" bodyfile="include/sharding/redundancy_strategy.h" bodystart="678" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1aff19c04639c8052d0e5052a55fdf4e28" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_erasure_coder" kindref="compound">ErasureCoder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ErasureCoder&gt; themis::sharding::RedundancyStrategy::erasure_coder_</definition>
+        <argsstring></argsstring>
+        <name>erasure_coder_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::erasure_coder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="679" column="21" bodyfile="include/sharding/redundancy_strategy.h" bodystart="679" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1adb1c4a514b8442ab17ad4ae245cf1407" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::sharding::RedundancyStrategy::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="680" column="31" bodyfile="include/sharding/redundancy_strategy.h" bodystart="680" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ad766b638ccaf4f4d0d929084a87fe5b1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_raft_shard_manager" kindref="compound">themisdb::sharding::RaftShardManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themisdb::sharding::RaftShardManager&gt; themis::sharding::RedundancyStrategy::raft_manager_</definition>
+        <argsstring></argsstring>
+        <name>raft_manager_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::raft_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="683" column="21" bodyfile="include/sharding/redundancy_strategy.h" bodystart="683" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a73a050c2be00f0863e2f8130f1b7e357" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TrueTime&gt; themis::sharding::RedundancyStrategy::truetime_</definition>
+        <argsstring></argsstring>
+        <name>truetime_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::truetime_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="686" column="21" bodyfile="include/sharding/redundancy_strategy.h" bodystart="686" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1aef9d69ec150ad853e91dbca2f68e4896" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::RedundancyStrategy::latency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>latency_mutex_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::latency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="691" column="24" bodyfile="include/sharding/redundancy_strategy.h" bodystart="691" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a587dbc7bddb68c67fecd48a65bf1553f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::sharding::RedundancyStrategy::shard_latency_ewma_ms_</definition>
+        <argsstring></argsstring>
+        <name>shard_latency_ewma_ms_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::shard_latency_ewma_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="692" column="24" bodyfile="include/sharding/redundancy_strategy.h" bodystart="692" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a777a8d3a45a4086b464d8e60c2bd4767" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::RedundancyStrategy::stats_writes_</definition>
+        <argsstring></argsstring>
+        <name>stats_writes_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::stats_writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>LOCK ORDERING (CANONICAL): Tier 1: mutex_ — protects config, erasure_coder, mode-specific state ↓ can acquire Tier 2 while holding this lock Tier 2: latency_mutex_ — protects per-shard latency EWMA metrics (independent cache) ↓ terminal tier; no further acquisitions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>RATIONALE: mutex_ guards primary write/read state; latency_mutex_ is independent to allow latency recording without blocking core read/write operations. All acquisitions must follow this hierarchy to avoid deadlock. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="708" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="708" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a2cd62c19e386342c44a83737d4478087" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::RedundancyStrategy::stats_reads_</definition>
+        <argsstring></argsstring>
+        <name>stats_reads_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::stats_reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="709" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="709" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a25c8183358e2105c716f3ef6c1061ba4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::RedundancyStrategy::stats_recoveries_</definition>
+        <argsstring></argsstring>
+        <name>stats_recoveries_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::stats_recoveries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="710" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="710" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a1f1b7d8b528b462d5b3da8ccf17c145b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::RedundancyStrategy::stats_bytes_written_</definition>
+        <argsstring></argsstring>
+        <name>stats_bytes_written_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::stats_bytes_written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="711" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="711" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a9cb3cfb26a46b69c391a0514ceb395cd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::RedundancyStrategy::stats_bytes_read_</definition>
+        <argsstring></argsstring>
+        <name>stats_bytes_read_</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::stats_bytes_read_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="712" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="712" bodyend="712"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a5e5b9aad4160dd855395cf8a129b19d4" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::RedundancyStrategy::kLatencyEwmaAlpha</definition>
+        <argsstring></argsstring>
+        <name>kLatencyEwmaAlpha</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::kLatencyEwmaAlpha</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="693" column="29" bodyfile="include/sharding/redundancy_strategy.h" bodystart="693" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a38f783b5b315d1a35b2dff6b01098770" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RedundancyStrategy::RedundancyStrategy</definition>
+        <argsstring>(const RedundancyConfig &amp;config)</argsstring>
+        <name>RedundancyStrategy</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::RedundancyStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct strategy for a given redundancy configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="570" column="14" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1615" bodyend="1641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a0cc9bdf3c1fb53686cedd8d0f239ce91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RedundancyStrategy::~RedundancyStrategy</definition>
+        <argsstring>()</argsstring>
+        <name>~RedundancyStrategy</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::~RedundancyStrategy</qualifiedname>
+        <briefdescription>
+<para>Destroy strategy and associated coder resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="572" column="5" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1643" bodyend="1647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a266e27aa431c005bc1f2e46edafea14a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themis::sharding::RedundancyStrategy::write</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;collection, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, WriteHandler handler)</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Write document using the currently configured redundancy mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), empty(), spdlog::error(), <ref refid="structthemis_1_1sharding_1_1_write_result_1a63a7d3745bcb511dc2b38fd981028636" kindref="member">WriteResult::failed()</ref>, size(), writeMirror(), writeGeoMirror(), writeStripe(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="575" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1688" bodyend="1762"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a34b081d477438f611017c102144dcd03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_read_result" kindref="compound">ReadResult</ref></type>
+        <definition>ReadResult themis::sharding::RedundancyStrategy::read</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;collection, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, ReadHandler handler)</argsstring>
+        <name>read</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::read</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Read document using configured read preference and redundancy mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_read_result" kindref="compound">ReadResult</ref> annotated with a monotonic version_token for callers that need to detect stale cross-shard snapshots.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), now(), midpoint(), count(), makeVersionToken(), empty(), spdlog::error(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="588" column="16" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1774" bodyend="1847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ae6b7b7a8e8fc1175e74c44b608117125" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyStrategy::remove</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;collection, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, WriteHandler handler)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Remove document from all replicas/chunks according to mode semantics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getNode(), spdlog::warn(), lock(), evaluateGeoFailover(), getReplicaNodes(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="597" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3531" bodyend="3666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a7d0947f860fec78cf48029beae46248c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyStrategy::recoverDocument</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;collection, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, ReadHandler read_handler, WriteHandler write_handler)</argsstring>
+        <name>recoverDocument</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::recoverDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">ReadHandler</ref></type>
+          <declname>read_handler</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">WriteHandler</ref></type>
+          <declname>write_handler</declname>
+        </param>
+        <briefdescription>
+<para>Attempt recovery of degraded/unavailable document replicas/chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover Document.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">read_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback that reads the entity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">write_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback that writes the entity. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getNode(), getReplicaNodes(), insert(), end(), begin(), getShard(), read_handler(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="606" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3679" bodyend="3848"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a7adada96a4671a09a5ccc18c7395a7c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_document_health" kindref="compound">DocumentHealth</ref></type>
+        <definition>RedundancyStrategy::DocumentHealth themis::sharding::RedundancyStrategy::checkDocumentHealth</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;collection, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, ReadHandler handler)</argsstring>
+        <name>checkDocumentHealth</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::checkDocumentHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate document health across expected replicas/chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Document Health.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical document identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection name (reserved for collection-level policy context). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hash-ring resolver for primary/replica placement. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Topology source used for shard-health filtering. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Read callback used to probe replica/chunk availability. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Health summary with availability and recoverability assessment.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getNode(), getReplicaNodes(), insert(), end(), begin(), size(), std::to_string(), getShard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="638" column="20" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3860" bodyend="3954"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a5637c831e2e9661b0b8286e6478679c2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref> &amp;</type>
+        <definition>const RedundancyConfig &amp; themis::sharding::RedundancyStrategy::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return currently active strategy configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="647" column="28" bodyfile="include/sharding/redundancy_strategy.h" bodystart="647" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ae4a96a65f95fcb1b17d9202ebbde2a03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::RedundancyStrategy::updateConfig</definition>
+        <argsstring>(const RedundancyConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update strategy configuration (dynamic reconfiguration). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), validate(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="650" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3962" bodyend="3972"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ae253626a7d8484eae11fa1899e724947" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_redundancy_stats" kindref="compound">RedundancyStats</ref></type>
+        <definition>RedundancyStats themis::sharding::RedundancyStrategy::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::getStats</qualifiedname>
+        <briefdescription>
+<para>Return aggregated redundancy runtime statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="653" column="21" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3974" bodyend="3980"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a6d44e057d28dfbde79572cebf8b7bc6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RedundancyStrategy::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+<para>Export strategy metrics in Prometheus text exposition format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="656" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3982" bodyend="4122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ac6721769bb5982a2b162b0dbcb464067" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::RedundancyStrategy::setRaftShardManager</definition>
+        <argsstring>(std::shared_ptr&lt; themisdb::sharding::RaftShardManager &gt; raft_manager)</argsstring>
+        <name>setRaftShardManager</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::setRaftShardManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_raft_shard_manager" kindref="compound">themisdb::sharding::RaftShardManager</ref> &gt;</type>
+          <declname>raft_manager</declname>
+        </param>
+        <briefdescription>
+<para>Set Raft shard manager for consensus-based writes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Raft Shard Manager.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raft_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to RaftShardManager</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">raft_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="662" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1654" bodyend="1658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ad0ce904e26f3fdc7953092c400bb02fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::RedundancyStrategy::recordShardLatency</definition>
+        <argsstring>(const std::string &amp;shard_id, double latency_ms)</argsstring>
+        <name>recordShardLatency</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::recordShardLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record an observed round-trip latency for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Shard Latency.</para>
+<para>Callers (e.g. the RPC layer) should call this after each successful read so that <ref refid="namespacethemis_1_1sharding_1a2b420e430306b2b5050e71bee1f23090aad135772d7cf93dd0ccf9d2474b34e6a" kindref="member">ReadPreference::NEAREST</ref> can select the shard with the lowest recent latency. The value is incorporated into a per-shard exponential moving average (α = 0.2).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard that was contacted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed round-trip latency in milliseconds</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="675" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1666" bodyend="1675"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a6fd0f6c78a77239244bed914396a73f6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyStrategy::shouldUseRaftConsensus</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>shouldUseRaftConsensus</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::shouldUseRaftConsensus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if Raft consensus is enabled and write should go through leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if Raft is enabled and shard has leader </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="719" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2033" bodyend="2054"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1aaa25dc5d124bde70e56fd4087ce3f5a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyStrategy::proposeRaftWrite</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;document_id, const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>proposeRaftWrite</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::proposeRaftWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Propose write through Raft consensus (for leader enforcement). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Propose Raft Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to write </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if write was successfully proposed and committed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), lock(), isShardLeader(), getShardLeader(), spdlog::warn(), find(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="728" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2064" bodyend="2155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ad9bd4eb4313f7966f847e8156c52c466" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themis::sharding::RedundancyStrategy::writeMirror</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; uint8_t &gt; &amp;data, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, WriteHandler handler)</argsstring>
+        <name>writeMirror</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::writeMirror</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Internal Write Methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getNode(), <ref refid="structthemis_1_1sharding_1_1_write_result_1a63a7d3745bcb511dc2b38fd981028636" kindref="member">WriteResult::failed()</ref>, reserve(), push_back(), getReplicaNodes(), empty(), spdlog::error(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="733" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1860" bodyend="2027"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a163b5cf35138b40aea3a885422482c24" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themis::sharding::RedundancyStrategy::writeStripe</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; uint8_t &gt; &amp;data, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, WriteHandler handler)</argsstring>
+        <name>writeStripe</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::writeStripe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Write Stripe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: splitIntoChunks(), getNode(), <ref refid="structthemis_1_1sharding_1_1_write_result_1a63a7d3745bcb511dc2b38fd981028636" kindref="member">WriteResult::failed()</ref>, push_back(), getReplicaNodes(), size(), insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="741" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2167" bodyend="2293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a923b0f09d8f5619b3c67cd0281de937f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themis::sharding::RedundancyStrategy::writeStripeMirror</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; uint8_t &gt; &amp;data, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, WriteHandler handler)</argsstring>
+        <name>writeStripeMirror</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::writeStripeMirror</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Write Stripe Mirror. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: splitIntoChunks(), size(), std::to_string(), writeMirror(), <ref refid="structthemis_1_1sharding_1_1_write_result_1a63a7d3745bcb511dc2b38fd981028636" kindref="member">WriteResult::failed()</ref>, insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="749" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2305" bodyend="2334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a69a111bedf20d4e05a26232f7eead15a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themis::sharding::RedundancyStrategy::writeParity</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; uint8_t &gt; &amp;data, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, WriteHandler handler)</argsstring>
+        <name>writeParity</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::writeParity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Write Parity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ec_lock(), <ref refid="structthemis_1_1sharding_1_1_write_result_1a63a7d3745bcb511dc2b38fd981028636" kindref="member">WriteResult::failed()</ref>, encode(), getNode(), push_back(), getReplicaNodes(), size(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="757" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2346" bodyend="2418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ab1e982b90e2b7682cb3652baaef8ef84" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themis::sharding::RedundancyStrategy::writeGeoMirror</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; uint8_t &gt; &amp;data, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, WriteHandler handler)</argsstring>
+        <name>writeGeoMirror</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::writeGeoMirror</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Write Geo Mirror. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), evaluateGeoFailover(), getNode(), <ref refid="structthemis_1_1sharding_1_1_write_result_1a63a7d3745bcb511dc2b38fd981028636" kindref="member">WriteResult::failed()</ref>, push_back(), getReplicaNodes(), insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="765" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2430" bodyend="2652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a45caeac5b08e2fc20f0cd95c2554864a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_read_result" kindref="compound">ReadResult</ref></type>
+        <definition>ReadResult themis::sharding::RedundancyStrategy::readMirror</definition>
+        <argsstring>(const std::string &amp;document_id, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, ReadHandler handler)</argsstring>
+        <name>readMirror</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::readMirror</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Read Mirror. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getNode(), push_back(), getReplicaNodes(), insert(), end(), begin(), selectReadShard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="774" column="16" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2892" bodyend="2947"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a87d2c71998cafde939cb6ccb481fdcb6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_read_result" kindref="compound">ReadResult</ref></type>
+        <definition>ReadResult themis::sharding::RedundancyStrategy::readMirrorWithVersion</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;collection, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, ReadHandlerWithVersion handler)</argsstring>
+        <name>readMirrorWithVersion</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::readMirrorWithVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a845bf20cc58eb1b6d39442d16ae950a4" kindref="member">ReadHandlerWithVersion</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Version-aware read with consistency checking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Version-aware read with consistency checking ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getNode(), push_back(), getReplicaNodes(), insert(), end(), begin(), handler(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="782" column="16" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3278" bodyend="3348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a7b562034daf54faa8d46b28eba460b41" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_read_result" kindref="compound">ReadResult</ref></type>
+        <definition>ReadResult themis::sharding::RedundancyStrategy::readGeoMirror</definition>
+        <argsstring>(const std::string &amp;document_id, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, ReadHandler handler)</argsstring>
+        <name>readGeoMirror</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::readGeoMirror</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Internal Read Methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), evaluateGeoFailover(), getNode(), push_back(), getReplicaNodes(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="790" column="16" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2664" bodyend="2881"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a494d95b667d76f82c2d101c07a3bf49d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_read_result" kindref="compound">ReadResult</ref></type>
+        <definition>ReadResult themis::sharding::RedundancyStrategy::readStripe</definition>
+        <argsstring>(const std::string &amp;document_id, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, ReadHandler handler)</argsstring>
+        <name>readStripe</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::readStripe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Read Stripe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), midpoint(), count(), makeVersionToken(), std::to_string(), getNode(), handler(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="797" column="16" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="2958" bodyend="3009"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a8ed27cbec3fbdd1b2f62621fb6817cd4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_read_result" kindref="compound">ReadResult</ref></type>
+        <definition>ReadResult themis::sharding::RedundancyStrategy::readParity</definition>
+        <argsstring>(const std::string &amp;document_id, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, ReadHandler handler)</argsstring>
+        <name>readParity</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::readParity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Read Parity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ec_lock(), totalShards(), now(), midpoint(), count(), makeVersionToken(), std::to_string(), getNode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="804" column="16" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3020" bodyend="3111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ac4e574e0f06d56055eb1b03865b5f8eb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::sharding::RedundancyStrategy::splitIntoChunks</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, size_t chunk_size)</argsstring>
+        <name>splitIntoChunks</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::splitIntoChunks</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>chunk_size</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Utility Methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::min(), chunk(), begin(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="812" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3121" bodyend="3134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a7f1f63eab4a2a5c0682429a4ba9149c2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::sharding::RedundancyStrategy::mergeChunks</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;chunks)</argsstring>
+        <name>mergeChunks</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::mergeChunks</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Merge Chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="817" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3142" bodyend="3152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ae8a3ddc2f2f86e25bc9fd5d6fed57fef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::sharding::RedundancyStrategy::mergeChunksWithConsistency</definition>
+        <argsstring>(const std::vector&lt; VersionedChunk &gt; &amp;versioned_chunks, ConflictResolution conflict_resolution, uint64_t &amp;result_version)</argsstring>
+        <name>mergeChunksWithConsistency</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::mergeChunksWithConsistency</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_chunk" kindref="compound">VersionedChunk</ref> &gt; &amp;</type>
+          <declname>versioned_chunks</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a575558c885cf61e5f2a2108c569ae541" kindref="member">ConflictResolution</ref></type>
+          <declname>conflict_resolution</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>result_version</declname>
+        </param>
+        <briefdescription>
+<para>Merge chunks with version consistency checking and conflict resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Version-aware chunk merging with conflict resolution Resolves GAP: undefined_conflict_resolution, unspecified_consistency ============================================================================</para>
+<para>Resolves GAP: undefined_conflict_resolution, unspecified_consistency, missing_version_tracking</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">versioned_chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_resolution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), insert(), end(), begin(), spdlog::warn(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="826" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3163" bodyend="3265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a3c523a966a6631f14e324b9d74704022" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RedundancyStrategy::selectReadShard</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;available_shards, ShardTopology &amp;topology)</argsstring>
+        <name>selectReadShard</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::selectReadShard</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>available_shards</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+<para>Select Read Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">available_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lat_lock(), max(), find(), end(), fetch_add(), size(), std::rand(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="832" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3358" bodyend="3416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1ad23c0bb30cd0b5bb258e73e6e08a6fc4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RedundancyStrategy::selectGeoReadShard</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;candidates, ShardTopology &amp;topology, const std::string &amp;local_region)</argsstring>
+        <name>selectGeoReadShard</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::selectGeoReadShard</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_region</declname>
+        </param>
+        <briefdescription>
+<para>Select Geo Read Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">local_region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), getShard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="839" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3427" bodyend="3462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a9d35ec57681c28540f532bda9d6f4005" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::RedundancyStrategy::evaluateGeoFailover</definition>
+        <argsstring>(ShardTopology &amp;topology) const</argsstring>
+        <name>evaluateGeoFailover</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::evaluateGeoFailover</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="846" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="3464" bodyend="3519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_strategy_1a14866fd897083465bdaa79d75e997a08" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyStrategy::waitForWriteConcern</definition>
+        <argsstring>(const std::vector&lt; std::future&lt; bool &gt; &gt; &amp;futures, WriteConcern concern, uint32_t total_shards)</argsstring>
+        <name>waitForWriteConcern</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::waitForWriteConcern</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::future&lt; bool &gt; &gt; &amp;</type>
+          <declname>futures</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref></type>
+          <declname>concern</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="848" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Redundancy Strategy Main class for managing RAID-like redundancy </para>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="541" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="541" bodyend="853"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a7adada96a4671a09a5ccc18c7395a7c6" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>checkDocumentHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a07e97f4ecfcddd88d299f142691cf691" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1aff19c04639c8052d0e5052a55fdf4e28" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>erasure_coder_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a9d35ec57681c28540f532bda9d6f4005" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>evaluateGeoFailover</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a6d44e057d28dfbde79572cebf8b7bc6b" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a5637c831e2e9661b0b8286e6478679c2" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ae253626a7d8484eae11fa1899e724947" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a5e5b9aad4160dd855395cf8a129b19d4" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>kLatencyEwmaAlpha</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1aef9d69ec150ad853e91dbca2f68e4896" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>latency_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a7f1f63eab4a2a5c0682429a4ba9149c2" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>mergeChunks</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ae8a3ddc2f2f86e25bc9fd5d6fed57fef" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>mergeChunksWithConsistency</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1adb1c4a514b8442ab17ad4ae245cf1407" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1aaa25dc5d124bde70e56fd4087ce3f5a6" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>proposeRaftWrite</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ad766b638ccaf4f4d0d929084a87fe5b1" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>raft_manager_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a34b081d477438f611017c102144dcd03" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>read</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a7b562034daf54faa8d46b28eba460b41" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>readGeoMirror</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>ReadHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a845bf20cc58eb1b6d39442d16ae950a4" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>ReadHandlerWithVersion</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a45caeac5b08e2fc20f0cd95c2554864a" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>readMirror</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a87d2c71998cafde939cb6ccb481fdcb6" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>readMirrorWithVersion</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a8ed27cbec3fbdd1b2f62621fb6817cd4" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>readParity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a494d95b667d76f82c2d101c07a3bf49d" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>readStripe</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ad0ce904e26f3fdc7953092c400bb02fb" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>recordShardLatency</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a7d0947f860fec78cf48029beae46248c" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>recoverDocument</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a38f783b5b315d1a35b2dff6b01098770" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>RedundancyStrategy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ae6b7b7a8e8fc1175e74c44b608117125" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>remove</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ad23c0bb30cd0b5bb258e73e6e08a6fc4" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>selectGeoReadShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a3c523a966a6631f14e324b9d74704022" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>selectReadShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ac6721769bb5982a2b162b0dbcb464067" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>setRaftShardManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a587dbc7bddb68c67fecd48a65bf1553f" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>shard_latency_ewma_ms_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a6fd0f6c78a77239244bed914396a73f6" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>shouldUseRaftConsensus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ac4e574e0f06d56055eb1b03865b5f8eb" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>splitIntoChunks</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a9cb3cfb26a46b69c391a0514ceb395cd" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>stats_bytes_read_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a1f1b7d8b528b462d5b3da8ccf17c145b" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>stats_bytes_written_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a2cd62c19e386342c44a83737d4478087" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>stats_reads_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a25c8183358e2105c716f3ef6c1061ba4" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>stats_recoveries_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a777a8d3a45a4086b464d8e60c2bd4767" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>stats_writes_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a73a050c2be00f0863e2f8130f1b7e357" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>truetime_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ae4a96a65f95fcb1b17d9202ebbde2a03" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a14866fd897083465bdaa79d75e997a08" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>waitForWriteConcern</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a266e27aa431c005bc1f2e46edafea14a" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>write</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ab1e982b90e2b7682cb3652baaef8ef84" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>writeGeoMirror</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>WriteHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1ad9bd4eb4313f7966f847e8156c52c466" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>writeMirror</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a69a111bedf20d4e05a26232f7eead15a" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>writeParity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a163b5cf35138b40aea3a885422482c24" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>writeStripe</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a923b0f09d8f5619b3c67cd0281de937f" prot="private" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>writeStripeMirror</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_strategy_1a0cc9bdf3c1fb53686cedd8d0f239ce91" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy</scope><name>~RedundancyStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

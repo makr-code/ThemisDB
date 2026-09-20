@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_completion_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::CompletionItem</compoundname>
+    <includes refid="aql__autocomplete_8h" local="no">aql_autocomplete.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_item_1ad07dfbe6f5cd64998ea34a9c73961b99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompletionItem::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::aql::CompletionItem::label</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="59" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_item_1a5e76d77ca0829f0bf36e59c821b950ed" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43" kindref="member">CompletionItemKind</ref></type>
+        <definition>CompletionItemKind themis::aql::CompletionItem::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::aql::CompletionItem::kind</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1a9efd1292a90c6050b8b38fbdc8ca3c43a220f3d3750583b9db48568a0b5b9a5f1" kindref="member">CompletionItemKind::Keyword</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="61" column="24" bodyfile="include/aql/aql_autocomplete.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_item_1ac2f2e3452d82deef143d34003ed8b43f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompletionItem::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::aql::CompletionItem::detail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="63" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_item_1a38191e11474c4fbf547a49a7e360d6b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompletionItem::documentation</definition>
+        <argsstring></argsstring>
+        <name>documentation</name>
+        <qualifiedname>themis::aql::CompletionItem::documentation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="65" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_item_1aa2ca6e715aaa5aed170935700d0261be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompletionItem::insert_text</definition>
+        <argsstring></argsstring>
+        <name>insert_text</name>
+        <qualifiedname>themis::aql::CompletionItem::insert_text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="67" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_item_1aa5097e58e5992ec753a54cd3abe85a88" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::CompletionItem::prefix_start</definition>
+        <argsstring></argsstring>
+        <name>prefix_start</name>
+        <qualifiedname>themis::aql::CompletionItem::prefix_start</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="69" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_item_1aad559a0dec41f6ef37f6dca0c165bf4c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::CompletionItem::sort_order</definition>
+        <argsstring></argsstring>
+        <name>sort_order</name>
+        <qualifiedname>themis::aql::CompletionItem::sort_order</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="71" column="9" bodyfile="include/aql/aql_autocomplete.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_autocomplete.h" line="58" column="1" bodyfile="include/aql/aql_autocomplete.h" bodystart="58" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_completion_item_1ac2f2e3452d82deef143d34003ed8b43f" prot="public" virt="non-virtual"><scope>themis::aql::CompletionItem</scope><name>detail</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_item_1a38191e11474c4fbf547a49a7e360d6b0" prot="public" virt="non-virtual"><scope>themis::aql::CompletionItem</scope><name>documentation</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_item_1aa2ca6e715aaa5aed170935700d0261be" prot="public" virt="non-virtual"><scope>themis::aql::CompletionItem</scope><name>insert_text</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_item_1a5e76d77ca0829f0bf36e59c821b950ed" prot="public" virt="non-virtual"><scope>themis::aql::CompletionItem</scope><name>kind</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_item_1ad07dfbe6f5cd64998ea34a9c73961b99" prot="public" virt="non-virtual"><scope>themis::aql::CompletionItem</scope><name>label</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_item_1aa5097e58e5992ec753a54cd3abe85a88" prot="public" virt="non-virtual"><scope>themis::aql::CompletionItem</scope><name>prefix_start</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_item_1aad559a0dec41f6ef37f6dca0c165bf4c" prot="public" virt="non-virtual"><scope>themis::aql::CompletionItem</scope><name>sort_order</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

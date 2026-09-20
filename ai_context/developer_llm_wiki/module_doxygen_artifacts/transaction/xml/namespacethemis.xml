@@ -1,0 +1,600 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="structthemis_1_1_consensus_verification_result" prot="public">themis::ConsensusVerificationResult</innerclass>
+    <innerclass refid="classthemis_1_1_deadlock_predictor" prot="public">themis::DeadlockPredictor</innerclass>
+    <innerclass refid="classthemis_1_1_distributed_saga_coordinator" prot="public">themis::DistributedSagaCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_coordinator_config" prot="public">themis::DistributedSagaCoordinatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_s_a_g_a_definition" prot="public">themis::DistributedSAGADefinition</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_definition" prot="public">themis::DistributedSagaDefinition</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_report" prot="public">themis::DistributedSagaReport</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_status" prot="public">themis::DistributedSagaStatus</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_saga_step" prot="public">themis::DistributedSagaStep</innerclass>
+    <innerclass refid="classthemis_1_1_lock_manager" prot="public">themis::LockManager</innerclass>
+    <innerclass refid="structthemis_1_1_remote_step" prot="public">themis::RemoteStep</innerclass>
+    <innerclass refid="classthemis_1_1_saga" prot="public">themis::Saga</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_definition" prot="public">themis::SAGADefinition</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_execution_status" prot="public">themis::SAGAExecutionStatus</innerclass>
+    <innerclass refid="structthemis_1_1_saga_operation" prot="public">themis::SagaOperation</innerclass>
+    <innerclass refid="classthemis_1_1_s_a_g_a_orchestrator" prot="public">themis::SAGAOrchestrator</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_orchestrator_config" prot="public">themis::SAGAOrchestratorConfig</innerclass>
+    <innerclass refid="structthemis_1_1_saga_orchestrator_status" prot="public">themis::SagaOrchestratorStatus</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_step" prot="public">themis::SAGAStep</innerclass>
+    <innerclass refid="structthemis_1_1_saga_visualization" prot="public">themis::SagaVisualization</innerclass>
+    <innerclass refid="structthemis_1_1_step_record" prot="public">themis::StepRecord</innerclass>
+    <innerclass refid="classthemis_1_1_transaction_auditor" prot="public">themis::TransactionAuditor</innerclass>
+    <innerclass refid="classthemis_1_1_transaction_batcher" prot="public">themis::TransactionBatcher</innerclass>
+    <innerclass refid="classthemis_1_1_transaction_manager" prot="public">themis::TransactionManager</innerclass>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1testing">themis::testing</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SagaExecutionState</name>
+        <qualifiedname>themis::SagaExecutionState</qualifiedname>
+        <enumvalue id="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Not yet started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a43491564ebcfd38568918efbd6e840fd" prot="public">
+          <name>RUNNING</name>
+          <briefdescription>
+<para>Steps in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+<para>All steps succeeded and committed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60af7eb1a2119233b7d89c3c76589a10664" prot="public">
+          <name>COMPENSATING</name>
+          <briefdescription>
+<para>At least one step failed; compensations running. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a2df8d8245b6e73417307f431a21ae041" prot="public">
+          <name>COMPENSATED</name>
+          <briefdescription>
+<para>All compensations executed (SAGA rolled back). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Unrecoverable failure (compensation also failed). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="59" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="59" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IsolationLevel</name>
+        <qualifiedname>themis::IsolationLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a90ed941e4502c163cb075594c5f7df1c" prot="public">
+          <name>ReadCommitted</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Same as READ_COMMITTED. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7ad4e2713d1b1725a1592f9268589f990d" prot="public">
+          <name>Snapshot</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Same as REPEATABLE_READ (snapshot isolation). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7ae1525d4937a28d801a5263f8361a0de7" prot="public">
+          <name>SerializableSnapshot</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Same as SERIALIZABLE (SSI – predicate locking). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a7b5722b7d02a9d8ff3a8bdfcb7d278c3" prot="public">
+          <name>READ_UNCOMMITTED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Lowest isolation; no extra read locks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" prot="public">
+          <name>READ_COMMITTED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Only committed values visible (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" prot="public">
+          <name>REPEATABLE_READ</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Snapshot isolation – no non-repeatable reads. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" prot="public">
+          <name>SERIALIZABLE</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>SSI – also prevents phantom reads and write skew. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Isolation levels for transactions.</para>
+<para>Listed in increasing strictness order.<itemizedlist>
+<listitem><para>READ_UNCOMMITTED: Lowest isolation; no extra read locks acquired. At the RocksDB storage layer this maps to READ_COMMITTED (RocksDB never exposes uncommitted writes). Higher layers treat this level as a hint to skip optimistic conflict checks. Callers should expect: no dirty reads (guaranteed by storage), but non-repeatable reads and phantom reads are possible.</para>
+</listitem><listitem><para>READ_COMMITTED: Only committed data is visible. Default for most workloads. Non-repeatable reads and phantom reads are possible.</para>
+</listitem><listitem><para>REPEATABLE_READ: Snapshot isolation – the transaction sees a consistent snapshot of data as of its start time. Non-repeatable reads are prevented; phantom reads are prevented for the rows read at start.</para>
+</listitem><listitem><para>SERIALIZABLE: Full serializability via Snapshot Isolation + write-conflict detection (SSI). Also prevents phantom reads and write skew. Slowest but safest. May abort more transactions due to conflicts.</para>
+</listitem></itemizedlist>
+</para>
+<para>Note: value 2 is intentionally reserved (gap between READ_COMMITTED=1 and REPEATABLE_READ=3) to preserve backward compatibility with the legacy Snapshot=3 alias. SerializableSnapshot is an alias for SERIALIZABLE (both equal 4). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/isolation_level.h" line="39" column="1" bodyfile="include/transaction/isolation_level.h" bodystart="39" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LockType</name>
+        <qualifiedname>themis::LockType</qualifiedname>
+        <enumvalue id="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" prot="public">
+          <name>SHARED</name>
+          <briefdescription>
+<para>Read lock – many transactions can hold simultaneously. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" prot="public">
+          <name>EXCLUSIVE</name>
+          <briefdescription>
+<para>Write lock – only one holder allowed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a14d8571088d518528df6e7b5669cbf29ad85fde840488b12bdb6e76415af6949b" prot="public">
+          <name>INTENT_SHARED</name>
+          <briefdescription>
+<para>Signals intent to acquire SHARED lock on a sub-resource. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a7c9512baf3e6c6dc108612a602bed0e1" prot="public">
+          <name>INTENT_EXCLUSIVE</name>
+          <briefdescription>
+<para>Signals intent to acquire EXCLUSIVE lock on a sub-resource. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="27" column="1" bodyfile="include/transaction/lock_manager.h" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1ae4c6991d64c827d229ed156ddbf22d6c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TwoPLPhase</name>
+        <qualifiedname>themis::TwoPLPhase</qualifiedname>
+        <enumvalue id="namespacethemis_1ae4c6991d64c827d229ed156ddbf22d6ca53a5c6962088d681882494048d2f0817" prot="public">
+          <name>GROWING</name>
+          <briefdescription>
+<para>Transaction is in growing phase – may acquire, must not release. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae4c6991d64c827d229ed156ddbf22d6caff1f34de72566813b10e966b03977ac0" prot="public">
+          <name>SHRINKING</name>
+          <briefdescription>
+<para>Transaction is in shrinking phase – may release, must not acquire. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="34" column="1" bodyfile="include/transaction/lock_manager.h" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1af81bad04b0740078178dc7c57088103b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LockStatus</name>
+        <qualifiedname>themis::LockStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" prot="public">
+          <name>GRANTED</name>
+          <briefdescription>
+<para>Lock granted immediately. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+<para>Lock wait exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af81bad04b0740078178dc7c57088103ba66d5e0b0ce726b4aeb4ddf6c25b6c12b" prot="public">
+          <name>DENIED</name>
+          <briefdescription>
+<para>Lock denied (2PL violation, or incompatible held by same txn). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="39" column="1" bodyfile="include/transaction/lock_manager.h" bodystart="39" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StepState</name>
+        <qualifiedname>themis::StepState</qualifiedname>
+        <enumvalue id="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Not yet started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a43491564ebcfd38568918efbd6e840fd" prot="public">
+          <name>RUNNING</name>
+          <briefdescription>
+<para>Forward action executing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+<para>Forward action succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Forward action failed after all retries. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a203ec08f57cb105eeb2b121ba6503b52" prot="public">
+          <name>SKIPPED</name>
+          <briefdescription>
+<para>Condition evaluated to false; step was not executed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425af7eb1a2119233b7d89c3c76589a10664" prot="public">
+          <name>COMPENSATING</name>
+          <briefdescription>
+<para>Compensation action executing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a2df8d8245b6e73417307f431a21ae041" prot="public">
+          <name>COMPENSATED</name>
+          <briefdescription>
+<para>Compensation action succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="55" column="1" bodyfile="include/transaction/saga_orchestrator.h" bodystart="55" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1ae9b414355433f4198b8e49a3cdde1220" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref>( const std::string &amp;, const std::string &amp;, const nlohmann::json &amp;)&gt;</type>
+        <definition>using themis::RemoteStepExecutor = 
+std::function&lt;DistributedSagaStatus(
+    const std::string&amp; ,
+    const std::string&amp; ,
+    const nlohmann::json&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>RemoteStepExecutor</name>
+        <qualifiedname>themis::RemoteStepExecutor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="199" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aaa66fd1a69f9fb4a31117bedf313e60a" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_consensus_verification_result" kindref="compound">ConsensusVerificationResult</ref>( const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themis::ConsensusVerifier = 
+std::function&lt;ConsensusVerificationResult(
+    const std::string&amp; ,
+    const std::string&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConsensusVerifier</name>
+        <qualifiedname>themis::ConsensusVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="216" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1aae24d3e3c15c74973a14db0e26e4b7fc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::kMinWindow</definition>
+        <argsstring></argsstring>
+        <name>kMinWindow</name>
+        <qualifiedname>themis::kMinWindow</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/transaction_batcher.cpp" line="26" column="44" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1afd49574f4b0d4d4a63a21ee36b1f0af6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::kMaxWindow</definition>
+        <argsstring></argsstring>
+        <name>kMaxWindow</name>
+        <qualifiedname>themis::kMaxWindow</qualifiedname>
+        <initializer>{100000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/transaction_batcher.cpp" line="27" column="44" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1ade9fad4d0490ade41766f161ba3e6f55" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::kMaxThroughputSamples</definition>
+        <argsstring></argsstring>
+        <name>kMaxThroughputSamples</name>
+        <qualifiedname>themis::kMaxThroughputSamples</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/transaction_batcher.cpp" line="30" column="25" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1a9787a604900a4612be5e816f9409e298" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::encodeVersion</definition>
+        <argsstring>(uint64_t v)</argsstring>
+        <name>encodeVersion</name>
+        <qualifiedname>themis::encodeVersion</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/transaction_manager.cpp" line="1617" column="20" bodyfile="src/transaction/transaction_manager.cpp" bodystart="1617" bodyend="1623"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a75314c335e191c28ee6da953f3aa3121" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::decodeVersion</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;buf)</argsstring>
+        <name>decodeVersion</name>
+        <qualifiedname>themis::decodeVersion</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Decode Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/transaction_manager.cpp" line="1631" column="17" bodyfile="src/transaction/transaction_manager.cpp" bodystart="1631" bodyend="1640"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a287bb6df749a5c0589c80e94c9eb6595" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::versionKey</definition>
+        <argsstring>(std::string_view table, std::string_view pk)</argsstring>
+        <name>versionKey</name>
+        <qualifiedname>themis::versionKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Version Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/transaction_manager.cpp" line="1649" column="20" bodyfile="src/transaction/transaction_manager.cpp" bodystart="1649" bodyend="1657"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a5ce78d1bbfac6c442731e4f9c1663038" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::isolationLevelName</definition>
+        <argsstring>(IsolationLevel level)</argsstring>
+        <name>isolationLevelName</name>
+        <qualifiedname>themis::isolationLevelName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">IsolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Isolation Level Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements isolationLevelName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/transaction_manager.cpp" line="2381" column="20" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2381" bodyend="2389"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a39b3ba7547e83954775f57778ce58e04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::lockTypeName</definition>
+        <argsstring>(LockType t)</argsstring>
+        <name>lockTypeName</name>
+        <qualifiedname>themis::lockTypeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Lock Type Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements lockTypeName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/transaction_manager.cpp" line="2397" column="20" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2397" bodyend="2405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/branch_manager.h" line="25" column="1"/>
+  </compounddef>
+</doxygen>

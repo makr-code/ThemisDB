@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cross__school__tension__resolver_8h" kind="file" language="C++">
+    <compoundname>cross_school_tension_resolver.h</compoundname>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="convergence__marker__engine_8h" local="yes">include/ethics_ai/convergence_marker_engine.h</includedby>
+    <includedby refid="tournament__mode__selector_8h" local="yes">include/ethics_ai/tournament_mode_selector.h</includedby>
+    <includedby refid="cross__school__tension__resolver_8cpp" local="yes">src/ethics_ai/cross_school_tension_resolver.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ethics_ai/cross_school_tension_resolver.h</label>
+        <link refid="cross__school__tension__resolver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/ethics_ai/convergence_marker_engine.h</label>
+        <link refid="convergence__marker__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ethics_ai/cross_school_tension_resolver.h</label>
+        <link refid="cross__school__tension__resolver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/ethics_ai/synthesis_matrix_builder.h</label>
+        <link refid="synthesis__matrix__builder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/ethics_ai/tournament_mode_selector.h</label>
+        <link refid="tournament__mode__selector_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/ethics_ai/convergence_marker_engine.cpp</label>
+        <link refid="convergence__marker__engine_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/ethics_ai/cross_school_tension_resolver.cpp</label>
+        <link refid="cross__school__tension__resolver_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/ethics_ai/synthesis_matrix_builder.cpp</label>
+        <link refid="synthesis__matrix__builder_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/ethics_ai/tournament_mode_selector.cpp</label>
+        <link refid="tournament__mode__selector_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" prot="public">themis::plugins::ethics::SchoolTension</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision" prot="public">themis::plugins::ethics::InjectionDecision</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver" prot="public">themis::plugins::ethics::CrossSchoolTensionResolver</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1ethics">themis::plugins::ethics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">ethics</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" kindref="compound">SchoolTension</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a8c97a4a3279df720e4a5388d206aed4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a8c97a4a3279df720e4a5388d206aed4a" kindref="member">own_thesis_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ac5305f5f9533df761f1176bed360c562" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ac5305f5f9533df761f1176bed360c562" kindref="member">opposing_school_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a3698cc363dd030a4b478a457e3196878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a3698cc363dd030a4b478a457e3196878" kindref="member">opposing_thesis_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ad17474d71bbcff1946d466b92b05bb4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ad17474d71bbcff1946d466b92b05bb4e" kindref="member">tension_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1af0e4a20cd0d089189a4b8a8802771d15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1af0e4a20cd0d089189a4b8a8802771d15" kindref="member">rebuttal_cite_weight</ref>{0.5f};<sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision" kindref="compound">InjectionDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a204455e04d0de8e61b3d166b3b15dcd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a204455e04d0de8e61b3d166b3b15dcd1" kindref="member">school_id</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a2664cb1ef5cbf38e967add357436e8a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a2664cb1ef5cbf38e967add357436e8a7" kindref="member">argument_content</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a4792f53567eeb68d4fc9c7942cb44772" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a4792f53567eeb68d4fc9c7942cb44772" kindref="member">headline</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a1bd1768d20b2473f2a35604a8781650f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a1bd1768d20b2473f2a35604a8781650f" kindref="member">inject_full</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a51f97ea7a1d2291c971dbf3a2eae4020" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a51f97ea7a1d2291c971dbf3a2eae4020" kindref="member">relevance_score</ref>{0.0f};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1ad1d1b97c11047449ac40eb14b6d939a8" kindref="member">CrossSchoolTensionResolver</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1ad1d1b97c11047449ac40eb14b6d939a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1ad1d1b97c11047449ac40eb14b6d939a8" kindref="member">CrossSchoolTensionResolver</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;InjectionDecision&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1a766aa6575fa6b6d0bc1c8efb22a2e2c0" kindref="member">resolveOpponentInjections</ref>(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>own_school_id,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/>opponent_school_ids,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EthicalArgument&gt;&amp;<sp/>opponent_round_args,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SchoolTension&gt;&amp;<sp/><sp/><sp/>tensions,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>full_injection_threshold<sp/>=<sp/>0.6f,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_full_injections<sp/>=<sp/>2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SchoolTension&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1a7397132589ded1895196971513060a8c" kindref="member">loadTensions</ref>(</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref>&amp;<sp/>profile)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ethics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ethics_ai/cross_school_tension_resolver.h"/>
+  </compounddef>
+</doxygen>

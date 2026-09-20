@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_scan_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::ScanResult</compoundname>
+    <includes refid="malware__scanner_8h" local="no">malware_scanner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1a31394730e3a77eb76d7ad6e4ce7243d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ScanResult::clean</definition>
+        <argsstring></argsstring>
+        <name>clean</name>
+        <qualifiedname>themis::security::ScanResult::clean</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="43" column="10" bodyfile="include/security/malware_scanner.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1a6048c12ee43385f16bf616cf8f0e4454" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref></type>
+        <definition>ThreatLevel themis::security::ScanResult::threat_level</definition>
+        <argsstring></argsstring>
+        <name>threat_level</name>
+        <qualifiedname>themis::security::ScanResult::threat_level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384aa88a6a0c276fd853999a1faedf19c00e" kindref="member">ThreatLevel::CLEAN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="44" column="17" bodyfile="include/security/malware_scanner.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1a0e0c1ec22b752440549aa3aa68cae5ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ScanResult::threat_name</definition>
+        <argsstring></argsstring>
+        <name>threat_name</name>
+        <qualifiedname>themis::security::ScanResult::threat_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="45" column="17" bodyfile="include/security/malware_scanner.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1ad84a46bd72b2b3969dc2a5c49f08bcc7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ScanResult::threat_category</definition>
+        <argsstring></argsstring>
+        <name>threat_category</name>
+        <qualifiedname>themis::security::ScanResult::threat_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="46" column="17" bodyfile="include/security/malware_scanner.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1a3cd5f318d7138993e30b40b6b55c9a67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ScanResult::scanner_name</definition>
+        <argsstring></argsstring>
+        <name>scanner_name</name>
+        <qualifiedname>themis::security::ScanResult::scanner_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="47" column="17" bodyfile="include/security/malware_scanner.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1a8ba113fd588ab2f19affa4920b9e788c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ScanResult::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::security::ScanResult::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="48" column="17" bodyfile="include/security/malware_scanner.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1ae60dee31c0aa57f5bee2cdb7cb457805" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::security::ScanResult::scan_duration</definition>
+        <argsstring></argsstring>
+        <name>scan_duration</name>
+        <qualifiedname>themis::security::ScanResult::scan_duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="49" column="31" bodyfile="include/security/malware_scanner.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1a048333f417641cd2f4e21a012aed5e1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ScanResult::file_hash_sha256</definition>
+        <argsstring></argsstring>
+        <name>file_hash_sha256</name>
+        <qualifiedname>themis::security::ScanResult::file_hash_sha256</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="50" column="17" bodyfile="include/security/malware_scanner.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1a4598ce8ab23ded14996858c7d421aaf9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::ScanResult::file_size</definition>
+        <argsstring></argsstring>
+        <name>file_size</name>
+        <qualifiedname>themis::security::ScanResult::file_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="51" column="13" bodyfile="include/security/malware_scanner.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_scan_result_1ada7f5fa68bdc5977201f685dafb941c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ScanResult::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::security::ScanResult::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="52" column="17" bodyfile="include/security/malware_scanner.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_scan_result_1aa9cc1d149fbfd4e5c7527cdf4b1e3e43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref></type>
+        <definition>json themis::security::ScanResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::ScanResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="58" column="10" bodyfile="src/security/malware_scanner.cpp" bodystart="164" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_scan_result_1a2a6d849406a899a7f9321c8569ca52d6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_scan_result" kindref="compound">ScanResult</ref></type>
+        <definition>ScanResult themis::security::ScanResult::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::security::ScanResult::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="namespacethemis_1_1security_1a7adbfea4414a631e3ec1ebda2092b12d" kindref="member">stringToThreatLevel()</ref>, std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="64" column="23" bodyfile="src/security/malware_scanner.cpp" bodystart="185" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a malware scan. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/malware_scanner.h" line="42" column="1" bodyfile="include/security/malware_scanner.h" bodystart="42" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_scan_result_1a31394730e3a77eb76d7ad6e4ce7243d2" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>clean</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1a8ba113fd588ab2f19affa4920b9e788c" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>details</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1a048333f417641cd2f4e21a012aed5e1e" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>file_hash_sha256</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1a4598ce8ab23ded14996858c7d421aaf9" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>file_size</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1a2a6d849406a899a7f9321c8569ca52d6" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1ada7f5fa68bdc5977201f685dafb941c6" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1ae60dee31c0aa57f5bee2cdb7cb457805" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>scan_duration</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1a3cd5f318d7138993e30b40b6b55c9a67" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>scanner_name</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1ad84a46bd72b2b3969dc2a5c49f08bcc7" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>threat_category</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1a6048c12ee43385f16bf616cf8f0e4454" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>threat_level</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1a0e0c1ec22b752440549aa3aa68cae5ff" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>threat_name</name></member>
+      <member refid="structthemis_1_1security_1_1_scan_result_1aa9cc1d149fbfd4e5c7527cdf4b1e3e43" prot="public" virt="non-virtual"><scope>themis::security::ScanResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

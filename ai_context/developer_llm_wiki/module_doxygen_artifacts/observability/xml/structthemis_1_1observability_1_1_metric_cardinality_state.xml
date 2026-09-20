@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metric_cardinality_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MetricCardinalityState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_cardinality_state_1ab2d919ee9fdd163e1149b413efa4305f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref></type>
+        <definition>CardinalityLimit themis::observability::MetricCardinalityState::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::limit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="31" column="22" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_cardinality_state_1a2bb174617cddb71285f28c65ec4fcacd" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::map&lt; std::string, std::string &gt;, std::int64_t &gt;</type>
+        <definition>std::map&lt;std::map&lt;std::string, std::string&gt;, std::int64_t&gt; themis::observability::MetricCardinalityState::label_sets</definition>
+        <argsstring></argsstring>
+        <name>label_sets</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::label_sets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="32" column="14" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_cardinality_state_1a5edac98d446572cb0afa444477c29c2b" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::MetricCardinalityState::rejected_sets</definition>
+        <argsstring></argsstring>
+        <name>rejected_sets</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::rejected_sets</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="33" column="19" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_cardinality_state_1a7b4d15caf5516ea246678bc441a34cc0" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::MetricCardinalityState::aggregated_sets</definition>
+        <argsstring></argsstring>
+        <name>aggregated_sets</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::aggregated_sets</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="34" column="19" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_cardinality_state_1ab9eef18464e33189541ab39f0a520575" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::observability::MetricCardinalityState::last_updated_ns</definition>
+        <argsstring></argsstring>
+        <name>last_updated_ns</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::last_updated_ns</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="35" column="18" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_cardinality_state_1ae0710762d30e29bde8a2d02ced3a69f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricCardinalityState::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::enabled</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="36" column="10" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_cardinality_state_1aa76292b4764fe9110edce610dc0d8f5e" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy" kindref="compound">CardinalityFallbackStrategy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CardinalityFallbackStrategy&gt; themis::observability::MetricCardinalityState::fallback_strategy</definition>
+        <argsstring></argsstring>
+        <name>fallback_strategy</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::fallback_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="37" column="21" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_cardinality_state_1a5258aad0de730e42f00abbd4d6beafea" prot="public" static="no" mutable="no">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::MetricCardinalityState::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="38" column="23" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_metric_cardinality_state_1a0e3303df6ee6b7e8afc8a1bda02860a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricCardinalityState::MetricCardinalityState</definition>
+        <argsstring>()</argsstring>
+        <name>MetricCardinalityState</name>
+        <qualifiedname>themis::observability::MetricCardinalityState::MetricCardinalityState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/high_cardinality_metrics.cpp" line="40" column="5" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::CardinalityLimit</label>
+        <link refid="structthemis_1_1observability_1_1_cardinality_limit"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::MetricCardinalityState</label>
+        <link refid="structthemis_1_1observability_1_1_metric_cardinality_state"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>limit</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/high_cardinality_metrics.cpp" line="30" column="1" bodyfile="src/observability/high_cardinality_metrics.cpp" bodystart="30" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1a7b4d15caf5516ea246678bc441a34cc0" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>aggregated_sets</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1ae0710762d30e29bde8a2d02ced3a69f1" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1aa76292b4764fe9110edce610dc0d8f5e" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>fallback_strategy</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1a2bb174617cddb71285f28c65ec4fcacd" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>label_sets</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1ab9eef18464e33189541ab39f0a520575" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>last_updated_ns</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1ab2d919ee9fdd163e1149b413efa4305f" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>limit</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1a0e3303df6ee6b7e8afc8a1bda02860a6" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>MetricCardinalityState</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1a5edac98d446572cb0afa444477c29c2b" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>rejected_sets</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_cardinality_state_1a5258aad0de730e42f00abbd4d6beafea" prot="public" virt="non-virtual"><scope>themis::observability::MetricCardinalityState</scope><name>state_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

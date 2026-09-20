@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_m_l_anomaly_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::MLAnomalyDetector</compoundname>
+    <includes refid="ml__anomaly__detector_8h" local="no">ml_anomaly_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a0ee388ea4a968b40fa1b5dcb1230e5d2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_m_l_config" kindref="compound">MLConfig</ref></type>
+        <definition>MLConfig themis::observability::MLAnomalyDetector::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="134" column="14" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a4aa762429740fb96df2545141392efb7" prot="private" static="no" mutable="yes">
+        <type>themisdb::analytics::ForecastModel</type>
+        <definition>themisdb::analytics::ForecastModel themis::observability::MLAnomalyDetector::forecast_model_</definition>
+        <argsstring></argsstring>
+        <name>forecast_model_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::forecast_model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="136" column="50" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1accbe40744380af4e4b464a341e49fe4c" prot="private" static="no" mutable="yes">
+        <type>themisdb::analytics::AnomalyDetector</type>
+        <definition>themisdb::analytics::AnomalyDetector themis::observability::MLAnomalyDetector::outlier_detector_</definition>
+        <argsstring></argsstring>
+        <name>outlier_detector_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::outlier_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="137" column="50" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a91f314082b804cc16762bcbd3cc6bec7" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref></type>
+        <definition>ForecastSeries themis::observability::MLAnomalyDetector::training_series_</definition>
+        <argsstring></argsstring>
+        <name>training_series_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::training_series_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="139" column="20" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1adf4d5f29f536f9eb69960ec726c4c700" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::observability::MLAnomalyDetector::baseline_values_</definition>
+        <argsstring></argsstring>
+        <name>baseline_values_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::baseline_values_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="140" column="17" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a9c2810efcd055a7dbe650f6bac40cad2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::observability::MLAnomalyDetector::seasonal_template_</definition>
+        <argsstring></argsstring>
+        <name>seasonal_template_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::seasonal_template_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="141" column="17" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a6d87a7a9f52dcc56558e6c3470dcb1ab" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MLAnomalyDetector::baseline_mean_</definition>
+        <argsstring></argsstring>
+        <name>baseline_mean_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::baseline_mean_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="142" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1aaa1724483b83220e4173259a5e5bf1e8" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MLAnomalyDetector::baseline_stddev_</definition>
+        <argsstring></argsstring>
+        <name>baseline_stddev_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::baseline_stddev_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="143" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a0728b67afe6064fc360147182d5638d8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::MLAnomalyDetector::trained_</definition>
+        <argsstring></argsstring>
+        <name>trained_</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::trained_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="144" column="10" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a244c539bb4d6d5b12c4cf9c01039e421" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MLAnomalyDetector::MLAnomalyDetector</definition>
+        <argsstring>(const MLConfig &amp;config={})</argsstring>
+        <name>MLAnomalyDetector</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::MLAnomalyDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_m_l_config" kindref="compound">MLConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="116" column="14" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="276" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a54f64f7158a5a49d90d4e3a63f88623f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MLAnomalyDetector::train</definition>
+        <argsstring>(const std::vector&lt; ForecastSeries &gt; &amp;training_data)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref> &gt; &amp;</type>
+          <declname>training_data</declname>
+        </param>
+        <briefdescription>
+<para>Train on one or more historical time series (merged by timestamp). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: points(), insert(), end(), begin(), std::sort(), erase(), std::unique(), std::fabs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="119" column="10" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="289" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ab730d537c79812de9d39608dc71fdfcb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_anomaly" kindref="compound">Anomaly</ref> &gt;</type>
+        <definition>std::vector&lt; Anomaly &gt; themis::observability::MLAnomalyDetector::detectAnomalies</definition>
+        <argsstring>(const ForecastSeries &amp;current_data) const</argsstring>
+        <name>detectAnomalies</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::detectAnomalies</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref> &amp;</type>
+          <declname>current_data</declname>
+        </param>
+        <briefdescription>
+<para>Detect anomalies in the provided series. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="122" column="17" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="395" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1aca22adbb37e3f449bd563248447586ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref></type>
+        <definition>ForecastSeries themis::observability::MLAnomalyDetector::forecast</definition>
+        <argsstring>(std::chrono::hours horizon) const</argsstring>
+        <name>forecast</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::forecast</qualifiedname>
+        <param>
+          <type>std::chrono::hours</type>
+          <declname>horizon</declname>
+        </param>
+        <briefdescription>
+<para>Predict future values out to <computeroutput>horizon</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="125" column="20" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="370" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ae755fc4d6ae1fbd1f8fb4ff4be9c9e2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_anomaly_explanation" kindref="compound">AnomalyExplanation</ref></type>
+        <definition>AnomalyExplanation themis::observability::MLAnomalyDetector::explainAnomaly</definition>
+        <argsstring>(const Anomaly &amp;anomaly) const</argsstring>
+        <name>explainAnomaly</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::explainAnomaly</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_anomaly" kindref="compound">Anomaly</ref> &amp;</type>
+          <declname>anomaly</declname>
+        </param>
+        <briefdescription>
+<para>Explain an already-detected anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="128" column="24" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="497" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a83de4136327735d9d1601f4733fc7a20" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MLAnomalyDetector::isTrained</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::isTrained</qualifiedname>
+        <briefdescription>
+<para>True once <ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a54f64f7158a5a49d90d4e3a63f88623f" kindref="member">train()</ref> has succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="131" column="10" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ab85c3d22eb40c9368b5cf2cae45fa6e9" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MLAnomalyDetector::clamp01</definition>
+        <argsstring>(double v) noexcept</argsstring>
+        <name>clamp01</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::clamp01</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="147" column="19" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="34" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a69d66aa0ea1f650782e7ede816eef7ca" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::MLAnomalyDetector::tsFromMs</definition>
+        <argsstring>(int64_t ms)</argsstring>
+        <name>tsFromMs</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::tsFromMs</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="148" column="50" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a4e4f1d93d86aadf94cca7ab9caf67ccb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::MLAnomalyDetector::toMs</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp)</argsstring>
+        <name>toMs</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::toMs</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>To Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="149" column="49" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="57" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1aae55b14ad158e122a2495119c80856f1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MLAnomalyDetector::mean</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;v)</argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::mean</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Mean. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::accumulate(), begin(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="150" column="49" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="69" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a400982da3eb4259d0aa413d4b6a4775c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MLAnomalyDetector::stddev</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;v, double mu)</argsstring>
+        <name>stddev</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::stddev</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mu</declname>
+        </param>
+        <briefdescription>
+<para>Stddev. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="151" column="49" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="84" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a6c0154b3115c534e69d01282976b90b1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MLAnomalyDetector::medianIntervalMs</definition>
+        <argsstring>(const ForecastSeries &amp;series) const</argsstring>
+        <name>medianIntervalMs</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::medianIntervalMs</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref> &amp;</type>
+          <declname>series</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="152" column="12" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="96" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ae849e9028a7a819289f63607f9bbd71a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::observability::MLAnomalyDetector::dbscanLabels</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values) const</argsstring>
+        <name>dbscanLabels</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::dbscanLabels</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="153" column="17" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="116" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a668fd47a41ca5834d3ad80bb9de91cea" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MLAnomalyDetector::changePointScore</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values) const</argsstring>
+        <name>changePointScore</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::changePointScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="154" column="12" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="166" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a94ddcbaa5d05342ca9ebdb1d957b210f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MLAnomalyDetector::severityForScore</definition>
+        <argsstring>(double s) const</argsstring>
+        <name>severityForScore</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::severityForScore</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="155" column="17" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="183" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a612936b9b891589d8c5bb34cd030acbd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::observability::MLAnomalyDetector::buildSeasonalTemplate</definition>
+        <argsstring>(const themisdb::analytics::DecompositionResult &amp;d) const</argsstring>
+        <name>buildSeasonalTemplate</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::buildSeasonalTemplate</qualifiedname>
+        <param>
+          <type>const themisdb::analytics::DecompositionResult &amp;</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="156" column="17" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="196" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a1b992d13ed21e5ee9615903e18a52596" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_anomaly_explanation" kindref="compound">AnomalyExplanation</ref></type>
+        <definition>AnomalyExplanation themis::observability::MLAnomalyDetector::buildExplanation</definition>
+        <argsstring>(const Anomaly &amp;anomaly) const</argsstring>
+        <name>buildExplanation</name>
+        <qualifiedname>themis::observability::MLAnomalyDetector::buildExplanation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_anomaly" kindref="compound">Anomaly</ref> &amp;</type>
+          <declname>anomaly</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="157" column="24" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="203" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Machine learning-based anomaly detector for observability metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Combines time-series forecasting (ARIMA / Prophet-style Holt-Winters), outlier detection (Isolation Forest / LOF), DBSCAN density checks, seasonal pattern recognition, and lightweight change-point detection. </para>
+    </detaileddescription>
+    <location file="include/observability/ml_anomaly_detector.h" line="114" column="1" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="114" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a6d87a7a9f52dcc56558e6c3470dcb1ab" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>baseline_mean_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1aaa1724483b83220e4173259a5e5bf1e8" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>baseline_stddev_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1adf4d5f29f536f9eb69960ec726c4c700" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>baseline_values_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a1b992d13ed21e5ee9615903e18a52596" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>buildExplanation</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a612936b9b891589d8c5bb34cd030acbd" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>buildSeasonalTemplate</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a0ee388ea4a968b40fa1b5dcb1230e5d2" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a668fd47a41ca5834d3ad80bb9de91cea" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>changePointScore</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ab85c3d22eb40c9368b5cf2cae45fa6e9" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>clamp01</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ae849e9028a7a819289f63607f9bbd71a" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>dbscanLabels</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ab730d537c79812de9d39608dc71fdfcb" prot="public" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>detectAnomalies</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ae755fc4d6ae1fbd1f8fb4ff4be9c9e2b" prot="public" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>explainAnomaly</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1aca22adbb37e3f449bd563248447586ea" prot="public" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>forecast</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a4aa762429740fb96df2545141392efb7" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>forecast_model_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a83de4136327735d9d1601f4733fc7a20" prot="public" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1aae55b14ad158e122a2495119c80856f1" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>mean</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a6c0154b3115c534e69d01282976b90b1" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>medianIntervalMs</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a244c539bb4d6d5b12c4cf9c01039e421" prot="public" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>MLAnomalyDetector</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1accbe40744380af4e4b464a341e49fe4c" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>outlier_detector_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a9c2810efcd055a7dbe650f6bac40cad2" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>seasonal_template_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a94ddcbaa5d05342ca9ebdb1d957b210f" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>severityForScore</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a400982da3eb4259d0aa413d4b6a4775c" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>stddev</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a4e4f1d93d86aadf94cca7ab9caf67ccb" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>toMs</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a54f64f7158a5a49d90d4e3a63f88623f" prot="public" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>train</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a0728b67afe6064fc360147182d5638d8" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>trained_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a91f314082b804cc16762bcbd3cc6bec7" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>training_series_</name></member>
+      <member refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a69d66aa0ea1f650782e7ede816eef7ca" prot="private" virt="non-virtual"><scope>themis::observability::MLAnomalyDetector</scope><name>tsFromMs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

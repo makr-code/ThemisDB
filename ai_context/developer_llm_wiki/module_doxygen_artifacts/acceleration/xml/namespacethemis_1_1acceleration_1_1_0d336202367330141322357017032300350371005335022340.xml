@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration_1_1_0d336202367330141322357017032300350371005335022340" kind="namespace" language="C++">
+    <compoundname>themis::acceleration::@336202367330141322357017032300350371005335022340</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/vec_knn.cpp" line="60" column="1"/>
+  </compounddef>
+</doxygen>

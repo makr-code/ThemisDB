@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_mmap_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::MmapLoader</compoundname>
+    <includes refid="tensor__storage__strategy_8h" local="no">tensor_storage_strategy.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a3fe84485078a32b3e99b83717839bbc2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AccessPattern</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::AccessPattern</qualifiedname>
+        <enumvalue id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a3fe84485078a32b3e99b83717839bbc2a39403cd282d944abcd4f14996cb71bcb" prot="public">
+          <name>SEQUENTIAL</name>
+          <briefdescription>
+<para>Bytes are read front-to-back (enables kernel prefetch). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a3fe84485078a32b3e99b83717839bbc2a170e02e86972c2be8559884cc3c12254" prot="public">
+          <name>RANDOM</name>
+          <briefdescription>
+<para>Access order is unpredictable (disables prefetch). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a3fe84485078a32b3e99b83717839bbc2ae52f926de061f2c45d639536dd812a50" prot="public">
+          <name>WILLNEED</name>
+          <briefdescription>
+<para>All bytes will be accessed soon (triggers eager fault-in). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a3fe84485078a32b3e99b83717839bbc2a4a51d70f7c967563fa8a2c2b18b9abac" prot="public">
+          <name>DONTNEED</name>
+          <briefdescription>
+<para>Pages are no longer needed (allow OS eviction). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="234" column="5" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="234" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a139f086c599c737f3c86d2f00a0bb832" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::MmapLoader::MmapLoader</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>MmapLoader</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::MmapLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="241" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1ad8a9b06eaa8fc88e0c12a0a11a17def3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::MmapLoader::~MmapLoader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MmapLoader</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::~MmapLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="242" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a9824edb20faacd0149d24e606739aebe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::MmapLoader::MmapLoader</definition>
+        <argsstring>(const MmapLoader &amp;)=delete</argsstring>
+        <name>MmapLoader</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::MmapLoader</qualifiedname>
+        <param>
+          <type>const MmapLoader &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="244" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a93585502b379abeae153901c8fbe9591" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a139f086c599c737f3c86d2f00a0bb832" kindref="member">MmapLoader</ref> &amp;</type>
+        <definition>MmapLoader &amp; themis::distributed_tensor::MmapLoader::operator=</definition>
+        <argsstring>(const MmapLoader &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a139f086c599c737f3c86d2f00a0bb832" kindref="member">MmapLoader</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="245" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a8d9e8587e68dd1c79e2bba7c3373ee0f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::MmapLoader::MmapLoader</definition>
+        <argsstring>(MmapLoader &amp;&amp;) noexcept=default</argsstring>
+        <name>MmapLoader</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::MmapLoader</qualifiedname>
+        <param>
+          <type>MmapLoader &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="246" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1afe4cfe23c3800ecf5cf1aa03cd30637a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a139f086c599c737f3c86d2f00a0bb832" kindref="member">MmapLoader</ref> &amp;</type>
+        <definition>MmapLoader &amp; themis::distributed_tensor::MmapLoader::operator=</definition>
+        <argsstring>(MmapLoader &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a139f086c599c737f3c86d2f00a0bb832" kindref="member">MmapLoader</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="247" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a521727cc244d9729c16926a7d6f8b65b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_mmap_region" kindref="compound">MmapRegion</ref>, <ref refid="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739" kindref="member">MmapError</ref> &gt;</type>
+        <definition>std::pair&lt; MmapRegion, MmapError &gt; themis::distributed_tensor::MmapLoader::open</definition>
+        <argsstring>(std::string_view file_path, bool lock_pages=false) const noexcept</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::open</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>lock_pages</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="249" column="16" bodyfile="src/distributed_tensor/src/tensor_storage_strategy.cc" bodystart="151" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_mmap_loader_1ab551fb79a1e233249160172c9b31b82e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739" kindref="member">MmapError</ref></type>
+        <definition>MmapError themis::distributed_tensor::MmapLoader::advise</definition>
+        <argsstring>(const MmapRegion &amp;region, AccessPattern pattern) noexcept</argsstring>
+        <name>advise</name>
+        <qualifiedname>themis::distributed_tensor::MmapLoader::advise</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_mmap_region" kindref="compound">MmapRegion</ref> &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a3fe84485078a32b3e99b83717839bbc2" kindref="member">AccessPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="253" column="16" bodyfile="src/distributed_tensor/src/tensor_storage_strategy.cc" bodystart="299" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_storage_strategy.h" line="232" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="232" bodyend="256"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a3fe84485078a32b3e99b83717839bbc2" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>AccessPattern</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1ab551fb79a1e233249160172c9b31b82e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>advise</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a139f086c599c737f3c86d2f00a0bb832" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>MmapLoader</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a9824edb20faacd0149d24e606739aebe" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>MmapLoader</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a8d9e8587e68dd1c79e2bba7c3373ee0f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>MmapLoader</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a521727cc244d9729c16926a7d6f8b65b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>open</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1a93585502b379abeae153901c8fbe9591" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1afe4cfe23c3800ecf5cf1aa03cd30637a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_mmap_loader_1ad8a9b06eaa8fc88e0c12a0a11a17def3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MmapLoader</scope><name>~MmapLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

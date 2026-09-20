@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::AdaptiveIOScaler::Stats</compoundname>
+    <includes refid="adaptive__io__scaler_8h" local="no">adaptive_io_scaler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a4ed79964f65e8386533236822eab16e4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveIOScaler::Stats::current_threads</definition>
+        <argsstring></argsstring>
+        <name>current_threads</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Stats::current_threads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="104" column="18" bodyfile="include/network/adaptive_io_scaler.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1af72433311de55982510aaea541e4624e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveIOScaler::Stats::scale_up_events</definition>
+        <argsstring></argsstring>
+        <name>scale_up_events</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Stats::scale_up_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="105" column="18" bodyfile="include/network/adaptive_io_scaler.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1ad453c55552d88d5cf5f64d5fba183447" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveIOScaler::Stats::scale_down_events</definition>
+        <argsstring></argsstring>
+        <name>scale_down_events</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Stats::scale_down_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="106" column="18" bodyfile="include/network/adaptive_io_scaler.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a43fc67bed67ffc0fe8976ced6c143af7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveIOScaler::Stats::check_iterations</definition>
+        <argsstring></argsstring>
+        <name>check_iterations</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Stats::check_iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="107" column="18" bodyfile="include/network/adaptive_io_scaler.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a3c6a01177821c20d35aa86dadb6d7864" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveIOScaler::Stats::last_connection_count</definition>
+        <argsstring></argsstring>
+        <name>last_connection_count</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Stats::last_connection_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="108" column="18" bodyfile="include/network/adaptive_io_scaler.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/adaptive_io_scaler.h" line="103" column="5" bodyfile="include/network/adaptive_io_scaler.h" bodystart="103" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a43fc67bed67ffc0fe8976ced6c143af7" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Stats</scope><name>check_iterations</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a4ed79964f65e8386533236822eab16e4" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Stats</scope><name>current_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a3c6a01177821c20d35aa86dadb6d7864" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Stats</scope><name>last_connection_count</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1ad453c55552d88d5cf5f64d5fba183447" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Stats</scope><name>scale_down_events</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1af72433311de55982510aaea541e4624e" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Stats</scope><name>scale_up_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

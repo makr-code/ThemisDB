@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_anomaly_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::AnomalyDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1_i_anomaly_detector" prot="public" virt="non-virtual">themis::IAnomalyDetector</basecompoundref>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_anomaly_detector_1abffd6f68f6f5ab679c1c7c11eb608f9b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_anomaly_config" kindref="compound">AnomalyConfig</ref></type>
+        <definition>AnomalyConfig themis::AnomalyDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::AnomalyDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="189" column="19" bodyfile="include/timeseries/anomaly_detection.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_anomaly_detector_1a52789cf1f256ed1851dd026da5061a8c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AnomalyDetector::AnomalyDetector</definition>
+        <argsstring>(AnomalyConfig cfg={})</argsstring>
+        <name>AnomalyDetector</name>
+        <qualifiedname>themis::AnomalyDetector::AnomalyDetector</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_anomaly_config" kindref="compound">AnomalyConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="163" column="14" bodyfile="src/timeseries/anomaly_detection.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_anomaly_detector_1a0a00a975dc566cb59fcfaab6595c8649" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_anomaly_point" kindref="compound">AnomalyPoint</ref> &gt;</type>
+        <definition>std::vector&lt; AnomalyPoint &gt; themis::AnomalyDetector::detect</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points) const</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::AnomalyDetector::detect</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <briefdescription>
+<para>Detect anomalies using the stored configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="170" column="17" bodyfile="src/timeseries/anomaly_detection.cpp" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_anomaly_detector_1af2b6272a0004fa0a0cb48db5f6a7c1af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_anomaly_point" kindref="compound">AnomalyPoint</ref> &gt;</type>
+        <definition>std::vector&lt; AnomalyPoint &gt; themis::AnomalyDetector::detect</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points, const AnomalyConfig &amp;cfg) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::AnomalyDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1_i_anomaly_detector_1a2c826bc2b6c5184e9bcd5d2c9399f33a">detect</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_anomaly_config" kindref="compound">AnomalyConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Detect anomalies using an explicit configuration (overrides stored). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="176" column="17" bodyfile="src/timeseries/anomaly_detection.cpp" bodystart="159" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_anomaly_detector_1a9595764044cf60d85632782aa308e4c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AnomalyDetector::setConfig</definition>
+        <argsstring>(const AnomalyConfig &amp;cfg)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::AnomalyDetector::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_anomaly_config" kindref="compound">AnomalyConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="185" column="10" bodyfile="include/timeseries/anomaly_detection.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_anomaly_detector_1a7362355ef7e9535c412632064a20ef4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_anomaly_config" kindref="compound">AnomalyConfig</ref> &amp;</type>
+        <definition>const AnomalyConfig &amp; themis::AnomalyDetector::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::AnomalyDetector::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="186" column="25" bodyfile="include/timeseries/anomaly_detection.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configurable anomaly detector that delegates to <ref refid="classthemis_1_1_z_score_detector" kindref="compound">ZScoreDetector</ref>, <ref refid="classthemis_1_1_i_q_r_detector" kindref="compound">IQRDetector</ref>, or both. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <ref refid="namespacethemis_1ac6ac6b1da215b6285e2111a58888ea36a130c5b3473c57faa76e2a1c54e26f88e" kindref="member">AnomalyMethod::Both</ref> is selected, the union of anomalies detected by either method is returned; duplicate timestamps are de-duplicated, keeping the entry with the higher absolute score.</para>
+<para><heading level="3">Example</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">AnomalyConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.method<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1ac6ac6b1da215b6285e2111a58888ea36a0864acd24c328bdc0b2c2e8aa9ee4e03" kindref="member">AnomalyMethod::ZScore</ref>;</highlight></codeline>
+<codeline><highlight class="normal">cfg.zscore_threshold<sp/><sp/><sp/>=<sp/>3.0;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_anomaly_detector_1a52789cf1f256ed1851dd026da5061a8c" kindref="member">AnomalyDetector</ref><sp/>detector(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>anomalies<sp/>=<sp/>detector.detect(points);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::AnomalyDetector</label>
+        <link refid="classthemis_1_1_anomaly_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::IAnomalyDetector</label>
+        <link refid="classthemis_1_1_i_anomaly_detector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::AnomalyDetector</label>
+        <link refid="classthemis_1_1_anomaly_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::IAnomalyDetector</label>
+        <link refid="classthemis_1_1_i_anomaly_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/anomaly_detection.h" line="161" column="1" bodyfile="include/timeseries/anomaly_detection.h" bodystart="161" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_anomaly_detector_1a52789cf1f256ed1851dd026da5061a8c" prot="public" virt="non-virtual"><scope>themis::AnomalyDetector</scope><name>AnomalyDetector</name></member>
+      <member refid="classthemis_1_1_anomaly_detector_1a7362355ef7e9535c412632064a20ef4a" prot="public" virt="non-virtual"><scope>themis::AnomalyDetector</scope><name>config</name></member>
+      <member refid="classthemis_1_1_anomaly_detector_1abffd6f68f6f5ab679c1c7c11eb608f9b" prot="private" virt="non-virtual"><scope>themis::AnomalyDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_anomaly_detector_1a0a00a975dc566cb59fcfaab6595c8649" prot="public" virt="non-virtual"><scope>themis::AnomalyDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1_anomaly_detector_1af2b6272a0004fa0a0cb48db5f6a7c1af" prot="public" virt="virtual"><scope>themis::AnomalyDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1_anomaly_detector_1a9595764044cf60d85632782aa308e4c5" prot="public" virt="non-virtual"><scope>themis::AnomalyDetector</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_i_anomaly_detector_1ad81c6af8e83d4c6bbd46f9afa8cf7203" prot="public" virt="virtual"><scope>themis::AnomalyDetector</scope><name>~IAnomalyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

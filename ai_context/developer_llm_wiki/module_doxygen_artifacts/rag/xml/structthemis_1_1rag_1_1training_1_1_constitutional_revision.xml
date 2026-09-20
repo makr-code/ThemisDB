@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1training_1_1_constitutional_revision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::training::ConstitutionalRevision</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1ad11751b2eb8e0c74162612f5d7f6b023" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::ConstitutionalRevision::original_response</definition>
+        <argsstring></argsstring>
+        <name>original_response</name>
+        <qualifiedname>themis::rag::training::ConstitutionalRevision::original_response</qualifiedname>
+        <briefdescription>
+<para>Input to this step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="92" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1a00fcf8d83e92e66daa23de0175a7b0a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::ConstitutionalRevision::revised_response</definition>
+        <argsstring></argsstring>
+        <name>revised_response</name>
+        <qualifiedname>themis::rag::training::ConstitutionalRevision::revised_response</qualifiedname>
+        <briefdescription>
+<para>Output of this step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="93" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1a11e1c5a8443a727289a8ad56fe6b8812" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1training_1_1_constitutional_critique" kindref="compound">ConstitutionalCritique</ref> &gt;</type>
+        <definition>std::vector&lt;ConstitutionalCritique&gt; themis::rag::training::ConstitutionalRevision::critiques</definition>
+        <argsstring></argsstring>
+        <name>critiques</name>
+        <qualifiedname>themis::rag::training::ConstitutionalRevision::critiques</qualifiedname>
+        <briefdescription>
+<para>Per-principle critiques. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="94" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1ad59ae6ba056a187a8cc2fc88dd7ac0ac" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1training_1ad7392f662471bff5f7d35b33c4811a7a" kindref="member">RevisionOutcome</ref></type>
+        <definition>RevisionOutcome themis::rag::training::ConstitutionalRevision::outcome</definition>
+        <argsstring></argsstring>
+        <name>outcome</name>
+        <qualifiedname>themis::rag::training::ConstitutionalRevision::outcome</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1training_1ad7392f662471bff5f7d35b33c4811a7aa46335765005ff44b1fe1e38e5d2ddfcc" kindref="member">RevisionOutcome::UNCHANGED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="95" column="21" bodyfile="include/rag/rlaif_trainer.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1ae8499cfe24a0631f57f6b425b66fe410" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::training::ConstitutionalRevision::quality_delta</definition>
+        <argsstring></argsstring>
+        <name>quality_delta</name>
+        <qualifiedname>themis::rag::training::ConstitutionalRevision::quality_delta</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Improvement in quality score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="96" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1afe7c4eea932326d9793efb8226b7062a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::training::ConstitutionalRevision::iteration</definition>
+        <argsstring></argsstring>
+        <name>iteration</name>
+        <qualifiedname>themis::rag::training::ConstitutionalRevision::iteration</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cycle index (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="97" column="9" bodyfile="include/rag/rlaif_trainer.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of one constitutional revision step. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="91" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="91" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1a11e1c5a8443a727289a8ad56fe6b8812" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalRevision</scope><name>critiques</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1afe7c4eea932326d9793efb8226b7062a" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalRevision</scope><name>iteration</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1ad11751b2eb8e0c74162612f5d7f6b023" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalRevision</scope><name>original_response</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1ad59ae6ba056a187a8cc2fc88dd7ac0ac" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalRevision</scope><name>outcome</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1ae8499cfe24a0631f57f6b425b66fe410" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalRevision</scope><name>quality_delta</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision_1a00fcf8d83e92e66daa23de0175a7b0a9" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalRevision</scope><name>revised_response</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

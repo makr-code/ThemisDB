@@ -1,0 +1,891 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_m_i_g_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::MIGManager</compoundname>
+    <includes refid="mig__manager_8h" local="no">mig_manager.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" prot="public">themis::gpu::MIGManager::MIGInstance</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats" prot="public">themis::gpu::MIGManager::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Status</name>
+        <qualifiedname>themis::gpu::MIGManager::Status</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+<para>Operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a5a2fd06797702509a4fbff4eeca2548b" prot="public">
+          <name>MIG_NOT_SUPPORTED</name>
+          <briefdescription>
+<para>Device compute major &lt; 8 (not A/H series). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae9a99b542928c4044a56ef620ff502a8" prot="public">
+          <name>MIG_FEATURE_DISABLED</name>
+          <briefdescription>
+<para>MIG_MANAGER feature flag is off. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a78d9d7c14824306ce81742588a7df71f" prot="public">
+          <name>INVALID_PROFILE</name>
+          <briefdescription>
+<para>Unknown or unsupported MIG profile string. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ab75d8a2c3c647346973220ce1237fe18" prot="public">
+          <name>DEVICE_NOT_FOUND</name>
+          <briefdescription>
+<para>Requested device_index not in device list. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a25ade52c232758b2054f770be0a9ac38" prot="public">
+          <name>PARTITION_LIMIT_EXCEEDED</name>
+          <briefdescription>
+<para>Maximum instances for this device reached. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8afe4e7515a3be5e61f21686438b11404b" prot="public">
+          <name>INSTANCE_NOT_FOUND</name>
+          <briefdescription>
+<para>instance_id does not exist in the registry </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a4b50bbad8ad58da7f7558366fc69ab6d" prot="public">
+          <name>ALREADY_ASSIGNED</name>
+          <briefdescription>
+<para>Instance is already assigned to a tenant. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a52b5afe3870fcaac0e063ad0bd47209f" prot="public">
+          <name>NOT_ASSIGNED</name>
+          <briefdescription>
+<para>Instance has no tenant assignment to clear. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="102" column="5" bodyfile="include/themis/gpu/mig_manager.h" bodystart="102" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a0e7a1d214edfe699882678b07f85391d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::MIGManager::kProfile_1g_5gb</definition>
+        <argsstring></argsstring>
+        <name>kProfile_1g_5gb</name>
+        <qualifiedname>themis::gpu::MIGManager::kProfile_1g_5gb</qualifiedname>
+        <initializer>= &quot;1g.5gb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Well-known MIG profile strings. Callers may also pass arbitrary profile strings; only profiles present in kKnownProfiles are accepted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="73" column="33" bodyfile="include/themis/gpu/mig_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a114679206f06c909885c34103613f523" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::MIGManager::kProfile_2g_10gb</definition>
+        <argsstring></argsstring>
+        <name>kProfile_2g_10gb</name>
+        <qualifiedname>themis::gpu::MIGManager::kProfile_2g_10gb</qualifiedname>
+        <initializer>= &quot;2g.10gb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="74" column="33" bodyfile="include/themis/gpu/mig_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1aaffaacedd49ad16917c9530943d55bcc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::MIGManager::kProfile_3g_20gb</definition>
+        <argsstring></argsstring>
+        <name>kProfile_3g_20gb</name>
+        <qualifiedname>themis::gpu::MIGManager::kProfile_3g_20gb</qualifiedname>
+        <initializer>= &quot;3g.20gb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="75" column="33" bodyfile="include/themis/gpu/mig_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1ae65420d42138b01670c0f484e7f7f90c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::MIGManager::kProfile_4g_20gb</definition>
+        <argsstring></argsstring>
+        <name>kProfile_4g_20gb</name>
+        <qualifiedname>themis::gpu::MIGManager::kProfile_4g_20gb</qualifiedname>
+        <initializer>= &quot;4g.20gb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="76" column="33" bodyfile="include/themis/gpu/mig_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a44fe6fe713b36d9fe9a66cae5291368f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::MIGManager::kProfile_7g_40gb</definition>
+        <argsstring></argsstring>
+        <name>kProfile_7g_40gb</name>
+        <qualifiedname>themis::gpu::MIGManager::kProfile_7g_40gb</qualifiedname>
+        <initializer>= &quot;7g.40gb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="77" column="33" bodyfile="include/themis/gpu/mig_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1adf891d8f7dbee37c89032fa91f751249" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::MIGManager::kProfile_1g_10gb</definition>
+        <argsstring></argsstring>
+        <name>kProfile_1g_10gb</name>
+        <qualifiedname>themis::gpu::MIGManager::kProfile_1g_10gb</qualifiedname>
+        <initializer>= &quot;1g.10gb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="78" column="33" bodyfile="include/themis/gpu/mig_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1aba9425274a17f9a5bd21292ddf7bc49e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::MIGManager::kProfile_1g_12gb</definition>
+        <argsstring></argsstring>
+        <name>kProfile_1g_12gb</name>
+        <qualifiedname>themis::gpu::MIGManager::kProfile_1g_12gb</qualifiedname>
+        <initializer>= &quot;1g.12gb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="79" column="33" bodyfile="include/themis/gpu/mig_manager.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a7a024e889331aa5f55e013d8a23ffc19" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::MIGManager::kProfile_7g_80gb</definition>
+        <argsstring></argsstring>
+        <name>kProfile_7g_80gb</name>
+        <qualifiedname>themis::gpu::MIGManager::kProfile_7g_80gb</qualifiedname>
+        <initializer>= &quot;7g.80gb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="80" column="33" bodyfile="include/themis/gpu/mig_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a658dd098e2b9f107017e4b03dc3d724a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::MIGManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::MIGManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="286" column="24" bodyfile="include/themis/gpu/mig_manager.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1af7a6180eadbeacaabc0a0b30cc64a33b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" kindref="compound">MIGInstance</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MIGInstance&gt; themis::gpu::MIGManager::instances_</definition>
+        <argsstring></argsstring>
+        <name>instances_</name>
+        <qualifiedname>themis::gpu::MIGManager::instances_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="289" column="24" bodyfile="include/themis/gpu/mig_manager.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a11696651f322d1cf68722ffdd1a74b65" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, int &gt;</type>
+        <definition>std::unordered_map&lt;int, int&gt; themis::gpu::MIGManager::device_instance_count_</definition>
+        <argsstring></argsstring>
+        <name>device_instance_count_</name>
+        <qualifiedname>themis::gpu::MIGManager::device_instance_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="292" column="24" bodyfile="include/themis/gpu/mig_manager.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1ad1551867fa1cb52e51c4710c6b1021e7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, int &gt;</type>
+        <definition>std::unordered_map&lt;int, int&gt; themis::gpu::MIGManager::next_gi_id_</definition>
+        <argsstring></argsstring>
+        <name>next_gi_id_</name>
+        <qualifiedname>themis::gpu::MIGManager::next_gi_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="295" column="24" bodyfile="include/themis/gpu/mig_manager.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a3ac4f6c135f1103ec661d14789b502db" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::stat_created_</definition>
+        <argsstring></argsstring>
+        <name>stat_created_</name>
+        <qualifiedname>themis::gpu::MIGManager::stat_created_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="298" column="12" bodyfile="include/themis/gpu/mig_manager.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1af34e8e5b0999698e46bea3372cdcf163" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::stat_destroyed_</definition>
+        <argsstring></argsstring>
+        <name>stat_destroyed_</name>
+        <qualifiedname>themis::gpu::MIGManager::stat_destroyed_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="299" column="12" bodyfile="include/themis/gpu/mig_manager.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a55df8436c21d8bd0078211737ebd1cf6" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::stat_assigned_</definition>
+        <argsstring></argsstring>
+        <name>stat_assigned_</name>
+        <qualifiedname>themis::gpu::MIGManager::stat_assigned_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="300" column="12" bodyfile="include/themis/gpu/mig_manager.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a42aab433a69b31d434c341338c863faf" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::stat_unassigned_</definition>
+        <argsstring></argsstring>
+        <name>stat_unassigned_</name>
+        <qualifiedname>themis::gpu::MIGManager::stat_unassigned_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="301" column="12" bodyfile="include/themis/gpu/mig_manager.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_m_i_g_manager_1ac43ac44a7ee7bd82219ca08c29a8fc47" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::MIGManager::kMaxInstancesPerDevice</definition>
+        <argsstring></argsstring>
+        <name>kMaxInstancesPerDevice</name>
+        <qualifiedname>themis::gpu::MIGManager::kMaxInstancesPerDevice</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="303" column="26" bodyfile="include/themis/gpu/mig_manager.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a5d4dc35d23a771240859673017a815ba" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref> &amp;</type>
+        <definition>static MIGManager &amp; themis::gpu::MIGManager::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::MIGManager::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="128" column="23" bodyfile="include/themis/gpu/mig_manager.h" bodystart="128" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1aef8801395d1f6cf7a68811e9fbb5ec4f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::gpu::MIGManager::deviceSupportsMIG</definition>
+        <argsstring>(const DeviceInfo &amp;device) noexcept</argsstring>
+        <name>deviceSupportsMIG</name>
+        <qualifiedname>themis::gpu::MIGManager::deviceSupportsMIG</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>Return true when <computeroutput>device</computeroutput> supports MIG (compute major &gt;= 8). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does NOT check whether MIG mode is currently enabled in the driver. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="253" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a1c40e26c891e59c189b20e27ffad632a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::gpu::MIGManager::isKnownProfile</definition>
+        <argsstring>(const std::string &amp;profile) noexcept</argsstring>
+        <name>isKnownProfile</name>
+        <qualifiedname>themis::gpu::MIGManager::isKnownProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Return true when <computeroutput>profile</computeroutput> is a recognised MIG profile string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="258" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a62a14d660ee1c7c7a31b752a5cae6591" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::gpu::MIGManager::profileMemoryBytes</definition>
+        <argsstring>(const std::string &amp;profile) noexcept</argsstring>
+        <name>profileMemoryBytes</name>
+        <qualifiedname>themis::gpu::MIGManager::profileMemoryBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Return the VRAM size in bytes associated with <computeroutput>profile</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 for unknown profiles. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="265" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a526869b516e18a1ff03d3318d50eed7d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::gpu::MIGManager::makeInstanceId</definition>
+        <argsstring>(int device_index, int gi_id)</argsstring>
+        <name>makeInstanceId</name>
+        <qualifiedname>themis::gpu::MIGManager::makeInstanceId</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>gi_id</declname>
+        </param>
+        <briefdescription>
+<para>Build a deterministic instance ID from device index and gi_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Public so that tests can construct expected IDs without duplicating the naming logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="283" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::MIGManager::MIGManager</definition>
+        <argsstring>(const MIGManager &amp;)=delete</argsstring>
+        <name>MIGManager</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGManager</qualifiedname>
+        <param>
+          <type>const MIGManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a3f6a2631ff113599a90bace63736e595" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref> &amp;</type>
+        <definition>MIGManager &amp; themis::gpu::MIGManager::operator=</definition>
+        <argsstring>(const MIGManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::MIGManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="135" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a376cda34c170d8761f68c8461b6062a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::MIGManager::MIGManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>MIGManager</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a371e938d5a05aab6c18b6bcf4933f5c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::MIGManager::~MIGManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MIGManager</name>
+        <qualifiedname>themis::gpu::MIGManager::~MIGManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a219a0266fcf2f4e6fb27f5cc26be522f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref></type>
+        <definition>Status themis::gpu::MIGManager::createPartition</definition>
+        <argsstring>(int device_index, const std::string &amp;profile, std::string &amp;out_instance_id)</argsstring>
+        <name>createPartition</name>
+        <qualifiedname>themis::gpu::MIGManager::createPartition</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out_instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Create a MIG partition on the specified device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requirements:<itemizedlist>
+<listitem><para><computeroutput>MIG_MANAGER</computeroutput> feature flag must be enabled.</para>
+</listitem><listitem><para><computeroutput>device_index</computeroutput> must refer to a healthy GPU with compute major &gt;= 8.</para>
+</listitem><listitem><para><computeroutput>profile</computeroutput> must be one of the known profile strings.</para>
+</listitem><listitem><para>The device must have capacity for at least one more instance (max 7 per device).</para>
+</listitem></itemizedlist>
+</para>
+<para>On success <computeroutput>out_instance_id</computeroutput> is populated with a unique identifier that can be used in subsequent calls.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical GPU device index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIG profile string (e.g. &quot;1g.5gb&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the new instance ID on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">Status::OK</ref> or an error code. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="165" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a770530bc03480030422ffd209ab55b95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref></type>
+        <definition>Status themis::gpu::MIGManager::createPartition</definition>
+        <argsstring>(int device_index, const std::string &amp;profile, std::string &amp;out_instance_id, const std::vector&lt; DeviceInfo &gt; &amp;devices)</argsstring>
+        <name>createPartition</name>
+        <qualifiedname>themis::gpu::MIGManager::createPartition</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out_instance_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <briefdescription>
+<para>Overload that accepts an explicit device list instead of calling <ref refid="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" kindref="member">DeviceDiscovery::Enumerate()</ref>. Useful for unit testing without GPU hardware. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="174" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1ac6c44ece657aa3b987bfac4c5d49024b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref></type>
+        <definition>Status themis::gpu::MIGManager::destroyPartition</definition>
+        <argsstring>(const std::string &amp;instance_id)</argsstring>
+        <name>destroyPartition</name>
+        <qualifiedname>themis::gpu::MIGManager::destroyPartition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Destroy a MIG partition and release its resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The partition must not be assigned to a tenant at the time of destruction (call <computeroutput><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a7734e575d718276cb8d274f3696ed2ab" kindref="member">unassignFromTenant</ref></computeroutput> first).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID returned by a prior <ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a219a0266fcf2f4e6fb27f5cc26be522f" kindref="member">createPartition()</ref> call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">Status::OK</ref> or an error code. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="188" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a97692b8cd1f2c1fcc9126bb5fa956967" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref></type>
+        <definition>Status themis::gpu::MIGManager::assignToTenant</definition>
+        <argsstring>(const std::string &amp;instance_id, const std::string &amp;tenant_id)</argsstring>
+        <name>assignToTenant</name>
+        <qualifiedname>themis::gpu::MIGManager::assignToTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Assign a MIG instance to a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tenants are identified by an arbitrary non-empty string. An instance can be assigned to at most one tenant at a time.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIG instance to assign. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">Status::OK</ref>, INSTANCE_NOT_FOUND, or ALREADY_ASSIGNED. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="204" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a7734e575d718276cb8d274f3696ed2ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref></type>
+        <definition>Status themis::gpu::MIGManager::unassignFromTenant</definition>
+        <argsstring>(const std::string &amp;instance_id)</argsstring>
+        <name>unassignFromTenant</name>
+        <qualifiedname>themis::gpu::MIGManager::unassignFromTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the tenant assignment from a MIG instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIG instance to unassign. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">Status::OK</ref>, INSTANCE_NOT_FOUND, or NOT_ASSIGNED. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="213" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a937d46a724c7057fb69a444d7adbc26e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" kindref="compound">MIGInstance</ref> &gt;</type>
+        <definition>std::vector&lt; MIGInstance &gt; themis::gpu::MIGManager::getInstances</definition>
+        <argsstring>() const</argsstring>
+        <name>getInstances</name>
+        <qualifiedname>themis::gpu::MIGManager::getInstances</qualifiedname>
+        <briefdescription>
+<para>Return all active MIG instances across all devices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="222" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1af62007275877590a291c8eaf62110d64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" kindref="compound">MIGInstance</ref> &gt;</type>
+        <definition>std::vector&lt; MIGInstance &gt; themis::gpu::MIGManager::getInstancesForDevice</definition>
+        <argsstring>(int device_index) const</argsstring>
+        <name>getInstancesForDevice</name>
+        <qualifiedname>themis::gpu::MIGManager::getInstancesForDevice</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <briefdescription>
+<para>Return all active MIG instances on a specific device. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="227" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1ab6b8cf71080e415a27ea22fb2b8220e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" kindref="compound">MIGInstance</ref> &gt;</type>
+        <definition>std::vector&lt; MIGInstance &gt; themis::gpu::MIGManager::getInstancesForTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getInstancesForTenant</name>
+        <qualifiedname>themis::gpu::MIGManager::getInstancesForTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all MIG instances currently assigned to a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="232" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1aa1290f5005a8753fb83313d026111411" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::MIGManager::getInstance</definition>
+        <argsstring>(const std::string &amp;instance_id, MIGInstance &amp;out) const</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::gpu::MIGManager::getInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" kindref="compound">MIGInstance</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Return the MIG instance descriptor for a given instance ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false (and leaves <computeroutput>out</computeroutput> unchanged) when the instance does not exist. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="241" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1a265561fa56567f30f8be6b6b5716968d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::MIGManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::MIGManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="270" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_m_i_g_manager_1aaf0abe701cf745357e40d71cb58953ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::MIGManager::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::gpu::MIGManager::reset</qualifiedname>
+        <briefdescription>
+<para>Reset statistics and remove all instances (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="275" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>MIG (Multi-Instance GPU) partition manager for NVIDIA A/H series. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages the lifecycle of MIG GPU instances on NVIDIA Ampere (A100) and Hopper (H100) GPUs (compute capability major &gt;= 8). Each physical GPU can be partitioned into up to 7 independent GPU Instances (GIs); each GI provides isolated VRAM and compute slices with hardware-level fault isolation.</para>
+<sect1 id="classthemis_1_1gpu_1_1_m_i_g_manager_1autotoc_md34_1s1"><sect2 id="classthemis_1_1gpu_1_1_m_i_g_manager_1autotoc_md34">
+<title>MIG profiles</title><para>Profiles describe the fraction of the physical GPU allocated to an instance. Standard profiles follow the &quot;&lt;slices&gt;g.&lt;memory&gt;gb&quot; naming convention:<itemizedlist>
+<listitem><para>&quot;1g.5gb&quot; — 1/7 GPU, ~5 GiB VRAM (A100 40 GB)</para>
+</listitem><listitem><para>&quot;2g.10gb&quot; — 2/7 GPU, ~10 GiB VRAM</para>
+</listitem><listitem><para>&quot;3g.20gb&quot; — 3/7 GPU, ~20 GiB VRAM</para>
+</listitem><listitem><para>&quot;4g.20gb&quot; — 4/7 GPU, ~20 GiB VRAM</para>
+</listitem><listitem><para>&quot;7g.40gb&quot; — full GPU, ~40 GiB VRAM</para>
+</listitem><listitem><para>&quot;1g.10gb&quot; — 1/7 GPU, ~10 GiB VRAM (A100 80 GB)</para>
+</listitem><listitem><para>&quot;7g.80gb&quot; — full GPU, ~80 GiB VRAM (A100 80 GB)</para>
+</listitem><listitem><para>&quot;1g.12gb&quot; — 1/7 GPU, ~12 GiB VRAM (H100)</para>
+</listitem><listitem><para>&quot;7g.80gb&quot; — full GPU, ~80 GiB VRAM (H100 SXM)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_m_i_g_manager_1autotoc_md35_1s1"><sect2 id="classthemis_1_1gpu_1_1_m_i_g_manager_1autotoc_md35">
+<title>Hardware integration</title><para>When <computeroutput>THEMIS_ENABLE_CUDA</computeroutput> and <computeroutput>THEMIS_ENABLE_NVML</computeroutput> are defined the manager calls the NVML API (<computeroutput>nvmlDeviceSetMIGMode</computeroutput>, <computeroutput>nvmlDeviceCreateGpuInstance</computeroutput>, <computeroutput>nvmlDeviceGetGpuInstanceById</computeroutput>) to create and destroy real MIG partitions. In the current CPU-simulation build all operations are performed against an in-memory registry so that the entire public API can be tested on any machine without GPU hardware.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_m_i_g_manager_1autotoc_md36_1s1"><sect2 id="classthemis_1_1gpu_1_1_m_i_g_manager_1autotoc_md36">
+<title>Feature gate</title><para>All mutating operations require <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0ab7a37358efc4005d2a5244521e3e4cf3" kindref="member">GPUFeatureFlags::Feature::MIG_MANAGER</ref></computeroutput> to be enabled. Read-only queries (getInstances, deviceSupportsMIG) are always permitted. The feature is enabled by default for ENTERPRISE and HYPERSCALER editions.</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/mig_manager.h" line="65" column="1" bodyfile="include/themis/gpu/mig_manager.h" bodystart="65" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a97692b8cd1f2c1fcc9126bb5fa956967" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>assignToTenant</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a219a0266fcf2f4e6fb27f5cc26be522f" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>createPartition</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a770530bc03480030422ffd209ab55b95" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>createPartition</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ac6c44ece657aa3b987bfac4c5d49024b" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>destroyPartition</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a11696651f322d1cf68722ffdd1a74b65" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>device_instance_count_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aef8801395d1f6cf7a68811e9fbb5ec4f" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>deviceSupportsMIG</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a5d4dc35d23a771240859673017a815ba" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aa1290f5005a8753fb83313d026111411" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a937d46a724c7057fb69a444d7adbc26e" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>getInstances</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1af62007275877590a291c8eaf62110d64" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>getInstancesForDevice</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ab6b8cf71080e415a27ea22fb2b8220e5" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>getInstancesForTenant</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a265561fa56567f30f8be6b6b5716968d" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1af7a6180eadbeacaabc0a0b30cc64a33b" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>instances_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a1c40e26c891e59c189b20e27ffad632a" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>isKnownProfile</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ac43ac44a7ee7bd82219ca08c29a8fc47" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kMaxInstancesPerDevice</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1adf891d8f7dbee37c89032fa91f751249" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kProfile_1g_10gb</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aba9425274a17f9a5bd21292ddf7bc49e" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kProfile_1g_12gb</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a0e7a1d214edfe699882678b07f85391d" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kProfile_1g_5gb</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a114679206f06c909885c34103613f523" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kProfile_2g_10gb</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aaffaacedd49ad16917c9530943d55bcc" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kProfile_3g_20gb</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae65420d42138b01670c0f484e7f7f90c" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kProfile_4g_20gb</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a44fe6fe713b36d9fe9a66cae5291368f" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kProfile_7g_40gb</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a7a024e889331aa5f55e013d8a23ffc19" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>kProfile_7g_80gb</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a526869b516e18a1ff03d3318d50eed7d" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>makeInstanceId</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>MIGManager</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a376cda34c170d8761f68c8461b6062a5" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>MIGManager</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a658dd098e2b9f107017e4b03dc3d724a" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ad1551867fa1cb52e51c4710c6b1021e7" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>next_gi_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a3f6a2631ff113599a90bace63736e595" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a62a14d660ee1c7c7a31b752a5cae6591" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>profileMemoryBytes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aaf0abe701cf745357e40d71cb58953ea" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>reset</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a55df8436c21d8bd0078211737ebd1cf6" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>stat_assigned_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a3ac4f6c135f1103ec661d14789b502db" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>stat_created_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1af34e8e5b0999698e46bea3372cdcf163" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>stat_destroyed_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a42aab433a69b31d434c341338c863faf" prot="private" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>stat_unassigned_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>Status</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a7734e575d718276cb8d274f3696ed2ab" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>unassignFromTenant</name></member>
+      <member refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a371e938d5a05aab6c18b6bcf4933f5c8" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager</scope><name>~MIGManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

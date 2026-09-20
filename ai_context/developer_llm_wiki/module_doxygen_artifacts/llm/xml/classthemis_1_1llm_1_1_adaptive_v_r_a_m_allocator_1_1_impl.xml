@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::AdaptiveVRAMAllocator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl_1ae0379a382d8ba314ac71015a2bcddfc7" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator" kindref="compound">ActiveVRAMAllocator</ref></type>
+        <definition>ActiveVRAMAllocator themis::llm::AdaptiveVRAMAllocator::Impl::active_allocator_</definition>
+        <argsstring></argsstring>
+        <name>active_allocator_</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::Impl::active_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/adaptive_vram_allocator.cpp" line="59" column="25" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl_1a5df10e084b17cfa0acf84d3ed4fa8f65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdaptiveVRAMAllocator::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/adaptive_vram_allocator.cpp" line="56" column="5" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl_1aae0cac3e5cbfa7a7d3277834081ea681" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdaptiveVRAMAllocator::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/adaptive_vram_allocator.cpp" line="57" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::ActiveVRAMAllocator</label>
+        <link refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::AdaptiveVRAMAllocator::Impl</label>
+        <link refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>active_allocator_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/adaptive_vram_allocator.cpp" line="54" column="1" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="54" bodyend="60"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl_1ae0379a382d8ba314ac71015a2bcddfc7" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::Impl</scope><name>active_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl_1a5df10e084b17cfa0acf84d3ed4fa8f65" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl_1aae0cac3e5cbfa7a7d3277834081ea681" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

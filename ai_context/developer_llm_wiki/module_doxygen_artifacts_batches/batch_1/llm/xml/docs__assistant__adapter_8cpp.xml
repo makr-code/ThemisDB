@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="docs__assistant__adapter_8cpp" kind="file" language="C++">
+    <compoundname>docs_assistant_adapter.cpp</compoundname>
+    <includes local="yes">themis/llm/llm_factory.h</includes>
+    <includes refid="docs__assistant_8h" local="yes">llm/docs_assistant.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/docs_assistant.h</label>
+        <link refid="docs__assistant_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/llm/api/docs_assistant_adapter.cpp</label>
+        <link refid="docs__assistant__adapter_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="10">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>themis/llm/llm_factory.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl" prot="public">themis::llm::DocsAssistant::Impl</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;themis/llm/llm_factory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="docs__assistant_8h" kindref="compound">llm/docs_assistant.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Define<sp/>the<sp/>PImpl<sp/>type<sp/>declared<sp/>in<sp/>the<sp/>header<sp/>so<sp/>we<sp/>can<sp/>implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>public<sp/>methods<sp/>without<sp/>exposing<sp/>internal<sp/>details.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl" kindref="compound">DocsAssistant::Impl</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a505914f98b15d68a2f8c23b0ae6dc1c0" kindref="member">Impl</ref>()<sp/>{<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a4cdf9e69137d9d383ed955a18e64aad0" kindref="member">createDocsAssistant</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IDocsAssistant&gt;<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abbbfd7c3890b8db9507ede796e72063e" kindref="member">loadDatabase</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref><sp/>?<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>-&gt;loadDatabase(path)<sp/>:<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a634bae27e6257ed7d92867deb1dd539c" kindref="member">isReady</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref><sp/>?<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>-&gt;isReady()<sp/>:<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>DocsQueryResult<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1afb0b27313a5409fb76f39789bb04b41b" kindref="member">queryResult</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>q)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DocsQueryResult<sp/>res<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.<ref refid="structthemis_1_1llm_1_1_docs_query_result_1a04b555a12ac1745899e0ef0c18d485b0" kindref="member">generated_answer</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>-&gt;query(q);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.total_docs_searched<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DocumentEntry&gt;<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a809a673bf616b8f3607fb086e566d4e4" kindref="member">searchDocs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>q,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_results)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>lightweight<sp/>IDocsAssistant<sp/>interface<sp/>currently<sp/>exposes<sp/>no<sp/>raw<sp/>document<sp/>search<sp/>endpoint.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)q;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)max_results;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1ad0f423ed7188b788e3e4c064350b4d03" kindref="member">clearCache</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>)<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>-&gt;clearCache();<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>DocsQueryResult<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1ad863a8808e279430033f7e8ead9984e7" kindref="member">getConfigHelp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>topic)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DocsQueryResult<sp/>res<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>-&gt;getConfigHelp(topic);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>DocsQueryResult<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a422e80223da6c0b653496769e87972bc" kindref="member">getTroubleshootingHelp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>topic)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DocsQueryResult<sp/>res<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>-&gt;getTroubleshootingHelp(topic);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1a40998335d1c2dd7d46b5ef19a1e24ccb" kindref="member">getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref><sp/>?<sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_1_1_impl_1abe20108b49f9996c1a1b37ebf72ec3cf" kindref="member">impl</ref>-&gt;getStats()<sp/>:<sp/>nlohmann::json::object();<sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_docs_assistant_1ace8c0a8472e81c7f064b20ce37582428" kindref="member">DocsAssistant::DocsAssistant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_docs_assistant_config" kindref="compound">DocsAssistantConfig</ref>&amp;<sp/>config)<sp/>:<sp/>impl_(std::make_unique&lt;Impl&gt;())<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)config;<sp/></highlight><highlight class="comment">//<sp/>adapter<sp/>ignores<sp/>config;<sp/>real<sp/>implementation<sp/>may<sp/>use<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">DocsAssistant::~DocsAssistant()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>DocsAssistant::loadDatabase(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;loadDatabase(path);<sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>DocsAssistant::isReady()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;isReady();<sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">DocsQueryResult<sp/>DocsAssistant::query(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;queryResult(query);<sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">std::vector&lt;DocumentEntry&gt;<sp/>DocsAssistant::searchDocs(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>q,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_results)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;searchDocs(q,<sp/>max_results);<sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>DocsAssistant::clearCache()<sp/>{<sp/>impl_-&gt;clearCache();<sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">DocsQueryResult<sp/>DocsAssistant::getConfigHelp(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>topic)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;getConfigHelp(topic);<sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">DocsQueryResult<sp/>DocsAssistant::getTroubleshootingHelp(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>topic)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;getTroubleshootingHelp(topic);<sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">nlohmann::json<sp/>DocsAssistant::getStats()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;getStats();<sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/llm/api/docs_assistant_adapter.cpp"/>
+  </compounddef>
+</doxygen>

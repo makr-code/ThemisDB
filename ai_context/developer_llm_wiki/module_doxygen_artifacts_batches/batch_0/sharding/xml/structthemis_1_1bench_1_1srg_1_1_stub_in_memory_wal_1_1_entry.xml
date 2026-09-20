@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::srg::StubInMemoryWal::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry_1a83e082a5dc62df6e9807157a76db70d6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::srg::StubInMemoryWal::Entry::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>themis::bench::srg::StubInMemoryWal::Entry::lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="129" column="25" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry_1a89fd5fd5f7963ca93e446c9bedb1ba3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::srg::StubInMemoryWal::Entry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::bench::srg::StubInMemoryWal::Entry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="129" column="41" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="129" column="5" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="129" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry_1a89fd5fd5f7963ca93e446c9bedb1ba3a" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubInMemoryWal::Entry</scope><name>data</name></member>
+      <member refid="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry_1a83e082a5dc62df6e9807157a76db70d6" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubInMemoryWal::Entry</scope><name>lsn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

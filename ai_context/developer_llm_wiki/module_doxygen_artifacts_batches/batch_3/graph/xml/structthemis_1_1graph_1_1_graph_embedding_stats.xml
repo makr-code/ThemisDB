@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_embedding_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphEmbeddingStats</compoundname>
+    <includes refid="graph__embedding_8h" local="no">graph_embedding.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_stats_1a2f11dadc9f360ecfde12883b1ac88b34" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphEmbeddingStats::nodes_embedded</definition>
+        <argsstring></argsstring>
+        <name>nodes_embedded</name>
+        <qualifiedname>themis::graph::GraphEmbeddingStats::nodes_embedded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="63" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_stats_1a167183287d4f2975a4b4f3d569398aba" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphEmbeddingStats::training_time_ms</definition>
+        <argsstring></argsstring>
+        <name>training_time_ms</name>
+        <qualifiedname>themis::graph::GraphEmbeddingStats::training_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="64" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_stats_1aa4eef43579786eaedbc628cd18eb63bb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphEmbeddingStats::final_loss</definition>
+        <argsstring></argsstring>
+        <name>final_loss</name>
+        <qualifiedname>themis::graph::GraphEmbeddingStats::final_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="65" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_stats_1afb9c7a0fa3fd58c24497351442a41c4d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659" kindref="member">EmbeddingAlgorithm</ref></type>
+        <definition>EmbeddingAlgorithm themis::graph::GraphEmbeddingStats::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::graph::GraphEmbeddingStats::algorithm</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659a25ac51e72b5779ac0efd19a7548b32b2" kindref="member">EmbeddingAlgorithm::NODE2VEC</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="66" column="24" bodyfile="include/graph/graph_embedding.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_embedding.h" line="62" column="1" bodyfile="include/graph/graph_embedding.h" bodystart="62" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_stats_1afb9c7a0fa3fd58c24497351442a41c4d" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingStats</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_stats_1aa4eef43579786eaedbc628cd18eb63bb" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingStats</scope><name>final_loss</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_stats_1a2f11dadc9f360ecfde12883b1ac88b34" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingStats</scope><name>nodes_embedded</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_stats_1a167183287d4f2975a4b4f3d569398aba" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingStats</scope><name>training_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

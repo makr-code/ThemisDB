@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_event_trigger_1_1_circuit_breaker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EventTrigger::CircuitBreakerConfig</compoundname>
+    <includes refid="event__trigger_8h" local="no">event_trigger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_circuit_breaker_config_1a5fc8f776c58189f8ac650b36ae141919" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::EventTrigger::CircuitBreakerConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::EventTrigger::CircuitBreakerConfig::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="102" column="18" bodyfile="include/scheduler/event_trigger.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_circuit_breaker_config_1a2450c35637e747cbf570ffdef35de185" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::EventTrigger::CircuitBreakerConfig::cooldown</definition>
+        <argsstring></argsstring>
+        <name>cooldown</name>
+        <qualifiedname>themis::EventTrigger::CircuitBreakerConfig::cooldown</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="103" column="30" bodyfile="include/scheduler/event_trigger.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/event_trigger.h" line="101" column="5" bodyfile="include/scheduler/event_trigger.h" bodystart="101" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_event_trigger_1_1_circuit_breaker_config_1a2450c35637e747cbf570ffdef35de185" prot="public" virt="non-virtual"><scope>themis::EventTrigger::CircuitBreakerConfig</scope><name>cooldown</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_circuit_breaker_config_1a5fc8f776c58189f8ac650b36ae141919" prot="public" virt="non-virtual"><scope>themis::EventTrigger::CircuitBreakerConfig</scope><name>failure_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

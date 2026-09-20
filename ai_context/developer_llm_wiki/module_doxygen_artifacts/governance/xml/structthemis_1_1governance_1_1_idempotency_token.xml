@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_idempotency_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::IdempotencyToken</compoundname>
+    <includes refid="audit__batch__writer_8h" local="no">audit_batch_writer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_idempotency_token_1a74a5ad93fe81b8ee6c213100b4fb9cb7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::IdempotencyToken::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::governance::IdempotencyToken::token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="71" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_idempotency_token_1afecad1ed0e7fb625e6d93853c9c6ddf0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::IdempotencyToken::entry_id</definition>
+        <argsstring></argsstring>
+        <name>entry_id</name>
+        <qualifiedname>themis::governance::IdempotencyToken::entry_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="72" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_idempotency_token_1a54e1422fa9f49cdefe1c892a3207e9ff" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::IdempotencyToken::submitted_at_ms</definition>
+        <argsstring></argsstring>
+        <name>submitted_at_ms</name>
+        <qualifiedname>themis::governance::IdempotencyToken::submitted_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="73" column="13" bodyfile="include/governance/audit_batch_writer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_idempotency_token_1a05de7c8e094d55ca2d6e6ce183f15121" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::IdempotencyToken::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::governance::IdempotencyToken::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="74" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_idempotency_token_1ad6708ca40a7a264b10624d9fbf47df3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::IdempotencyToken::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::IdempotencyToken::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="80" column="20" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_idempotency_token_1ad60639a392e20a054858b6e760317a6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_idempotency_token" kindref="compound">IdempotencyToken</ref></type>
+        <definition>IdempotencyToken themis::governance::IdempotencyToken::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::IdempotencyToken::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="86" column="29" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="91" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/audit_batch_writer.h" line="70" column="1" bodyfile="include/governance/audit_batch_writer.h" bodystart="70" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_idempotency_token_1afecad1ed0e7fb625e6d93853c9c6ddf0" prot="public" virt="non-virtual"><scope>themis::governance::IdempotencyToken</scope><name>entry_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_idempotency_token_1ad60639a392e20a054858b6e760317a6f" prot="public" virt="non-virtual"><scope>themis::governance::IdempotencyToken</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_idempotency_token_1a05de7c8e094d55ca2d6e6ce183f15121" prot="public" virt="non-virtual"><scope>themis::governance::IdempotencyToken</scope><name>state</name></member>
+      <member refid="structthemis_1_1governance_1_1_idempotency_token_1a54e1422fa9f49cdefe1c892a3207e9ff" prot="public" virt="non-virtual"><scope>themis::governance::IdempotencyToken</scope><name>submitted_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_idempotency_token_1ad6708ca40a7a264b10624d9fbf47df3d" prot="public" virt="non-virtual"><scope>themis::governance::IdempotencyToken</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_idempotency_token_1a74a5ad93fe81b8ee6c213100b4fb9cb7" prot="public" virt="non-virtual"><scope>themis::governance::IdempotencyToken</scope><name>token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

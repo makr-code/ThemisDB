@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_dead_letter_queue_test" kind="class" language="C++" prot="public">
+    <compoundname>DeadLetterQueueTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeadLetterQueueTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>DeadLetterQueueTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="69" column="17" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; DeadLetterQueueTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>DeadLetterQueueTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="70" column="23" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dead_letter_queue_test_1a0bdc190799bf7ffad75c45ae8d560053" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; DeadLetterQueueTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>DeadLetterQueueTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="71" column="27" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dead_letter_queue_test_1a6412c941cb2e9286b1b2a81f190cf20e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_dead_letter_queue" kindref="compound">DeadLetterQueue</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DeadLetterQueue&gt; DeadLetterQueueTest::dlq_</definition>
+        <argsstring></argsstring>
+        <name>dlq_</name>
+        <qualifiedname>DeadLetterQueueTest::dlq_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="72" column="22" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_dead_letter_queue_test_1a21bed4012e1bff8127e09f90976390a0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeadLetterQueueTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DeadLetterQueueTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="21" column="10" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="21" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dead_letter_queue_test_1af78bb44fe579c7ad71f47eb9b034e6a5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeadLetterQueueTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DeadLetterQueueTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="46" column="10" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="46" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dead_letter_queue_test_1ade095c22fffc71de2367cb21b2fc2a28" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent DeadLetterQueueTest::makeEvent</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value=&quot;v&quot;)</argsstring>
+        <name>makeEvent</name>
+        <qualifiedname>DeadLetterQueueTest::makeEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+          <defval>&quot;v&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="58" column="29" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="58" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DeadLetterQueueTest</label>
+        <link refid="class_dead_letter_queue_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DeadLetterQueueTest</label>
+        <link refid="class_dead_letter_queue_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="19" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="19" bodyend="73"/>
+    <listofallmembers>
+      <member refid="class_dead_letter_queue_test_1a0bdc190799bf7ffad75c45ae8d560053" prot="protected" virt="non-virtual"><scope>DeadLetterQueueTest</scope><name>changefeed_</name></member>
+      <member refid="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" prot="protected" virt="non-virtual"><scope>DeadLetterQueueTest</scope><name>db_</name></member>
+      <member refid="class_dead_letter_queue_test_1a6412c941cb2e9286b1b2a81f190cf20e" prot="protected" virt="non-virtual"><scope>DeadLetterQueueTest</scope><name>dlq_</name></member>
+      <member refid="class_dead_letter_queue_test_1ade095c22fffc71de2367cb21b2fc2a28" prot="protected" virt="non-virtual"><scope>DeadLetterQueueTest</scope><name>makeEvent</name></member>
+      <member refid="class_dead_letter_queue_test_1a21bed4012e1bff8127e09f90976390a0" prot="protected" virt="non-virtual"><scope>DeadLetterQueueTest</scope><name>SetUp</name></member>
+      <member refid="class_dead_letter_queue_test_1af78bb44fe579c7ad71f47eb9b034e6a5" prot="protected" virt="non-virtual"><scope>DeadLetterQueueTest</scope><name>TearDown</name></member>
+      <member refid="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" prot="protected" virt="non-virtual"><scope>DeadLetterQueueTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

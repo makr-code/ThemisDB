@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_tenant_maintenance_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::TenantMaintenanceConfig</compoundname>
+    <includes refid="database__maintenance__orchestrator_8h" local="no">database_maintenance_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a13c2af413df484063a89760a6173604b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::maintenance::TenantMaintenanceConfig::enforce_window</definition>
+        <argsstring></argsstring>
+        <name>enforce_window</name>
+        <qualifiedname>themis::maintenance::TenantMaintenanceConfig::enforce_window</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, the tenant-level window [window_start_hour, window_end_hour) takes precedence over the per-schedule window. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="73" column="10" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a72a6a638c21a7fc771f673a58ff2be8c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::TenantMaintenanceConfig::window_start_hour</definition>
+        <argsstring></argsstring>
+        <name>window_start_hour</name>
+        <qualifiedname>themis::maintenance::TenantMaintenanceConfig::window_start_hour</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Inclusive start (0–23, UTC). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="74" column="10" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1afdcb90d3138a20bd6b0e0cd0cd53469a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::TenantMaintenanceConfig::window_end_hour</definition>
+        <argsstring></argsstring>
+        <name>window_end_hour</name>
+        <qualifiedname>themis::maintenance::TenantMaintenanceConfig::window_end_hour</qualifiedname>
+        <initializer>= 23</initializer>
+        <briefdescription>
+<para>Exclusive end (0–23, UTC). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="75" column="10" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a0a22158591a3a617e2cc342fd81f7490" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::TenantMaintenanceConfig::max_concurrent_jobs</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_jobs</name>
+        <qualifiedname>themis::maintenance::TenantMaintenanceConfig::max_concurrent_jobs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of concurrently RUNNING maintenance jobs for this tenant. 0 means unlimited. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="79" column="10" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-tenant maintenance configuration overrides. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When a schedule has a non-empty tenant_id and a <ref refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config" kindref="compound">TenantMaintenanceConfig</ref> is registered for that tenant via setTenantMaintenanceConfig(), the orchestrator applies these overrides instead of (or in addition to) the per-schedule values. </para>
+    </detaileddescription>
+    <location file="include/maintenance/database_maintenance_orchestrator.h" line="70" column="1" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="70" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a13c2af413df484063a89760a6173604b" prot="public" virt="non-virtual"><scope>themis::maintenance::TenantMaintenanceConfig</scope><name>enforce_window</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a0a22158591a3a617e2cc342fd81f7490" prot="public" virt="non-virtual"><scope>themis::maintenance::TenantMaintenanceConfig</scope><name>max_concurrent_jobs</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1afdcb90d3138a20bd6b0e0cd0cd53469a" prot="public" virt="non-virtual"><scope>themis::maintenance::TenantMaintenanceConfig</scope><name>window_end_hour</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config_1a72a6a638c21a7fc771f673a58ff2be8c" prot="public" virt="non-virtual"><scope>themis::maintenance::TenantMaintenanceConfig</scope><name>window_start_hour</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

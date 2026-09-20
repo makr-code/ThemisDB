@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_highlighted_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::HighlightedResponse</compoundname>
+    <includes refid="aql__syntax__highlighter_8h" local="no">aql_syntax_highlighter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_highlighted_response_1a668631683ef6046a13c8fca53604e0be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::HighlightedResponse::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::aql::HighlightedResponse::text</qualifiedname>
+        <briefdescription>
+<para>Full response with AQL blocks highlighted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="48" column="30" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_highlighted_response_1a4cdb1f11742c65b719031867668ffc2c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_annotation" kindref="compound">AQLAnnotation</ref> &gt;</type>
+        <definition>std::vector&lt;AQLAnnotation&gt; themis::aql::HighlightedResponse::annotations</definition>
+        <argsstring></argsstring>
+        <name>annotations</name>
+        <qualifiedname>themis::aql::HighlightedResponse::annotations</qualifiedname>
+        <briefdescription>
+<para>Any syntax errors found in AQL blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="49" column="17" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_syntax_highlighter.h" line="47" column="1" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="47" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_highlighted_response_1a4cdb1f11742c65b719031867668ffc2c" prot="public" virt="non-virtual"><scope>themis::aql::HighlightedResponse</scope><name>annotations</name></member>
+      <member refid="structthemis_1_1aql_1_1_highlighted_response_1a668631683ef6046a13c8fca53604e0be" prot="public" virt="non-virtual"><scope>themis::aql::HighlightedResponse</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="feedback__collector_8h" kind="file" language="C++">
+    <compoundname>feedback_collector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__prompt__engineering_8cpp" local="yes">benchmarks/prompt_engineering/bench_prompt_engineering.cpp</includedby>
+    <includedby refid="prompt__engineering__integration_8h" local="yes">include/prompt_engineering/prompt_engineering_integration.h</includedby>
+    <includedby refid="prompt__regression__runner_8h" local="yes">include/prompt_engineering/prompt_regression_runner.h</includedby>
+    <includedby refid="feedback__collector_8cpp" local="yes">src/prompt_engineering/feedback_collector.cpp</includedby>
+    <includedby refid="self__improvement__orchestrator_8cpp" local="yes">src/prompt_engineering/self_improvement_orchestrator.cpp</includedby>
+    <includedby refid="test__prompt__engineering__focused_8cpp" local="yes">tests/prompt_engineering/test_prompt_engineering_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/feedback_collector.h</label>
+        <link refid="feedback__collector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/prompt_engineering/bench_prompt_engineering.cpp</label>
+        <link refid="bench__prompt__engineering_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/prompt_engineering/feedback_collector.h</label>
+        <link refid="feedback__collector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/prompt_engineering/prompt_engineering_integration.h</label>
+        <link refid="prompt__engineering__integration_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/prompt_engineering/prompt_regression_runner.h</label>
+        <link refid="prompt__regression__runner_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/prompt_engineering/feedback_collector.cpp</label>
+        <link refid="feedback__collector_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/prompt_engineering/prompt_engineering_integration.cpp</label>
+        <link refid="prompt__engineering__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/prompt_engineering/prompt_regression_runner.cpp</label>
+        <link refid="prompt__regression__runner_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/prompt_engineering/self_improvement_orchestrator.cpp</label>
+        <link refid="self__improvement__orchestrator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/prompt_engineering/test_prompt_engineering_focused.cpp</label>
+        <link refid="test__prompt__engineering__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" prot="public">themis::prompt_engineering::FeedbackEntry</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_feedback_stats" prot="public">themis::prompt_engineering::FeedbackStats</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern" prot="public">themis::prompt_engineering::FailedQueryPattern</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" prot="public">themis::prompt_engineering::FeedbackCollector</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model" prot="public">themis::prompt_engineering::FeedbackCollector::IEmbeddingModel</innerclass>
+    <innernamespace refid="namespacerocksdb">rocksdb</innernamespace>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__knowledge">themis::distributed_knowledge</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacerocksdb" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacerocksdb" kindref="compound">rocksdb</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ColumnFamilyHandle;<sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>—<sp/>full<sp/>header<sp/>included<sp/>in<sp/>.cpp<sp/>only.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1distributed__knowledge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">distributed_knowledge</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">CrossShardFeedbackSync;<sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a741a693bbff093ea47dabeeea8dafe07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a741a693bbff093ea47dabeeea8dafe07" kindref="member">USER_POSITIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469aa8bbe6ea211bb91ac31ea0c1ba43a51c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469aa8bbe6ea211bb91ac31ea0c1ba43a51c" kindref="member">USER_NEGATIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469ab2233f0a5e245163672ebb866bf350de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469ab2233f0a5e245163672ebb866bf350de" kindref="member">HALLUCINATION_DETECTED</ref>,<sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a551530ec1af53eaa77c1bde0ca457b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a551530ec1af53eaa77c1bde0ca457b4b" kindref="member">PARSE_ERROR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a970e10849021cf32e9c0ef6cf4cf930a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a970e10849021cf32e9c0ef6cf4cf930a" kindref="member">VALIDATION_FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a3cd12a798e0e34af8482ca999a53b11c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a3cd12a798e0e34af8482ca999a53b11c" kindref="member">CONTEXT_MISSING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469add69b0c7e0699415d6d8aed80c9915b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469add69b0c7e0699415d6d8aed80c9915b8" kindref="member">AMBIGUOUS_OUTPUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a0a0f7b960890552f9e2afe1d920ef2f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a0a0f7b960890552f9e2afe1d920ef2f5" kindref="member">SECURITY_ISSUE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a23ff72db1d0fbdc643a1459ecf3eb0fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a23ff72db1d0fbdc643a1459ecf3eb0fc" kindref="member">PERFORMANCE_ISSUE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a5216878ee7044725f2ce42bdc3b38367" kindref="member">feedbackTypeToString</ref>(<ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">std::optional&lt;FeedbackType&gt;<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0ad370753ccccf535cd2480a15d03739" kindref="member">stringToFeedbackType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a85e4d3cee85d61872ec4b9b168b6e1d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a85e4d3cee85d61872ec4b9b168b6e1d3" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a5a12791e3a1566ec2774f61dbf5598f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a5a12791e3a1566ec2774f61dbf5598f1" kindref="member">prompt_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a48a618bcd28fd5a4b59b6f58328a8265" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a48a618bcd28fd5a4b59b6f58328a8265" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a346d0f0150da231d7282c3571d0c37e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a346d0f0150da231d7282c3571d0c37e4" kindref="member">query</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a2d3beb08079c9239a0d0eb6a4c8a4de1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a2d3beb08079c9239a0d0eb6a4c8a4de1" kindref="member">response</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a85c61530e09eddf8383adc28025e55aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a85c61530e09eddf8383adc28025e55aa" kindref="member">feedback_text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a8634b2b0fec786a79bc0026ca8c28ba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a8634b2b0fec786a79bc0026ca8c28ba6" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1aa98ea0e0423cd73d2b5857313a788290" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1aa98ea0e0423cd73d2b5857313a788290" kindref="member">severity</ref><sp/>=<sp/>0.5;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a883c5e32ca65b0cc22c1183baa16f0f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a883c5e32ca65b0cc22c1183baa16f0f4" kindref="member">timestamp</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a3c5c0bc2284f23309e7f2d905ea9d635" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a3c5c0bc2284f23309e7f2d905ea9d635" kindref="member">checksum</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a20cbd05ecc0b2317833833f217a2ce36" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a009572f1fc7def28409ddac66e9f50e0" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1aaba7afb30081e826e5a3c07cb341a903" kindref="member">computeChecksum</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats" kindref="compound">FeedbackStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a01c7b401270275dc8473f21f109303d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a01c7b401270275dc8473f21f109303d3" kindref="member">prompt_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a73662771ffa1110aa95db83bd4a4a87c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a73662771ffa1110aa95db83bd4a4a87c" kindref="member">total_feedback</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a7a68f350bc553d5ba708910bc60f9427" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;FeedbackType,<sp/>size_t&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a7a68f350bc553d5ba708910bc60f9427" kindref="member">counts_by_type</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1ab8ab8ba0becac0374d5fa13603dddecc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1ab8ab8ba0becac0374d5fa13603dddecc" kindref="member">positive_ratio</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a9688db6ba70a8ed0d62265e28c8984f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a9688db6ba70a8ed0d62265e28c8984f5" kindref="member">negative_ratio</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1ad6699b5c7451c36697abf9f8a131d83a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1ad6699b5c7451c36697abf9f8a131d83a" kindref="member">hallucination_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a3312b3bbc3054145bcc2011eb7ae82d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a3312b3bbc3054145bcc2011eb7ae82d9" kindref="member">error_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a28bd5b72b96a01bd3d369a12ab0eaab6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a28bd5b72b96a01bd3d369a12ab0eaab6" kindref="member">common_issues</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a93bb268528f06485402b3554f9f45d13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a93bb268528f06485402b3554f9f45d13" kindref="member">last_feedback</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a6bc4c9f0cf7bea69de6095db6232ccce" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern" kindref="compound">FailedQueryPattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1a32851a9b8856cd5f59536b55e64f92ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1a32851a9b8856cd5f59536b55e64f92ac" kindref="member">pattern</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1a987f075e8a1050acf4f0e3107543d15b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1a987f075e8a1050acf4f0e3107543d15b" kindref="member">occurrences</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1ae920757d60f9ebdb9b6923c35b87a8a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1ae920757d60f9ebdb9b6923c35b87a8a5" kindref="member">examples</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1aeb34a10266b7590fdbba1ac1ca056a5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1aeb34a10266b7590fdbba1ac1ca056a5b" kindref="member">primary_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1af80dd99d74b065ad1c225811aee02041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1af80dd99d74b065ad1c225811aee02041" kindref="member">avg_severity</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aee82ec0cab27a0e41a49a63aca1fdee8" kindref="member">FeedbackCollector</ref><sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aee82ec0cab27a0e41a49a63aca1fdee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aee82ec0cab27a0e41a49a63aca1fdee8" kindref="member">FeedbackCollector</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aee82ec0cab27a0e41a49a63aca1fdee8" kindref="member">FeedbackCollector</ref>(RocksDBWrapper*<sp/>db,<sp/>rocksdb::ColumnFamilyHandle*<sp/>cf<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">recordFeedback</ref>(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>feedback_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>severity<sp/>=<sp/>0.5,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>metadata<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FeedbackEntry&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a1fd3b570116ef102d8dcabce31e8415e" kindref="member">getFeedback</ref>(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;FeedbackType&gt;<sp/>type_filter<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats" kindref="compound">FeedbackStats</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a19c99e3d23fcaa5841f6e3be3ff5561f" kindref="member">getStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1acd22b58271dec9303f5b5b5a0bc01a6e" kindref="member">getPromptsWithNegativeFeedback</ref>(</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>0.3,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_feedback<sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::tuple&lt;std::string,<sp/>std::string,<sp/>FeedbackType&gt;&gt;<sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aa2b7b69ffc73f88914ed487d4f656ea9" kindref="member">getFailedQueries</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;FeedbackType&gt;<sp/>type_filter<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FailedQueryPattern&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a5c32f2f5e5781e0ee36f598005abc345" kindref="member">analyzeFailurePatterns</ref>(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_occurrences<sp/>=<sp/>3</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FeedbackEntry&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a9983aba8788bd5f6eb66eb14ce0e3255" kindref="member">getFeedbackInTimeRange</ref>(</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>start,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>end</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a290931b7081e28ac0942356ab8e31ebb" kindref="member">pruneOldFeedback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>older_than);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a38057312f853c65ffd56882cc428ddd1" kindref="member">clearFeedback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ae30a69e328c4e7f302976cbc94c43f7e" kindref="member">newEntryCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FeedbackEntry&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a0c220773930551c2d6c10268b8eb386e" kindref="member">getFeedbackPaged</ref>(</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>page_size,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;FeedbackType&gt;<sp/>type_filter<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FeedbackEntry&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1af5099e5447e32104bd4510f3b05fce78" kindref="member">detectOutliers</ref>(</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z_threshold<sp/>=<sp/>2.0</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ae653bfcd540fca8a28382f594efe02b9" kindref="member">getSummary</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>DK-5:<sp/>Cross-shard<sp/>feedback<sp/>propagation<sp/>────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model" kindref="compound">IEmbeddingModel</ref><sp/>{</highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model_1a5f355bd6d105d05e25d4fc8db1469176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model_1a5f355bd6d105d05e25d4fc8db1469176" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="311" refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model_1a1621b5a5e729ccb73c1814e32daea971" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model_1a1621b5a5e729ccb73c1814e32daea971" kindref="member">~IEmbeddingModel</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a04c4602d6729bd3cbd5895e68797749c" kindref="member">setCrossShardSync</ref>(</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;distributed_knowledge::CrossShardFeedbackSync&gt;<sp/>sync);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2998ad64fc9a5652d3aba2099cb9e523" kindref="member">setEmbeddingModel</ref>(std::shared_ptr&lt;IEmbeddingModel&gt;<sp/>model);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In-memory<sp/>storage:<sp/>prompt_id<sp/>-&gt;<sp/>feedback<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;FeedbackEntry&gt;&gt;<sp/>feedback_;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>persistence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper*<sp/>db_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::ColumnFamilyHandle*<sp/>cf_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DK-5:<sp/>Cross-shard<sp/>feedback<sp/>propagation<sp/>(both<sp/>must<sp/>be<sp/>set<sp/>to<sp/>enable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;distributed_knowledge::CrossShardFeedbackSync&gt;<sp/>cross_shard_sync_;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IEmbeddingModel&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>embedding_model_;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>KEY_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;feedback:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>IDX_TIME_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx:time:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>persist(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>deleteFromDB(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadFromDB();</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>formatTimestampKey(</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>tp);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats" kindref="compound">FeedbackStats</ref><sp/>calculateStats(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;FeedbackEntry&gt;&amp;<sp/>entries)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FailedQueryPattern&gt;<sp/>extractPatterns(</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;FeedbackEntry&gt;&amp;<sp/>entries,</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_occurrences</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/feedback_collector.h"/>
+  </compounddef>
+</doxygen>

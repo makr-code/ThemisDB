@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentManager::Stats</compoundname>
+    <includes refid="content__manager_8h" local="no">content_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_stats_1a21d1ea6c63c6c666db48f5184f986964" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentManager::Stats::total_content_items</definition>
+        <argsstring></argsstring>
+        <name>total_content_items</name>
+        <qualifiedname>themis::content::ContentManager::Stats::total_content_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-018. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="308" column="13" bodyfile="include/content/content_manager.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_stats_1a29447025b6cf4f2fd1796098a1a67a76" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentManager::Stats::total_chunks</definition>
+        <argsstring></argsstring>
+        <name>total_chunks</name>
+        <qualifiedname>themis::content::ContentManager::Stats::total_chunks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-018. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="309" column="13" bodyfile="include/content/content_manager.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_stats_1a62aa141721b6833ec7054ca7904057eb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentManager::Stats::total_embeddings</definition>
+        <argsstring></argsstring>
+        <name>total_embeddings</name>
+        <qualifiedname>themis::content::ContentManager::Stats::total_embeddings</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-018. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="310" column="13" bodyfile="include/content/content_manager.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_stats_1a469a8a18c0fcbcab03cabf94f31243d5" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref>, int &gt;</type>
+        <definition>std::unordered_map&lt;ContentCategory, int&gt; themis::content::ContentManager::Stats::items_by_category</definition>
+        <argsstring></argsstring>
+        <name>items_by_category</name>
+        <qualifiedname>themis::content::ContentManager::Stats::items_by_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="311" column="28" bodyfile="include/content/content_manager.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_stats_1aec57359c2b9667e50164af5bd17efc89" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::ContentManager::Stats::total_storage_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_storage_bytes</name>
+        <qualifiedname>themis::content::ContentManager::Stats::total_storage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-018. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="312" column="17" bodyfile="include/content/content_manager.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_manager.h" line="307" column="5" bodyfile="include/content/content_manager.h" bodystart="307" bodyend="313"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a469a8a18c0fcbcab03cabf94f31243d5" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::Stats</scope><name>items_by_category</name></member>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a29447025b6cf4f2fd1796098a1a67a76" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::Stats</scope><name>total_chunks</name></member>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a21d1ea6c63c6c666db48f5184f986964" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::Stats</scope><name>total_content_items</name></member>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a62aa141721b6833ec7054ca7904057eb" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::Stats</scope><name>total_embeddings</name></member>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1aec57359c2b9667e50164af5bd17efc89" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::Stats</scope><name>total_storage_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

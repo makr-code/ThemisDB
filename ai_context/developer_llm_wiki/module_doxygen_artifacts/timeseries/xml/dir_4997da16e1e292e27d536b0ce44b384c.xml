@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4997da16e1e292e27d536b0ce44b384c" kind="dir">
+    <compoundname>include/timeseries</compoundname>
+    <innerfile refid="adaptive__flush__controller_8h">adaptive_flush_controller.h</innerfile>
+    <innerfile refid="aggregate__scheduler_8h">aggregate_scheduler.h</innerfile>
+    <innerfile refid="aggregates_8h">aggregates.h</innerfile>
+    <innerfile refid="anomaly__detection_8h">anomaly_detection.h</innerfile>
+    <innerfile refid="compression__selector_8h">compression_selector.h</innerfile>
+    <innerfile refid="continuous__agg_8h">continuous_agg.h</innerfile>
+    <innerfile refid="downsampling_8h">downsampling.h</innerfile>
+    <innerfile refid="encrypted__chunk__store_8h">encrypted_chunk_store.h</innerfile>
+    <innerfile refid="gap__fill_8h">gap_fill.h</innerfile>
+    <innerfile refid="gorilla_8h">gorilla.h</innerfile>
+    <innerfile refid="gorilla__simd_8h">gorilla_simd.h</innerfile>
+    <innerfile refid="hypertable_8h">hypertable.h</innerfile>
+    <innerfile refid="prometheus__remote__write_8h">prometheus_remote_write.h</innerfile>
+    <innerfile refid="query__optimizer_8h">query_optimizer.h</innerfile>
+    <innerfile refid="retention_8h">retention.h</innerfile>
+    <innerfile refid="timeseries_8h">timeseries.h</innerfile>
+    <innerfile refid="timeseries__api__contract_8h">timeseries_api_contract.h</innerfile>
+    <innerfile refid="timeseries__incident__taxonomy_8h">timeseries_incident_taxonomy.h</innerfile>
+    <innerfile refid="timeseries__metrics_8h">timeseries_metrics.h</innerfile>
+    <innerfile refid="ts__auto__buffer_8h">ts_auto_buffer.h</innerfile>
+    <innerfile refid="ts__auto__buffer__adaptive_8h">ts_auto_buffer_adaptive.h</innerfile>
+    <innerfile refid="ts__edge__case__handler_8h">ts_edge_case_handler.h</innerfile>
+    <innerfile refid="ts__encrypted__key__rotation_8h">ts_encrypted_key_rotation.h</innerfile>
+    <innerfile refid="ts__operator__diagnostics_8h">ts_operator_diagnostics.h</innerfile>
+    <innerfile refid="ts__stream__cursor_8h">ts_stream_cursor.h</innerfile>
+    <innerfile refid="tsstore_8h">tsstore.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/"/>
+  </compounddef>
+</doxygen>

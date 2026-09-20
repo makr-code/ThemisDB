@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="circuit__breaker_8h" kind="file" language="C++">
+    <compoundname>circuit_breaker.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includedby refid="circuit__breaker_8cpp" local="yes">src/rpc_grpc/circuit_breaker.cpp</includedby>
+    <includedby refid="test__rpc__grpc__circuit__breaker__focused_8cpp" local="yes">tests/rpc_grpc/test_rpc_grpc_circuit_breaker_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rpc_grpc/circuit_breaker.h</label>
+        <link refid="circuit__breaker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rpc_grpc/circuit_breaker.h</label>
+        <link refid="circuit__breaker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rpc_grpc/circuit_breaker.cpp</label>
+        <link refid="circuit__breaker_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rpc_grpc/test_rpc_grpc_circuit_breaker_focused.cpp</label>
+        <link refid="test__rpc__grpc__circuit__breaker__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rpc_1_1_circuit_breaker_config" prot="public">themis::rpc::CircuitBreakerConfig</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_circuit_breaker_stats" prot="public">themis::rpc::CircuitBreakerStats</innerclass>
+    <innerclass refid="classthemis_1_1rpc_1_1_circuit_breaker" prot="public">themis::rpc::CircuitBreaker</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rpc">themis::rpc</innernamespace>
+    <briefdescription>
+<para>Plugin-level circuit breaker for ThemisDB RPC backends. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements the classic three-state circuit breaker pattern:<itemizedlist>
+<listitem><para>CLOSED — normal operation; failures are counted.</para>
+</listitem><listitem><para>OPEN — requests are rejected immediately; recovery window is running.</para>
+</listitem><listitem><para>HALF_OPEN — one probe call is allowed; success → CLOSED, failure → OPEN.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe. All state transitions are protected by an internal mutex.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rpc" kindref="compound">themis::rpc</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rpc_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref><sp/>cb(</highlight><highlight class="stringliteral">&quot;grpc-backend&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref>{});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!cb.allowRequest())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>RpcStatus::kCircuitOpen;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>callDownstream();</highlight></codeline>
+<codeline><highlight class="normal">cb.recordResult(ok);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="circuit__breaker_8cpp" kindref="compound">src/rpc_grpc/circuit_breaker.cpp</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1rpc" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rpc" kindref="compound">rpc</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rpc_1_1_circuit_breaker_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1aa92e5c7b6b1993e5e33c134f4ade59d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1aa92e5c7b6b1993e5e33c134f4ade59d6" kindref="member">failure_threshold</ref>{5};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a2cf57401c5eb3d1187e680072f606f60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a2cf57401c5eb3d1187e680072f606f60" kindref="member">min_calls_in_window</ref>{3};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a3d11aa339db33169bfe0157dc7785862" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a3d11aa339db33169bfe0157dc7785862" kindref="member">recovery_window</ref>{std::chrono::seconds{30}};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1af16681db71e44412a9aa278cf996192c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1af16681db71e44412a9aa278cf996192c" kindref="member">half_open_success_threshold</ref>{2};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a215cc6510821b65af76ceb9eb2a96137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a215cc6510821b65af76ceb9eb2a96137" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" kindref="member">kClosed</ref><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865ac76ad31b0ff1fcbb03eeae06f73420c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865ac76ad31b0ff1fcbb03eeae06f73420c8" kindref="member">kOpen</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865a2af0fb7ffd07ff907dfb85bc8a9253f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865a2af0fb7ffd07ff907dfb85bc8a9253f8" kindref="member">kHalfOpen</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1rpc_1a57bbbba36631f808b6027e99ee6fae8f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1rpc_1a57bbbba36631f808b6027e99ee6fae8f" kindref="member">circuitStateToString</ref>(<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref><sp/>state)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(state)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" kindref="member">CircuitState::kClosed</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CLOSED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865ac76ad31b0ff1fcbb03eeae06f73420c8" kindref="member">CircuitState::kOpen</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OPEN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865a2af0fb7ffd07ff907dfb85bc8a9253f8" kindref="member">CircuitState::kHalfOpen</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;HALF_OPEN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Metrics<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1rpc_1_1_circuit_breaker_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats" kindref="compound">CircuitBreakerStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a642f1d309c79e97e853759d983d6cf5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref><sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a642f1d309c79e97e853759d983d6cf5b" kindref="member">state</ref>{<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" kindref="member">CircuitState::kClosed</ref>};</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a324d26ee07b6e5983b4902e749c6c996" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a324d26ee07b6e5983b4902e749c6c996" kindref="member">total_calls</ref>{0};</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a568189477a309d0cf02ef5bd365e8c63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a568189477a309d0cf02ef5bd365e8c63" kindref="member">successful_calls</ref>{0};</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a3f08dc4d9339b39206c115f13e371457" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a3f08dc4d9339b39206c115f13e371457" kindref="member">failed_calls</ref>{0};</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1ad286b516b4356c55f4f20799115f1b43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1ad286b516b4356c55f4f20799115f1b43" kindref="member">rejected_calls</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a2c3a6899490a992c8538f54c90255095" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a2c3a6899490a992c8538f54c90255095" kindref="member">state_transitions</ref>{0};</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1aec19aaebb31e51f95bbf218d95ef2a3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1aec19aaebb31e51f95bbf218d95ef2a3a" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CircuitBreaker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1rpc_1_1_circuit_breaker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref><sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>(<ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref><sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>(std::string<sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1aefd30413af92cf36185915e1099827cc" kindref="member">name</ref>,<sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref><sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1rpc_1_1_circuit_breaker_1a8e151cb48f8d46b3419f65ea875c7f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a8e151cb48f8d46b3419f65ea875c7f18" kindref="member">CircuitBreaker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1rpc_1_1_circuit_breaker_1a9afac75df83beb57e41b16a429d3a192" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>&amp;<sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a9afac75df83beb57e41b16a429d3a192" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>(<ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1rpc_1_1_circuit_breaker_1a13433f3ba6d657a1fbf40c317025616c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a62709c0e29338e8ae397818ac82491ca" kindref="member">allowRequest</ref>();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a4ff8de4ba6346cfaeb66fbc4fff3409a" kindref="member">recordResult</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a8762dd9adfed3045d558fe1f70b2bc25" kindref="member">forceState</ref>(<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a545049aa03933563aa60ff5680984bb3" kindref="member">state</ref>);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a0b357e2cb4653dab4825ab796b1688c6" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a545049aa03933563aa60ff5680984bb3" kindref="member">state</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats" kindref="compound">CircuitBreakerStats</ref><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a5d0dc7708255761bbe80566702c68272" kindref="member">stats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1rpc_1_1_circuit_breaker_1aefd30413af92cf36185915e1099827cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1aefd30413af92cf36185915e1099827cc" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.name;<sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callback<sp/>hook</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a2d826d99c4c0a80f7698d5fa0f0e719c" kindref="member">setTransitionCallback</ref>(</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref>,<sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>cb);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>transitionTo(<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref><sp/>next_state);<sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref><sp/>state_{<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" kindref="member">CircuitState::kClosed</ref>};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>consecutive_failures_{0};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>consecutive_successes_{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_calls_{0};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>successful_calls_{0};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>failed_calls_{0};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>rejected_calls_{0};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>state_transitions_{0};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OPEN<sp/>timing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>open_since_{};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HALF_OPEN<sp/>probe<sp/>guard<sp/>—<sp/>only<sp/>one<sp/>probe<sp/>in-flight<sp/>at<sp/>a<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>probe_in_flight_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref>,<sp/><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transition_cb_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rpc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rpc_grpc/circuit_breaker.h"/>
+  </compounddef>
+</doxygen>

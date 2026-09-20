@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_filtered_vector_search_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::FilteredVectorSearchQuery</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_filtered_vector_search_query_1_1_attribute_filter" prot="public">themis::query::FilteredVectorSearchQuery::AttributeFilter</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_filtered_vector_search_query_1aafc727be906a26653c8f1683ff45130d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::FilteredVectorSearchQuery::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::query::FilteredVectorSearchQuery::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="106" column="17" bodyfile="include/query/query_engine.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_filtered_vector_search_query_1a7434f2f42f660cfbcadef54e8338504b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::FilteredVectorSearchQuery::vector_field</definition>
+        <argsstring></argsstring>
+        <name>vector_field</name>
+        <qualifiedname>themis::query::FilteredVectorSearchQuery::vector_field</qualifiedname>
+        <initializer>= &quot;embedding&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="107" column="17" bodyfile="include/query/query_engine.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_filtered_vector_search_query_1aff1a682673b40798ac3ad34ae2faf475" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::query::FilteredVectorSearchQuery::query_vector</definition>
+        <argsstring></argsstring>
+        <name>query_vector</name>
+        <qualifiedname>themis::query::FilteredVectorSearchQuery::query_vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="108" column="17" bodyfile="include/query/query_engine.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_filtered_vector_search_query_1a1990536ae28c34bef3151c04403a00c8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::FilteredVectorSearchQuery::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::query::FilteredVectorSearchQuery::k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="109" column="12" bodyfile="include/query/query_engine.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_filtered_vector_search_query_1ae30f7c18c3e8c237688b9e4c476e91d2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_filtered_vector_search_query_1_1_attribute_filter" kindref="compound">AttributeFilter</ref> &gt;</type>
+        <definition>std::vector&lt;AttributeFilter&gt; themis::query::FilteredVectorSearchQuery::filters</definition>
+        <argsstring></argsstring>
+        <name>filters</name>
+        <qualifiedname>themis::query::FilteredVectorSearchQuery::filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="136" column="17" bodyfile="include/query/query_engine.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_filtered_vector_search_query_1a695175d5a3551327c86594e75034b78c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::FilteredVectorSearchQuery::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::query::FilteredVectorSearchQuery::strategy</qualifiedname>
+        <initializer>= &quot;auto&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="139" column="17" bodyfile="include/query/query_engine.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="105" column="1" bodyfile="include/query/query_engine.h" bodystart="105" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_filtered_vector_search_query_1ae30f7c18c3e8c237688b9e4c476e91d2" prot="public" virt="non-virtual"><scope>themis::query::FilteredVectorSearchQuery</scope><name>filters</name></member>
+      <member refid="structthemis_1_1query_1_1_filtered_vector_search_query_1a1990536ae28c34bef3151c04403a00c8" prot="public" virt="non-virtual"><scope>themis::query::FilteredVectorSearchQuery</scope><name>k</name></member>
+      <member refid="structthemis_1_1query_1_1_filtered_vector_search_query_1aff1a682673b40798ac3ad34ae2faf475" prot="public" virt="non-virtual"><scope>themis::query::FilteredVectorSearchQuery</scope><name>query_vector</name></member>
+      <member refid="structthemis_1_1query_1_1_filtered_vector_search_query_1a695175d5a3551327c86594e75034b78c" prot="public" virt="non-virtual"><scope>themis::query::FilteredVectorSearchQuery</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1query_1_1_filtered_vector_search_query_1aafc727be906a26653c8f1683ff45130d" prot="public" virt="non-virtual"><scope>themis::query::FilteredVectorSearchQuery</scope><name>table</name></member>
+      <member refid="structthemis_1_1query_1_1_filtered_vector_search_query_1a7434f2f42f660cfbcadef54e8338504b" prot="public" virt="non-virtual"><scope>themis::query::FilteredVectorSearchQuery</scope><name>vector_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_default_l_l_m_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::DefaultLLMClient</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_l_l_m_client" prot="public" virt="non-virtual">themis::llm::LLMClient</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_default_l_l_m_client_1aadc286e2feb741aac259608840ae6313" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DefaultLLMClient::ready_</definition>
+        <argsstring></argsstring>
+        <name>ready_</name>
+        <qualifiedname>themis::llm::DefaultLLMClient::ready_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_client_default.cpp" line="139" column="10" bodyfile="src/llm/llm_client_default.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_default_l_l_m_client_1afc1751da65bc17a7c56a161b7e3373f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DefaultLLMClient::DefaultLLMClient</definition>
+        <argsstring>()</argsstring>
+        <name>DefaultLLMClient</name>
+        <qualifiedname>themis::llm::DefaultLLMClient::DefaultLLMClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_client_default.cpp" line="28" column="5" bodyfile="src/llm/llm_client_default.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_default_l_l_m_client_1ae913260c0498b11b0215834c07fe410a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DefaultLLMClient::~DefaultLLMClient</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~DefaultLLMClient</name>
+        <qualifiedname>themis::llm::DefaultLLMClient::~DefaultLLMClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_client_default.cpp" line="32" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_default_l_l_m_client_1a33d2d3df5aff0941c149d62629bd05d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_generation_result" kindref="compound">GenerationResult</ref></type>
+        <definition>GenerationResult themis::llm::DefaultLLMClient::generate</definition>
+        <argsstring>(const std::string &amp;prompt, const GenerationOptions &amp;options) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llm::DefaultLLMClient::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_l_l_m_client_1a6dab76f58c3129c43fb945273710bbb2">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_generation_options" kindref="compound">GenerationOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_client_default.cpp" line="34" column="22" bodyfile="src/llm/llm_client_default.cpp" bodystart="34" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_default_l_l_m_client_1a4267c22e383f65621df091adc4615c40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_generation_result" kindref="compound">GenerationResult</ref></type>
+        <definition>GenerationResult themis::llm::DefaultLLMClient::generateAQL</definition>
+        <argsstring>(const std::string &amp;nl_query, const std::string &amp;schema_context, const GenerationOptions &amp;options) override</argsstring>
+        <name>generateAQL</name>
+        <qualifiedname>themis::llm::DefaultLLMClient::generateAQL</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_l_l_m_client_1a28355fc018a93195ed6e2447cf285e39">generateAQL</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_generation_options" kindref="compound">GenerationOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_client_default.cpp" line="105" column="22" bodyfile="src/llm/llm_client_default.cpp" bodystart="105" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_default_l_l_m_client_1a5a7c47b0a80fc0f06db158a2dcc1c23d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DefaultLLMClient::estimateTokens</definition>
+        <argsstring>(const std::string &amp;text) const override</argsstring>
+        <name>estimateTokens</name>
+        <qualifiedname>themis::llm::DefaultLLMClient::estimateTokens</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_l_l_m_client_1a9381befbc31ee64eb09c6030c2197a70">estimateTokens</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_client_default.cpp" line="122" column="12" bodyfile="src/llm/llm_client_default.cpp" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_default_l_l_m_client_1a2e02ec9341dfdec7a857e5803f60be57" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DefaultLLMClient::getProviderName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getProviderName</name>
+        <qualifiedname>themis::llm::DefaultLLMClient::getProviderName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_l_l_m_client_1a07b1dc767eadf81dc87d085500e8fc41">getProviderName</reimplements>
+        <briefdescription>
+<para>Get Provider Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_client_default.cpp" line="127" column="17" bodyfile="src/llm/llm_client_default.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_default_l_l_m_client_1a2e31b425ce30f9963d4b2279c565a4ce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DefaultLLMClient::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::DefaultLLMClient::isReady</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_l_l_m_client_1af9242aa31df1a4ca0858fe64841aca23">isReady</reimplements>
+        <briefdescription>
+<para>Is Ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_client_default.cpp" line="134" column="10" bodyfile="src/llm/llm_client_default.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::DefaultLLMClient</label>
+        <link refid="classthemis_1_1llm_1_1_default_l_l_m_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::LLMClient</label>
+        <link refid="classthemis_1_1llm_1_1_l_l_m_client"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::DefaultLLMClient</label>
+        <link refid="classthemis_1_1llm_1_1_default_l_l_m_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::LLMClient</label>
+        <link refid="classthemis_1_1llm_1_1_l_l_m_client"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/llm_client_default.cpp" line="26" column="1" bodyfile="src/llm/llm_client_default.cpp" bodystart="26" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_default_l_l_m_client_1afc1751da65bc17a7c56a161b7e3373f3" prot="public" virt="non-virtual"><scope>themis::llm::DefaultLLMClient</scope><name>DefaultLLMClient</name></member>
+      <member refid="classthemis_1_1llm_1_1_default_l_l_m_client_1a5a7c47b0a80fc0f06db158a2dcc1c23d" prot="public" virt="virtual"><scope>themis::llm::DefaultLLMClient</scope><name>estimateTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_default_l_l_m_client_1a33d2d3df5aff0941c149d62629bd05d6" prot="public" virt="virtual"><scope>themis::llm::DefaultLLMClient</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_default_l_l_m_client_1a4267c22e383f65621df091adc4615c40" prot="public" virt="virtual"><scope>themis::llm::DefaultLLMClient</scope><name>generateAQL</name></member>
+      <member refid="classthemis_1_1llm_1_1_default_l_l_m_client_1a2e02ec9341dfdec7a857e5803f60be57" prot="public" virt="virtual"><scope>themis::llm::DefaultLLMClient</scope><name>getProviderName</name></member>
+      <member refid="classthemis_1_1llm_1_1_default_l_l_m_client_1a2e31b425ce30f9963d4b2279c565a4ce" prot="public" virt="virtual"><scope>themis::llm::DefaultLLMClient</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_default_l_l_m_client_1aadc286e2feb741aac259608840ae6313" prot="private" virt="non-virtual"><scope>themis::llm::DefaultLLMClient</scope><name>ready_</name></member>
+      <member refid="classthemis_1_1llm_1_1_default_l_l_m_client_1ae913260c0498b11b0215834c07fe410a" prot="public" virt="non-virtual"><scope>themis::llm::DefaultLLMClient</scope><name>~DefaultLLMClient</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_client_1aa189199dcfc29dcfb86b0ab32d22325f" prot="public" virt="virtual"><scope>themis::llm::DefaultLLMClient</scope><name>~LLMClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry" kind="struct" language="C++" prot="protected">
+    <compoundname>PluginDependencyResolverTest::TestPluginEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry_1ae9fe5450d9124e28432b9a2e4b531732" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginDependencyResolverTest::TestPluginEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>PluginDependencyResolverTest::TestPluginEntry::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_dependency_resolver.cpp" line="21" column="21" bodyfile="tests/plugins/test_plugin_dependency_resolver.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry_1a15029c87974589ac9bfc6d78f366a04e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref></type>
+        <definition>PluginManifest PluginDependencyResolverTest::TestPluginEntry::manifest</definition>
+        <argsstring></argsstring>
+        <name>manifest</name>
+        <qualifiedname>PluginDependencyResolverTest::TestPluginEntry::manifest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_dependency_resolver.cpp" line="22" column="24" bodyfile="tests/plugins/test_plugin_dependency_resolver.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>PluginDependencyResolverTest::TestPluginEntry</label>
+        <link refid="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>manifest</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginCapabilities</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_capabilities"/>
+      </node>
+      <node id="2">
+        <label>themis::plugins::PluginManifest</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_manifest"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>capabilities</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_dependency_resolver.cpp" line="20" column="5" bodyfile="tests/plugins/test_plugin_dependency_resolver.cpp" bodystart="20" bodyend="23"/>
+    <listofallmembers>
+      <member refid="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry_1a15029c87974589ac9bfc6d78f366a04e" prot="public" virt="non-virtual"><scope>PluginDependencyResolverTest::TestPluginEntry</scope><name>manifest</name></member>
+      <member refid="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry_1ae9fe5450d9124e28432b9a2e4b531732" prot="public" virt="non-virtual"><scope>PluginDependencyResolverTest::TestPluginEntry</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

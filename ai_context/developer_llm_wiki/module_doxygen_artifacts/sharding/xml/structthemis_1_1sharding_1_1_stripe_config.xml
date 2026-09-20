@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_stripe_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::StripeConfig</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_config_1a67ef23477492e29357e1e47c47070665" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::StripeConfig::stripe_size_kb</definition>
+        <argsstring></argsstring>
+        <name>stripe_size_kb</name>
+        <qualifiedname>themis::sharding::StripeConfig::stripe_size_kb</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="171" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_config_1a9e38ed85d16637069c9b9f128dd3a3b4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::StripeConfig::min_stripe_shards</definition>
+        <argsstring></argsstring>
+        <name>min_stripe_shards</name>
+        <qualifiedname>themis::sharding::StripeConfig::min_stripe_shards</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="172" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_config_1a3c7f3c0f62d805f6104f29db51384aa0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::StripeConfig::stripe_large_documents_only</definition>
+        <argsstring></argsstring>
+        <name>stripe_large_documents_only</name>
+        <qualifiedname>themis::sharding::StripeConfig::stripe_large_documents_only</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="173" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_config_1a9be028cfba992bbb2d0153578ac2aa79" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::StripeConfig::large_document_threshold_kb</definition>
+        <argsstring></argsstring>
+        <name>large_document_threshold_kb</name>
+        <qualifiedname>themis::sharding::StripeConfig::large_document_threshold_kb</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="174" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_config_1a575f22c51047b38ae754fe5ea55ac94f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::StripeConfig::parallel_stripe_io</definition>
+        <argsstring></argsstring>
+        <name>parallel_stripe_io</name>
+        <qualifiedname>themis::sharding::StripeConfig::parallel_stripe_io</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="175" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_config_1a067a1c861b314a3ddba2f3e2267ee49e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::StripeConfig::max_parallel_io</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_io</name>
+        <qualifiedname>themis::sharding::StripeConfig::max_parallel_io</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="176" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Striping layout and throughput tuning parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="170" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="170" bodyend="177"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_stripe_config_1a9be028cfba992bbb2d0153578ac2aa79" prot="public" virt="non-virtual"><scope>themis::sharding::StripeConfig</scope><name>large_document_threshold_kb</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_config_1a067a1c861b314a3ddba2f3e2267ee49e" prot="public" virt="non-virtual"><scope>themis::sharding::StripeConfig</scope><name>max_parallel_io</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_config_1a9e38ed85d16637069c9b9f128dd3a3b4" prot="public" virt="non-virtual"><scope>themis::sharding::StripeConfig</scope><name>min_stripe_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_config_1a575f22c51047b38ae754fe5ea55ac94f" prot="public" virt="non-virtual"><scope>themis::sharding::StripeConfig</scope><name>parallel_stripe_io</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_config_1a3c7f3c0f62d805f6104f29db51384aa0" prot="public" virt="non-virtual"><scope>themis::sharding::StripeConfig</scope><name>stripe_large_documents_only</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_config_1a67ef23477492e29357e1e47c47070665" prot="public" virt="non-virtual"><scope>themis::sharding::StripeConfig</scope><name>stripe_size_kb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

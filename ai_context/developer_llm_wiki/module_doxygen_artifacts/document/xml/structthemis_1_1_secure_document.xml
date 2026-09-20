@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_secure_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SecureDocument</compoundname>
+    <includes refid="include_2document_2encrypted__entities_8h" local="no">encrypted_entities.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_secure_document_1a831f657d996f27d6eb37cff07fabb5bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SecureDocument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::SecureDocument::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="153" column="17" bodyfile="include/document/encrypted_entities.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secure_document_1a098ff899875157943e745a9c8eceab54" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SecureDocument::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::SecureDocument::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="154" column="17" bodyfile="include/document/encrypted_entities.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secure_document_1a0cb7b67c12cb2fdac6f04b4486e52ea6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::SecureDocument::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::SecureDocument::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="155" column="13" bodyfile="include/document/encrypted_entities.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secure_document_1aaa3c732973e908fb52eebd0bb7365b1d" prot="public" static="no" mutable="no">
+        <type>EncryptedField&lt; std::string &gt;</type>
+        <definition>EncryptedField&lt;std::string&gt; themis::SecureDocument::content_preview</definition>
+        <argsstring></argsstring>
+        <name>content_preview</name>
+        <qualifiedname>themis::SecureDocument::content_preview</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="158" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secure_document_1ab8bd26858df224f2a01bde0d6212406b" prot="public" static="no" mutable="no">
+        <type>EncryptedField&lt; std::string &gt;</type>
+        <definition>EncryptedField&lt;std::string&gt; themis::SecureDocument::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::SecureDocument::author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="159" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secure_document_1a15440c1e8bcb815d45fd9e71b7cad27e" prot="public" static="no" mutable="no">
+        <type>EncryptedField&lt; std::string &gt;</type>
+        <definition>EncryptedField&lt;std::string&gt; themis::SecureDocument::classification</definition>
+        <argsstring></argsstring>
+        <name>classification</name>
+        <qualifiedname>themis::SecureDocument::classification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="160" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_secure_document_1ac38677b4b74566bc8a662b024a0d9b09" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::SecureDocument::SecureDocument</definition>
+        <argsstring>()</argsstring>
+        <name>SecureDocument</name>
+        <qualifiedname>themis::SecureDocument::SecureDocument</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="162" column="5" bodyfile="include/document/encrypted_entities.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_secure_document_1aa17abf2943e6cf238998618e4467e58b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::SecureDocument::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::SecureDocument::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="164" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="164" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_secure_document_1ad563148242430ef07cb696e49f272585" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_secure_document_1ac38677b4b74566bc8a662b024a0d9b09" kindref="member">SecureDocument</ref></type>
+        <definition>static SecureDocument themis::SecureDocument::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::SecureDocument::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), fromBase64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="189" column="27" bodyfile="include/document/encrypted_entities.h" bodystart="189" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/encrypted_entities.h" line="152" column="1" bodyfile="include/document/encrypted_entities.h" bodystart="152" bodyend="207"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_secure_document_1ab8bd26858df224f2a01bde0d6212406b" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>author</name></member>
+      <member refid="structthemis_1_1_secure_document_1a15440c1e8bcb815d45fd9e71b7cad27e" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>classification</name></member>
+      <member refid="structthemis_1_1_secure_document_1aaa3c732973e908fb52eebd0bb7365b1d" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>content_preview</name></member>
+      <member refid="structthemis_1_1_secure_document_1a0cb7b67c12cb2fdac6f04b4486e52ea6" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1_secure_document_1ad563148242430ef07cb696e49f272585" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1_secure_document_1a831f657d996f27d6eb37cff07fabb5bf" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>id</name></member>
+      <member refid="structthemis_1_1_secure_document_1ac38677b4b74566bc8a662b024a0d9b09" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>SecureDocument</name></member>
+      <member refid="structthemis_1_1_secure_document_1a098ff899875157943e745a9c8eceab54" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>title</name></member>
+      <member refid="structthemis_1_1_secure_document_1aa17abf2943e6cf238998618e4467e58b" prot="public" virt="non-virtual"><scope>themis::SecureDocument</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

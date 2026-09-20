@@ -1,0 +1,1432 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::ahp::themis::auth::AuthAuditLogger</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a1eb402f538685a769bfe5c3b518ad1a1" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::bench::ahp::themis::auth::AuthAuditLogger::logger_</definition>
+        <argsstring></argsstring>
+        <name>logger_</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logger_</qualifiedname>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="333" column="24" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="333" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1ac55047b5e0c291236f304350c6264793" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::themis::auth::AuthAuditLogger::AuthAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger=nullptr)</argsstring>
+        <name>AuthAuditLogger</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::AuthAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="35" column="14" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="35" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a59b662a54da7202f4283a7cccecf7c58" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::setLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setLogger</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::setLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="43" column="10" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6dea745d43ee13861179c2dc3734e66c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::ahp::themis::auth::AuthAuditLogger::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="45" column="10" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a52f66fca8b115544fc96b1cd9e124bba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::emitWithDecisionClass</definition>
+        <argsstring>(utils::SecurityEventType type, const std::string &amp;user_id, const std::string &amp;resource, DecisionClass dc, const nlohmann::json &amp;details={})</argsstring>
+        <name>emitWithDecisionClass</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::emitWithDecisionClass</qualifiedname>
+        <param>
+          <type>utils::SecurityEventType</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth_1ac5b126ae3b571d33714f0f49a54e7f06" kindref="member">DecisionClass</ref></type>
+          <declname>dc</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>details</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="51" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a4a7342bd5085880bfa0b0a71aa0de93a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logJWTSuccess</definition>
+        <argsstring>(const std::string &amp;sub, const std::string &amp;jti, const std::string &amp;issuer, const std::string &amp;kid)</argsstring>
+        <name>logJWTSuccess</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logJWTSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sub</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>issuer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+<para>Log JWTSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="68" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a2b2b1f90c0b0b4a77b2a6cedd67f278d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logJWTFailure</definition>
+        <argsstring>(const std::string &amp;reason, const std::string &amp;kid=&quot;&quot;)</argsstring>
+        <name>logJWTFailure</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logJWTFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="73" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6f8ba4b0d687e75936787bc1693d94fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logTokenRevoked</definition>
+        <argsstring>(const std::string &amp;jti, const std::string &amp;sub)</argsstring>
+        <name>logTokenRevoked</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logTokenRevoked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sub</declname>
+        </param>
+        <briefdescription>
+<para>Log Token Revoked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="81" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a1fe74d79880724ec0083350fc9118c86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logKerberosSuccess</definition>
+        <argsstring>(const std::string &amp;principal)</argsstring>
+        <name>logKerberosSuccess</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logKerberosSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <briefdescription>
+<para>Log Kerberos Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="92" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1af2007e5a3f80380844b8b32874b3798a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logKerberosFailure</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>logKerberosFailure</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logKerberosFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Kerberos Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="98" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a8849f46264c45344585e56e607f04684" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logTOTPSuccess</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>logTOTPSuccess</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logTOTPSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log TOTPSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="108" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1afa13b95a03154bca64a864df97307b98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logTOTPFailure</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>logTOTPFailure</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logTOTPFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log TOTPFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="114" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1af36af54813781b30094864e4da8ed86f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logTOTPDrift</definition>
+        <argsstring>(const std::string &amp;user_id, int step_offset, std::chrono::system_clock::time_point timestamp)</argsstring>
+        <name>logTOTPDrift</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logTOTPDrift</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step_offset</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Log TOTPDrift. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="122" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1aae47a86e98734ca60dc3cae568877609" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logRecoveryCodeUsed</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>logRecoveryCodeUsed</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logRecoveryCodeUsed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Recovery Code Used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="130" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a4b35240893cb60cce17dc229b0044f50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logMFAEnrolled</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>logMFAEnrolled</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logMFAEnrolled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log MFAEnrolled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="136" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6c14534d50f70380b505fc3f8e7b793a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logApiKeySuccess</definition>
+        <argsstring>(const std::string &amp;key_id, const std::string &amp;principal)</argsstring>
+        <name>logApiKeySuccess</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logApiKeySuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <briefdescription>
+<para>Log Api Key Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="147" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a515c7bde8fefea45e8c35809e3db9adb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logApiKeyFailure</definition>
+        <argsstring>(const std::string &amp;key_id, const std::string &amp;reason)</argsstring>
+        <name>logApiKeyFailure</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logApiKeyFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Api Key Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="155" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1aec24868183479d157297a0da9aa66092" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logOAuthDeviceGranted</definition>
+        <argsstring>(const std::string &amp;client_id, const std::string &amp;sub)</argsstring>
+        <name>logOAuthDeviceGranted</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logOAuthDeviceGranted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sub</declname>
+        </param>
+        <briefdescription>
+<para>Log OAuth Device Granted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="167" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1abbed0aab54b3606059fe546ad7689a21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logOAuthDeviceDenied</definition>
+        <argsstring>(const std::string &amp;client_id, const std::string &amp;reason)</argsstring>
+        <name>logOAuthDeviceDenied</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logOAuthDeviceDenied</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log OAuth Device Denied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="175" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1ad6ad72f4f8bd42d929a78ad1ba9581d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logSAMLSuccess</definition>
+        <argsstring>(const std::string &amp;subject, const std::string &amp;issuer)</argsstring>
+        <name>logSAMLSuccess</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logSAMLSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>issuer</declname>
+        </param>
+        <briefdescription>
+<para>Log SAMLSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="183" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1af31fa386571ed643b0a80a5a36d3397c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logSAMLFailure</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>logSAMLFailure</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logSAMLFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log SAMLFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="190" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a131fdc7a954df8acf1a95d6103f15ccd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logPasskeySuccess</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;credential_id)</argsstring>
+        <name>logPasskeySuccess</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logPasskeySuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>credential_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Passkey Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credential_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the credential. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="201" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6112544bfde2d525ed3511274eba5516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logPasskeyFailure</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;reason)</argsstring>
+        <name>logPasskeyFailure</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logPasskeyFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Passkey Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="208" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1ab96db95594c43f3561752338c2932053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logPasskeyRegistered</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;credential_id, const std::string &amp;rp_id)</argsstring>
+        <name>logPasskeyRegistered</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logPasskeyRegistered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>credential_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rp_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Passkey Registered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credential_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the credential. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rp_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rp. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="216" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1aace7e395c3cc6c171cb8dbe5b2dcc695" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logMTLSSuccess</definition>
+        <argsstring>(const std::string &amp;principal, const std::string &amp;serial)</argsstring>
+        <name>logMTLSSuccess</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logMTLSSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serial</declname>
+        </param>
+        <briefdescription>
+<para>Log MTLSSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">serial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="229" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a267727299f3a1ef74ff460ab1c0ac1c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logMTLSFailure</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>logMTLSFailure</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logMTLSFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log MTLSFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="235" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6a1d255d22e6272855fa3537c080a4cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logRoleChange</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;old_role, const std::string &amp;new_role)</argsstring>
+        <name>logRoleChange</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logRoleChange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_role</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_role</declname>
+        </param>
+        <briefdescription>
+<para>Log Role Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="247" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1af293b2f4091dd96dbf40ff341f458d14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logPermissionChange</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;permission, bool granted)</argsstring>
+        <name>logPermissionChange</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logPermissionChange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>permission</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>granted</declname>
+        </param>
+        <briefdescription>
+<para>Log Permission Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="257" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1ab16c2c7490788807307a3d7409d96e8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logLDAPSuccess</definition>
+        <argsstring>(const std::string &amp;username, const std::string &amp;dn)</argsstring>
+        <name>logLDAPSuccess</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logLDAPSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dn</declname>
+        </param>
+        <briefdescription>
+<para>Log LDAPSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="270" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6e3be1b22ac92e16f4ad8792c9a554c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logLDAPFailure</definition>
+        <argsstring>(const std::string &amp;username, const std::string &amp;reason)</argsstring>
+        <name>logLDAPFailure</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logLDAPFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log LDAPFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="278" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a53e26586bfca6dee566a6dcba1254268" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logZeroTrustAllowed</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;resource, double trust_score, const std::string &amp;request_id=&quot;&quot;)</argsstring>
+        <name>logZeroTrustAllowed</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logZeroTrustAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>trust_score</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="285" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6c0d2ec2d90faa1d95909dbff4bda86a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logZeroTrustDenied</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;resource, const std::string &amp;reason, const std::string &amp;request_id=&quot;&quot;)</argsstring>
+        <name>logZeroTrustDenied</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logZeroTrustDenied</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="290" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a32b4fe1e458380212874ba26670bdc77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logZeroTrustReEvaluationFailed</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;session_id, const std::string &amp;reason)</argsstring>
+        <name>logZeroTrustReEvaluationFailed</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logZeroTrustReEvaluationFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Zero Trust Re Evaluation Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="301" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a15f2d76985d20c20e0c917dd4b6d521e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logBruteForceDetected</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip, size_t failed_attempts)</argsstring>
+        <name>logBruteForceDetected</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logBruteForceDetected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>failed_attempts</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Anomaly detection events (brute-force, credential stuffing) --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="312" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1aa627fa10ac9302e6d7ebd4e4a4ca67a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logCredentialStuffingSuspected</definition>
+        <argsstring>(const std::string &amp;ip, size_t distinct_users)</argsstring>
+        <name>logCredentialStuffingSuspected</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logCredentialStuffingSuspected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>distinct_users</declname>
+        </param>
+        <briefdescription>
+<para>Log Credential Stuffing Suspected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distinct_users</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="321" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a7001f807b35af7927b7c1e9119c8e8d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::logAccountLockoutTriggered</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip)</argsstring>
+        <name>logAccountLockoutTriggered</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::logAccountLockoutTriggered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Log Account Lockout Triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="329" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1adbdbb0210532568a6609419b8f045c8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::themis::auth::AuthAuditLogger::emit</definition>
+        <argsstring>(utils::SecurityEventType type, const std::string &amp;user_id, const std::string &amp;resource, const nlohmann::json &amp;details={})</argsstring>
+        <name>emit</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::AuthAuditLogger::emit</qualifiedname>
+        <param>
+          <type>utils::SecurityEventType</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>details</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="335" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_audit_logger.h" line="33" column="1" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="33" bodyend="339"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1ac55047b5e0c291236f304350c6264793" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>AuthAuditLogger</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1adbdbb0210532568a6609419b8f045c8d" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>emit</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a52f66fca8b115544fc96b1cd9e124bba" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>emitWithDecisionClass</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6dea745d43ee13861179c2dc3734e66c" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a7001f807b35af7927b7c1e9119c8e8d0" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logAccountLockoutTriggered</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a515c7bde8fefea45e8c35809e3db9adb" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logApiKeyFailure</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6c14534d50f70380b505fc3f8e7b793a" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logApiKeySuccess</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a15f2d76985d20c20e0c917dd4b6d521e" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logBruteForceDetected</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1aa627fa10ac9302e6d7ebd4e4a4ca67a7" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logCredentialStuffingSuspected</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a1eb402f538685a769bfe5c3b518ad1a1" prot="private" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logger_</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a2b2b1f90c0b0b4a77b2a6cedd67f278d" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logJWTFailure</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a4a7342bd5085880bfa0b0a71aa0de93a" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logJWTSuccess</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1af2007e5a3f80380844b8b32874b3798a" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logKerberosFailure</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a1fe74d79880724ec0083350fc9118c86" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logKerberosSuccess</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6e3be1b22ac92e16f4ad8792c9a554c3" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logLDAPFailure</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1ab16c2c7490788807307a3d7409d96e8b" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logLDAPSuccess</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a4b35240893cb60cce17dc229b0044f50" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logMFAEnrolled</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a267727299f3a1ef74ff460ab1c0ac1c4" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logMTLSFailure</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1aace7e395c3cc6c171cb8dbe5b2dcc695" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logMTLSSuccess</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1abbed0aab54b3606059fe546ad7689a21" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logOAuthDeviceDenied</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1aec24868183479d157297a0da9aa66092" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logOAuthDeviceGranted</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6112544bfde2d525ed3511274eba5516" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logPasskeyFailure</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1ab96db95594c43f3561752338c2932053" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logPasskeyRegistered</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a131fdc7a954df8acf1a95d6103f15ccd" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logPasskeySuccess</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1af293b2f4091dd96dbf40ff341f458d14" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logPermissionChange</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1aae47a86e98734ca60dc3cae568877609" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logRecoveryCodeUsed</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6a1d255d22e6272855fa3537c080a4cd" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logRoleChange</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1af31fa386571ed643b0a80a5a36d3397c" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logSAMLFailure</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1ad6ad72f4f8bd42d929a78ad1ba9581d8" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logSAMLSuccess</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6f8ba4b0d687e75936787bc1693d94fe" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logTokenRevoked</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1af36af54813781b30094864e4da8ed86f" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logTOTPDrift</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1afa13b95a03154bca64a864df97307b98" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logTOTPFailure</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a8849f46264c45344585e56e607f04684" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logTOTPSuccess</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a53e26586bfca6dee566a6dcba1254268" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logZeroTrustAllowed</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a6c0d2ec2d90faa1d95909dbff4bda86a" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logZeroTrustDenied</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a32b4fe1e458380212874ba26670bdc77" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>logZeroTrustReEvaluationFailed</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger_1a59b662a54da7202f4283a7cccecf7c58" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::AuthAuditLogger</scope><name>setLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

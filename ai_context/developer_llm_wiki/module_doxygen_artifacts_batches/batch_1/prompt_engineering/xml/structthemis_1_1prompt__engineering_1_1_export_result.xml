@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_export_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ExportResult</compoundname>
+    <includes refid="prompt__library__io_8h" local="no">prompt_library_io.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_export_result_1a3fb4768decf0243679226c6d18f265ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ExportResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::prompt_engineering::ExportResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="77" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_export_result_1ad6f8b47310c496bb043ef7b7fb760ae7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::prompt_engineering::ExportResult::templates_written</definition>
+        <argsstring></argsstring>
+        <name>templates_written</name>
+        <qualifiedname>themis::prompt_engineering::ExportResult::templates_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of templates included in the file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="78" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_export_result_1aa97219e8908eaf28b712e137c4a09d50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ExportResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::prompt_engineering::ExportResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="79" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Outcome of a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1ae3832e69abadbc586929300ca8f11db5" kindref="member">PromptLibraryIO::exportToFile()</ref></computeroutput> operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_library_io.h" line="76" column="1" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="76" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_export_result_1aa97219e8908eaf28b712e137c4a09d50" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExportResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_export_result_1a3fb4768decf0243679226c6d18f265ba" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExportResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_export_result_1ad6f8b47310c496bb043ef7b7fb760ae7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExportResult</scope><name>templates_written</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

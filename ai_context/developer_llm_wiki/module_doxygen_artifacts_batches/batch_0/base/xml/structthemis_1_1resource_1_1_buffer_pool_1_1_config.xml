@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1resource_1_1_buffer_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::resource::BufferPool::Config</compoundname>
+    <includes refid="buffer__pool_8h" local="no">buffer_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_config_1ad6b78bed661843a7afebe154e85fe458" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Config::initial_per_class</definition>
+        <argsstring></argsstring>
+        <name>initial_per_class</name>
+        <qualifiedname>themis::resource::BufferPool::Config::initial_per_class</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="118" column="21" bodyfile="include/base/buffer_pool.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_config_1adbe780ac102ac099cc92e47980784b49" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Config::max_per_class</definition>
+        <argsstring></argsstring>
+        <name>max_per_class</name>
+        <qualifiedname>themis::resource::BufferPool::Config::max_per_class</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="119" column="21" bodyfile="include/base/buffer_pool.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/base/buffer_pool.h" line="117" column="5" bodyfile="include/base/buffer_pool.h" bodystart="117" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config_1ad6b78bed661843a7afebe154e85fe458" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Config</scope><name>initial_per_class</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config_1adbe780ac102ac099cc92e47980784b49" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Config</scope><name>max_per_class</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

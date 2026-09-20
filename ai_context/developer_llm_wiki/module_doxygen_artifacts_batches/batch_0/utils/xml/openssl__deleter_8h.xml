@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="openssl__deleter_8h" kind="file" language="C++">
+    <compoundname>openssl_deleter.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <includes local="no">openssl/x509.h</includes>
+    <includes local="no">openssl/x509_vfy.h</includes>
+    <includes local="no">openssl/bio.h</includes>
+    <includes local="no">openssl/pem.h</includes>
+    <includes local="no">openssl/rsa.h</includes>
+    <includes local="no">openssl/bn.h</includes>
+    <includedby refid="pki__client_8cpp" local="yes">src/utils/pki_client.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/openssl_deleter.h</label>
+        <link refid="openssl__deleter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>openssl/bio.h</label>
+      </node>
+      <node id="10">
+        <label>openssl/bn.h</label>
+      </node>
+      <node id="4">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="8">
+        <label>openssl/pem.h</label>
+      </node>
+      <node id="9">
+        <label>openssl/rsa.h</label>
+      </node>
+      <node id="5">
+        <label>openssl/x509.h</label>
+      </node>
+      <node id="6">
+        <label>openssl/x509_vfy.h</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/openssl_deleter.h</label>
+        <link refid="openssl__deleter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/pki_client.cpp</label>
+        <link refid="pki__client_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_e_v_p_key_deleter" prot="public">themis::utils::EVPKeyDeleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_e_v_p_m_d_ctx_deleter" prot="public">themis::utils::EVPMDCtxDeleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_x509_deleter" prot="public">themis::utils::X509Deleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_x509_c_r_l_deleter" prot="public">themis::utils::X509CRLDeleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_x509_r_e_q_deleter" prot="public">themis::utils::X509REQDeleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_x509_store_deleter" prot="public">themis::utils::X509StoreDeleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_x509_store_ctx_deleter" prot="public">themis::utils::X509StoreCtxDeleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_b_i_o_deleter" prot="public">themis::utils::BIODeleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_r_s_a_deleter" prot="public">themis::utils::RSADeleter</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_b_i_g_n_u_m_deleter" prot="public">themis::utils::BIGNUMDeleter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>OpenSSL<sp/>RAII<sp/>Wrappers</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>================================</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>Provides<sp/>RAII<sp/>(Resource<sp/>Acquisition<sp/>Is<sp/>Initialization)<sp/>wrappers<sp/>for<sp/>OpenSSL<sp/>objects</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>using<sp/>std::unique_ptr<sp/>with<sp/>custom<sp/>deleters.<sp/>This<sp/>eliminates<sp/>manual<sp/>memory<sp/>management</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>and<sp/>prevents<sp/>memory<sp/>leaks<sp/>in<sp/>error<sp/>paths.</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/>Usage:</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/><sp/><sp/>auto<sp/>pkey<sp/>=<sp/>utils::make_evp_key();</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/><sp/><sp/>if<sp/>(!pkey)<sp/>return<sp/>error;</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/><sp/><sp/>//<sp/>...<sp/>use<sp/>pkey<sp/>...</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/><sp/><sp/>//<sp/>Automatic<sp/>cleanup<sp/>when<sp/>pkey<sp/>goes<sp/>out<sp/>of<sp/>scope</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/x509.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/x509_vfy.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/bio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/pem.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/rsa.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/bn.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Custom<sp/>Deleters<sp/>for<sp/>OpenSSL<sp/>Objects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1utils_1_1_e_v_p_key_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_e_v_p_key_deleter" kindref="compound">EVPKeyDeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1utils_1_1_e_v_p_key_deleter_1a14405adab9c34250485a2577d18fd750" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_e_v_p_key_deleter_1a14405adab9c34250485a2577d18fd750" kindref="member">operator()</ref>(EVP_PKEY*<sp/>pkey)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pkey)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_free(pkey);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1utils_1_1_e_v_p_m_d_ctx_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_e_v_p_m_d_ctx_deleter" kindref="compound">EVPMDCtxDeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1utils_1_1_e_v_p_m_d_ctx_deleter_1a41e96994b0b76979c11f8cf764402e34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_e_v_p_m_d_ctx_deleter_1a41e96994b0b76979c11f8cf764402e34" kindref="member">operator()</ref>(EVP_MD_CTX*<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_MD_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1utils_1_1_x509_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_x509_deleter" kindref="compound">X509Deleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1utils_1_1_x509_deleter_1a5c6df2ba4374ce03d9ce0617335261c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_x509_deleter_1a5c6df2ba4374ce03d9ce0617335261c4" kindref="member">operator()</ref>(X509*<sp/>cert)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cert)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_free(cert);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1utils_1_1_x509_c_r_l_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_x509_c_r_l_deleter" kindref="compound">X509CRLDeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1utils_1_1_x509_c_r_l_deleter_1ada008b75498a79161b552bf4f2c65458" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_x509_c_r_l_deleter_1ada008b75498a79161b552bf4f2c65458" kindref="member">operator()</ref>(X509_CRL*<sp/>crl)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(crl)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_CRL_free(crl);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1utils_1_1_x509_r_e_q_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_x509_r_e_q_deleter" kindref="compound">X509REQDeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1utils_1_1_x509_r_e_q_deleter_1a738f4bf12fa3ec78c09ead1613ba0737" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_x509_r_e_q_deleter_1a738f4bf12fa3ec78c09ead1613ba0737" kindref="member">operator()</ref>(X509_REQ*<sp/>req)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(req)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_REQ_free(req);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1utils_1_1_x509_store_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_x509_store_deleter" kindref="compound">X509StoreDeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1utils_1_1_x509_store_deleter_1a833e037d867e981c106e061ef5a291d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_x509_store_deleter_1a833e037d867e981c106e061ef5a291d5" kindref="member">operator()</ref>(X509_STORE*<sp/>store)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(store)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_STORE_free(store);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1utils_1_1_x509_store_ctx_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_x509_store_ctx_deleter" kindref="compound">X509StoreCtxDeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1utils_1_1_x509_store_ctx_deleter_1a8dc4240f8c6189de369c38c2448aad48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_x509_store_ctx_deleter_1a8dc4240f8c6189de369c38c2448aad48" kindref="member">operator()</ref>(X509_STORE_CTX*<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_STORE_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1utils_1_1_b_i_o_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_b_i_o_deleter" kindref="compound">BIODeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1utils_1_1_b_i_o_deleter_1aa2004af135833fc87cb86797d739a868" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_b_i_o_deleter_1aa2004af135833fc87cb86797d739a868" kindref="member">operator()</ref>(BIO*<sp/>bio)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bio)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BIO_free_all(bio);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1utils_1_1_r_s_a_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_r_s_a_deleter" kindref="compound">RSADeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1utils_1_1_r_s_a_deleter_1abfd4c316be55c9b4900fee5a5d4b87ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_r_s_a_deleter_1abfd4c316be55c9b4900fee5a5d4b87ec" kindref="member">operator()</ref>(RSA*<sp/>rsa)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rsa)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RSA_free(rsa);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1utils_1_1_b_i_g_n_u_m_deleter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_b_i_g_n_u_m_deleter" kindref="compound">BIGNUMDeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1utils_1_1_b_i_g_n_u_m_deleter_1af8485f07b77b12e33f94414480712a53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_b_i_g_n_u_m_deleter_1af8485f07b77b12e33f94414480712a53" kindref="member">operator()</ref>(BIGNUM*<sp/>bn)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bn)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BN_free(bn);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII<sp/>Wrappers<sp/>using<sp/>unique_ptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="namespacethemis_1_1utils_1a899dd03a4eb32628562898b6f1391cd6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1a899dd03a4eb32628562898b6f1391cd6" kindref="member">EVPKeyPtr</ref><sp/>=<sp/>std::unique_ptr&lt;EVP_PKEY,<sp/>EVPKeyDeleter&gt;;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="namespacethemis_1_1utils_1ac5f9fc4c241e92219cc8c1fae7deb014" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1ac5f9fc4c241e92219cc8c1fae7deb014" kindref="member">EVPMDCtxPtr</ref><sp/>=<sp/>std::unique_ptr&lt;EVP_MD_CTX,<sp/>EVPMDCtxDeleter&gt;;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1_1utils_1af574df031b8e0a4fba1f170f47a83f8c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1af574df031b8e0a4fba1f170f47a83f8c" kindref="member">X509Ptr</ref><sp/>=<sp/>std::unique_ptr&lt;X509,<sp/>X509Deleter&gt;;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="namespacethemis_1_1utils_1addf322574e895550477ca4c9e095f0bb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1addf322574e895550477ca4c9e095f0bb" kindref="member">X509CRLPtr</ref><sp/>=<sp/>std::unique_ptr&lt;X509_CRL,<sp/>X509CRLDeleter&gt;;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1_1utils_1ae3a1a109af7ed4ca57daeecde5a1ac7e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1ae3a1a109af7ed4ca57daeecde5a1ac7e" kindref="member">X509REQPtr</ref><sp/>=<sp/>std::unique_ptr&lt;X509_REQ,<sp/>X509REQDeleter&gt;;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="namespacethemis_1_1utils_1a9a7eaa16aca54bbbd3aec7a6b915241e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1a9a7eaa16aca54bbbd3aec7a6b915241e" kindref="member">X509StorePtr</ref><sp/>=<sp/>std::unique_ptr&lt;X509_STORE,<sp/>X509StoreDeleter&gt;;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="namespacethemis_1_1utils_1a870e6946ba3c21ff07a7a5195e25e2d9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1a870e6946ba3c21ff07a7a5195e25e2d9" kindref="member">X509StoreCtxPtr</ref><sp/>=<sp/>std::unique_ptr&lt;X509_STORE_CTX,<sp/>X509StoreCtxDeleter&gt;;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="namespacethemis_1_1utils_1a49df1a8fe7353c6eb8c65062eb4f8ba4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1a49df1a8fe7353c6eb8c65062eb4f8ba4" kindref="member">BIOPtr</ref><sp/>=<sp/>std::unique_ptr&lt;BIO,<sp/>BIODeleter&gt;;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="namespacethemis_1_1utils_1a169878df7bc3cef4da65dce5e5e887bc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1a169878df7bc3cef4da65dce5e5e887bc" kindref="member">RSAPtr</ref><sp/>=<sp/>std::unique_ptr&lt;RSA,<sp/>RSADeleter&gt;;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="namespacethemis_1_1utils_1a8c5bff8526d2abf8b14dbd910ce713c3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1a8c5bff8526d2abf8b14dbd910ce713c3" kindref="member">BIGNUMPtr</ref><sp/>=<sp/>std::unique_ptr&lt;BIGNUM,<sp/>BIGNUMDeleter&gt;;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>Functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="namespacethemis_1_1utils_1a30008c5231b78e4d86760db371258803" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a899dd03a4eb32628562898b6f1391cd6" kindref="member">EVPKeyPtr</ref><sp/><ref refid="namespacethemis_1_1utils_1a30008c5231b78e4d86760db371258803" kindref="member">make_evp_key</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a899dd03a4eb32628562898b6f1391cd6" kindref="member">EVPKeyPtr</ref>(EVP_PKEY_new());</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="namespacethemis_1_1utils_1a3b79ecfedb9ed44beabcb7ec786417ee" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1ac5f9fc4c241e92219cc8c1fae7deb014" kindref="member">EVPMDCtxPtr</ref><sp/><ref refid="namespacethemis_1_1utils_1a3b79ecfedb9ed44beabcb7ec786417ee" kindref="member">make_evp_md_ctx</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1ac5f9fc4c241e92219cc8c1fae7deb014" kindref="member">EVPMDCtxPtr</ref>(EVP_MD_CTX_new());</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1utils_1ae3d0e68f3dff683b60f892fc45dbfd0a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a169878df7bc3cef4da65dce5e5e887bc" kindref="member">RSAPtr</ref><sp/><ref refid="namespacethemis_1_1utils_1ae3d0e68f3dff683b60f892fc45dbfd0a" kindref="member">make_rsa</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a169878df7bc3cef4da65dce5e5e887bc" kindref="member">RSAPtr</ref>(RSA_new());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="namespacethemis_1_1utils_1a2682fb80c800784f18179e638f030b8a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a8c5bff8526d2abf8b14dbd910ce713c3" kindref="member">BIGNUMPtr</ref><sp/><ref refid="namespacethemis_1_1utils_1a2682fb80c800784f18179e638f030b8a" kindref="member">make_bignum</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a8c5bff8526d2abf8b14dbd910ce713c3" kindref="member">BIGNUMPtr</ref>(BN_new());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="namespacethemis_1_1utils_1a4857cca1c42f0d1155f5cde216fbdc50" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a49df1a8fe7353c6eb8c65062eb4f8ba4" kindref="member">BIOPtr</ref><sp/><ref refid="namespacethemis_1_1utils_1a4857cca1c42f0d1155f5cde216fbdc50" kindref="member">make_bio_mem_buf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a49df1a8fe7353c6eb8c65062eb4f8ba4" kindref="member">BIOPtr</ref>(BIO_new_mem_buf(data,<sp/>size));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1_1utils_1abd087096882a01c57ed971806bdce03e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a49df1a8fe7353c6eb8c65062eb4f8ba4" kindref="member">BIOPtr</ref><sp/><ref refid="namespacethemis_1_1utils_1abd087096882a01c57ed971806bdce03e" kindref="member">make_bio_file</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>filename,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>mode)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a49df1a8fe7353c6eb8c65062eb4f8ba4" kindref="member">BIOPtr</ref>(BIO_new_file(filename,<sp/>mode));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="namespacethemis_1_1utils_1a1df77d0b328d19b5a912b161b129091e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1af574df031b8e0a4fba1f170f47a83f8c" kindref="member">X509Ptr</ref><sp/><ref refid="namespacethemis_1_1utils_1a1df77d0b328d19b5a912b161b129091e" kindref="member">read_x509_from_bio</ref>(BIO*<sp/>bio)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bio)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1af574df031b8e0a4fba1f170f47a83f8c" kindref="member">X509Ptr</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1af574df031b8e0a4fba1f170f47a83f8c" kindref="member">X509Ptr</ref>(PEM_read_bio_X509(bio,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="namespacethemis_1_1utils_1a1c8c6584b63a02565514411d199e09f0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1addf322574e895550477ca4c9e095f0bb" kindref="member">X509CRLPtr</ref><sp/><ref refid="namespacethemis_1_1utils_1a1c8c6584b63a02565514411d199e09f0" kindref="member">read_x509_crl_from_bio</ref>(BIO*<sp/>bio)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bio)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1addf322574e895550477ca4c9e095f0bb" kindref="member">X509CRLPtr</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1addf322574e895550477ca4c9e095f0bb" kindref="member">X509CRLPtr</ref>(PEM_read_bio_X509_CRL(bio,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/openssl_deleter.h"/>
+  </compounddef>
+</doxygen>

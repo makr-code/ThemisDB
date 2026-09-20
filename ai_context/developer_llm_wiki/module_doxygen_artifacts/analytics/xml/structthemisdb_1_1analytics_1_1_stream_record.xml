@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_stream_record" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::StreamRecord</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_record_1a7f0f1ecc24574213da8340033cfe8420" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::StreamRecord::record_id</definition>
+        <argsstring></argsstring>
+        <name>record_id</name>
+        <qualifiedname>themisdb::analytics::StreamRecord::record_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="94" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_record_1a91a31697897f4c6391e8a15bbd661990" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::StreamRecord::event_time</definition>
+        <argsstring></argsstring>
+        <name>event_time</name>
+        <qualifiedname>themisdb::analytics::StreamRecord::event_time</qualifiedname>
+        <briefdescription>
+<para>event-time timestamp </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="95" column="43" bodyfile="include/analytics/streaming_window.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_record_1a9c504376baea25d6d1a6aa7b908c62fb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::StreamRecord::ingest_time</definition>
+        <argsstring></argsstring>
+        <name>ingest_time</name>
+        <qualifiedname>themisdb::analytics::StreamRecord::ingest_time</qualifiedname>
+        <briefdescription>
+<para>processing-time stamp </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="96" column="43" bodyfile="include/analytics/streaming_window.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_record_1a5b57a5e5c2a1d3f50a0be3aea2927a91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::StreamRecord::partition_key</definition>
+        <argsstring></argsstring>
+        <name>partition_key</name>
+        <qualifiedname>themisdb::analytics::StreamRecord::partition_key</qualifiedname>
+        <briefdescription>
+<para>used by session windows </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="97" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_record_1aae82afeed99a443da5cf36756bb11660" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" kindref="member">RecordValue</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RecordValue&gt; themisdb::analytics::StreamRecord::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themisdb::analytics::StreamRecord::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="98" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_stream_record_1ad2aa25c3364e89e188ae75a58653dc24" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt; T &gt; themisdb::analytics::StreamRecord::get</definition>
+        <argsstring>(const std::string &amp;field) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::analytics::StreamRecord::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="102" column="19" bodyfile="include/analytics/streaming_window.h" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_stream_record_1af90322a1c8000acc02ffdeb6b309410b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::StreamRecord::set</definition>
+        <argsstring>(const std::string &amp;field, RecordValue value)</argsstring>
+        <name>set</name>
+        <qualifiedname>themisdb::analytics::StreamRecord::set</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" kindref="member">RecordValue</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="119" column="10" bodyfile="include/analytics/streaming_window.h" bodystart="119" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_window.h" line="93" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="93" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_record_1a91a31697897f4c6391e8a15bbd661990" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamRecord</scope><name>event_time</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_record_1aae82afeed99a443da5cf36756bb11660" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamRecord</scope><name>fields</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_record_1ad2aa25c3364e89e188ae75a58653dc24" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamRecord</scope><name>get</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_record_1a9c504376baea25d6d1a6aa7b908c62fb" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamRecord</scope><name>ingest_time</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_record_1a5b57a5e5c2a1d3f50a0be3aea2927a91" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamRecord</scope><name>partition_key</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_record_1a7f0f1ecc24574213da8340033cfe8420" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamRecord</scope><name>record_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_record_1af90322a1c8000acc02ffdeb6b309410b" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamRecord</scope><name>set</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

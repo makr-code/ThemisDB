@@ -1,0 +1,3028 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration" kind="namespace" language="C++">
+    <compoundname>themis::acceleration</compoundname>
+    <innerclass refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" prot="public">themis::acceleration::AiHardwareCapability</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher" prot="public">themis::acceleration::AiHardwareDispatcher</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_ai_inference_request" prot="public">themis::acceleration::AiInferenceRequest</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_ai_inference_result" prot="public">themis::acceleration::AiInferenceResult</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" prot="public">themis::acceleration::ANNKernelDispatch</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_a_n_n_kernel_fallback_dispatcher" prot="public">themis::acceleration::ANNKernelFallbackDispatcher</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params" prot="public">themis::acceleration::ANNKernelParams</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result" prot="public">themis::acceleration::ANNKernelResult</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_backend_capabilities" prot="public">themis::acceleration::BackendCapabilities</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_backend_health_status" prot="public">themis::acceleration::BackendHealthStatus</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_backend_plugin" prot="public">themis::acceleration::BackendPlugin</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_backend_registry" prot="public">themis::acceleration::BackendRegistry</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_batch_descriptor" prot="public">themis::acceleration::BatchDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_batch_validator" prot="public">themis::acceleration::BatchValidator</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_b_e_v_impl" prot="public">themis::acceleration::BEVImpl</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_break_even_decision" prot="public">themis::acceleration::BreakEvenDecision</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_break_even_validator" prot="public">themis::acceleration::BreakEvenValidator</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_cancellation_token" prot="public">themis::acceleration::CancellationToken</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_compute_future" prot="public">themis::acceleration::ComputeFuture</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_compute_graph_config" prot="public">themis::acceleration::ComputeGraphConfig</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_compute_graph_edge" prot="public">themis::acceleration::ComputeGraphEdge</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_compute_graph_node" prot="public">themis::acceleration::ComputeGraphNode</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_compute_graph_stats" prot="public">themis::acceleration::ComputeGraphStats</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" prot="public">themis::acceleration::CPUGeoBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_m_t" prot="public">themis::acceleration::CPUGeoBackendMT</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_t_b_b" prot="public">themis::acceleration::CPUGeoBackendTBB</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend" prot="public">themis::acceleration::CPUGraphBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend" prot="public">themis::acceleration::CPUMatrixBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" prot="public">themis::acceleration::CPUVectorBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t" prot="public">themis::acceleration::CPUVectorBackendMT</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_t_b_b" prot="public">themis::acceleration::CPUVectorBackendTBB</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend" prot="public">themis::acceleration::CUDAGeoBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend" prot="public">themis::acceleration::CUDAGraphBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend" prot="public">themis::acceleration::CUDAMatrixBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_u_d_a_vector_backend" prot="public">themis::acceleration::CUDAVectorBackend</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_device_capability_info" prot="public">themis::acceleration::DeviceCapabilityInfo</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_device_manager" prot="public">themis::acceleration::DeviceManager</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_device_set" prot="public">themis::acceleration::DeviceSet</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend" prot="public">themis::acceleration::DirectXVectorBackend</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_dispatch_stats" prot="public">themis::acceleration::DispatchStats</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_distance_cache" prot="public">themis::acceleration::DistanceCache</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier" prot="public">themis::acceleration::EnhancedPluginSecurityVerifier</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_error_context" prot="public">themis::acceleration::ErrorContext</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_geo_acceleration_bridge" prot="public">themis::acceleration::GeoAccelerationBridge</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_geo_containment_params" prot="public">themis::acceleration::GeoContainmentParams</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" prot="public">themis::acceleration::GeoKernelDispatch</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher" prot="public">themis::acceleration::GeoKernelFallbackDispatcher</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_geo_kernel_params" prot="public">themis::acceleration::GeoKernelParams</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend" prot="public">themis::acceleration::HIPGeoBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend" prot="public">themis::acceleration::HIPVectorBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_async_compute_dispatch" prot="public">themis::acceleration::IAsyncComputeDispatch</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_compute_backend" prot="public">themis::acceleration::IComputeBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_compute_graph" prot="public">themis::acceleration::IComputeGraph</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory" prot="public">themis::acceleration::IComputeGraphFactory</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_device_capability_query" prot="public">themis::acceleration::IDeviceCapabilityQuery</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_geo_backend" prot="public">themis::acceleration::IGeoBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_graph_backend" prot="public">themis::acceleration::IGraphBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_kernel_registry" prot="public">themis::acceleration::IKernelRegistry</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_matrix_backend" prot="public">themis::acceleration::IMatrixBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_multi_g_p_u_selector" prot="public">themis::acceleration::IMultiGPUSelector</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_quantized_backend" prot="public">themis::acceleration::IQuantizedBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_vector_backend" prot="public">themis::acceleration::IVectorBackend</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits" prot="public">themis::acceleration::KernelClassificationTraits</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___c_o_s_i_n_e___d_i_s_t_a_n_c_e_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_COSINE_DISTANCE &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___l2___d_i_s_t_a_n_c_e_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_L2_DISTANCE &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_e_x_a_c_t___m_u_l_t_i___h_o_p_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::EXACT_MULTI_HOP &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___c_o_n_t_a_i_n_m_e_n_t_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_CONTAINMENT &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_r_a_p_h___b_f_s_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::GRAPH_BFS &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_r_a_p_h___d_i_j_k_s_t_r_a_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::GRAPH_DIJKSTRA &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_i_r_r_e_g_u_l_a_r___t_r_a_v_e_r_s_a_l_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::IRREGULAR_TRAVERSAL &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_o_l_i_c_y___v_a_l_i_d_a_t_i_o_n_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::POLICY_VALIDATION &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_o_p_k___s_e_l_e_c_t_i_o_n_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::TOPK_SELECTION &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_v_e_c___k_n_n___i_n_s_e_r_t_01_4" prot="public">themis::acceleration::KernelClassificationTraits&lt; KernelType::VEC_KNN_INSERT &gt;</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_config" prot="public">themis::acceleration::KernelConfig</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_coverage" prot="public">themis::acceleration::KernelCoverage</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_kernel_descriptor" prot="public">themis::acceleration::KernelDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_kernel_registry" prot="public">themis::acceleration::KernelRegistry</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_knn_query_result" prot="public">themis::acceleration::KnnQueryResult</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" prot="public">themis::acceleration::MatrixKernelDispatch</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" prot="public">themis::acceleration::MatrixKernelParams</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend" prot="public">themis::acceleration::MultiGPUVectorBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_n_c_c_l_vector_backend" prot="public">themis::acceleration::NCCLVectorBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend" prot="public">themis::acceleration::OneAPIVectorBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend" prot="public">themis::acceleration::OpenCLVectorBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_open_g_l_geo_backend" prot="public">themis::acceleration::OpenGLGeoBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend" prot="public">themis::acceleration::OpenGLGraphBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend" prot="public">themis::acceleration::OpenGLVectorBackend</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_partial_batch_result" prot="public">themis::acceleration::PartialBatchResult</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_plugin_loader" prot="public">themis::acceleration::PluginLoader</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_plugin_metadata" prot="public">themis::acceleration::PluginMetadata</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_plugin_security_auditor" prot="public">themis::acceleration::PluginSecurityAuditor</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_plugin_security_event" prot="public">themis::acceleration::PluginSecurityEvent</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_plugin_security_policy" prot="public">themis::acceleration::PluginSecurityPolicy</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_plugin_security_verifier" prot="public">themis::acceleration::PluginSecurityVerifier</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_plugin_signature" prot="public">themis::acceleration::PluginSignature</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_quantization_config" prot="public">themis::acceleration::QuantizationConfig</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_quantization_stats" prot="public">themis::acceleration::QuantizationStats</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_quantized_tensor" prot="public">themis::acceleration::QuantizedTensor</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend" prot="public">themis::acceleration::RCCLVectorBackend</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_registered_backend" prot="public">themis::acceleration::RegisteredBackend</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_retry_policy" prot="public">themis::acceleration::RetryPolicy</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier" prot="public">themis::acceleration::ShaderIntegrityVerifier</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_shard_descriptor" prot="public">themis::acceleration::ShardDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_similarity_kernel_result" prot="public">themis::acceleration::SimilarityKernelResult</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_validation_report" prot="public">themis::acceleration::ValidationReport</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline" prot="public">themis::acceleration::VecKnnInsertPipeline</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_vec_knn_insert_result" prot="public">themis::acceleration::VecKnnInsertResult</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config" prot="public">themis::acceleration::VecKnnPipelineConfig</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager" prot="public">themis::acceleration::VLLMResourceManager</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_vulkan_device_info" prot="public">themis::acceleration::VulkanDeviceInfo</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend" prot="public">themis::acceleration::VulkanGeoBackend</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_config" prot="public">themis::acceleration::VulkanPipelineConfig</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle" prot="public">themis::acceleration::VulkanPipelineHandle</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend" prot="public">themis::acceleration::VulkanVectorBackend</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_workload_descriptor" prot="public">themis::acceleration::WorkloadDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_workload_profile" prot="public">themis::acceleration::WorkloadProfile</innerclass>
+    <innernamespace refid="namespacethemis_1_1acceleration_1_1detail">themis::acceleration::detail</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration_1_1_error_context_helpers">themis::acceleration::ErrorContextHelpers</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration_1_1glsl__bridge">themis::acceleration::glsl_bridge</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration_1_1metrics">themis::acceleration::metrics</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration_1_1tensor__core">themis::acceleration::tensor_core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration_1_1vendor__id">themis::acceleration::vendor_id</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>KernelType</name>
+        <qualifiedname>themis::acceleration::KernelType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a0b643bb55f57969b437969794f8229b5" prot="public">
+          <name>kDistance</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a6d9b4cec0b040ed7998be645d95c819a" prot="public">
+          <name>kTopK</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a435ba2162508495127855c24f00140a9" prot="public">
+          <name>kBFS</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a5c5c9a4d20a1c6630ceb206089fcd5d1" prot="public">
+          <name>kDijkstra</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a704696bab2dea7526fff17dc7b5f7a74" prot="public">
+          <name>kGeoDistance</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423afc7d882044a340561c48cfafbf0869fb" prot="public">
+          <name>kGeoContainment</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <initializer>= -1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423ae700592766935ba32559b96dc19cd384" prot="public">
+          <name>ANN_L2_DISTANCE</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423af40f5bbf3fd548f30ebc3b816450966a" prot="public">
+          <name>ANN_COSINE_DISTANCE</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a02e6a1aaa84140730731e5a5eb95f7bd" prot="public">
+          <name>ANN_INNER_PRODUCT</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423afa7bec83800129c8242f62dc7d267202" prot="public">
+          <name>TOPK_SELECTION</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423ad3bd516d098758c08d963e76b96e0f6d" prot="public">
+          <name>VEC_KNN_INSERT</name>
+          <initializer>= 104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a3751aef125894662297c0612991c4cbe" prot="public">
+          <name>TENSOR_CORE_MATMUL</name>
+          <initializer>= 105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a5626f489cbc3465ae1e203ac32d1dabe" prot="public">
+          <name>GEO_DISTANCE</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423ab1d7455afd68931136e40a842c4a24dd" prot="public">
+          <name>GEO_CONTAINMENT</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a9890269d55604a50ac08d076f852e745" prot="public">
+          <name>GRAPH_BFS</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a57097c2fa24db2702c98ad7fb4a24bb3" prot="public">
+          <name>GRAPH_DIJKSTRA</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a6bfd44dbdc79d9cfc6ffa119d7441263" prot="public">
+          <name>ACL_ENFORCEMENT</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423ac9e8087637d2828b5bf4ded1313f9737" prot="public">
+          <name>PROVENANCE_CHAINS</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423ad817ce42cdb5d2de5155faf6b3e46aea" prot="public">
+          <name>POLICY_VALIDATION</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a38e7a94cd34791b2cec84af007d15e2b" prot="public">
+          <name>EXACT_MULTI_HOP</name>
+          <initializer>= 303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423acee1ddb463c801bbe23d6752889a74d3" prot="public">
+          <name>IRREGULAR_TRAVERSAL</name>
+          <initializer>= 304</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 0xFFFF</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="27" column="1" bodyfile="include/acceleration/break_even_validator.h" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeviceType</name>
+        <qualifiedname>themis::acceleration::DeviceType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82aba43c01748e4e8c34ecc62f3ef35148d" prot="public">
+          <name>kNVIDIA_RTX</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a607cfa751184db21c06c95f109bd6a1b" prot="public">
+          <name>kNVIDIA_T4</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a0814dada8bb12fa6fc46b4d9396613d4" prot="public">
+          <name>kAMD_MI210</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82aac89a4d7d9851673dcaeec4bc3635983" prot="public">
+          <name>kIntel_Arc</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a2ce310327f474afc9f6774faa2f57903" prot="public">
+          <name>kCPU</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <initializer>= -1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="37" column="1" bodyfile="include/acceleration/break_even_validator.h" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackendType</name>
+        <qualifiedname>themis::acceleration::BackendType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+<para>CPU-only fallback (always available). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aa33b7755e5f9b504d2d038eaca4ff28d" prot="public">
+          <name>CUDA</name>
+          <briefdescription>
+<para>NVIDIA CUDA (requires NVIDIA GPU + CUDA toolkit). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a0deb38ceff3b4d2592fc453c58f9c794" prot="public">
+          <name>ZLUDA</name>
+          <briefdescription>
+<para>AMD ZLUDA (CUDA compatibility layer for AMD GPUs). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a5e4576beae2ab86d6ad1b8b1700d2e11" prot="public">
+          <name>HIP</name>
+          <briefdescription>
+<para>AMD HIP (Heterogeneous-computing Interface for Portability). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a4577407264c219de8c96e39f0e4cae2a" prot="public">
+          <name>ROCM</name>
+          <briefdescription>
+<para>AMD ROCm (modern AMD GPU compute platform). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aeee703cc0a96c14f0661af3ae9420d08" prot="public">
+          <name>DIRECTX</name>
+          <briefdescription>
+<para>DirectX Compute Shaders (Windows GPU compute). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ac60cacb57b9e78f018a9d973bee2f801" prot="public">
+          <name>VULKAN</name>
+          <briefdescription>
+<para>Vulkan Compute (cross-platform GPU compute). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ac0ad831a34c4633bee584066cfcc5040" prot="public">
+          <name>OPENGL</name>
+          <briefdescription>
+<para>OpenGL Compute Shaders (legacy GPU compute support). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a74108a89672c573afee1fae6de8e4e0b" prot="public">
+          <name>METAL</name>
+          <briefdescription>
+<para>Apple Metal (iOS/macOS GPU compute). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a452f45e6d4242c81d305cadae83f7c11" prot="public">
+          <name>ONEAPI</name>
+          <briefdescription>
+<para>Intel OneAPI/SYCL (Intel GPU and CPU compute). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a542f952490e2db695a1d544338a70cda" prot="public">
+          <name>OPENCL</name>
+          <briefdescription>
+<para>OpenCL (generic GPU/CPU compute). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aa9ccfdd880db220ac67f5f0b51ec5673" prot="public">
+          <name>WEBGPU</name>
+          <briefdescription>
+<para>WebGPU (browser-based GPU compute; future support). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ab6920c39c6a23119fa3fa0cf6941b1d3" prot="public">
+          <name>MULTI_GPU</name>
+          <briefdescription>
+<para>Multi-GPU sharding (distributes work across N devices). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a630e95b45f3474ce13e287790bade745" prot="public">
+          <name>NPU_APPLE</name>
+          <briefdescription>
+<para>Apple Neural Engine (Core ML / Metal Performance Shaders). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ac9e017ce95c7510fb82ef970d81630de" prot="public">
+          <name>NPU_INTEL</name>
+          <briefdescription>
+<para>Intel NPU (OpenVINO / iGPU tile). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aa2c5770a52e53eb912432e0b4eb62271" prot="public">
+          <name>NPU_QUALCOMM</name>
+          <briefdescription>
+<para>Qualcomm QNN / Hexagon DSP / Snapdragon NPU. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ad24c2b4bfb3c75a9f6b707ba604d1893" prot="public">
+          <name>NPU_ARM</name>
+          <briefdescription>
+<para>ARM Ethos-N / Mali AI extensions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a20ac363b893962de956bb35f8be1aaaa" prot="public">
+          <name>NNAPI</name>
+          <briefdescription>
+<para>Android Neural Networks API (delegates to best available). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2030dbbca057b06013e97fed36df5de5" prot="public">
+          <name>ONNX_RUNTIME</name>
+          <briefdescription>
+<para>ONNX Runtime (universal AI inference, selects EP at runtime). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+<para>Auto-detect and select best available backend. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="48" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="48" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>DeviceCapabilityFlags</name>
+        <qualifiedname>themis::acceleration::DeviceCapabilityFlags</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddeab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddea967d280b5c16d95f2947647dd2ca6cc2" prot="public">
+          <name>FLOAT32</name>
+          <initializer>= 1u &lt;&lt; 0</initializer>
+          <briefdescription>
+<para>IEEE 754 single-precision (always present on FP-capable devices). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddeac49f280a5ad551ccc77be0b01a2f386a" prot="public">
+          <name>FLOAT16</name>
+          <initializer>= 1u &lt;&lt; 1</initializer>
+          <briefdescription>
+<para>IEEE 754 half-precision compute (native fp16). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddeaa4b19a06b5361a32b32759aa26ffdbab" prot="public">
+          <name>BFLOAT16</name>
+          <initializer>= 1u &lt;&lt; 2</initializer>
+          <briefdescription>
+<para>Brain float BF16 arithmetic. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddeaee9d73311ff0658494edfff14c3ec1e3" prot="public">
+          <name>INT8</name>
+          <initializer>= 1u &lt;&lt; 3</initializer>
+          <briefdescription>
+<para>8-bit integer arithmetic (including VNNI) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddead30a6500fdbec80d88b0bebcae633186" prot="public">
+          <name>TENSOR_CORES</name>
+          <initializer>= 1u &lt;&lt; 4</initializer>
+          <briefdescription>
+<para>Tensor Core acceleration (sm_70+, RDNA3+). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddea626f05268d71c5ce8d5c83d76cce9328" prot="public">
+          <name>WARP_PRIMITIVES</name>
+          <initializer>= 1u &lt;&lt; 5</initializer>
+          <briefdescription>
+<para>Warp shuffle / ballot / vote intrinsics. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddeacf91a6fbb79cc87ab55737590ea8bcf2" prot="public">
+          <name>DYNAMIC_PARALLELISM</name>
+          <initializer>= 1u &lt;&lt; 6</initializer>
+          <briefdescription>
+<para>CUDA dynamic parallelism (sm_35+). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddea3723dd51f7096564a8322889e10d981d" prot="public">
+          <name>UNIFIED_MEMORY</name>
+          <initializer>= 1u &lt;&lt; 7</initializer>
+          <briefdescription>
+<para>CUDA/HIP unified virtual address space. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddeaf3c3bca62998889ee4294ccad4def52d" prot="public">
+          <name>PEER_ACCESS</name>
+          <initializer>= 1u &lt;&lt; 8</initializer>
+          <briefdescription>
+<para>Device-to-device peer memory access (NVLink / PCIe BAR). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddea750ce0a45102d7402c2c28849da6f737" prot="public">
+          <name>COMPUTE_PREEMPTION</name>
+          <initializer>= 1u &lt;&lt; 9</initializer>
+          <briefdescription>
+<para>Fine-grained thread-level compute preemption. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddea408e0232e00b41954a2cd855edd1fb17" prot="public">
+          <name>COOPERATIVE_GROUPS</name>
+          <initializer>= 1u &lt;&lt; 10</initializer>
+          <briefdescription>
+<para>CUDA cooperative group launches. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddeaba9d660bff02f4bf48596b791fc32bb1" prot="public">
+          <name>GRAPH_CAPTURE</name>
+          <initializer>= 1u &lt;&lt; 11</initializer>
+          <briefdescription>
+<para>CUDA/HIP graph capture and replay. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76ddea1bffe48b4e5ddc013f04e5eb71560235" prot="public">
+          <name>KNOWN_VALID_MASK</name>
+          <initializer>= (1u &lt;&lt; 12) - 1u</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="904" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="904" bodyend="920"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1a3f40ff96691912999b8dc663a007c69a" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>LatencyClass</name>
+        <qualifiedname>themis::acceleration::LatencyClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1a3f40ff96691912999b8dc663a007c69aa176fd33fae7a2fd726d11292e79aca3c" prot="public">
+          <name>INTERACTIVE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Latency-critical (&lt; 1 ms); minimise queue depth. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a3f40ff96691912999b8dc663a007c69aa3dba7f2d2578ffb4bd657af94b1add80" prot="public">
+          <name>BATCH</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Throughput-oriented; minutes; GPU saturation preferred. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a3f40ff96691912999b8dc663a007c69aa87ed58ce5596142e11cb65deb049bb4b" prot="public">
+          <name>BACKGROUND</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Non-interactive; accept long queue wait times. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="976" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="976" bodyend="980"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>NodeDependencyMode</name>
+        <qualifiedname>themis::acceleration::NodeDependencyMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360a39403cd282d944abcd4f14996cb71bcb" prot="public">
+          <name>SEQUENTIAL</name>
+          <briefdescription>
+<para>Node executes only after all predecessors complete (blocking). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360adf13a99b035d6f0bce4f44ab18eec8eb" prot="public">
+          <name>PARALLEL</name>
+          <briefdescription>
+<para>Node may execute concurrently with eligible sibling nodes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="22" column="1" bodyfile="include/acceleration/compute_graph.h" bodystart="22" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>AccelerationErrorCode</name>
+        <qualifiedname>themis::acceleration::AccelerationErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a505a83f220c02df2f85c3810cd9ceb38" prot="public">
+          <name>Success</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a3a50e5a864f1c1da3d4f53ca965fcec6" prot="public">
+          <name>NoDevicesFound</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a98bd79dd14f8304f34d6203cd6605456" prot="public">
+          <name>DriverNotInstalled</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0aaa6c5cee4bac5f31521b5436239f053a" prot="public">
+          <name>DeviceNotSupported</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a4cf35b3d8fa0e0c15153d8e55211d9c9" prot="public">
+          <name>ContextCreationFailed</name>
+          <initializer>= 104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af17911945da6dd920f1f7a00c7c20594" prot="public">
+          <name>QueueCreationFailed</name>
+          <initializer>= 105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ab5681d1f3f43efe16036dc132bcf439e" prot="public">
+          <name>DeviceSetFailed</name>
+          <initializer>= 106</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a3c498ef010703a7e89a2ea80abb331fa" prot="public">
+          <name>DevicePropertiesQueryFailed</name>
+          <initializer>= 107</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a5816c46d15f2178f8c7456ebbfc0bf61" prot="public">
+          <name>RuntimeVersionIncompatible</name>
+          <initializer>= 108</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a8e66ecdd6c627a8f7022890392fd5e2b" prot="public">
+          <name>PlatformNotAvailable</name>
+          <initializer>= 109</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1122e4bd5951f4a7d9d4ff51d9901bf2" prot="public">
+          <name>OutOfDeviceMemory</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1a974d190fc90edd0babc2a5a021e3f0" prot="public">
+          <name>OutOfHostMemory</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ab1a1f934a076c47f947fd8766ca6d2df" prot="public">
+          <name>AllocationFailed</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ac6a0a5ec8417134bff0637432e332ed5" prot="public">
+          <name>MemoryCopyFailed</name>
+          <initializer>= 204</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a557c0e420180164c8b77b8cce23ebf00" prot="public">
+          <name>BufferCreationFailed</name>
+          <initializer>= 205</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a28aed17f28d78be02c061b4450156bed" prot="public">
+          <name>InvalidMemoryAccess</name>
+          <initializer>= 206</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1d7c3d3649dac3949dbcdd1fe36b17d6" prot="public">
+          <name>KernelLaunchFailed</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a79162bb452fad69612bf7f3fbc7e2e00" prot="public">
+          <name>KernelExecutionFailed</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ac84762e32ce4ad68154455c0c9c12ca3" prot="public">
+          <name>SynchronizationFailed</name>
+          <initializer>= 303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a9dd9eb2e644ab86243fa4dc1af89a53a" prot="public">
+          <name>OperationTimeout</name>
+          <initializer>= 304</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ae21f64304b84d5a977e1a00f2137428c" prot="public">
+          <name>DeviceLost</name>
+          <initializer>= 305</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a43f6834912fb3e5d5705fa80ff394352" prot="public">
+          <name>KernelCompilationFailed</name>
+          <initializer>= 501</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a4c4df9efb242aeb08fb1f72bf7999a82" prot="public">
+          <name>KernelNotFound</name>
+          <initializer>= 502</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a752d8e54ebee80d2c59518760c25c4c3" prot="public">
+          <name>InvalidKernelArguments</name>
+          <initializer>= 503</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0aff13f8e76bbbe53388fc163536efbdc0" prot="public">
+          <name>ProgramLinkingFailed</name>
+          <initializer>= 504</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a449aa631dc0529db204cea7eaad9ad2b" prot="public">
+          <name>InputValidationFailed</name>
+          <initializer>= 601</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1c5af5207a45aa564cfe74de48e31ca3" prot="public">
+          <name>InvalidInputShape</name>
+          <initializer>= 602</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af72b2e7a40b82057fa8cbee4e69d6c6c" prot="public">
+          <name>InvalidInputDtype</name>
+          <initializer>= 603</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0adb4d73944936bc5d8cff50ce71450d3f" prot="public">
+          <name>BatchSizeExceeded</name>
+          <initializer>= 604</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a93eb2d09405bd5b92db1e7ec1db61949" prot="public">
+          <name>InputRangeViolation</name>
+          <initializer>= 605</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af237deac1e85c65673a7bba9093bca7e" prot="public">
+          <name>InvalidConfiguration</name>
+          <initializer>= 401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af76af8155079d26c9b004f53f7463923" prot="public">
+          <name>FeatureNotSupported</name>
+          <initializer>= 402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a627251310d3384b591e4138be21145d5" prot="public">
+          <name>InvalidParameter</name>
+          <initializer>= 403</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a465ccabaac534fdde0dfc79d0ac1098c" prot="public">
+          <name>BackendNotInitialized</name>
+          <initializer>= 404</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a0ba49c5f061bddec4fe6fb8f9ff51a22" prot="public">
+          <name>BackendAlreadyInitialized</name>
+          <initializer>= 405</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0abfaef30f1c8011c5cefa38ae470fb7aa" prot="public">
+          <name>UnknownError</name>
+          <initializer>= 900</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <initializer>= 901</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a997ca4ce119685f40f03a9a8a6c5346e" prot="public">
+          <name>NotImplemented</name>
+          <initializer>= 902</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="20" column="1" bodyfile="include/acceleration/error_codes.h" bodystart="20" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2c" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>KernelCategory</name>
+        <qualifiedname>themis::acceleration::KernelCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2ca4368681a340ce211526318d301164fb7" prot="public">
+          <name>ACCELERATION_ELIGIBLE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2cad8b754b7d08a3c745bcee1d3f693c8de" prot="public">
+          <name>CONDITIONAL_ACCELERATION</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2ca320013acc73c7937e33c4dd17a8b1484" prot="public">
+          <name>CPU_FIRST_ONLY</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="26" column="1" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41" prot="public" static="no" strong="yes">
+        <type>std::uint16_t</type>
+        <name>KernelType</name>
+        <qualifiedname>themis::acceleration::KernelType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a0b643bb55f57969b437969794f8229b5" prot="public">
+          <name>kDistance</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a6d9b4cec0b040ed7998be645d95c819a" prot="public">
+          <name>kTopK</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a435ba2162508495127855c24f00140a9" prot="public">
+          <name>kBFS</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a5c5c9a4d20a1c6630ceb206089fcd5d1" prot="public">
+          <name>kDijkstra</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a704696bab2dea7526fff17dc7b5f7a74" prot="public">
+          <name>kGeoDistance</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41afc7d882044a340561c48cfafbf0869fb" prot="public">
+          <name>kGeoContainment</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <initializer>= -1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41ae700592766935ba32559b96dc19cd384" prot="public">
+          <name>ANN_L2_DISTANCE</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41af40f5bbf3fd548f30ebc3b816450966a" prot="public">
+          <name>ANN_COSINE_DISTANCE</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a02e6a1aaa84140730731e5a5eb95f7bd" prot="public">
+          <name>ANN_INNER_PRODUCT</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41afa7bec83800129c8242f62dc7d267202" prot="public">
+          <name>TOPK_SELECTION</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41ad3bd516d098758c08d963e76b96e0f6d" prot="public">
+          <name>VEC_KNN_INSERT</name>
+          <initializer>= 104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a3751aef125894662297c0612991c4cbe" prot="public">
+          <name>TENSOR_CORE_MATMUL</name>
+          <initializer>= 105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a5626f489cbc3465ae1e203ac32d1dabe" prot="public">
+          <name>GEO_DISTANCE</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41ab1d7455afd68931136e40a842c4a24dd" prot="public">
+          <name>GEO_CONTAINMENT</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a9890269d55604a50ac08d076f852e745" prot="public">
+          <name>GRAPH_BFS</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a57097c2fa24db2702c98ad7fb4a24bb3" prot="public">
+          <name>GRAPH_DIJKSTRA</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a6bfd44dbdc79d9cfc6ffa119d7441263" prot="public">
+          <name>ACL_ENFORCEMENT</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41ac9e8087637d2828b5bf4ded1313f9737" prot="public">
+          <name>PROVENANCE_CHAINS</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41ad817ce42cdb5d2de5155faf6b3e46aea" prot="public">
+          <name>POLICY_VALIDATION</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a38e7a94cd34791b2cec84af007d15e2b" prot="public">
+          <name>EXACT_MULTI_HOP</name>
+          <initializer>= 303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41acee1ddb463c801bbe23d6752889a74d3" prot="public">
+          <name>IRREGULAR_TRAVERSAL</name>
+          <initializer>= 304</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1afb8960eeae90f649bea719b29312de41a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 0xFFFF</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="34" column="1" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="34" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>DistanceMetric</name>
+        <qualifiedname>themis::acceleration::DistanceMetric</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Squared Euclidean distance (no sqrt — fast, consistent). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100ae66ba018ef96aa5c78c8fba787f43717" prot="public">
+          <name>COSINE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Cosine distance: 1 - dot(a,b) / (|a| * |b|). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a5dbd0030546e2ee560ccd7c5e4bfcfc8" prot="public">
+          <name>INNER_PRODUCT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Negative inner product (max-IP search). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Distance metric used by ANN kernel launchers. Values are stable and will not be renumbered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="63" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>GeoDistanceFormula</name>
+        <qualifiedname>themis::acceleration::GeoDistanceFormula</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a81c921de8f8e0770b86be8ad22767827" prot="public">
+          <name>HAVERSINE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Spherical-Earth Haversine formula (default, &lt; 0.5 % error). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a75389c6edd009098ff0392ea001bfba0" prot="public">
+          <name>VINCENTY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Ellipsoidal Vincenty formula (higher precision). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Distance formula for geospatial kernel launchers. Values are stable and will not be renumbered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="71" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="71" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>MatrixPrecision</name>
+        <qualifiedname>themis::acceleration::MatrixPrecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7a693aa0bef84c25fe81c7e62e72f9313d" prot="public">
+          <name>FP32</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>32-bit IEEE 754 single precision (CPU fallback) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7aa4bf99d6945c25077fd6660d536af8a0" prot="public">
+          <name>FP16</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>16-bit IEEE 754 half precision (Tensor Core on SM 7.0+) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7af656bbf613964dcf710b771b0918ab30" prot="public">
+          <name>BF16</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>bfloat16 (Tensor Core on SM 8.0+) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7aee9d73311ff0658494edfff14c3ec1e3" prot="public">
+          <name>INT8</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>8-bit integer with FP32 accumulator (Tensor Core on SM 7.5+) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Precision tag used to select the arithmetic type for a matrix kernel call. Values are stable and will not be renumbered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="221" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="221" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1a4a800e886cfbccefce6cbc6b0c86116a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PluginTrustLevel</name>
+        <qualifiedname>themis::acceleration::PluginTrustLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1a4a800e886cfbccefce6cbc6b0c86116aae832adef915418a62df152b813f48316" prot="public">
+          <name>TRUSTED</name>
+          <briefdescription>
+<para>Signed by a trusted certificate issuer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a4a800e886cfbccefce6cbc6b0c86116aa9284cd9ad4b65bdff35e6571916747df" prot="public">
+          <name>UNTRUSTED</name>
+          <briefdescription>
+<para>Not signed or signature from unknown issuer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a4a800e886cfbccefce6cbc6b0c86116aaeecba0068950a2df17c47e851e1eef14" prot="public">
+          <name>BLOCKED</name>
+          <briefdescription>
+<para>On the security blacklist, should not be loaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="53" column="1" bodyfile="include/acceleration/plugin_security.h" bodystart="53" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QuantizationScheme</name>
+        <qualifiedname>themis::acceleration::QuantizationScheme</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2eafb6472773f3aa5c856d5a81b8f92f55e" prot="public">
+          <name>INT8_SYMMETRIC</name>
+          <briefdescription>
+<para>Symmetric INT8: scale per tensor or channel, zero_point = 0. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2ea86d857f6279034ae1247b3ad2ffe5835" prot="public">
+          <name>INT8_ASYMMETRIC</name>
+          <briefdescription>
+<para>Asymmetric INT8: scale + zero_point per tensor or channel. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2eae0c0d3a4898c1f220130f9be8b72a007" prot="public">
+          <name>INT4_SYMMETRIC</name>
+          <briefdescription>
+<para>Symmetric 4-bit integer quantisation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2eaf6a60622d3e2ef6e4181063e530300d8" prot="public">
+          <name>INT4_GROUPED</name>
+          <briefdescription>
+<para>Grouped INT4: independent scale per group of weights. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2eaa9e737aae381249fe47b92a0cab0117e" prot="public">
+          <name>FP8_E4M3</name>
+          <briefdescription>
+<para>FP8 E4M3 format (NVIDIA Hopper, Ada). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2ea6d1c1d420dbc65fe91ff188df5b480cf" prot="public">
+          <name>FP8_E5M2</name>
+          <briefdescription>
+<para>FP8 E5M2 format. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Quantisation schemes supported by <ref refid="classthemis_1_1acceleration_1_1_i_quantized_backend" kindref="compound">IQuantizedBackend</ref> implementations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="21" column="1" bodyfile="include/acceleration/quantized_backend.h" bodystart="21" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" prot="public" static="no">
+        <type>int(*)( const float *d_queries, const float *d_vectors, float * d_distances, int numQueries, int numVectors, int dim, void * opaque_stream)</type>
+        <definition>using themis::acceleration::ANNDistanceFn =  int (*)(
+    const float* d_queries,   
+    const float* d_vectors,   
+    float*       d_distances, 
+    int          numQueries,
+    int          numVectors,
+    int          dim,
+    void*        opaque_stream
+)</definition>
+        <argsstring></argsstring>
+        <name>ANNDistanceFn</name>
+        <qualifiedname>themis::acceleration::ANNDistanceFn</qualifiedname>
+        <briefdescription>
+<para>Computes the full [numQueries × numVectors] distance matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="138" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1acceleration_1af80a3b84a1a63de5ad4bffd114831951" prot="public" static="no">
+        <type>int(*)( const float *d_distances, uint32_t * d_topk_indices, float * d_topk_dists, int numQueries, int numVectors, int topK, void * opaque_stream)</type>
+        <definition>using themis::acceleration::ANNTopKFn =  int (*)(
+    const float* d_distances,    
+    uint32_t*    d_topk_indices, 
+    float*       d_topk_dists,   
+    int          numQueries,
+    int          numVectors,
+    int          topK,
+    void*        opaque_stream
+)</definition>
+        <argsstring></argsstring>
+        <name>ANNTopKFn</name>
+        <qualifiedname>themis::acceleration::ANNTopKFn</qualifiedname>
+        <briefdescription>
+<para>Extracts the top-k nearest neighbours from a precomputed distance matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="149" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1acceleration_1abce98041b9f3f9ba293687a6124e560a" prot="public" static="no">
+        <type>int(*)( const double * d_latitudes1, const double * d_longitudes1, const double * d_latitudes2, const double * d_longitudes2, float * d_distances, int count, <ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8" kindref="member">GeoDistanceFormula</ref> formula, void * opaque_stream)</type>
+        <definition>using themis::acceleration::GeoDistanceFn =  int (*)(
+    const double*      d_latitudes1,  
+    const double*      d_longitudes1, 
+    const double*      d_latitudes2,  
+    const double*      d_longitudes2, 
+    float*             d_distances,   
+    int                count,
+    GeoDistanceFormula formula,
+    void*              opaque_stream
+)</definition>
+        <argsstring></argsstring>
+        <name>GeoDistanceFn</name>
+        <qualifiedname>themis::acceleration::GeoDistanceFn</qualifiedname>
+        <briefdescription>
+<para>Computes per-pair geodesic distances in kilometres. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="160" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1acceleration_1ac05580732b7e377a2535ad58ac1cadc2" prot="public" static="no">
+        <type>int(*)( const double *d_point_lats, const double *d_point_lons, int numPoints, const double *d_polygon_coords, int numPolygonVertices, uint8_t * d_results, void * opaque_stream)</type>
+        <definition>using themis::acceleration::GeoContainmentFn =  int (*)(
+    const double* d_point_lats,      
+    const double* d_point_lons,      
+    int           numPoints,
+    const double* d_polygon_coords,  
+    int           numPolygonVertices,
+    uint8_t*      d_results,         
+    void*         opaque_stream
+)</definition>
+        <argsstring></argsstring>
+        <name>GeoContainmentFn</name>
+        <qualifiedname>themis::acceleration::GeoContainmentFn</qualifiedname>
+        <briefdescription>
+<para>Tests whether each point is inside the given polygon (ray-casting). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="172" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1acceleration_1a1df65092778a4c201960a6649007209d" prot="public" static="no">
+        <type>int(*)( const <ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" kindref="compound">MatrixKernelParams</ref> &amp;params, void *opaque_stream)</type>
+        <definition>using themis::acceleration::MatrixKernelFn =  int (*)(
+    const MatrixKernelParams&amp; params,
+    void* opaque_stream
+)</definition>
+        <argsstring></argsstring>
+        <name>MatrixKernelFn</name>
+        <qualifiedname>themis::acceleration::MatrixKernelFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes C = alpha * A × B + beta * C for the precision specified in params. <computeroutput>params.A</computeroutput>, B, C must be allocated in the address space matching the backend. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="254" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1acceleration_1a7343d4f7db04a3dd37823646bb41558d" prot="public" static="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_backend_plugin" kindref="compound">BackendPlugin</ref> *(*)()</type>
+        <definition>using themis::acceleration::CreatePluginFunc = BackendPlugin* (*)()</definition>
+        <argsstring></argsstring>
+        <name>CreatePluginFunc</name>
+        <qualifiedname>themis::acceleration::CreatePluginFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="147" column="1" bodyfile="include/acceleration/plugin_loader.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1acceleration_1a7c5e68114e1537767081e0504a18a8b3" prot="public" static="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend" kindref="compound">VulkanVectorBackend</ref></type>
+        <definition>using themis::acceleration::VulkanBackend = VulkanVectorBackend</definition>
+        <argsstring></argsstring>
+        <name>VulkanBackend</name>
+        <qualifiedname>themis::acceleration::VulkanBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="28" column="1" bodyfile="include/acceleration/vulkan_backend.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1acceleration_1a830854e10bc8a935bd466a1a193f8645" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::acceleration::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::acceleration::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/plugin_security.cpp" line="65" column="1" bodyfile="src/acceleration/plugin_security.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1aaa603831f8daf952c752601d0e0fa422" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::BACKEND_CONTRACT_VERSION</definition>
+        <argsstring></argsstring>
+        <name>BACKEND_CONTRACT_VERSION</name>
+        <qualifiedname>themis::acceleration::BACKEND_CONTRACT_VERSION</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="46" column="27" bodyfile="include/acceleration/compute_backend.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::PrecisionMode</definition>
+        <argsstring></argsstring>
+        <name>PrecisionMode</name>
+        <qualifiedname>themis::acceleration::PrecisionMode</qualifiedname>
+        <briefdescription>
+<para>No precision mode specified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="80" column="28" bodyfile="include/acceleration/compute_backend.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a1252a8ccb0f79157e79601591fad70e5" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::FP32</definition>
+        <argsstring></argsstring>
+        <name>FP32</name>
+        <qualifiedname>themis::acceleration::FP32</qualifiedname>
+        <initializer>= 1u &lt;&lt; 0</initializer>
+        <briefdescription>
+<para>32-bit IEEE 754 single precision (always required fallback) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="82" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a12b8f5c1b8b98da188e744625feff02b" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::FP16</definition>
+        <argsstring></argsstring>
+        <name>FP16</name>
+        <qualifiedname>themis::acceleration::FP16</qualifiedname>
+        <initializer>= 1u &lt;&lt; 1</initializer>
+        <briefdescription>
+<para>16-bit IEEE 754 half precision (GPU/Tensor Core) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="83" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a3b6cd53120310484346d7258bcdd8a70" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::BF16</definition>
+        <argsstring></argsstring>
+        <name>BF16</name>
+        <qualifiedname>themis::acceleration::BF16</qualifiedname>
+        <initializer>= 1u &lt;&lt; 2</initializer>
+        <briefdescription>
+<para>Brain float BF16 (Tensor Core, modern NPUs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="84" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1af63ddfe2f3f7db07ffdddc9511b5471b" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::INT8</definition>
+        <argsstring></argsstring>
+        <name>INT8</name>
+        <qualifiedname>themis::acceleration::INT8</qualifiedname>
+        <initializer>= 1u &lt;&lt; 3</initializer>
+        <briefdescription>
+<para>8-bit integer quantization (symmetric/asymmetric) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="85" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1aa4567bf13aa84254c76167daa966c6f1" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::INT4</definition>
+        <argsstring></argsstring>
+        <name>INT4</name>
+        <qualifiedname>themis::acceleration::INT4</qualifiedname>
+        <initializer>= 1u &lt;&lt; 4</initializer>
+        <briefdescription>
+<para>4-bit integer (GPTQ / AWQ / NF4 schemes) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="88" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1af0212045abe86639c22285757b071ed9" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::FP4</definition>
+        <argsstring></argsstring>
+        <name>FP4</name>
+        <qualifiedname>themis::acceleration::FP4</qualifiedname>
+        <initializer>= 1u &lt;&lt; 5</initializer>
+        <briefdescription>
+<para>4-bit float (e.g. NF4, FP4-E2M1) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="89" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1af29b232557692975c8191ce6d0acad46" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::W4A8</definition>
+        <argsstring></argsstring>
+        <name>W4A8</name>
+        <qualifiedname>themis::acceleration::W4A8</qualifiedname>
+        <initializer>= 1u &lt;&lt; 6</initializer>
+        <briefdescription>
+<para>4-bit weights, 8-bit activations (Qualcomm AI Engine) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="90" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1ab9f65881a02f11b4a59078532934bb01" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM themis::acceleration::W8A8</definition>
+        <argsstring></argsstring>
+        <name>W8A8</name>
+        <qualifiedname>themis::acceleration::W8A8</qualifiedname>
+        <initializer>= 1u &lt;&lt; 7</initializer>
+        <briefdescription>
+<para>8-bit weights and 8-bit activations (symmetric INT8) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="91" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a7f2079c40d536f11662190084f1ff156" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::KERNEL_INVOCATION_INTERFACE_VERSION</definition>
+        <argsstring></argsstring>
+        <name>KERNEL_INVOCATION_INTERFACE_VERSION</name>
+        <qualifiedname>themis::acceleration::KERNEL_INVOCATION_INTERFACE_VERSION</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Monotonically increasing integer encoding major*100 + minor. Callers may compare this at runtime to detect mismatched shared libraries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="55" column="27" bodyfile="include/acceleration/kernel_invocation.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a805d155080877b3db26216d6aa13ae64" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref> &gt;</type>
+        <definition>const std::vector&lt;BackendType&gt; themis::acceleration::kFallbackOrder</definition>
+        <argsstring></argsstring>
+        <name>kFallbackOrder</name>
+        <qualifiedname>themis::acceleration::kFallbackOrder</qualifiedname>
+        <initializer>                                        = {
+    <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ab6920c39c6a23119fa3fa0cf6941b1d3" kindref="member">BackendType::MULTI_GPU</ref>, <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">BackendType::CUDA</ref>,   <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a5e4576beae2ab86d6ad1b8b1700d2e11" kindref="member">BackendType::HIP</ref>,    <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a0deb38ceff3b4d2592fc453c58f9c794" kindref="member">BackendType::ZLUDA</ref>, <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ac60cacb57b9e78f018a9d973bee2f801" kindref="member">BackendType::VULKAN</ref>,
+    <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aeee703cc0a96c14f0661af3ae9420d08" kindref="member">BackendType::DIRECTX</ref>,   <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a4577407264c219de8c96e39f0e4cae2a" kindref="member">BackendType::ROCM</ref>,   <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a452f45e6d4242c81d305cadae83f7c11" kindref="member">BackendType::ONEAPI</ref>, <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a74108a89672c573afee1fae6de8e4e0b" kindref="member">BackendType::METAL</ref>, <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a542f952490e2db695a1d544338a70cda" kindref="member">BackendType::OPENCL</ref>,
+    <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5ac0ad831a34c4633bee584066cfcc5040" kindref="member">BackendType::OPENGL</ref>,    <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aa9ccfdd880db220ac67f5f0b51ec5673" kindref="member">BackendType::WEBGPU</ref>, <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="78" column="26" bodyfile="src/acceleration/backend_registry.cpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a6d82324ed2fe658a3bf1ba2e473ae2f7" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_b_e_v_impl" kindref="compound">BEVImpl</ref></type>
+        <definition>BEVImpl themis::acceleration::g_impl</definition>
+        <argsstring></argsstring>
+        <name>g_impl</name>
+        <qualifiedname>themis::acceleration::g_impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="38" column="16" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a1c37568633dce5447d68366625856db9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::kHnswSinglePassMaxK</definition>
+        <argsstring></argsstring>
+        <name>kHnswSinglePassMaxK</name>
+        <qualifiedname>themis::acceleration::kHnswSinglePassMaxK</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cuda_backend.cpp" line="232" column="28" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a9400c3f0c3d846bd617963fd84f4f293" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::s_nccl_allreduce_mutex_</definition>
+        <argsstring></argsstring>
+        <name>s_nccl_allreduce_mutex_</name>
+        <qualifiedname>themis::acceleration::s_nccl_allreduce_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/nccl_vector_backend.cpp" line="797" column="19" bodyfile="src/acceleration/nccl_vector_backend.cpp" bodystart="797" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1ab657d8a880d9ad754a7680d0855efebf" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1a50f170ab898abb8611e3e8dea9a058e6" kindref="member">NCCLVectorBackend::AllReduceFn</ref></type>
+        <definition>NCCLVectorBackend::AllReduceFn themis::acceleration::s_allreduce_fn_</definition>
+        <argsstring></argsstring>
+        <name>s_allreduce_fn_</name>
+        <qualifiedname>themis::acceleration::s_allreduce_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/nccl_vector_backend.cpp" line="798" column="39" bodyfile="src/acceleration/nccl_vector_backend.cpp" bodystart="798" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a36f9b5073f42a1fe85e3b914be20d063" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::s_oneapi_compute_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>s_oneapi_compute_fn_mutex_</name>
+        <qualifiedname>themis::acceleration::s_oneapi_compute_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="312" column="19" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a6f9b1cc30ccf5a48f91b7d64afa4682e" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a83515d6e8ce9329c24a3fa42335c1542" kindref="member">OneAPIVectorBackend::ComputeDistancesFn</ref></type>
+        <definition>OneAPIVectorBackend::ComputeDistancesFn themis::acceleration::s_oneapi_compute_fn_</definition>
+        <argsstring></argsstring>
+        <name>s_oneapi_compute_fn_</name>
+        <qualifiedname>themis::acceleration::s_oneapi_compute_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="313" column="48" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a91edee2b248d9a82c468936ae36aec4b" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::s_opencl_compute_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>s_opencl_compute_fn_mutex_</name>
+        <qualifiedname>themis::acceleration::s_opencl_compute_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/opencl_backend.cpp" line="418" column="19" bodyfile="src/acceleration/opencl_backend.cpp" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1a1fb39582c2ad44d4f7501f0cfb591c63" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend_1abca12f1ae3d37b5cbb5719565e970e13" kindref="member">OpenCLVectorBackend::ComputeDistancesFn</ref></type>
+        <definition>OpenCLVectorBackend::ComputeDistancesFn themis::acceleration::s_compute_distances_fn_</definition>
+        <argsstring></argsstring>
+        <name>s_compute_distances_fn_</name>
+        <qualifiedname>themis::acceleration::s_compute_distances_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/opencl_backend.cpp" line="419" column="48" bodyfile="src/acceleration/opencl_backend.cpp" bodystart="419" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a9e29b2ff74c18fb498507aadaef6e0b0" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>enum <ref refid="compute__backend_8h_1a5d20a69c044b069cccee6f147fa82a82" kindref="member">THEMIS_FLAG_ENUM</ref> constexpr <ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+        <definition>enum THEMIS_FLAG_ENUM constexpr PrecisionMode themis::acceleration::operator|</definition>
+        <argsstring>(PrecisionMode a, PrecisionMode b) noexcept</argsstring>
+        <name>operator|</name>
+        <qualifiedname>themis::acceleration::operator|</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="96" column="32" bodyfile="include/acceleration/compute_backend.h" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a178d1309c07075e15bc9f60a4c2394a9" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::hasPrecision</definition>
+        <argsstring>(PrecisionMode modes, PrecisionMode flag) noexcept</argsstring>
+        <name>hasPrecision</name>
+        <qualifiedname>themis::acceleration::hasPrecision</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+          <declname>modes</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="100" column="23" bodyfile="include/acceleration/compute_backend.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a4625461579fcf3a6cf48f0918f05f04f" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::metricBit</definition>
+        <argsstring>(DistanceMetric m) noexcept</argsstring>
+        <name>metricBit</name>
+        <qualifiedname>themis::acceleration::metricBit</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="104" column="27" bodyfile="include/acceleration/compute_backend.h" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a7ecbe5a782f9cb8f3fa56fa1f02af0ef" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+        <definition>DeviceCapabilityFlags themis::acceleration::operator|</definition>
+        <argsstring>(DeviceCapabilityFlags a, DeviceCapabilityFlags b) noexcept</argsstring>
+        <name>operator|</name>
+        <qualifiedname>themis::acceleration::operator|</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="922" column="40" bodyfile="include/acceleration/compute_backend.h" bodystart="922" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a244224a1eabe9eced4a392b2b17395ef" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+        <definition>DeviceCapabilityFlags themis::acceleration::operator&amp;</definition>
+        <argsstring>(DeviceCapabilityFlags a, DeviceCapabilityFlags b) noexcept</argsstring>
+        <name>operator&amp;</name>
+        <qualifiedname>themis::acceleration::operator&amp;</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="927" column="40" bodyfile="include/acceleration/compute_backend.h" bodystart="927" bodyend="931"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a59595335562a677ce0cf2f2b2a1ff257" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+        <definition>DeviceCapabilityFlags themis::acceleration::operator~</definition>
+        <argsstring>(DeviceCapabilityFlags a) noexcept</argsstring>
+        <name>operator~</name>
+        <qualifiedname>themis::acceleration::operator~</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="932" column="40" bodyfile="include/acceleration/compute_backend.h" bodystart="932" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a216d274154db3b7d995ec7b9e74c0ffe" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::hasCapability</definition>
+        <argsstring>(DeviceCapabilityFlags flags, DeviceCapabilityFlags flag) noexcept</argsstring>
+        <name>hasCapability</name>
+        <qualifiedname>themis::acceleration::hasCapability</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="935" column="23" bodyfile="include/acceleration/compute_backend.h" bodystart="935" bodyend="938"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a463991195232ca9bdbca188887e004b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::errorCodeToString</definition>
+        <argsstring>(AccelerationErrorCode code)</argsstring>
+        <name>errorCodeToString</name>
+        <qualifiedname>themis::acceleration::errorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Error Code To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements errorCodeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="135" column="19" bodyfile="include/acceleration/error_codes.h" bodystart="135" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a473b8654c528fcecd80a3f1d672a0ceb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::isSuccess</definition>
+        <argsstring>(AccelerationErrorCode code)</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::acceleration::isSuccess</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isSuccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="239" column="13" bodyfile="include/acceleration/error_codes.h" bodystart="239" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1ac00a33f3eaad50ea7e1a396bed8cd346" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::isInitializationError</definition>
+        <argsstring>(AccelerationErrorCode code)</argsstring>
+        <name>isInitializationError</name>
+        <qualifiedname>themis::acceleration::isInitializationError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Initialization Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isInitializationError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="249" column="13" bodyfile="include/acceleration/error_codes.h" bodystart="249" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a3a856f28a9f36b13159903a3d4975e4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::isResourceError</definition>
+        <argsstring>(AccelerationErrorCode code)</argsstring>
+        <name>isResourceError</name>
+        <qualifiedname>themis::acceleration::isResourceError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Resource Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isResourceError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="260" column="13" bodyfile="include/acceleration/error_codes.h" bodystart="260" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a4c62ab03ed977777a9ad0753896e5bad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::isRuntimeError</definition>
+        <argsstring>(AccelerationErrorCode code)</argsstring>
+        <name>isRuntimeError</name>
+        <qualifiedname>themis::acceleration::isRuntimeError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Runtime Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isRuntimeError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="271" column="13" bodyfile="include/acceleration/error_codes.h" bodystart="271" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a72392d1bc3c229c33cc63ec63db58a36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::isConfigurationError</definition>
+        <argsstring>(AccelerationErrorCode code)</argsstring>
+        <name>isConfigurationError</name>
+        <qualifiedname>themis::acceleration::isConfigurationError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Configuration Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isConfigurationError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="282" column="13" bodyfile="include/acceleration/error_codes.h" bodystart="282" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1ac94ba5549eba18352d3b4c5b9f74e9dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::isKernelError</definition>
+        <argsstring>(AccelerationErrorCode code)</argsstring>
+        <name>isKernelError</name>
+        <qualifiedname>themis::acceleration::isKernelError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Kernel Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isKernelError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="293" column="13" bodyfile="include/acceleration/error_codes.h" bodystart="293" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a24486c1f5a92ff943759cdd92ce64b02" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::isValidationError</definition>
+        <argsstring>(AccelerationErrorCode code)</argsstring>
+        <name>isValidationError</name>
+        <qualifiedname>themis::acceleration::isValidationError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Validation Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isValidationError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_codes.h" line="304" column="13" bodyfile="include/acceleration/error_codes.h" bodystart="304" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a84c2a91d811675db88b2f0d8b8a5e9b2" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::canGPUAccelerate</definition>
+        <argsstring>(KernelType kernel_type)</argsstring>
+        <name>canGPUAccelerate</name>
+        <qualifiedname>themis::acceleration::canGPUAccelerate</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+          <declname>kernel_type</declname>
+        </param>
+        <briefdescription>
+<para>Can GPUAccelerate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements canGPUAccelerate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="298" column="23" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="298" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a0a56cb1cd0e9d9754398e532b72a3ff6" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2c" kindref="member">KernelCategory</ref></type>
+        <definition>KernelCategory themis::acceleration::getKernelCategory</definition>
+        <argsstring>(KernelType kernel_type)</argsstring>
+        <name>getKernelCategory</name>
+        <qualifiedname>themis::acceleration::getKernelCategory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+          <declname>kernel_type</declname>
+        </param>
+        <briefdescription>
+<para>Get Kernel Category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getKernelCategory without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="335" column="33" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="335" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a58218b80de3ef5e209f940e21a45d44a" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::acceleration::getKernelName</definition>
+        <argsstring>(KernelType kernel_type)</argsstring>
+        <name>getKernelName</name>
+        <qualifiedname>themis::acceleration::getKernelName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+          <declname>kernel_type</declname>
+        </param>
+        <briefdescription>
+<para>Get Kernel Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getKernelName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="372" column="35" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="372" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a6172c0118946a671a49302938210a04c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::isTransientDispatchError</definition>
+        <argsstring>(int rc) noexcept</argsstring>
+        <name>isTransientDispatchError</name>
+        <qualifiedname>themis::acceleration::isTransientDispatchError</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>rc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="70" column="13" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a585a0974010c8f693e87fe770c2537ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_i_vector_backend" kindref="compound">IVectorBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IVectorBackend &gt; themis::acceleration::createOpenCLBackend</definition>
+        <argsstring>()</argsstring>
+        <name>createOpenCLBackend</name>
+        <qualifiedname>themis::acceleration::createOpenCLBackend</qualifiedname>
+        <briefdescription>
+<para>Create Open CLBackend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createOpenCLBackend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/opencl_backend.cpp" line="495" column="17" bodyfile="src/acceleration/opencl_backend.cpp" bodystart="495" bodyend="497" declfile="include/acceleration/opencl_backend.h" declline="132" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a400a4ebe7da5dc714f2975af59ebc6a7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::acceleration::simd_l2_sq</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim) noexcept</argsstring>
+        <name>simd_l2_sq</name>
+        <qualifiedname>themis::acceleration::simd_l2_sq</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Simd l2 sq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/vec_knn.cpp" line="272" column="7" bodyfile="src/acceleration/vec_knn.cpp" bodystart="272" bodyend="282" declfile="include/acceleration/vec_knn.h" declline="45" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a76c6dee80ab25ed0ff3582b2c488ce80" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::simd_batch_l2_sq</definition>
+        <argsstring>(const float *query, const float *database, std::size_t n, std::size_t dim, float *out) noexcept</argsstring>
+        <name>simd_batch_l2_sq</name>
+        <qualifiedname>themis::acceleration::simd_batch_l2_sq</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>database</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Simd batch l2 sq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">database</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/vec_knn.cpp" line="284" column="6" bodyfile="src/acceleration/vec_knn.cpp" bodystart="284" bodyend="296" declfile="include/acceleration/vec_knn.h" declline="56" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1ae63f8a9a1f18040e8f8a4f59878293ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>static AiInferenceResult themis::acceleration::makeError</definition>
+        <argsstring>(BackendType bt, const std::string &amp;msg)</argsstring>
+        <name>makeError</name>
+        <qualifiedname>themis::acceleration::makeError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>bt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================= Dispatch helpers ============================================================================= Each dispatch helper: 1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Validates the request (non-null data, valid shape). 2. Executes via the platform-native API. 3. Returns a filled <ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref> (success or error). Platform-conditional sections are gated identically to the probe helpers. ============================================================================= Implements makeError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/ai_hardware_dispatcher.cpp" line="792" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="792" bodyend="798"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a5e2950e936ca17ac254211289e394b2b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::hasAcceleratorDevice</definition>
+        <argsstring>(const std::vector&lt; DeviceCapabilityInfo &gt; &amp;devices) noexcept</argsstring>
+        <name>hasAcceleratorDevice</name>
+        <qualifiedname>themis::acceleration::hasAcceleratorDevice</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_device_capability_info" kindref="compound">DeviceCapabilityInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="84" column="13" bodyfile="src/acceleration/backend_registry.cpp" bodystart="84" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a610da89537821fdaec3dee27e0c25ec1" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>static T * themis::acceleration::getTypedPtr</definition>
+        <argsstring>(const RegisteredBackend &amp;) noexcept=delete</argsstring>
+        <name>getTypedPtr</name>
+        <qualifiedname>themis::acceleration::getTypedPtr</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_registered_backend" kindref="compound">RegisteredBackend</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="276" column="22" declfile="src/acceleration/backend_registry.cpp" declline="276" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a96f3f56844c8ccdf436cadaeea553ed6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1acceleration_1_1_i_compute_backend" kindref="compound">IComputeBackend</ref> *</type>
+        <definition>IComputeBackend * themis::acceleration::getTypedPtr&lt; IComputeBackend &gt;</definition>
+        <argsstring>(const RegisteredBackend &amp;rb) noexcept</argsstring>
+        <name>getTypedPtr&lt; IComputeBackend &gt;</name>
+        <qualifiedname>themis::acceleration::getTypedPtr&lt; IComputeBackend &gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_registered_backend" kindref="compound">RegisteredBackend</ref> &amp;</type>
+          <declname>rb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="277" column="13" bodyfile="src/acceleration/backend_registry.cpp" bodystart="277" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a257787e7c21b9835a39d6bfb9aea61d1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1acceleration_1_1_i_vector_backend" kindref="compound">IVectorBackend</ref> *</type>
+        <definition>IVectorBackend * themis::acceleration::getTypedPtr&lt; IVectorBackend &gt;</definition>
+        <argsstring>(const RegisteredBackend &amp;rb) noexcept</argsstring>
+        <name>getTypedPtr&lt; IVectorBackend &gt;</name>
+        <qualifiedname>themis::acceleration::getTypedPtr&lt; IVectorBackend &gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_registered_backend" kindref="compound">RegisteredBackend</ref> &amp;</type>
+          <declname>rb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="280" column="12" bodyfile="src/acceleration/backend_registry.cpp" bodystart="280" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1ade318da1730907d292fcf57f6baada83" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1acceleration_1_1_i_graph_backend" kindref="compound">IGraphBackend</ref> *</type>
+        <definition>IGraphBackend * themis::acceleration::getTypedPtr&lt; IGraphBackend &gt;</definition>
+        <argsstring>(const RegisteredBackend &amp;rb) noexcept</argsstring>
+        <name>getTypedPtr&lt; IGraphBackend &gt;</name>
+        <qualifiedname>themis::acceleration::getTypedPtr&lt; IGraphBackend &gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_registered_backend" kindref="compound">RegisteredBackend</ref> &amp;</type>
+          <declname>rb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="283" column="12" bodyfile="src/acceleration/backend_registry.cpp" bodystart="283" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1ace8f5efc719acc00df61222651567a13" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1acceleration_1_1_i_geo_backend" kindref="compound">IGeoBackend</ref> *</type>
+        <definition>IGeoBackend * themis::acceleration::getTypedPtr&lt; IGeoBackend &gt;</definition>
+        <argsstring>(const RegisteredBackend &amp;rb) noexcept</argsstring>
+        <name>getTypedPtr&lt; IGeoBackend &gt;</name>
+        <qualifiedname>themis::acceleration::getTypedPtr&lt; IGeoBackend &gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_registered_backend" kindref="compound">RegisteredBackend</ref> &amp;</type>
+          <declname>rb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="286" column="12" bodyfile="src/acceleration/backend_registry.cpp" bodystart="286" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a09c8604caedffb17d582d66781978c4f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1acceleration_1_1_i_matrix_backend" kindref="compound">IMatrixBackend</ref> *</type>
+        <definition>IMatrixBackend * themis::acceleration::getTypedPtr&lt; IMatrixBackend &gt;</definition>
+        <argsstring>(const RegisteredBackend &amp;rb) noexcept</argsstring>
+        <name>getTypedPtr&lt; IMatrixBackend &gt;</name>
+        <qualifiedname>themis::acceleration::getTypedPtr&lt; IMatrixBackend &gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_registered_backend" kindref="compound">RegisteredBackend</ref> &amp;</type>
+          <declname>rb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="289" column="12" bodyfile="src/acceleration/backend_registry.cpp" bodystart="289" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a9e0b86f1e59b116d9e3bb1ca1c40ca73" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>static T * themis::acceleration::selectTyped</definition>
+        <argsstring>(const std::unordered_map&lt; BackendType, RegisteredBackend &gt; &amp;index, const BackendRegistry::CapabilityRequirements &amp;reqs, bool cpuOnlyEnvironment=false) noexcept</argsstring>
+        <name>selectTyped</name>
+        <qualifiedname>themis::acceleration::selectTyped</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref>, <ref refid="structthemis_1_1acceleration_1_1_registered_backend" kindref="compound">RegisteredBackend</ref> &gt; &amp;</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements" kindref="compound">BackendRegistry::CapabilityRequirements</ref> &amp;</type>
+          <declname>reqs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cpuOnlyEnvironment</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/backend_registry.cpp" line="304" column="10" bodyfile="src/acceleration/backend_registry.cpp" bodystart="304" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a0346413ce77e3c20de8cd85e449ea4c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" kindref="compound">CPUVectorBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CPUVectorBackend &gt; themis::acceleration::createMultiThreadedCPUVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>createMultiThreadedCPUVectorBackend</name>
+        <qualifiedname>themis::acceleration::createMultiThreadedCPUVectorBackend</qualifiedname>
+        <briefdescription>
+<para>Create Multi Threaded CPUVector Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createMultiThreadedCPUVectorBackend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="274" column="17" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="274" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1ad083276c719c94c92af97b7e845b8061" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" kindref="compound">CPUGeoBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CPUGeoBackend &gt; themis::acceleration::createMultiThreadedCPUGeoBackend</definition>
+        <argsstring>()</argsstring>
+        <name>createMultiThreadedCPUGeoBackend</name>
+        <qualifiedname>themis::acceleration::createMultiThreadedCPUGeoBackend</qualifiedname>
+        <briefdescription>
+<para>Create Multi Threaded CPUGeo Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createMultiThreadedCPUGeoBackend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="283" column="17" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="283" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1ae644170a8da94a0f87f2f3230cd0ea78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" kindref="compound">CPUVectorBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CPUVectorBackend &gt; themis::acceleration::createTBBCPUVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>createTBBCPUVectorBackend</name>
+        <qualifiedname>themis::acceleration::createTBBCPUVectorBackend</qualifiedname>
+        <briefdescription>
+<para>Create TBBCPUVector Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createTBBCPUVectorBackend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_tbb.cpp" line="541" column="17" bodyfile="src/acceleration/cpu_backend_tbb.cpp" bodystart="541" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a1b7077a15246cfd563412754a354dd89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" kindref="compound">CPUGeoBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CPUGeoBackend &gt; themis::acceleration::createTBBCPUGeoBackend</definition>
+        <argsstring>()</argsstring>
+        <name>createTBBCPUGeoBackend</name>
+        <qualifiedname>themis::acceleration::createTBBCPUGeoBackend</qualifiedname>
+        <briefdescription>
+<para>Create TBBCPUGeo Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createTBBCPUGeoBackend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_tbb.cpp" line="551" column="17" bodyfile="src/acceleration/cpu_backend_tbb.cpp" bodystart="551" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1ac7fe63c9c11f639ddce116fa0fe6a6d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::setOneAPIComputeDistancesFn</definition>
+        <argsstring>(std::function&lt; std::vector&lt; float &gt;(const float *, size_t, size_t, const float *, size_t, bool)&gt; fn)</argsstring>
+        <name>setOneAPIComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::setOneAPIComputeDistancesFn</qualifiedname>
+        <param>
+          <type>std::function&lt; std::vector&lt; float &gt;(const float *, size_t, size_t, const float *, size_t, bool)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="359" column="6" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="359" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1af32f358d922ff09e14e6158d8bfaf19d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_i_vector_backend" kindref="compound">IVectorBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IVectorBackend &gt; themis::acceleration::createOneAPIBackend</definition>
+        <argsstring>()</argsstring>
+        <name>createOneAPIBackend</name>
+        <qualifiedname>themis::acceleration::createOneAPIBackend</qualifiedname>
+        <briefdescription>
+<para>Create One APIBackend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createOneAPIBackend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="373" column="17" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="373" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1a9e6ceaf6b86d3aabc0a551edc63d5aae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::decodeHexString</definition>
+        <argsstring>(const std::string &amp;hexStr, std::vector&lt; uint8_t &gt; &amp;outBytes)</argsstring>
+        <name>decodeHexString</name>
+        <qualifiedname>themis::acceleration::decodeHexString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hexStr</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>outBytes</declname>
+        </param>
+        <briefdescription>
+<para>Decode Hex String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hexStr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">outBytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), clear(), reserve(), substr(), std::stoi(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/plugin_security.cpp" line="228" column="13" bodyfile="src/acceleration/plugin_security.cpp" bodystart="228" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/ai_hardware_dispatcher.h" line="63" column="1"/>
+  </compounddef>
+</doxygen>

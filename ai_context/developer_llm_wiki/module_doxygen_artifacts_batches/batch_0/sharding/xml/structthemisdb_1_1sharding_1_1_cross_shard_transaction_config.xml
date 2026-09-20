@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardTransactionConfig</compoundname>
+    <includes refid="cross__shard__transaction_8h" local="no">cross_shard_transaction.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1_1_polled_wait_for_edge" prot="public">themisdb::sharding::CrossShardTransactionConfig::PolledWaitForEdge</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a30d8b6648d173d5df6ac1e41042aae57" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0" kindref="member">TransactionProtocol</ref></type>
+        <definition>TransactionProtocol themisdb::sharding::CrossShardTransactionConfig::default_protocol</definition>
+        <argsstring></argsstring>
+        <name>default_protocol</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::default_protocol</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0a4ac53c5e8c1e144c46d2fa775bbe0578" kindref="member">TransactionProtocol::TWO_PHASE_COMMIT</ref></initializer>
+        <briefdescription>
+<para>Default protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="169" column="25" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a49ba861d79d39f612d13725fa7ebd3b6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927" kindref="member">IsolationLevel</ref></type>
+        <definition>IsolationLevel themisdb::sharding::CrossShardTransactionConfig::default_isolation</definition>
+        <argsstring></argsstring>
+        <name>default_isolation</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::default_isolation</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927a9eb39169b7db6ecee4ee0980284659bd" kindref="member">IsolationLevel::SNAPSHOT_ISOLATION</ref></initializer>
+        <briefdescription>
+<para>Default isolation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="170" column="20" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1aec14ff0d4afe7b503e52eb9c1d8378c9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::prepare_timeout</definition>
+        <argsstring></argsstring>
+        <name>prepare_timeout</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::prepare_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Prepare-phase timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="173" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a0f6128b7a69b7b13611cb9fe2657fd2b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::commit_timeout</definition>
+        <argsstring></argsstring>
+        <name>commit_timeout</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::commit_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Commit-phase timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="174" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1ac8a4dff7f8d91148aa2de1ba9b2f95bf" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::abort_timeout</definition>
+        <argsstring></argsstring>
+        <name>abort_timeout</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::abort_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Abort-phase timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="175" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1abbb79d27b8c6cbb30af00004a2f67d77" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionConfig::saga_enable_compensation</definition>
+        <argsstring></argsstring>
+        <name>saga_enable_compensation</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::saga_enable_compensation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable SAGA compensation flow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="178" column="10" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a6d50f1aa12254f4b9bed6fb066fa8c65" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::saga_step_timeout</definition>
+        <argsstring></argsstring>
+        <name>saga_step_timeout</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::saga_step_timeout</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+<para>Timeout per SAGA step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="179" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a3fb1e191d98e06cfa99e8c2e0199d41a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::percolator_lock_timeout</definition>
+        <argsstring></argsstring>
+        <name>percolator_lock_timeout</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::percolator_lock_timeout</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Percolator lock timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="182" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a0530d33974576fda6bb8b9a4beb58529" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::CrossShardTransactionConfig::percolator_max_retries</definition>
+        <argsstring></argsstring>
+        <name>percolator_max_retries</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::percolator_max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Percolator retry count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="183" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1ab561ca0ff9eaa8270d3d8e2a28cd24d9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::lock_timeout</definition>
+        <argsstring></argsstring>
+        <name>lock_timeout</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::lock_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Generic coordinator mutex timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="186" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1aebb44c8865618318e670599e84bb61d7" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::calvin_epoch_duration</definition>
+        <argsstring></argsstring>
+        <name>calvin_epoch_duration</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::calvin_epoch_duration</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Calvin epoch batch window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="189" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a8237e8f2d2cc11c7b2aa551c9079a2c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionConfig::calvin_enable_deterministic_lock_order</definition>
+        <argsstring></argsstring>
+        <name>calvin_enable_deterministic_lock_order</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::calvin_enable_deterministic_lock_order</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Sort locks by key for deadlock-free acquisition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="190" column="10" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a32f0d433bc66d14b5d43ca391bea66a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionConfig::enable_deadlock_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_deadlock_detection</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::enable_deadlock_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable deadlock detector thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="193" column="10" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1aca55bcc63a9dce1668db88b3083a0519" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::deadlock_detection_interval</definition>
+        <argsstring></argsstring>
+        <name>deadlock_detection_interval</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::deadlock_detection_interval</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Deadlock scan interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="194" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a2c223e3d1c40ba8074505e437036d390" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a413469a8f0bc4c56a597a1cfaa37b2fd" kindref="member">DeadlockVictimPolicy</ref></type>
+        <definition>DeadlockVictimPolicy themisdb::sharding::CrossShardTransactionConfig::deadlock_victim_policy</definition>
+        <argsstring></argsstring>
+        <name>deadlock_victim_policy</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::deadlock_victim_policy</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1sharding_1a413469a8f0bc4c56a597a1cfaa37b2fda3ebfaf6242b8db6cc479534dac01939c" kindref="member">DeadlockVictimPolicy::YOUNGEST</ref></initializer>
+        <briefdescription>
+<para>Victim choice policy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="195" column="26" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1af3553cc694e406611b58ae30b05cfd03" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::CrossShardTransactionConfig::transaction_timeout</definition>
+        <argsstring></argsstring>
+        <name>transaction_timeout</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::transaction_timeout</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+<para>Global transaction timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="198" column="31" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a8a2bce6fba9999f460e5ed6058816660" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransactionConfig::transaction_log_path</definition>
+        <argsstring></argsstring>
+        <name>transaction_log_path</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::transaction_log_path</qualifiedname>
+        <initializer>= &quot;/var/lib/<ref refid="namespacethemisdb" kindref="compound">themisdb</ref>/transaction_log.jsonl&quot;</initializer>
+        <briefdescription>
+<para>Absolute transaction log path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="201" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a9bf71deb69a6e684523e263c808b0654" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionConfig::enable_persistence</definition>
+        <argsstring></argsstring>
+        <name>enable_persistence</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::enable_persistence</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable WAL/snapshot persistence backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="204" column="10" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1af6f277e6ebbef687d9ee2c637be9aa6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransactionConfig::data_dir</definition>
+        <argsstring></argsstring>
+        <name>data_dir</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::data_dir</qualifiedname>
+        <briefdescription>
+<para>Base directory for WAL and snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="205" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a1ea927ae3976da382a3d19c940dafb5c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::CrossShardTransactionConfig::snapshot_interval</definition>
+        <argsstring></argsstring>
+        <name>snapshot_interval</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::snapshot_interval</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Snapshot cadence in operation count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="206" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a2c0d7ed9b1d01fb5ba6cab86b17b15d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::CrossShardTransactionConfig::max_snapshots</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::max_snapshots</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum retained snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="207" column="12" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a2f20e88fb74f333c16c1833dc462e176" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransactionConfig::coordinator_id</definition>
+        <argsstring></argsstring>
+        <name>coordinator_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::coordinator_id</qualifiedname>
+        <briefdescription>
+<para>Actual coordinator node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="212" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1afc06e4a134772a65cef9ad66178e1062" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themisdb::sharding::CrossShardTransactionConfig::shard_endpoints</definition>
+        <argsstring></argsstring>
+        <name>shard_endpoints</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::shard_endpoints</qualifiedname>
+        <briefdescription>
+<para>Shard ID to endpoint map for wait-edge polling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="220" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a540307416154171d762e9999a726cfa2" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1_1_polled_wait_for_edge" kindref="compound">PolledWaitForEdge</ref> &gt;(const std::string &amp;shard_id, const std::string &amp;endpoint)&gt;</type>
+        <definition>std::function&lt;std::vector&lt;PolledWaitForEdge&gt;( const std::string&amp; shard_id, const std::string&amp; endpoint )&gt; themisdb::sharding::CrossShardTransactionConfig::polled_wait_for_edge_collector</definition>
+        <argsstring></argsstring>
+        <name>polled_wait_for_edge_collector</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::polled_wait_for_edge_collector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="228" column="2" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a6068ba8f20c0da90a1cff960ff3c1e57" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kindref="compound">CrossShardSSIManager::Config</ref></type>
+        <definition>CrossShardSSIManager::Config themisdb::sharding::CrossShardTransactionConfig::ssi_config</definition>
+        <argsstring></argsstring>
+        <name>ssi_config</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::ssi_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configuration for cross-shard SSI predicate-lock tracking and conflict detection. Applies only to transactions with isolation level SERIALIZABLE. Inactive (no-op) for all other isolation levels. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="235" column="34" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for cross-shard transactions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::sharding::CrossShardSSIManager::Config</label>
+        <link refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::CrossShardTransactionConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>ssi_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/cross_shard_transaction.h" line="163" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="163" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1ac8a4dff7f8d91148aa2de1ba9b2f95bf" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>abort_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a8237e8f2d2cc11c7b2aa551c9079a2c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>calvin_enable_deterministic_lock_order</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1aebb44c8865618318e670599e84bb61d7" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>calvin_epoch_duration</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a0f6128b7a69b7b13611cb9fe2657fd2b" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>commit_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a2f20e88fb74f333c16c1833dc462e176" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>coordinator_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1af6f277e6ebbef687d9ee2c637be9aa6a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>data_dir</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1aca55bcc63a9dce1668db88b3083a0519" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>deadlock_detection_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a2c223e3d1c40ba8074505e437036d390" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>deadlock_victim_policy</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a49ba861d79d39f612d13725fa7ebd3b6" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>default_isolation</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a30d8b6648d173d5df6ac1e41042aae57" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>default_protocol</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a32f0d433bc66d14b5d43ca391bea66a8" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>enable_deadlock_detection</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a9bf71deb69a6e684523e263c808b0654" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>enable_persistence</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1ab561ca0ff9eaa8270d3d8e2a28cd24d9" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>lock_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a2c0d7ed9b1d01fb5ba6cab86b17b15d5" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>max_snapshots</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a3fb1e191d98e06cfa99e8c2e0199d41a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>percolator_lock_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a0530d33974576fda6bb8b9a4beb58529" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>percolator_max_retries</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a540307416154171d762e9999a726cfa2" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>polled_wait_for_edge_collector</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1aec14ff0d4afe7b503e52eb9c1d8378c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>prepare_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1abbb79d27b8c6cbb30af00004a2f67d77" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>saga_enable_compensation</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a6d50f1aa12254f4b9bed6fb066fa8c65" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>saga_step_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1afc06e4a134772a65cef9ad66178e1062" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>shard_endpoints</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a1ea927ae3976da382a3d19c940dafb5c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>snapshot_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a6068ba8f20c0da90a1cff960ff3c1e57" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>ssi_config</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1a8a2bce6fba9999f460e5ed6058816660" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>transaction_log_path</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1af3553cc694e406611b58ae30b05cfd03" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig</scope><name>transaction_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

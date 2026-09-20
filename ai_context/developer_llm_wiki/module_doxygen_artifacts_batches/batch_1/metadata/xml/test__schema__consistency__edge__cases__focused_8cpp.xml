@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__schema__consistency__edge__cases__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_schema_consistency_edge_cases_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="schema__consistency__checker_8h" local="yes">metadata/schema_consistency_checker.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>metadata/schema_consistency_checker.h</label>
+        <link refid="schema__consistency__checker_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_schema_consistency_edge_cases_focused.cpp</label>
+        <link refid="test__schema__consistency__edge__cases__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaConsistencyEdgeCasesTest, MCHC01_DefaultConstructedIsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaConsistencyEdgeCasesTest</type>
+        </param>
+        <param>
+          <type>MCHC01_DefaultConstructedIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" line="56" column="1" bodyfile="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__consistency__edge__cases__focused_8cpp_1a25c7f74740600e208682530abc7ecf06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaConsistencyEdgeCasesTest, MCHC02_EmptyTableNameSerializes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaConsistencyEdgeCasesTest</type>
+        </param>
+        <param>
+          <type>MCHC02_EmptyTableNameSerializes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" line="67" column="1" bodyfile="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" bodystart="67" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__consistency__edge__cases__focused_8cpp_1ad885a8c959968f4b2d76990bd581b735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaConsistencyEdgeCasesTest, MCHC03_VectorOfIssues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaConsistencyEdgeCasesTest</type>
+        </param>
+        <param>
+          <type>MCHC03_VectorOfIssues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" line="79" column="1" bodyfile="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" bodystart="79" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__consistency__edge__cases__focused_8cpp_1a929f9e4eb41397f959b28d953944e885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaConsistencyEdgeCasesTest, MCHC04_DetailFieldRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaConsistencyEdgeCasesTest</type>
+        </param>
+        <param>
+          <type>MCHC04_DetailFieldRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" line="94" column="1" bodyfile="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" bodystart="94" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__consistency__edge__cases__focused_8cpp_1a6af105f05bf2249ee492c92d73ff3f6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaConsistencyEdgeCasesTest, MCHC05_OrphanKeyIssueTypeSerializes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaConsistencyEdgeCasesTest</type>
+        </param>
+        <param>
+          <type>MCHC05_OrphanKeyIssueTypeSerializes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" line="105" column="1" bodyfile="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__consistency__edge__cases__focused_8cpp_1ad6bed4ad9e693a3db0ec94ecf408cab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaConsistencyEdgeCasesTest, MCHC06_StaleStatsIssueTypeSerializes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaConsistencyEdgeCasesTest</type>
+        </param>
+        <param>
+          <type>MCHC06_StaleStatsIssueTypeSerializes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" line="113" column="1" bodyfile="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" bodystart="113" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__consistency__edge__cases__focused_8cpp_1a2fef58446eeb33229ac8b90975b47a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaConsistencyEdgeCasesTest, MCHC07_MissingConstraintIssueTypeSerializes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaConsistencyEdgeCasesTest</type>
+        </param>
+        <param>
+          <type>MCHC07_MissingConstraintIssueTypeSerializes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" line="121" column="1" bodyfile="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" bodystart="121" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__consistency__edge__cases__focused_8cpp_1a9cd91eaf2637f298c8e5361f0b9b0de3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaConsistencyEdgeCasesTest, MCHC08_VectorSerializesToJsonArray)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaConsistencyEdgeCasesTest</type>
+        </param>
+        <param>
+          <type>MCHC08_VectorSerializesToJsonArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" line="129" column="1" bodyfile="tests/metadata/test_schema_consistency_edge_cases_focused.cpp" bodystart="129" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase B1: Edge-case stress tests for <ref refid="classthemis_1_1_schema_consistency_checker" kindref="compound">SchemaConsistencyChecker</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: MCH-C01..MCH-C08</para>
+</simplesect>
+MCH-C01 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> default-constructed has empty fields MCH-C02 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> toJSON() with empty table_name serializes cleanly MCH-C03 Multiple ConsistencyIssues can be collected into a vector MCH-C04 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> detail field survives round-trip through toJSON() MCH-C05 issue_type &quot;orphan_key&quot; serializes to correct JSON string MCH-C06 issue_type &quot;stale_stats&quot; serializes to correct JSON string MCH-C07 issue_type &quot;missing_constraint&quot; serializes to correct JSON string MCH-C08 Vector of issues can be serialized to a JSON array</para>
+<para>Self-contained: no RocksDB, no background threads. Canonical PRNG seed: kConsistencySeed = 42.</para>
+<para><simplesect kind="see"><para><ref refid="schema__consistency__checker_8h" kindref="compound">include/metadata/schema_consistency_checker.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/metadata/ROADMAP.md — Phase B stress-coverage items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__consistency__checker_8h" kindref="compound">metadata/schema_consistency_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kConsistencySeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref><sp/>makeIssue(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>column,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>detail)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref><sp/>ci;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1ac8ccd8610936f3d74a29f020da4ec9b9" kindref="member">issue_type</ref><sp/><sp/>=<sp/>type;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1a9a2bfe6c852e6aa36971dae06b7f4e9f" kindref="member">table_name</ref><sp/><sp/>=<sp/>table;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1a55d1f43edf90c560ecb9de774f56c3f0" kindref="member">column_name</ref><sp/>=<sp/>column;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1ad1746db8ce0d9569a64bb9ecc6adeeba" kindref="member">detail</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>detail;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ci;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-C01:<sp/>ConsistencyIssue<sp/>default-constructed<sp/>has<sp/>empty<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" kindref="member">TEST</ref>(SchemaConsistencyEdgeCasesTest,<sp/>MCHC01_DefaultConstructedIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref><sp/>ci;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ci.<ref refid="structthemis_1_1_consistency_issue_1ac8ccd8610936f3d74a29f020da4ec9b9" kindref="member">issue_type</ref>.empty());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ci.<ref refid="structthemis_1_1_consistency_issue_1a9a2bfe6c852e6aa36971dae06b7f4e9f" kindref="member">table_name</ref>.empty());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ci.<ref refid="structthemis_1_1_consistency_issue_1a55d1f43edf90c560ecb9de774f56c3f0" kindref="member">column_name</ref>.empty());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ci.<ref refid="structthemis_1_1_consistency_issue_1ad1746db8ce0d9569a64bb9ecc6adeeba" kindref="member">detail</ref>.empty());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-C02:<sp/>ConsistencyIssue<sp/>toJSON()<sp/>with<sp/>empty<sp/>table_name<sp/>serializes<sp/>cleanly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" kindref="member">TEST</ref>(SchemaConsistencyEdgeCasesTest,<sp/>MCHC02_EmptyTableNameSerializes)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*table=*/</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*column=*/</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Global<sp/>issue&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW({</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>ci.toJSON();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;detail&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;Global<sp/>issue&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-C03:<sp/>Multiple<sp/>ConsistencyIssues<sp/>can<sp/>be<sp/>collected<sp/>into<sp/>a<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" kindref="member">TEST</ref>(SchemaConsistencyEdgeCasesTest,<sp/>MCHC03_VectorOfIssues)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConsistencyIssue&gt;<sp/>issues;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>issues.push_back(makeIssue(</highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Orphaned<sp/>key&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>issues.push_back(makeIssue(</highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>too<sp/>old&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>issues.push_back(makeIssue(</highlight><highlight class="stringliteral">&quot;missing_constraint&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sessions&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;No<sp/>constraints&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(issues.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(issues[0].issue_type,<sp/></highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(issues[1].issue_type,<sp/></highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(issues[2].issue_type,<sp/></highlight><highlight class="stringliteral">&quot;missing_constraint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-C04:<sp/>ConsistencyIssue<sp/>detail<sp/>field<sp/>survives<sp/>round-trip<sp/>through<sp/>toJSON()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" kindref="member">TEST</ref>(SchemaConsistencyEdgeCasesTest,<sp/>MCHC04_DetailFieldRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>detail_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>older<sp/>than<sp/>86400<sp/>seconds<sp/>on<sp/>table<sp/>&apos;users&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>detail_text);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/>=<sp/>ci.toJSON();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;detail&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/>detail_text);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-C05:<sp/>issue_type<sp/>&quot;orphan_key&quot;<sp/>serializes<sp/>to<sp/>correct<sp/>JSON<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" kindref="member">TEST</ref>(SchemaConsistencyEdgeCasesTest,<sp/>MCHC05_OrphanKeyIssueTypeSerializes)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;catalog&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>prefix&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ci.toJSON()[</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-C06:<sp/>issue_type<sp/>&quot;stale_stats&quot;<sp/>serializes<sp/>to<sp/>correct<sp/>JSON<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" kindref="member">TEST</ref>(SchemaConsistencyEdgeCasesTest,<sp/>MCHC06_StaleStatsIssueTypeSerializes)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;metrics&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>expired&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ci.toJSON()[</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-C07:<sp/>issue_type<sp/>&quot;missing_constraint&quot;<sp/>serializes<sp/>to<sp/>correct<sp/>JSON<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" kindref="member">TEST</ref>(SchemaConsistencyEdgeCasesTest,<sp/>MCHC07_MissingConstraintIssueTypeSerializes)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;missing_constraint&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;accounts&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>constraints<sp/>defined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ci.toJSON()[</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;missing_constraint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-C08:<sp/>Vector<sp/>of<sp/>issues<sp/>can<sp/>be<sp/>serialized<sp/>to<sp/>a<sp/>JSON<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__schema__consistency__edge__cases__focused_8cpp_1a1ecbba43673efcfd0bdd39273c3b6112" kindref="member">TEST</ref>(SchemaConsistencyEdgeCasesTest,<sp/>MCHC08_VectorSerializesToJsonArray)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConsistencyIssue&gt;<sp/>issues;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>issues.push_back(makeIssue(</highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>issues.push_back(makeIssue(</highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>issues.push_back(makeIssue(</highlight><highlight class="stringliteral">&quot;missing_constraint&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>arr<sp/>=<sp/>nlohmann::json::array();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ci<sp/>:<sp/>issues)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>arr.push_back(ci.toJSON());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(arr.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(arr[0][</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(arr[1][</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(arr[2][</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;missing_constraint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_schema_consistency_edge_cases_focused.cpp"/>
+  </compounddef>
+</doxygen>

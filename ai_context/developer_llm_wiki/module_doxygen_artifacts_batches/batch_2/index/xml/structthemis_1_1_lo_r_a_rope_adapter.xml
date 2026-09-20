@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_lo_r_a_rope_adapter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LoRARopeAdapter</compoundname>
+    <includes refid="lora__rope_8h" local="no">lora_rope.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1a9acc3154270938781b077534cfee0539" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LoRARopeAdapter::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::LoRARopeAdapter::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="27" column="17" bodyfile="include/index/lora_rope.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1aae957f4dd68c4b0d70e65f1f6b402f72" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LoRARopeAdapter::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::LoRARopeAdapter::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="28" column="17" bodyfile="include/index/lora_rope.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1a4e00f7130130e652b5c16b99651ed965" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LoRARopeAdapter::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::LoRARopeAdapter::rank</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="29" column="12" bodyfile="include/index/lora_rope.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1aae27cb32b3dc037f5862e43a3ccc516c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::LoRARopeAdapter::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::LoRARopeAdapter::alpha</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="30" column="11" bodyfile="include/index/lora_rope.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1a082a56f64cd4564f102d96dd2a910473" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;double&gt; &gt; themis::LoRARopeAdapter::matrix_B</definition>
+        <argsstring></argsstring>
+        <name>matrix_B</name>
+        <qualifiedname>themis::LoRARopeAdapter::matrix_B</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="35" column="17" bodyfile="include/index/lora_rope.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1a2d6223c744afe71f8a39df6dcc2afa19" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;double&gt; &gt; themis::LoRARopeAdapter::matrix_A</definition>
+        <argsstring></argsstring>
+        <name>matrix_A</name>
+        <qualifiedname>themis::LoRARopeAdapter::matrix_A</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="36" column="17" bodyfile="include/index/lora_rope.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1a96edfbafc2fd875d0eaa1b234f7839cc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::LoRARopeAdapter::theta_delta</definition>
+        <argsstring></argsstring>
+        <name>theta_delta</name>
+        <qualifiedname>themis::LoRARopeAdapter::theta_delta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="39" column="17" bodyfile="include/index/lora_rope.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1adfb95c47150e324f3fc00993134cbfcd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LoRARopeAdapter::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::LoRARopeAdapter::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="42" column="10" bodyfile="include/index/lora_rope.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_rope_adapter_1aadea26a83f39a43ee0c8546243797e39" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::LoRARopeAdapter::scaling</definition>
+        <argsstring></argsstring>
+        <name>scaling</name>
+        <qualifiedname>themis::LoRARopeAdapter::scaling</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="43" column="11" bodyfile="include/index/lora_rope.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_lo_r_a_rope_adapter_1aa5311c03860ffd9372643f93697f5ccb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LoRARopeAdapter::isValid</definition>
+        <argsstring>(size_t num_rotation_pairs) const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::LoRARopeAdapter::isValid</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_rotation_pairs</declname>
+        </param>
+        <briefdescription>
+<para>Validate adapter dimensions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="46" column="10" bodyfile="include/index/lora_rope.h" bodystart="46" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_lo_r_a_rope_adapter_1adafe26e997d754755bd5b4b3a4c7e306" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_lo_r_a_rope_adapter" kindref="compound">LoRARopeAdapter</ref></type>
+        <definition>LoRARopeAdapter themis::LoRARopeAdapter::createRandom</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;domain, size_t num_rotation_pairs, size_t rank, float alpha=1.0f)</argsstring>
+        <name>createRandom</name>
+        <qualifiedname>themis::LoRARopeAdapter::createRandom</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_rotation_pairs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Initialize with random small values (for training). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Random.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_rotation_pairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), dist(), resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="80" column="28" bodyfile="src/index/lora_rope.cpp" bodystart="42" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_lo_r_a_rope_adapter_1ad5629d7700c473df19b32a73b96d8611" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_lo_r_a_rope_adapter" kindref="compound">LoRARopeAdapter</ref></type>
+        <definition>LoRARopeAdapter themis::LoRARopeAdapter::createZero</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;domain, size_t num_rotation_pairs, size_t rank, float alpha=1.0f)</argsstring>
+        <name>createZero</name>
+        <qualifiedname>themis::LoRARopeAdapter::createZero</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_rotation_pairs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Initialize with zeros (no modification initially). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Zero.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_rotation_pairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="89" column="28" bodyfile="src/index/lora_rope.cpp" bodystart="96" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>LoRA adapter for RoPE (Rotary Position Embeddings) Provides low-rank adaptation matrices for modifying rotation behavior </para>
+    </detaileddescription>
+    <location file="include/index/lora_rope.h" line="26" column="1" bodyfile="include/index/lora_rope.h" bodystart="26" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1aae27cb32b3dc037f5862e43a3ccc516c" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1adafe26e997d754755bd5b4b3a4c7e306" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>createRandom</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1ad5629d7700c473df19b32a73b96d8611" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>createZero</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1aae957f4dd68c4b0d70e65f1f6b402f72" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>domain</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1adfb95c47150e324f3fc00993134cbfcd" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1aa5311c03860ffd9372643f93697f5ccb" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1a2d6223c744afe71f8a39df6dcc2afa19" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>matrix_A</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1a082a56f64cd4564f102d96dd2a910473" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>matrix_B</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1a9acc3154270938781b077534cfee0539" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>name</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1a4e00f7130130e652b5c16b99651ed965" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>rank</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1aadea26a83f39a43ee0c8546243797e39" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>scaling</name></member>
+      <member refid="structthemis_1_1_lo_r_a_rope_adapter_1a96edfbafc2fd875d0eaa1b234f7839cc" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapter</scope><name>theta_delta</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

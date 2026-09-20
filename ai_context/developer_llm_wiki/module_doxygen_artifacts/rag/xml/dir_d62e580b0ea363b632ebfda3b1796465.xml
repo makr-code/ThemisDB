@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d62e580b0ea363b632ebfda3b1796465" kind="dir">
+    <compoundname>benchmarks/rag</compoundname>
+    <innerfile refid="bench__delegate__evaluator_8cpp">bench_delegate_evaluator.cpp</innerfile>
+    <innerfile refid="bench__fts__phase__b_8cpp">bench_fts_phase_b.cpp</innerfile>
+    <innerfile refid="bench__knowledge__gap__detector__phase2_8cpp">bench_knowledge_gap_detector_phase2.cpp</innerfile>
+    <innerfile refid="bench__rag__ethics_8cpp">bench_rag_ethics.cpp</innerfile>
+    <innerfile refid="bench__rag__evaluation_8cpp">bench_rag_evaluation.cpp</innerfile>
+    <innerfile refid="bench__rag__hybrid__retriever_8cpp">bench_rag_hybrid_retriever.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/rag/"/>
+  </compounddef>
+</doxygen>

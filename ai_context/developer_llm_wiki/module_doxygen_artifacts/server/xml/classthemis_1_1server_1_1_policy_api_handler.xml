@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_policy_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PolicyApiHandler</compoundname>
+    <includes refid="policy__api__handler_8h" local="no">policy_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_api_handler_1a90c1882df5765f2bff4bb85b8822451d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::PolicyApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::PolicyApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="57" column="21" bodyfile="include/server/policy_api_handler.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_api_handler_1a2ba0f900d0c566b2d623d65a987355c0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_ranger_client" kindref="compound">RangerClient</ref> *</type>
+        <definition>RangerClient* themis::server::PolicyApiHandler::ranger_client_</definition>
+        <argsstring></argsstring>
+        <name>ranger_client_</name>
+        <qualifiedname>themis::server::PolicyApiHandler::ranger_client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="58" column="18" bodyfile="include/server/policy_api_handler.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_api_handler_1a09f26173bdf0571b5553007af948011a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_policy_engine" kindref="compound">PolicyEngine</ref> *</type>
+        <definition>PolicyEngine* themis::server::PolicyApiHandler::policy_engine_</definition>
+        <argsstring></argsstring>
+        <name>policy_engine_</name>
+        <qualifiedname>themis::server::PolicyApiHandler::policy_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="59" column="18" bodyfile="include/server/policy_api_handler.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_api_handler_1a3f58d7bddacba795ecdc38e0aa122197" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::PolicyApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::PolicyApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="60" column="21" bodyfile="include/server/policy_api_handler.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_api_handler_1a784a4dc926033e6605cd60ee94e1c68a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::PolicyApiHandler::service_name_</definition>
+        <argsstring></argsstring>
+        <name>service_name_</name>
+        <qualifiedname>themis::server::PolicyApiHandler::service_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="61" column="17" bodyfile="include/server/policy_api_handler.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_api_handler_1a503b4bd4567fc3ce3ce01b658b930240" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PolicyApiHandler::PolicyApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, RangerClient *ranger_client, PolicyEngine *policy_engine, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth, const std::string &amp;service_name=&quot;themisdb&quot;)</argsstring>
+        <name>PolicyApiHandler</name>
+        <qualifiedname>themis::server::PolicyApiHandler::PolicyApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_ranger_client" kindref="compound">RangerClient</ref> *</type>
+          <declname>ranger_client</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_policy_engine" kindref="compound">PolicyEngine</ref> *</type>
+          <declname>policy_engine</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_name</declname>
+          <defval>&quot;themisdb&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="34" column="5" bodyfile="src/server/policy_api_handler.cpp" bodystart="23" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_api_handler_1a1e91586d1210b32191dc858cab576337" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyApiHandler::handleImportRanger</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleImportRanger</name>
+        <qualifiedname>themis::server::PolicyApiHandler::handleImportRanger</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Import Ranger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), fetchPolicies(), std::string(), <ref refid="classthemis_1_1server_1_1_ranger_client_1a853b6b9f75ace86ec6a61b7ab7f5b04b" kindref="member">RangerClient::convertFromRanger()</ref>, empty(), setPolicies(), saveToFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="47" column="20" bodyfile="src/server/policy_api_handler.cpp" bodystart="44" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_api_handler_1ac329ecf7e90cf6c5190a401a15db5b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyApiHandler::handleExportRanger</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleExportRanger</name>
+        <qualifiedname>themis::server::PolicyApiHandler::handleExportRanger</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Export Ranger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), listPolicies(), <ref refid="classthemis_1_1server_1_1_ranger_client_1ad4fab6c27c375c47d88beb79f5c40c1d" kindref="member">RangerClient::convertToRanger()</ref>, makeResponse(), dump(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="54" column="20" bodyfile="src/server/policy_api_handler.cpp" bodystart="90" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_api_handler_1a2655f15921c1cb5b38d762b5ad1a9116" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::PolicyApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="71" column="20" bodyfile="src/server/policy_api_handler.cpp" bodystart="116" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_api_handler_1a5f36fd3b3204a0a36702a4df70b13bc6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::PolicyApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_api_handler.h" line="80" column="20" bodyfile="src/server/policy_api_handler.cpp" bodystart="136" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/policy_api_handler.h" line="32" column="1" bodyfile="include/server/policy_api_handler.h" bodystart="32" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a3f58d7bddacba795ecdc38e0aa122197" prot="private" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1ac329ecf7e90cf6c5190a401a15db5b21" prot="public" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>handleExportRanger</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a1e91586d1210b32191dc858cab576337" prot="public" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>handleImportRanger</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a2655f15921c1cb5b38d762b5ad1a9116" prot="private" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a5f36fd3b3204a0a36702a4df70b13bc6" prot="private" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a09f26173bdf0571b5553007af948011a" prot="private" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>policy_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a503b4bd4567fc3ce3ce01b658b930240" prot="public" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>PolicyApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a2ba0f900d0c566b2d623d65a987355c0" prot="private" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>ranger_client_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a784a4dc926033e6605cd60ee94e1c68a" prot="private" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>service_name_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_api_handler_1a90c1882df5765f2bff4bb85b8822451d" prot="private" virt="non-virtual"><scope>themis::server::PolicyApiHandler</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

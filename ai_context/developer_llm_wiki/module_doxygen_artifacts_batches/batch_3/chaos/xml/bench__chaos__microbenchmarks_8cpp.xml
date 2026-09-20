@@ -1,0 +1,434 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__chaos__microbenchmarks_8cpp" kind="file" language="C++">
+    <compoundname>bench_chaos_microbenchmarks.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="chaos__framework_8h" local="yes">chaos/chaos_framework.h</includes>
+    <includes refid="chaos__contract_8h" local="yes">chaos/chaos_contract.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/chaos/bench_chaos_microbenchmarks.cpp</label>
+        <link refid="bench__chaos__microbenchmarks_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>chaos/chaos_contract.h</label>
+        <link refid="chaos__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chaos/chaos_framework.h</label>
+        <link refid="chaos__framework_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>condition_variable</label>
+      </node>
+      <node id="14">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__chaos__microbenchmarks_8cpp_1afe0f9e7050ca19e2a64966dd44c065fd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kGateMB01_InjectP99_us</definition>
+        <argsstring></argsstring>
+        <name>kGateMB01_InjectP99_us</name>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+<para>CHAOS-MB-01: injectFault() p99 latency ≤ 5 µs (per-call). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="53" column="25" bodyfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__chaos__microbenchmarks_8cpp_1a56afbe5443c4df3c83beec7334956808" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kGateMB02_RecoverP99_us</definition>
+        <argsstring></argsstring>
+        <name>kGateMB02_RecoverP99_us</name>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+<para>CHAOS-MB-02: recoverFault() p99 latency ≤ 5 µs (per-call). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="56" column="25" bodyfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__chaos__microbenchmarks_8cpp_1a05d94aa3d87e31c898c8dbdd823d71b5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kGateMB03_ConcurrentThroughput_OpsPerSec</definition>
+        <argsstring></argsstring>
+        <name>kGateMB03_ConcurrentThroughput_OpsPerSec</name>
+        <initializer>= 100&apos;000.0</initializer>
+        <briefdescription>
+<para>CHAOS-MB-03: concurrent inject+recover throughput ≥ 100 000 ops/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="59" column="25" bodyfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__chaos__microbenchmarks_8cpp_1ac8d49fe0810cc57dae517df4416bf369" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref></type>
+        <definition>static FaultSpec makeMBSpec</definition>
+        <argsstring>(const std::string &amp;node, FaultType type=FaultType::NODE_FAILURE)</argsstring>
+        <name>makeMBSpec</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref></type>
+          <declname>type</declname>
+          <defval>FaultType::NODE_FAILURE</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="63" column="18" bodyfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chaos__microbenchmarks_8cpp_1a542c4bf8d9708de8b67432cf137c60d5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_CHAOSМB01_InjectLatencyP99</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CHAOSМB01_InjectLatencyP99</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>CHAOS-MB-01 — injectFault() p99 latency microbenchmark. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Injects one unique fault per iteration (fresh node ID to avoid rejection due to duplicate active fault). Measures per-call latency for the fast registry-insertion path.</para>
+<para>Gate: p99 latency ≤ 5 µs. Counter: &quot;gate_threshold_inject_p99_us&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="80" column="13" bodyfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" bodystart="80" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chaos__microbenchmarks_8cpp_1a7fb69f4198cff30a22c760455382a2d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_CHAOSМB01_InjectLatencyP99) -&gt; UseRealTime() -&gt;MinTime(1.0)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_CHAOSМB01_InjectLatencyP99</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="98" column="1" declfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" declline="98" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chaos__microbenchmarks_8cpp_1a0ac316ea8e3fc25264bdc960a1e2342d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_CHAOSМB02_RecoverLatencyP99</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CHAOSМB02_RecoverLatencyP99</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>CHAOS-MB-02 — recoverFault() p99 latency microbenchmark. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-injects a fault in setup; measures only the recovery call latency. Resets the fault injector at the start of each iteration to ensure a stable pre-condition (fault always active before recover).</para>
+<para>Gate: p99 latency ≤ 5 µs. Counter: &quot;gate_threshold_recover_p99_us&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="112" column="13" bodyfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" bodystart="112" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chaos__microbenchmarks_8cpp_1ab29abfe87f9ffdb342dba7d25f04d6d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_CHAOSМB02_RecoverLatencyP99) -&gt; UseRealTime() -&gt;MinTime(1.0)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_CHAOSМB02_RecoverLatencyP99</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="129" column="1" declfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" declline="129" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chaos__microbenchmarks_8cpp_1ad1a4bfe28da9a92007e568faca2e1321" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_CHAOSМB03_ConcurrentFaultThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CHAOSМB03_ConcurrentFaultThroughput</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>CHAOS-MB-03 — concurrent inject+recover throughput (4 threads). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs 4 threads, each performing inject→recover cycles on a disjoint set of node IDs. Measures combined throughput across all threads.</para>
+<para>Gate: ≥ 100 000 ops/s combined. Counter: &quot;gate_threshold_concurrent_throughput_ops_per_sec&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="142" column="13" bodyfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" bodystart="142" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chaos__microbenchmarks_8cpp_1ad437bc5063c9b7d57b582728e6d3d225" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_CHAOSМB03_ConcurrentFaultThroughput) -&gt; UseRealTime() -&gt;MinTime(1.0)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_CHAOSМB03_ConcurrentFaultThroughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" line="177" column="1" declfile="benchmarks/chaos/bench_chaos_microbenchmarks.cpp" declline="177" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Chaos microbenchmarks — inject latency p99, recover latency p99, concurrent fault throughput. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends the release-gate coverage in <ref refid="bench__chaos__release__gates_8cpp" kindref="compound">bench_chaos_release_gates.cpp</ref> with dedicated microbenchmarks for the three high-priority chaos paths identified in the Wave D mid-term roadmap items:</para>
+<para>CHAOS-MB-01 InjectLatencyP99 — injectFault() p99 latency ≤ 5 µs CHAOS-MB-02 RecoverLatencyP99 — recoverFault() p99 latency ≤ 5 µs CHAOS-MB-03 ConcurrentFaultThroughput — concurrent inject+recover ≥ 100k ops/s</para>
+<para>Gate thresholds are emitted as benchmark counters so CI tooling can validate results from JSON output:</para>
+<para>bench_chaos_microbenchmarks \ <ndash/>benchmark_format=json <ndash/>benchmark_out=chaos_mb.json</para>
+<sect1 id="bench__chaos__microbenchmarks_8cpp_1autotoc_md4_1s1"><sect2 id="bench__chaos__microbenchmarks_8cpp_1autotoc_md4">
+<title>Measurement hygiene</title><para><itemizedlist>
+<listitem><para>All registrations use UseRealTime().MinTime(1.0).</para>
+</listitem><listitem><para>Thresholds emitted as &quot;gate_threshold_*&quot; counters for CI tooling.</para>
+</listitem><listitem><para>benchmark::DoNotOptimize() applied to all results.</para>
+</listitem><listitem><para>PauseTiming() / ResumeTiming() used to isolate fixture reset.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="see"><para>src/chaos/ROADMAP.md — Mid-term microbenchmarks (CHAOS-MB-01..03) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__chaos__release__gates_8cpp" kindref="compound">benchmarks/chaos/bench_chaos_release_gates.cpp</ref> — GATE-CHS-01..06 </para>
+</simplesect>
+<simplesect kind="see"><para>benchmarks/MEASUREMENT_HYGIENE.md — hygiene standards </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="chaos__framework_8h" kindref="compound">chaos/chaos_framework.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="chaos__contract_8h" kindref="compound">chaos/chaos_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1chaos" kindref="compound">themis::chaos</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>gate<sp/>thresholds<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kGateMB01_InjectP99_us<sp/>=<sp/>5.0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kGateMB02_RecoverP99_us<sp/>=<sp/>5.0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kGateMB03_ConcurrentThroughput_OpsPerSec<sp/>=<sp/>100&apos;000.0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>helpers<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/>makeMBSpec(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/>type<sp/>=<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>(type,<sp/>node,<sp/>std::chrono::milliseconds(0),<sp/>1.0,<sp/></highlight><highlight class="stringliteral">&quot;mb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>CHAOS-MB-01:<sp/>InjectLatencyP99<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_CHAOSМB01_InjectLatencyP99(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;chaos-mb01&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>ops<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a68e54a36ab8b4d8464b9489dc5063eef" kindref="member">clearAllFaults</ref>();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>node<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;mb01-n&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(ops);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(makeMBSpec(node));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++ops;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_threshold_inject_p99_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>kGateMB01_InjectP99_us;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="bench__chaos__microbenchmarks_8cpp_1a7fb69f4198cff30a22c760455382a2d5" kindref="member">BENCHMARK</ref>(BM_CHAOSМB01_InjectLatencyP99)-&gt;UseRealTime()-&gt;MinTime(1.0);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>CHAOS-MB-02:<sp/>RecoverLatencyP99<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_CHAOSМB02_RecoverLatencyP99(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;chaos-mb02&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kNode<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;mb02-fixed-node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a68e54a36ab8b4d8464b9489dc5063eef" kindref="member">clearAllFaults</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(makeMBSpec(kNode));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(kNode);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_threshold_recover_p99_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>kGateMB02_RecoverP99_us;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="bench__chaos__microbenchmarks_8cpp_1a7fb69f4198cff30a22c760455382a2d5" kindref="member">BENCHMARK</ref>(BM_CHAOSМB02_RecoverLatencyP99)-&gt;UseRealTime()-&gt;MinTime(1.0);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>CHAOS-MB-03:<sp/>ConcurrentFaultThroughput<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_CHAOSМB03_ConcurrentFaultThroughput(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;chaos-mb03&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;long<sp/>long&gt;<sp/>total_ops{0};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a68e54a36ab8b4d8464b9489dc5063eef" kindref="member">clearAllFaults</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>workers.reserve(kThreads);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>workers.emplace_back([t,<sp/>&amp;fi,<sp/>&amp;total_ops]()<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>node<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;mb03-t&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;-node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>injected<sp/>=<sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(makeMBSpec(node));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(injected);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(injected)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recovered<sp/>=<sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(node);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(recovered);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_ops.fetch_add(2,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w<sp/>:<sp/>workers)<sp/>w.join();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(total_ops.load());</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_threshold_concurrent_throughput_ops_per_sec&quot;</highlight><highlight class="normal">]<sp/>=</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kGateMB03_ConcurrentThroughput_OpsPerSec;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;threads&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="bench__chaos__microbenchmarks_8cpp_1a7fb69f4198cff30a22c760455382a2d5" kindref="member">BENCHMARK</ref>(BM_CHAOSМB03_ConcurrentFaultThroughput)-&gt;UseRealTime()-&gt;MinTime(1.0);</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/chaos/bench_chaos_microbenchmarks.cpp"/>
+  </compounddef>
+</doxygen>

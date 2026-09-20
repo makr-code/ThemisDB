@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_txn_coordinator_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::TxnCoordinatorOptions</compoundname>
+    <includes refid="transaction__coordinator_8h" local="no">transaction_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_txn_coordinator_options_1a1912ef03c0c84347fe182947bee09612" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">themis::IsolationLevel</ref></type>
+        <definition>themis::IsolationLevel themis::transaction::TxnCoordinatorOptions::isolation</definition>
+        <argsstring></argsstring>
+        <name>isolation</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorOptions::isolation</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">themis::IsolationLevel::READ_COMMITTED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="129" column="28" bodyfile="include/transaction/transaction_coordinator.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_txn_coordinator_options_1af9aa547ba8f5e8519195a0b04363d47e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::transaction::TxnCoordinatorOptions::deadline</definition>
+        <argsstring></argsstring>
+        <name>deadline</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorOptions::deadline</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="131" column="43" bodyfile="include/transaction/transaction_coordinator.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_txn_coordinator_options_1a8915d18867fcd9a1c983ce37a0f6c748" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::TxnCoordinatorOptions::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorOptions::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="133" column="17" bodyfile="include/transaction/transaction_coordinator.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_coordinator.h" line="128" column="1" bodyfile="include/transaction/transaction_coordinator.h" bodystart="128" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_options_1af9aa547ba8f5e8519195a0b04363d47e" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorOptions</scope><name>deadline</name></member>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_options_1a1912ef03c0c84347fe182947bee09612" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorOptions</scope><name>isolation</name></member>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_options_1a8915d18867fcd9a1c983ce37a0f6c748" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorOptions</scope><name>metadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

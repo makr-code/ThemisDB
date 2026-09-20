@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_auth_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceAuthResult</compoundname>
+    <includes refid="voice__auth_8h" local="no">voice_auth.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_auth_result_1ae974f7e327cf8a7fc130c6ec5bb185c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAuthResult::authenticated</definition>
+        <argsstring></argsstring>
+        <name>authenticated</name>
+        <qualifiedname>themis::voice::VoiceAuthResult::authenticated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when fully authenticated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="126" column="17" bodyfile="include/voice/voice_auth.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_auth_result_1ad25c865f3a1d73e26221f70c22ddfaef" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::VoiceAuthResult::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::voice::VoiceAuthResult::confidence_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Verification similarity [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="127" column="17" bodyfile="include/voice/voice_auth.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_auth_result_1af6b9825126d208b9370de9966a7bd110" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::VoiceAuthResult::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::voice::VoiceAuthResult::threshold</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Threshold used for decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="128" column="17" bodyfile="include/voice/voice_auth.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_auth_result_1a660958a7709a974349bb9693861ab746" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuthResult::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::VoiceAuthResult::user_id</qualifiedname>
+        <briefdescription>
+<para>Authenticated user (on success). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="129" column="17" bodyfile="include/voice/voice_auth.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_auth_result_1ae7fe3e5dd12f77396f39a747b9dbcc68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuthResult::decision_reason</definition>
+        <argsstring></argsstring>
+        <name>decision_reason</name>
+        <qualifiedname>themis::voice::VoiceAuthResult::decision_reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="130" column="17" bodyfile="include/voice/voice_auth.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_auth_result_1a887cdcfe041116b8500c5f8da7a36cc3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceAuthResult::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::VoiceAuthResult::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock ms at authentication time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="131" column="17" bodyfile="include/voice/voice_auth.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Combined authentication result (liveness + verification). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_auth.h" line="125" column="1" bodyfile="include/voice/voice_auth.h" bodystart="125" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_auth_result_1ae974f7e327cf8a7fc130c6ec5bb185c1" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuthResult</scope><name>authenticated</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_auth_result_1ad25c865f3a1d73e26221f70c22ddfaef" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuthResult</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_auth_result_1ae7fe3e5dd12f77396f39a747b9dbcc68" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuthResult</scope><name>decision_reason</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_auth_result_1af6b9825126d208b9370de9966a7bd110" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuthResult</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_auth_result_1a887cdcfe041116b8500c5f8da7a36cc3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuthResult</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_auth_result_1a660958a7709a974349bb9693861ab746" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuthResult</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

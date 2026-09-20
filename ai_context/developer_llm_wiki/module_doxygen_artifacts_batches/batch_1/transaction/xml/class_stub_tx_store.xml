@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_tx_store" kind="class" language="C++" prot="public">
+    <compoundname>StubTxStore</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_stub_tx_store_1a0774e1a74cf2cba381d00f0ecef9cf0a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CommitResult</name>
+        <qualifiedname>StubTxStore::CommitResult</qualifiedname>
+        <enumvalue id="class_stub_tx_store_1a0774e1a74cf2cba381d00f0ecef9cf0aae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_stub_tx_store_1a0774e1a74cf2cba381d00f0ecef9cf0aaddbe277f267f119df2ef18a8fe3364ae" prot="public">
+          <name>CONFLICT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="45" column="5" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_tx_store_1a8096d1f8fa17e7cd8bb39ee9a0202a5b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubTxStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubTxStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="74" column="24" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tx_store_1ad8adc4e14ce7504d42e343eb113b96b0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, uint64_t&gt; StubTxStore::committed_</definition>
+        <argsstring></argsstring>
+        <name>committed_</name>
+        <qualifiedname>StubTxStore::committed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="75" column="24" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tx_store_1acd5db3052135032bd162c1066252a227" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, uint64_t&gt; StubTxStore::locks_</definition>
+        <argsstring></argsstring>
+        <name>locks_</name>
+        <qualifiedname>StubTxStore::locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="76" column="24" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tx_store_1a9c089c7a58ecf8f528b76bfcacb4b173" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTxStore::committed_count_</definition>
+        <argsstring></argsstring>
+        <name>committed_count_</name>
+        <qualifiedname>StubTxStore::committed_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="77" column="17" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tx_store_1a6737f3c21687942eb463db3ac51bf280" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTxStore::conflicts_</definition>
+        <argsstring></argsstring>
+        <name>conflicts_</name>
+        <qualifiedname>StubTxStore::conflicts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="78" column="17" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_tx_store_1a1aca99a97fea26e27a0eeda37972c248" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_stub_tx_store_1a0774e1a74cf2cba381d00f0ecef9cf0a" kindref="member">CommitResult</ref></type>
+        <definition>CommitResult StubTxStore::commit</definition>
+        <argsstring>(uint64_t tx_id, uint64_t key, uint64_t value)</argsstring>
+        <name>commit</name>
+        <qualifiedname>StubTxStore::commit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>tx_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="47" column="18" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="47" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tx_store_1a64027d5389ccf7e5467584d32e34f17c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubTxStore::lock_key</definition>
+        <argsstring>(uint64_t tx_id, uint64_t key)</argsstring>
+        <name>lock_key</name>
+        <qualifiedname>StubTxStore::lock_key</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>tx_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="60" column="10" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tx_store_1a4babf29e3a78823be767e7a5142e06bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubTxStore::unlock_key</definition>
+        <argsstring>(uint64_t, uint64_t key)</argsstring>
+        <name>unlock_key</name>
+        <qualifiedname>StubTxStore::unlock_key</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="65" column="10" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tx_store_1a8de04d17a5cad8df6086d8ea990dba14" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTxStore::committed_count</definition>
+        <argsstring>() const</argsstring>
+        <name>committed_count</name>
+        <qualifiedname>StubTxStore::committed_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="70" column="14" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tx_store_1a682b458f6b4c61394f3e35ef46a40e5f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTxStore::conflict_count</definition>
+        <argsstring>() const</argsstring>
+        <name>conflict_count</name>
+        <qualifiedname>StubTxStore::conflict_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="71" column="14" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="43" column="1" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="43" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_stub_tx_store_1a1aca99a97fea26e27a0eeda37972c248" prot="public" virt="non-virtual"><scope>StubTxStore</scope><name>commit</name></member>
+      <member refid="class_stub_tx_store_1a0774e1a74cf2cba381d00f0ecef9cf0a" prot="public" virt="non-virtual"><scope>StubTxStore</scope><name>CommitResult</name></member>
+      <member refid="class_stub_tx_store_1ad8adc4e14ce7504d42e343eb113b96b0" prot="private" virt="non-virtual"><scope>StubTxStore</scope><name>committed_</name></member>
+      <member refid="class_stub_tx_store_1a8de04d17a5cad8df6086d8ea990dba14" prot="public" virt="non-virtual"><scope>StubTxStore</scope><name>committed_count</name></member>
+      <member refid="class_stub_tx_store_1a9c089c7a58ecf8f528b76bfcacb4b173" prot="private" virt="non-virtual"><scope>StubTxStore</scope><name>committed_count_</name></member>
+      <member refid="class_stub_tx_store_1a682b458f6b4c61394f3e35ef46a40e5f" prot="public" virt="non-virtual"><scope>StubTxStore</scope><name>conflict_count</name></member>
+      <member refid="class_stub_tx_store_1a6737f3c21687942eb463db3ac51bf280" prot="private" virt="non-virtual"><scope>StubTxStore</scope><name>conflicts_</name></member>
+      <member refid="class_stub_tx_store_1a64027d5389ccf7e5467584d32e34f17c" prot="public" virt="non-virtual"><scope>StubTxStore</scope><name>lock_key</name></member>
+      <member refid="class_stub_tx_store_1acd5db3052135032bd162c1066252a227" prot="private" virt="non-virtual"><scope>StubTxStore</scope><name>locks_</name></member>
+      <member refid="class_stub_tx_store_1a8096d1f8fa17e7cd8bb39ee9a0202a5b" prot="private" virt="non-virtual"><scope>StubTxStore</scope><name>mu_</name></member>
+      <member refid="class_stub_tx_store_1a4babf29e3a78823be767e7a5142e06bc" prot="public" virt="non-virtual"><scope>StubTxStore</scope><name>unlock_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

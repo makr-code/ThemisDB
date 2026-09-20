@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wikipedia__checkpoint_8hpp" kind="file" language="C++">
+    <compoundname>wikipedia_checkpoint.hpp</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="wikipedia__pipeline_8hpp" local="yes">include/importers/wikipedia_pipeline.hpp</includedby>
+    <includedby refid="wikipedia__checkpoint_8cpp" local="yes">src/importers/wikipedia_checkpoint.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/importers/wikipedia_checkpoint.hpp</label>
+        <link refid="wikipedia__checkpoint_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/importers/wikipedia_checkpoint.hpp</label>
+        <link refid="wikipedia__checkpoint_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/importers/wikipedia_pipeline.hpp</label>
+        <link refid="wikipedia__pipeline_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/importers/wikipedia_plugin.hpp</label>
+        <link refid="wikipedia__plugin_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>src/importers/wikipedia_checkpoint.cpp</label>
+        <link refid="wikipedia__checkpoint_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/importers/wikipedia_dump_reader.cpp</label>
+        <link refid="wikipedia__dump__reader_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/importers/wikipedia_pipeline.cpp</label>
+        <link refid="wikipedia__pipeline_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/importers/wikipedia_plugin.cpp</label>
+        <link refid="wikipedia__plugin_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/importers/wikipedia_project_graph.cpp</label>
+        <link refid="wikipedia__project__graph_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/importers/wikipedia_project_process.cpp</label>
+        <link refid="wikipedia__project__process_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/importers/wikipedia_project_timeseries.cpp</label>
+        <link refid="wikipedia__project__timeseries_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/importers/wikipedia_project_vector.cpp</label>
+        <link refid="wikipedia__project__vector_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/importers/wikipedia_transform.cpp</label>
+        <link refid="wikipedia__transform_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/importers/wikipedia_validator.cpp</label>
+        <link refid="wikipedia__validator_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/importers/wikipedia_xml_parser.cpp</label>
+        <link refid="wikipedia__xml__parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" prot="public">themis::importers::WikipediaCheckpointState</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store" prot="public">themis::importers::WikipediaCheckpointStore</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">themis::importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref><sp/>{</highlight></codeline>
+<codeline lineno="13" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1affcdb5c53b5296d775a6a392217a3cc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1affcdb5c53b5296d775a6a392217a3cc5" kindref="member">source_path</ref>;</highlight></codeline>
+<codeline lineno="14" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1aaa9937e3a7e3c74380cfb10fd1f77c6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1aaa9937e3a7e3c74380cfb10fd1f77c6b" kindref="member">source_id</ref>;</highlight></codeline>
+<codeline lineno="15" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a5e0703d8df5bf9a821cc586b1ea094d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a5e0703d8df5bf9a821cc586b1ea094d5" kindref="member">processed_pages</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="16" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a0cf3bbbe53bb4ab30c66f56632ca47d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a0cf3bbbe53bb4ab30c66f56632ca47d0" kindref="member">processed_revisions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="17" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afaf89e876da20c0ea885f369b3f03b0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afaf89e876da20c0ea885f369b3f03b0d" kindref="member">last_page_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="18" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a21e4dff22870696e3a325b9ff0c567d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a21e4dff22870696e3a325b9ff0c567d0" kindref="member">last_page_title</ref>;</highlight></codeline>
+<codeline lineno="19" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afa42ab6b687c9019d7cb599ee814dc24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afa42ab6b687c9019d7cb599ee814dc24" kindref="member">imported_pages</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a1034790667f511528279fbd1d4ee282b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a1034790667f511528279fbd1d4ee282b" kindref="member">failed_pages</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a691642766f62e5842c08879cb9b1ad55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a691642766f62e5842c08879cb9b1ad55" kindref="member">updated_at</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a8911f0728bd4f18b6bba201563049bf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a8911f0728bd4f18b6bba201563049bf8" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source_path&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1affcdb5c53b5296d775a6a392217a3cc5" kindref="member">source_path</ref>},</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1aaa9937e3a7e3c74380cfb10fd1f77c6b" kindref="member">source_id</ref>},</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;processed_pages&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a5e0703d8df5bf9a821cc586b1ea094d5" kindref="member">processed_pages</ref>},</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;processed_revisions&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a0cf3bbbe53bb4ab30c66f56632ca47d0" kindref="member">processed_revisions</ref>},</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;last_page_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afaf89e876da20c0ea885f369b3f03b0d" kindref="member">last_page_id</ref>},</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;last_page_title&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a21e4dff22870696e3a325b9ff0c567d0" kindref="member">last_page_title</ref>},</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;imported_pages&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afa42ab6b687c9019d7cb599ee814dc24" kindref="member">imported_pages</ref>},</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;failed_pages&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a1034790667f511528279fbd1d4ee282b" kindref="member">failed_pages</ref>},</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;updated_at&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a691642766f62e5842c08879cb9b1ad55" kindref="member">updated_at</ref>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a6f95081a169720efe52a6d4ce5a8025f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a6f95081a169720efe52a6d4ce5a8025f" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref><sp/>state;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1affcdb5c53b5296d775a6a392217a3cc5" kindref="member">source_path</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;source_path&quot;</highlight><highlight class="normal">,<sp/>std::string{});</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1aaa9937e3a7e3c74380cfb10fd1f77c6b" kindref="member">source_id</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;source_id&quot;</highlight><highlight class="normal">,<sp/>std::string{});</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a5e0703d8df5bf9a821cc586b1ea094d5" kindref="member">processed_pages</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;processed_pages&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a0cf3bbbe53bb4ab30c66f56632ca47d0" kindref="member">processed_revisions</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;processed_revisions&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afaf89e876da20c0ea885f369b3f03b0d" kindref="member">last_page_id</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;last_page_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a21e4dff22870696e3a325b9ff0c567d0" kindref="member">last_page_title</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;last_page_title&quot;</highlight><highlight class="normal">,<sp/>std::string{});</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afa42ab6b687c9019d7cb599ee814dc24" kindref="member">imported_pages</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;imported_pages&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a1034790667f511528279fbd1d4ee282b" kindref="member">failed_pages</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;failed_pages&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a691642766f62e5842c08879cb9b1ad55" kindref="member">updated_at</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;updated_at&quot;</highlight><highlight class="normal">,<sp/>std::string{});</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>state;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a3ce389090b9e8782a0864c0c1d097cd1" kindref="member">WikipediaCheckpointStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a3ce389090b9e8782a0864c0c1d097cd1" kindref="member">WikipediaCheckpointStore</ref>(std::string<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a7f534d14ef1e548c936af4ec5b328961" kindref="member">path</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1acc482c8c76be87f42b6ab11074444539" kindref="member">setPath</ref>(std::string<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a7f534d14ef1e548c936af4ec5b328961" kindref="member">path</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a7f534d14ef1e548c936af4ec5b328961" kindref="member">path</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a715547b6a9bf1bfe6769a73935a38bae" kindref="member">hasPath</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a6b9e70bf60d8224db4133e6a36b952e9" kindref="member">exists</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref><sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a7c9373c3350c41fe019814f34bf727bf" kindref="member">load</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a83943829e5cc6d50a35103d2b9d0ca71" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref>&amp;<sp/>state)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a07c9a9e4bbcf7f6ca64370259ed759d7" kindref="member">clear</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path_;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::importers</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/wikipedia_checkpoint.hpp"/>
+  </compounddef>
+</doxygen>

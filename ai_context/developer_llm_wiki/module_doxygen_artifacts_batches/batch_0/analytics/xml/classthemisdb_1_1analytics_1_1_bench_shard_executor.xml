@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_bench_shard_executor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::BenchShardExecutor</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" prot="public" virt="non-virtual">themisdb::analytics::ShardQueryExecutor</basecompoundref>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a3445291c5f8bbd26176fe5add4ffbaeb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Behavior</name>
+        <qualifiedname>themisdb::analytics::BenchShardExecutor::Behavior</qualifiedname>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a3445291c5f8bbd26176fe5add4ffbaebadca6e617f6fb54033deb311e7e7c93cc" prot="public">
+          <name>FAST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a3445291c5f8bbd26176fe5add4ffbaeba0e3066cbbd284dce8b76e7c4620d6d75" prot="public">
+          <name>SLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a3445291c5f8bbd26176fe5add4ffbaebac2759effffc94bb9acc71d69fe3e8a1f" prot="public">
+          <name>FAIL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="28" column="5" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a04d51f7f19033a33a2036e3aaf5b6ec5" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a3445291c5f8bbd26176fe5add4ffbaeb" kindref="member">Behavior</ref></type>
+        <definition>Behavior themisdb::analytics::BenchShardExecutor::behavior</definition>
+        <argsstring></argsstring>
+        <name>behavior</name>
+        <qualifiedname>themisdb::analytics::BenchShardExecutor::behavior</qualifiedname>
+        <initializer>= <ref refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a3445291c5f8bbd26176fe5add4ffbaebadca6e617f6fb54033deb311e7e7c93cc" kindref="member">Behavior::FAST</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="30" column="14" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a22740cdef6a72faa0c53fd0755e63e1d" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themisdb::analytics::BenchShardExecutor::delay</definition>
+        <argsstring></argsstring>
+        <name>delay</name>
+        <qualifiedname>themisdb::analytics::BenchShardExecutor::delay</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="31" column="31" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a9272ea8903a6af458ab893b7f73e1fe7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref></type>
+        <definition>themis::analytics::OLAPResult themisdb::analytics::BenchShardExecutor::execute</definition>
+        <argsstring>(const std::string &amp;shard_id, const themis::analytics::OLAPQuery &amp;query) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::analytics::BenchShardExecutor::execute</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa3986a26fa7b7ad3eb9355ec44917f2a">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="33" column="35" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="33" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_bench_shard_executor_1aafa3057c3b84b9dee283270794cb26a1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::BenchShardExecutor::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themisdb::analytics::BenchShardExecutor::isHealthy</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa0c09cb8b04ecc18c5320ecdddab547b">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="52" column="10" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::analytics::BenchShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_bench_shard_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::BenchShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_bench_shard_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="26" column="1" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="26" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a3445291c5f8bbd26176fe5add4ffbaeb" prot="public" virt="non-virtual"><scope>themisdb::analytics::BenchShardExecutor</scope><name>Behavior</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a04d51f7f19033a33a2036e3aaf5b6ec5" prot="public" virt="non-virtual"><scope>themisdb::analytics::BenchShardExecutor</scope><name>behavior</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a22740cdef6a72faa0c53fd0755e63e1d" prot="public" virt="non-virtual"><scope>themisdb::analytics::BenchShardExecutor</scope><name>delay</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a9272ea8903a6af458ab893b7f73e1fe7" prot="public" virt="virtual"><scope>themisdb::analytics::BenchShardExecutor</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1aafa3057c3b84b9dee283270794cb26a1" prot="public" virt="virtual"><scope>themisdb::analytics::BenchShardExecutor</scope><name>isHealthy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1abaecd42838910a0fcc4d50d31eeb075e" prot="public" virt="virtual"><scope>themisdb::analytics::BenchShardExecutor</scope><name>~ShardQueryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

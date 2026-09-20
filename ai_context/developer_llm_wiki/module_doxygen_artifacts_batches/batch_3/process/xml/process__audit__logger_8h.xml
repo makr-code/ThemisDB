@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__audit__logger_8h" kind="file" language="C++">
+    <compoundname>process_audit_logger.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="process__audit__logger_8cpp" local="yes">src/process/process_audit_logger.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_audit_logger.h</label>
+        <link refid="process__audit__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/process_audit_logger.h</label>
+        <link refid="process__audit__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/process_audit_logger.cpp</label>
+        <link refid="process__audit__logger_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_audit_logger_config" prot="public">themis::process::AuditLoggerConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_trail_entry" prot="public">themis::process::AuditTrailEntry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_logger_stats" prot="public">themis::process::AuditLoggerStats</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_audit_logger" prot="public">themis::process::ProcessAuditLogger</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Immutable append-only audit trail for model mutations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-06 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_AUDIT_LOGGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_AUDIT_LOGGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_audit_logger_impl" kindref="compound">ProcessAuditLoggerImpl</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1process_1_1_audit_logger_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_audit_logger_config" kindref="compound">AuditLoggerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1process_1_1_audit_logger_config_1a4c24c0a5262952b5cf2f887625498e33" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_logger_config_1a4c24c0a5262952b5cf2f887625498e33" kindref="member">backend_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rocksdb&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>rocksdb,<sp/>s3,<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1process_1_1_audit_logger_config_1aab376f3fac53b9eae18ff731e72b8cb2" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_audit_logger_config_1aab376f3fac53b9eae18ff731e72b8cb2" kindref="member">snapshot_interval_entries</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1process_1_1_audit_logger_config_1a31b236e5977b37dc65b3a964d67ed6de" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_logger_config_1a31b236e5977b37dc65b3a964d67ed6de" kindref="member">storage_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./audit&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1process_1_1_audit_trail_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_audit_trail_entry" kindref="compound">AuditTrailEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1process_1_1_audit_trail_entry_1ab1664bad036b95b380b8afe6717f6bac" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_audit_trail_entry_1ab1664bad036b95b380b8afe6717f6bac" kindref="member">entry_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1process_1_1_audit_trail_entry_1a8eca6160322416a56714d4cd5d6ab80f" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_trail_entry_1a8eca6160322416a56714d4cd5d6ab80f" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1process_1_1_audit_trail_entry_1a439833ea5230f167c4935b9d70ddc2c6" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_trail_entry_1a439833ea5230f167c4935b9d70ddc2c6" kindref="member">operation_type</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>insert,<sp/>update,<sp/>delete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1process_1_1_audit_trail_entry_1a675b117e8aa5b829837aec1979de2bae" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_trail_entry_1a675b117e8aa5b829837aec1979de2bae" kindref="member">delta_patch</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1process_1_1_audit_trail_entry_1a918a27f4025cad81d7b71939963db99e" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_trail_entry_1a918a27f4025cad81d7b71939963db99e" kindref="member">before_hash</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1process_1_1_audit_trail_entry_1a6e5534581219c0bff5189d6d0c1ac9bc" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_trail_entry_1a6e5534581219c0bff5189d6d0c1ac9bc" kindref="member">after_hash</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1process_1_1_audit_trail_entry_1acbd04a9f32526c1b3938a60e2628a706" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_audit_trail_entry_1acbd04a9f32526c1b3938a60e2628a706" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1process_1_1_audit_logger_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_audit_logger_stats" kindref="compound">AuditLoggerStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1process_1_1_audit_logger_stats_1aa6acf3db1d48b13e24658f1554da12d6" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_audit_logger_stats_1aa6acf3db1d48b13e24658f1554da12d6" kindref="member">entries_appended</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1process_1_1_audit_logger_stats_1a329b21c36f4952cef4d8014b8141d27e" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_audit_logger_stats_1a329b21c36f4952cef4d8014b8141d27e" kindref="member">snapshots_created</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1process_1_1_audit_logger_stats_1a761279571fea1b9a835e8a329c3f8625" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_audit_logger_stats_1a761279571fea1b9a835e8a329c3f8625" kindref="member">storage_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1process_1_1_audit_logger_stats_1a6140ebb70b6fecd542ad9dedc8c38c99" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_audit_logger_stats_1a6140ebb70b6fecd542ad9dedc8c38c99" kindref="member">last_entry_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1process_1_1_process_audit_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_audit_logger_1a993bc5dbbbd0721fe35304a3b58ec16e" kindref="member">ProcessAuditLogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ProcessAuditLogger&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1ac91851d7a6d18ee8fba1035c5e3edae2" kindref="member">Create</ref>(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_audit_logger_config" kindref="compound">AuditLoggerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1a993bc5dbbbd0721fe35304a3b58ec16e" kindref="member">ProcessAuditLogger</ref>(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ProcessAuditLoggerImpl&gt;<sp/>impl);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1process_1_1_process_audit_logger_1a2ec757047610c408f526561bfed3a940" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1a2ec757047610c408f526561bfed3a940" kindref="member">~ProcessAuditLogger</ref>();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1abd02c6f078fb2e2f4a55922230555128" kindref="member">AppendEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>before_state,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>after_state);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1a2d032d92e9f301bb00d37f50d0b42570" kindref="member">VerifyIntegrity</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>std::vector&lt;AuditTrailEntry&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1add346dc85306b08dc9eabdd6f2e19311" kindref="member">QueryByModelId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/>std::vector&lt;AuditTrailEntry&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1aacc6fb10a790fe1c2a154c81fe30dbf2" kindref="member">QueryByTimeRange</ref>(uint64_t<sp/>start_ms,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>end_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1a8b89cff944b249795b20901f928c55f2" kindref="member">GetModelStateAt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>timestamp_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1process_1_1_audit_logger_stats" kindref="compound">AuditLoggerStats</ref><sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1ae465d444a7b0ec80e84dc21cff2ab9d8" kindref="member">GetStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1process_1_1_process_audit_logger_1afa208b3a88deac48214cd711aa46398f" kindref="member">CreateSnapshot</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;ProcessAuditLoggerImpl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_AUDIT_LOGGER_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_audit_logger.h"/>
+  </compounddef>
+</doxygen>

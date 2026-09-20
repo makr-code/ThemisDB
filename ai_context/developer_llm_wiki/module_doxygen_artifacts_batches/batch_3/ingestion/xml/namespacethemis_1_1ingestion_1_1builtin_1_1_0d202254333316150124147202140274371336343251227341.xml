@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1ingestion_1_1builtin_1_1_0d202254333316150124147202140274371336343251227341" kind="namespace" language="C++">
+    <compoundname>themis::ingestion::builtin::@202254333316150124147202140274371336343251227341</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/steps/tensor_core_bridge_step.cpp" line="24" column="1"/>
+  </compounddef>
+</doxygen>

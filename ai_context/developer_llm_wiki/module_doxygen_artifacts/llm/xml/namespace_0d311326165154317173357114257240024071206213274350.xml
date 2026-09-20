@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d311326165154317173357114257240024071206213274350" kind="namespace" language="C++">
+    <compoundname>@311326165154317173357114257240024071206213274350</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_rag_injection_guard_focused.cpp" line="38" column="1"/>
+  </compounddef>
+</doxygen>

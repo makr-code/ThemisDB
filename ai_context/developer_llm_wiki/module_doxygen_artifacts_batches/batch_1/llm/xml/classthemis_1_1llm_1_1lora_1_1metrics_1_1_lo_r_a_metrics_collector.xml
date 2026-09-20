@@ -1,0 +1,2139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::metrics::LoRAMetricsCollector</compoundname>
+    <includes refid="lora__metrics_8h" local="no">lora_metrics.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config" prot="public">themis::llm::lora::metrics::LoRAMetricsCollector::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1af8029e38df115322dcc18c1948a05574" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classprometheus_1_1_registry" kindref="compound">prometheus::Registry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;prometheus::Registry&gt; themis::llm::lora::metrics::LoRAMetricsCollector::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="298" column="21" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1adf3517c6dd95b10767425ef96973b97f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::lora::metrics::LoRAMetricsCollector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="299" column="12" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5b92c78d89827aa56ee6462e48e0185a" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Histogram&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::adapter_load_duration_</definition>
+        <argsstring></argsstring>
+        <name>adapter_load_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::adapter_load_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="302" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a27808243c432b841f2840222175ec486" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::adapter_loads_total_</definition>
+        <argsstring></argsstring>
+        <name>adapter_loads_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::adapter_loads_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="303" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5a3934b99f84289ab927566ac4cf539b" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::adapter_unloads_total_</definition>
+        <argsstring></argsstring>
+        <name>adapter_unloads_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::adapter_unloads_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="304" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1afa7bf4275c1e8e74e45a3e607b97acec" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Histogram&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::adapter_switch_duration_</definition>
+        <argsstring></argsstring>
+        <name>adapter_switch_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::adapter_switch_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="305" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a348d1d4a1f522f494aaa79f98a65ba3c" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::adapter_load_errors_total_</definition>
+        <argsstring></argsstring>
+        <name>adapter_load_errors_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::adapter_load_errors_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="306" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ac93c0b989a455ec7a82028bf09691ff3" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::cache_hits_total_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::cache_hits_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="309" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1acb55d68ac7d3491269079a8133a6165d" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::cache_misses_total_</definition>
+        <argsstring></argsstring>
+        <name>cache_misses_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::cache_misses_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="310" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1af44de52a6c6dcc6c4892dd3fa5b9d9a1" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::cache_evictions_total_</definition>
+        <argsstring></argsstring>
+        <name>cache_evictions_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::cache_evictions_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="311" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1aa1de2a0eae5f0390eb30071ed9523c9b" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &amp;</type>
+        <definition>prometheus::Gauge&amp; themis::llm::lora::metrics::LoRAMetricsCollector::cache_size_</definition>
+        <argsstring></argsstring>
+        <name>cache_size_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::cache_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="312" column="23" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a4c026eec925df75bd1988cdd606b4ef9" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &amp;</type>
+        <definition>prometheus::Gauge&amp; themis::llm::lora::metrics::LoRAMetricsCollector::cache_memory_bytes_</definition>
+        <argsstring></argsstring>
+        <name>cache_memory_bytes_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::cache_memory_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="313" column="23" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae0ca7f474e48d6a2528d733fbc6157f0" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::training_starts_total_</definition>
+        <argsstring></argsstring>
+        <name>training_starts_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::training_starts_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="316" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a3e4f5a6639a22dc62de68cd99f2f4654" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::training_completes_total_</definition>
+        <argsstring></argsstring>
+        <name>training_completes_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::training_completes_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="317" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a3f3bada73a997bd2bedc72aee0c04b70" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Histogram&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::training_duration_</definition>
+        <argsstring></argsstring>
+        <name>training_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::training_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="318" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a7d7df83545cf341053d20722bc3ceaa5" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::training_samples_total_</definition>
+        <argsstring></argsstring>
+        <name>training_samples_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::training_samples_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="319" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a9f234856335760bd9dd5159041a7bdb7" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Gauge&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::training_loss_</definition>
+        <argsstring></argsstring>
+        <name>training_loss_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::training_loss_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="320" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a1f753c3087b83b6fbd5a706b89e1adce" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Gauge&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::training_accuracy_</definition>
+        <argsstring></argsstring>
+        <name>training_accuracy_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::training_accuracy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="321" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a858b7e4d4ab39b9d4c13c2cc31706391" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Histogram&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::storage_read_duration_</definition>
+        <argsstring></argsstring>
+        <name>storage_read_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::storage_read_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="324" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae479b19a43b027986e20196d1ef26b46" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Histogram&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::storage_write_duration_</definition>
+        <argsstring></argsstring>
+        <name>storage_write_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::storage_write_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="325" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a90edfc996f0298c7c4d89f2a4461be66" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::storage_reads_total_</definition>
+        <argsstring></argsstring>
+        <name>storage_reads_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::storage_reads_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="326" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1aa18769fdb6ef3984b2140e29a7289faf" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::storage_writes_total_</definition>
+        <argsstring></argsstring>
+        <name>storage_writes_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::storage_writes_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="327" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a67ec2c9a3cbdb98caacd6dce8a55685b" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::storage_deletes_total_</definition>
+        <argsstring></argsstring>
+        <name>storage_deletes_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::storage_deletes_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="328" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1af9378fa42a33f77f60887f8032a3d628" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::storage_errors_total_</definition>
+        <argsstring></argsstring>
+        <name>storage_errors_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::storage_errors_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="329" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1abb39263a71cd645d715395d4cf375b1c" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_summary" kindref="compound">prometheus::Summary</ref> &amp;</type>
+        <definition>prometheus::Summary&amp; themis::llm::lora::metrics::LoRAMetricsCollector::storage_read_bytes_</definition>
+        <argsstring></argsstring>
+        <name>storage_read_bytes_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::storage_read_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="330" column="25" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a25338cbf593fe3997bfdd330edc15edb" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_summary" kindref="compound">prometheus::Summary</ref> &amp;</type>
+        <definition>prometheus::Summary&amp; themis::llm::lora::metrics::LoRAMetricsCollector::storage_write_bytes_</definition>
+        <argsstring></argsstring>
+        <name>storage_write_bytes_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::storage_write_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="331" column="25" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a7547501e1e3fec258d9d1c7a21e28258" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::version_creates_total_</definition>
+        <argsstring></argsstring>
+        <name>version_creates_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::version_creates_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="334" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ab28ca342d8aa28d9e7340935dc087eae" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::version_rollbacks_total_</definition>
+        <argsstring></argsstring>
+        <name>version_rollbacks_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::version_rollbacks_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="335" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a3b593e012193147491a94d465ac4dd4a" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Gauge&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::version_count_</definition>
+        <argsstring></argsstring>
+        <name>version_count_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::version_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="336" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a73208590fd2ef4a36ffa077b37a64e08" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Histogram&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::inference_duration_</definition>
+        <argsstring></argsstring>
+        <name>inference_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::inference_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="339" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a02b9aec99bbf098f2271e8d5e0effbbc" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::inference_total_</definition>
+        <argsstring></argsstring>
+        <name>inference_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::inference_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="340" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a42f8c9408190db3b8848c70218eed17c" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::inference_errors_total_</definition>
+        <argsstring></argsstring>
+        <name>inference_errors_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::inference_errors_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="341" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a2ad644a10cc3ecb445f2dc0912e1a386" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::inference_tokens_total_</definition>
+        <argsstring></argsstring>
+        <name>inference_tokens_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::inference_tokens_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="342" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a167fb96fa67255019e79b2899b98fda3" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &amp;</type>
+        <definition>prometheus::Gauge&amp; themis::llm::lora::metrics::LoRAMetricsCollector::inference_queue_size_</definition>
+        <argsstring></argsstring>
+        <name>inference_queue_size_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::inference_queue_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="343" column="23" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ad83a1d0074f6d00ec563d4321defb5e6" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &amp;</type>
+        <definition>prometheus::Histogram&amp; themis::llm::lora::metrics::LoRAMetricsCollector::audit_log_write_duration_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_write_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::audit_log_write_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="346" column="27" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a2bbf83c3f47f2e5d892b8bcae3f11240" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &amp;</type>
+        <definition>prometheus::Histogram&amp; themis::llm::lora::metrics::LoRAMetricsCollector::audit_query_duration_</definition>
+        <argsstring></argsstring>
+        <name>audit_query_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::audit_query_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="347" column="27" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a601ae3c82398238e7ef07ab6ee1da024" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &amp;</type>
+        <definition>prometheus::Gauge&amp; themis::llm::lora::metrics::LoRAMetricsCollector::audit_log_entries_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_entries_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::audit_log_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="348" column="23" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ab5e8d1a12fcbbe5b62b53ceb481be342" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_summary" kindref="compound">prometheus::Summary</ref> &amp;</type>
+        <definition>prometheus::Summary&amp; themis::llm::lora::metrics::LoRAMetricsCollector::audit_log_bytes_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_bytes_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::audit_log_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="349" column="25" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5b834ca77afae9588e9ab55a6d2c2b9e" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Gauge&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::memory_usage_bytes_</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_bytes_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::memory_usage_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="352" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae98d9b4c0bdf1585c2c452fa11bb4e79" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Gauge&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::gpu_vram_bytes_</definition>
+        <argsstring></argsstring>
+        <name>gpu_vram_bytes_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::gpu_vram_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="353" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a99e3e45d7f35836146dbc18de4698f54" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &amp;</type>
+        <definition>prometheus::Gauge&amp; themis::llm::lora::metrics::LoRAMetricsCollector::cpu_usage_percent_</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage_percent_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::cpu_usage_percent_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="354" column="23" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a56e8a84b1090033db78dfff2456078e3" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_histogram" kindref="compound">prometheus::Histogram</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Histogram&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::orchestrator_operation_duration_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_operation_duration_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::orchestrator_operation_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="357" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a63a262e745f810091ed9e77b86326925" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_family" kindref="compound">prometheus::Family</ref>&lt; <ref refid="classprometheus_1_1_counter" kindref="compound">prometheus::Counter</ref> &gt; &amp;</type>
+        <definition>prometheus::Family&lt;prometheus::Counter&gt;&amp; themis::llm::lora::metrics::LoRAMetricsCollector::orchestrator_operations_total_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_operations_total_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::orchestrator_operations_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="358" column="24" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a0ec639ccdf5b6fefd1e178bf5dd74fe7" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &amp;</type>
+        <definition>prometheus::Gauge&amp; themis::llm::lora::metrics::LoRAMetricsCollector::active_adapters_</definition>
+        <argsstring></argsstring>
+        <name>active_adapters_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::active_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="359" column="23" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a410b9faf29af65f1792943b09411e9c3" prot="private" static="no" mutable="no">
+        <type><ref refid="classprometheus_1_1_gauge" kindref="compound">prometheus::Gauge</ref> &amp;</type>
+        <definition>prometheus::Gauge&amp; themis::llm::lora::metrics::LoRAMetricsCollector::total_adapters_</definition>
+        <argsstring></argsstring>
+        <name>total_adapters_</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::total_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="360" column="23" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a25f94ca1635e72a3edeb61b9fd669ec4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::metrics::LoRAMetricsCollector::LoRAMetricsCollector</definition>
+        <argsstring>(std::shared_ptr&lt; prometheus::Registry &gt; registry, const Config &amp;config)</argsstring>
+        <name>LoRAMetricsCollector</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::LoRAMetricsCollector</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classprometheus_1_1_registry" kindref="compound">prometheus::Registry</ref> &gt;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Lo RAMetrics Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="66" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a2d28fb4c5116b8dd60ed5e7a44ca6920" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::metrics::LoRAMetricsCollector::LoRAMetricsCollector</definition>
+        <argsstring>(std::shared_ptr&lt; prometheus::Registry &gt; registry)</argsstring>
+        <name>LoRAMetricsCollector</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::LoRAMetricsCollector</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classprometheus_1_1_registry" kindref="compound">prometheus::Registry</ref> &gt;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Lo RAMetrics Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="73" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5abb9fe84873ea4101ec7cb653f5b9ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordAdapterLoad</definition>
+        <argsstring>(const std::string &amp;adapter_id, double duration_ms)</argsstring>
+        <name>recordAdapterLoad</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordAdapterLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Adapter Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="81" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a587568f8a8791ddebf2a1a554110f09a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordAdapterUnload</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>recordAdapterUnload</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordAdapterUnload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Adapter Unload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="86" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a1140df57d8da2ce638bacf5c9b63198f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordAdapterSwitch</definition>
+        <argsstring>(const std::string &amp;from_id, const std::string &amp;to_id, double duration_ms)</argsstring>
+        <name>recordAdapterSwitch</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordAdapterSwitch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Adapter Switch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="93" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a81b0f7b9d9f03f8ef6790d705d532b87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordAdapterLoadError</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;error)</argsstring>
+        <name>recordAdapterLoadError</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordAdapterLoadError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Record Adapter Load Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="99" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a611b2d25565322eb0f37b050c7632ed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordCacheHit</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>recordCacheHit</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordCacheHit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="106" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a2bfe3d15e6286fbd19246b648b6d657b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordCacheMiss</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>recordCacheMiss</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordCacheMiss</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="111" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a244618f8a8f99297abb3077becb6a128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordCacheEviction</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>recordCacheEviction</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordCacheEviction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="116" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a887fb96771864913135e8db3f957ef8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateCacheSize</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>updateCacheSize</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateCacheSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Update Cache Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="121" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a17045e9633a103679ac64a8b2becde63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateCacheMemoryUsage</definition>
+        <argsstring>(size_t bytes)</argsstring>
+        <name>updateCacheMemoryUsage</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateCacheMemoryUsage</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update Cache Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="126" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a4cc91914cc41fdbe44958865d376170f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordTrainingStart</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;mode)</argsstring>
+        <name>recordTrainingStart</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordTrainingStart</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Record Training Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="134" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a48d1ed1c0494a410bf4afcb7e497e3f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordTrainingComplete</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;mode, double duration_seconds, bool success)</argsstring>
+        <name>recordTrainingComplete</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordTrainingComplete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_seconds</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record Training Complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="142" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a059aef3384a448e96ca56d613cc5b66b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordTrainingSamples</definition>
+        <argsstring>(const std::string &amp;adapter_id, size_t num_samples)</argsstring>
+        <name>recordTrainingSamples</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordTrainingSamples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+        </param>
+        <briefdescription>
+<para>Record Training Samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="149" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae303da4eb4864a5012276194325a9035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateTrainingLoss</definition>
+        <argsstring>(const std::string &amp;adapter_id, double loss)</argsstring>
+        <name>updateTrainingLoss</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateTrainingLoss</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>loss</declname>
+        </param>
+        <briefdescription>
+<para>Update Training Loss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="155" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1afcc867aad37917758c2d020855965b8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateValidationAccuracy</definition>
+        <argsstring>(const std::string &amp;adapter_id, double accuracy)</argsstring>
+        <name>updateValidationAccuracy</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateValidationAccuracy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>accuracy</declname>
+        </param>
+        <briefdescription>
+<para>Update Validation Accuracy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">accuracy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="161" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a170243a2fecf0f7a635d2f0ee8483748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordStorageRead</definition>
+        <argsstring>(const std::string &amp;adapter_id, double duration_ms, size_t bytes)</argsstring>
+        <name>recordStorageRead</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordStorageRead</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Storage Read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="170" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a21a7a02f3145b300244b7967d8acdf2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordStorageWrite</definition>
+        <argsstring>(const std::string &amp;adapter_id, double duration_ms, size_t bytes)</argsstring>
+        <name>recordStorageWrite</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordStorageWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Storage Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="177" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a9712b6cc2a31cd22a99f5f19eb001e11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordStorageDelete</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>recordStorageDelete</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordStorageDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Storage Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="182" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1aec003073985ea887df4f7bc8c117c2bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordStorageError</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;error)</argsstring>
+        <name>recordStorageError</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordStorageError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Record Storage Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="188" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a8dec6bae2ed098081428cf450ecd421f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordVersionCreate</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;version)</argsstring>
+        <name>recordVersionCreate</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordVersionCreate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Record Version Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="196" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae3d27ff86a1bd54bcb8352fcb414c313" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordVersionRollback</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;from_version, const std::string &amp;to_version)</argsstring>
+        <name>recordVersionRollback</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordVersionRollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_version</declname>
+        </param>
+        <briefdescription>
+<para>Record Version Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="203" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a4f47666cb72e8fc7e107a4e5396ffdef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateVersionCount</definition>
+        <argsstring>(const std::string &amp;adapter_id, size_t count)</argsstring>
+        <name>updateVersionCount</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateVersionCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Update Version Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="210" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a1320e825314413a15182e5e100cd7f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordInference</definition>
+        <argsstring>(const std::string &amp;adapter_id, double duration_ms, size_t input_tokens, size_t output_tokens)</argsstring>
+        <name>recordInference</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordInference</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_tokens</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>output_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Record Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="220" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a25ae637d81d98f4e5df698f0090d53ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordInferenceError</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;error)</argsstring>
+        <name>recordInferenceError</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordInferenceError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Record Inference Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="227" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ac7e5462b70b236b50ff84dbc751ac1ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateInferenceQueueSize</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>updateInferenceQueueSize</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateInferenceQueueSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Update Inference Queue Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="232" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a0b489e842a9bf78442aa16a0b23a2fea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordAuditLogWrite</definition>
+        <argsstring>(double duration_ms, size_t bytes)</argsstring>
+        <name>recordAuditLogWrite</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordAuditLogWrite</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Audit Log Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="240" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ade9dad91c7dd9616c3273ce453695248" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordAuditQuery</definition>
+        <argsstring>(double duration_ms, size_t results)</argsstring>
+        <name>recordAuditQuery</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordAuditQuery</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Record Audit Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="246" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a0c0d9df85d8647d2991c74d69402d249" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateAuditLogSize</definition>
+        <argsstring>(size_t entries)</argsstring>
+        <name>updateAuditLogSize</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateAuditLogSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Update Audit Log Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="251" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5ce14baf8a4fd688e5f075b9ab6a5bd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateMemoryUsage</definition>
+        <argsstring>(const std::string &amp;category, size_t bytes)</argsstring>
+        <name>updateMemoryUsage</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateMemoryUsage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="259" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a8dc526ddb62137f88efd04594e8bca44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateGPUVRAMUsage</definition>
+        <argsstring>(const std::string &amp;adapter_id, size_t bytes)</argsstring>
+        <name>updateGPUVRAMUsage</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateGPUVRAMUsage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update GPUVRAMUsage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="265" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a61b96b875cb9709f20c6ed3258e35cb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateCPUUsage</definition>
+        <argsstring>(double percentage)</argsstring>
+        <name>updateCPUUsage</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateCPUUsage</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>percentage</declname>
+        </param>
+        <briefdescription>
+<para>Update CPUUsage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">percentage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="270" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a3c8713d1beea289181d4641c68d62f78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::recordOrchestratorOperation</definition>
+        <argsstring>(const std::string &amp;operation, double duration_ms, bool success)</argsstring>
+        <name>recordOrchestratorOperation</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::recordOrchestratorOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record Orchestrator Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="279" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a8b9f903daf23067311eda00ef6d72297" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateActiveAdapters</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>updateActiveAdapters</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateActiveAdapters</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Update Active Adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="284" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a7457b88b9af14a5d93e093259796471f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::metrics::LoRAMetricsCollector::updateTotalAdapters</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>updateTotalAdapters</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::updateTotalAdapters</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Update Total Adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="289" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a56865664b3048fe96bfc8c77c962ad58" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::metrics::LoRAMetricsCollector::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::llm::lora::metrics::LoRAMetricsCollector::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get metrics in Prometheus format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="295" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_metrics.h" line="52" column="1" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="52" bodyend="361"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a0ec639ccdf5b6fefd1e178bf5dd74fe7" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>active_adapters_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5b92c78d89827aa56ee6462e48e0185a" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>adapter_load_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a348d1d4a1f522f494aaa79f98a65ba3c" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>adapter_load_errors_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a27808243c432b841f2840222175ec486" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>adapter_loads_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1afa7bf4275c1e8e74e45a3e607b97acec" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>adapter_switch_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5a3934b99f84289ab927566ac4cf539b" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>adapter_unloads_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ab5e8d1a12fcbbe5b62b53ceb481be342" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>audit_log_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a601ae3c82398238e7ef07ab6ee1da024" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>audit_log_entries_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ad83a1d0074f6d00ec563d4321defb5e6" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>audit_log_write_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a2bbf83c3f47f2e5d892b8bcae3f11240" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>audit_query_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1af44de52a6c6dcc6c4892dd3fa5b9d9a1" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>cache_evictions_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ac93c0b989a455ec7a82028bf09691ff3" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>cache_hits_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a4c026eec925df75bd1988cdd606b4ef9" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>cache_memory_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1acb55d68ac7d3491269079a8133a6165d" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>cache_misses_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1aa1de2a0eae5f0390eb30071ed9523c9b" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>cache_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1adf3517c6dd95b10767425ef96973b97f" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a99e3e45d7f35836146dbc18de4698f54" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>cpu_usage_percent_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a56865664b3048fe96bfc8c77c962ad58" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae98d9b4c0bdf1585c2c452fa11bb4e79" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>gpu_vram_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a73208590fd2ef4a36ffa077b37a64e08" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>inference_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a42f8c9408190db3b8848c70218eed17c" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>inference_errors_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a167fb96fa67255019e79b2899b98fda3" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>inference_queue_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a2ad644a10cc3ecb445f2dc0912e1a386" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>inference_tokens_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a02b9aec99bbf098f2271e8d5e0effbbc" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>inference_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a25f94ca1635e72a3edeb61b9fd669ec4" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>LoRAMetricsCollector</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a2d28fb4c5116b8dd60ed5e7a44ca6920" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>LoRAMetricsCollector</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5b834ca77afae9588e9ab55a6d2c2b9e" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>memory_usage_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a56e8a84b1090033db78dfff2456078e3" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>orchestrator_operation_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a63a262e745f810091ed9e77b86326925" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>orchestrator_operations_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5abb9fe84873ea4101ec7cb653f5b9ff" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordAdapterLoad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a81b0f7b9d9f03f8ef6790d705d532b87" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordAdapterLoadError</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a1140df57d8da2ce638bacf5c9b63198f" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordAdapterSwitch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a587568f8a8791ddebf2a1a554110f09a" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordAdapterUnload</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a0b489e842a9bf78442aa16a0b23a2fea" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordAuditLogWrite</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ade9dad91c7dd9616c3273ce453695248" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordAuditQuery</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a244618f8a8f99297abb3077becb6a128" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordCacheEviction</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a611b2d25565322eb0f37b050c7632ed0" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordCacheHit</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a2bfe3d15e6286fbd19246b648b6d657b" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordCacheMiss</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a1320e825314413a15182e5e100cd7f68" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordInference</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a25ae637d81d98f4e5df698f0090d53ce" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordInferenceError</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a3c8713d1beea289181d4641c68d62f78" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordOrchestratorOperation</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a9712b6cc2a31cd22a99f5f19eb001e11" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordStorageDelete</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1aec003073985ea887df4f7bc8c117c2bc" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordStorageError</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a170243a2fecf0f7a635d2f0ee8483748" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordStorageRead</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a21a7a02f3145b300244b7967d8acdf2e" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordStorageWrite</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a48d1ed1c0494a410bf4afcb7e497e3f6" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordTrainingComplete</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a059aef3384a448e96ca56d613cc5b66b" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordTrainingSamples</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a4cc91914cc41fdbe44958865d376170f" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordTrainingStart</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a8dec6bae2ed098081428cf450ecd421f" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordVersionCreate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae3d27ff86a1bd54bcb8352fcb414c313" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>recordVersionRollback</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1af8029e38df115322dcc18c1948a05574" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a67ec2c9a3cbdb98caacd6dce8a55685b" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>storage_deletes_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1af9378fa42a33f77f60887f8032a3d628" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>storage_errors_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1abb39263a71cd645d715395d4cf375b1c" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>storage_read_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a858b7e4d4ab39b9d4c13c2cc31706391" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>storage_read_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a90edfc996f0298c7c4d89f2a4461be66" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>storage_reads_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a25338cbf593fe3997bfdd330edc15edb" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>storage_write_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae479b19a43b027986e20196d1ef26b46" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>storage_write_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1aa18769fdb6ef3984b2140e29a7289faf" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>storage_writes_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a410b9faf29af65f1792943b09411e9c3" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>total_adapters_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a1f753c3087b83b6fbd5a706b89e1adce" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>training_accuracy_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a3e4f5a6639a22dc62de68cd99f2f4654" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>training_completes_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a3f3bada73a997bd2bedc72aee0c04b70" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>training_duration_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a9f234856335760bd9dd5159041a7bdb7" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>training_loss_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a7d7df83545cf341053d20722bc3ceaa5" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>training_samples_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae0ca7f474e48d6a2528d733fbc6157f0" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>training_starts_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a8b9f903daf23067311eda00ef6d72297" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateActiveAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a0c0d9df85d8647d2991c74d69402d249" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateAuditLogSize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a17045e9633a103679ac64a8b2becde63" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateCacheMemoryUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a887fb96771864913135e8db3f957ef8c" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateCacheSize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a61b96b875cb9709f20c6ed3258e35cb0" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateCPUUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a8dc526ddb62137f88efd04594e8bca44" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateGPUVRAMUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ac7e5462b70b236b50ff84dbc751ac1ed" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateInferenceQueueSize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a5ce14baf8a4fd688e5f075b9ab6a5bd2" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateMemoryUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a7457b88b9af14a5d93e093259796471f" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateTotalAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ae303da4eb4864a5012276194325a9035" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateTrainingLoss</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1afcc867aad37917758c2d020855965b8d" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateValidationAccuracy</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a4f47666cb72e8fc7e107a4e5396ffdef" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>updateVersionCount</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a3b593e012193147491a94d465ac4dd4a" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>version_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1a7547501e1e3fec258d9d1c7a21e28258" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>version_creates_total_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector_1ab28ca342d8aa28d9e7340935dc087eae" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::LoRAMetricsCollector</scope><name>version_rollbacks_total_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

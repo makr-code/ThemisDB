@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_meta_prompt_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::MetaPromptConfig</compoundname>
+    <includes refid="meta__prompt__generator_8h" local="no">meta_prompt_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_meta_prompt_config_1ab286b9b8125ade6d797caa5037fcb074" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::MetaPromptConfig::improvement_strategy</definition>
+        <argsstring></argsstring>
+        <name>improvement_strategy</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptConfig::improvement_strategy</qualifiedname>
+        <initializer>= &quot;iterative&quot;</initializer>
+        <briefdescription>
+<para>Strategy: iterative, analytical, creative. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="49" column="17" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_meta_prompt_config_1a0f6cc6a235de40a5709e55356e0b40ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::MetaPromptConfig::include_examples</definition>
+        <argsstring></argsstring>
+        <name>include_examples</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptConfig::include_examples</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include few-shot examples in meta-prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="50" column="10" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_meta_prompt_config_1a70b07675e1ee53150ec8d6d009483dbf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::MetaPromptConfig::include_constraints</definition>
+        <argsstring></argsstring>
+        <name>include_constraints</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptConfig::include_constraints</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include constraints and requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="51" column="10" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_meta_prompt_config_1a045a99a364cf7921456be11ef466a0ff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::MetaPromptConfig::max_prompt_length</definition>
+        <argsstring></argsstring>
+        <name>max_prompt_length</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptConfig::max_prompt_length</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+<para>Maximum meta-prompt length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="52" column="12" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for meta-prompt generation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/meta_prompt_generator.h" line="48" column="1" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="48" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config_1ab286b9b8125ade6d797caa5037fcb074" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptConfig</scope><name>improvement_strategy</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config_1a70b07675e1ee53150ec8d6d009483dbf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptConfig</scope><name>include_constraints</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config_1a0f6cc6a235de40a5709e55356e0b40ee" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptConfig</scope><name>include_examples</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config_1a045a99a364cf7921456be11ef466a0ff" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptConfig</scope><name>max_prompt_length</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

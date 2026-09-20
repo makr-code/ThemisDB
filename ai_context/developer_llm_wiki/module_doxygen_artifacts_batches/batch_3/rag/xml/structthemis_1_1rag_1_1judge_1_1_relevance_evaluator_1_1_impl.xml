@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RelevanceEvaluator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1a7d92f8a0fc0b01122a0fb775a5b6bdd0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::judge::RelevanceEvaluator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/relevance_evaluator.cpp" line="29" column="12" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ad468cbb14be60497363c73ab1dad7fbd" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMJudgeIntegration&gt; themis::rag::judge::RelevanceEvaluator::Impl::llm_integration</definition>
+        <argsstring></argsstring>
+        <name>llm_integration</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Impl::llm_integration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/relevance_evaluator.cpp" line="30" column="21" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1afdf01e3f2dc9741764856623693bd818" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser" kindref="compound">ResponseParser</ref></type>
+        <definition>ResponseParser themis::rag::judge::RelevanceEvaluator::Impl::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Impl::parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/relevance_evaluator.cpp" line="31" column="20" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ad13a5a7e6dd6c02fdc4e0607fd7fa2e7" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::RelevanceEvaluator::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/relevance_evaluator.cpp" line="32" column="24" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ad62de6c97af1f939ff17fa9699572e6b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::rag::judge::RelevanceEvaluator::Impl::tokenize</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Impl::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize text into lowercase, punctuation-stripped tokens of length &gt; 2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stream(), std::transform(), begin(), end(), erase(), std::remove_if(), length(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/relevance_evaluator.cpp" line="40" column="24" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="40" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ae3cab9c4f344d770b44d7c4829d1d513" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>static std::vector&lt; double &gt; themis::rag::judge::RelevanceEvaluator::Impl::termFrequencyVector</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;tokens, const std::vector&lt; std::string &gt; &amp;vocab)</argsstring>
+        <name>termFrequencyVector</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Impl::termFrequencyVector</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>vocab</declname>
+        </param>
+        <briefdescription>
+<para>Compute term-frequency vector for a token list over a shared vocabulary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vocab</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: vec(), size(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/relevance_evaluator.cpp" line="61" column="24" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="61" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1abde06fea198fbad30f7e790321fa28f2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::rag::judge::RelevanceEvaluator::Impl::cosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;a, const std::vector&lt; double &gt; &amp;b)</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Impl::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Cosine similarity between two equal-length vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/relevance_evaluator.cpp" line="88" column="19" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="88" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1a81b974f47fd912986dbfb977ec1fd454" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RelevanceEvaluator::Impl::computeSemanticSimilarity</definition>
+        <argsstring>(const std::string &amp;text1, const std::string &amp;text2)</argsstring>
+        <name>computeSemanticSimilarity</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Impl::computeSemanticSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text2</declname>
+        </param>
+        <briefdescription>
+<para>Semantic similarity using TF-cosine (bag-of-words cosine over shared vocab). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Falls back to Jaccard when the vocabulary is empty. Calls: <ref refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ad62de6c97af1f939ff17fa9699572e6b" kindref="member">tokenize()</ref>, empty(), vocab_set(), begin(), end(), insert(), vocab(), <ref refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ae3cab9c4f344d770b44d7c4829d1d513" kindref="member">termFrequencyVector()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/relevance_evaluator.cpp" line="111" column="12" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="111" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::judge::RelevanceEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::judge::RelevanceEvaluator::Impl</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::ResponseParser</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_response_parser"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/relevance_evaluator.cpp" line="28" column="1" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="28" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1a81b974f47fd912986dbfb977ec1fd454" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Impl</scope><name>computeSemanticSimilarity</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1a7d92f8a0fc0b01122a0fb775a5b6bdd0" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1abde06fea198fbad30f7e790321fa28f2" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Impl</scope><name>cosineSimilarity</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ad468cbb14be60497363c73ab1dad7fbd" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Impl</scope><name>llm_integration</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1afdf01e3f2dc9741764856623693bd818" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Impl</scope><name>parser</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ad13a5a7e6dd6c02fdc4e0607fd7fa2e7" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Impl</scope><name>state_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ae3cab9c4f344d770b44d7c4829d1d513" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Impl</scope><name>termFrequencyVector</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl_1ad62de6c97af1f939ff17fa9699572e6b" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Impl</scope><name>tokenize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

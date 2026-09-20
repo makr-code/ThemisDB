@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::crdt::CRDTTableState</compoundname>
+    <includes refid="crdt__importer_8h" local="no">crdt_importer.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record" prot="public">themis::importers::crdt::CRDTTableState::CRDTRecord</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a841d7710b47070657fda707d62c6c0c8" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::crdt::CRDTTableState::lamport_clock_</definition>
+        <argsstring></argsstring>
+        <name>lamport_clock_</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::lamport_clock_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="84" column="14" bodyfile="include/importers/crdt_importer.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1add2062fb506f11ba0bd62fde15cd4032" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, <ref refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record" kindref="compound">CRDTRecord</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, CRDTRecord&gt; &gt; themis::importers::crdt::CRDTTableState::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="86" column="14" bodyfile="include/importers/crdt_importer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a3dc078b1166631390812d426cf061e19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::importers::crdt::CRDTTableState::importWithCRDT</definition>
+        <argsstring>(const std::string &amp;table_name, const std::vector&lt; json &gt; &amp;records, const std::string &amp;replica_id)</argsstring>
+        <name>importWithCRDT</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::importWithCRDT</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1_1crdt_1a194fe690522048e783aa78af181b22ce" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Import With CRDT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), contains(), at(), <ref refid="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a3dccbebf37d4a6deb91fd0681009c45f" kindref="member">tickClock()</ref>, find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="62" column="12" bodyfile="src/importers/crdt_importer.cpp" bodystart="96" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a4ba18191e7e223553088eb10106cc521" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record" kindref="compound">CRDTRecord</ref> *</type>
+        <definition>const CRDTTableState::CRDTRecord * themis::importers::crdt::CRDTTableState::lookup</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;record_id) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::lookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>record_id</declname>
+        </param>
+        <briefdescription>
+<para>Lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the record. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="74" column="22" bodyfile="src/importers/crdt_importer.cpp" bodystart="129" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a3dccbebf37d4a6deb91fd0681009c45f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::crdt::CRDTTableState::tickClock</definition>
+        <argsstring>()</argsstring>
+        <name>tickClock</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::tickClock</qualifiedname>
+        <briefdescription>
+<para>Tick Clock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements tickClock without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="81" column="14" bodyfile="src/importers/crdt_importer.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/crdt_importer.h" line="25" column="1" bodyfile="include/importers/crdt_importer.h" bodystart="25" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a3dc078b1166631390812d426cf061e19" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState</scope><name>importWithCRDT</name></member>
+      <member refid="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a841d7710b47070657fda707d62c6c0c8" prot="private" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState</scope><name>lamport_clock_</name></member>
+      <member refid="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a4ba18191e7e223553088eb10106cc521" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1add2062fb506f11ba0bd62fde15cd4032" prot="private" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState</scope><name>state_</name></member>
+      <member refid="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1a3dccbebf37d4a6deb91fd0681009c45f" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState</scope><name>tickClock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

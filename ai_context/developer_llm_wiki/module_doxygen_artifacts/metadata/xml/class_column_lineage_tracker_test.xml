@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_column_lineage_tracker_test" kind="class" language="C++" prot="public">
+    <compoundname>ColumnLineageTrackerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_column_lineage_tracker_test_1a348312e865499fa2b984c86500df3389" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker" kindref="compound">ColumnLineageTracker</ref></type>
+        <definition>ColumnLineageTracker ColumnLineageTrackerTest::tracker</definition>
+        <argsstring></argsstring>
+        <name>tracker</name>
+        <qualifiedname>ColumnLineageTrackerTest::tracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_column_lineage.cpp" line="148" column="26" bodyfile="tests/metadata/test_column_lineage.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_column_lineage_tracker_test_1a3b017066f825bcf9feb9a8f7bd41f940" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1metadata_1_1_column_lineage_entry" kindref="compound">ColumnLineageEntry</ref></type>
+        <definition>static ColumnLineageEntry ColumnLineageTrackerTest::makeEntry</definition>
+        <argsstring>(const std::string &amp;src_table, const std::string &amp;src_col, const std::string &amp;tgt_table, const std::string &amp;tgt_col, TransformationType type=TransformationType::DIRECT_COPY, int64_t ts=1000LL)</argsstring>
+        <name>makeEntry</name>
+        <qualifiedname>ColumnLineageTrackerTest::makeEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_col</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tgt_table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tgt_col</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref></type>
+          <declname>type</declname>
+          <defval>TransformationType::DIRECT_COPY</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ts</declname>
+          <defval>1000LL</defval>
+        </param>
+        <briefdescription>
+<para>Helper: build a simple entry with one source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_column_lineage.cpp" line="151" column="31" bodyfile="tests/metadata/test_column_lineage.cpp" bodystart="151" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ColumnLineageTrackerTest</label>
+        <link refid="class_column_lineage_tracker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ColumnLineageTrackerTest</label>
+        <link refid="class_column_lineage_tracker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tracker</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::metadata::ColumnLineageTracker</label>
+        <link refid="classthemis_1_1metadata_1_1_column_lineage_tracker"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_column_lineage.cpp" line="146" column="1" bodyfile="tests/metadata/test_column_lineage.cpp" bodystart="146" bodyend="163"/>
+    <listofallmembers>
+      <member refid="class_column_lineage_tracker_test_1a3b017066f825bcf9feb9a8f7bd41f940" prot="protected" virt="non-virtual"><scope>ColumnLineageTrackerTest</scope><name>makeEntry</name></member>
+      <member refid="class_column_lineage_tracker_test_1a348312e865499fa2b984c86500df3389" prot="protected" virt="non-virtual"><scope>ColumnLineageTrackerTest</scope><name>tracker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

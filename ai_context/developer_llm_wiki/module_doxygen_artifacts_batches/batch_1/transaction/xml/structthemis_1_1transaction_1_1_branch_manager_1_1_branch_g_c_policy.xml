@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::BranchManager::BranchGCPolicy</compoundname>
+    <includes refid="branch__manager_8h" local="no">branch_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1a6dcf254d3714c2d71e8f537c9e325228" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::BranchManager::BranchGCPolicy::max_age_ms</definition>
+        <argsstring></argsstring>
+        <name>max_age_ms</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchGCPolicy::max_age_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = no age limit; prune branches older than this </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="274" column="17" bodyfile="include/transaction/branch_manager.h" bodystart="274" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1af0304cae1f7cba921ade90e6ebad4a38" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::BranchManager::BranchGCPolicy::only_merged</definition>
+        <argsstring></argsstring>
+        <name>only_merged</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchGCPolicy::only_merged</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Only prune branches that have been merged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="275" column="17" bodyfile="include/transaction/branch_manager.h" bodystart="275" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1a23a4df29618c142ce19cf6aa1058d9c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::BranchManager::BranchGCPolicy::protect_default</definition>
+        <argsstring></argsstring>
+        <name>protect_default</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchGCPolicy::protect_default</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Never prune the default branch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="276" column="17" bodyfile="include/transaction/branch_manager.h" bodystart="276" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/branch_manager.h" line="273" column="5" bodyfile="include/transaction/branch_manager.h" bodystart="273" bodyend="277"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1a6dcf254d3714c2d71e8f537c9e325228" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchGCPolicy</scope><name>max_age_ms</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1af0304cae1f7cba921ade90e6ebad4a38" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchGCPolicy</scope><name>only_merged</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1a23a4df29618c142ce19cf6aa1058d9c5" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchGCPolicy</scope><name>protect_default</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

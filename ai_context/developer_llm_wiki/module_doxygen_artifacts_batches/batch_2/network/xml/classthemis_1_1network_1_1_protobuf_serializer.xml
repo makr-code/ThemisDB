@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_protobuf_serializer" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::ProtobufSerializer</compoundname>
+    <includes refid="wire__protocol__helpers_8h" local="no">wire_protocol_helpers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_protobuf_serializer_1a5ce90aab36b5a65c788413b7834774ba" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::network::ProtobufSerializer::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::network::ProtobufSerializer::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="103" column="17" bodyfile="include/network/wire_protocol_helpers.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1ae128dc0a82577c4953cc311868dbebc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::ProtobufSerializer::ProtobufSerializer</definition>
+        <argsstring>()=default</argsstring>
+        <name>ProtobufSerializer</name>
+        <qualifiedname>themis::network::ProtobufSerializer::ProtobufSerializer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ProtobufSerializer::writeVarint</definition>
+        <argsstring>(uint64_t value)</argsstring>
+        <name>writeVarint</name>
+        <qualifiedname>themis::network::ProtobufSerializer::writeVarint</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write Varint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="80" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="184" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1a878793fdbc545d60bd777c1f38987d7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ProtobufSerializer::writeFixed64</definition>
+        <argsstring>(uint64_t value)</argsstring>
+        <name>writeFixed64</name>
+        <qualifiedname>themis::network::ProtobufSerializer::writeFixed64</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write Fixed64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="83" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1a3fd97d711b998e87bd47226f7221f82e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ProtobufSerializer::writeFixed32</definition>
+        <argsstring>(uint32_t value)</argsstring>
+        <name>writeFixed32</name>
+        <qualifiedname>themis::network::ProtobufSerializer::writeFixed32</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write Fixed32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="86" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="210" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1af5cedd62ce9818e926201bfafe1bf4f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ProtobufSerializer::writeLengthDelimited</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;value)</argsstring>
+        <name>writeLengthDelimited</name>
+        <qualifiedname>themis::network::ProtobufSerializer::writeLengthDelimited</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write Length Delimited. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint()</ref>, size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="89" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="223" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1a5496c7873ab0b490935639346d06318c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ProtobufSerializer::writeString</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>writeString</name>
+        <qualifiedname>themis::network::ProtobufSerializer::writeString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint()</ref>, size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="90" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1ac6371b877b5be5d846f528e1262b06b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ProtobufSerializer::writeTag</definition>
+        <argsstring>(uint32_t field_number, uint32_t wire_type)</argsstring>
+        <name>writeTag</name>
+        <qualifiedname>themis::network::ProtobufSerializer::writeTag</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>field_number</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>wire_type</declname>
+        </param>
+        <briefdescription>
+<para>Write Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wire_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="93" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="244" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1a14f44ab3b38aef3b9f4870cc1e416702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ProtobufSerializer::writeDouble</definition>
+        <argsstring>(double value)</argsstring>
+        <name>writeDouble</name>
+        <qualifiedname>themis::network::ProtobufSerializer::writeDouble</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write Double. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::memcpy(), <ref refid="classthemis_1_1network_1_1_protobuf_serializer_1a878793fdbc545d60bd777c1f38987d7f" kindref="member">writeFixed64()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="96" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="253" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1ad6bd58e05028614723080b7fe925c547" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>const std::vector&lt; uint8_t &gt; &amp; themis::network::ProtobufSerializer::data</definition>
+        <argsstring>() const</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::network::ProtobufSerializer::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="99" column="23" bodyfile="include/network/wire_protocol_helpers.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_serializer_1a5b7c5e6bec7b9b8edb16157dd2281729" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::ProtobufSerializer::take</definition>
+        <argsstring>()</argsstring>
+        <name>take</name>
+        <qualifiedname>themis::network::ProtobufSerializer::take</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="100" column="17" bodyfile="include/network/wire_protocol_helpers.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight protobuf wire format serializer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_helpers.h" line="75" column="1" bodyfile="include/network/wire_protocol_helpers.h" bodystart="75" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1ad6bd58e05028614723080b7fe925c547" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>data</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1a5ce90aab36b5a65c788413b7834774ba" prot="private" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>data_</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1ae128dc0a82577c4953cc311868dbebc5" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>ProtobufSerializer</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1a5b7c5e6bec7b9b8edb16157dd2281729" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>take</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1a14f44ab3b38aef3b9f4870cc1e416702" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>writeDouble</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1a3fd97d711b998e87bd47226f7221f82e" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>writeFixed32</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1a878793fdbc545d60bd777c1f38987d7f" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>writeFixed64</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1af5cedd62ce9818e926201bfafe1bf4f3" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>writeLengthDelimited</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1a5496c7873ab0b490935639346d06318c" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>writeString</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1ac6371b877b5be5d846f528e1262b06b6" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>writeTag</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" prot="public" virt="non-virtual"><scope>themis::network::ProtobufSerializer</scope><name>writeVarint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

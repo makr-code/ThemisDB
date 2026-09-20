@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__schema__version__manager__lock__contract__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_schema_version_manager_lock_contract_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="schema__version__manager_8h" local="yes">metadata/schema_version_manager.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="16">
+        <label>metadata/schema_audit_log.h</label>
+        <link refid="schema__audit__log_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>metadata/schema_manager.h</label>
+        <link refid="schema__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>metadata/schema_version_manager.h</label>
+        <link refid="schema__version__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_schema_version_manager_lock_contract_focused.cpp</label>
+        <link refid="test__schema__version__manager__lock__contract__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>deque</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__schema__version__manager__lock__contract__focused_8cpp_1ac7e4e7002af86cb44581d39babf63624" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaVersionManagerLockContractTest, MCHL01_FailureResultCarriesErrorCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaVersionManagerLockContractTest</type>
+        </param>
+        <param>
+          <type>MCHL01_FailureResultCarriesErrorCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp" line="41" column="1" bodyfile="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp" bodystart="41" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__manager__lock__contract__focused_8cpp_1a54fbc18cc78317a5454749c6eda34286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaVersionManagerLockContractTest, MCHL02_FailureResultOkIsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaVersionManagerLockContractTest</type>
+        </param>
+        <param>
+          <type>MCHL02_FailureResultOkIsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp" line="55" column="1" bodyfile="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp" bodystart="55" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__manager__lock__contract__focused_8cpp_1a176360aecf1ebfd971846932794a0edf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaVersionManagerLockContractTest, MCHL03_ErrorCodesAreDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaVersionManagerLockContractTest</type>
+        </param>
+        <param>
+          <type>MCHL03_ErrorCodesAreDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp" line="68" column="1" bodyfile="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__manager__lock__contract__focused_8cpp_1a0d77d03e969be9ebaaccd11af3059f20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaVersionManagerLockContractTest, MCHL04_SuccessResultOkIsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaVersionManagerLockContractTest</type>
+        </param>
+        <param>
+          <type>MCHL04_SuccessResultOkIsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp" line="80" column="1" bodyfile="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp" bodystart="80" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase A2: External-lock contract tests for <ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: MCH-L01..MCH-L04</para>
+</simplesect>
+<ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref> is explicitly NOT thread-safe (documented contract). These tests verify the sequential API contract and documented error paths:</para>
+<para>MCH-L01 <ref refid="structthemis_1_1_version_result_1a7908a9bf68c3f1820703f0bfba218d3b" kindref="member">VersionResult&lt;T&gt;::failure()</ref> carries correct error code and message MCH-L02 <ref refid="structthemis_1_1_version_result_1af8cad4e2e95e40c3a3809d11bc0d7495" kindref="member">VersionResult&lt;T&gt;::ok</ref> flag is false when constructed via failure() MCH-L03 <ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328" kindref="member">VersionErrorCode</ref> values are distinct (TABLE_NOT_FOUND != VERSION_NOT_FOUND) MCH-L04 <ref refid="structthemis_1_1_version_result_1a88eb0b4cc1007616aac0144fd431e1cc" kindref="member">VersionResult&lt;uint64_t&gt;::success()</ref> sets ok=true and preserves value</para>
+<para>All tests are self-contained header-only; no RocksDB, no network I/O. Canonical PRNG seed: kLockContractSeed = 42 (declared; not required here).</para>
+<para><simplesect kind="see"><para><ref refid="schema__version__manager_8h" kindref="compound">include/metadata/schema_version_manager.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/metadata/ROADMAP.md — Phase A external-lock contract </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__version__manager_8h" kindref="compound">metadata/schema_version_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kLockContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-L01:<sp/>VersionResult::failure()<sp/>carries<sp/>correct<sp/>error<sp/>code<sp/>and<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__schema__version__manager__lock__contract__focused_8cpp_1ac7e4e7002af86cb44581d39babf63624" kindref="member">TEST</ref>(SchemaVersionManagerLockContractTest,<sp/>MCHL01_FailureResultCarriesErrorCode)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="structthemis_1_1_version_result_1a7908a9bf68c3f1820703f0bfba218d3b" kindref="member">VersionResult&lt;uint64_t&gt;::failure</ref>(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a114624845b74d3fb38bff06971fd77c6" kindref="member">VersionErrorCode::TABLE_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;table<sp/>&apos;users&apos;<sp/>not<sp/>found&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error,<sp/><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a114624845b74d3fb38bff06971fd77c6" kindref="member">VersionErrorCode::TABLE_NOT_FOUND</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_message,<sp/></highlight><highlight class="stringliteral">&quot;table<sp/>&apos;users&apos;<sp/>not<sp/>found&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-L02:<sp/>VersionResult::ok<sp/>is<sp/>false<sp/>for<sp/>failure()<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__schema__version__manager__lock__contract__focused_8cpp_1ac7e4e7002af86cb44581d39babf63624" kindref="member">TEST</ref>(SchemaVersionManagerLockContractTest,<sp/>MCHL02_FailureResultOkIsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="structthemis_1_1_version_result_1a7908a9bf68c3f1820703f0bfba218d3b" kindref="member">VersionResult&lt;bool&gt;::failure</ref>(</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a7c6a3ae846584386503b9fac79f88143" kindref="member">VersionErrorCode::VERSION_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;version<sp/>99<sp/>not<sp/>found&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error,<sp/><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">VersionErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-L03:<sp/>VersionErrorCode<sp/>values<sp/>are<sp/>distinct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__schema__version__manager__lock__contract__focused_8cpp_1ac7e4e7002af86cb44581d39babf63624" kindref="member">TEST</ref>(SchemaVersionManagerLockContractTest,<sp/>MCHL03_ErrorCodesAreDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">VersionErrorCode::OK</ref>),</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a114624845b74d3fb38bff06971fd77c6" kindref="member">VersionErrorCode::TABLE_NOT_FOUND</ref>));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a114624845b74d3fb38bff06971fd77c6" kindref="member">VersionErrorCode::TABLE_NOT_FOUND</ref>),</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a7c6a3ae846584386503b9fac79f88143" kindref="member">VersionErrorCode::VERSION_NOT_FOUND</ref>));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">VersionErrorCode::OK</ref>),</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a7c6a3ae846584386503b9fac79f88143" kindref="member">VersionErrorCode::VERSION_NOT_FOUND</ref>));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-L04:<sp/>VersionResult::success()<sp/>has<sp/>ok=true<sp/>and<sp/>correct<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__schema__version__manager__lock__contract__focused_8cpp_1ac7e4e7002af86cb44581d39babf63624" kindref="member">TEST</ref>(SchemaVersionManagerLockContractTest,<sp/>MCHL04_SuccessResultOkIsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="structthemis_1_1_version_result_1a88eb0b4cc1007616aac0144fd431e1cc" kindref="member">VersionResult&lt;uint64_t&gt;::success</ref>(42u);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value,<sp/>42u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error,<sp/><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">VersionErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_schema_version_manager_lock_contract_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_plugin_bundle_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::PluginBundleManifest</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a45eb0443ffbdcf2b707e687b4b19fbc7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleManifest::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::modules::PluginBundleManifest::name</qualifiedname>
+        <briefdescription>
+<para>Plugin name (e.g., &quot;themis_my_backend&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1013" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1013" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a76ac13d8f204cec500c442a2ed26cdf9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleManifest::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::modules::PluginBundleManifest::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version (e.g., &quot;1.0.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1014" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1014" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a520ea0c2604e4e02375749e1fdf1fd57" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleManifest::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::modules::PluginBundleManifest::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1015" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1015" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a5c84fb23bfdb1fc6855056d563b2dd00" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleManifest::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::modules::PluginBundleManifest::author</qualifiedname>
+        <briefdescription>
+<para>Plugin author / organisation (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1016" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1016" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_manifest_1aaac60f01753f675f54cbd21001801c2a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::modules::PluginBundleManifest::nativeLibraries</definition>
+        <argsstring></argsstring>
+        <name>nativeLibraries</name>
+        <qualifiedname>themis::modules::PluginBundleManifest::nativeLibraries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maps the canonical platform token to the in-archive path of the corresponding native library. Example: { &quot;linux-x86_64&quot; → &quot;linux-x86_64/libplugin.so&quot; } </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1021" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="1021" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a7b4ac3a9014d7dd79886bcad2d1876e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleManifest::wasmFallback</definition>
+        <argsstring></argsstring>
+        <name>wasmFallback</name>
+        <qualifiedname>themis::modules::PluginBundleManifest::wasmFallback</qualifiedname>
+        <briefdescription>
+<para>In-archive path of the optional WASM fallback (&quot;&quot; = none present). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1024" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1024" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a6731a23184379dd5cb2ab2b185d01ad5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleManifest::signatureFile</definition>
+        <argsstring></argsstring>
+        <name>signatureFile</name>
+        <qualifiedname>themis::modules::PluginBundleManifest::signatureFile</qualifiedname>
+        <initializer>= &quot;plugin.sig&quot;</initializer>
+        <briefdescription>
+<para>In-archive path of the Ed25519 signature file (default: &quot;plugin.sig&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1027" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1027" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_plugin_bundle_manifest_1aaeaa48e8644fa90fc76f703d0b5f02e0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::PluginBundleManifest::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::modules::PluginBundleManifest::isValid</qualifiedname>
+        <briefdescription>
+<para>Returns true when the mandatory fields (name, version) are non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1030" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="1030" bodyend="1032"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parsed contents of the manifest.json file inside a PluginBundle. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A PluginBundle is a ZIP archive (conventionally using the .tdb extension) that packages native libraries for multiple platforms together with an optional WASM fallback and an Ed25519 signature of the manifest.</para>
+<para>Archive layout: <programlisting><codeline><highlight class="normal">plugin.tdb</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>manifest.json<sp/><sp/><sp/><sp/><sp/><sp/><sp/>–<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>structure,<sp/>serialised<sp/>as<sp/><ref refid="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217aa0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">JSON</ref></highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>plugin.sig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>–<sp/>Ed25519<sp/>signature<sp/>of<sp/>manifest.json<sp/>(raw<sp/>bytes)</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>linux-x86_64/</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>libplugin.so</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>windows-x86_64/</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>plugin.dll</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>macos-arm64/</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>libplugin.dylib</highlight></codeline>
+<codeline><highlight class="normal">└──<sp/>plugin.wasm<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>–<sp/>optional<sp/>portable<sp/>WASM<sp/>fallback</highlight></codeline>
+</programlisting></para>
+<para>The platform token format is &quot;&lt;os&gt;-&lt;arch&gt;&quot; where os ∈ {linux, windows, macos} and arch ∈ {x86_64, arm64, arm, x86}. </para>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="1012" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="1012" bodyend="1033"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a5c84fb23bfdb1fc6855056d563b2dd00" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleManifest</scope><name>author</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a520ea0c2604e4e02375749e1fdf1fd57" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleManifest</scope><name>description</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_manifest_1aaeaa48e8644fa90fc76f703d0b5f02e0" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleManifest</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a45eb0443ffbdcf2b707e687b4b19fbc7" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleManifest</scope><name>name</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_manifest_1aaac60f01753f675f54cbd21001801c2a" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleManifest</scope><name>nativeLibraries</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a6731a23184379dd5cb2ab2b185d01ad5" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleManifest</scope><name>signatureFile</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a76ac13d8f204cec500c442a2ed26cdf9" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleManifest</scope><name>version</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_manifest_1a7b4ac3a9014d7dd79886bcad2d1876e9" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleManifest</scope><name>wasmFallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

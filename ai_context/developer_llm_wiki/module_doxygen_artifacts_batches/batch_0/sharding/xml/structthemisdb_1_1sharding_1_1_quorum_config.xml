@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_quorum_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::QuorumConfig</compoundname>
+    <includes refid="quorum__manager_8h" local="no">quorum_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_config_1a74e8f78bdcf7ed567f8871e7c1a1e3d6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" kindref="member">QuorumType</ref></type>
+        <definition>QuorumType themisdb::sharding::QuorumConfig::write_quorum</definition>
+        <argsstring></argsstring>
+        <name>write_quorum</name>
+        <qualifiedname>themisdb::sharding::QuorumConfig::write_quorum</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da28e6444341e60a10ed454a48de251aa9" kindref="member">QuorumType::MAJORITY</ref>}</initializer>
+        <briefdescription>
+<para>Policy used for write operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="75" column="16" bodyfile="include/sharding/quorum_manager.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_config_1a6fadf44df2864e64e36dc163f240a88c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" kindref="member">QuorumType</ref></type>
+        <definition>QuorumType themisdb::sharding::QuorumConfig::read_quorum</definition>
+        <argsstring></argsstring>
+        <name>read_quorum</name>
+        <qualifiedname>themisdb::sharding::QuorumConfig::read_quorum</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682dabc21e6484530fc9d0313cb816b733396" kindref="member">QuorumType::ONE</ref>}</initializer>
+        <briefdescription>
+<para>Policy used for read operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="76" column="16" bodyfile="include/sharding/quorum_manager.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_config_1a7ffad5ed53e8ef785ad87c8b058753cc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::QuorumConfig::custom_write_quorum</definition>
+        <argsstring></argsstring>
+        <name>custom_write_quorum</name>
+        <qualifiedname>themisdb::sharding::QuorumConfig::custom_write_quorum</qualifiedname>
+        <initializer>{2}</initializer>
+        <briefdescription>
+<para>Required write acknowledgments when using CUSTOM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="77" column="12" bodyfile="include/sharding/quorum_manager.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_config_1a8edc310ee8e5e89d585f71a0b2449412" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::QuorumConfig::custom_read_quorum</definition>
+        <argsstring></argsstring>
+        <name>custom_read_quorum</name>
+        <qualifiedname>themisdb::sharding::QuorumConfig::custom_read_quorum</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Required read acknowledgments when using CUSTOM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="78" column="12" bodyfile="include/sharding/quorum_manager.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_config_1a06ea8a47dc740f58eb32deb4bbe8a4e2" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::QuorumConfig::operation_timeout</definition>
+        <argsstring></argsstring>
+        <name>operation_timeout</name>
+        <qualifiedname>themisdb::sharding::QuorumConfig::operation_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Maximum wait time for node responses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="79" column="31" bodyfile="include/sharding/quorum_manager.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_config_1aaf25d1256065bf2d05c2fd5299203a78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::QuorumConfig::fail_fast</definition>
+        <argsstring></argsstring>
+        <name>fail_fast</name>
+        <qualifiedname>themisdb::sharding::QuorumConfig::fail_fast</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Stop early once success quorum is reached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="80" column="10" bodyfile="include/sharding/quorum_manager.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_config_1a05191171477f1d860565cf66f8abcc8b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::QuorumConfig::enable_quorum_enforcement</definition>
+        <argsstring></argsstring>
+        <name>enable_quorum_enforcement</name>
+        <qualifiedname>themisdb::sharding::QuorumConfig::enable_quorum_enforcement</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Disable to bypass quorum checks for compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="81" column="10" bodyfile="include/sharding/quorum_manager.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for quorum operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/quorum_manager.h" line="74" column="1" bodyfile="include/sharding/quorum_manager.h" bodystart="74" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_config_1a8edc310ee8e5e89d585f71a0b2449412" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumConfig</scope><name>custom_read_quorum</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_config_1a7ffad5ed53e8ef785ad87c8b058753cc" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumConfig</scope><name>custom_write_quorum</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_config_1a05191171477f1d860565cf66f8abcc8b" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumConfig</scope><name>enable_quorum_enforcement</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_config_1aaf25d1256065bf2d05c2fd5299203a78" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumConfig</scope><name>fail_fast</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_config_1a06ea8a47dc740f58eb32deb4bbe8a4e2" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumConfig</scope><name>operation_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_config_1a6fadf44df2864e64e36dc163f240a88c" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumConfig</scope><name>read_quorum</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_config_1a74e8f78bdcf7ed567f8871e7c1a1e3d6" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumConfig</scope><name>write_quorum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

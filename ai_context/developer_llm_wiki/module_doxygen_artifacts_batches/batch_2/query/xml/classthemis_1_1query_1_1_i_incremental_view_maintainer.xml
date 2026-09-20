@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_i_incremental_view_maintainer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::IIncrementalViewMaintainer</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_incremental_view_maintainer_1ad579f8486d5e42f6be734c8875634d4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::IIncrementalViewMaintainer::~IIncrementalViewMaintainer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IIncrementalViewMaintainer</name>
+        <qualifiedname>themis::query::IIncrementalViewMaintainer::~IIncrementalViewMaintainer</qualifiedname>
+        <briefdescription>
+<para>IIncremental View Maintainer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="50" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_incremental_view_maintainer_1aabda5281981f483b7f9c1d8c8a3ebea4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IIncrementalViewMaintainer::createView</definition>
+        <argsstring>(const ViewDefinition &amp;def)=0</argsstring>
+        <name>createView</name>
+        <qualifiedname>themis::query::IIncrementalViewMaintainer::createView</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_view_definition" kindref="compound">ViewDefinition</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>Create View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="56" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a8ee069670f0d33696831fac8d4fccb40" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IIncrementalViewMaintainer::dropView</definition>
+        <argsstring>(const std::string &amp;view_id)=0</argsstring>
+        <name>dropView</name>
+        <qualifiedname>themis::query::IIncrementalViewMaintainer::dropView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>view_id</declname>
+        </param>
+        <briefdescription>
+<para>Drop View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">view_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the view. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="62" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a7647cb4621ef11b7e1083019662172d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_view_refresh_stats" kindref="compound">ViewRefreshStats</ref></type>
+        <definition>virtual ViewRefreshStats themis::query::IIncrementalViewMaintainer::refreshView</definition>
+        <argsstring>(const std::string &amp;view_id)=0</argsstring>
+        <name>refreshView</name>
+        <qualifiedname>themis::query::IIncrementalViewMaintainer::refreshView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>view_id</declname>
+        </param>
+        <briefdescription>
+<para>Refresh View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">view_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the view. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="68" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a1a7278b9d2f6bb764a78eb521245e0c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_view_refresh_stats" kindref="compound">ViewRefreshStats</ref></type>
+        <definition>virtual ViewRefreshStats themis::query::IIncrementalViewMaintainer::getStats</definition>
+        <argsstring>(const std::string &amp;view_id) const =0</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::query::IIncrementalViewMaintainer::getStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>view_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">view_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the view. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="74" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a7977ae6a3f08dd4769667642c920c9c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IIncrementalViewMaintainer::setRefreshMode</definition>
+        <argsstring>(const std::string &amp;view_id, ViewRefreshMode mode)=0</argsstring>
+        <name>setRefreshMode</name>
+        <qualifiedname>themis::query::IIncrementalViewMaintainer::setRefreshMode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>view_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106e" kindref="member">ViewRefreshMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Set Refresh Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">view_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the view. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="81" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a342283605afbb470c3acbc471933dd67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_view_definition" kindref="compound">ViewDefinition</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ViewDefinition &gt; themis::query::IIncrementalViewMaintainer::listViews</definition>
+        <argsstring>() const =0</argsstring>
+        <name>listViews</name>
+        <qualifiedname>themis::query::IIncrementalViewMaintainer::listViews</qualifiedname>
+        <briefdescription>
+<para>List Views. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="86" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a4e6f111833446cce9743b5ae0f29f708" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IIncrementalViewMaintainer::isStale</definition>
+        <argsstring>(const std::string &amp;view_id) const =0</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::query::IIncrementalViewMaintainer::isStale</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>view_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">view_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the view. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="92" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/incremental_view.h" line="44" column="1" bodyfile="include/query/incremental_view.h" bodystart="44" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1aabda5281981f483b7f9c1d8c8a3ebea4" prot="public" virt="pure-virtual"><scope>themis::query::IIncrementalViewMaintainer</scope><name>createView</name></member>
+      <member refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a8ee069670f0d33696831fac8d4fccb40" prot="public" virt="pure-virtual"><scope>themis::query::IIncrementalViewMaintainer</scope><name>dropView</name></member>
+      <member refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a1a7278b9d2f6bb764a78eb521245e0c5" prot="public" virt="pure-virtual"><scope>themis::query::IIncrementalViewMaintainer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a4e6f111833446cce9743b5ae0f29f708" prot="public" virt="pure-virtual"><scope>themis::query::IIncrementalViewMaintainer</scope><name>isStale</name></member>
+      <member refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a342283605afbb470c3acbc471933dd67" prot="public" virt="pure-virtual"><scope>themis::query::IIncrementalViewMaintainer</scope><name>listViews</name></member>
+      <member refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a7647cb4621ef11b7e1083019662172d0" prot="public" virt="pure-virtual"><scope>themis::query::IIncrementalViewMaintainer</scope><name>refreshView</name></member>
+      <member refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a7977ae6a3f08dd4769667642c920c9c6" prot="public" virt="pure-virtual"><scope>themis::query::IIncrementalViewMaintainer</scope><name>setRefreshMode</name></member>
+      <member refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1ad579f8486d5e42f6be734c8875634d4f" prot="public" virt="virtual"><scope>themis::query::IIncrementalViewMaintainer</scope><name>~IIncrementalViewMaintainer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

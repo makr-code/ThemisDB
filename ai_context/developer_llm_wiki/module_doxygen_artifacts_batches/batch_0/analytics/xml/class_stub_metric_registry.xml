@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_metric_registry" kind="class" language="C++" prot="public">
+    <compoundname>StubMetricRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_metric_registry_1a159da64982d32ec1699dd676796946f6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubMetricRegistry::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubMetricRegistry::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="81" column="46" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_metric_registry_1a7cf90ed3d870029ff3de8ef363061ec4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; StubMetricRegistry::accumulators_</definition>
+        <argsstring></argsstring>
+        <name>accumulators_</name>
+        <qualifiedname>StubMetricRegistry::accumulators_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="82" column="25" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_metric_registry_1afb21880a9d9b2143d15432dd052b1236" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubMetricRegistry::total_ingested_</definition>
+        <argsstring></argsstring>
+        <name>total_ingested_</name>
+        <qualifiedname>StubMetricRegistry::total_ingested_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="83" column="36" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_metric_registry_1a36c72ccdfe568cb13d0d0a0cd6f1efc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubMetricRegistry::ingest</definition>
+        <argsstring>(const std::string &amp;metric_name, double value)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>StubMetricRegistry::ingest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Ingest one (metric_name, value) pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="64" column="10" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="64" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metric_registry_1ac6fe7982ab3fe391ecb79c564decf6c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubMetricRegistry::distinctMetricCount</definition>
+        <argsstring>() const</argsstring>
+        <name>distinctMetricCount</name>
+        <qualifiedname>StubMetricRegistry::distinctMetricCount</qualifiedname>
+        <briefdescription>
+<para>Returns the number of distinct metric names seen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="71" column="17" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="71" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metric_registry_1a911c29218e8442ffa8fc2e1b5d57b6ea" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubMetricRegistry::totalIngested</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalIngested</name>
+        <qualifiedname>StubMetricRegistry::totalIngested</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="76" column="14" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry that accumulates per-metric sums (stub for a real time-series store). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="61" column="1" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="61" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_stub_metric_registry_1a7cf90ed3d870029ff3de8ef363061ec4" prot="private" virt="non-virtual"><scope>StubMetricRegistry</scope><name>accumulators_</name></member>
+      <member refid="class_stub_metric_registry_1ac6fe7982ab3fe391ecb79c564decf6c0" prot="public" virt="non-virtual"><scope>StubMetricRegistry</scope><name>distinctMetricCount</name></member>
+      <member refid="class_stub_metric_registry_1a36c72ccdfe568cb13d0d0a0cd6f1efc3" prot="public" virt="non-virtual"><scope>StubMetricRegistry</scope><name>ingest</name></member>
+      <member refid="class_stub_metric_registry_1a159da64982d32ec1699dd676796946f6" prot="private" virt="non-virtual"><scope>StubMetricRegistry</scope><name>mu_</name></member>
+      <member refid="class_stub_metric_registry_1afb21880a9d9b2143d15432dd052b1236" prot="private" virt="non-virtual"><scope>StubMetricRegistry</scope><name>total_ingested_</name></member>
+      <member refid="class_stub_metric_registry_1a911c29218e8442ffa8fc2e1b5d57b6ea" prot="public" virt="non-virtual"><scope>StubMetricRegistry</scope><name>totalIngested</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

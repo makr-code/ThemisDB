@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SSMStateSnapshot</compoundname>
+    <includes refid="i__ssm__plugin_8h" local="no">i_ssm_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a03044dbbafae15df0d89fbff65d6b5e1" prot="public" static="no" mutable="no">
+        <type>core::HLCTimestamp</type>
+        <definition>core::HLCTimestamp themis::llm::SSMStateSnapshot::snapshot_ts</definition>
+        <argsstring></argsstring>
+        <name>snapshot_ts</name>
+        <qualifiedname>themis::llm::SSMStateSnapshot::snapshot_ts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="25" column="24" bodyfile="include/llm/i_ssm_plugin.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a583b9980ba0d75cfb158810003370687" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::SSMStateSnapshot::state_data</definition>
+        <argsstring></argsstring>
+        <name>state_data</name>
+        <qualifiedname>themis::llm::SSMStateSnapshot::state_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="27" column="17" bodyfile="include/llm/i_ssm_plugin.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a5f927c6cd64ecc61a50eb7853cf54692" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateSnapshot::state_fingerprint</definition>
+        <argsstring></argsstring>
+        <name>state_fingerprint</name>
+        <qualifiedname>themis::llm::SSMStateSnapshot::state_fingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="29" column="17" bodyfile="include/llm/i_ssm_plugin.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1ad255b4da03e0c3a193e6ba76bf1f3380" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SSMStateSnapshot::sequence_counter</definition>
+        <argsstring></argsstring>
+        <name>sequence_counter</name>
+        <qualifiedname>themis::llm::SSMStateSnapshot::sequence_counter</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="31" column="14" bodyfile="include/llm/i_ssm_plugin.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a7a69e3957332bc4febfe6ce56135724c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateSnapshot::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::llm::SSMStateSnapshot::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="34" column="17" bodyfile="include/llm/i_ssm_plugin.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a11a1476eb13beece58e7d8f4cd3990a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateSnapshot::hidden_state</definition>
+        <argsstring></argsstring>
+        <name>hidden_state</name>
+        <qualifiedname>themis::llm::SSMStateSnapshot::hidden_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="35" column="17" bodyfile="include/llm/i_ssm_plugin.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a74895bf48e049c22b42864ed61d9e0e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateSnapshot::cell_state</definition>
+        <argsstring></argsstring>
+        <name>cell_state</name>
+        <qualifiedname>themis::llm::SSMStateSnapshot::cell_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="36" column="17" bodyfile="include/llm/i_ssm_plugin.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a936937c49f449cbc43d1fd1016d12150" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateSnapshot::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::SSMStateSnapshot::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="37" column="17" bodyfile="include/llm/i_ssm_plugin.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/i_ssm_plugin.h" line="24" column="1" bodyfile="include/llm/i_ssm_plugin.h" bodystart="24" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a74895bf48e049c22b42864ed61d9e0e6" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateSnapshot</scope><name>cell_state</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a11a1476eb13beece58e7d8f4cd3990a5" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateSnapshot</scope><name>hidden_state</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a936937c49f449cbc43d1fd1016d12150" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateSnapshot</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1ad255b4da03e0c3a193e6ba76bf1f3380" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateSnapshot</scope><name>sequence_counter</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a7a69e3957332bc4febfe6ce56135724c" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateSnapshot</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a03044dbbafae15df0d89fbff65d6b5e1" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateSnapshot</scope><name>snapshot_ts</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a583b9980ba0d75cfb158810003370687" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateSnapshot</scope><name>state_data</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a5f927c6cd64ecc61a50eb7853cf54692" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateSnapshot</scope><name>state_fingerprint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

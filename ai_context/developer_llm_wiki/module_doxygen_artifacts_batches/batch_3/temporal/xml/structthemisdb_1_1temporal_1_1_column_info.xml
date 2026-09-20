@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_column_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::ColumnInfo</compoundname>
+    <includes refid="temporal__migrator_8h" local="no">temporal_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_column_info_1ace518de4c0b08f63d7d9ef0a7ced53a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::ColumnInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::temporal::ColumnInfo::name</qualifiedname>
+        <briefdescription>
+<para>JSON field name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="90" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_column_info_1aeec377b11c7962dae8d7c04eed40abc6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::ColumnInfo::inferred_type</definition>
+        <argsstring></argsstring>
+        <name>inferred_type</name>
+        <qualifiedname>themisdb::temporal::ColumnInfo::inferred_type</qualifiedname>
+        <briefdescription>
+<para>&quot;string&quot;, &quot;number&quot;, &quot;boolean&quot;, &quot;object&quot;, &quot;array&quot;, &quot;null&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="91" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_column_info_1a5d17192dff430d3703c44f59f954fefb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::ColumnInfo::nullable</definition>
+        <argsstring></argsstring>
+        <name>nullable</name>
+        <qualifiedname>themisdb::temporal::ColumnInfo::nullable</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>true when the field is absent in at least one document </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="92" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_column_info_1a0cc56adfbc36f2951fcd7fef5f8762e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::ColumnInfo::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::ColumnInfo::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="94" column="20" bodyfile="include/temporal/temporal_migrator.h" bodystart="94" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Metadata about a single column inferred from the source documents.</para>
+<para>During analyzeMigration() the migrator samples all source documents and collects the distinct field names together with the JSON type observed for the majority of values. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_migrator.h" line="89" column="1" bodyfile="include/temporal/temporal_migrator.h" bodystart="89" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_column_info_1aeec377b11c7962dae8d7c04eed40abc6" prot="public" virt="non-virtual"><scope>themisdb::temporal::ColumnInfo</scope><name>inferred_type</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_column_info_1ace518de4c0b08f63d7d9ef0a7ced53a3" prot="public" virt="non-virtual"><scope>themisdb::temporal::ColumnInfo</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_column_info_1a5d17192dff430d3703c44f59f954fefb" prot="public" virt="non-virtual"><scope>themisdb::temporal::ColumnInfo</scope><name>nullable</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_column_info_1a0cc56adfbc36f2951fcd7fef5f8762e2" prot="public" virt="non-virtual"><scope>themisdb::temporal::ColumnInfo</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

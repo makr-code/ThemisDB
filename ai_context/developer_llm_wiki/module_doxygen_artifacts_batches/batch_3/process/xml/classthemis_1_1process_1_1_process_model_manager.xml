@@ -1,0 +1,1326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_model_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessModelManager</compoundname>
+    <includes refid="process__model__manager_8h" local="no">process_model_manager.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context" prot="private">themis::process::ProcessModelManager::TransactionContext</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard" prot="private">themis::process::ProcessModelManager::TransactionGuard</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1a89a12ab868663ee87cd3db02835f9068" prot="private" static="no" mutable="no">
+        <type>::themis::RocksDBWrapper &amp;</type>
+        <definition>::themis::RocksDBWrapper&amp; themis::process::ProcessModelManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::process::ProcessModelManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="463" column="30" bodyfile="include/process/process_model_manager.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1a637dcf16b61309301b9ee1ab2e138036" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(std::string_view)&gt;</type>
+        <definition>std::function&lt;std::vector&lt;float&gt;(std::string_view)&gt; themis::process::ProcessModelManager::embedder_</definition>
+        <argsstring></argsstring>
+        <name>embedder_</name>
+        <qualifiedname>themis::process::ProcessModelManager::embedder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="464" column="21" bodyfile="include/process/process_model_manager.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1af10ba3e8f093e3774154db86d39240ab" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; InvertedIndex &gt;</type>
+        <definition>std::shared_ptr&lt;InvertedIndex&gt; themis::process::ProcessModelManager::fts_index_</definition>
+        <argsstring></argsstring>
+        <name>fts_index_</name>
+        <qualifiedname>themis::process::ProcessModelManager::fts_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="465" column="21" bodyfile="include/process/process_model_manager.h" bodystart="465" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1a8e9c941520d9fc270c3a7ccc522d948c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::process::ProcessModelManager::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::process::ProcessModelManager::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="466" column="21" bodyfile="include/process/process_model_manager.h" bodystart="466" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1aee91d6562e4c0f45d2b400aeee960e83" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::process::ProcessModelManager::model_state_lock_</definition>
+        <argsstring></argsstring>
+        <name>model_state_lock_</name>
+        <qualifiedname>themis::process::ProcessModelManager::model_state_lock_</qualifiedname>
+        <briefdescription>
+<para>RWLock for model CRUD operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="469" column="31" bodyfile="include/process/process_model_manager.h" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1a986ca6d6bd0176f5d2c1de6834f1973d" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::process::ProcessModelManager::linking_lock_</definition>
+        <argsstring></argsstring>
+        <name>linking_lock_</name>
+        <qualifiedname>themis::process::ProcessModelManager::linking_lock_</qualifiedname>
+        <briefdescription>
+<para>RWLock for linking state consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="470" column="31" bodyfile="include/process/process_model_manager.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1a3f1b4b7f540c0531f177cced7481cae2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::process::ProcessModelManager::operation_counter_</definition>
+        <argsstring></argsstring>
+        <name>operation_counter_</name>
+        <qualifiedname>themis::process::ProcessModelManager::operation_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Track operation sequence for determinism. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="471" column="17" bodyfile="include/process/process_model_manager.h" bodystart="471" bodyend="471"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessModelManager::ProcessModelManager</definition>
+        <argsstring>(::themis::RocksDBWrapper &amp;db)</argsstring>
+        <name>ProcessModelManager</name>
+        <qualifiedname>themis::process::ProcessModelManager::ProcessModelManager</qualifiedname>
+        <param>
+          <type>::themis::RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> with a RocksDB backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to a RocksDBWrapper instance that will be used for all model storage and retrieval operations. The <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> does not own this reference; the caller is responsible for keeping the RocksDBWrapper alive for the entire lifetime of this manager instance.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe: Multiple <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> instances can be created with the same RocksDB backend, and their operations will properly synchronize via RocksDB&apos;s internal locking mechanisms.</para>
+</simplesect>
+<simplesect kind="note"><para>The constructor does not perform any I/O; initialization is lazy (performed when the first import/retrieval operation is called).</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1process_1_1_process_model_manager_1a305b8ac5d0e20c39d689122ab57ccbb4" kindref="member">~ProcessModelManager()</ref> for cleanup semantics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="195" column="14" bodyfile="src/process/process_model_manager.cpp" bodystart="308" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a305b8ac5d0e20c39d689122ab57ccbb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessModelManager::~ProcessModelManager</definition>
+        <argsstring>()</argsstring>
+        <name>~ProcessModelManager</name>
+        <qualifiedname>themis::process::ProcessModelManager::~ProcessModelManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="196" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1acc7e511aac50d4d465d20f2a58fb6682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessModelManager::ProcessModelManager</definition>
+        <argsstring>(const ProcessModelManager &amp;)=delete</argsstring>
+        <name>ProcessModelManager</name>
+        <qualifiedname>themis::process::ProcessModelManager::ProcessModelManager</qualifiedname>
+        <param>
+          <type>const ProcessModelManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="199" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1aa6653c13397553011259dadbece5ba58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref> &amp;</type>
+        <definition>ProcessModelManager &amp; themis::process::ProcessModelManager::operator=</definition>
+        <argsstring>(const ProcessModelManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::process::ProcessModelManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="200" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a1210c9c8023799dbbd5fb3e859d8b77f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::importBpmn</definition>
+        <argsstring>(std::string_view bpmn_xml, const ProcessModelRecord &amp;meta={})</argsstring>
+        <name>importBpmn</name>
+        <qualifiedname>themis::process::ProcessModelManager::importBpmn</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>bpmn_xml</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Import a BPMN 2.0 XML document and store it as a process model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>-<mdash/> Import --------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bpmn_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full BPMN 2.0 XML string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional metadata overrides (name, domain, owner, …). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref> with the assigned model_id on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bpmn_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="213" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="472" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1af015f8b4276666e568f59152a4fea1d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::importEpk</definition>
+        <argsstring>(std::string_view epk_text, const ProcessModelRecord &amp;meta={})</argsstring>
+        <name>importEpk</name>
+        <qualifiedname>themis::process::ProcessModelManager::importEpk</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>epk_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Import an EPK (Ereignisgesteuerte Prozesskette) definition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Epk.</para>
+<para>Accepts a lightweight text-based EPK description (one node per line, edges indicated by <computeroutput>-&gt;</computeroutput> notation, or JSON format).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>epk_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>EPK definition string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata overrides.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epk_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="227" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="501" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a69768dc81090aac8b44e1b09f5408029" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::importVccVpb</definition>
+        <argsstring>(std::string_view yaml_text, const ProcessModelRecord &amp;meta={})</argsstring>
+        <name>importVccVpb</name>
+        <qualifiedname>themis::process::ProcessModelManager::importVccVpb</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>yaml_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Import a VCC-VPB YAML process definition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Vcc Vpb.</para>
+<para>VCC-VPB is the native format used by the Visual Change Control – Visual Process Builder tool. The YAML schema is documented in <computeroutput>config/process_models/README.md</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw YAML content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata overrides.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="242" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="530" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a2f0f06af93ca5b3bdf6b5e688677a74b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::importArisXml</definition>
+        <argsstring>(std::string_view aml_xml, const ProcessModelRecord &amp;meta={})</argsstring>
+        <name>importArisXml</name>
+        <qualifiedname>themis::process::ProcessModelManager::importArisXml</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>aml_xml</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Import an EPK model from an ARIS Markup Language (AML) XML document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Aris Xml.</para>
+<para>Parses the first EPK <computeroutput>&lt;Model&gt;</computeroutput> found in the AML file produced by ARIS Designer 9.x / 10.x. ARIS TypeNum values are mapped to the corresponding EPKNodeType values (see <ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer" kindref="compound">EpkArisXmlImporter</ref> for the full mapping table).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aml_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full AML XML string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional metadata overrides (name, domain, owner, …). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref> with the assigned model_id on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aml_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="259" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="548" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::save</definition>
+        <argsstring>(const ProcessModelRecord &amp;record)</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::process::ProcessModelManager::save</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Save or update a <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> in the DB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>-<mdash/> CRUD ----------------------------------------------------------------<mdash/></para>
+<para>If a record with the same <computeroutput>id</computeroutput> already exists, a new revision is written and the old one is kept under its versioned key (audit trail).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1process_1_1_process_model_result_1a1c9eba571c3e7f227f152ef1e4738f5e" kindref="member">ProcessModelResult::failure()</ref>, <ref refid="classthemis_1_1process_1_1_process_model_manager_1a5a42b5a8c49682f625307e57ecf06125" kindref="member">validateModelConsistency()</ref>, SPDLOG_WARN(), <ref refid="classthemis_1_1process_1_1_process_model_manager_1a1b90480c9701be6599a92c56a97b74a1" kindref="member">load()</ref>, makeVersionedKey_(), toDocument(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="274" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="578" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a1b90480c9701be6599a92c56a97b74a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt;</type>
+        <definition>std::optional&lt; ProcessModelRecord &gt; themis::process::ProcessModelManager::load</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::process::ProcessModelManager::load</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Load a process model by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unique model identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The record, or std::nullopt when not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="282" column="19" bodyfile="src/process/process_model_manager.cpp" bodystart="667" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a38a273b3dde09bb9f35d7fae7bd6ed00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::remove</definition>
+        <argsstring>(std::string_view model_id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::process::ProcessModelManager::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete a process model (soft-delete: marks state as ARCHIVED). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1process_1_1_process_model_manager_1a1b90480c9701be6599a92c56a97b74a1" kindref="member">load()</ref>, <ref refid="structthemis_1_1process_1_1_process_model_result_1a1c9eba571c3e7f227f152ef1e4738f5e" kindref="member">ProcessModelResult::failure()</ref>, std::string(), deindex(), removeByPk(), <ref refid="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" kindref="member">save()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="287" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="691" bodyend="712"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a63a09c224574b3440950e5975052625a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt;</type>
+        <definition>std::vector&lt; ProcessModelRecord &gt; themis::process::ProcessModelManager::list</definition>
+        <argsstring>(std::optional&lt; ProcessDomain &gt; domain=std::nullopt, std::optional&lt; ProcessModelState &gt; state=std::nullopt, size_t limit=0) const</argsstring>
+        <name>list</name>
+        <qualifiedname>themis::process::ProcessModelManager::list</qualifiedname>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref> &gt;</type>
+          <declname>domain</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" kindref="member">ProcessModelState</ref> &gt;</type>
+          <declname>state</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>List all process models, optionally filtered by domain and state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If set, only models of this domain are returned. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If set, only models with this lifecycle state are returned. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results (0 = unlimited). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="300" column="17" bodyfile="src/process/process_model_manager.cpp" bodystart="716" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a285369ad459375b8f9cd20de3d669c7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt;</type>
+        <definition>std::vector&lt; ProcessModelRecord &gt; themis::process::ProcessModelManager::search</definition>
+        <argsstring>(std::string_view query, size_t limit=20) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::process::ProcessModelManager::search</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>20</defval>
+        </param>
+        <briefdescription>
+<para>Full-text search across model names and descriptions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simple keyword matching — for semantic search use <ref refid="classthemis_1_1process_1_1_process_model_manager_1a32611e3d78aa006c49d2b5e9a43da92d" kindref="member">findSimilar()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Keyword or phrase. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Fallback: linear keyword scan. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="314" column="17" bodyfile="src/process/process_model_manager.cpp" bodystart="752" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a32611e3d78aa006c49d2b5e9a43da92d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref>, float &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; ProcessModelRecord, float &gt; &gt; themis::process::ProcessModelManager::findSimilar</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, size_t k=10, float min_similarity=0.7f) const</argsstring>
+        <name>findSimilar</name>
+        <qualifiedname>themis::process::ProcessModelManager::findSimilar</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_similarity</declname>
+          <defval>0.7f</defval>
+        </param>
+        <briefdescription>
+<para>Vector-similarity search: find models semantically similar to a natural-language query or another model&apos;s embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Embedding vector for the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of nearest neighbours to return. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_similarity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum cosine similarity threshold [0, 1]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="327" column="17" bodyfile="src/process/process_model_manager.cpp" bodystart="815" bodyend="886"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a69b7f38119c0ad527a36797e81a1cd01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelManager::exportBpmn</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>exportBpmn</name>
+        <qualifiedname>themis::process::ProcessModelManager::exportBpmn</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Export a stored model to BPMN 2.0 XML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>BPMN XML string, or empty on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="342" column="17" bodyfile="src/process/process_model_manager.cpp" bodystart="890" bodyend="894"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a3b259831b8f66bdd1acc2a17f70253c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelManager::exportEpk</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>exportEpk</name>
+        <qualifiedname>themis::process::ProcessModelManager::exportEpk</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Export a stored model to EPK text format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="347" column="17" bodyfile="src/process/process_model_manager.cpp" bodystart="896" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a4d30e8aed8a9a7d31f0c54712f5aeace" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::ProcessModelManager::generateLlmDescriptor</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>generateLlmDescriptor</name>
+        <qualifiedname>themis::process::ProcessModelManager::generateLlmDescriptor</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Generate an LLM-optimised JSON descriptor for a model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The descriptor is designed to be injected into an LLM system prompt or RAG context. It includes structured node/edge descriptions, compliance tags, SLA information, and a natural-language summary. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="356" column="20" bodyfile="src/process/process_model_manager.cpp" bodystart="928" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1ad3de844e94b057e9e637d6904817ee3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::deployToEngine</definition>
+        <argsstring>(std::string_view model_id, ProcessGraphManager &amp;engine) const</argsstring>
+        <name>deployToEngine</name>
+        <qualifiedname>themis::process::ProcessModelManager::deployToEngine</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>ProcessGraphManager &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Deploy a process model to the ProcessGraphManager for execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Converts the stored model to ProcessNodeInfo / ProcessEdgeInfo objects and registers them with the given engine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model to deploy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target execution engine. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="371" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="938" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1ad53e78430365776e26035a0631440c79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::undeployFromEngine</definition>
+        <argsstring>(std::string_view model_id, ProcessGraphManager &amp;engine) const</argsstring>
+        <name>undeployFromEngine</name>
+        <qualifiedname>themis::process::ProcessModelManager::undeployFromEngine</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>ProcessGraphManager &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Undeploy (unregister) a model from the execution engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="379" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="1052" bodyend="1061"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a5a42b5a8c49682f625307e57ecf06125" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelManager::validateModelConsistency</definition>
+        <argsstring>(const ProcessModelRecord &amp;record) const</argsstring>
+        <name>validateModelConsistency</name>
+        <qualifiedname>themis::process::ProcessModelManager::validateModelConsistency</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Validate process model consistency and integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks:<itemizedlist>
+<listitem><para>Required fields are non-empty (id, name, version)</para>
+</listitem><listitem><para>All referenced nodes in edges exist</para>
+</listitem><listitem><para>No dangling references</para>
+</listitem><listitem><para>Best-effort bounded cycle diagnostics (warnings only, non-fatal)</para>
+</listitem><listitem><para>Resource limits respected (max nodes/edges/depth)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The record to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref> with detailed validation errors on failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="401" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="1065" bodyend="1253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a818af2af43113a863aeefa8a7ed289b8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::ProcessModelManager::getConsistencyDiagnostics</definition>
+        <argsstring>() const</argsstring>
+        <name>getConsistencyDiagnostics</name>
+        <qualifiedname>themis::process::ProcessModelManager::getConsistencyDiagnostics</qualifiedname>
+        <briefdescription>
+<para>Get internal state consistency checks for debugging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns diagnostic information about:<itemizedlist>
+<listitem><para>Total models loaded</para>
+</listitem><listitem><para>Index coherency status (FTS/Vector)</para>
+</listitem><listitem><para>Orphaned or corrupted records</para>
+</listitem><listitem><para>Revision chain integrity</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>JSON diagnostic object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="414" column="21" bodyfile="src/process/process_model_manager.cpp" bodystart="1255" bodyend="1304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a3e6353b0c877dd5f25c112a15cb46cd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessModelManager::setEmbedder</definition>
+        <argsstring>(std::function&lt; std::vector&lt; float &gt;(std::string_view)&gt; embedder)</argsstring>
+        <name>setEmbedder</name>
+        <qualifiedname>themis::process::ProcessModelManager::setEmbedder</qualifiedname>
+        <param>
+          <type>std::function&lt; std::vector&lt; float &gt;(std::string_view)&gt;</type>
+          <declname>embedder</declname>
+        </param>
+        <briefdescription>
+<para>Wire a text-embedding function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <computeroutput>embedder</computeroutput> is called automatically inside <ref refid="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" kindref="member">save()</ref> whenever the saved record has an empty embedding vector. The concatenation of <computeroutput>name + " " + description + " " + long_description</computeroutput> is used as input.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable <computeroutput>(std::string_view text) → std::vector&lt;float&gt;</computeroutput>. Pass an empty function to disable. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="430" column="10" bodyfile="src/process/process_model_manager.cpp" bodystart="312" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1ab7e4cce7b71311f1754298a388193361" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessModelManager::setInvertedIndex</definition>
+        <argsstring>(std::shared_ptr&lt; InvertedIndex &gt; fts)</argsstring>
+        <name>setInvertedIndex</name>
+        <qualifiedname>themis::process::ProcessModelManager::setInvertedIndex</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; InvertedIndex &gt;</type>
+          <declname>fts</declname>
+        </param>
+        <briefdescription>
+<para>Wire an InvertedIndex for BM25 full-text search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Inverted Index.</para>
+<para>When set, <ref refid="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" kindref="member">save()</ref> automatically indexes the model name and description fields, and <ref refid="classthemis_1_1process_1_1_process_model_manager_1a38a273b3dde09bb9f35d7fae7bd6ed00" kindref="member">remove()</ref> removes the posting entries. The <ref refid="classthemis_1_1process_1_1_process_model_manager_1a285369ad459375b8f9cd20de3d669c7a" kindref="member">search()</ref> method uses the BM25 index instead of the linear keyword scan.</para>
+<para>The index must be created for the logical table &quot;process_definitions&quot; and the column &quot;text&quot; before the first <ref refid="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" kindref="member">save()</ref> call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to an InvertedIndex instance (may be null to disable).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="445" column="10" bodyfile="src/process/process_model_manager.cpp" bodystart="322" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1aa73708d4d9b3d3c29645eefb80ac2d09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessModelManager::setVectorIndex</definition>
+        <argsstring>(std::shared_ptr&lt; VectorIndexManager &gt; vi)</argsstring>
+        <name>setVectorIndex</name>
+        <qualifiedname>themis::process::ProcessModelManager::setVectorIndex</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+          <declname>vi</declname>
+        </param>
+        <briefdescription>
+<para>Wire a VectorIndexManager for HNSW-based <ref refid="classthemis_1_1process_1_1_process_model_manager_1a32611e3d78aa006c49d2b5e9a43da92d" kindref="member">findSimilar()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Vector Index.</para>
+<para>When set, <ref refid="classthemis_1_1process_1_1_process_model_manager_1a32611e3d78aa006c49d2b5e9a43da92d" kindref="member">findSimilar()</ref> delegates to the HNSW index for O(log n) approximate nearest-neighbour search instead of a linear cosine scan. <ref refid="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" kindref="member">save()</ref> upserts the model embedding; <ref refid="classthemis_1_1process_1_1_process_model_manager_1a38a273b3dde09bb9f35d7fae7bd6ed00" kindref="member">remove()</ref> deletes it from the index.</para>
+<para>The index must be initialised for the object name &quot;process_models&quot; with the correct embedding dimension before the first <ref refid="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" kindref="member">save()</ref> call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vi</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to an initialised VectorIndexManager (may be null to disable).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vi</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="460" column="10" bodyfile="src/process/process_model_manager.cpp" bodystart="342" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1ac703f198bbae8470ba4b57795cdf137d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelManager::makeKey_</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>makeKey_</name>
+        <qualifiedname>themis::process::ProcessModelManager::makeKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="510" column="17" bodyfile="src/process/process_model_manager.cpp" bodystart="347" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1abd4dd2b97e4e7d3dfb27619f3a221b47" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelManager::makeVersionedKey_</definition>
+        <argsstring>(std::string_view model_id, int revision) const</argsstring>
+        <name>makeVersionedKey_</name>
+        <qualifiedname>themis::process::ProcessModelManager::makeVersionedKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>revision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="511" column="17" bodyfile="src/process/process_model_manager.cpp" bodystart="351" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a41f1af50ab070912d66be38d2531d272" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessModelManager::detectConflict_</definition>
+        <argsstring>(std::string_view model_id, int expected_revision) const</argsstring>
+        <name>detectConflict_</name>
+        <qualifiedname>themis::process::ProcessModelManager::detectConflict_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>expected_revision</declname>
+        </param>
+        <briefdescription>
+<para>Detect if another operation modified the model during our transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model being tracked. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_revision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The revision we expect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if conflict detected. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_state_lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="527" column="10" bodyfile="src/process/process_model_manager.cpp" bodystart="1316" bodyend="1342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a792a03c8d7f97ec7a7578a8c7652be9d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessModelManager::rollbackTransaction_</definition>
+        <argsstring>(const TransactionContext &amp;txn)</argsstring>
+        <name>rollbackTransaction_</name>
+        <qualifiedname>themis::process::ProcessModelManager::rollbackTransaction_</qualifiedname>
+        <param>
+          <type>const TransactionContext &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Rollback modifications to a model in case of conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback Transaction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction context describing what was modified.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), makeKey_(), makeVersionedKey_(), get(), SPDLOG_WARN(), put(), SPDLOG_INFO(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="533" column="10" bodyfile="src/process/process_model_manager.cpp" bodystart="1349" bodyend="1374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1afe35a32c110339490729da0ad2ad58ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TransactionContext</type>
+        <definition>ProcessModelManager::TransactionContext themis::process::ProcessModelManager::createTransaction_</definition>
+        <argsstring>(std::string_view model_id)</argsstring>
+        <name>createTransaction_</name>
+        <qualifiedname>themis::process::ProcessModelManager::createTransaction_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Create a new transaction context for a multi-step operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Transaction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model being modified. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>TransactionContext with unique ID and timestamp.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_state_lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="540" column="24" bodyfile="src/process/process_model_manager.cpp" bodystart="1381" bodyend="1417"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1a66e3e0d538c805e00fd2404308f99ae8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ProcessModelManager::buildNormalizedGraph_</definition>
+        <argsstring>(const std::vector&lt; ProcessNodeInfo &gt; &amp;nodes, const std::vector&lt; ProcessEdgeInfo &gt; &amp;edges, const ProcessModelRecord &amp;meta)</argsstring>
+        <name>buildNormalizedGraph_</name>
+        <qualifiedname>themis::process::ProcessModelManager::buildNormalizedGraph_</qualifiedname>
+        <param>
+          <type>const std::vector&lt; ProcessNodeInfo &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; ProcessEdgeInfo &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> buildNormalizedGraph_ -----------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="514" column="27" bodyfile="src/process/process_model_manager.cpp" bodystart="365" bodyend="463"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>High-level manager for process model definitions stored in ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1process_1_1_process_model_manager_1autotoc_md26_1s1"><sect2 id="classthemis_1_1process_1_1_process_model_manager_1autotoc_md26">
+<title>Responsibilities</title><para><itemizedlist>
+<listitem><para>Import process models from BPMN 2.0 XML, EPK text, or VCC-VPB YAML.</para>
+</listitem><listitem><para>Persist models as base-entity documents in the <computeroutput>_process_definitions</computeroutput> system collection, making them queryable via AQL just like any other document.</para>
+</listitem><listitem><para>Export models to BPMN 2.0 XML, EPK, or the LLM-optimised JSON descriptor.</para>
+</listitem><listitem><para>Bridge to <computeroutput>ProcessGraphManager</computeroutput> for execution (deploy / undeploy).</para>
+</listitem><listitem><para>Generate LLM-readable descriptions for use in RAG pipelines.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1process_1_1_process_model_manager_1autotoc_md27_1s1"><sect2 id="classthemis_1_1process_1_1_process_model_manager_1autotoc_md27">
+<title>Layer over Base-Entities</title><para>Every process model is stored as a regular ThemisDB document with a well-known <computeroutput>_type = "process_definition"</computeroutput> field. This means:</para>
+<para><programlisting filename=".aql"><codeline><highlight class="normal">FOR<sp/>m<sp/>IN<sp/>_process_definitions</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>FILTER<sp/>m.domain<sp/>==<sp/>&quot;ADMINISTRATION&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>RETURN<sp/>m</highlight></codeline>
+</programlisting></para>
+<para>works without any special query language extension.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1process_1_1_process_model_manager_1autotoc_md28_1s1"><sect2 id="classthemis_1_1process_1_1_process_model_manager_1autotoc_md28">
+<title>Thread Safety</title><para>All public methods are thread-safe when called on separate instances backed by the same RocksDB database (RocksDB itself is thread-safe for concurrent reads and writes). </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/process/process_model_manager.h" line="176" column="1" bodyfile="include/process/process_model_manager.h" bodystart="176" bodyend="541"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a66e3e0d538c805e00fd2404308f99ae8" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>buildNormalizedGraph_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1afe35a32c110339490729da0ad2ad58ac" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>createTransaction_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a89a12ab868663ee87cd3db02835f9068" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1ad3de844e94b057e9e637d6904817ee3c" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>deployToEngine</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a41f1af50ab070912d66be38d2531d272" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>detectConflict_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a637dcf16b61309301b9ee1ab2e138036" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>embedder_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a69b7f38119c0ad527a36797e81a1cd01" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>exportBpmn</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a3b259831b8f66bdd1acc2a17f70253c8" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>exportEpk</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a32611e3d78aa006c49d2b5e9a43da92d" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>findSimilar</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1af10ba3e8f093e3774154db86d39240ab" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>fts_index_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a4d30e8aed8a9a7d31f0c54712f5aeace" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>generateLlmDescriptor</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a818af2af43113a863aeefa8a7ed289b8" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>getConsistencyDiagnostics</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a2f0f06af93ca5b3bdf6b5e688677a74b" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>importArisXml</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a1210c9c8023799dbbd5fb3e859d8b77f" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>importBpmn</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1af015f8b4276666e568f59152a4fea1d4" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>importEpk</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a69768dc81090aac8b44e1b09f5408029" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>importVccVpb</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a986ca6d6bd0176f5d2c1de6834f1973d" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>linking_lock_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a63a09c224574b3440950e5975052625a" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>list</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a1b90480c9701be6599a92c56a97b74a1" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>load</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1ac703f198bbae8470ba4b57795cdf137d" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>makeKey_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1abd4dd2b97e4e7d3dfb27619f3a221b47" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>makeVersionedKey_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1aee91d6562e4c0f45d2b400aeee960e83" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>model_state_lock_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a3f1b4b7f540c0531f177cced7481cae2" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>operation_counter_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1aa6653c13397553011259dadbece5ba58" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>ProcessModelManager</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1acc7e511aac50d4d465d20f2a58fb6682" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>ProcessModelManager</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a38a273b3dde09bb9f35d7fae7bd6ed00" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>remove</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a792a03c8d7f97ec7a7578a8c7652be9d" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>rollbackTransaction_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>save</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a285369ad459375b8f9cd20de3d669c7a" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>search</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a3e6353b0c877dd5f25c112a15cb46cd7" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>setEmbedder</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1ab7e4cce7b71311f1754298a388193361" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>setInvertedIndex</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1aa73708d4d9b3d3c29645eefb80ac2d09" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>setVectorIndex</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1ad53e78430365776e26035a0631440c79" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>undeployFromEngine</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a5a42b5a8c49682f625307e57ecf06125" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>validateModelConsistency</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a8e9c941520d9fc270c3a7ccc522d948c" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1a305b8ac5d0e20c39d689122ab57ccbb4" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager</scope><name>~ProcessModelManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

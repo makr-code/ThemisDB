@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_http_server_1_1_rate_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::HttpServer::RateState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_rate_state_1a85e7c6c66c52c282c33ba0b64eec0773" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::HttpServer::RateState::window_start_ms</definition>
+        <argsstring></argsstring>
+        <name>window_start_ms</name>
+        <qualifiedname>themis::server::HttpServer::RateState::window_start_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="1876" column="29" bodyfile="include/server/http_server.h" bodystart="1876" bodyend="1876"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_rate_state_1ab4e2e2810cce0d4a50063f9188f9078d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::RateState::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::server::HttpServer::RateState::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="1876" column="54" bodyfile="include/server/http_server.h" bodystart="1876" bodyend="1876"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/http_server.h" line="1876" column="5" bodyfile="include/server/http_server.h" bodystart="1876" bodyend="1876"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_rate_state_1ab4e2e2810cce0d4a50063f9188f9078d" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::RateState</scope><name>count</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_rate_state_1a85e7c6c66c52c282c33ba0b64eec0773" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::RateState</scope><name>window_start_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_retrieval_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RetrievalSpec</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec" prot="public">themis::llm::RetrievalSpec::ChunkingSpec</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1acc0262dc13b46adc8491dda1eb510d76" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::RetrievalSpec::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::RetrievalSpec::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="63" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1a65b706b18319eaf30cabe8bcfa6ae520" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RetrievalSpec::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::RetrievalSpec::strategy</qualifiedname>
+        <initializer>= &quot;hybrid&quot;</initializer>
+        <briefdescription>
+<para>&quot;vector&quot;, &quot;fulltext&quot;, &quot;hybrid&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="64" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1aea55b703bea0d55059aa7a466214b7d6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RetrievalSpec::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::RetrievalSpec::top_k</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="65" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1a1c113af888f598e05dfbe9ab39260393" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::RetrievalSpec::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::llm::RetrievalSpec::threshold</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="66" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1a4a7602eee39e31a7cccaf75534a517a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::RetrievalSpec::rerank</definition>
+        <argsstring></argsstring>
+        <name>rerank</name>
+        <qualifiedname>themis::llm::RetrievalSpec::rerank</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="67" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1ae7824e6c7921ccb2be3cf4aa196f8858" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec" kindref="compound">themis::llm::RetrievalSpec::ChunkingSpec</ref></type>
+        <definition>struct themis::llm::RetrievalSpec::ChunkingSpec themis::llm::RetrievalSpec::chunking</definition>
+        <argsstring></argsstring>
+        <name>chunking</name>
+        <qualifiedname>themis::llm::RetrievalSpec::chunking</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="73" column="14"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1a2d1f00760930669735418e9c1a42112c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RetrievalSpec::read_ts_semantics</definition>
+        <argsstring></argsstring>
+        <name>read_ts_semantics</name>
+        <qualifiedname>themis::llm::RetrievalSpec::read_ts_semantics</qualifiedname>
+        <initializer>= &quot;latest&quot;</initializer>
+        <briefdescription>
+<para>&quot;latest&quot;, &quot;snapshot:&lt;ts&gt;&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="75" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1a56fcba909eec3c73d3b7416085a13ff1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RetrievalSpec::locality</definition>
+        <argsstring></argsstring>
+        <name>locality</name>
+        <qualifiedname>themis::llm::RetrievalSpec::locality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="76" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::RetrievalSpec</label>
+        <link refid="structthemis_1_1llm_1_1_retrieval_spec"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>chunking</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::RetrievalSpec::ChunkingSpec</label>
+        <link refid="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/ai_orchestrator.h" line="62" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="62" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1ae7824e6c7921ccb2be3cf4aa196f8858" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec</scope><name>chunking</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1acc0262dc13b46adc8491dda1eb510d76" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1a56fcba909eec3c73d3b7416085a13ff1" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec</scope><name>locality</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1a2d1f00760930669735418e9c1a42112c" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec</scope><name>read_ts_semantics</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1a4a7602eee39e31a7cccaf75534a517a9" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec</scope><name>rerank</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1a65b706b18319eaf30cabe8bcfa6ae520" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1a1c113af888f598e05dfbe9ab39260393" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1aea55b703bea0d55059aa7a466214b7d6" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

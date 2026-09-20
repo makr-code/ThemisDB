@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUClusterTopology</compoundname>
+    <includes refid="cluster__topology_8h" local="no">cluster_topology.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a5de3252a6dcd3ab6b3115a96c7db3e40" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUClusterTopology::has_nvlink</definition>
+        <argsstring></argsstring>
+        <name>has_nvlink</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::has_nvlink</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when at least one NVLink connection is present. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="152" column="10" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1aab91364725b5d00a932703916a32aaa4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUClusterTopology::has_pcie_p2p</definition>
+        <argsstring></argsstring>
+        <name>has_pcie_p2p</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::has_pcie_p2p</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when at least one PCIe peer-to-peer path exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="155" column="10" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a6585e09cfbf32bd9eb36fe9ef9dc0a61" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUClusterTopology::has_infiniband</definition>
+        <argsstring></argsstring>
+        <name>has_infiniband</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::has_infiniband</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when at least one InfiniBand path exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="158" column="10" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a210f78f5d7e3f12a778faa84fba0e336" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUClusterTopology::num_gpus</definition>
+        <argsstring></argsstring>
+        <name>num_gpus</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::num_gpus</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of GPUs included in the local topology snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="161" column="10" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1aee9c56973138238f4f8226048409ab8f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::gpu::GPUClusterTopology::bandwidth_matrix</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_matrix</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::bandwidth_matrix</qualifiedname>
+        <briefdescription>
+<para>Symmetric bandwidth matrix: bandwidth_matrix[i][j] is the estimated one-way GB/s from device i to device j. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Diagonal entries are 0. Uses estimated values when real NVML / ROCM-SMI data are unavailable (NVLINK: 300 GB/s, PCIe P2P: 16 GB/s, CPU: 8 GB/s). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="170" column="17" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a2ee8812d0f443b5f48226e1007209312" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_topology_link" kindref="compound">TopologyLink</ref> &gt;</type>
+        <definition>std::vector&lt;TopologyLink&gt; themis::gpu::GPUClusterTopology::links</definition>
+        <argsstring></argsstring>
+        <name>links</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::links</qualifiedname>
+        <briefdescription>
+<para>All topology links (intra-node and inter-node). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="173" column="17" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a2cb61e71197b89ed46ae8cf1af9670f8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_cluster_node" kindref="compound">ClusterNode</ref> &gt;</type>
+        <definition>std::vector&lt;ClusterNode&gt; themis::gpu::GPUClusterTopology::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::nodes</qualifiedname>
+        <briefdescription>
+<para>Registered cluster nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="176" column="17" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a54b53f4cc0249c292c844b3d1f4fcc82" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1gpu_1_1_cluster_node" kindref="compound">ClusterNode</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ClusterNode&gt; themis::gpu::GPUClusterTopology::node_map_</definition>
+        <argsstring></argsstring>
+        <name>node_map_</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::node_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="215" column="24" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a7f1f3e495373b01d6729f123861d9e63" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a67a76be071e050449e81bad279c248b7" kindref="member">GPUClusterTopology</ref></type>
+        <definition>static GPUClusterTopology themis::gpu::GPUClusterTopology::detect</definition>
+        <argsstring>(const std::vector&lt; DeviceInfo &gt; &amp;devices)</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::detect</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <briefdescription>
+<para>Detect intra-node GPU topology from an already-enumerated device list (single-node or local-node view of a multi-node cluster). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populates the NVLink bandwidth matrix and <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a5de3252a6dcd3ab6b3115a96c7db3e40" kindref="member">has_nvlink</ref></computeroutput> flag. InfiniBand inter-node links are populated via <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ab17d0acbd5d89202406a53d4d5c331fa" kindref="member">addNode()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a6ae0d797900fd48cf11139d407000878" kindref="member">addLink()</ref></computeroutput> by the cluster coordinator once remote node information is available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>devices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output of <computeroutput><ref refid="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" kindref="member">DeviceDiscovery::Enumerate()</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Topology object with intra-node links filled in. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="118" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a67a76be071e050449e81bad279c248b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUClusterTopology::GPUClusterTopology</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUClusterTopology</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::GPUClusterTopology</qualifiedname>
+        <briefdescription>
+<para>Default-construct an empty topology (zero devices, zero links). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ab17d0acbd5d89202406a53d4d5c331fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUClusterTopology::addNode</definition>
+        <argsstring>(const ClusterNode &amp;node)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::addNode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_cluster_node" kindref="compound">ClusterNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Register a cluster node. Duplicate node_ids are ignored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="132" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ab050590bd2b921aef731239b53f529f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUClusterTopology::removeNode</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::removeNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a cluster node by id (also removes its links). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="137" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a6ae0d797900fd48cf11139d407000878" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUClusterTopology::addLink</definition>
+        <argsstring>(const TopologyLink &amp;link)</argsstring>
+        <name>addLink</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::addLink</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_topology_link" kindref="compound">TopologyLink</ref> &amp;</type>
+          <declname>link</declname>
+        </param>
+        <briefdescription>
+<para>Add a directed inter-node InfiniBand link. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Both src and dst node_ids must have been added via <ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ab17d0acbd5d89202406a53d4d5c331fa" kindref="member">addNode()</ref> first; if either is unknown the call is silently ignored. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="145" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a7308d17f442639937eb77eeb966f6d61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; int, int &gt;</type>
+        <definition>std::pair&lt; int, int &gt; themis::gpu::GPUClusterTopology::bestNVLinkPair</definition>
+        <argsstring>() const</argsstring>
+        <name>bestNVLinkPair</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::bestNVLinkPair</qualifiedname>
+        <briefdescription>
+<para>Return the pair of device indices with the highest NVLink bandwidth. Returns {-1, -1} when no NVLink is present. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="182" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ab8b3c69190dce14444ffe1c5ad66b746" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; themis::gpu::GPUClusterTopology::bestInfiniBandPair</definition>
+        <argsstring>() const</argsstring>
+        <name>bestInfiniBandPair</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::bestInfiniBandPair</qualifiedname>
+        <briefdescription>
+<para>Return the pair of nodes with the highest InfiniBand bandwidth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns {&quot;&quot;, &quot;&quot;} when no inter-node InfiniBand links are registered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="189" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ae540e359931416f1a606634c9cc92306" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::gpu::GPUClusterTopology::bandwidthBetween</definition>
+        <argsstring>(int device_a, int device_b) const</argsstring>
+        <name>bandwidthBetween</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::bandwidthBetween</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_a</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_b</declname>
+        </param>
+        <briefdescription>
+<para>Return the estimated bandwidth in GB/s between two local GPU device indices. Returns 0 when either index is out of range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="195" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a8018fa5bf07d3584c0e44e9fc1473f92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1gpu_1a881a53e5711d7e5964bc051f1f346882" kindref="member">InterconnectType</ref></type>
+        <definition>InterconnectType themis::gpu::GPUClusterTopology::preferredInterconnect</definition>
+        <argsstring>(int device_a, int device_b) const</argsstring>
+        <name>preferredInterconnect</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::preferredInterconnect</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_a</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_b</declname>
+        </param>
+        <briefdescription>
+<para>Return the interconnect type used on the highest-bandwidth path between two local device indices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="201" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1aab5c0abe96233f86f426cfff7a051013" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::gpu::GPUClusterTopology::nodeIds</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeIds</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::nodeIds</qualifiedname>
+        <briefdescription>
+<para>Return all registered node ids. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="206" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a42534c2972aa6df20daad03e2555f479" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cluster_node" kindref="compound">ClusterNode</ref></type>
+        <definition>ClusterNode themis::gpu::GPUClusterTopology::getNode</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>getNode</name>
+        <qualifiedname>themis::gpu::GPUClusterTopology::getNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the node descriptor for a given id (empty node_id if not found). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="212" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GPU cluster topology snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures the full NVLink / InfiniBand / PCIe topology of a multi-node GPU cluster so that the scheduler can make bandwidth-aware placement decisions.</para>
+<para>The topology is represented as:<itemizedlist>
+<listitem><para>A per-device NVLink bandwidth matrix (intra-node).</para>
+</listitem><listitem><para>A per-node InfiniBand bandwidth matrix (inter-node).</para>
+</listitem><listitem><para>A flat list of all directed <computeroutput><ref refid="structthemis_1_1gpu_1_1_topology_link" kindref="compound">TopologyLink</ref></computeroutput> records for detailed queries.</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1autotoc_md7_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1autotoc_md7">
+<title>Typical usage</title><para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devices<sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" kindref="member">DeviceDiscovery::Enumerate</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a7f1f3e495373b01d6729f123861d9e63" kindref="member">GPUClusterTopology::detect</ref>(devices);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(topology.has_nvlink)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pick<sp/>GPUs<sp/>with<sp/>highest<sp/>NVLink<sp/>bandwidth<sp/>for<sp/>data-parallel<sp/>jobs</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pair<sp/>=<sp/>topology.bestNVLinkPair();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Thread safety: <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology" kindref="compound">GPUClusterTopology</ref></computeroutput> is an immutable value object after construction. All read methods are const and thread-safe. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/cluster_topology.h" line="101" column="1" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="101" bodyend="216"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a6ae0d797900fd48cf11139d407000878" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>addLink</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ab17d0acbd5d89202406a53d4d5c331fa" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>addNode</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1aee9c56973138238f4f8226048409ab8f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>bandwidth_matrix</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ae540e359931416f1a606634c9cc92306" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>bandwidthBetween</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ab8b3c69190dce14444ffe1c5ad66b746" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>bestInfiniBandPair</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a7308d17f442639937eb77eeb966f6d61" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>bestNVLinkPair</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a7f1f3e495373b01d6729f123861d9e63" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>detect</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a42534c2972aa6df20daad03e2555f479" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>getNode</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a67a76be071e050449e81bad279c248b7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>GPUClusterTopology</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a6585e09cfbf32bd9eb36fe9ef9dc0a61" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>has_infiniband</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a5de3252a6dcd3ab6b3115a96c7db3e40" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>has_nvlink</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1aab91364725b5d00a932703916a32aaa4" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>has_pcie_p2p</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a2ee8812d0f443b5f48226e1007209312" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>links</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a54b53f4cc0249c292c844b3d1f4fcc82" prot="private" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>node_map_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1aab5c0abe96233f86f426cfff7a051013" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>nodeIds</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a2cb61e71197b89ed46ae8cf1af9670f8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>nodes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a210f78f5d7e3f12a778faa84fba0e336" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>num_gpus</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a8018fa5bf07d3584c0e44e9fc1473f92" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>preferredInterconnect</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1ab050590bd2b921aef731239b53f529f7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterTopology</scope><name>removeNode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

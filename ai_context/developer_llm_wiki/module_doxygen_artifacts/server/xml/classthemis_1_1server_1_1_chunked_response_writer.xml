@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_chunked_response_writer" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ChunkedResponseWriter</compoundname>
+    <includes refid="chunked__response__writer_8h" local="no">chunked_response_writer.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_chunked_response_writer_1a1aaf9b2d2c01a453764124504d3abd00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ChunkedResponseWriter::encodeChunkedBody</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;fragments)</argsstring>
+        <name>encodeChunkedBody</name>
+        <qualifiedname>themis::server::ChunkedResponseWriter::encodeChunkedBody</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>fragments</declname>
+        </param>
+        <briefdescription>
+<para>Encode Chunked Body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fragments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="43" column="24" bodyfile="src/server/chunked_response_writer.cpp" bodystart="51" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_chunked_response_writer_1a151384824aca249660ea045c5ba95f86" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChunkedResponseWriter::fromFragments</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, http::status status, const std::vector&lt; std::string &gt; &amp;fragments, const std::string &amp;content_type=&quot;application/x-ndjson&quot;)</argsstring>
+        <name>fromFragments</name>
+        <qualifiedname>themis::server::ChunkedResponseWriter::fromFragments</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>fragments</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_type</declname>
+          <defval>&quot;application/x-ndjson&quot;</defval>
+        </param>
+        <briefdescription>
+<para>From Fragments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fragments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="45" column="27" bodyfile="src/server/chunked_response_writer.cpp" bodystart="79" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_chunked_response_writer_1ab2b00220c06f7cab0d6b93a5ecb8d454" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChunkedResponseWriter::fromJsonVector</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, http::status status, const std::vector&lt; nlohmann::json &gt; &amp;items, const ChunkedWriterConfig &amp;config=ChunkedWriterConfig{})</argsstring>
+        <name>fromJsonVector</name>
+        <qualifiedname>themis::server::ChunkedResponseWriter::fromJsonVector</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_chunked_writer_config" kindref="compound">ChunkedWriterConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1server_1_1_chunked_writer_config" kindref="compound">ChunkedWriterConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>From Json Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="51" column="27" bodyfile="src/server/chunked_response_writer.cpp" bodystart="109" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_chunked_response_writer_1a9a4e374525ccf19d21ba32ecb1533115" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChunkedResponseWriter::fromStream</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, http::status status, std::shared_ptr&lt; query::ResultStream&lt; nlohmann::json &gt; &gt; stream, const ChunkedWriterConfig &amp;config=ChunkedWriterConfig{})</argsstring>
+        <name>fromStream</name>
+        <qualifiedname>themis::server::ChunkedResponseWriter::fromStream</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; query::ResultStream&lt; nlohmann::json &gt; &gt;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_chunked_writer_config" kindref="compound">ChunkedWriterConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1server_1_1_chunked_writer_config" kindref="compound">ChunkedWriterConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>From Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="57" column="27" bodyfile="src/server/chunked_response_writer.cpp" bodystart="157" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_chunked_response_writer_1ab87b4cb3d66a671347140e77bc3474aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::ChunkedResponseWriter::shouldUseChunkedTransfer</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, size_t item_count, size_t threshold=1000)</argsstring>
+        <name>shouldUseChunkedTransfer</name>
+        <qualifiedname>themis::server::ChunkedResponseWriter::shouldUseChunkedTransfer</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>item_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>threshold</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>Should Use Chunked Transfer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">item_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="63" column="17" bodyfile="src/server/chunked_response_writer.cpp" bodystart="257" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_chunked_response_writer_1ac67d0c5491ce5a5495f9ba10e4823eeb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ChunkedResponseWriter::decodeChunkedBody</definition>
+        <argsstring>(const std::string &amp;encoded)</argsstring>
+        <name>decodeChunkedBody</name>
+        <qualifiedname>themis::server::ChunkedResponseWriter::decodeChunkedBody</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Decode Chunked Body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), find(), substr(), empty(), std::stoul(), THEMIS_WARN(), append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="73" column="24" bodyfile="src/server/chunked_response_writer.cpp" bodystart="208" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_chunked_response_writer_1ab3a9a352abb1dd0c56c59f7a40b633ee" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ChunkedResponseWriter::appendChunk</definition>
+        <argsstring>(std::string &amp;out, const std::string &amp;data)</argsstring>
+        <name>appendChunk</name>
+        <qualifiedname>themis::server::ChunkedResponseWriter::appendChunk</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Append Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="81" column="17" bodyfile="src/server/chunked_response_writer.cpp" bodystart="32" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/chunked_response_writer.h" line="36" column="1" bodyfile="include/server/chunked_response_writer.h" bodystart="36" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_chunked_response_writer_1ab3a9a352abb1dd0c56c59f7a40b633ee" prot="private" virt="non-virtual"><scope>themis::server::ChunkedResponseWriter</scope><name>appendChunk</name></member>
+      <member refid="classthemis_1_1server_1_1_chunked_response_writer_1ac67d0c5491ce5a5495f9ba10e4823eeb" prot="public" virt="non-virtual"><scope>themis::server::ChunkedResponseWriter</scope><name>decodeChunkedBody</name></member>
+      <member refid="classthemis_1_1server_1_1_chunked_response_writer_1a1aaf9b2d2c01a453764124504d3abd00" prot="public" virt="non-virtual"><scope>themis::server::ChunkedResponseWriter</scope><name>encodeChunkedBody</name></member>
+      <member refid="classthemis_1_1server_1_1_chunked_response_writer_1a151384824aca249660ea045c5ba95f86" prot="public" virt="non-virtual"><scope>themis::server::ChunkedResponseWriter</scope><name>fromFragments</name></member>
+      <member refid="classthemis_1_1server_1_1_chunked_response_writer_1ab2b00220c06f7cab0d6b93a5ecb8d454" prot="public" virt="non-virtual"><scope>themis::server::ChunkedResponseWriter</scope><name>fromJsonVector</name></member>
+      <member refid="classthemis_1_1server_1_1_chunked_response_writer_1a9a4e374525ccf19d21ba32ecb1533115" prot="public" virt="non-virtual"><scope>themis::server::ChunkedResponseWriter</scope><name>fromStream</name></member>
+      <member refid="classthemis_1_1server_1_1_chunked_response_writer_1ab87b4cb3d66a671347140e77bc3474aa" prot="public" virt="non-virtual"><scope>themis::server::ChunkedResponseWriter</scope><name>shouldUseChunkedTransfer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

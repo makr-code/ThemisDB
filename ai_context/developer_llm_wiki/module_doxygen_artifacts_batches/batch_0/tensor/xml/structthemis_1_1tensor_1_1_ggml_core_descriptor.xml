@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_ggml_core_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::GgmlCoreDescriptor</compoundname>
+    <includes refid="adapter__repository_8h" local="no">adapter_repository.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_ggml_core_descriptor_1ad6570d44dd640dbd21a82b459a31b65d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::GgmlCoreDescriptor::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::tensor::GgmlCoreDescriptor::valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>false → adapter not found or load failed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="55" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_ggml_core_descriptor_1adc93036f714ceeb89ae532a011ee65f9" prot="public" static="no" mutable="no">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::GgmlCoreDescriptor::train</definition>
+        <argsstring></argsstring>
+        <name>train</name>
+        <qualifiedname>themis::tensor::GgmlCoreDescriptor::train</qualifiedname>
+        <briefdescription>
+<para>TT-format adapter weights (all cores). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="57" column="22" bodyfile="include/tensor/adapter_repository.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_ggml_core_descriptor_1af4be158836f201a20ae7dd91e038969b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::GgmlCoreDescriptor::adapter_key</definition>
+        <argsstring></argsstring>
+        <name>adapter_key</name>
+        <qualifiedname>themis::tensor::GgmlCoreDescriptor::adapter_key</qualifiedname>
+        <briefdescription>
+<para>Full storage key (for cache invalidation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="59" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_ggml_core_descriptor_1afe3cb82e842912b12547ab31e94de2ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::GgmlCoreDescriptor::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::tensor::GgmlCoreDescriptor::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Owning tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="60" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a0614b2162e3c7d1cc96ea92b6a0bc647" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::GgmlCoreDescriptor::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::tensor::GgmlCoreDescriptor::domain</qualifiedname>
+        <briefdescription>
+<para>Domain tag (e.g. &quot;legal&quot;, &quot;medical&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="61" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a7282ecae13021bc0dfe607c9e509ddf4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::GgmlCoreDescriptor::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::tensor::GgmlCoreDescriptor::base_model_id</qualifiedname>
+        <briefdescription>
+<para>Base model this adapter targets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="62" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a25642f710de115d8ea00fde1b6930569" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::GgmlCoreDescriptor::paramCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>paramCount</name>
+        <qualifiedname>themis::tensor::GgmlCoreDescriptor::paramCount</qualifiedname>
+        <briefdescription>
+<para>Number of parameters across all TT-cores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="65" column="18" bodyfile="include/tensor/adapter_repository.h" bodystart="65" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor returned by <computeroutput><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a9e061f9c6fb88909dc855a82aa98b0d9" kindref="member">AdapterRepository::loadAdapter()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains the TT-format adapter weights and provenance metadata. The <computeroutput><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1adc93036f714ceeb89ae532a011ee65f9" kindref="member">train</ref></computeroutput> field holds the loaded TT-cores ready for injection into a ggml graph. In the production mmap path the cores will be pinned pages; in the current implementation they are heap-copied.</para>
+<para><simplesect kind="note"><para>// STUB/SIMULATION NOTE: // Purpose: Placeholder descriptor until the mmap injection path is ready. // Activation: Always (no THEMIS_ENABLE_GGML_BRIDGE required here). // Production Delta: <computeroutput>train.cores[k].data</computeroutput> will point to mmap&apos;d pages, // not heap-allocated copies. // Removal Plan: Q1 2027 — replace heap copy with MAP_SHARED region pinned // via mlock(); add HMAC provenance check before returning. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/tensor/adapter_repository.h" line="54" column="1" bodyfile="include/tensor/adapter_repository.h" bodystart="54" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1af4be158836f201a20ae7dd91e038969b" prot="public" virt="non-virtual"><scope>themis::tensor::GgmlCoreDescriptor</scope><name>adapter_key</name></member>
+      <member refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a7282ecae13021bc0dfe607c9e509ddf4" prot="public" virt="non-virtual"><scope>themis::tensor::GgmlCoreDescriptor</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a0614b2162e3c7d1cc96ea92b6a0bc647" prot="public" virt="non-virtual"><scope>themis::tensor::GgmlCoreDescriptor</scope><name>domain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a25642f710de115d8ea00fde1b6930569" prot="public" virt="non-virtual"><scope>themis::tensor::GgmlCoreDescriptor</scope><name>paramCount</name></member>
+      <member refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1afe3cb82e842912b12547ab31e94de2ee" prot="public" virt="non-virtual"><scope>themis::tensor::GgmlCoreDescriptor</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1adc93036f714ceeb89ae532a011ee65f9" prot="public" virt="non-virtual"><scope>themis::tensor::GgmlCoreDescriptor</scope><name>train</name></member>
+      <member refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1ad6570d44dd640dbd21a82b459a31b65d" prot="public" virt="non-virtual"><scope>themis::tensor::GgmlCoreDescriptor</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

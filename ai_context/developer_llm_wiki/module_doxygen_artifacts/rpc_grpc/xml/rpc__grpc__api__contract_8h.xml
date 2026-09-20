@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rpc__grpc__api__contract_8h" kind="file" language="C++">
+    <compoundname>rpc_grpc_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="bench__rpc__grpc__release__gates_8cpp" local="yes">benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp</includedby>
+    <includedby refid="test__rpc__grpc__contract__hardening__focused_8cpp" local="yes">tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rpc_grpc/rpc_grpc_api_contract.h</label>
+        <link refid="rpc__grpc__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp</label>
+        <link refid="bench__rpc__grpc__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/rpc_grpc/rpc_grpc_api_contract.h</label>
+        <link refid="rpc__grpc__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp</label>
+        <link refid="test__rpc__grpc__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor" prot="public">themis::rpc_grpc::RpcServiceDescriptor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rpc__grpc">themis::rpc_grpc</innernamespace>
+    <briefdescription>
+<para>Frozen gRPC plugin and server lifecycle API contract for v1.x. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="rpc__grpc__api__contract_8h_1autotoc_md0_1s1"><sect2 id="rpc__grpc__api__contract_8h_1autotoc_md0">
+<title>§Purpose</title><para>Defines the normative contract for the rpc_grpc module covering gRPC server lifecycle operations, TLS/mTLS credential management, service registration, stream adapter behaviour, and method-level observability.</para>
+</sect2></sect1>
+<sect1 id="rpc__grpc__api__contract_8h_1autotoc_md1_1s1"><sect2 id="rpc__grpc__api__contract_8h_1autotoc_md1">
+<title>§API Contracts</title><para>Key behavioural invariants:<orderedlist>
+<listitem><para>A gRPC server may not accept requests before StartServer() completes successfully; any call in kStopped state yields kServerNotRunning.</para>
+</listitem><listitem><para>Service registration is idempotent if the name and handler match; conflicting registrations (same name, different handler) produce kServiceRegistration.</para>
+</listitem><listitem><para>TLS credential reload is atomic: the old credentials remain active until the new certificate chain is fully validated. Failed reload leaves credentials unchanged and returns kCredentialLoadFailed.</para>
+</listitem><listitem><para>Stream aborts propagate kStreamAborted to all in-flight RPC handlers on that stream; handlers MUST NOT access stream state after receiving it.</para>
+</listitem><listitem><para>All method dispatch operations are O(1) hash-map lookups; unknown methods produce kMethodNotFound, never a crash.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="rpc__grpc__api__contract_8h_1autotoc_md2_1s1"><sect2 id="rpc__grpc__api__contract_8h_1autotoc_md2">
+<title>§Error Taxonomy</title><para><table rows="9" cols="3"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Constant  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>0  </para>
+</entry><entry thead="no"><para>kSuccess  </para>
+</entry><entry thead="no"><para>Operation completed without error  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8300  </para>
+</entry><entry thead="no"><para>kServerNotRunning  </para>
+</entry><entry thead="no"><para>RPC server is not in Active state  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8301  </para>
+</entry><entry thead="no"><para>kServiceRegistration  </para>
+</entry><entry thead="no"><para>Service registration conflict or failure  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8302  </para>
+</entry><entry thead="no"><para>kCredentialLoadFailed  </para>
+</entry><entry thead="no"><para>TLS/mTLS certificate or key load failed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8303  </para>
+</entry><entry thead="no"><para>kStreamAborted  </para>
+</entry><entry thead="no"><para>gRPC stream was aborted by transport or peer  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8304  </para>
+</entry><entry thead="no"><para>kMethodNotFound  </para>
+</entry><entry thead="no"><para>Requested RPC method is not registered  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8305  </para>
+</entry><entry thead="no"><para>kTransportError  </para>
+</entry><entry thead="no"><para>Underlying network or transport error  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8306  </para>
+</entry><entry thead="no"><para>kInternalError  </para>
+</entry><entry thead="no"><para>Unclassified internal error; always deny  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="rpc__grpc__api__contract_8h_1autotoc_md3_1s1"><sect2 id="rpc__grpc__api__contract_8h_1autotoc_md3">
+<title>§Threading Guarantees</title><para><itemizedlist>
+<listitem><para>Server lifecycle methods (Start/Stop) are not thread-safe; callers must serialise them externally.</para>
+</listitem><listitem><para>Service dispatch is thread-safe and lock-free after registration is complete.</para>
+</listitem><listitem><para>Credential reload acquires a short read-write lock; concurrent RPC calls proceed on the old credentials until the lock is released.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="rpc__grpc__api__contract_8h_1autotoc_md4_1s1"><sect2 id="rpc__grpc__api__contract_8h_1autotoc_md4">
+<title>§Contract Freeze</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/rpc_grpc/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1rpc__grpc" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rpc__grpc" kindref="compound">rpc_grpc</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7" kindref="member">RpcGrpcError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a02eb6ba78dea555b7bbf430f6e1644a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a02eb6ba78dea555b7bbf430f6e1644a4" kindref="member">kServerNotRunning</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>8300,<sp/></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7aa2044cdc44fa2dfeb4f55da1187020fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7aa2044cdc44fa2dfeb4f55da1187020fb" kindref="member">kServiceRegistration</ref><sp/><sp/>=<sp/>8301,<sp/></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ae075bdc8d1d07b0fddae4fae3691bbc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ae075bdc8d1d07b0fddae4fae3691bbc2" kindref="member">kCredentialLoadFailed</ref><sp/>=<sp/>8302,<sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ac1697e5aa7b390c96a51a1662e0ec3a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ac1697e5aa7b390c96a51a1662e0ec3a5" kindref="member">kStreamAborted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8303,<sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7aa0fcc6e288e7806a406405f780cdaf0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7aa0fcc6e288e7806a406405f780cdaf0f" kindref="member">kMethodNotFound</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8304,<sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7adbe4fbec4b2cb2c2709a455206fed67f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7adbe4fbec4b2cb2c2709a455206fed67f" kindref="member">kTransportError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8305,<sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7afcd417a134c251034b0d61b07c826394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7afcd417a134c251034b0d61b07c826394" kindref="member">kInternalError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8306,<sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Server<sp/>lifecycle<sp/>states</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177" kindref="member">RpcServerState</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177ac23e2b09ebe6bf4cb5e2a9abe85c0be2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177ac23e2b09ebe6bf4cb5e2a9abe85c0be2" kindref="member">Stopped</ref><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177ac2efe4bbd13e6cb0db293e72884273c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177ac2efe4bbd13e6cb0db293e72884273c0" kindref="member">Starting</ref><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177a4d3d769b812b6faa6b76e1a8abaece2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177a4d3d769b812b6faa6b76e1a8abaece2d" kindref="member">Active</ref><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177a7b7ecb39b9e110c2a31409a1672bad23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177a7b7ecb39b9e110c2a31409a1672bad23" kindref="member">Stopping</ref><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Sizing<sp/>and<sp/>timing<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="namespacethemis_1_1rpc__grpc_1a2bcf5a5e6698fd52bfd02e2ab5ecf940" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1rpc__grpc_1a2bcf5a5e6698fd52bfd02e2ab5ecf940" kindref="member">kDefaultKeepaliveTime</ref>{30};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="namespacethemis_1_1rpc__grpc_1a78a90ccd64e8ef4d5bccd1e88f052117" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1rpc__grpc_1a78a90ccd64e8ef4d5bccd1e88f052117" kindref="member">kDefaultMaxReceiveMessageBytes</ref><sp/>=<sp/>4u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1rpc__grpc_1a7f279e7fdf758d2d425107995435c72a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1rpc__grpc_1a7f279e7fdf758d2d425107995435c72a" kindref="member">kMaxServiceNameBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1_1rpc__grpc_1ae8c715d4b4ba470fb30a2840048721ce" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1rpc__grpc_1ae8c715d4b4ba470fb30a2840048721ce" kindref="member">kMaxMethodNameBytes</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Supporting<sp/>struct<sp/>—<sp/>service<sp/>registration<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor" kindref="compound">RpcServiceDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ad6b9ef0b957e0a4a5a19b7206d05aff8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ad6b9ef0b957e0a4a5a19b7206d05aff8" kindref="member">service_name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1a436c9b987c45f8caffbea3016d90ad2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1a436c9b987c45f8caffbea3016d90ad2d" kindref="member">proto_file</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ab7a3906640cd36fea645ac301d527c13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ab7a3906640cd36fea645ac301d527c13" kindref="member">require_auth</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1acf63a57d2ba90313e9dcf7a661ca7867" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1acf63a57d2ba90313e9dcf7a661ca7867" kindref="member">max_concurrent_streams</ref>{100};<sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Fail-closed<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="namespacethemis_1_1rpc__grpc_1aa7ccf3625f2291445b80bd628ea2b649" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rpc__grpc_1aa7ccf3625f2291445b80bd628ea2b649" kindref="member">isRpcGrpcFailClosed</ref>(<ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7" kindref="member">RpcGrpcError</ref><sp/>e)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a02eb6ba78dea555b7bbf430f6e1644a4" kindref="member">RpcGrpcError::kServerNotRunning</ref></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ae075bdc8d1d07b0fddae4fae3691bbc2" kindref="member">RpcGrpcError::kCredentialLoadFailed</ref></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7afcd417a134c251034b0d61b07c826394" kindref="member">RpcGrpcError::kInternalError</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rpc_grpc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rpc_grpc/rpc_grpc_api_contract.h"/>
+  </compounddef>
+</doxygen>

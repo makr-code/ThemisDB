@@ -1,0 +1,1056 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_training_query_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::TrainingQueryBuilder</compoundname>
+    <includes refid="aql__train__parser_8h" local="no">aql_train_parser.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_training_query_builder_1a7150e2c5b6a284498617c0ffb6309612" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt" kindref="compound">TrainAdapterStmt</ref></type>
+        <definition>TrainAdapterStmt themis::llm::TrainingQueryBuilder::stmt_</definition>
+        <argsstring></argsstring>
+        <name>stmt_</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::stmt_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="509" column="22" bodyfile="include/llm/aql_train_parser.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_training_query_builder_1a5e945416c0c4f76c2d80b3c6490e1e00" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainingQueryBuilder::where_clause_</definition>
+        <argsstring></argsstring>
+        <name>where_clause_</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::where_clause_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="510" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_training_query_builder_1a51525c55848ece688c30c4e42e1001b5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainingQueryBuilder::from_clause_</definition>
+        <argsstring></argsstring>
+        <name>from_clause_</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::from_clause_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="287" column="17" bodyfile="include/llm/training_data_iterator.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_training_query_builder_1a9b089467202afb19266b14ad17789c93" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::TrainingQueryBuilder::where_conditions_</definition>
+        <argsstring></argsstring>
+        <name>where_conditions_</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::where_conditions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="288" column="17" bodyfile="include/llm/training_data_iterator.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_training_query_builder_1a6417e57f23002edbf05375c94e1dc16a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainingQueryBuilder::graph_context_</definition>
+        <argsstring></argsstring>
+        <name>graph_context_</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::graph_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="289" column="17" bodyfile="include/llm/training_data_iterator.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_training_query_builder_1a8c9de4c261bb32250d36b1cd876ffa04" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainingQueryBuilder::vector_similarity_</definition>
+        <argsstring></argsstring>
+        <name>vector_similarity_</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::vector_similarity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="290" column="17" bodyfile="include/llm/training_data_iterator.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_training_query_builder_1a3cd5abd8ec5e2f260ac3248dc61ec061" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::llm::TrainingQueryBuilder::limit_</definition>
+        <argsstring></argsstring>
+        <name>limit_</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::limit_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="291" column="19" bodyfile="include/llm/training_data_iterator.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TrainingQueryBuilder::TrainingQueryBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>TrainingQueryBuilder</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::TrainingQueryBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="387" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1ab92695fbd928c453f2901b4e9074cb39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::adapter</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>adapter</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::adapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements adapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="395" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1388" bodyend="1390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1abb7ccae1006b945f00e2f08fc737fe4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::from</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>from</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::from</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>From. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements from without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="401" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1398" bodyend="1400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1ad8303ea40a0c00da4a875a72459e0b33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::where</definition>
+        <argsstring>(const std::string &amp;condition)</argsstring>
+        <name>where</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::where</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>condition</declname>
+        </param>
+        <briefdescription>
+<para>Where. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements where without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="407" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1408" bodyend="1410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a8c624d41ba70d4aa42a0b68fd3cecb63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::withGraphContext</definition>
+        <argsstring>(const GraphContextConfig &amp;config)</argsstring>
+        <name>withGraphContext</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::withGraphContext</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_graph_context_config" kindref="compound">GraphContextConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defname>cfg</defname>
+        </param>
+        <briefdescription>
+<para>With Graph Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withGraphContext without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="415" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1418" bodyend="1420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a30e4957344eb9c5b23df1c97bd8954f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::withVectorSimilarity</definition>
+        <argsstring>(const VectorSimilarityConfig &amp;config)</argsstring>
+        <name>withVectorSimilarity</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::withVectorSimilarity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_vector_similarity_config" kindref="compound">VectorSimilarityConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defname>cfg</defname>
+        </param>
+        <briefdescription>
+<para>With Vector Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withVectorSimilarity without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="421" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1428" bodyend="1430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a23071677888515158f47bb46be062657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::withRelationalJoin</definition>
+        <argsstring>(const RelationalJoinConfig &amp;config)</argsstring>
+        <name>withRelationalJoin</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::withRelationalJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_relational_join_config" kindref="compound">RelationalJoinConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defname>cfg</defname>
+        </param>
+        <briefdescription>
+<para>With Relational Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="427" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1438" bodyend="1440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a70de8174cf9d234044ca93ed15825fde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::baseModel</definition>
+        <argsstring>(const std::string &amp;model)</argsstring>
+        <name>baseModel</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::baseModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Base Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements baseModel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="435" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1448" bodyend="1450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a4596c4cdd9a9f11c4d262d7e1eb7abb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::loraRank</definition>
+        <argsstring>(int rank)</argsstring>
+        <name>loraRank</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::loraRank</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>rank</declname>
+        </param>
+        <briefdescription>
+<para>Lora Rank. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements loraRank without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="441" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1458" bodyend="1460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a06197afdb3e87d55c7af57179796d921" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::epochs</definition>
+        <argsstring>(int n)</argsstring>
+        <name>epochs</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::epochs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Epochs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements epochs without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="447" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1468" bodyend="1470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a4be263e85acfa591c4eb459c475eba67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::batchSize</definition>
+        <argsstring>(int size)</argsstring>
+        <name>batchSize</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::batchSize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements batchSize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="453" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1478" bodyend="1480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a8bcc9f98c36699d138f3c26896b4c40c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::learningRate</definition>
+        <argsstring>(double lr)</argsstring>
+        <name>learningRate</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::learningRate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lr</declname>
+        </param>
+        <briefdescription>
+<para>Learning Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements learningRate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="459" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1488" bodyend="1490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1adeb964e0525cfa7dc53061cb751d2bab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::quantization</definition>
+        <argsstring>(GGUFSTConfig::QuantizationType quant)</argsstring>
+        <name>quantization</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::quantization</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">GGUFSTConfig::QuantizationType</ref></type>
+          <declname>quant</declname>
+          <defname>q</defname>
+        </param>
+        <briefdescription>
+<para>Quantization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements quantization without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="465" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1498" bodyend="1500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1af85f7581a81b515db7658ffb580b036e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::sizeMode</definition>
+        <argsstring>(GGUFSTConfig::SizeMode mode)</argsstring>
+        <name>sizeMode</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::sizeMode</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" kindref="member">GGUFSTConfig::SizeMode</ref></type>
+          <declname>mode</declname>
+          <defname>m</defname>
+        </param>
+        <briefdescription>
+<para>Size Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements sizeMode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="471" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1508" bodyend="1510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a5e69c96c9fa2284d87b30521529c2601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::signAdapter</definition>
+        <argsstring>(bool sign)</argsstring>
+        <name>signAdapter</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::signAdapter</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>sign</declname>
+        </param>
+        <briefdescription>
+<para>Sign Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sign</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sign</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements signAdapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="477" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1518" bodyend="1520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a302a7c75247ed56c2a6ea3664f207af3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::distributed</definition>
+        <argsstring>(const AQLDistributedTrainingConfig &amp;config)</argsstring>
+        <name>distributed</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::distributed</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" kindref="compound">AQLDistributedTrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defname>cfg</defname>
+        </param>
+        <briefdescription>
+<para>Distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements distributed without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="485" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1528" bodyend="1530"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1ad97e42be4bb598c2279523be2d618636" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::outputPath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>outputPath</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::outputPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Output Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements outputPath without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="493" column="26" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1538" bodyend="1540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1ab066adbe3718e1c047d2ac5804bf7c17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_train_adapter_stmt" kindref="compound">TrainAdapterStmt</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; TrainAdapterStmt &gt; themis::llm::TrainingQueryBuilder::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build the final statement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements build without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="499" column="21" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1547" bodyend="1549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a8ddedc79e4e5c7b155f3562f1ef191d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainingQueryBuilder::toAQL</definition>
+        <argsstring>() const</argsstring>
+        <name>toAQL</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::toAQL</qualifiedname>
+        <briefdescription>
+<para>To AQL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="506" column="17" bodyfile="src/llm/aql_train_parser.cpp" bodystart="1551" bodyend="1597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TrainingQueryBuilder::TrainingQueryBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>TrainingQueryBuilder</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::TrainingQueryBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="246" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1abb7ccae1006b945f00e2f08fc737fe4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::from</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>from</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::from</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>From. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="253" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1ad8303ea40a0c00da4a875a72459e0b33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::where</definition>
+        <argsstring>(const std::string &amp;condition)</argsstring>
+        <name>where</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::where</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>condition</declname>
+        </param>
+        <briefdescription>
+<para>Where. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="260" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a3b0b80e03146a8f93e1486ade00cd8e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::withGraphContext</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;relationships, int max_depth=2)</argsstring>
+        <name>withGraphContext</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::withGraphContext</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>relationships</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="262" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1a15c14930783e7b058fac3ecda3c4c14d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::withVectorSimilarity</definition>
+        <argsstring>(const std::string &amp;embedding_field, double threshold=0.8, size_t top_k=5)</argsstring>
+        <name>withVectorSimilarity</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::withVectorSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>embedding_field</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+          <defval>0.8</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="267" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1aaa9f64c8e278b36829b11ed65a5c6c1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref> &amp;</type>
+        <definition>TrainingQueryBuilder &amp; themis::llm::TrainingQueryBuilder::limit</definition>
+        <argsstring>(size_t max_samples)</argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::limit</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_samples</declname>
+        </param>
+        <briefdescription>
+<para>Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="278" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_training_query_builder_1aa3be533402670bb4438d162ffec8e864" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainingQueryBuilder::build</definition>
+        <argsstring>() const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::llm::TrainingQueryBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="284" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/aql_train_parser.h" line="385" column="1" bodyfile="include/llm/aql_train_parser.h" bodystart="385" bodyend="511"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1ab92695fbd928c453f2901b4e9074cb39" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>adapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a70de8174cf9d234044ca93ed15825fde" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>baseModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a4be263e85acfa591c4eb459c475eba67" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>batchSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1ab066adbe3718e1c047d2ac5804bf7c17" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1aa3be533402670bb4438d162ffec8e864" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a302a7c75247ed56c2a6ea3664f207af3" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>distributed</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a06197afdb3e87d55c7af57179796d921" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>epochs</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1abb7ccae1006b945f00e2f08fc737fe4e" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>from</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1abb7ccae1006b945f00e2f08fc737fe4e" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>from</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a51525c55848ece688c30c4e42e1001b5" prot="private" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>from_clause_</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a6417e57f23002edbf05375c94e1dc16a" prot="private" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>graph_context_</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a8bcc9f98c36699d138f3c26896b4c40c" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>learningRate</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1aaa9f64c8e278b36829b11ed65a5c6c1a" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>limit</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a3cd5abd8ec5e2f260ac3248dc61ec061" prot="private" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>limit_</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a4596c4cdd9a9f11c4d262d7e1eb7abb4" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>loraRank</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1ad97e42be4bb598c2279523be2d618636" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>outputPath</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1adeb964e0525cfa7dc53061cb751d2bab" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>quantization</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a5e69c96c9fa2284d87b30521529c2601" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>signAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1af85f7581a81b515db7658ffb580b036e" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>sizeMode</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a7150e2c5b6a284498617c0ffb6309612" prot="private" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>stmt_</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a8ddedc79e4e5c7b155f3562f1ef191d4" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>toAQL</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>TrainingQueryBuilder</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>TrainingQueryBuilder</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a8c9de4c261bb32250d36b1cd876ffa04" prot="private" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>vector_similarity_</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1ad8303ea40a0c00da4a875a72459e0b33" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>where</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1ad8303ea40a0c00da4a875a72459e0b33" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>where</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a5e945416c0c4f76c2d80b3c6490e1e00" prot="private" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>where_clause_</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a9b089467202afb19266b14ad17789c93" prot="private" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>where_conditions_</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a8c624d41ba70d4aa42a0b68fd3cecb63" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>withGraphContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a3b0b80e03146a8f93e1486ade00cd8e7" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>withGraphContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a23071677888515158f47bb46be062657" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>withRelationalJoin</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a30e4957344eb9c5b23df1c97bd8954f2" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>withVectorSimilarity</name></member>
+      <member refid="classthemis_1_1llm_1_1_training_query_builder_1a15c14930783e7b058fac3ecda3c4c14d" prot="public" virt="non-virtual"><scope>themis::llm::TrainingQueryBuilder</scope><name>withVectorSimilarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

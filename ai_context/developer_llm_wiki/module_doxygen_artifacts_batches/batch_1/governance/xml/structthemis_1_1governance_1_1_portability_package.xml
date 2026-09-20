@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_portability_package" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PortabilityPackage</compoundname>
+    <includes refid="gdpr__subject__rights_8h" local="no">gdpr_subject_rights.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_portability_package_1a689c687af5d0767075952f41007ac54f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PortabilityPackage::subject_id</definition>
+        <argsstring></argsstring>
+        <name>subject_id</name>
+        <qualifiedname>themis::governance::PortabilityPackage::subject_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="54" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_portability_package_1a19e8ade118d3faaa0beb91a77319fc89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PortabilityPackage::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::governance::PortabilityPackage::format</qualifiedname>
+        <briefdescription>
+<para>&quot;json&quot; or &quot;csv&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="55" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_portability_package_1a12762a76910f3152e10ea92c716e94ae" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::governance::PortabilityPackage::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::governance::PortabilityPackage::payload</qualifiedname>
+        <briefdescription>
+<para>Serialised data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="56" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_portability_package_1abeec9704e21cccb973021f4bbed9e14d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::governance::PortabilityPackage::tsa_signature</definition>
+        <argsstring></argsstring>
+        <name>tsa_signature</name>
+        <qualifiedname>themis::governance::PortabilityPackage::tsa_signature</qualifiedname>
+        <briefdescription>
+<para>RFC 3161 timestamp token (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="57" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_portability_package_1a0f4646d756cce5b77a75364c3385e733" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::governance::PortabilityPackage::issued_at</definition>
+        <argsstring></argsstring>
+        <name>issued_at</name>
+        <qualifiedname>themis::governance::PortabilityPackage::issued_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="58" column="43" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/gdpr_subject_rights.h" line="53" column="1" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_portability_package_1a19e8ade118d3faaa0beb91a77319fc89" prot="public" virt="non-virtual"><scope>themis::governance::PortabilityPackage</scope><name>format</name></member>
+      <member refid="structthemis_1_1governance_1_1_portability_package_1a0f4646d756cce5b77a75364c3385e733" prot="public" virt="non-virtual"><scope>themis::governance::PortabilityPackage</scope><name>issued_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_portability_package_1a12762a76910f3152e10ea92c716e94ae" prot="public" virt="non-virtual"><scope>themis::governance::PortabilityPackage</scope><name>payload</name></member>
+      <member refid="structthemis_1_1governance_1_1_portability_package_1a689c687af5d0767075952f41007ac54f" prot="public" virt="non-virtual"><scope>themis::governance::PortabilityPackage</scope><name>subject_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_portability_package_1abeec9704e21cccb973021f4bbed9e14d" prot="public" virt="non-virtual"><scope>themis::governance::PortabilityPackage</scope><name>tsa_signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

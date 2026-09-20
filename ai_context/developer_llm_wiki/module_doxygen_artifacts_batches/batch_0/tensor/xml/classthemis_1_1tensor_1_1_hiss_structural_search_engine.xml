@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_hiss_structural_search_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::HissStructuralSearchEngine</compoundname>
+    <includes refid="hiss__structural__search_8h" local="no">hiss_structural_search.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hiss_structural_search_engine_1a2fb803f4a8678486486e7971d7834065" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_network_graph" kindref="compound">TensorNetworkGraph</ref></type>
+        <definition>TensorNetworkGraph themis::tensor::HissStructuralSearchEngine::search</definition>
+        <argsstring>(const storage::TTTrain &amp;train, const HissConfig &amp;cfg) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::tensor::HissStructuralSearchEngine::search</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_hiss_config" kindref="compound">HissConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Builds an optimized <ref refid="classthemis_1_1tensor_1_1_tensor_network_graph" kindref="compound">TensorNetworkGraph</ref> from a TT train. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="77" column="5" bodyfile="src/tensor/hiss_structural_search.cpp" bodystart="414" bodyend="543"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hiss structural search engine component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hiss_structural_search.h" line="71" column="1" bodyfile="include/tensor/hiss_structural_search.h" bodystart="71" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_hiss_structural_search_engine_1a2fb803f4a8678486486e7971d7834065" prot="public" virt="non-virtual"><scope>themis::tensor::HissStructuralSearchEngine</scope><name>search</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

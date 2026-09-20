@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_timeout_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::TimeoutGuard</compoundname>
+    <includes refid="content__validator_8h" local="no">content_validator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_timeout_guard_1af305c89bcb4e4be783ea33bdcd2a824f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref> &amp;</type>
+        <definition>ContentValidator&amp; themis::content::TimeoutGuard::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>themis::content::TimeoutGuard::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="235" column="22" bodyfile="include/content/content_validator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_timeout_guard_1a5e5443a336b7bda98817eadf1c3c0509" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TimeoutGuard::operation_type_</definition>
+        <argsstring></argsstring>
+        <name>operation_type_</name>
+        <qualifiedname>themis::content::TimeoutGuard::operation_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="236" column="17" bodyfile="include/content/content_validator.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_timeout_guard_1af8613232c4caa7e993425cebd985f845" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::content::TimeoutGuard::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::content::TimeoutGuard::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="237" column="43" bodyfile="include/content/content_validator.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_timeout_guard_1aeff785083318c95b3174ac25e197a3d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::TimeoutGuard::TimeoutGuard</definition>
+        <argsstring>(ContentValidator &amp;validator, const std::string &amp;operation_type)</argsstring>
+        <name>TimeoutGuard</name>
+        <qualifiedname>themis::content::TimeoutGuard::TimeoutGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref> &amp;</type>
+          <declname>validator</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="220" column="5" bodyfile="src/content/content_validator.cpp" bodystart="546" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_timeout_guard_1a449d1c8dad71e9b4aaebc23fcba4f278" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref></type>
+        <definition>ContentError themis::content::TimeoutGuard::check</definition>
+        <argsstring>() const</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::content::TimeoutGuard::check</qualifiedname>
+        <briefdescription>
+<para>Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="226" column="18" bodyfile="src/content/content_validator.cpp" bodystart="549" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_timeout_guard_1a2b247c5e2ed734a77393a13452073be3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::content::TimeoutGuard::elapsed</definition>
+        <argsstring>() const</argsstring>
+        <name>elapsed</name>
+        <qualifiedname>themis::content::TimeoutGuard::elapsed</qualifiedname>
+        <briefdescription>
+<para>Elapsed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="232" column="31" bodyfile="src/content/content_validator.cpp" bodystart="553" bodyend="556"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_validator.h" line="218" column="1" bodyfile="include/content/content_validator.h" bodystart="218" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_timeout_guard_1a449d1c8dad71e9b4aaebc23fcba4f278" prot="public" virt="non-virtual"><scope>themis::content::TimeoutGuard</scope><name>check</name></member>
+      <member refid="classthemis_1_1content_1_1_timeout_guard_1a2b247c5e2ed734a77393a13452073be3" prot="public" virt="non-virtual"><scope>themis::content::TimeoutGuard</scope><name>elapsed</name></member>
+      <member refid="classthemis_1_1content_1_1_timeout_guard_1a5e5443a336b7bda98817eadf1c3c0509" prot="private" virt="non-virtual"><scope>themis::content::TimeoutGuard</scope><name>operation_type_</name></member>
+      <member refid="classthemis_1_1content_1_1_timeout_guard_1af8613232c4caa7e993425cebd985f845" prot="private" virt="non-virtual"><scope>themis::content::TimeoutGuard</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1content_1_1_timeout_guard_1aeff785083318c95b3174ac25e197a3d6" prot="public" virt="non-virtual"><scope>themis::content::TimeoutGuard</scope><name>TimeoutGuard</name></member>
+      <member refid="classthemis_1_1content_1_1_timeout_guard_1af305c89bcb4e4be783ea33bdcd2a824f" prot="private" virt="non-virtual"><scope>themis::content::TimeoutGuard</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

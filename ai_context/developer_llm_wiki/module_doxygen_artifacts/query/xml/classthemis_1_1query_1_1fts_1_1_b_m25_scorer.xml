@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1fts_1_1_b_m25_scorer" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::fts::BM25Scorer</compoundname>
+    <includes refid="bm25__scorer_8h" local="no">bm25_scorer.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" prot="public">themis::query::fts::BM25Scorer::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1ae829c49ea31e99942d9c001dd1efb16d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::fts::BM25Scorer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::fts::BM25Scorer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/bm25_scorer.h" line="83" column="10" bodyfile="include/query/bm25_scorer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a607fce9e1d8ee9f27fe92a6e5ee9ae18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::fts::BM25Scorer::BM25Scorer</definition>
+        <argsstring>()</argsstring>
+        <name>BM25Scorer</name>
+        <qualifiedname>themis::query::fts::BM25Scorer::BM25Scorer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/bm25_scorer.h" line="40" column="3" bodyfile="src/query/bm25_scorer.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a3698bbd3ad72dfda615ff3fcdfaeddcc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::fts::BM25Scorer::BM25Scorer</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>BM25Scorer</name>
+        <qualifiedname>themis::query::fts::BM25Scorer::BM25Scorer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>BM25 Scorer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/bm25_scorer.h" line="46" column="12" bodyfile="src/query/bm25_scorer.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a1acbd35aa102166036e7f06abdd8ad4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::query::fts::BM25Scorer::compute</definition>
+        <argsstring>(uint64_t doc_id, const SearchNode &amp;query, const IndexStatistics &amp;index_stats) const</argsstring>
+        <name>compute</name>
+        <qualifiedname>themis::query::fts::BM25Scorer::compute</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics" kindref="compound">IndexStatistics</ref> &amp;</type>
+          <declname>index_stats</declname>
+        </param>
+        <briefdescription>
+<para>Compute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index_stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/bm25_scorer.h" line="55" column="9" bodyfile="src/query/bm25_scorer.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1ab480881a6a62c2fdb43013811313212c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::query::fts::BM25Scorer::computeTFComponent</definition>
+        <argsstring>(uint32_t term_freq, uint32_t doc_length, float avg_doc_length) const</argsstring>
+        <name>computeTFComponent</name>
+        <qualifiedname>themis::query::fts::BM25Scorer::computeTFComponent</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>term_freq</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>doc_length</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>avg_doc_length</declname>
+        </param>
+        <briefdescription>
+<para>Compute TFComponent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term_freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">avg_doc_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/bm25_scorer.h" line="77" column="9" bodyfile="src/query/bm25_scorer.cpp" bodystart="79" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a65f5ac3762b800a1ac0435bcbbfa5b05" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::query::fts::BM25Scorer::computeIDF</definition>
+        <argsstring>(uint32_t doc_freq, uint32_t total_docs)</argsstring>
+        <name>computeIDF</name>
+        <qualifiedname>themis::query::fts::BM25Scorer::computeIDF</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>doc_freq</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>total_docs</declname>
+        </param>
+        <briefdescription>
+<para>Compute IDF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max(), std::log1pf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/bm25_scorer.h" line="66" column="16" bodyfile="src/query/bm25_scorer.cpp" bodystart="67" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/bm25_scorer.h" line="33" column="1" bodyfile="include/query/bm25_scorer.h" bodystart="33" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a607fce9e1d8ee9f27fe92a6e5ee9ae18" prot="public" virt="non-virtual"><scope>themis::query::fts::BM25Scorer</scope><name>BM25Scorer</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a3698bbd3ad72dfda615ff3fcdfaeddcc" prot="public" virt="non-virtual"><scope>themis::query::fts::BM25Scorer</scope><name>BM25Scorer</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a1acbd35aa102166036e7f06abdd8ad4e" prot="public" virt="non-virtual"><scope>themis::query::fts::BM25Scorer</scope><name>compute</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a65f5ac3762b800a1ac0435bcbbfa5b05" prot="public" virt="non-virtual"><scope>themis::query::fts::BM25Scorer</scope><name>computeIDF</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1ab480881a6a62c2fdb43013811313212c" prot="public" virt="non-virtual"><scope>themis::query::fts::BM25Scorer</scope><name>computeTFComponent</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1ae829c49ea31e99942d9c001dd1efb16d" prot="private" virt="non-virtual"><scope>themis::query::fts::BM25Scorer</scope><name>config_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

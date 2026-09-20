@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7ea6e8044634727d966f429c1cd18dae" kind="dir">
+    <compoundname>src/core/concerns</compoundname>
+    <innerfile refid="adapter__registry_8cpp">adapter_registry.cpp</innerfile>
+    <innerfile refid="adapter__signing_8cpp">adapter_signing.cpp</innerfile>
+    <innerfile refid="concerns__context_8cpp">concerns_context.cpp</innerfile>
+    <innerfile refid="context__propagation_8cpp">context_propagation.cpp</innerfile>
+    <innerfile refid="i__logger_8cpp">i_logger.cpp</innerfile>
+    <innerfile refid="lockfree__metrics_8cpp">lockfree_metrics.cpp</innerfile>
+    <innerfile refid="prometheus__metrics_8cpp">prometheus_metrics.cpp</innerfile>
+    <innerfile refid="redis__cache_8cpp">redis_cache.cpp</innerfile>
+    <innerfile refid="zero__copy__logger_8cpp">zero_copy_logger.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/core/concerns/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder</compoundname>
+    <includes refid="blockchain__integrity_8h" local="no">blockchain_integrity.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder_1a05b7e43c3c7731502a05ed005aedf0e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree</definition>
+        <argsstring>(const std::vector&lt; json &gt; &amp;records, const std::string &amp;leaf_hash_algorithm=&quot;SHA256&quot;)</argsstring>
+        <name>buildMerkleTree</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leaf_hash_algorithm</declname>
+          <defval>&quot;SHA256&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="37" column="21" bodyfile="src/importers/blockchain_integrity.cpp" bodystart="63" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder_1a3ca49da3d114b42a941fce4b2e1abcbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder::verifyRecordInTree</definition>
+        <argsstring>(const json &amp;record, const std::string &amp;merkle_root, const std::vector&lt; std::string &gt; &amp;sibling_hashes={})</argsstring>
+        <name>verifyRecordInTree</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder::verifyRecordInTree</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>merkle_root</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sibling_hashes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Verify Record In Tree. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">merkle_root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sibling_hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: sha256Hex(), dump(), combineHashes(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="42" column="14" bodyfile="src/importers/blockchain_integrity.cpp" bodystart="107" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder_1a729ba8f87f9111f8276a905fda28ff15" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder::sha256Hex</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="54" column="28" bodyfile="src/importers/blockchain_integrity.cpp" bodystart="33" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder_1aa0cdb4bddd078143f34c9e7374a05a00" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder::combineHashes</definition>
+        <argsstring>(const std::string &amp;left, const std::string &amp;right)</argsstring>
+        <name>combineHashes</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder::combineHashes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Combine Hashes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: sha256Hex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="61" column="28" bodyfile="src/importers/blockchain_integrity.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/blockchain_integrity.h" line="35" column="5" bodyfile="include/importers/blockchain_integrity.h" bodystart="35" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder_1a05b7e43c3c7731502a05ed005aedf0e0" prot="public" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder</scope><name>buildMerkleTree</name></member>
+      <member refid="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder_1aa0cdb4bddd078143f34c9e7374a05a00" prot="private" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder</scope><name>combineHashes</name></member>
+      <member refid="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder_1a729ba8f87f9111f8276a905fda28ff15" prot="private" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder</scope><name>sha256Hex</name></member>
+      <member refid="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder_1a3ca49da3d114b42a941fce4b2e1abcbf" prot="public" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder</scope><name>verifyRecordInTree</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

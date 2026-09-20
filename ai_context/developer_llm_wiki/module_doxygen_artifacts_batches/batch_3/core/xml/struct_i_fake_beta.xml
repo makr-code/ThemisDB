@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_i_fake_beta" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>IFakeBeta</compoundname>
+    <derivedcompoundref refid="struct_fake_beta_impl" prot="public" virt="non-virtual">FakeBetaImpl</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_i_fake_beta_1a5827e74615a3bbcc8fb695efcb1ff716" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual IFakeBeta::~IFakeBeta</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFakeBeta</name>
+        <qualifiedname>IFakeBeta::~IFakeBeta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="22" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_i_fake_beta_1ab84448c5f2efccbc1f463067b8159b7b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string IFakeBeta::label</definition>
+        <argsstring>() const =0</argsstring>
+        <name>label</name>
+        <qualifiedname>IFakeBeta::label</qualifiedname>
+        <reimplementedby refid="struct_fake_beta_impl_1a54c10189df387d62b0f337ce8305b59e">label</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="23" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>FakeBetaImpl</label>
+        <link refid="struct_fake_beta_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>IFakeBeta</label>
+        <link refid="struct_i_fake_beta"/>
+      </node>
+    </inheritancegraph>
+    <location file="tests/core/test_adapter_registry_focused.cpp" line="21" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="21" bodyend="24"/>
+    <listofallmembers>
+      <member refid="struct_i_fake_beta_1ab84448c5f2efccbc1f463067b8159b7b" prot="public" virt="pure-virtual"><scope>IFakeBeta</scope><name>label</name></member>
+      <member refid="struct_i_fake_beta_1a5827e74615a3bbcc8fb695efcb1ff716" prot="public" virt="virtual"><scope>IFakeBeta</scope><name>~IFakeBeta</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

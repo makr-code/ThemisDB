@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::scheduler::test::SchedulerStressRetentionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test_1a398371e76ae0b0e4b78ef97186e6547c" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::scheduler::test::SchedulerStressRetentionTest::kBurstSize</definition>
+        <argsstring></argsstring>
+        <name>kBurstSize</name>
+        <qualifiedname>themis::scheduler::test::SchedulerStressRetentionTest::kBurstSize</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="40" column="26" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test_1ae74c0c95189f65d7f4f2833896012867" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::scheduler::test::SchedulerStressRetentionTest::kMaxRetentionResults</definition>
+        <argsstring></argsstring>
+        <name>kMaxRetentionResults</name>
+        <qualifiedname>themis::scheduler::test::SchedulerStressRetentionTest::kMaxRetentionResults</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="41" column="26" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test_1ac2766ddda79a2c6bbffcc6f16c518409" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::scheduler::test::SchedulerStressRetentionTest::kDurationMs</definition>
+        <argsstring></argsstring>
+        <name>kDurationMs</name>
+        <qualifiedname>themis::scheduler::test::SchedulerStressRetentionTest::kDurationMs</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="42" column="26" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test_1a2da45b910c0302a2608605a59284f982" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::test::SchedulerStressRetentionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::scheduler::test::SchedulerStressRetentionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="35" column="10" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::scheduler::test::SchedulerStressRetentionTest</label>
+        <link refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::scheduler::test::SchedulerStressRetentionTest</label>
+        <link refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="33" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="33" bodyend="43"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test_1a398371e76ae0b0e4b78ef97186e6547c" prot="protected" virt="non-virtual"><scope>themis::scheduler::test::SchedulerStressRetentionTest</scope><name>kBurstSize</name></member>
+      <member refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test_1ac2766ddda79a2c6bbffcc6f16c518409" prot="protected" virt="non-virtual"><scope>themis::scheduler::test::SchedulerStressRetentionTest</scope><name>kDurationMs</name></member>
+      <member refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test_1ae74c0c95189f65d7f4f2833896012867" prot="protected" virt="non-virtual"><scope>themis::scheduler::test::SchedulerStressRetentionTest</scope><name>kMaxRetentionResults</name></member>
+      <member refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test_1a2da45b910c0302a2608605a59284f982" prot="protected" virt="non-virtual"><scope>themis::scheduler::test::SchedulerStressRetentionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

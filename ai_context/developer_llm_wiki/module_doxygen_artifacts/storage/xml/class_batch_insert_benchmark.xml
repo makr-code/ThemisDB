@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_batch_insert_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>BatchInsertBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_batch_insert_benchmark_1ad82f88abc6b25bbfd6b516f9b09948d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BatchInsertBenchmark::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>BatchInsertBenchmark::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_batch_insert.cpp" line="75" column="17" bodyfile="benchmarks/storage/bench_batch_insert.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_batch_insert_benchmark_1ad6e769497dd50456c2002b41bb5c22ec" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; BatchInsertBenchmark::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>BatchInsertBenchmark::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_batch_insert.cpp" line="76" column="21" bodyfile="benchmarks/storage/bench_batch_insert.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_batch_insert_benchmark_1abfe0da136c9f64e06585dd74d62fc79e" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; BatchInsertBenchmark::indexMgr</definition>
+        <argsstring></argsstring>
+        <name>indexMgr</name>
+        <qualifiedname>BatchInsertBenchmark::indexMgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_batch_insert.cpp" line="77" column="21" bodyfile="benchmarks/storage/bench_batch_insert.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_batch_insert_benchmark_1ace310f09e77bec4afe666fde1f10e61e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BatchInsertBenchmark::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BatchInsertBenchmark::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_batch_insert.cpp" line="17" column="10" bodyfile="benchmarks/storage/bench_batch_insert.cpp" bodystart="17" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_batch_insert_benchmark_1a6c28fe747f412281069acc1397f28d76" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BatchInsertBenchmark::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>BatchInsertBenchmark::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_batch_insert.cpp" line="54" column="10" bodyfile="benchmarks/storage/bench_batch_insert.cpp" bodystart="54" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_batch_insert_benchmark_1a72f4dbec05b4c758adcce6d4c1002d77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity" kindref="compound">BaseEntity</ref></type>
+        <definition>BaseEntity BatchInsertBenchmark::createTestEntity</definition>
+        <argsstring>(int id)</argsstring>
+        <name>createTestEntity</name>
+        <qualifiedname>BatchInsertBenchmark::createTestEntity</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_batch_insert.cpp" line="65" column="16" bodyfile="benchmarks/storage/bench_batch_insert.cpp" bodystart="65" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BatchInsertBenchmark</label>
+        <link refid="class_batch_insert_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BatchInsertBenchmark</label>
+        <link refid="class_batch_insert_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/storage/bench_batch_insert.cpp" line="15" column="1" bodyfile="benchmarks/storage/bench_batch_insert.cpp" bodystart="15" bodyend="78"/>
+    <listofallmembers>
+      <member refid="class_batch_insert_benchmark_1a72f4dbec05b4c758adcce6d4c1002d77" prot="public" virt="non-virtual"><scope>BatchInsertBenchmark</scope><name>createTestEntity</name></member>
+      <member refid="class_batch_insert_benchmark_1ad6e769497dd50456c2002b41bb5c22ec" prot="public" virt="non-virtual"><scope>BatchInsertBenchmark</scope><name>db</name></member>
+      <member refid="class_batch_insert_benchmark_1ad82f88abc6b25bbfd6b516f9b09948d2" prot="public" virt="non-virtual"><scope>BatchInsertBenchmark</scope><name>db_path_</name></member>
+      <member refid="class_batch_insert_benchmark_1abfe0da136c9f64e06585dd74d62fc79e" prot="public" virt="non-virtual"><scope>BatchInsertBenchmark</scope><name>indexMgr</name></member>
+      <member refid="class_batch_insert_benchmark_1ace310f09e77bec4afe666fde1f10e61e" prot="public" virt="non-virtual"><scope>BatchInsertBenchmark</scope><name>SetUp</name></member>
+      <member refid="class_batch_insert_benchmark_1a6c28fe747f412281069acc1397f28d76" prot="public" virt="non-virtual"><scope>BatchInsertBenchmark</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1ai_1_1_0d375377150326150001172234261301026133016020064223" kind="namespace" language="C++">
+    <compoundname>themis::plugins::ai::@375377150326150001172234261301026133016020064223</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ai/ai_plugin_generator.cpp" line="48" column="1"/>
+  </compounddef>
+</doxygen>

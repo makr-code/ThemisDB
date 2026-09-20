@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_triple" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::Triple</compoundname>
+    <includes refid="knowledge__graph__reasoner_8h" local="no">knowledge_graph_reasoner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_triple_1a448fa8ead78f12e1f68d448a397dff7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::Triple::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::graph::Triple::subject</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="43" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_triple_1af232a42d1e75b411d9b81f9420660a5d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::Triple::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>themis::graph::Triple::predicate</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="44" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_triple_1ad6eae6bea65fc31c6395c69cc368d3e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::Triple::object</definition>
+        <argsstring></argsstring>
+        <name>object</name>
+        <qualifiedname>themis::graph::Triple::object</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="45" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_triple_1a88c321e6a397df59dfec043f679707ab" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::Triple::operator==</definition>
+        <argsstring>(const Triple &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::graph::Triple::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="47" column="11" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_triple_1a173dc6f407894443b9af2bfb0f56c261" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::Triple::operator!=</definition>
+        <argsstring>(const Triple &amp;o) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::graph::Triple::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="50" column="11" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_triple_1aecb7346570185506b29c2632aede1fa2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::Triple::isGround</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isGround</name>
+        <qualifiedname>themis::graph::Triple::isGround</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="51" column="11" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="51" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/knowledge_graph_reasoner.h" line="42" column="1" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="42" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_triple_1aecb7346570185506b29c2632aede1fa2" prot="public" virt="non-virtual"><scope>themis::graph::Triple</scope><name>isGround</name></member>
+      <member refid="structthemis_1_1graph_1_1_triple_1ad6eae6bea65fc31c6395c69cc368d3e2" prot="public" virt="non-virtual"><scope>themis::graph::Triple</scope><name>object</name></member>
+      <member refid="structthemis_1_1graph_1_1_triple_1a173dc6f407894443b9af2bfb0f56c261" prot="public" virt="non-virtual"><scope>themis::graph::Triple</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1graph_1_1_triple_1a88c321e6a397df59dfec043f679707ab" prot="public" virt="non-virtual"><scope>themis::graph::Triple</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1graph_1_1_triple_1af232a42d1e75b411d9b81f9420660a5d" prot="public" virt="non-virtual"><scope>themis::graph::Triple</scope><name>predicate</name></member>
+      <member refid="structthemis_1_1graph_1_1_triple_1a448fa8ead78f12e1f68d448a397dff7b" prot="public" virt="non-virtual"><scope>themis::graph::Triple</scope><name>subject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

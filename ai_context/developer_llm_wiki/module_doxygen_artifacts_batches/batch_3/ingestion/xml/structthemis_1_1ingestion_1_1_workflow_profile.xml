@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_workflow_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::WorkflowProfile</compoundname>
+    <includes refid="workflow__engine_8h" local="no">workflow_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1a17577ecd60098d2195f9f159252f9718" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::WorkflowProfile::api_version</definition>
+        <argsstring></argsstring>
+        <name>api_version</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::api_version</qualifiedname>
+        <briefdescription>
+<para>&quot;themis.ingestion/v1&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="66" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1a481b92c3a02e09d7afecde272c4f39e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::WorkflowProfile::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::kind</qualifiedname>
+        <briefdescription>
+<para>&quot;IngestionWorkflow&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="67" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1a425802ac584c8b4aa6a14c7333191eb4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::WorkflowProfile::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::name</qualifiedname>
+        <briefdescription>
+<para>Profile name, e.g. &quot;legal-document-de&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="68" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1a805061f09d6dc3bfa7cf68252d16d6dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::WorkflowProfile::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="69" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1a8d50833f60b541614c8909e6d05079a5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_file_pattern" kindref="compound">FilePattern</ref></type>
+        <definition>FilePattern themis::ingestion::WorkflowProfile::file_patterns</definition>
+        <argsstring></argsstring>
+        <name>file_patterns</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::file_patterns</qualifiedname>
+        <briefdescription>
+<para>Which files activate this profile. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="71" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1a73d249d0d24ee2d9db05d52442ab0d35" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref> &gt;</type>
+        <definition>std::vector&lt;StepConfig&gt; themis::ingestion::WorkflowProfile::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::steps</qualifiedname>
+        <briefdescription>
+<para>Ordered list of steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="73" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1afb8e86ca459d2b39723631e154b3df75" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::WorkflowProfile::output_graph</definition>
+        <argsstring></argsstring>
+        <name>output_graph</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::output_graph</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="76" column="10" bodyfile="include/ingestion/workflow_engine.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1ab3cc82fd3bbfa57ceb004b382a490f5e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::WorkflowProfile::output_vector</definition>
+        <argsstring></argsstring>
+        <name>output_vector</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::output_vector</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="77" column="10" bodyfile="include/ingestion/workflow_engine.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1a157564c5f4bf2149de168f908946004d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::WorkflowProfile::output_document_store</definition>
+        <argsstring></argsstring>
+        <name>output_document_store</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::output_document_store</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="78" column="10" bodyfile="include/ingestion/workflow_engine.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1af8f631acbad6c496146887614f9b4c34" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::ingestion::WorkflowProfile::quality_gate_min_entities</definition>
+        <argsstring></argsstring>
+        <name>quality_gate_min_entities</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::quality_gate_min_entities</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="79" column="19" bodyfile="include/ingestion/workflow_engine.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1ab501a881e17ad773675a474c154c1369" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::WorkflowProfile::quality_gate_min_quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_gate_min_quality_score</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::quality_gate_min_quality_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="80" column="19" bodyfile="include/ingestion/workflow_engine.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_workflow_profile_1a66eeb6ee6c574cbebc20063b3fc758d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::WorkflowProfile::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>themis::ingestion::WorkflowProfile::source_path</qualifiedname>
+        <briefdescription>
+<para>Filesystem path of the YAML file (for diagnostics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="83" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A parsed, validated ingestion workflow profile. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Loaded from a YAML file that conforms to the <computeroutput>IngestionWorkflow</computeroutput> schema (apiVersion: <ref refid="namespacethemis_1_1ingestion" kindref="compound">themis.ingestion</ref>/v1, kind: IngestionWorkflow). </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::FilePattern</label>
+        <link refid="structthemis_1_1ingestion_1_1_file_pattern"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::WorkflowProfile</label>
+        <link refid="structthemis_1_1ingestion_1_1_workflow_profile"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>file_patterns</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/workflow_engine.h" line="65" column="1" bodyfile="include/ingestion/workflow_engine.h" bodystart="65" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1a17577ecd60098d2195f9f159252f9718" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>api_version</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1a805061f09d6dc3bfa7cf68252d16d6dc" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>description</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1a8d50833f60b541614c8909e6d05079a5" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>file_patterns</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1a481b92c3a02e09d7afecde272c4f39e1" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>kind</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1a425802ac584c8b4aa6a14c7333191eb4" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>name</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1a157564c5f4bf2149de168f908946004d" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>output_document_store</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1afb8e86ca459d2b39723631e154b3df75" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>output_graph</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1ab3cc82fd3bbfa57ceb004b382a490f5e" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>output_vector</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1af8f631acbad6c496146887614f9b4c34" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>quality_gate_min_entities</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1ab501a881e17ad773675a474c154c1369" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>quality_gate_min_quality_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1a66eeb6ee6c574cbebc20063b3fc758d6" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>source_path</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_workflow_profile_1a73d249d0d24ee2d9db05d52442ab0d35" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowProfile</scope><name>steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

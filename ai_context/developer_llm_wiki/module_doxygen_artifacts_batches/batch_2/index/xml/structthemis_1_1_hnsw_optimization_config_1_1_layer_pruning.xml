@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HnswOptimizationConfig::LayerPruning</compoundname>
+    <includes refid="hnsw__layer__optimizer_8h" local="no">hnsw_layer_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1a55ec5cc52db93d9f52d0e14eae325094" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HnswOptimizationConfig::LayerPruning::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::HnswOptimizationConfig::LayerPruning::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="33" column="14" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1a9f9f1f13f839b4fc4cb7ea9c33e24f9b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HnswOptimizationConfig::LayerPruning::threshold_multiplier</definition>
+        <argsstring></argsstring>
+        <name>threshold_multiplier</name>
+        <qualifiedname>themis::HnswOptimizationConfig::LayerPruning::threshold_multiplier</qualifiedname>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="34" column="16" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1abe2f71d86ce34f4f269fe5425097facb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HnswOptimizationConfig::LayerPruning::min_samples</definition>
+        <argsstring></argsstring>
+        <name>min_samples</name>
+        <qualifiedname>themis::HnswOptimizationConfig::LayerPruning::min_samples</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="35" column="16" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/hnsw_layer_optimizer.h" line="32" column="5" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="32" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1a55ec5cc52db93d9f52d0e14eae325094" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig::LayerPruning</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1abe2f71d86ce34f4f269fe5425097facb" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig::LayerPruning</scope><name>min_samples</name></member>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1a9f9f1f13f839b4fc4cb7ea9c33e24f9b" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig::LayerPruning</scope><name>threshold_multiplier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

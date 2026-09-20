@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_exponential_backoff" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ExponentialBackoff</compoundname>
+    <includes refid="retry__strategy_8h" local="no">retry_strategy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1ad49eb00f19283e33d42a813608ad0767" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ExponentialBackoff::max_retries_</definition>
+        <argsstring></argsstring>
+        <name>max_retries_</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::max_retries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="131" column="12" bodyfile="include/sharding/retry_strategy.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1abda432bb44ca2e40cbad51f14ce2a5da" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ExponentialBackoff::initial_delay_</definition>
+        <argsstring></argsstring>
+        <name>initial_delay_</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::initial_delay_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="132" column="31" bodyfile="include/sharding/retry_strategy.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1acb932782c03312d0d4444c16886050d7" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ExponentialBackoff::max_delay_</definition>
+        <argsstring></argsstring>
+        <name>max_delay_</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::max_delay_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="133" column="31" bodyfile="include/sharding/retry_strategy.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1ac475e18c22b670cc926fecd4464bd817" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ExponentialBackoff::current_retry_</definition>
+        <argsstring></argsstring>
+        <name>current_retry_</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::current_retry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="134" column="12" bodyfile="include/sharding/retry_strategy.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1adc469e959f8fd8c8ae00a742afbee3e4" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ExponentialBackoff::current_delay_</definition>
+        <argsstring></argsstring>
+        <name>current_delay_</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::current_delay_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="135" column="31" bodyfile="include/sharding/retry_strategy.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1a0d3268a053a88135f6953f92fe364faf" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ExponentialBackoff::ExponentialBackoff</definition>
+        <argsstring>(size_t max_retries=5, std::chrono::milliseconds initial_delay=std::chrono::milliseconds(100), std::chrono::milliseconds max_delay=std::chrono::milliseconds(10000))</argsstring>
+        <name>ExponentialBackoff</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::ExponentialBackoff</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_retries</declname>
+          <defval>5</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>initial_delay</declname>
+          <defval>std::chrono::milliseconds(100)</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>max_delay</declname>
+          <defval>std::chrono::milliseconds(10000)</defval>
+        </param>
+        <briefdescription>
+<para>Construct backoff strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_retries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of retry attempts (default: 5) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initial_delay</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial delay in milliseconds (default: 100ms) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_delay</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum delay in milliseconds (default: 10000ms) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="37" column="14" bodyfile="include/sharding/retry_strategy.h" bodystart="37" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1aa9ec788b2b19ca767023ef5be17f0083" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ExponentialBackoff::execute</definition>
+        <argsstring>(Func func)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::execute</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="68" column="10" bodyfile="include/sharding/retry_strategy.h" bodystart="68" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1a5b49bc0e7577e5c798ef1b48043c1a8d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename ErrorHandler</type>
+            <defval>std::function&lt;void(const std::string&amp;)&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ExponentialBackoff::executeWithHandler</definition>
+        <argsstring>(Func func, ErrorHandler error_handler=nullptr)</argsstring>
+        <name>executeWithHandler</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::executeWithHandler</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>ErrorHandler</type>
+          <declname>error_handler</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute operation with exception suppression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that returns bool </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation to retry </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional handler for final errors </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if succeeded, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="101" column="10" bodyfile="include/sharding/retry_strategy.h" bodystart="101" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1a3d8a2011c85864a9641cf4bc1b457d5a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ExponentialBackoff::getCurrentRetry</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentRetry</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::getCurrentRetry</qualifiedname>
+        <briefdescription>
+<para>Get current retry attempt number (0-indexed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="115" column="12" bodyfile="include/sharding/retry_strategy.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1a2f8e32e7bbbe35bfeacffbe5dc9e0c8d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ExponentialBackoff::getCurrentDelay</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentDelay</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::getCurrentDelay</qualifiedname>
+        <briefdescription>
+<para>Get current delay being used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="120" column="31" bodyfile="include/sharding/retry_strategy.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_exponential_backoff_1ae908246ed046d42d7406d016ecdf8e5b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ExponentialBackoff::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::sharding::ExponentialBackoff::reset</qualifiedname>
+        <briefdescription>
+<para>Reset retry state for reuse. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/retry_strategy.h" line="125" column="10" bodyfile="include/sharding/retry_strategy.h" bodystart="125" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemisdb_1_1sharding_1_1_exponential_backoff" kindref="compound">ExponentialBackoff</ref> helper for retrying operations with exponential delay. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used for:<itemizedlist>
+<listitem><para>Route failures in <ref refid="shard__router_8cpp" kindref="compound">shard_router.cpp</ref></para>
+</listitem><listitem><para>Stream write failures in <ref refid="stream__protocol_8cpp" kindref="compound">stream_protocol.cpp</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Delay progression: 100ms → 200ms → 400ms → 800ms → 1600ms (with max 10s) </para>
+    </detaileddescription>
+    <location file="include/sharding/retry_strategy.h" line="29" column="1" bodyfile="include/sharding/retry_strategy.h" bodystart="29" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1adc469e959f8fd8c8ae00a742afbee3e4" prot="private" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>current_delay_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1ac475e18c22b670cc926fecd4464bd817" prot="private" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>current_retry_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1aa9ec788b2b19ca767023ef5be17f0083" prot="public" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1a5b49bc0e7577e5c798ef1b48043c1a8d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>executeWithHandler</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1a0d3268a053a88135f6953f92fe364faf" prot="public" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>ExponentialBackoff</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1a2f8e32e7bbbe35bfeacffbe5dc9e0c8d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>getCurrentDelay</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1a3d8a2011c85864a9641cf4bc1b457d5a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>getCurrentRetry</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1abda432bb44ca2e40cbad51f14ce2a5da" prot="private" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>initial_delay_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1acb932782c03312d0d4444c16886050d7" prot="private" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>max_delay_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1ad49eb00f19283e33d42a813608ad0767" prot="private" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>max_retries_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_exponential_backoff_1ae908246ed046d42d7406d016ecdf8e5b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ExponentialBackoff</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

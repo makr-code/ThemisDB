@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ParallelReplicationWorker::Stats</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1ab99d42dc39fa0ee39eba1aca7bab6675" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ParallelReplicationWorker::Stats::entries_applied</definition>
+        <argsstring></argsstring>
+        <name>entries_applied</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::Stats::entries_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1090" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1090" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1aee6cc40d049fafb8f79f9f23279a17f0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ParallelReplicationWorker::Stats::dependencies_detected</definition>
+        <argsstring></argsstring>
+        <name>dependencies_detected</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::Stats::dependencies_detected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1091" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1091" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1a4dab78f24537cd5c110586a5535f16ed" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ParallelReplicationWorker::Stats::average_latency_us</definition>
+        <argsstring></argsstring>
+        <name>average_latency_us</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::Stats::average_latency_us</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1092" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1092" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1a9916e6104e3a41095e6a27d5adaa70ca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ParallelReplicationWorker::Stats::parallel_batches</definition>
+        <argsstring></argsstring>
+        <name>parallel_batches</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::Stats::parallel_batches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1093" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1093" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1a3272689e5ada374694a21d81b05ec9bd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::replication::ParallelReplicationWorker::Stats::parallelism_factor</definition>
+        <argsstring></argsstring>
+        <name>parallelism_factor</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::Stats::parallelism_factor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1094" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1094" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1089" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1089" bodyend="1095"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1a4dab78f24537cd5c110586a5535f16ed" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::Stats</scope><name>average_latency_us</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1aee6cc40d049fafb8f79f9f23279a17f0" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::Stats</scope><name>dependencies_detected</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1ab99d42dc39fa0ee39eba1aca7bab6675" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::Stats</scope><name>entries_applied</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1a9916e6104e3a41095e6a27d5adaa70ca" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::Stats</scope><name>parallel_batches</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats_1a3272689e5ada374694a21d81b05ec9bd" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::Stats</scope><name>parallelism_factor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

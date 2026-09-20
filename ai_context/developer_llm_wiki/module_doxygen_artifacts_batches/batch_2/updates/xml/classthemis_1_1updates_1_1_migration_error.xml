@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_migration_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::MigrationError</compoundname>
+    <basecompoundref refid="classthemis_1_1updates_1_1_update_incident" prot="public" virt="non-virtual">themis::updates::UpdateIncident</basecompoundref>
+    <includes refid="updates__diagnostics_8h" local="no">updates_diagnostics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_migration_error_1a364701c8be9178a3de44ddbacf6610be" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>DiagnosticErrorCode themis::updates::MigrationError::error_code_</definition>
+        <argsstring></argsstring>
+        <name>error_code_</name>
+        <qualifiedname>themis::updates::MigrationError::error_code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="366" column="25" bodyfile="include/updates/updates_diagnostics.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_migration_error_1abe26b7695198ac124577251e9ae5fb18" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationError::table_name_</definition>
+        <argsstring></argsstring>
+        <name>table_name_</name>
+        <qualifiedname>themis::updates::MigrationError::table_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="367" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_migration_error_1ac1eebcb3c884fd4cc32ba9ace3f03d49" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationError::operation_</definition>
+        <argsstring></argsstring>
+        <name>operation_</name>
+        <qualifiedname>themis::updates::MigrationError::operation_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="368" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_migration_error_1a1fc4f5bb73d0f5ea40a0545198f40624" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationError::reason_</definition>
+        <argsstring></argsstring>
+        <name>reason_</name>
+        <qualifiedname>themis::updates::MigrationError::reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="369" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_migration_error_1a94787050f3ffb71316d46c7d2b246b7b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::MigrationError::fallback_applied_</definition>
+        <argsstring></argsstring>
+        <name>fallback_applied_</name>
+        <qualifiedname>themis::updates::MigrationError::fallback_applied_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="370" column="10" bodyfile="include/updates/updates_diagnostics.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_migration_error_1ab4e0587d015585352e9ada409f77801a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::MigrationError::MigrationError</definition>
+        <argsstring>(DiagnosticErrorCode code, std::string table_name, std::string operation, std::string reason, bool fallback_applied=false)</argsstring>
+        <name>MigrationError</name>
+        <qualifiedname>themis::updates::MigrationError::MigrationError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fallback_applied</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="373" column="5" bodyfile="include/updates/updates_diagnostics.h" bodystart="373" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_migration_error_1a04b3cffc4962e847007a289dfb88060d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>DiagnosticErrorCode themis::updates::MigrationError::errorCode</definition>
+        <argsstring>() const override</argsstring>
+        <name>errorCode</name>
+        <qualifiedname>themis::updates::MigrationError::errorCode</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a4393ffce81ca6200cc85e05c04470786">errorCode</reimplements>
+        <briefdescription>
+<para>Get the primary error code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="383" column="25" bodyfile="include/updates/updates_diagnostics.h" bodystart="383" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_migration_error_1ae3159d7a0ce480e772562fed4f5e95db" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7a" kindref="member">RootCauseClass</ref></type>
+        <definition>RootCauseClass themis::updates::MigrationError::rootCause</definition>
+        <argsstring>() const override</argsstring>
+        <name>rootCause</name>
+        <qualifiedname>themis::updates::MigrationError::rootCause</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1ad365305eb6fb912f5167d4ff33f20814">rootCause</reimplements>
+        <briefdescription>
+<para>Get the root cause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="384" column="20" bodyfile="include/updates/updates_diagnostics.h" bodystart="384" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_migration_error_1aa70fd4d08f7f2243edf7a60fb335c25f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57d" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>DiagnosticSeverity themis::updates::MigrationError::severity</definition>
+        <argsstring>() const override</argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::updates::MigrationError::severity</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1ac10ab2dbbe11b905a6868ee61a68524a">severity</reimplements>
+        <briefdescription>
+<para>Get the severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="385" column="24" bodyfile="include/updates/updates_diagnostics.h" bodystart="385" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_migration_error_1ad608f15c87af37a9b83e5cd8fd215d20" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationError::message</definition>
+        <argsstring>() const override</argsstring>
+        <name>message</name>
+        <qualifiedname>themis::updates::MigrationError::message</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a02ca63e45939a24aad69384110833676">message</reimplements>
+        <briefdescription>
+<para>Get human-readable message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="386" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="386" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_migration_error_1a72cf96fb434aef5a8b68eff71a2e2bdb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationError::operationContext</definition>
+        <argsstring>() const override</argsstring>
+        <name>operationContext</name>
+        <qualifiedname>themis::updates::MigrationError::operationContext</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1aec14a3dd0a687ecd8ddfe7f030c32599">operationContext</reimplements>
+        <briefdescription>
+<para>Get operation context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="387" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_migration_error_1a3cfb4d3c499bcf9d04945ca3b9f9eb72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::MigrationError::toJson</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::MigrationError::toJson</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a2d00f3951ecee42abad5b1c0389416e2">toJson</reimplements>
+        <briefdescription>
+<para>Convert to structured JSON for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="388" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_migration_error_1af4d5b7df35e3105133d06081afc7e468" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::MigrationError::fallbackApplied</definition>
+        <argsstring>() const</argsstring>
+        <name>fallbackApplied</name>
+        <qualifiedname>themis::updates::MigrationError::fallbackApplied</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="390" column="10" bodyfile="include/updates/updates_diagnostics.h" bodystart="390" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Migration error - schema migration and transformation failures. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers partial migrations, timeouts, transaction isolation, and fallbacks. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::updates::MigrationError</label>
+        <link refid="classthemis_1_1updates_1_1_migration_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::UpdateIncident</label>
+        <link refid="classthemis_1_1updates_1_1_update_incident"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::updates::MigrationError</label>
+        <link refid="classthemis_1_1updates_1_1_migration_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::UpdateIncident</label>
+        <link refid="classthemis_1_1updates_1_1_update_incident"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/updates_diagnostics.h" line="364" column="1" bodyfile="include/updates/updates_diagnostics.h" bodystart="364" bodyend="391"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1a364701c8be9178a3de44ddbacf6610be" prot="private" virt="non-virtual"><scope>themis::updates::MigrationError</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1a04b3cffc4962e847007a289dfb88060d" prot="public" virt="virtual"><scope>themis::updates::MigrationError</scope><name>errorCode</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1a94787050f3ffb71316d46c7d2b246b7b" prot="private" virt="non-virtual"><scope>themis::updates::MigrationError</scope><name>fallback_applied_</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1af4d5b7df35e3105133d06081afc7e468" prot="public" virt="non-virtual"><scope>themis::updates::MigrationError</scope><name>fallbackApplied</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1ad608f15c87af37a9b83e5cd8fd215d20" prot="public" virt="virtual"><scope>themis::updates::MigrationError</scope><name>message</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1ab4e0587d015585352e9ada409f77801a" prot="public" virt="non-virtual"><scope>themis::updates::MigrationError</scope><name>MigrationError</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1ac1eebcb3c884fd4cc32ba9ace3f03d49" prot="private" virt="non-virtual"><scope>themis::updates::MigrationError</scope><name>operation_</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1a72cf96fb434aef5a8b68eff71a2e2bdb" prot="public" virt="virtual"><scope>themis::updates::MigrationError</scope><name>operationContext</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1a1fc4f5bb73d0f5ea40a0545198f40624" prot="private" virt="non-virtual"><scope>themis::updates::MigrationError</scope><name>reason_</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1ae3159d7a0ce480e772562fed4f5e95db" prot="public" virt="virtual"><scope>themis::updates::MigrationError</scope><name>rootCause</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1aa70fd4d08f7f2243edf7a60fb335c25f" prot="public" virt="virtual"><scope>themis::updates::MigrationError</scope><name>severity</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1abe26b7695198ac124577251e9ae5fb18" prot="private" virt="non-virtual"><scope>themis::updates::MigrationError</scope><name>table_name_</name></member>
+      <member refid="classthemis_1_1updates_1_1_migration_error_1a3cfb4d3c499bcf9d04945ca3b9f9eb72" prot="public" virt="virtual"><scope>themis::updates::MigrationError</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1ab2f0f7a3da7b96172dc1864d79bafa04" prot="public" virt="virtual"><scope>themis::updates::MigrationError</scope><name>~UpdateIncident</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

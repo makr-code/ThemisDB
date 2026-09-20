@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_replica_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardReplicaSet</compoundname>
+    <includes refid="replica__topology_8h" local="no">replica_topology.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_replica_set_1a5c1e092078af9c1087f89fc09d09edb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardReplicaSet::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::shard_id</qualifiedname>
+        <briefdescription>
+<para>Logical shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="37" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_replica_set_1a3a4407f4bc14b12d8d13c6727c2d837d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardReplicaSet::primary_id</definition>
+        <argsstring></argsstring>
+        <name>primary_id</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::primary_id</qualifiedname>
+        <briefdescription>
+<para>Primary node identifier for this shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="39" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_replica_set_1a7b8cb081e08fcf6411667e47516ec803" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ShardReplicaSet::replicas</definition>
+        <argsstring></argsstring>
+        <name>replicas</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::replicas</qualifiedname>
+        <briefdescription>
+<para>Replica node identifiers (excluding primary). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="41" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_replica_set_1ac02c7b82bffb6b504fffd70461dd238d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a7308132120857fab8deaf60e60544436" kindref="member">RedundancyMode</ref></type>
+        <definition>RedundancyMode themis::sharding::ShardReplicaSet::redundancy</definition>
+        <argsstring></argsstring>
+        <name>redundancy</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::redundancy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a7308132120857fab8deaf60e60544436a72a92ae9c1d172cdda196686278fbfc6" kindref="member">RedundancyMode::MIRROR</ref></initializer>
+        <briefdescription>
+<para>Redundancy mode currently applied to this shard set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="43" column="20" bodyfile="include/sharding/replica_topology.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_replica_set_1a3969da33e772a2953f37b82dae1cd6f4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardReplicaSet::stripe_key</definition>
+        <argsstring></argsstring>
+        <name>stripe_key</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::stripe_key</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Stripe-group identifier (used by STRIPE_MIRROR layouts). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="45" column="14" bodyfile="include/sharding/replica_topology.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_replica_set_1ab4c32bdfe676143de37666a571807a85" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardReplicaSet::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Aggregate health flag for this shard set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="47" column="10" bodyfile="include/sharding/replica_topology.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_replica_set_1a8bc27e806f518805518d637f27da7e11" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardReplicaSet::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="50" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_replica_set_1a402a10f71f75b5eca08a18471e8cb89e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardReplicaSet::zone</definition>
+        <argsstring></argsstring>
+        <name>zone</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::zone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="51" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_shard_replica_set_1a6f7fb4d725854cb70561c4ff5ad6db56" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ShardReplicaSet::quorum_size</definition>
+        <argsstring>() const</argsstring>
+        <name>quorum_size</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::quorum_size</qualifiedname>
+        <briefdescription>
+<para>Return majority quorum size over primary + replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="54" column="12" bodyfile="include/sharding/replica_topology.h" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_shard_replica_set_1a81d8ae3da52a6eab19bc9de16fd73595" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardReplicaSet::contains_replica</definition>
+        <argsstring>(const std::string &amp;replica_id) const</argsstring>
+        <name>contains_replica</name>
+        <qualifiedname>themis::sharding::ShardReplicaSet::contains_replica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true when replica_id is primary or one of replica members. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="60" column="10" bodyfile="include/sharding/replica_topology.h" bodystart="60" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replica-set definition for one shard primary and its replicas. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Replica Topology Mapping</para>
+<para>Maps shard IDs to replica sets for mirror and stripe-mirror replication. </para>
+    </detaileddescription>
+    <location file="include/sharding/replica_topology.h" line="35" column="1" bodyfile="include/sharding/replica_topology.h" bodystart="35" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1a81d8ae3da52a6eab19bc9de16fd73595" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>contains_replica</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1ab4c32bdfe676143de37666a571807a85" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1a3a4407f4bc14b12d8d13c6727c2d837d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>primary_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1a6f7fb4d725854cb70561c4ff5ad6db56" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>quorum_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1ac02c7b82bffb6b504fffd70461dd238d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>redundancy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1a8bc27e806f518805518d637f27da7e11" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>region</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1a7b8cb081e08fcf6411667e47516ec803" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>replicas</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1a5c1e092078af9c1087f89fc09d09edb2" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1a3969da33e772a2953f37b82dae1cd6f4" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>stripe_key</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_replica_set_1a402a10f71f75b5eca08a18471e8cb89e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardReplicaSet</scope><name>zone</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

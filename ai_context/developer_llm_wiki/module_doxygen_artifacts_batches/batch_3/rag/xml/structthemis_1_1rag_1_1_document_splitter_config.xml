@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_document_splitter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSplitterConfig</compoundname>
+    <includes refid="document__splitter_8h" local="no">document_splitter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_splitter_config_1afffecbd1af26b577a91cd97b2cda2d01" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentSplitterConfig::chunk_size</definition>
+        <argsstring></argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themis::rag::DocumentSplitterConfig::chunk_size</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Target chunk size measured in estimated tokens. Must be &gt; 0. Defaults to 512. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="52" column="12" bodyfile="include/rag/document_splitter.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_splitter_config_1a09555956fc4753b0209df9f06fdd8525" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentSplitterConfig::overlap</definition>
+        <argsstring></argsstring>
+        <name>overlap</name>
+        <qualifiedname>themis::rag::DocumentSplitterConfig::overlap</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of tokens of overlap between consecutive chunks. Must be &lt; <computeroutput>chunk_size</computeroutput>. Defaults to 64. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="56" column="12" bodyfile="include/rag/document_splitter.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_splitter_config_1a18826fbd7e9c343a4188046acd215fd9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981" kindref="member">SplitStrategy</ref></type>
+        <definition>SplitStrategy themis::rag::DocumentSplitterConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::rag::DocumentSplitterConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981a0667fab375c18f4a0f29beec635b1b87" kindref="member">SplitStrategy::Sentence</ref></initializer>
+        <briefdescription>
+<para>Splitting strategy to apply. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="59" column="19" bodyfile="include/rag/document_splitter.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_splitter_config_1a69db1b862433830bc668f84c263854e8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::DocumentSplitterConfig::chars_per_token</definition>
+        <argsstring></argsstring>
+        <name>chars_per_token</name>
+        <qualifiedname>themis::rag::DocumentSplitterConfig::chars_per_token</qualifiedname>
+        <initializer>= 4.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Characters per token used when estimating token counts. Typical English prose ≈ 4 chars/token. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="63" column="12" bodyfile="include/rag/document_splitter.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_splitter_config_1a0e0ea99a13aae52c0d22adb110b232fd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentSplitterConfig::min_chunk_size</definition>
+        <argsstring></argsstring>
+        <name>min_chunk_size</name>
+        <qualifiedname>themis::rag::DocumentSplitterConfig::min_chunk_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum chunk size in estimated tokens. Chunks shorter than this (e.g. a trailing fragment) are still emitted unless they are completely empty. Set to 0 to disable filtering. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="68" column="12" bodyfile="include/rag/document_splitter.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/document_splitter.h" line="49" column="1" bodyfile="include/rag/document_splitter.h" bodystart="49" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_config_1a69db1b862433830bc668f84c263854e8" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterConfig</scope><name>chars_per_token</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_config_1afffecbd1af26b577a91cd97b2cda2d01" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterConfig</scope><name>chunk_size</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_config_1a0e0ea99a13aae52c0d22adb110b232fd" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterConfig</scope><name>min_chunk_size</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_config_1a09555956fc4753b0209df9f06fdd8525" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterConfig</scope><name>overlap</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_config_1a18826fbd7e9c343a4188046acd215fd9" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterConfig</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

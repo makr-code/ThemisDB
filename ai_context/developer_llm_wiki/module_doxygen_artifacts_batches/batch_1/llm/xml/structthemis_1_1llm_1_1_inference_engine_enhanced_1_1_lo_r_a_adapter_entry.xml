@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_lo_r_a_adapter_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_lo_r_a_adapter_entry_1a623d5859b2d63df9406ae9fc8264057e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry::path</qualifiedname>
+        <briefdescription>
+<para>Filesystem path to adapter weights. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="477" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_lo_r_a_adapter_entry_1ac2c032c7cde426ca5caa339cc844d9f3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry::scale</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>LoRA scaling factor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="478" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_lo_r_a_adapter_entry_1a4263d34af833ec159ec6e3ff18aa4ac2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry::model_id</qualifiedname>
+        <briefdescription>
+<para>Pinned model (empty = all models). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="479" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inference_engine_enhanced.h" line="476" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="476" bodyend="480"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_lo_r_a_adapter_entry_1a4263d34af833ec159ec6e3ff18aa4ac2" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_lo_r_a_adapter_entry_1a623d5859b2d63df9406ae9fc8264057e" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry</scope><name>path</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_lo_r_a_adapter_entry_1ac2c032c7cde426ca5caa339cc844d9f3" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry</scope><name>scale</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

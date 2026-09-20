@@ -1,0 +1,616 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_shard_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ShardMetrics</compoundname>
+    <includes refid="operational__metrics_8h" local="no">operational_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a5a5ffbdb93b94d4472086f7b808f3008" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::total_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="65" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a2b86aebd14bf2aa58a9a4ec1000e613f" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::successful_requests</definition>
+        <argsstring></argsstring>
+        <name>successful_requests</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::successful_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="66" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a36ce2cf89576dbfdf44b0d3bceb88fe0" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::failed_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="67" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a7ae3a021adf989b4ddda03dba5836b1c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::read_requests</definition>
+        <argsstring></argsstring>
+        <name>read_requests</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::read_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="68" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1aa000d9233ef6d8cb307c05a685a5d544" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::write_requests</definition>
+        <argsstring></argsstring>
+        <name>write_requests</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::write_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="69" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a8edb7955dd294d4969791218a7e6a3d3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::total_latency_us</definition>
+        <argsstring></argsstring>
+        <name>total_latency_us</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::total_latency_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="72" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1ac90f80c1219a157f580a2fca7f32c16a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::min_latency_us</definition>
+        <argsstring></argsstring>
+        <name>min_latency_us</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::min_latency_us</qualifiedname>
+        <initializer>{999999999}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="73" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1ad5744fbfed0e552cd6249c047b2d1079" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::max_latency_us</definition>
+        <argsstring></argsstring>
+        <name>max_latency_us</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::max_latency_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="74" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1af68fe44151b8035facb0b99f83556407" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::memory_usage_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_bytes</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::memory_usage_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="77" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a1842a2461af4e5d350c17107fe0f56c9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::disk_usage_bytes</definition>
+        <argsstring></argsstring>
+        <name>disk_usage_bytes</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::disk_usage_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="78" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a75f4cfd394469381467163cc74e9c87a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::network_bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>network_bytes_sent</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::network_bytes_sent</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="79" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a6ba9d3de0a97d540dbee7f576e15b0e4" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::network_bytes_received</definition>
+        <argsstring></argsstring>
+        <name>network_bytes_received</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::network_bytes_received</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="80" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a551ef384a63a110c119b002be6475fda" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::replication_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>replication_lag_ms</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::replication_lag_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="83" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1ab016b6953c1ae11e8e50dc8e0eafdc18" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::replica_count</definition>
+        <argsstring></argsstring>
+        <name>replica_count</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::replica_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="84" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1aa6f8a62668d2261725c2396af3f47c8b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::sync_replica_count</definition>
+        <argsstring></argsstring>
+        <name>sync_replica_count</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::sync_replica_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="85" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1af3c116a06ea8b3df61ce4c2809506b60" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::quorum_writes</definition>
+        <argsstring></argsstring>
+        <name>quorum_writes</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::quorum_writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="88" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1ac804792a8048f6da6c314271dee091e0" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::quorum_reads</definition>
+        <argsstring></argsstring>
+        <name>quorum_reads</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::quorum_reads</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="89" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1aa68c1481f7aad2ae2680dda76f563850" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::quorum_failures</definition>
+        <argsstring></argsstring>
+        <name>quorum_failures</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::quorum_failures</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="90" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a455f658c718448b7dd88648e3bf546e5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::partition_events</definition>
+        <argsstring></argsstring>
+        <name>partition_events</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::partition_events</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="91" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a445417c1a872b4589083616521b5adf7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::wal_syncs</definition>
+        <argsstring></argsstring>
+        <name>wal_syncs</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::wal_syncs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="94" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a9eb033833467975811323b36d2e1bc09" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::checkpoints_created</definition>
+        <argsstring></argsstring>
+        <name>checkpoints_created</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::checkpoints_created</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="95" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a1e879b16f71b8dd43fad25d5f6667ef9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::recovery_operations</definition>
+        <argsstring></argsstring>
+        <name>recovery_operations</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::recovery_operations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="96" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a404f68c39b4658429a4a647666358025" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::transactions_started</definition>
+        <argsstring></argsstring>
+        <name>transactions_started</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::transactions_started</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="99" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1ae64ee9d070cab0c01a2381c1596c59f9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::transactions_committed</definition>
+        <argsstring></argsstring>
+        <name>transactions_committed</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::transactions_committed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="100" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a07488390730fbf02aae216f8a5ac15c2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::transactions_aborted</definition>
+        <argsstring></argsstring>
+        <name>transactions_aborted</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::transactions_aborted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="101" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a8489dbe092f900967bbe54ba24439cfc" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ShardMetrics::transaction_conflicts</definition>
+        <argsstring></argsstring>
+        <name>transaction_conflicts</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::transaction_conflicts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="102" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a8e4f9ca917dbafd5eb27f76f96e31293" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themisdb::sharding::ShardMetrics::health_status</definition>
+        <argsstring></argsstring>
+        <name>health_status</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::health_status</qualifiedname>
+        <initializer>{static_cast&lt;int&gt;(<ref refid="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref>)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="105" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1ac239c7d91ee82d08b67e75792199869e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::ShardMetrics::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="108" column="43" bodyfile="include/sharding/operational_metrics.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_metrics_1ae09e7ea321aa9cfdaed2ac97bc774fc3" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::ShardMetrics::last_update_time</definition>
+        <argsstring></argsstring>
+        <name>last_update_time</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::last_update_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="109" column="43" bodyfile="include/sharding/operational_metrics.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a5c55a7e53719fb092d5c886ead7afbf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ShardMetrics::ShardMetrics</definition>
+        <argsstring>(const ShardMetrics &amp;)=delete</argsstring>
+        <name>ShardMetrics</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::ShardMetrics</qualifiedname>
+        <param>
+          <type>const ShardMetrics &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a0d5bb4620c7865209911c07f87e7d3ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a5c55a7e53719fb092d5c886ead7afbf1" kindref="member">ShardMetrics</ref> &amp;</type>
+        <definition>ShardMetrics &amp; themisdb::sharding::ShardMetrics::operator=</definition>
+        <argsstring>(const ShardMetrics &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a5c55a7e53719fb092d5c886ead7afbf1" kindref="member">ShardMetrics</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="113" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_metrics_1ab1919fdffc1fbcda925199b3c1870877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ShardMetrics::ShardMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>ShardMetrics</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::ShardMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="116" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a38132b7d3255b4b303e552a007efac67" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ShardMetrics::getAverageLatencyUs</definition>
+        <argsstring>() const</argsstring>
+        <name>getAverageLatencyUs</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::getAverageLatencyUs</qualifiedname>
+        <briefdescription>
+<para>Get average latency in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="121" column="12" bodyfile="include/sharding/operational_metrics.h" bodystart="121" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a8f516417369d11527c664285e0489b6f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ShardMetrics::getSuccessRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessRate</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::getSuccessRate</qualifiedname>
+        <briefdescription>
+<para>Get success rate (0.0 to 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="132" column="12" bodyfile="include/sharding/operational_metrics.h" bodystart="132" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_metrics_1a4ca0f0e7b7ec3609ede31cbcf8d06f9a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+        <definition>HealthStatus themisdb::sharding::ShardMetrics::getHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::getHealthStatus</qualifiedname>
+        <briefdescription>
+<para>Get current health status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="143" column="18" bodyfile="include/sharding/operational_metrics.h" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_metrics_1aab358791e3629b3c4bfd77c3338b609a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ShardMetrics::setHealthStatus</definition>
+        <argsstring>(HealthStatus status)</argsstring>
+        <name>setHealthStatus</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::setHealthStatus</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Set health status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="150" column="10" bodyfile="include/sharding/operational_metrics.h" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_metrics_1abb0647281b50b3f5ca579d88ae580434" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ShardMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::sharding::ShardMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="157" column="10" bodyfile="include/sharding/operational_metrics.h" bodystart="157" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shard operational metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/operational_metrics.h" line="63" column="1" bodyfile="include/sharding/operational_metrics.h" bodystart="63" bodyend="187"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a9eb033833467975811323b36d2e1bc09" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>checkpoints_created</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a1842a2461af4e5d350c17107fe0f56c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>disk_usage_bytes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a36ce2cf89576dbfdf44b0d3bceb88fe0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>failed_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a38132b7d3255b4b303e552a007efac67" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>getAverageLatencyUs</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a4ca0f0e7b7ec3609ede31cbcf8d06f9a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>getHealthStatus</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a8f516417369d11527c664285e0489b6f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>getSuccessRate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a8e4f9ca917dbafd5eb27f76f96e31293" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>health_status</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1ae09e7ea321aa9cfdaed2ac97bc774fc3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>last_update_time</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1ad5744fbfed0e552cd6249c047b2d1079" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>max_latency_us</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1af68fe44151b8035facb0b99f83556407" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>memory_usage_bytes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1ac90f80c1219a157f580a2fca7f32c16a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>min_latency_us</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a6ba9d3de0a97d540dbee7f576e15b0e4" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>network_bytes_received</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a75f4cfd394469381467163cc74e9c87a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>network_bytes_sent</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a0d5bb4620c7865209911c07f87e7d3ef" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>operator=</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a455f658c718448b7dd88648e3bf546e5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>partition_events</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1aa68c1481f7aad2ae2680dda76f563850" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>quorum_failures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1ac804792a8048f6da6c314271dee091e0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>quorum_reads</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1af3c116a06ea8b3df61ce4c2809506b60" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>quorum_writes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a7ae3a021adf989b4ddda03dba5836b1c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>read_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a1e879b16f71b8dd43fad25d5f6667ef9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>recovery_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1ab016b6953c1ae11e8e50dc8e0eafdc18" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>replica_count</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a551ef384a63a110c119b002be6475fda" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>replication_lag_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1abb0647281b50b3f5ca579d88ae580434" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>reset</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1aab358791e3629b3c4bfd77c3338b609a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>setHealthStatus</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a5c55a7e53719fb092d5c886ead7afbf1" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>ShardMetrics</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1ab1919fdffc1fbcda925199b3c1870877" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>ShardMetrics</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1ac239c7d91ee82d08b67e75792199869e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>start_time</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a2b86aebd14bf2aa58a9a4ec1000e613f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>successful_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1aa6f8a62668d2261725c2396af3f47c8b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>sync_replica_count</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a8edb7955dd294d4969791218a7e6a3d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>total_latency_us</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a5a5ffbdb93b94d4472086f7b808f3008" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>total_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a8489dbe092f900967bbe54ba24439cfc" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>transaction_conflicts</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a07488390730fbf02aae216f8a5ac15c2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>transactions_aborted</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1ae64ee9d070cab0c01a2381c1596c59f9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>transactions_committed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a404f68c39b4658429a4a647666358025" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>transactions_started</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a445417c1a872b4589083616521b5adf7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>wal_syncs</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_metrics_1aa000d9233ef6d8cb307c05a685a5d544" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardMetrics</scope><name>write_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

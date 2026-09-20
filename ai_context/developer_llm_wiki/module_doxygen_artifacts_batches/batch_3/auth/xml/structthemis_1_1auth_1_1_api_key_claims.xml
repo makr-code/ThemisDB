@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_api_key_claims" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::ApiKeyClaims</compoundname>
+    <includes refid="api__key__authenticator_8h" local="no">api_key_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_claims_1ad37db998a62dc7ba3ae08b41eda1a0eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ApiKeyClaims::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::auth::ApiKeyClaims::key_id</qualifiedname>
+        <briefdescription>
+<para>The API key identifier that was authenticated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="28" column="17" bodyfile="include/auth/api_key_authenticator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_claims_1a68c14ee2abab4af9538b1073090cd379" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ApiKeyClaims::principal</definition>
+        <argsstring></argsstring>
+        <name>principal</name>
+        <qualifiedname>themis::auth::ApiKeyClaims::principal</qualifiedname>
+        <briefdescription>
+<para>Subject/user principal associated with this key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="29" column="17" bodyfile="include/auth/api_key_authenticator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_claims_1aa32a779d833f4bbcba960a415ed2ad5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ApiKeyClaims::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::auth::ApiKeyClaims::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Optional tenant identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="30" column="17" bodyfile="include/auth/api_key_authenticator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_claims_1a69793a2ac3569dcc73f980f1de7aa45a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::ApiKeyClaims::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>themis::auth::ApiKeyClaims::scopes</qualifiedname>
+        <briefdescription>
+<para>Authorised scopes for this key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="31" column="17" bodyfile="include/auth/api_key_authenticator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_claims_1aeae48d2f27ae2b5bec9b3deb11cca59d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::ApiKeyClaims::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::auth::ApiKeyClaims::roles</qualifiedname>
+        <briefdescription>
+<para>Optional roles associated with this key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="32" column="17" bodyfile="include/auth/api_key_authenticator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_claims_1a367408e28c4cbf18fb651b6457145dcd" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::ApiKeyClaims::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::auth::ApiKeyClaims::expires_at</qualifiedname>
+        <briefdescription>
+<para>Zero means no expiry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="33" column="43" bodyfile="include/auth/api_key_authenticator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_api_key_claims_1a20d57200c16f820177bc6cfdaa4accfb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::ApiKeyClaims::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::auth::ApiKeyClaims::isExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="35" column="10" bodyfile="include/auth/api_key_authenticator.h" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_api_key_claims_1a34fa514735cf3ba9207dc7fb00fa836b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::ApiKeyClaims::hasScope</definition>
+        <argsstring>(const std::string &amp;scope) const</argsstring>
+        <name>hasScope</name>
+        <qualifiedname>themis::auth::ApiKeyClaims::hasScope</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="43" column="10" bodyfile="include/auth/api_key_authenticator.h" bodystart="43" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/api_key_authenticator.h" line="27" column="1" bodyfile="include/auth/api_key_authenticator.h" bodystart="27" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_api_key_claims_1a367408e28c4cbf18fb651b6457145dcd" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyClaims</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_claims_1a34fa514735cf3ba9207dc7fb00fa836b" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyClaims</scope><name>hasScope</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_claims_1a20d57200c16f820177bc6cfdaa4accfb" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyClaims</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_claims_1ad37db998a62dc7ba3ae08b41eda1a0eb" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyClaims</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_claims_1a68c14ee2abab4af9538b1073090cd379" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyClaims</scope><name>principal</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_claims_1aeae48d2f27ae2b5bec9b3deb11cca59d" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyClaims</scope><name>roles</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_claims_1a69793a2ac3569dcc73f980f1de7aa45a" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyClaims</scope><name>scopes</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_claims_1aa32a779d833f4bbcba960a415ed2ad5e" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyClaims</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

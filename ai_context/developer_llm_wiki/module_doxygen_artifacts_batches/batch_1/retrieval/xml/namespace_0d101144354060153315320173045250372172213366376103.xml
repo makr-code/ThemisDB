@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d101144354060153315320173045250372172213366376103" kind="namespace" language="C++">
+    <compoundname>@101144354060153315320173045250372172213366376103</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="38" column="1"/>
+  </compounddef>
+</doxygen>

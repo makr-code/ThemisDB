@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d315123035030236356022131011073151227012023363114" kind="namespace" language="C++">
+    <compoundname>@315123035030236356022131011073151227012023363114</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/geo/test_rtree_cursor.cpp" line="31" column="1"/>
+  </compounddef>
+</doxygen>

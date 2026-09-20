@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_config_metrics_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::ConfigMetricsExporter</compoundname>
+    <includes refid="config__metrics__exporter_8h" local="no">config_metrics_exporter.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1config_1_1_config_metrics_exporter_1ac6b71dac1bb94f2b2858b88630e4a19f" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;name, double value)&gt;</type>
+        <definition>using themis::config::ConfigMetricsExporter::GaugeSinkFn = std::function&lt;void(const std::string&amp; name, double value)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GaugeSinkFn</name>
+        <qualifiedname>themis::config::ConfigMetricsExporter::GaugeSinkFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_metrics_exporter.h" line="28" column="5" bodyfile="include/config/config_metrics_exporter.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_metrics_exporter_1a37cbae68e9fdeca9dc760cb797dda160" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigMetricsExporter::ConfigMetricsExporter</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ConfigMetricsExporter</name>
+        <qualifiedname>themis::config::ConfigMetricsExporter::ConfigMetricsExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_metrics_exporter.h" line="30" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigMetricsExporter::collect</definition>
+        <argsstring>()</argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::config::ConfigMetricsExporter::collect</qualifiedname>
+        <briefdescription>
+<para>Collect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a624c1a7c4e6970dc4f9702c0bf63cecb" kindref="member">ConfigPathResolver::metrics()</ref>, load(), <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a5561e56d34035da609eaf035071c70cf" kindref="member">ConfigPathResolver::cacheStats()</ref>, <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a3a4163acbee47af1da5c4ef3a6930cb0" kindref="member">ConfigPathResolver::legacyFallbacksByCategory()</ref>, lock(), counterDelta(), Increment(), Set(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_metrics_exporter.h" line="36" column="24" bodyfile="src/config/config_metrics_exporter.cpp" bodystart="93" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_metrics_exporter_1a2be97fd6010df7850881a65f87882442" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigMetricsExporter::updateMetricsCollector</definition>
+        <argsstring>()</argsstring>
+        <name>updateMetricsCollector</name>
+        <qualifiedname>themis::config::ConfigMetricsExporter::updateMetricsCollector</qualifiedname>
+        <briefdescription>
+<para>Update Metrics Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a624c1a7c4e6970dc4f9702c0bf63cecb" kindref="member">ConfigPathResolver::metrics()</ref>, load(), <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a5561e56d34035da609eaf035071c70cf" kindref="member">ConfigPathResolver::cacheStats()</ref>, <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a861f65c057f9cacfd8da7f4d4e575e9d" kindref="member">ConfigPathResolver::currentCacheConfig()</ref>, lk(), ConfigMetricsExporter::gaugeSinkFnMutex(), ConfigMetricsExporter::gaugeSinkFnStorage(), fn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_metrics_exporter.h" line="41" column="17" bodyfile="src/config/config_metrics_exporter.cpp" bodystart="265" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_metrics_exporter_1a3cca8ead158e0672bf53a60f58920aef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigMetricsExporter::registerWithRegistry</definition>
+        <argsstring>(const std::shared_ptr&lt; prometheus::Registry &gt; &amp;registry)</argsstring>
+        <name>registerWithRegistry</name>
+        <qualifiedname>themis::config::ConfigMetricsExporter::registerWithRegistry</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; prometheus::Registry &gt; &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register With Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), prometheus::BuildCounter(), Name(), Help(), Register(), Add(), <ref refid="classthemis_1_1config_1_1_config_path_resolver_1aa2b8aa9ffdde9640653af3592247ef61" kindref="member">ConfigPathResolver::legacyFallbackCategories()</ref>, prometheus::BuildGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_metrics_exporter.h" line="47" column="17" bodyfile="src/config/config_metrics_exporter.cpp" bodystart="384" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_metrics_exporter_1a9ac8eff8c47da27cbe547795456f9d5d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::ConfigMetricsExporter::setGaugeSinkFn</definition>
+        <argsstring>(GaugeSinkFn fn)</argsstring>
+        <name>setGaugeSinkFn</name>
+        <qualifiedname>themis::config::ConfigMetricsExporter::setGaugeSinkFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1ac6b71dac1bb94f2b2858b88630e4a19f" kindref="member">GaugeSinkFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Gauge Sink Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), gaugeSinkFnMutex(), gaugeSinkFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_metrics_exporter.h" line="54" column="17" bodyfile="include/config/config_metrics_exporter.h" bodystart="54" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_metrics_exporter_1affef8d42a2384d80759183b649d5eb36" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::config::ConfigMetricsExporter::gaugeSinkFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>gaugeSinkFnMutex</name>
+        <qualifiedname>themis::config::ConfigMetricsExporter::gaugeSinkFnMutex</qualifiedname>
+        <briefdescription>
+<para>Gauge Sink Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements gaugeSinkFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_metrics_exporter.h" line="65" column="23" bodyfile="include/config/config_metrics_exporter.h" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_metrics_exporter_1a3cb869a596fab1a51e59233cc4c49511" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1ac6b71dac1bb94f2b2858b88630e4a19f" kindref="member">GaugeSinkFn</ref> &amp;</type>
+        <definition>static GaugeSinkFn &amp; themis::config::ConfigMetricsExporter::gaugeSinkFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>gaugeSinkFnStorage</name>
+        <qualifiedname>themis::config::ConfigMetricsExporter::gaugeSinkFnStorage</qualifiedname>
+        <briefdescription>
+<para>Gauge Sink Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements gaugeSinkFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_metrics_exporter.h" line="74" column="24" bodyfile="include/config/config_metrics_exporter.h" bodystart="74" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/config_metrics_exporter.h" line="26" column="1" bodyfile="include/config/config_metrics_exporter.h" bodystart="26" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" prot="public" virt="non-virtual"><scope>themis::config::ConfigMetricsExporter</scope><name>collect</name></member>
+      <member refid="classthemis_1_1config_1_1_config_metrics_exporter_1a37cbae68e9fdeca9dc760cb797dda160" prot="public" virt="non-virtual"><scope>themis::config::ConfigMetricsExporter</scope><name>ConfigMetricsExporter</name></member>
+      <member refid="classthemis_1_1config_1_1_config_metrics_exporter_1ac6b71dac1bb94f2b2858b88630e4a19f" prot="public" virt="non-virtual"><scope>themis::config::ConfigMetricsExporter</scope><name>GaugeSinkFn</name></member>
+      <member refid="classthemis_1_1config_1_1_config_metrics_exporter_1affef8d42a2384d80759183b649d5eb36" prot="private" virt="non-virtual"><scope>themis::config::ConfigMetricsExporter</scope><name>gaugeSinkFnMutex</name></member>
+      <member refid="classthemis_1_1config_1_1_config_metrics_exporter_1a3cb869a596fab1a51e59233cc4c49511" prot="private" virt="non-virtual"><scope>themis::config::ConfigMetricsExporter</scope><name>gaugeSinkFnStorage</name></member>
+      <member refid="classthemis_1_1config_1_1_config_metrics_exporter_1a3cca8ead158e0672bf53a60f58920aef" prot="public" virt="non-virtual"><scope>themis::config::ConfigMetricsExporter</scope><name>registerWithRegistry</name></member>
+      <member refid="classthemis_1_1config_1_1_config_metrics_exporter_1a9ac8eff8c47da27cbe547795456f9d5d" prot="public" virt="non-virtual"><scope>themis::config::ConfigMetricsExporter</scope><name>setGaugeSinkFn</name></member>
+      <member refid="classthemis_1_1config_1_1_config_metrics_exporter_1a2be97fd6010df7850881a65f87882442" prot="public" virt="non-virtual"><scope>themis::config::ConfigMetricsExporter</scope><name>updateMetricsCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

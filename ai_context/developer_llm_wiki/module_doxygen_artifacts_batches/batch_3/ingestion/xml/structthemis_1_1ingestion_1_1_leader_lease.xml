@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_leader_lease" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::LeaderLease</compoundname>
+    <includes refid="ingestion__coordinator_8h" local="no">ingestion_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_leader_lease_1a699bf538e3584a891040a1bc2cd2a3da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LeaderLease::owner_node_id</definition>
+        <argsstring></argsstring>
+        <name>owner_node_id</name>
+        <qualifiedname>themis::ingestion::LeaderLease::owner_node_id</qualifiedname>
+        <briefdescription>
+<para>Node that holds the lease. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="192" column="17" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_leader_lease_1af3b6a81bec85f0f52eda86c7176e404a" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::ingestion::LeaderLease::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::ingestion::LeaderLease::expires_at</qualifiedname>
+        <briefdescription>
+<para>Absolute expiry instant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="193" column="43" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_leader_lease_1ad44f5e03658e53d19b3c72693aa99c75" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ingestion::LeaderLease::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::ingestion::LeaderLease::epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monotone election counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="194" column="14" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_leader_lease_1a2e182ee47f814802cc009c34b3c7a833" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LeaderLease::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::ingestion::LeaderLease::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when the lease is currently valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="197" column="10" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="197" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of the current leader lease. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A lease is valid when <computeroutput><ref refid="structthemis_1_1ingestion_1_1_leader_lease_1a699bf538e3584a891040a1bc2cd2a3da" kindref="member">owner_node_id</ref></computeroutput> is non-empty and <computeroutput><ref refid="structthemis_1_1ingestion_1_1_leader_lease_1af3b6a81bec85f0f52eda86c7176e404a" kindref="member">expires_at</ref></computeroutput> is in the future. The <computeroutput><ref refid="structthemis_1_1ingestion_1_1_leader_lease_1ad44f5e03658e53d19b3c72693aa99c75" kindref="member">epoch</ref></computeroutput> counter increments each time ownership changes, allowing callers to detect stale leases that happen to re-acquire the same node ID. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_coordinator.h" line="191" column="1" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="191" bodyend="201"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_leader_lease_1ad44f5e03658e53d19b3c72693aa99c75" prot="public" virt="non-virtual"><scope>themis::ingestion::LeaderLease</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_leader_lease_1af3b6a81bec85f0f52eda86c7176e404a" prot="public" virt="non-virtual"><scope>themis::ingestion::LeaderLease</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_leader_lease_1a2e182ee47f814802cc009c34b3c7a833" prot="public" virt="non-virtual"><scope>themis::ingestion::LeaderLease</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_leader_lease_1a699bf538e3584a891040a1bc2cd2a3da" prot="public" virt="non-virtual"><scope>themis::ingestion::LeaderLease</scope><name>owner_node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

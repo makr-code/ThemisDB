@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1_i_health_probe" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::IHealthProbe</compoundname>
+    <includes refid="health__probe_8h" local="no">health_probe.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_1a0f138a78f7be7a60fd3841594aefe169" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::IHealthProbe::~IHealthProbe</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHealthProbe</name>
+        <qualifiedname>themis::core::IHealthProbe::~IHealthProbe</qualifiedname>
+        <briefdescription>
+<para>IHealth Probe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="70" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_1a03bac1803047397390d8042e329db6cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref></type>
+        <definition>virtual HealthCheckResult themis::core::IHealthProbe::checkLiveness</definition>
+        <argsstring>()=0</argsstring>
+        <name>checkLiveness</name>
+        <qualifiedname>themis::core::IHealthProbe::checkLiveness</qualifiedname>
+        <briefdescription>
+<para>Check Liveness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="76" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_1a26ab1f3c773378f496ea0828c6dffb47" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref></type>
+        <definition>virtual HealthCheckResult themis::core::IHealthProbe::checkReadiness</definition>
+        <argsstring>()=0</argsstring>
+        <name>checkReadiness</name>
+        <qualifiedname>themis::core::IHealthProbe::checkReadiness</qualifiedname>
+        <briefdescription>
+<para>Check Readiness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="82" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_1a8c79375ced653b3a457fdac66af5981e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref></type>
+        <definition>virtual HealthCheckResult themis::core::IHealthProbe::checkStartup</definition>
+        <argsstring>()=0</argsstring>
+        <name>checkStartup</name>
+        <qualifiedname>themis::core::IHealthProbe::checkStartup</qualifiedname>
+        <briefdescription>
+<para>Check Startup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="88" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_1aa50940c56bb6f2bc0514427b3429ae82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::core::IHealthProbe::componentName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>componentName</name>
+        <qualifiedname>themis::core::IHealthProbe::componentName</qualifiedname>
+        <briefdescription>
+<para>Component Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="94" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/health_probe.h" line="64" column="1" bodyfile="include/core/health_probe.h" bodystart="64" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_1a03bac1803047397390d8042e329db6cb" prot="public" virt="pure-virtual"><scope>themis::core::IHealthProbe</scope><name>checkLiveness</name></member>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_1a26ab1f3c773378f496ea0828c6dffb47" prot="public" virt="pure-virtual"><scope>themis::core::IHealthProbe</scope><name>checkReadiness</name></member>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_1a8c79375ced653b3a457fdac66af5981e" prot="public" virt="pure-virtual"><scope>themis::core::IHealthProbe</scope><name>checkStartup</name></member>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_1aa50940c56bb6f2bc0514427b3429ae82" prot="public" virt="pure-virtual"><scope>themis::core::IHealthProbe</scope><name>componentName</name></member>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_1a0f138a78f7be7a60fd3841594aefe169" prot="public" virt="virtual"><scope>themis::core::IHealthProbe</scope><name>~IHealthProbe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

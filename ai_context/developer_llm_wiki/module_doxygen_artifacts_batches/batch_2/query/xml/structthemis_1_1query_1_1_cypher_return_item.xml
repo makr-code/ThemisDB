@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_return_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherReturnItem</compoundname>
+    <includes refid="cypher__parser_8h" local="no">cypher_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_return_item_1a60a6832f037e61b82b4226bf44851330" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::CypherReturnItem::star</definition>
+        <argsstring></argsstring>
+        <name>star</name>
+        <qualifiedname>themis::query::CypherReturnItem::star</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>RETURN *. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="152" column="10" bodyfile="include/query/cypher_parser.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_return_item_1aa22f7bca0faf197dbe9a2460553cbdcb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::CypherReturnItem::distinct</definition>
+        <argsstring></argsstring>
+        <name>distinct</name>
+        <qualifiedname>themis::query::CypherReturnItem::distinct</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>RETURN DISTINCT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="153" column="10" bodyfile="include/query/cypher_parser.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_return_item_1a9ed4fa2a5de30cb9468077258eb405f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherReturnItem::expression</definition>
+        <argsstring></argsstring>
+        <name>expression</name>
+        <qualifiedname>themis::query::CypherReturnItem::expression</qualifiedname>
+        <briefdescription>
+<para>raw expression text (variable or prop ref) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="154" column="17" bodyfile="include/query/cypher_parser.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_return_item_1acb03ccd54b23322bc5dc218dde17bc42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherReturnItem::alias</definition>
+        <argsstring></argsstring>
+        <name>alias</name>
+        <qualifiedname>themis::query::CypherReturnItem::alias</qualifiedname>
+        <briefdescription>
+<para>AS alias, empty if not present. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="155" column="17" bodyfile="include/query/cypher_parser.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cypher_parser.h" line="151" column="1" bodyfile="include/query/cypher_parser.h" bodystart="151" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_return_item_1acb03ccd54b23322bc5dc218dde17bc42" prot="public" virt="non-virtual"><scope>themis::query::CypherReturnItem</scope><name>alias</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_return_item_1aa22f7bca0faf197dbe9a2460553cbdcb" prot="public" virt="non-virtual"><scope>themis::query::CypherReturnItem</scope><name>distinct</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_return_item_1a9ed4fa2a5de30cb9468077258eb405f7" prot="public" virt="non-virtual"><scope>themis::query::CypherReturnItem</scope><name>expression</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_return_item_1a60a6832f037e61b82b4226bf44851330" prot="public" virt="non-virtual"><scope>themis::query::CypherReturnItem</scope><name>star</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

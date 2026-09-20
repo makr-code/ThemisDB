@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_adaptive_t_t_l_policy_test" kind="class" language="C++" prot="public">
+    <compoundname>AdaptiveTTLPolicyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_adaptive_t_t_l_policy_test_1aae7175c9792d4d98242bf15b829022f9" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" kindref="compound">AdaptiveTTLPolicyConfig</ref></type>
+        <definition>AdaptiveTTLPolicyConfig AdaptiveTTLPolicyTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>AdaptiveTTLPolicyTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="575" column="29" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="575" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_adaptive_t_t_l_policy_test_1afc4f7cdd67eaf06ec701c1ac34395d93" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AdaptiveTTLPolicyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AdaptiveTTLPolicyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="577" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="577" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_t_t_l_policy_test_1a998f6df2764ae42dfe6320ba610c3a33" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_mock_adaptive_t_t_l_policy" kindref="compound">MockAdaptiveTTLPolicy</ref></type>
+        <definition>MockAdaptiveTTLPolicy AdaptiveTTLPolicyTest::makePolicy</definition>
+        <argsstring>()</argsstring>
+        <name>makePolicy</name>
+        <qualifiedname>AdaptiveTTLPolicyTest::makePolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="585" column="27" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="585" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdaptiveTTLPolicyTest</label>
+        <link refid="class_adaptive_t_t_l_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdaptiveTTLPolicyTest</label>
+        <link refid="class_adaptive_t_t_l_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::cache::AdaptiveTTLPolicyConfig</label>
+        <link refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="573" column="1" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="573" bodyend="586"/>
+    <listofallmembers>
+      <member refid="class_adaptive_t_t_l_policy_test_1aae7175c9792d4d98242bf15b829022f9" prot="protected" virt="non-virtual"><scope>AdaptiveTTLPolicyTest</scope><name>cfg</name></member>
+      <member refid="class_adaptive_t_t_l_policy_test_1a998f6df2764ae42dfe6320ba610c3a33" prot="protected" virt="non-virtual"><scope>AdaptiveTTLPolicyTest</scope><name>makePolicy</name></member>
+      <member refid="class_adaptive_t_t_l_policy_test_1afc4f7cdd67eaf06ec701c1ac34395d93" prot="protected" virt="non-virtual"><scope>AdaptiveTTLPolicyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

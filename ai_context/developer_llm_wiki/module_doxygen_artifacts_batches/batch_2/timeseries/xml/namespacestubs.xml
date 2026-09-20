@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacestubs" kind="namespace" language="C++">
+    <compoundname>stubs</compoundname>
+    <innerclass refid="structstubs_1_1_downsampling_engine" prot="public">stubs::DownsamplingEngine</innerclass>
+    <innerclass refid="structstubs_1_1_remote_write_client" prot="public">stubs::RemoteWriteClient</innerclass>
+    <innerclass refid="structstubs_1_1_t_s_flush" prot="public">stubs::TSFlush</innerclass>
+    <innerclass refid="structstubs_1_1_t_s_ingest" prot="public">stubs::TSIngest</innerclass>
+    <innerclass refid="structstubs_1_1_t_s_ingest_store" prot="public">stubs::TSIngestStore</innerclass>
+    <innerclass refid="structstubs_1_1_t_s_query" prot="public">stubs::TSQuery</innerclass>
+    <innerclass refid="structstubs_1_1_t_s_remote_write" prot="public">stubs::TSRemoteWrite</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

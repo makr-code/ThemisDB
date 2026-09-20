@@ -1,0 +1,1273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::llamacpp::LlamaCppPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">themis::llm::ILLMPlugin</basecompoundref>
+    <includes refid="llama__cpp__plugin_8h" local="no">llama_cpp_plugin.h</includes>
+    <innerclass refid="structthemis_1_1llamacpp_1_1_llama_cpp_plugin_1_1_lo_r_a_entry" prot="private">themis::llamacpp::LlamaCppPlugin::LoRAEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1affda5c0091f6055ee309f6d11e628440" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;text)&gt;</type>
+        <definition>using themis::llamacpp::LlamaCppPlugin::EmbedFn = std::function&lt;std::vector&lt;float&gt;(const std::string&amp; text)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EmbedFn</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::EmbedFn</qualifiedname>
+        <briefdescription>
+<para>Inject a custom embedding backend for stub/test environments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <computeroutput><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac499d8495f22cc704db6fef24edf6aa6" kindref="member">embed()</ref></computeroutput> delegates to <computeroutput>fn</computeroutput> instead of returning the 384-dimensional zero-vector stub. Enables semantic-search tests and RAG pipelines to operate without a compiled llama.cpp model.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable <computeroutput>std::vector&lt;float&gt;(const std::string&amp; text)</computeroutput>. Must not throw; returning an empty vector causes <computeroutput><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac499d8495f22cc704db6fef24edf6aa6" kindref="member">embed()</ref></computeroutput> to fall back to the zero-vector stub.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Stub #200 injection API — resolves the zero-vector fallback when <computeroutput>wrapper_</computeroutput> is nullptr. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="146" column="5" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1afbb7895787ecf8df2bc3e653867f5157" prot="public" static="no">
+        <type>std::function&lt; llm::InferenceResponse(const llm::InferenceRequest &amp;)&gt;</type>
+        <definition>using themis::llamacpp::LlamaCppPlugin::GenerateFn = std::function&lt;llm::InferenceResponse(const llm::InferenceRequest&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GenerateFn</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::GenerateFn</qualifiedname>
+        <briefdescription>
+<para>Inject a custom generation backend for stub/test environments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <computeroutput><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate()</ref></computeroutput> delegates to <computeroutput>fn</computeroutput> before using the built-in fail-closed stub path. This allows non-llama.cpp builds to forward text generation into an external backend while preserving the existing error response when no callback is configured. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="157" column="5" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a913c598f26c7db62fec9c58b8e7e21dc" prot="public" static="no">
+        <type>std::function&lt; bool(const llm::InferenceRequest &amp;, std::string &amp;denial_reason)&gt;</type>
+        <definition>using themis::llamacpp::LlamaCppPlugin::PolicyFn = std::function&lt;bool(const llm::InferenceRequest&amp;, std::string&amp; denial_reason)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PolicyFn</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::PolicyFn</qualifiedname>
+        <briefdescription>
+<para>Set an optional inference policy gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate()</ref> and <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4cff202310f62ae2b77aeeec084670b8" kindref="member">generateRAG()</ref> invoke this function before dispatching to the inference backend. The gate receives the request and an output parameter for a human-readable denial reason. Returning <computeroutput>false</computeroutput> causes the call to return success=false with the denial reason as error_message. Returning <computeroutput>true</computeroutput> allows inference to proceed.</para>
+<para>This is the recommended integration point for governance policy engines (e.g. PolicyEngine::checkInferencePermission()) without introducing a compile-time dependency on the governance library.</para>
+<para>Thread-safe: stored under mutex_.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable matching <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a913c598f26c7db62fec9c58b8e7e21dc" kindref="member">PolicyFn</ref>; nullptr disables the gate (default). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="177" column="5" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a791af0d86fbd703b5b048778645da6b0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::LlamaCppPlugin::model_loaded_</definition>
+        <argsstring></argsstring>
+        <name>model_loaded_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::model_loaded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="213" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a474981f7370e8f62560b0bbd4975a03b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llamacpp::LlamaCppPlugin::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="214" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1acec5852c2fc5db8959ac5a27aca0af65" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llamacpp::LlamaCppPlugin::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::model_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="215" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a1491e64aea47e524a9a6d39a1a61e4af" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llamacpp::LlamaCppPlugin::context_length_</definition>
+        <argsstring></argsstring>
+        <name>context_length_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::context_length_</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Model context window (tokens); set by <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="216" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a5c1c8f09912967c314b995e50a85e7ff" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llamacpp::LlamaCppPlugin::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="217" column="24" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac635f31f9509aec260541ddd2e256173" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llamacpp::LlamaCppPlugin::inference_count_</definition>
+        <argsstring></argsstring>
+        <name>inference_count_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::inference_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="219" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ade676dc7cc525c5acea7fe69db7ff080" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llamacpp::LlamaCppPlugin::error_count_</definition>
+        <argsstring></argsstring>
+        <name>error_count_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::error_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="220" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a1f409647fb84fe579899ba1ae1afe160" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llamacpp::LlamaCppPlugin::stream_retry_count_</definition>
+        <argsstring></argsstring>
+        <name>stream_retry_count_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::stream_retry_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Streaming retry counter — incremented by Sub-Agent D retry logic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="222" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aaf98a135bf56bca1a8892a7df378b301" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; LoRAEntry &gt;</type>
+        <definition>std::vector&lt;LoRAEntry&gt; themis::llamacpp::LlamaCppPlugin::loras_</definition>
+        <argsstring></argsstring>
+        <name>loras_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::loras_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="229" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac3204edeca8f49a5dd309d2f85bd779b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1affda5c0091f6055ee309f6d11e628440" kindref="member">EmbedFn</ref></type>
+        <definition>EmbedFn themis::llamacpp::LlamaCppPlugin::embed_fn_</definition>
+        <argsstring></argsstring>
+        <name>embed_fn_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::embed_fn_</qualifiedname>
+        <briefdescription>
+<para>Injected embedding backend (Stub #200 injection API). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="232" column="13" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a90b7779948d7e62c65b570fff713e8be" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1afbb7895787ecf8df2bc3e653867f5157" kindref="member">GenerateFn</ref></type>
+        <definition>GenerateFn themis::llamacpp::LlamaCppPlugin::generate_fn_</definition>
+        <argsstring></argsstring>
+        <name>generate_fn_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::generate_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="233" column="16" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a9f1c9cbe0d02e1fc686c69125a292f5d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a913c598f26c7db62fec9c58b8e7e21dc" kindref="member">PolicyFn</ref></type>
+        <definition>PolicyFn themis::llamacpp::LlamaCppPlugin::policy_fn_</definition>
+        <argsstring></argsstring>
+        <name>policy_fn_</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::policy_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional inference policy gate (nullptr = no check). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="235" column="14" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a722e797e21d125e08f30c1371ea57354" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::LlamaCppPlugin::LlamaCppPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>LlamaCppPlugin</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::LlamaCppPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab1374cd1cc9b8719398999795b7d398e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::LlamaCppPlugin::~LlamaCppPlugin</definition>
+        <argsstring>() override</argsstring>
+        <name>~LlamaCppPlugin</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::~LlamaCppPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="57" column="5" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a2e46a05b01208aeb1c90a6e440632637" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::LlamaCppPlugin::LlamaCppPlugin</definition>
+        <argsstring>(LlamaCppPlugin &amp;&amp;) noexcept=default</argsstring>
+        <name>LlamaCppPlugin</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::LlamaCppPlugin</qualifiedname>
+        <param>
+          <type>LlamaCppPlugin &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a44c87000ca6e21b652fd3513ad67f20f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a722e797e21d125e08f30c1371ea57354" kindref="member">LlamaCppPlugin</ref> &amp;</type>
+        <definition>LlamaCppPlugin &amp; themis::llamacpp::LlamaCppPlugin::operator=</definition>
+        <argsstring>(LlamaCppPlugin &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a722e797e21d125e08f30c1371ea57354" kindref="member">LlamaCppPlugin</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="60" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::LlamaCppPlugin::loadModel</definition>
+        <argsstring>(const std::string &amp;model_path, const json &amp;config) override</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::loadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>── loadModel / unloadModel ─────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), contains(), is_number(), reset(), std::move(), <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kindref="member">getModelInfo()</ref>, value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="63" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="55" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ae7f1e8710640d51ee31ea107c202f6f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llamacpp::LlamaCppPlugin::unloadModel</definition>
+        <argsstring>() override</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::unloadModel</qualifiedname>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="64" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="134" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; llm::ModelInfo &gt;</type>
+        <definition>std::optional&lt; llm::ModelInfo &gt; themis::llamacpp::LlamaCppPlugin::getModelInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::getModelInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="65" column="19" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="147" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::LlamaCppPlugin::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::isModelLoaded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="66" column="10" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab3a434c0cc074f3d8b965619508de256" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::LlamaCppPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id, const std::string &amp;lora_path, float scale) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::loadLoRA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>── LoRA management ───────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(), std::remove_if(), begin(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="69" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="191" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ad2976f1860f2d31605a89b739ccb32af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::LlamaCppPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::unloadLoRA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload Lo RA.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), size(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="72" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="208" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ad5a598a3040044fd652687eca96cff86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; llm::LoRAInfo &gt;</type>
+        <definition>std::vector&lt; llm::LoRAInfo &gt; themis::llamacpp::LlamaCppPlugin::listLoRAs</definition>
+        <argsstring>() const override</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::listLoRAs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="74" column="17" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="217" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llm::InferenceResponse</type>
+        <definition>llm::InferenceResponse themis::llamacpp::LlamaCppPlugin::generate</definition>
+        <argsstring>(const llm::InferenceRequest &amp;request) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::generate</qualifiedname>
+        <param>
+          <type>const llm::InferenceRequest &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>── generate ────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stream_callback(), lock(), get(), policy_fn(), load(), what(), generate_fn(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="76" column="28" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="244" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4cff202310f62ae2b77aeeec084670b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llm::InferenceResponse</type>
+        <definition>llm::InferenceResponse themis::llamacpp::LlamaCppPlugin::generateRAG</definition>
+        <argsstring>(const llm::RAGContext &amp;rag_context, const llm::InferenceRequest &amp;request) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::generateRAG</qualifiedname>
+        <param>
+          <type>const llm::RAGContext &amp;</type>
+          <declname>rag_context</declname>
+        </param>
+        <param>
+          <type>const llm::InferenceRequest &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Generate RAG. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rag_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), reserve(), size(), push_back(), std::move(), is_object(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="77" column="28" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="464" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac499d8495f22cc704db6fef24edf6aa6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llamacpp::LlamaCppPlugin::embed</definition>
+        <argsstring>(const std::string &amp;text) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::embed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>── embed ───────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), embed_fn_(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="79" column="17" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="625" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a82a8907eda62350fc879fec59a79ea6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llm::ILLMPlugin::DraftTokensResult</type>
+        <definition>llm::ILLMPlugin::DraftTokensResult themis::llamacpp::LlamaCppPlugin::generateDraftTokens</definition>
+        <argsstring>(const llm::InferenceRequest &amp;request, size_t k, size_t vocab_size_hint) override</argsstring>
+        <name>generateDraftTokens</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::generateDraftTokens</qualifiedname>
+        <param>
+          <type>const llm::InferenceRequest &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vocab_size_hint</declname>
+        </param>
+        <briefdescription>
+<para>Generate K draft tokens with per-token logit distributions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── generateDraftTokens ────────────────────────────────────────────────────────</para>
+<para>Phase 2 Implementation: Real draft-logit pipeline using llama_get_logits() from the underlying llama.cpp context. Returns actual logit distributions for speculative decoding verification.</para>
+<para>When <computeroutput>k</computeroutput> is 0 the function returns an empty result immediately without acquiring any significant resources. <computeroutput>vocab_size_hint</computeroutput> values exceeding 65 536 are capped to bound memory allocation in stub/fallback mode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inference request (prompt + generation parameters). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of draft tokens to produce (0 is valid). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vocab_size_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected vocabulary size; 32000 used as fallback and capped in stub/fallback mode to bound memory usage. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DraftTokensResult with k tokens and k logit rows (empty when k==0).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vocab_size_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::min(), spdlog::warn(), push_back(), logits(), std::move(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="98" column="40" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="862" bodyend="986"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a2af8b80e38d5337d8c7cfd638b124480" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::llamacpp::LlamaCppPlugin::computeTargetLogitsForTokens</definition>
+        <argsstring>(const llm::InferenceRequest &amp;request, const std::vector&lt; int &gt; &amp;draft_token_ids)</argsstring>
+        <name>computeTargetLogitsForTokens</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::computeTargetLogitsForTokens</qualifiedname>
+        <param>
+          <type>const llm::InferenceRequest &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>draft_token_ids</declname>
+        </param>
+        <briefdescription>
+<para>Compute exact target-model logits for supplied speculative draft tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Target Logits For Tokens.</para>
+<para>Forwards to the live <computeroutput>LlamaWrapper</computeroutput> when a real llama.cpp model is loaded. The returned matrix contains exactly <computeroutput>draft_token_ids.size() + 1</computeroutput> rows and is directly compatible with <computeroutput>SpeculativeDecoder::verify()</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Verification request whose prompt defines the current prefix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>draft_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Draft token IDs to evaluate in target-vocabulary space. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>(K+1) x vocab_size</computeroutput> raw target-logit matrix.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if no live llama.cpp wrapper/model is available. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if any supplied token is outside the loaded vocabulary range.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="117" column="18" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="996" bodyend="1014"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a938d5477cae645ca726d51817662b42a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>llm::LLMCapabilities</type>
+        <definition>llm::LLMCapabilities themis::llamacpp::LlamaCppPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="122" column="26" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="703" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a80c1faf915713272bc0404c4a3ac09a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref></type>
+        <definition>json themis::llamacpp::LlamaCppPlugin::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::getMemoryStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="123" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="715" bodyend="755"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab04245f847a220370ff95fe672e51abd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref></type>
+        <definition>json themis::llamacpp::LlamaCppPlugin::getPerformanceStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::getPerformanceStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="124" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="757" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a0f28ab954179f4d4823342d41b2e21a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llamacpp::LlamaCppPlugin::exportLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id) override</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::exportLoRA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <briefdescription>
+<para>── LoRA import/export ──────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="126" column="17" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="773" bodyend="783"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a27da3db4470b3e553a0a32ff8a7e4076" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::LlamaCppPlugin::importLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id, const std::vector&lt; uint8_t &gt; &amp;data) override</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::importLoRA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Import Lo RA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), lock(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="127" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="792" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ade3f201d7768608a8085ed233509ca43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llamacpp::LlamaCppPlugin::setEmbedFn</definition>
+        <argsstring>(EmbedFn fn)</argsstring>
+        <name>setEmbedFn</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::setEmbedFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1affda5c0091f6055ee309f6d11e628440" kindref="member">EmbedFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>── setEmbedFn ──────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="147" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="676" bodyend="679"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1af53191723c9e4d9f505cb6cb9b2b4528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llamacpp::LlamaCppPlugin::setGenerateFn</definition>
+        <argsstring>(GenerateFn fn)</argsstring>
+        <name>setGenerateFn</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::setGenerateFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1afbb7895787ecf8df2bc3e653867f5157" kindref="member">GenerateFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Generate Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="158" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="686" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1acff523243db200edbfa8766cf7a1cb9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llamacpp::LlamaCppPlugin::setPolicyFn</definition>
+        <argsstring>(PolicyFn fn)</argsstring>
+        <name>setPolicyFn</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::setPolicyFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a913c598f26c7db62fec9c58b8e7e21dc" kindref="member">PolicyFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Policy Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="178" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="696" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4ad34032673417e1a5a16155a706b82c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llm::InferenceResponse</type>
+        <definition>llm::InferenceResponse themis::llamacpp::LlamaCppPlugin::generateStream</definition>
+        <argsstring>(llm::InferenceRequest request, std::function&lt; void(const std::string &amp;token)&gt; token_callback)</argsstring>
+        <name>generateStream</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::generateStream</qualifiedname>
+        <param>
+          <type>llm::InferenceRequest</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;token)&gt;</type>
+          <declname>token_callback</declname>
+        </param>
+        <briefdescription>
+<para>Streaming generation convenience wrapper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate()</ref> with the given request, injecting <computeroutput>token_callback</computeroutput> into InferenceRequest::stream_callback. When a real llama.cpp model is wired in, each sampled token is forwarded to the callback before the full response is returned. In stub mode the callback receives the stub response as a single &quot;token&quot; so that callers always get at least one callback invocation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inference parameters (stream_callback field is overwritten). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called once per token; must not throw. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Full InferenceResponse (same as <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate()</ref>). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="193" column="28" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="1018" bodyend="1025"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a7ef1f23bdefc93bda6a7a8075c29d5cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; llm::InferenceResponse &gt;</type>
+        <definition>std::vector&lt; llm::InferenceResponse &gt; themis::llamacpp::LlamaCppPlugin::generateBatch</definition>
+        <argsstring>(const std::vector&lt; llm::InferenceRequest &gt; &amp;requests)</argsstring>
+        <name>generateBatch</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::generateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; llm::InferenceRequest &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <briefdescription>
+<para>Batch inference over multiple requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── generateBatch ─────────────────────────────────────────────────────────────</para>
+<para>Iterates over <computeroutput>requests</computeroutput> and calls <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate()</ref> for each one. Order of responses mirrors order of requests.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of inference requests. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of InferenceResponse, same size as <computeroutput>requests</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="206" column="17" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="1034" bodyend="1043"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a5914d338ecb0e883017cea83b9472a43" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llamacpp::LlamaCppPlugin::getPluginVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getPluginVersion</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::getPluginVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="209" column="17" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4b56f4721d049c2ac51ca20dc827da76" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llamacpp::LlamaCppPlugin::getModelId</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::getModelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="210" column="17" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="172" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aad2ed2185cbdc79e87f023969403727e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llamacpp::LlamaCppPlugin::computeFileDigest</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>computeFileDigest</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPlugin::computeFileDigest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Compute a hex digest of the file at <computeroutput>path</computeroutput>. Uses FNV-64 as a CI-safe placeholder; swap for SHA-256 (OpenSSL EVP) in production deployments where libcrypto is available. Returns empty string on I/O error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── computeFileDigest ─────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: f(), read(), gcount(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="241" column="24" bodyfile="src/llama_cpp/llama_cpp_plugin.cpp" bodystart="829" bodyend="851"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standalone llama_cpp plugin that wraps the existing LlamaWrapper and exposes it through the ILLMPlugin interface for dynamic loading. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This plugin bridges the existing LlamaWrapper implementation with the plugin system. It can be loaded dynamically via <ref refid="llama__cpp__plugin_8h_1abd3df5e104337622bede1e61cb58a20f" kindref="member">THEMIS_LLM_PLUGIN()</ref> and registered in the PluginManager.</para>
+<para>Usage without model (test/stub mode):<itemizedlist>
+<listitem><para>initialize() returns true without loading any model</para>
+</listitem><listitem><para><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate()</ref> returns an empty InferenceResponse</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage with model:<itemizedlist>
+<listitem><para>initialize() calls <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel()</ref> with model_path from config</para>
+</listitem></itemizedlist>
+</para>
+<para>Streaming:<itemizedlist>
+<listitem><para>Set InferenceRequest::stream_callback to receive tokens one-by-one.</para>
+</listitem><listitem><para>Alternatively call generateStream(request, callback) directly.</para>
+</listitem></itemizedlist>
+</para>
+<para>Batch inference:<itemizedlist>
+<listitem><para>generateBatch(requests) iterates over each request and calls <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate()</ref>. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>llm::ILLMPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::llamacpp::LlamaCppPlugin</label>
+        <link refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>llm::ILLMPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::llamacpp::LlamaCppPlugin</label>
+        <link refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llama_cpp/llama_cpp_plugin.h" line="54" column="1" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="54" bodyend="248"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aad2ed2185cbdc79e87f023969403727e" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>computeFileDigest</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a2af8b80e38d5337d8c7cfd638b124480" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>computeTargetLogitsForTokens</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a1491e64aea47e524a9a6d39a1a61e4af" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>context_length_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac499d8495f22cc704db6fef24edf6aa6" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>embed</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac3204edeca8f49a5dd309d2f85bd779b" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>embed_fn_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1affda5c0091f6055ee309f6d11e628440" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>EmbedFn</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ade676dc7cc525c5acea7fe69db7ff080" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>error_count_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a0f28ab954179f4d4823342d41b2e21a0" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>exportLoRA</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a90b7779948d7e62c65b570fff713e8be" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>generate_fn_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a7ef1f23bdefc93bda6a7a8075c29d5cf" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>generateBatch</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a82a8907eda62350fc879fec59a79ea6a" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1afbb7895787ecf8df2bc3e653867f5157" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>GenerateFn</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4cff202310f62ae2b77aeeec084670b8" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>generateRAG</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4ad34032673417e1a5a16155a706b82c" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>generateStream</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a938d5477cae645ca726d51817662b42a" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a80c1faf915713272bc0404c4a3ac09a9" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4b56f4721d049c2ac51ca20dc827da76" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab04245f847a220370ff95fe672e51abd" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a5914d338ecb0e883017cea83b9472a43" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>getPluginVersion</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a27da3db4470b3e553a0a32ff8a7e4076" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>importLoRA</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac635f31f9509aec260541ddd2e256173" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>inference_count_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ad5a598a3040044fd652687eca96cff86" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>listLoRAs</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a722e797e21d125e08f30c1371ea57354" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>LlamaCppPlugin</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a2e46a05b01208aeb1c90a6e440632637" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>LlamaCppPlugin</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab3a434c0cc074f3d8b965619508de256" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>loadLoRA</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aaf98a135bf56bca1a8892a7df378b301" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>loras_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1acec5852c2fc5db8959ac5a27aca0af65" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a791af0d86fbd703b5b048778645da6b0" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>model_loaded_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a474981f7370e8f62560b0bbd4975a03b" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a5c1c8f09912967c314b995e50a85e7ff" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a44c87000ca6e21b652fd3513ad67f20f" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a9f1c9cbe0d02e1fc686c69125a292f5d" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>policy_fn_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a913c598f26c7db62fec9c58b8e7e21dc" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>PolicyFn</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ade3f201d7768608a8085ed233509ca43" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>setEmbedFn</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1af53191723c9e4d9f505cb6cb9b2b4528" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>setGenerateFn</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1acff523243db200edbfa8766cf7a1cb9d" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>setPolicyFn</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a1f409647fb84fe579899ba1ae1afe160" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>stream_retry_count_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ad2976f1860f2d31605a89b739ccb32af" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ae7f1e8710640d51ee31ea107c202f6f6" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab1374cd1cc9b8719398999795b7d398e" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPlugin</scope><name>~LlamaCppPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

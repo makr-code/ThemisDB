@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1dkrg" kind="namespace" language="C++">
+    <compoundname>themis::bench::dkrg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity" prot="public">themis::bench::dkrg::BenchEntity</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1dkrg_1a0afba2a75db919d42c05af2d9bf7d193" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity" kindref="compound">BenchEntity</ref> &gt;</type>
+        <definition>using themis::bench::dkrg::BenchEntityStore = std::unordered_map&lt;std::string, BenchEntity&gt;</definition>
+        <argsstring></argsstring>
+        <name>BenchEntityStore</name>
+        <qualifiedname>themis::bench::dkrg::BenchEntityStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="88" column="1" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1dkrg_1aceec6fc4319b100aa7b7d3fc79499ca8" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>using themis::bench::dkrg::BenchGraph = std::unordered_map&lt;std::string, std::vector&lt;std::string&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>BenchGraph</name>
+        <qualifiedname>themis::bench::dkrg::BenchGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="103" column="1" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1dkrg_1a38f31a6ca02bcb944bd2b2d6be849941" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::dkrg::kDKCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kDKCanonicalSeed</name>
+        <qualifiedname>themis::bench::dkrg::kDKCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="73" column="27" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1dkrg_1ac3f5e58e02b7bfde079e824bb5f02f2e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::dkrg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::dkrg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="74" column="27" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1dkrg_1a022b38e8b08fd4561c9e5bad081d0fc2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::dkrg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::dkrg::kWarmupIterations</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="75" column="27" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a80082dd8a2917e6a087f9c03b5851c54" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity" kindref="compound">BenchEntity</ref></type>
+        <definition>static BenchEntity themis::bench::dkrg::makeEntity</definition>
+        <argsstring>(int idx, const char *node_id) noexcept</argsstring>
+        <name>makeEntity</name>
+        <qualifiedname>themis::bench::dkrg::makeEntity</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="90" column="20" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="90" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a594ddd85f839f36f56cbb0b12d932fa6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1bench_1_1dkrg_1aceec6fc4319b100aa7b7d3fc79499ca8" kindref="member">BenchGraph</ref></type>
+        <definition>static BenchGraph themis::bench::dkrg::makeGraph</definition>
+        <argsstring>(int n_nodes, int edges_per_node)</argsstring>
+        <name>makeGraph</name>
+        <qualifiedname>themis::bench::dkrg::makeGraph</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n_nodes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>edges_per_node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="105" column="19" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="105" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a30c9f2e2dfd763b9d24a1ff164a21430" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::dkrg::getNeighbours</definition>
+        <argsstring>(const BenchGraph &amp;g, const std::string &amp;node)</argsstring>
+        <name>getNeighbours</name>
+        <qualifiedname>themis::bench::dkrg::getNeighbours</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1bench_1_1dkrg_1aceec6fc4319b100aa7b7d3fc79499ca8" kindref="member">BenchGraph</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="117" column="20" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="117" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a785296b5c376c7c0b18c986a7df37dc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>static std::set&lt; std::string &gt; themis::bench::dkrg::bfsDepth3</definition>
+        <argsstring>(const BenchGraph &amp;g, const std::string &amp;start)</argsstring>
+        <name>bfsDepth3</name>
+        <qualifiedname>themis::bench::dkrg::bfsDepth3</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1bench_1_1dkrg_1aceec6fc4319b100aa7b7d3fc79499ca8" kindref="member">BenchGraph</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="123" column="17" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="123" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1afa551c16eb47508ba27c25018195f6a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>static std::set&lt; std::string &gt; themis::bench::dkrg::federationUnion</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;a, const std::vector&lt; std::string &gt; &amp;b)</argsstring>
+        <name>federationUnion</name>
+        <qualifiedname>themis::bench::dkrg::federationUnion</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="146" column="17" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="146" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a08c9747ccde3690527056cdc9970a352" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::dkrg::BM_DKRG01_EntityInsert</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DKRG01_EntityInsert</name>
+        <qualifiedname>themis::bench::dkrg::BM_DKRG01_EntityInsert</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DKRG-01: unordered_map insert for <ref refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity" kindref="compound">BenchEntity</ref>. GATE-DKRG-01: ≥ 100k inserts/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="162" column="13" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="162" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a981fe43e7b8c8012995ce764507d370c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::dkrg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::dkrg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="182" column="5" declfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" declline="182" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1ab3457b39132f3e0a08f57c349de13537" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::dkrg::BM_DKRG02_NeighboursLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DKRG02_NeighboursLookup</name>
+        <qualifiedname>themis::bench::dkrg::BM_DKRG02_NeighboursLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DKRG-02: getNeighbours() for a node with 10 direct edges. GATE-DKRG-02: p99 ≤ 500 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="193" column="13" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="193" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a9b2dc4445d07ed45e7b618af689ef195" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::dkrg::BM_DKRG03_PathQueryDepth3</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DKRG03_PathQueryDepth3</name>
+        <qualifiedname>themis::bench::dkrg::BM_DKRG03_PathQueryDepth3</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DKRG-03: BFS path query to depth 3. GATE-DKRG-03: p99 ≤ 5 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="217" column="13" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="217" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a82ddeff9070912106d7903d6ea76cc15" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::dkrg::BM_DKRG04_EntityMergeLww</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DKRG04_EntityMergeLww</name>
+        <qualifiedname>themis::bench::dkrg::BM_DKRG04_EntityMergeLww</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DKRG-04: <ref refid="namespacethemis_1_1distributed__knowledge_1acecd81fa31b64998a8606fe6b71cbad5" kindref="member">resolveLww()</ref> — LWW conflict resolution decision. GATE-DKRG-04: p99 ≤ 100 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="241" column="13" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="241" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1aaef4031439ad7ebd999c25cfb6da78a9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::dkrg::BM_DKRG05_FederationResultUnion</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DKRG05_FederationResultUnion</name>
+        <qualifiedname>themis::bench::dkrg::BM_DKRG05_FederationResultUnion</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DKRG-05: federation result union for 2×100 entity ID sets. <ref refid="namespacethemis_1_1bench_1_1dkrg_1ad3b70145b772f18ae7f0dd8687ab4aeb" kindref="member">UseRealTime()</ref> because set operations involve memory allocation. GATE-DKRG-05: p99 ≤ 5 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="268" column="13" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="268" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1ad3b70145b772f18ae7f0dd8687ab4aeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::dkrg::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::dkrg::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="286" column="5" declfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" declline="286" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1dkrg_1a21eb8a1e52e51cdb0cd3c7eac7d2cd20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::dkrg::BM_DKRG06_EntitySerialization</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DKRG06_EntitySerialization</name>
+        <qualifiedname>themis::bench::dkrg::BM_DKRG06_EntitySerialization</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DKRG-06: Serialize a <ref refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity" kindref="compound">BenchEntity</ref> with a 128-byte payload to string. GATE-DKRG-06: p99 ≤ 100 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="298" column="13" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="298" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="67" column="1"/>
+  </compounddef>
+</doxygen>

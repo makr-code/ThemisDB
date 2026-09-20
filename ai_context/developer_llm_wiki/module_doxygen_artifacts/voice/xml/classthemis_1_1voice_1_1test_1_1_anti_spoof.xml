@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1test_1_1_anti_spoof" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::test::AntiSpoof</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_anti_spoof_1a7c799d358eb3fb7f77630cc0cef58de4" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::voice::test::AntiSpoof::replaySet_</definition>
+        <argsstring></argsstring>
+        <name>replaySet_</name>
+        <qualifiedname>themis::voice::test::AntiSpoof::replaySet_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="224" column="12" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_anti_spoof_1a692e20a3dcccf4f24becea810c66ce3a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::test::AntiSpoof::verify</definition>
+        <argsstring>(const ChallengeToken &amp;token, bool backend_available) const</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::voice::test::AntiSpoof::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1test_1_1_challenge_token" kindref="compound">ChallengeToken</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>backend_available</declname>
+        </param>
+        <briefdescription>
+<para>Returns false when challenge is stale, replayed, or backend is down. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="209" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="209" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_anti_spoof_1a01464ef9610804d9ada8514da900490c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::AntiSpoof::markSeen</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>markSeen</name>
+        <qualifiedname>themis::voice::test::AntiSpoof::markSeen</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Records a token as seen (replay detection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="221" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="221" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="206" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="206" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1test_1_1_anti_spoof_1a01464ef9610804d9ada8514da900490c" prot="public" virt="non-virtual"><scope>themis::voice::test::AntiSpoof</scope><name>markSeen</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_anti_spoof_1a7c799d358eb3fb7f77630cc0cef58de4" prot="private" virt="non-virtual"><scope>themis::voice::test::AntiSpoof</scope><name>replaySet_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_anti_spoof_1a692e20a3dcccf4f24becea810c66ce3a" prot="public" virt="non-virtual"><scope>themis::voice::test::AntiSpoof</scope><name>verify</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

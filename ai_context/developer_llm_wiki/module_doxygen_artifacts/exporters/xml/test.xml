@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__exporters__highcardinality__stress_8cpp_1a19303db501b2f9ba8b9df05d7441a71b" kindref="member">TEST</ref>  (HighCardinalityMetricExport, ConcurrentExport)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>HighCardinalityMetricExport Exports 1 000 000 metrics across 8 concurrent threads and verifies that all 1 000 000 exports complete without exceptions.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__exporters__highcardinality__stress_8cpp_1add43bb7415e3ee9417081b8e235cbd8b" kindref="member">TEST</ref>  (ConcurrentTraceExportStress, MultiThreadedExport)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>ConcurrentTraceExportStress Runs 8 concurrent trace export threads each exporting 10 000 traces and verifies total count and no errors.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__exporters__highcardinality__stress_8cpp_1a3cbc9aa380c4d8d670d7dabab130d572" kindref="member">TEST</ref>  (ExporterBackpressureStress, MultiThreadedEnqueueDequeue)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>ExporterBackpressureStress Runs 8 concurrent producers against a bounded export queue and verifies no uncaught exceptions occur (overflow is tolerated by design). </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

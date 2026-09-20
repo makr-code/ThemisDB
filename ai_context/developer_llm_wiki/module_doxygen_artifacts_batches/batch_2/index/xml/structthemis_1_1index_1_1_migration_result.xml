@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_migration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::MigrationResult</compoundname>
+    <includes refid="tiered__index__manager_8h" local="no">tiered_index_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_migration_result_1a2a7908783f4db624d4264b5b3f62bba9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MigrationResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::index::MigrationResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="124" column="10" bodyfile="include/index/tiered_index_manager.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_migration_result_1ae77b7f76e451019c2beabfe6b7a07607" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817" kindref="member">MigrationDiagnosticCode</ref></type>
+        <definition>MigrationDiagnosticCode themis::index::MigrationResult::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::index::MigrationResult::code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817ab50339a10e1de285ac99d4c3990b8693" kindref="member">MigrationDiagnosticCode::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="125" column="29" bodyfile="include/index/tiered_index_manager.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_migration_result_1adea43aaed61ef06e4557e8fbe01aa471" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::MigrationResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::index::MigrationResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="126" column="17" bodyfile="include/index/tiered_index_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_migration_result_1abe9eb2ac8cfc2f3c1ff58e30d8e40e29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::MigrationResult::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::index::MigrationResult::index_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="127" column="17" bodyfile="include/index/tiered_index_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_migration_result_1a29b9c6b49238fef06e3a8194b0cb55cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::MigrationResult::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>themis::index::MigrationResult::source_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="128" column="17" bodyfile="include/index/tiered_index_manager.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_migration_result_1a598a89023aa29186d4e03d3593b69615" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::MigrationResult::target_path</definition>
+        <argsstring></argsstring>
+        <name>target_path</name>
+        <qualifiedname>themis::index::MigrationResult::target_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="129" column="17" bodyfile="include/index/tiered_index_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_migration_result_1a5161cd94074da0e5e65ef05142fa6aaa" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+        <definition>IndexTierMeta::Tier themis::index::MigrationResult::from_tier</definition>
+        <argsstring></argsstring>
+        <name>from_tier</name>
+        <qualifiedname>themis::index::MigrationResult::from_tier</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="130" column="25" bodyfile="include/index/tiered_index_manager.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_migration_result_1a99115443ddbde2e80a800041acb05611" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+        <definition>IndexTierMeta::Tier themis::index::MigrationResult::to_tier</definition>
+        <argsstring></argsstring>
+        <name>to_tier</name>
+        <qualifiedname>themis::index::MigrationResult::to_tier</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="131" column="25" bodyfile="include/index/tiered_index_manager.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1index_1_1_migration_result_1a16527e452b3f92383f11fd9587b91b3a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>static MigrationResult themis::index::MigrationResult::Ok</definition>
+        <argsstring>(std::string name, IndexTierMeta::Tier from, IndexTierMeta::Tier to, std::string source={}, std::string target={})</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::index::MigrationResult::Ok</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>source</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>target</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="133" column="28" bodyfile="include/index/tiered_index_manager.h" bodystart="133" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1index_1_1_migration_result_1a3df41cbce98bfe2570dfd97874873a81" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>static MigrationResult themis::index::MigrationResult::Err</definition>
+        <argsstring>(std::string name, IndexTierMeta::Tier from, IndexTierMeta::Tier to, MigrationDiagnosticCode diagnostic_code, std::string msg, std::string source={}, std::string target={})</argsstring>
+        <name>Err</name>
+        <qualifiedname>themis::index::MigrationResult::Err</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817" kindref="member">MigrationDiagnosticCode</ref></type>
+          <declname>diagnostic_code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>source</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>target</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="147" column="28" bodyfile="include/index/tiered_index_manager.h" bodystart="147" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/tiered_index_manager.h" line="123" column="1" bodyfile="include/index/tiered_index_manager.h" bodystart="123" bodyend="163"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_migration_result_1ae77b7f76e451019c2beabfe6b7a07607" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>code</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1a3df41cbce98bfe2570dfd97874873a81" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>Err</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1a5161cd94074da0e5e65ef05142fa6aaa" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>from_tier</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1abe9eb2ac8cfc2f3c1ff58e30d8e40e29" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1adea43aaed61ef06e4557e8fbe01aa471" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1a16527e452b3f92383f11fd9587b91b3a" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>Ok</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1a2a7908783f4db624d4264b5b3f62bba9" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1a29b9c6b49238fef06e3a8194b0cb55cd" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>source_path</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1a598a89023aa29186d4e03d3593b69615" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>target_path</name></member>
+      <member refid="structthemis_1_1index_1_1_migration_result_1a99115443ddbde2e80a800041acb05611" prot="public" virt="non-virtual"><scope>themis::index::MigrationResult</scope><name>to_tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

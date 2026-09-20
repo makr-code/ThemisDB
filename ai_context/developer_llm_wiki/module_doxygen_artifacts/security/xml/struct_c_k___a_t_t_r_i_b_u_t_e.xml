@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_c_k___a_t_t_r_i_b_u_t_e" kind="struct" language="C++" prot="public">
+    <compoundname>CK_ATTRIBUTE</compoundname>
+    <includes refid="pkcs11__minimal_8h" local="no">pkcs11_minimal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_c_k___a_t_t_r_i_b_u_t_e_1af67596df6ec9351d7e43c593fd2de6c5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CK_ATTRIBUTE::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>CK_ATTRIBUTE::type</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="89" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___a_t_t_r_i_b_u_t_e_1a8948975d5fe2f841e4ba3410a6e6530e" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* CK_ATTRIBUTE::pValue</definition>
+        <argsstring></argsstring>
+        <name>pValue</name>
+        <qualifiedname>CK_ATTRIBUTE::pValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="90" column="13" bodyfile="include/security/pkcs11_minimal.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___a_t_t_r_i_b_u_t_e_1afefc84bc47bf1604efe9b41575bf24e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t CK_ATTRIBUTE::ulValueLen</definition>
+        <argsstring></argsstring>
+        <name>ulValueLen</name>
+        <qualifiedname>CK_ATTRIBUTE::ulValueLen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="91" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/pkcs11_minimal.h" line="88" column="1" bodyfile="include/security/pkcs11_minimal.h" bodystart="88" bodyend="92"/>
+    <listofallmembers>
+      <member refid="struct_c_k___a_t_t_r_i_b_u_t_e_1a8948975d5fe2f841e4ba3410a6e6530e" prot="public" virt="non-virtual"><scope>CK_ATTRIBUTE</scope><name>pValue</name></member>
+      <member refid="struct_c_k___a_t_t_r_i_b_u_t_e_1af67596df6ec9351d7e43c593fd2de6c5" prot="public" virt="non-virtual"><scope>CK_ATTRIBUTE</scope><name>type</name></member>
+      <member refid="struct_c_k___a_t_t_r_i_b_u_t_e_1afefc84bc47bf1604efe9b41575bf24e1" prot="public" virt="non-virtual"><scope>CK_ATTRIBUTE</scope><name>ulValueLen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

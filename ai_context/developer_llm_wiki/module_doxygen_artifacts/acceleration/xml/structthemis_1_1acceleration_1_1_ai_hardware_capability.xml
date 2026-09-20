@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_ai_hardware_capability" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::AiHardwareCapability</compoundname>
+    <includes refid="ai__hardware__dispatcher_8h" local="no">ai_hardware_dispatcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a8cadee3d2c3fe57db6d74010544027fe" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::AiHardwareCapability::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::AiHardwareCapability::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref></initializer>
+        <briefdescription>
+<para>Type of acceleration hardware. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="100" column="17" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_hardware_capability_1ad58d58280c343b0e8a07d9f25aa3175b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::AiHardwareCapability::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::AiHardwareCapability::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable backend identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="101" column="17" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_hardware_capability_1acd4b5c7b83c3622e7df5c771ece5af4d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::AiHardwareCapability::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::acceleration::AiHardwareCapability::available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if hardware is present and working </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="102" column="17" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_hardware_capability_1ae58ec583ba7beb677fc5fb743bd2f130" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::AiHardwareCapability::tops</definition>
+        <argsstring></argsstring>
+        <name>tops</name>
+        <qualifiedname>themis::acceleration::AiHardwareCapability::tops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Peak throughput estimate (Tera-OPerations Per Second). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="103" column="17" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a3f8d3d69a36350e0f30d68c2847e7011" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::acceleration::AiHardwareCapability::supported_precisions</definition>
+        <argsstring></argsstring>
+        <name>supported_precisions</name>
+        <qualifiedname>themis::acceleration::AiHardwareCapability::supported_precisions</qualifiedname>
+        <initializer>= PrecisionMode::FP32</initializer>
+        <briefdescription>
+<para>Bitmask of supported precision modes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="104" column="19" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a1d65c5acf306ef693d6ca2caba159f9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::AiHardwareCapability::onnx_ep</definition>
+        <argsstring></argsstring>
+        <name>onnx_ep</name>
+        <qualifiedname>themis::acceleration::AiHardwareCapability::onnx_ep</qualifiedname>
+        <briefdescription>
+<para>ONNX Runtime execution provider name (empty for non-ONNX). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="105" column="17" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a1028f1afd8989a9252af31b9eebb7191" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::AiHardwareCapability::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::acceleration::AiHardwareCapability::error</qualifiedname>
+        <briefdescription>
+<para>Error message when available == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="106" column="17" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/ai_hardware_dispatcher.h" line="99" column="1" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="99" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1acd4b5c7b83c3622e7df5c771ece5af4d" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareCapability</scope><name>available</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a1028f1afd8989a9252af31b9eebb7191" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareCapability</scope><name>error</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1ad58d58280c343b0e8a07d9f25aa3175b" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareCapability</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a1d65c5acf306ef693d6ca2caba159f9a" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareCapability</scope><name>onnx_ep</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a3f8d3d69a36350e0f30d68c2847e7011" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareCapability</scope><name>supported_precisions</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1ae58ec583ba7beb677fc5fb743bd2f130" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareCapability</scope><name>tops</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a8cadee3d2c3fe57db6d74010544027fe" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareCapability</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1046 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1ethics" kind="namespace" language="C++">
+    <compoundname>themis::plugins::ethics</compoundname>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" prot="public">themis::plugins::ethics::ArgumentChain</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" prot="public">themis::plugins::ethics::ArgumentStore</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config" prot="public">themis::plugins::ethics::CascadeRoutingConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision" prot="public">themis::plugins::ethics::CascadeRoutingDecision</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer" prot="public">themis::plugins::ethics::ChainVisualizer</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment" prot="public">themis::plugins::ethics::ClusterAssignment</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position" prot="public">themis::plugins::ethics::ClusterPosition</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config" prot="public">themis::plugins::ethics::CompressionConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result" prot="public">themis::plugins::ethics::CompressionResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker" prot="public">themis::plugins::ethics::ConvergenceMarker</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine" prot="public">themis::plugins::ethics::ConvergenceMarkerEngine</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge" prot="public">themis::plugins::ethics::CrossSchoolTensionEdge</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph" prot="public">themis::plugins::ethics::CrossSchoolTensionGraph</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver" prot="public">themis::plugins::ethics::CrossSchoolTensionResolver</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" prot="public">themis::plugins::ethics::CulturalEthicsSchoolDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization" prot="public">themis::plugins::ethics::DebateInitialization</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round" prot="public">themis::plugins::ethics::DebateRound</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config" prot="public">themis::plugins::ethics::DiscourseMemoryConfig</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store" prot="public">themis::plugins::ethics::DiscourseMemoryStore</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator" prot="public">themis::plugins::ethics::DiscourseOrchestrator</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" prot="public">themis::plugins::ethics::DiscourseOrchestratorPlan</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" prot="public">themis::plugins::ethics::DiscourseRoundOutput</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine" prot="public">themis::plugins::ethics::DynamicClusteringEngine</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry" prot="public">themis::plugins::ethics::EpisodicMemoryEntry</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" prot="public">themis::plugins::ethics::EthicalArgument</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" prot="public">themis::plugins::ethics::EthicalDecision</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine" prot="public">themis::plugins::ethics::EthicalDiscourseEngine</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin" prot="public">themis::plugins::ethics::EthicsAIPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries" prot="public">themis::plugins::ethics::EthicsAQLQueries</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log" prot="public">themis::plugins::ethics::EthicsAuditLog</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter" prot="public">themis::plugins::ethics::EthicsBaseEntityAdapter</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_error" prot="public">themis::plugins::ethics::EthicsError</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result" prot="public">themis::plugins::ethics::EthicsEvaluationResult</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator" prot="public">themis::plugins::ethics::EthicsEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query" prot="public">themis::plugins::ethics::EthicsIndexQuery</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta" prot="public">themis::plugins::ethics::EthicsProfileMeta</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry" prot="public">themis::plugins::ethics::EthicsProfileRegistry</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router" prot="public">themis::plugins::ethics::EthicsSelectionRouter</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector" prot="public">themis::plugins::ethics::IAdaLoRABiasCorrector</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" prot="public">themis::plugins::ethics::IdentityAdaLoRABiasCorrector</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin" prot="public">themis::plugins::ethics::IEthicsAIPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" prot="public">themis::plugins::ethics::IEthicsProfileRegistry</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router" prot="public">themis::plugins::ethics::ILlmCascadeRouter</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision" prot="public">themis::plugins::ethics::InjectionDecision</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" prot="public">themis::plugins::ethics::LegalGrounding</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router" prot="public">themis::plugins::ethics::LlmCascadeRouter</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict" prot="public">themis::plugins::ethics::MetaVerdict</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder" prot="public">themis::plugins::ethics::MetaVerdictBuilder</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote" prot="public">themis::plugins::ethics::MetaVerdictSchoolVote</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler" prot="public">themis::plugins::ethics::MirrorSchoolHandler</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy" prot="public">themis::plugins::ethics::MirrorSchoolPolicy</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_model_token_budget" prot="public">themis::plugins::ethics::ModelTokenBudget</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_norm_citation" prot="public">themis::plugins::ethics::NormCitation</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence" prot="public">themis::plugins::ethics::NormEvidence</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader" prot="public">themis::plugins::ethics::PhilosophyLoader</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" prot="public">themis::plugins::ethics::PhilosophyProfile</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis" prot="public">themis::plugins::ethics::PhilosophyThesis</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config" prot="public">themis::plugins::ethics::PositionAbstractConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_schema_error" prot="public">themis::plugins::ethics::PositionAbstractSchemaError</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator" prot="public">themis::plugins::ethics::PositionAbstractValidator</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor" prot="public">themis::plugins::ethics::PriorRoundCompressor</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context" prot="public">themis::plugins::ethics::RAGContext</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine" prot="public">themis::plugins::ethics::RAGContextEngine</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry" prot="public">themis::plugins::ethics::RoundAuditEntry</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" prot="public">themis::plugins::ethics::RouterCandidate</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" prot="public">themis::plugins::ethics::RouterConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_router_result" prot="public">themis::plugins::ethics::RouterResult</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector" prot="public">themis::plugins::ethics::ScalarAdaLoRABiasCorrector</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_schema_validation_error" prot="public">themis::plugins::ethics::SchemaValidationError</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary" prot="public">themis::plugins::ethics::SchoolPositionSummary</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" prot="public">themis::plugins::ethics::SchoolTension</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_status" prot="public">themis::plugins::ethics::Status</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_synthesis_matrix_builder" prot="public">themis::plugins::ethics::SynthesisMatrixBuilder</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config" prot="public">themis::plugins::ethics::TournamentConfig</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector" prot="public">themis::plugins::ethics::TournamentModeSelector</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result" prot="public">themis::plugins::ethics::TournamentSelectionResult</innerclass>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools">themis::plugins::ethics::LDM7Schools</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConvergenceType</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4af1fea01f32fee9ca44d0e8d05753429f" prot="public">
+          <name>CO_PROHIBITIVE</name>
+          <briefdescription>
+<para>Both schools prohibit the action. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4a4287c8973b7a8caaaf730dc39c1e2268" prot="public">
+          <name>CO_PERMISSIVE</name>
+          <briefdescription>
+<para>Both schools permit the action. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4ac9b76dd6985315bcf3c93716e2502590" prot="public">
+          <name>CONDITIONAL_CONVERGENT</name>
+          <briefdescription>
+<para>Convergent under specific conditions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4a52fefeb07f3f8036f9d3a8e37784a12a" prot="public">
+          <name>IRREDUCIBLE_SPLIT</name>
+          <briefdescription>
+<para>Persistent irreconcilable disagreement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4ad6a2e0d82d42c8d42bde6c49809f5d61" prot="public">
+          <name>PARTIAL_OVERLAP</name>
+          <briefdescription>
+<para>Partial agreement on sub-thesis level. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Insufficient data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="23" column="1" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="23" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ArgumentType</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cba9e3360ac711fcd82ceea74c8eb69bda9" prot="public">
+          <name>PRO</name>
+          <briefdescription>
+<para>Argument in favor. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cba16407b37450d32114d765a45a0813d24" prot="public">
+          <name>CONTRA</name>
+          <briefdescription>
+<para>Argument against. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cba449d0fbe0a05ead90fc77eb77e18ada0" prot="public">
+          <name>REBUTTAL</name>
+          <briefdescription>
+<para>Rebuttal to another argument. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cbaab4655732542d0279f180acc77104330" prot="public">
+          <name>SYNTHESIS</name>
+          <briefdescription>
+<para>Synthesis of multiple arguments. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cba2799482497469e61e6ce62588cc7b71f" prot="public">
+          <name>QUESTION</name>
+          <briefdescription>
+<para>Clarifying question. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cbaa06d41dae56fde874f68a6739a39698a" prot="public">
+          <name>CLARIFICATION</name>
+          <briefdescription>
+<para>Clarification statement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="26" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ArgumentStrength</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStrength</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48a32c7d8943bec86a6d7d5e03598670ca8" prot="public">
+          <name>WEAK</name>
+          <briefdescription>
+<para>Weak argument. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48a5137485eff3ff278d233d993c8539599" prot="public">
+          <name>MODERATE</name>
+          <briefdescription>
+<para>Moderate strength. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48a3dfb3ae3cdaa322f0388f1a531c39520" prot="public">
+          <name>STRONG</name>
+          <briefdescription>
+<para>Strong argument. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48a992e3448623cac3c7d21de828be4ed5e" prot="public">
+          <name>DECISIVE</name>
+          <briefdescription>
+<para>Decisive/conclusive argument. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="35" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602e" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DiscourseVerdict</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseVerdict</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eabb1096c7b0ccea0a98e61a492dc58e1b" prot="public">
+          <name>PROHIBIT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>School recommends prohibition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602ea695fb83069aa8ac43c138b05ccaa206d" prot="public">
+          <name>PERMIT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>School permits the action. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602ea6685384d880fca387e09391a6e53e3a8" prot="public">
+          <name>CONDITIONAL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>School permits under stated conditions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eaf4d833a3465758569accea637f9fc592" prot="public">
+          <name>ABSTAIN</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Fail-closed: LLM timeout or indeterminate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="230" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="230" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>EthicsErrorCode</name>
+        <qualifiedname>themis::plugins::ethics::EthicsErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637aa1f10cbd76830e20464ef4c00db4ae9d" prot="public">
+          <name>PROFILE_NOT_FOUND</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Requested school_id absent from registry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a2b929ab9fc1688595c637f0770038177" prot="public">
+          <name>PROFILE_VALIDATION_FAILED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Profile loaded but failed schema check. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a64b8b3797f81a6f23e995f222aed66bb" prot="public">
+          <name>PROFILE_SCHEMA_INVALID</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>YAML schema does not conform to contract. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a36b8ed1d1a70b0d0741cdf423b345f7d" prot="public">
+          <name>LIFECYCLE_UNINITIALIZED</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+<para>Plugin not yet initialised. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a07f9935a79d598aa800a0406f34d2e6d" prot="public">
+          <name>LIFECYCLE_DOUBLE_INIT</name>
+          <initializer>= 11</initializer>
+          <briefdescription>
+<para>Plugin initialise() called twice. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a01ee2ab83cef15e9a28833120df289f1" prot="public">
+          <name>CONTEXT_RETRIEVAL_FAILED</name>
+          <initializer>= 20</initializer>
+          <briefdescription>
+<para>RAG context retrieval failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a4ddc5a8441f5fb7d9e0195d3818ab957" prot="public">
+          <name>CONTEXT_SCHEMA_INVALID</name>
+          <initializer>= 21</initializer>
+          <briefdescription>
+<para>Retrieved context does not match schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637adf115b2aca3581be10203d0f07bd87a1" prot="public">
+          <name>ROUTING_NO_SCHOOLS</name>
+          <initializer>= 30</initializer>
+          <briefdescription>
+<para>Router returned zero candidate schools. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637af9926e74288efcf52bb9db065f8573c6" prot="public">
+          <name>ROUTING_EMPTY_PLAN</name>
+          <initializer>= 31</initializer>
+          <briefdescription>
+<para>planDiscourse() produced an empty plan. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637abf9ceda1d2ed10948816ea182f30aa22" prot="public">
+          <name>EVALUATOR_SCORE_OUT_OF_RANGE</name>
+          <initializer>= 40</initializer>
+          <briefdescription>
+<para>Score outside [0, 1] contract. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a6a76c9302430a103fa51a7333ffe1001" prot="public">
+          <name>LDM_LLM_TIMEOUT</name>
+          <initializer>= 50</initializer>
+          <briefdescription>
+<para>Per-school LLM call timed out → ABSTAIN. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637ab4a4cb35c9d02234663e61315a4ffaa8" prot="public">
+          <name>LDM_ALL_ABSTAINED</name>
+          <initializer>= 51</initializer>
+          <briefdescription>
+<para>All schools ABSTAINED → DISSENT <ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict" kindref="compound">MetaVerdict</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637afc95565f22cf4a639a36d99f6a8f9f6a" prot="public">
+          <name>LDM_LEGAL_DB_UNAVAILABLE</name>
+          <initializer>= 52</initializer>
+          <briefdescription>
+<para>Legal-DB offline; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict" kindref="compound">MetaVerdict</ref> without grounding. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a29ff47ecd6bfd642ebfe782688c9fd16" prot="public">
+          <name>LDM_CLUSTER_EMPTY</name>
+          <initializer>= 53</initializer>
+          <briefdescription>
+<para>Cluster has 0 active (non-ABSTAIN) schools. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637ae9c16f58690dac124c169e5a5290e10d" prot="public">
+          <name>LDM_EQUAL_WEIGHT_VIOLATION</name>
+          <initializer>= 54</initializer>
+          <briefdescription>
+<para>Process-integrity audit event: unequal weights. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="237" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="237" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91de" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CrossCulturalSensitivity</name>
+        <qualifiedname>themis::plugins::ethics::CrossCulturalSensitivity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91dea88559a0cfd8250c9d65970cc145c92d4" prot="public">
+          <name>OFF</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Mirror schools disabled. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91dea41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Activate for explicitly flagged domains only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91deac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Activate for bioethics, family_law, end_of_life, minority_rights. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91deab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Activate for all domains including ai_governance and data_protection. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="275" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="275" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99b" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>AuditError</name>
+        <qualifiedname>themis::plugins::ethics::AuditError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99bae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99bad526ee1a4ba852300d1f174c4ad1d923" prot="public">
+          <name>IMMUTABLE_VIOLATION</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Attempt to modify or delete an already-emitted entry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99ba577cf42cc2eae1cffef0f749c6c08787" prot="public">
+          <name>INDEX_OUT_OF_RANGE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Provided index exceeds log size. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="426" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="426" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DiscourseMode</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a0282fee2140132ea4e4dfa14f6998688" prot="public">
+          <name>SELECTION_ONLY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a55d96dc755ff8b17fe7f1890aaf41c99" prot="public">
+          <name>LAYERED_FAST</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1aebdb3aa847ab672c277e9005782de104" prot="public">
+          <name>LAYERED_FULL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="29" column="1" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="29" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CascadeModelTier</name>
+        <qualifiedname>themis::plugins::ethics::CascadeModelTier</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18a9b9c17e13f0e3dc9860a26e08b59b2a7" prot="public">
+          <name>SMALL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18a71726adf0ff60cd03eaf3c515883eeb8" prot="public">
+          <name>LARGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="23" column="1" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1a5685020d9dac66903b5b585a8f1270a8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionMode</name>
+        <qualifiedname>themis::plugins::ethics::CompressionMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a5685020d9dac66903b5b585a8f1270a8a54bd62fcf17c9c65054bbabb9ebedc8c" prot="public">
+          <name>PRINCIPLE_CITATIONS_ONLY</name>
+          <briefdescription>
+<para>Extractive: thesis_id + verdict only (LLMLingua-style). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a5685020d9dac66903b5b585a8f1270a8a8a6d1f34edd3863541b18a800c459c4b" prot="public">
+          <name>STRUCTURED_SUMMARY</name>
+          <briefdescription>
+<para>Abstractive: generative summary via small LLM (RECOMP). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1a5685020d9dac66903b5b585a8f1270a8a4e92121a6944503bbf50fba4b6790989" prot="public">
+          <name>HEADLINE</name>
+          <briefdescription>
+<para>Ultra-sparse: only &quot;[thesis_id: name]&quot; tokens. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="24" column="1" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="24" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4ef" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OpponentInjectionMode</name>
+        <qualifiedname>themis::plugins::ethics::OpponentInjectionMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4efaba7de5bc6888294e5884b024a4c894f1" prot="public">
+          <name>FULL</name>
+          <briefdescription>
+<para>All opponents injected with full argument text. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4efa46ba89eb960127fef8af5df131a5212a" prot="public">
+          <name>TOURNAMENT</name>
+          <briefdescription>
+<para>Primary opponent full; secondary opponents as headlines. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4efa463280bb1425f632cfd94c1b9f763490" prot="public">
+          <name>HEADLINE_ONLY</name>
+          <briefdescription>
+<para>All opponents injected as headlines only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="24" column="1" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="24" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1_1ethics_1ab1197367a032b15923bb8393b960cbba" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::kDescriptionSnippetMaxLength</definition>
+        <argsstring></argsstring>
+        <name>kDescriptionSnippetMaxLength</name>
+        <qualifiedname>themis::plugins::ethics::kDescriptionSnippetMaxLength</qualifiedname>
+        <initializer>= 150</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_profile_registry.cpp" line="27" column="25" bodyfile="src/ethics_ai/ethics_profile_registry.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1a38d2de2f1069d8fba4a07ffb5762f187" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::ethics::argumentTypeToString</definition>
+        <argsstring>(ArgumentType type)</argsstring>
+        <name>argumentTypeToString</name>
+        <qualifiedname>themis::plugins::ethics::argumentTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" kindref="member">ArgumentType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Argument Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_types.cpp" line="25" column="12" bodyfile="src/ethics_ai/ethics_ai_types.cpp" bodystart="25" bodyend="42" declfile="include/ethics_ai/ethics_ai_types.h" declline="200" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1a82b8d42188cd0749cb3a801eda438d96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" kindref="member">ArgumentType</ref></type>
+        <definition>ArgumentType themis::plugins::ethics::stringToArgumentType</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>stringToArgumentType</name>
+        <qualifiedname>themis::plugins::ethics::stringToArgumentType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>String To Argument Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_types.cpp" line="51" column="14" bodyfile="src/ethics_ai/ethics_ai_types.cpp" bodystart="51" bodyend="75" declfile="include/ethics_ai/ethics_ai_types.h" declline="206" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1a50d8a74b3d728784317577ccad997b97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::ethics::argumentStrengthToString</definition>
+        <argsstring>(ArgumentStrength strength)</argsstring>
+        <name>argumentStrengthToString</name>
+        <qualifiedname>themis::plugins::ethics::argumentStrengthToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48" kindref="member">ArgumentStrength</ref></type>
+          <declname>strength</declname>
+        </param>
+        <briefdescription>
+<para>Argument Strength To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_types.cpp" line="77" column="12" bodyfile="src/ethics_ai/ethics_ai_types.cpp" bodystart="77" bodyend="90" declfile="include/ethics_ai/ethics_ai_types.h" declline="213" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1ac16c552b2968943f30f3f956f79879b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48" kindref="member">ArgumentStrength</ref></type>
+        <definition>ArgumentStrength themis::plugins::ethics::stringToArgumentStrength</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>stringToArgumentStrength</name>
+        <qualifiedname>themis::plugins::ethics::stringToArgumentStrength</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>String To Argument Strength. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_types.cpp" line="99" column="18" bodyfile="src/ethics_ai/ethics_ai_types.cpp" bodystart="99" bodyend="117" declfile="include/ethics_ai/ethics_ai_types.h" declline="219" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6b" kindref="member">MetaVerdict::ConvergenceVerdict</ref></type>
+        <definition>MetaVerdict::ConvergenceVerdict themis::plugins::ethics::MetaVerdictThreshold</definition>
+        <argsstring>(double score) noexcept</argsstring>
+        <name>MetaVerdictThreshold</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="409" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="409" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1a5555a2cd03176c246f0af3351113253f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::plugins::ethics::computeSHA256</definition>
+        <argsstring>(const uint8_t *data, size_t len)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::plugins::ethics::computeSHA256</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256_Init(), SHA256_Update(), SHA256_Final(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.cpp" line="45" column="20" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="45" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1ac705774473f23d1a6c7e4232d7f3ad19" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::plugins::ethics::makeIntegrityKey</definition>
+        <argsstring>(const std::string &amp;entity_key)</argsstring>
+        <name>makeIntegrityKey</name>
+        <qualifiedname>themis::plugins::ethics::makeIntegrityKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_key</declname>
+        </param>
+        <briefdescription>
+<para>Make Integrity Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeIntegrityKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.cpp" line="65" column="20" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1a2db17d29f02f82caad43d14dde859709" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::plugins::ethics::verifyModelIntegrity</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;entity_id, const std::optional&lt; std::string &gt; &amp;expected_hash)</argsstring>
+        <name>verifyModelIntegrity</name>
+        <qualifiedname>themis::plugins::ethics::verifyModelIntegrity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>expected_hash</declname>
+        </param>
+        <briefdescription>
+<para>Verify Model Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the entity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: computeSHA256(), data(), size(), spdlog::debug(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.cpp" line="77" column="13" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="77" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1ethics_1aaec099cfdad0d5648a8e7a2d3cc69ecf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::plugins::ethics::strengthToScore</definition>
+        <argsstring>(ArgumentStrength s)</argsstring>
+        <name>strengthToScore</name>
+        <qualifiedname>themis::plugins::ethics::strengthToScore</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48" kindref="member">ArgumentStrength</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Strength To Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements strengthToScore without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.cpp" line="218" column="15" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="218" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/convergence_marker_engine.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

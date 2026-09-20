@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_service_registry" kind="class" language="C++" prot="public">
+    <compoundname>StubServiceRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_service_registry_1a1827b9586347c77981546093cd445bf9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubServiceRegistry::registrations_</definition>
+        <argsstring></argsstring>
+        <name>registrations_</name>
+        <qualifiedname>StubServiceRegistry::registrations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="56" column="17" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_service_registry_1a07a7c7cb3ec1c6264ce58193bad971fa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubServiceRegistry::deregistrations_</definition>
+        <argsstring></argsstring>
+        <name>deregistrations_</name>
+        <qualifiedname>StubServiceRegistry::deregistrations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="57" column="17" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_service_registry_1a89de250f1f98f84659e1f29a0b94c22a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubServiceRegistry::registerService</definition>
+        <argsstring>(const std::string &amp;service_name) noexcept</argsstring>
+        <name>registerService</name>
+        <qualifiedname>StubServiceRegistry::registerService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="43" column="10" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="43" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_service_registry_1a43e97886b1c1bf9516b137343968f022" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubServiceRegistry::deregisterService</definition>
+        <argsstring>(const std::string &amp;service_name) noexcept</argsstring>
+        <name>deregisterService</name>
+        <qualifiedname>StubServiceRegistry::deregisterService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="48" column="10" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_service_registry_1ae22eb77fdeac39ce777d1d444565e04e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubServiceRegistry::registrations</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>registrations</name>
+        <qualifiedname>StubServiceRegistry::registrations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="53" column="14" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_service_registry_1aa3af06044b991da02236d385e3c25f01" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubServiceRegistry::deregistrations</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>deregistrations</name>
+        <qualifiedname>StubServiceRegistry::deregistrations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="54" column="14" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="41" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="41" bodyend="58"/>
+    <listofallmembers>
+      <member refid="class_stub_service_registry_1a43e97886b1c1bf9516b137343968f022" prot="public" virt="non-virtual"><scope>StubServiceRegistry</scope><name>deregisterService</name></member>
+      <member refid="class_stub_service_registry_1aa3af06044b991da02236d385e3c25f01" prot="public" virt="non-virtual"><scope>StubServiceRegistry</scope><name>deregistrations</name></member>
+      <member refid="class_stub_service_registry_1a07a7c7cb3ec1c6264ce58193bad971fa" prot="private" virt="non-virtual"><scope>StubServiceRegistry</scope><name>deregistrations_</name></member>
+      <member refid="class_stub_service_registry_1a89de250f1f98f84659e1f29a0b94c22a" prot="public" virt="non-virtual"><scope>StubServiceRegistry</scope><name>registerService</name></member>
+      <member refid="class_stub_service_registry_1ae22eb77fdeac39ce777d1d444565e04e" prot="public" virt="non-virtual"><scope>StubServiceRegistry</scope><name>registrations</name></member>
+      <member refid="class_stub_service_registry_1a1827b9586347c77981546093cd445bf9" prot="private" virt="non-virtual"><scope>StubServiceRegistry</scope><name>registrations_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

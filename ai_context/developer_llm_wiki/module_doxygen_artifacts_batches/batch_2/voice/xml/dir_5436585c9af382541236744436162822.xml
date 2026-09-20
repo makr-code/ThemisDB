@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_5436585c9af382541236744436162822" kind="dir">
+    <compoundname>src/voice</compoundname>
+    <innerfile refid="audio__preprocessing_8cpp">audio_preprocessing.cpp</innerfile>
+    <innerfile refid="emotion__analyzer_8cpp">emotion_analyzer.cpp</innerfile>
+    <innerfile refid="voice__accessibility_8cpp">voice_accessibility.cpp</innerfile>
+    <innerfile refid="voice__anti__spoof__engine_8cpp">voice_anti_spoof_engine.cpp</innerfile>
+    <innerfile refid="voice__assistant_8cpp">voice_assistant.cpp</innerfile>
+    <innerfile refid="voice__assistant__llm_8cpp">voice_assistant_llm.cpp</innerfile>
+    <innerfile refid="voice__audio__storage_8cpp">voice_audio_storage.cpp</innerfile>
+    <innerfile refid="voice__audit__logger_8cpp">voice_audit_logger.cpp</innerfile>
+    <innerfile refid="voice__authenticator_8cpp">voice_authenticator.cpp</innerfile>
+    <innerfile refid="voice__batch__processor_8cpp">voice_batch_processor.cpp</innerfile>
+    <innerfile refid="voice__browser__streaming_8cpp">voice_browser_streaming.cpp</innerfile>
+    <innerfile refid="voice__error__handler_8cpp">voice_error_handler.cpp</innerfile>
+    <innerfile refid="voice__intent__detector_8cpp">voice_intent_detector.cpp</innerfile>
+    <innerfile refid="voice__liveness__checker_8cpp">voice_liveness_checker.cpp</innerfile>
+    <innerfile refid="voice__liveness__detector_8cpp">voice_liveness_detector.cpp</innerfile>
+    <innerfile refid="voice__macro__manager_8cpp">voice_macro_manager.cpp</innerfile>
+    <innerfile refid="voice__meeting__support_8cpp">voice_meeting_support.cpp</innerfile>
+    <innerfile refid="voice__model__cache_8cpp">voice_model_cache.cpp</innerfile>
+    <innerfile refid="voice__security_8cpp">voice_security.cpp</innerfile>
+    <innerfile refid="voice__session__manager_8cpp">voice_session_manager.cpp</innerfile>
+    <innerfile refid="voice__stream__validator_8cpp">voice_stream_validator.cpp</innerfile>
+    <innerfile refid="voice__telephony_8cpp">voice_telephony.cpp</innerfile>
+    <innerfile refid="voice__tts__customizer_8cpp">voice_tts_customizer.cpp</innerfile>
+    <innerfile refid="wake__word__detector_8cpp">wake_word_detector.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/voice/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,561 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_hash_join" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::HashJoin</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_i_streaming_join" prot="public" virt="non-virtual">themisdb::analytics::IStreamingJoin</basecompoundref>
+    <includes refid="streaming__join_8h" local="no">streaming_join.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" prot="public">themisdb::analytics::HashJoin::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_hash_join_1af76873b9a5e873edd28d2f4e39407222" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themisdb::analytics::HashJoin::CompositeKey = std::string</definition>
+        <argsstring></argsstring>
+        <name>CompositeKey</name>
+        <qualifiedname>themisdb::analytics::HashJoin::CompositeKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="84" column="5" bodyfile="include/analytics/streaming_join.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hash_join_1ac23220a9f73f744b4c684cd7fd15bfb5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::analytics::HashJoin::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themisdb::analytics::HashJoin::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="140" column="12" bodyfile="include/analytics/streaming_join.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hash_join_1aea089001b2837783dab999ab6b013e97" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemisdb_1_1analytics_1_1_hash_join_1af76873b9a5e873edd28d2f4e39407222" kindref="member">CompositeKey</ref>, std::vector&lt; size_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;CompositeKey, std::vector&lt;size_t&gt; &gt; themisdb::analytics::HashJoin::hash_table_</definition>
+        <argsstring></argsstring>
+        <name>hash_table_</name>
+        <qualifiedname>themisdb::analytics::HashJoin::hash_table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="142" column="24" bodyfile="include/analytics/streaming_join.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hash_join_1adde14b7fbffb3c76f65e1bd8901f9786" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;Column&gt; &gt; themisdb::analytics::HashJoin::build_columns_</definition>
+        <argsstring></argsstring>
+        <name>build_columns_</name>
+        <qualifiedname>themisdb::analytics::HashJoin::build_columns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="144" column="17" bodyfile="include/analytics/streaming_join.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hash_join_1a24ac9bc37218b391957302086883ecef" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::HashJoin::build_column_names_</definition>
+        <argsstring></argsstring>
+        <name>build_column_names_</name>
+        <qualifiedname>themisdb::analytics::HashJoin::build_column_names_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="146" column="17" bodyfile="include/analytics/streaming_join.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hash_join_1a6ff5e97c5f6991d850243c4a327589d7" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::HashJoin::build_row_count_</definition>
+        <argsstring></argsstring>
+        <name>build_row_count_</name>
+        <qualifiedname>themisdb::analytics::HashJoin::build_row_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="148" column="12" bodyfile="include/analytics/streaming_join.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a8e3abd9927e5dac0eda4dc89774f209c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::HashJoin::HashJoin</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>HashJoin</name>
+        <qualifiedname>themisdb::analytics::HashJoin::HashJoin</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Hash Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="95" column="14" bodyfile="src/analytics/streaming_join.cpp" bodystart="138" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a07ed15f2c124f7ec844290954984273e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::HashJoin::~HashJoin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~HashJoin</name>
+        <qualifiedname>themisdb::analytics::HashJoin::~HashJoin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a8536f882a655a4dfdc3bcba8ebb1952d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::HashJoin::HashJoin</definition>
+        <argsstring>(const HashJoin &amp;)=delete</argsstring>
+        <name>HashJoin</name>
+        <qualifiedname>themisdb::analytics::HashJoin::HashJoin</qualifiedname>
+        <param>
+          <type>const HashJoin &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1af66cc0ed55efce2e417cb63916693389" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_hash_join_1a8e3abd9927e5dac0eda4dc89774f209c" kindref="member">HashJoin</ref> &amp;</type>
+        <definition>HashJoin &amp; themisdb::analytics::HashJoin::operator=</definition>
+        <argsstring>(const HashJoin &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::HashJoin::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_hash_join_1a8e3abd9927e5dac0eda4dc89774f209c" kindref="member">HashJoin</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="100" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a02abdbe62b7f41cdd93acd6862b0a829" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::HashJoin::HashJoin</definition>
+        <argsstring>(HashJoin &amp;&amp;) noexcept=default</argsstring>
+        <name>HashJoin</name>
+        <qualifiedname>themisdb::analytics::HashJoin::HashJoin</qualifiedname>
+        <param>
+          <type>HashJoin &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::HashJoin::addBuildBatch</definition>
+        <argsstring>(const ColumnBatch &amp;batch)</argsstring>
+        <name>addBuildBatch</name>
+        <qualifiedname>themisdb::analytics::HashJoin::addBuildBatch</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Add Build Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: rowCount(), empty(), columnCount(), getColumnAt(), push_back(), name(), type(), getColumn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="112" column="10" bodyfile="src/analytics/streaming_join.cpp" bodystart="151" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a8b5b6a2d0f224f4bd597bd0513f83a6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename It</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themisdb::analytics::HashJoin::build</definition>
+        <argsstring>(It begin, It end)</argsstring>
+        <name>build</name>
+        <qualifiedname>themisdb::analytics::HashJoin::build</qualifiedname>
+        <param>
+          <type>It</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>It</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">begin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="122" column="10" bodyfile="include/analytics/streaming_join.h" bodystart="122" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a0d34ff67af2a3fe3b0d1e7b07674629c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::HashJoin::probe</definition>
+        <argsstring>(const ColumnBatch &amp;probe) override</argsstring>
+        <name>probe</name>
+        <qualifiedname>themisdb::analytics::HashJoin::probe</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a7788293ea806dda788027829103f9239">probe</reimplements>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>probe</declname>
+          <defname>probe_batch</defname>
+        </param>
+        <briefdescription>
+<para>Probe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">probe_batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), reserve(), columnCount(), push_back(), getColumnAt(), back(), name(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="135" column="17" bodyfile="src/analytics/streaming_join.cpp" bodystart="230" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1ad52eb3236cb0fc4f3a25cdc952b0df05" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::HashJoin::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::analytics::HashJoin::reset</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a4310131a97526a5be28d4dfada49d479">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="136" column="17" bodyfile="src/analytics/streaming_join.cpp" bodystart="348" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a23c0d9b00726bd645afc12d37e878d06" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::HashJoin::buildSideSize</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>buildSideSize</name>
+        <qualifiedname>themisdb::analytics::HashJoin::buildSideSize</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a099385e10e55dd17bfb6e8ff33a386a7">buildSideSize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="137" column="17" bodyfile="include/analytics/streaming_join.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a12b05483f3b3db55fb15899054490443" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_hash_join_1af76873b9a5e873edd28d2f4e39407222" kindref="member">CompositeKey</ref></type>
+        <definition>HashJoin::CompositeKey themisdb::analytics::HashJoin::makeKey</definition>
+        <argsstring>(const std::vector&lt; std::shared_ptr&lt; Column &gt; &gt; &amp;cols, const std::vector&lt; size_t &gt; &amp;key_col_indices, size_t row) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themisdb::analytics::HashJoin::makeKey</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt; &gt; &amp;</type>
+          <declname>cols</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>key_col_indices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_col_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="158" column="18" bodyfile="src/analytics/streaming_join.cpp" bodystart="355" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1a8eb67eb3aea8212a8e08d02ae7415640" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aaa15bf7e4a64d0f6c1aba654aaf33aea" kindref="member">ColumnValue</ref></type>
+        <definition>ColumnValue themisdb::analytics::HashJoin::getVal</definition>
+        <argsstring>(const Column &amp;col, size_t row) const</argsstring>
+        <name>getVal</name>
+        <qualifiedname>themisdb::analytics::HashJoin::getVal</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &amp;</type>
+          <declname>col</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Get Val. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="168" column="17" bodyfile="src/analytics/streaming_join.cpp" bodystart="360" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hash_join_1aab6a0e54267e409bc92db48767b6c348" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::HashJoin::appendNullRow</definition>
+        <argsstring>(std::vector&lt; std::shared_ptr&lt; Column &gt; &gt; &amp;cols, const std::vector&lt; std::string &gt; &amp;names) const</argsstring>
+        <name>appendNullRow</name>
+        <qualifiedname>themisdb::analytics::HashJoin::appendNullRow</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt; &gt; &amp;</type>
+          <declname>cols</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>names</declname>
+        </param>
+        <briefdescription>
+<para>Append Null Row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">names</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="175" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::analytics::HashJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_hash_join"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::IStreamingJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_streaming_join"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::HashJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_hash_join"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::IStreamingJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_streaming_join"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/streaming_join.h" line="62" column="1" bodyfile="include/analytics/streaming_join.h" bodystart="62" bodyend="177"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" prot="public" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>addBuildBatch</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1aab6a0e54267e409bc92db48767b6c348" prot="private" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>appendNullRow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a8b5b6a2d0f224f4bd597bd0513f83a6b" prot="public" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>build</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a24ac9bc37218b391957302086883ecef" prot="private" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>build_column_names_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1adde14b7fbffb3c76f65e1bd8901f9786" prot="private" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>build_columns_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a6ff5e97c5f6991d850243c4a327589d7" prot="private" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>build_row_count_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a23c0d9b00726bd645afc12d37e878d06" prot="public" virt="virtual"><scope>themisdb::analytics::HashJoin</scope><name>buildSideSize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1ac23220a9f73f744b4c684cd7fd15bfb5" prot="private" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>cfg_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1af76873b9a5e873edd28d2f4e39407222" prot="public" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>CompositeKey</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a8eb67eb3aea8212a8e08d02ae7415640" prot="private" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>getVal</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1aea089001b2837783dab999ab6b013e97" prot="private" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>hash_table_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a8e3abd9927e5dac0eda4dc89774f209c" prot="public" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>HashJoin</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a8536f882a655a4dfdc3bcba8ebb1952d" prot="public" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>HashJoin</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a02abdbe62b7f41cdd93acd6862b0a829" prot="public" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>HashJoin</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a12b05483f3b3db55fb15899054490443" prot="private" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>makeKey</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1af66cc0ed55efce2e417cb63916693389" prot="public" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a0d34ff67af2a3fe3b0d1e7b07674629c" prot="public" virt="virtual"><scope>themisdb::analytics::HashJoin</scope><name>probe</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1ad52eb3236cb0fc4f3a25cdc952b0df05" prot="public" virt="virtual"><scope>themisdb::analytics::HashJoin</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hash_join_1a07ed15f2c124f7ec844290954984273e" prot="public" virt="non-virtual"><scope>themisdb::analytics::HashJoin</scope><name>~HashJoin</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a33e65340163dccf42838ed5287106a0d" prot="public" virt="virtual"><scope>themisdb::analytics::HashJoin</scope><name>~IStreamingJoin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

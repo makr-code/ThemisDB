@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ConstitutionalReasoningEngine::Statistics</compoundname>
+    <includes refid="constitutional__reasoning__engine_8h" local="no">constitutional_reasoning_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1aa3ce4dfaa3060d0ad6d1e6fd36883286" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ConstitutionalReasoningEngine::Statistics::total_reasonings</definition>
+        <argsstring></argsstring>
+        <name>total_reasonings</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::total_reasonings</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="207" column="18" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1acb5fe44958ab60189f1d11650a72708b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ConstitutionalReasoningEngine::Statistics::revisions_performed</definition>
+        <argsstring></argsstring>
+        <name>revisions_performed</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::revisions_performed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="208" column="18" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1ac713b810f1be823e3c4986688e4b3e86" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ConstitutionalReasoningEngine::Statistics::violations_detected</definition>
+        <argsstring></argsstring>
+        <name>violations_detected</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::violations_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="209" column="18" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a4cfe70b451fa533841cae6ad9dd11d35" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ConstitutionalReasoningEngine::Statistics::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="210" column="18" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a2475054d39d6751de237cf3c4bd18dd7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ConstitutionalReasoningEngine::Statistics::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="211" column="18" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a64cd245d07a6e5ff9775f67184ff85ae" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConstitutionalReasoningEngine::Statistics::avg_original_score</definition>
+        <argsstring></argsstring>
+        <name>avg_original_score</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::avg_original_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="214" column="15" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1ada50bf0c8b335291efa03a399a188f7c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConstitutionalReasoningEngine::Statistics::avg_revised_score</definition>
+        <argsstring></argsstring>
+        <name>avg_revised_score</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::avg_revised_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="215" column="15" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a2526d6c3db57c57db457a06732169827" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConstitutionalReasoningEngine::Statistics::avg_improvement</definition>
+        <argsstring></argsstring>
+        <name>avg_improvement</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::avg_improvement</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="216" column="15" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a60ec3b56afe84f1da5c6c0063684a4f3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::ConstitutionalReasoningEngine::Statistics::avg_critique_time</definition>
+        <argsstring></argsstring>
+        <name>avg_critique_time</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::avg_critique_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="219" column="35" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a211fb6e2332fe1ed3405ab0ea57833ba" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::ConstitutionalReasoningEngine::Statistics::avg_revision_time</definition>
+        <argsstring></argsstring>
+        <name>avg_revision_time</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::avg_revision_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="220" column="35" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a0a924d5f5832799347d4318165861fb7" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themis::llm::ConstitutionalReasoningEngine::Statistics::principle_violations</definition>
+        <argsstring></argsstring>
+        <name>principle_violations</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::principle_violations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="223" column="28" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a1a4e0d6c3601eaf36f10fb0347ae6497" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themis::llm::ConstitutionalReasoningEngine::Statistics::principle_applications</definition>
+        <argsstring></argsstring>
+        <name>principle_applications</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::Statistics::principle_applications</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="224" column="28" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/constitutional_reasoning_engine.h" line="206" column="5" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="206" bodyend="225"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a60ec3b56afe84f1da5c6c0063684a4f3" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>avg_critique_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a2526d6c3db57c57db457a06732169827" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>avg_improvement</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a64cd245d07a6e5ff9775f67184ff85ae" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>avg_original_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1ada50bf0c8b335291efa03a399a188f7c" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>avg_revised_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a211fb6e2332fe1ed3405ab0ea57833ba" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>avg_revision_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a4cfe70b451fa533841cae6ad9dd11d35" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a2475054d39d6751de237cf3c4bd18dd7" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a1a4e0d6c3601eaf36f10fb0347ae6497" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>principle_applications</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a0a924d5f5832799347d4318165861fb7" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>principle_violations</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1acb5fe44958ab60189f1d11650a72708b" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>revisions_performed</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1aa3ce4dfaa3060d0ad6d1e6fd36883286" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>total_reasonings</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1ac713b810f1be823e3c4986688e4b3e86" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine::Statistics</scope><name>violations_detected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

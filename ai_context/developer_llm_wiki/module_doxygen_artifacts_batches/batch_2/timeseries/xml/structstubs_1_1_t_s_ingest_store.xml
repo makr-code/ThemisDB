@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_t_s_ingest_store" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TSIngestStore</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_t_s_ingest_store_1a9027c5f3f33c1a0dc40088631d3acf9c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TSIngestStore::ingested</definition>
+        <argsstring></argsstring>
+        <name>ingested</name>
+        <qualifiedname>stubs::TSIngestStore::ingested</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="22" column="17" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_t_s_ingest_store_1a9f355fcbd38cfb591c833bf8e7ada5af" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TSIngestStore::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>stubs::TSIngestStore::errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="23" column="17" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="23" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_t_s_ingest_store_1afac8d160245a5ccce97ad51e309859da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TSIngestStore::ingest</definition>
+        <argsstring>(uint64_t series_id, double value, int64_t ts_ns)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>stubs::TSIngestStore::ingest</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>series_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ts_ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="25" column="10" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="21" column="1" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="21" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_t_s_ingest_store_1a9f355fcbd38cfb591c833bf8e7ada5af" prot="public" virt="non-virtual"><scope>stubs::TSIngestStore</scope><name>errors</name></member>
+      <member refid="structstubs_1_1_t_s_ingest_store_1afac8d160245a5ccce97ad51e309859da" prot="public" virt="non-virtual"><scope>stubs::TSIngestStore</scope><name>ingest</name></member>
+      <member refid="structstubs_1_1_t_s_ingest_store_1a9027c5f3f33c1a0dc40088631d3acf9c" prot="public" virt="non-virtual"><scope>stubs::TSIngestStore</scope><name>ingested</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

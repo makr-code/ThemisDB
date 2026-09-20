@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cache__provider_8h" kind="file" language="C++">
+    <compoundname>cache_provider.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">cstdint</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/cache_provider.h</label>
+        <link refid="cache__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_value" prot="public">themis::cache::CacheValue</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_provider" prot="public">themis::cache::CacheProvider</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1cache_1_1_cache_value" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_value" kindref="compound">CacheValue</ref><sp/>{</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1cache_1_1_cache_value_1a5679c0c240ca0962a56d6a03fdb09873" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_value_1a5679c0c240ca0962a56d6a03fdb09873" kindref="member">payload</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>serialized<sp/>JSON<sp/>(entity<sp/>or<sp/>result<sp/>page)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1cache_1_1_cache_value_1acd1ca24397dd53a152156b2eaf7ef187" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_value_1acd1ca24397dd53a152156b2eaf7ef187" kindref="member">version</ref>{0};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>monotone<sp/>version<sp/>(e.g.,<sp/>WAL<sp/>index)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1cache_1_1_cache_value_1a1c2ecbf2b4f14231b88a8326a09d4d56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_value_1a1c2ecbf2b4f14231b88a8326a09d4d56" kindref="member">ts_ms</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>insert<sp/>timestamp<sp/>(ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1cache_1_1_cache_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_cache_provider" kindref="compound">CacheProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1cache_1_1_cache_provider_1ac1b43a605dfb69bb58688f43a11dbe40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_provider_1ac1b43a605dfb69bb58688f43a11dbe40" kindref="member">~CacheProvider</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1cache_1_1_cache_provider_1a8728aaf2f23f3ac2606b73a0e2210c81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_provider_1a8728aaf2f23f3ac2606b73a0e2210c81" kindref="member">Get</ref>(std::string_view<sp/>key,<sp/><ref refid="structthemis_1_1cache_1_1_cache_value" kindref="compound">CacheValue</ref>&amp;<sp/>out)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1cache_1_1_cache_provider_1a63bc8964f3e3861a12ec9088ae138c6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_provider_1a63bc8964f3e3861a12ec9088ae138c6d" kindref="member">Put</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_value" kindref="compound">CacheValue</ref>&amp;<sp/>v,<sp/>uint64_t<sp/>ttl_ms)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1cache_1_1_cache_provider_1aabab12d7d58473b2a3814664e03ee096" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_provider_1aabab12d7d58473b2a3814664e03ee096" kindref="member">Invalidate</ref>(std::string_view<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1cache_1a298d749279ddafd1f60ada5a35dc1490" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1cache_1a298d749279ddafd1f60ada5a35dc1490" kindref="member">makeEntityKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>urn)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>urn;<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::cache</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/cache_provider.h"/>
+  </compounddef>
+</doxygen>

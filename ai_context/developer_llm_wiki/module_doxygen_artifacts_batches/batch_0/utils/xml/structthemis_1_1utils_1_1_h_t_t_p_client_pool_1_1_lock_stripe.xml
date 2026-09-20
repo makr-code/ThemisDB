@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_lock_stripe" kind="struct" language="C++" prot="private">
+    <compoundname>themis::utils::HTTPClientPool::LockStripe</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_lock_stripe_1a93e38b8f1e39e1aab877bdf0c678540f" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::HTTPClientPool::LockStripe::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::utils::HTTPClientPool::LockStripe::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="272" column="20" bodyfile="include/utils/http_client_pool.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_lock_stripe_1ab9e5a64d7e7646143e98742ce056dd08" prot="public" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::utils::HTTPClientPool::LockStripe::cv</definition>
+        <argsstring></argsstring>
+        <name>cv</name>
+        <qualifiedname>themis::utils::HTTPClientPool::LockStripe::cv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="273" column="33" bodyfile="include/utils/http_client_pool.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_lock_stripe_1a49c29f0c6a559a8c62394135d482aecc" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; std::shared_ptr&lt; PooledConnection &gt; &gt;</type>
+        <definition>std::deque&lt;std::shared_ptr&lt;PooledConnection&gt; &gt; themis::utils::HTTPClientPool::LockStripe::connections</definition>
+        <argsstring></argsstring>
+        <name>connections</name>
+        <qualifiedname>themis::utils::HTTPClientPool::LockStripe::connections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="274" column="20" bodyfile="include/utils/http_client_pool.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lock stripe for reduced contention. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/http_client_pool.h" line="271" column="5" bodyfile="include/utils/http_client_pool.h" bodystart="271" bodyend="275"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_lock_stripe_1a49c29f0c6a559a8c62394135d482aecc" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::LockStripe</scope><name>connections</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_lock_stripe_1ab9e5a64d7e7646143e98742ce056dd08" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::LockStripe</scope><name>cv</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_lock_stripe_1a93e38b8f1e39e1aab877bdf0c678540f" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::LockStripe</scope><name>mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

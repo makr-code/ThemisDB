@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardMetrics</compoundname>
+    <includes refid="shard__load__balancer_8h" local="no">shard_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_metrics_1a88d2df30671b82f1d90305c79f1da3d7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardMetrics::cpu_percent</definition>
+        <argsstring></argsstring>
+        <name>cpu_percent</name>
+        <qualifiedname>themis::sharding::ShardMetrics::cpu_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>CPU utilisation [0, 100]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="58" column="17" bodyfile="include/sharding/shard_load_balancer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_metrics_1acd5406a08fc07908d9e9486252ba302a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::sharding::ShardMetrics::pending_queries</definition>
+        <argsstring></argsstring>
+        <name>pending_queries</name>
+        <qualifiedname>themis::sharding::ShardMetrics::pending_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Queries currently in-flight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="59" column="17" bodyfile="include/sharding/shard_load_balancer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_metrics_1afe3fb1b96d12b685be68885899e172ee" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardMetrics::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themis::sharding::ShardMetrics::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>99th-percentile response time (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="60" column="17" bodyfile="include/sharding/shard_load_balancer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_metrics_1a103753140471d41c5e12295b3a606d73" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardMetrics::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::sharding::ShardMetrics::available</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false = shard is down / draining. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="61" column="17" bodyfile="include/sharding/shard_load_balancer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_metrics_1afde109a56477bebb7eabbccd8728b472" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::ShardMetrics::last_updated</definition>
+        <argsstring></argsstring>
+        <name>last_updated</name>
+        <qualifiedname>themis::sharding::ShardMetrics::last_updated</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="62" column="43" bodyfile="include/sharding/shard_load_balancer.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Live load metrics for a single shard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Updated by external observers (heartbeat or query-completion callbacks). All fields are weakly consistent snapshots, not atomic. </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_balancer.h" line="57" column="1" bodyfile="include/sharding/shard_load_balancer.h" bodystart="57" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_metrics_1a103753140471d41c5e12295b3a606d73" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMetrics</scope><name>available</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_metrics_1a88d2df30671b82f1d90305c79f1da3d7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMetrics</scope><name>cpu_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_metrics_1afde109a56477bebb7eabbccd8728b472" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMetrics</scope><name>last_updated</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_metrics_1afe3fb1b96d12b685be68885899e172ee" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMetrics</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_metrics_1acd5406a08fc07908d9e9486252ba302a" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMetrics</scope><name>pending_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

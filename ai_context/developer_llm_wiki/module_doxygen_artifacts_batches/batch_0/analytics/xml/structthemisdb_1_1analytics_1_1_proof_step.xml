@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_proof_step" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ProofStep</compoundname>
+    <includes refid="expert__system__engine_8h" local="no">expert_system_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_proof_step_1adf2875cdf13ec4147fcc9cc1b7e46a82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ProofStep::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themisdb::analytics::ProofStep::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="51" column="23" bodyfile="include/analytics/expert_system_engine.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_proof_step_1a9b52892ffe9070ede8bb6154a3cef6ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt;</type>
+        <definition>std::vector&lt;Fact&gt; themisdb::analytics::ProofStep::matched_facts</definition>
+        <argsstring></argsstring>
+        <name>matched_facts</name>
+        <qualifiedname>themisdb::analytics::ProofStep::matched_facts</qualifiedname>
+        <briefdescription>
+<para>Facts that satisfied the rule conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="52" column="17" bodyfile="include/analytics/expert_system_engine.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_proof_step_1a3801d31ad5946a9267095ae251265c53" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref></type>
+        <definition>Fact themisdb::analytics::ProofStep::derived_fact</definition>
+        <argsstring></argsstring>
+        <name>derived_fact</name>
+        <qualifiedname>themisdb::analytics::ProofStep::derived_fact</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> that was derived by this step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="53" column="23" bodyfile="include/analytics/expert_system_engine.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::Fact</label>
+        <link refid="structthemisdb_1_1analytics_1_1_fact"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ProofStep</label>
+        <link refid="structthemisdb_1_1analytics_1_1_proof_step"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>derived_fact</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/expert_system_engine.h" line="50" column="1" bodyfile="include/analytics/expert_system_engine.h" bodystart="50" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_proof_step_1a3801d31ad5946a9267095ae251265c53" prot="public" virt="non-virtual"><scope>themisdb::analytics::ProofStep</scope><name>derived_fact</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_proof_step_1a9b52892ffe9070ede8bb6154a3cef6ab" prot="public" virt="non-virtual"><scope>themisdb::analytics::ProofStep</scope><name>matched_facts</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_proof_step_1adf2875cdf13ec4147fcc9cc1b7e46a82" prot="public" virt="non-virtual"><scope>themisdb::analytics::ProofStep</scope><name>rule_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

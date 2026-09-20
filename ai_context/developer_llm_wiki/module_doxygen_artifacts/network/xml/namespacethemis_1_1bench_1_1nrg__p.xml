@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1nrg__p" kind="namespace" language="C++">
+    <compoundname>themis::bench::nrg_p</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg__p_1aec7fb1440b62c3f9c6157f6355b4a68b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::nrg_p::kNetworkCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kNetworkCanonicalSeed</name>
+        <qualifiedname>themis::bench::nrg_p::kNetworkCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="61" column="32" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg__p_1afef4adc2847353fddbf2bd6d58d5c07d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::nrg_p::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::nrg_p::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="62" column="32" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg__p_1a3c4344ea9605a272eab728a58d4ac051" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::nrg_p::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::nrg_p::kWarmupIterations</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="63" column="32" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__p_1a3ed30be251050da331e1d2e72df90e02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>StubZeroCopyBuilder &amp;</type>
+        <definition>static StubZeroCopyBuilder &amp; themis::bench::nrg_p::zeroCopyBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>zeroCopyBuilder</name>
+        <qualifiedname>themis::bench::nrg_p::zeroCopyBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="248" column="28" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="248" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__p_1a78318cf47e0d628f63a38846de67ebcb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const StubQuicSessionCache &amp;</type>
+        <definition>static const StubQuicSessionCache &amp; themis::bench::nrg_p::quicSessionCache</definition>
+        <argsstring>()</argsstring>
+        <name>quicSessionCache</name>
+        <qualifiedname>themis::bench::nrg_p::quicSessionCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="253" column="35" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="253" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__p_1a83b8c9245b79bf2a6c86599f30b50d25" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const StubGrpcMetadataProcessor &amp;</type>
+        <definition>static const StubGrpcMetadataProcessor &amp; themis::bench::nrg_p::grpcProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>grpcProcessor</name>
+        <qualifiedname>themis::bench::nrg_p::grpcProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="258" column="40" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="258" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__p_1a8c92267ccc91d6761390bc1f6e09b161" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_p::BM_NRGP1_WsFrameParseThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRGP1_WsFrameParseThroughput</name>
+        <qualifiedname>themis::bench::nrg_p::BM_NRGP1_WsFrameParseThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-P1: WS frame parse throughput. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: ≥ 5 M frames/sec.</para>
+<para>Throughput is measured implicitly: Google Benchmark reports items/sec when SetItemsProcessed() is called. The benchmark is configured with -&gt;Iterations(5&apos;000&apos;000) to accumulate enough samples for a stable reading.</para>
+<para><bold>Stub basis:</bold> <computeroutput>parseWsFrame()</computeroutput> replicates the real WS frame parser decision tree (FIN/RSV/opcode/mask/len validation) without I/O.</para>
+<para><bold>Hardware baseline pending:</bold> Representative hardware baselines must be collected before Wave D sign-off (see ROADMAP.md mid-term items [~]). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="282" column="13" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="282" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__p_1a14c528be8363d3483e922f2abc9d1ead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::nrg_p::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::nrg_p::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="303" column="5" declfile="benchmarks/network/bench_network_protocol_path.cpp" declline="303" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__p_1a7ba86c3e3c3004ff0d7ac723ed54e361" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_p::BM_NRGP2_TcpZeroCopyOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRGP2_TcpZeroCopyOverhead</name>
+        <qualifiedname>themis::bench::nrg_p::BM_NRGP2_TcpZeroCopyOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-P2: Zero-copy frame builder overhead for a 64 KiB payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: ≤ 5 µs per call.</para>
+<para><bold>Stub basis:</bold> <computeroutput>StubZeroCopyBuilder::writeToWithSendfile()</computeroutput> models the bookkeeping cost of the real <computeroutput><ref refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a32a01d3e6dd022e93686a04bfd28971d" kindref="member">ZeroCopyFrameBuilder::writeToWithSendfile()</ref></computeroutput> path (sendfile params + atomic counter update) without syscall overhead. The real sendfile(2) dominates at the OS layer; this gate covers the userspace overhead around it.</para>
+<para><bold>Hardware baseline pending:</bold> Representative hardware baselines must be collected before Wave D sign-off. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="324" column="13" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="324" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__p_1af3d85a4f4ded620aae3fb7746c7f2d43" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_p::BM_NRGP3_Quic0RttHandshake</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRGP3_Quic0RttHandshake</name>
+        <qualifiedname>themis::bench::nrg_p::BM_NRGP3_Quic0RttHandshake</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-P3: QUIC 0-RTT resumption path overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: ≤ 50 ms per handshake.</para>
+<para><bold>Stub basis:</bold> Models session ticket lookup + 2-round key schedule step + anti-replay check. The real 0-RTT path adds TLS AEAD decryption overhead and a UDP round-trip; this stub isolates the in-process cost.</para>
+<para><bold>Hardware baseline pending:</bold> Real QUIC 0-RTT measurements require the THEMIS_ENABLE_HTTP3 build and a loopback network. This stub establishes the gate before hardware numbers are collected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="364" column="13" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="364" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__p_1a3d78ef81eb3245f4bcffb31d169dc4a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_p::BM_NRGP4_GrpcMetadataOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRGP4_GrpcMetadataOverhead</name>
+        <qualifiedname>themis::bench::nrg_p::BM_NRGP4_GrpcMetadataOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-P4: gRPC metadata processing overhead per call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: ≤ 10 µs per call.</para>
+<para><bold>Stub basis:</bold> Models HPACK-style header construction cost + method-path routing table lookup + trailer encoding. The real gRPC path additionally performs HTTP/2 frame assembly and HPACK huffman coding; this stub covers the in-process routing and metadata cost.</para>
+<para><bold>Hardware baseline pending:</bold> Representative hardware baselines must be collected before Wave D sign-off. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_protocol_path.cpp" line="413" column="13" bodyfile="benchmarks/network/bench_network_protocol_path.cpp" bodystart="413" bodyend="439"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/network/bench_network_protocol_path.cpp" line="53" column="1"/>
+  </compounddef>
+</doxygen>

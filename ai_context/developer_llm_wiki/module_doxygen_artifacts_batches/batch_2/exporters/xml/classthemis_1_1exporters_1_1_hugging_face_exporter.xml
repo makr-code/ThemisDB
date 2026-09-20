@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_hugging_face_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::HuggingFaceExporter</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_i_exporter" prot="public" virt="non-virtual">themis::exporters::IExporter</basecompoundref>
+    <includes refid="huggingface__exporter_8h" local="no">huggingface_exporter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a0ac9f8553ec630c1c51f8af63e41f1a1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref></type>
+        <definition>HuggingFaceExporterConfig themis::exporters::HuggingFaceExporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="103" column="31" bodyfile="include/exporters/huggingface_exporter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a44cc908e3ef38089c3e43d0a7747d22c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExporterMetrics&gt; themis::exporters::HuggingFaceExporter::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="104" column="21" bodyfile="include/exporters/huggingface_exporter.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a515f98a8de8896f445e9787aeed22fd4" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; <ref refid="structthemis_1_1exporters_1_1_hugging_face_feature" kindref="compound">HuggingFaceFeature</ref> &gt;</type>
+        <definition>std::vector&lt;HuggingFaceFeature&gt; themis::exporters::HuggingFaceExporter::inferred_features_</definition>
+        <argsstring></argsstring>
+        <name>inferred_features_</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::inferred_features_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="125" column="25" bodyfile="include/exporters/huggingface_exporter.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a364d635509534cc78eb26561690f9ea4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::HuggingFaceExporter::HuggingFaceExporter</definition>
+        <argsstring>(const HuggingFaceExporterConfig &amp;config={})</argsstring>
+        <name>HuggingFaceExporter</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::HuggingFaceExporter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="62" column="14" bodyfile="src/exporters/huggingface_exporter.cpp" bodystart="34" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a601e018a68f66eb64aa1543bf33880f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>ExportStats themis::exporters::HuggingFaceExporter::exportEntities</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options) override</argsstring>
+        <name>exportEntities</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::exportEntities</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff">exportEntities</reimplements>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Export Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExportIOException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1exporters_1a4317f0c21d3baab4b276c88957dc072e" kindref="member">enforceExportPolicy()</ref>, std::chrono::steady_clock::now(), empty(), push_back(), root_dir(), fs::create_directories(), inferFeatures(), jsonl_exporter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="64" column="17" bodyfile="src/exporters/huggingface_exporter.cpp" bodystart="49" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a86dd014007887d464e7363c275e0da85" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::HuggingFaceExporter::getSupportedFormats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedFormats</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::getSupportedFormats</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287">getSupportedFormats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="69" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a7c921cd3efcf552f06303e69d4b377a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="73" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1aae69e4d674fc8176e7b302d6716c86db" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporter::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908">getVersion</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="74" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a5fa2216013eea121ed654b4a5f2bdb13" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::HuggingFaceExporter::setConfig</definition>
+        <argsstring>(const HuggingFaceExporterConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="81" column="10" bodyfile="include/exporters/huggingface_exporter.h" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1ac4d426b0e9e0209f21a4d6c3c53877c4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref> &amp;</type>
+        <definition>const HuggingFaceExporterConfig &amp; themis::exporters::HuggingFaceExporter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="86" column="37" bodyfile="include/exporters/huggingface_exporter.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a8f45634167f86aafda4c521124ca5127" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporter::generateDatasetInfoJson</definition>
+        <argsstring>(const ExportStats &amp;stats, const std::string &amp;dataset_name={}, size_t data_file_bytes=0) const</argsstring>
+        <name>generateDatasetInfoJson</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::generateDatasetInfoJson</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>data_file_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="88" column="17" bodyfile="src/exporters/huggingface_exporter.cpp" bodystart="159" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a219d5947d6bfbe4240a81195ec300e98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporter::generateDatasetCard</definition>
+        <argsstring>() const</argsstring>
+        <name>generateDatasetCard</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::generateDatasetCard</qualifiedname>
+        <briefdescription>
+<para>Generate Dataset Card. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="98" column="17" bodyfile="src/exporters/huggingface_exporter.cpp" bodystart="227" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1af02ee27142553fb2551db3cebcc9494f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ExporterMetrics &gt; themis::exporters::HuggingFaceExporter::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="100" column="21" bodyfile="include/exporters/huggingface_exporter.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1ae0cebb09e5816f9cbcade3ccce7d26cb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporter::inferDtype</definition>
+        <argsstring>(const Value &amp;value)</argsstring>
+        <name>inferDtype</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::inferDtype</qualifiedname>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Infer Dtype. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::visit(), constexpr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="111" column="24" bodyfile="src/exporters/huggingface_exporter.cpp" bodystart="303" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1ad72b59ad34f3949b13424b86d09b6df7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::HuggingFaceExporter::inferFeatures</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities)</argsstring>
+        <name>inferFeatures</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::inferFeatures</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <briefdescription>
+<para>Infer Features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clear(), empty(), getAllFields(), find(), end(), inferDtype(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="117" column="10" bodyfile="src/exporters/huggingface_exporter.cpp" bodystart="331" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_hugging_face_exporter_1a0aa385c80bcf1873735fa4f5a2749a26" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1exporters_1_1_hugging_face_feature" kindref="compound">HuggingFaceFeature</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; HuggingFaceFeature &gt; &amp; themis::exporters::HuggingFaceExporter::resolvedFeatures</definition>
+        <argsstring>() const</argsstring>
+        <name>resolvedFeatures</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporter::resolvedFeatures</qualifiedname>
+        <briefdescription>
+<para>Resolved Features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="123" column="23" bodyfile="src/exporters/huggingface_exporter.cpp" bodystart="357" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::exporters::HuggingFaceExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_hugging_face_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::exporters::HuggingFaceExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_hugging_face_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/huggingface_exporter.h" line="60" column="1" bodyfile="include/exporters/huggingface_exporter.h" bodystart="60" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a0ac9f8553ec630c1c51f8af63e41f1a1" prot="private" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a601e018a68f66eb64aa1543bf33880f9" prot="public" virt="virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>exportEntities</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a219d5947d6bfbe4240a81195ec300e98" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>generateDatasetCard</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a8f45634167f86aafda4c521124ca5127" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>generateDatasetInfoJson</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1ac4d426b0e9e0209f21a4d6c3c53877c4" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1af02ee27142553fb2551db3cebcc9494f" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a7c921cd3efcf552f06303e69d4b377a6" prot="public" virt="virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a86dd014007887d464e7363c275e0da85" prot="public" virt="virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>getSupportedFormats</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1aae69e4d674fc8176e7b302d6716c86db" prot="public" virt="virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a364d635509534cc78eb26561690f9ea4" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>HuggingFaceExporter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1ae0cebb09e5816f9cbcade3ccce7d26cb" prot="private" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>inferDtype</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1ad72b59ad34f3949b13424b86d09b6df7" prot="private" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>inferFeatures</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a515f98a8de8896f445e9787aeed22fd4" prot="private" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>inferred_features_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a44cc908e3ef38089c3e43d0a7747d22c" prot="private" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a0aa385c80bcf1873735fa4f5a2749a26" prot="private" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>resolvedFeatures</name></member>
+      <member refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a5fa2216013eea121ed654b4a5f2bdb13" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" prot="public" virt="virtual"><scope>themis::exporters::HuggingFaceExporter</scope><name>~IExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

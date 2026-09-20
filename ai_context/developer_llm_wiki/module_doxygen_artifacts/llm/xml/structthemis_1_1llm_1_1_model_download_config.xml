@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_download_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelDownloadConfig</compoundname>
+    <includes refid="model__downloader_8h" local="no">model_downloader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_config_1add1947736c9a7be94d5e62278237c9e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelDownloadConfig::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::llm::ModelDownloadConfig::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="27" column="17" bodyfile="include/llm/model_downloader.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_config_1ab7e2e8ab9f610dbb2372bb2282f57e6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelDownloadConfig::ollama_url</definition>
+        <argsstring></argsstring>
+        <name>ollama_url</name>
+        <qualifiedname>themis::llm::ModelDownloadConfig::ollama_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="28" column="17" bodyfile="include/llm/model_downloader.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_config_1a84e5c39ae289785b14831cabce350475" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelDownloadConfig::download_dir</definition>
+        <argsstring></argsstring>
+        <name>download_dir</name>
+        <qualifiedname>themis::llm::ModelDownloadConfig::download_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="29" column="17" bodyfile="include/llm/model_downloader.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_config_1ac6889abab4b88ab53fcb67bb184241e7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelDownloadConfig::use_cache</definition>
+        <argsstring></argsstring>
+        <name>use_cache</name>
+        <qualifiedname>themis::llm::ModelDownloadConfig::use_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="30" column="10" bodyfile="include/llm/model_downloader.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_config_1aff2ab51965dc435acf2559519b294c94" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ModelDownloadConfig::timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>timeout_seconds</name>
+        <qualifiedname>themis::llm::ModelDownloadConfig::timeout_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="31" column="9" bodyfile="include/llm/model_downloader.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_config_1a9abedd38582fd501fd07cc2b0b38929c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ab0e12da78dbef5c8404da26fa57a00ee" kindref="member">DownloadProgressCallback</ref></type>
+        <definition>DownloadProgressCallback themis::llm::ModelDownloadConfig::progress_callback</definition>
+        <argsstring></argsstring>
+        <name>progress_callback</name>
+        <qualifiedname>themis::llm::ModelDownloadConfig::progress_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="32" column="30" bodyfile="include/llm/model_downloader.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_config_1a1c4e7c737fd174faff4609abe7e41f88" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelDownloadConfig::allow_insecure_http</definition>
+        <argsstring></argsstring>
+        <name>allow_insecure_http</name>
+        <qualifiedname>themis::llm::ModelDownloadConfig::allow_insecure_http</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="33" column="10" bodyfile="include/llm/model_downloader.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_downloader.h" line="26" column="1" bodyfile="include/llm/model_downloader.h" bodystart="26" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_download_config_1a1c4e7c737fd174faff4609abe7e41f88" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadConfig</scope><name>allow_insecure_http</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_config_1a84e5c39ae289785b14831cabce350475" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadConfig</scope><name>download_dir</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_config_1add1947736c9a7be94d5e62278237c9e8" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadConfig</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_config_1ab7e2e8ab9f610dbb2372bb2282f57e6e" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadConfig</scope><name>ollama_url</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_config_1a9abedd38582fd501fd07cc2b0b38929c" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadConfig</scope><name>progress_callback</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_config_1aff2ab51965dc435acf2559519b294c94" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadConfig</scope><name>timeout_seconds</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_config_1ac6889abab4b88ab53fcb67bb184241e7" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadConfig</scope><name>use_cache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

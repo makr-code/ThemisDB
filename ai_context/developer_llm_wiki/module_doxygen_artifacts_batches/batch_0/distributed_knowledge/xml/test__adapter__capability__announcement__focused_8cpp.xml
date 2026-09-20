@@ -1,0 +1,758 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__adapter__capability__announcement__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_adapter_capability_announcement_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes refid="adapter__capability__announcement_8h" local="yes">distributed_knowledge/adapter_capability_announcement.h</includes>
+    <includes refid="distributed__knowledge__api__contract_8h" local="yes">distributed_knowledge/distributed_knowledge_api_contract.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>distributed_knowledge/adapter_capability_announcement.h</label>
+        <link refid="adapter__capability__announcement_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>distributed_knowledge/distributed_knowledge_api_contract.h</label>
+        <link refid="distributed__knowledge__api__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp</label>
+        <link refid="test__adapter__capability__announcement__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="11">
+        <label>governance/gdpr_subject_rights.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_adapter_capability_announcement_test" prot="public">AdapterCapabilityAnnouncementTest</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="25" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, CreateAndSerializeAnnouncement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>CreateAndSerializeAnnouncement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-01: Adapter capability announcement creation and JSON serialization.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that an <ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref> can be created, populated, and serialized to JSON with all required fields present. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="56" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="56" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1acaa8796bd3f3dfa5024bc6cbdca685da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, AdapterDomainTypeToString)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>AdapterDomainTypeToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-02: <ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057" kindref="member">AdapterDomainType</ref> to string conversion.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that all domain types convert to human-readable strings correctly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="77" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="77" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1a390bc38708116a777a4e2ca22e85dd6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, GossipPublisherAnnouncesCapability)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>GossipPublisherAnnouncesCapability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-03: <ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref> initialization and announcement dispatch.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the gossip publisher correctly initializes and can dispatch announcements to the gossip channel with proper shard ID and timestamp. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="98" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="98" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1a01aef9cabaeed0ca571a115951413a1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, MultipleAdaptersFromSameShard)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleAdaptersFromSameShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-04: Multiple adapter announcements from single shard.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a publisher can announce multiple distinct adapters in sequence and each generates a separate gossip message. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="124" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="124" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1ac9918fa89b086e02e76d6a7ed575b13e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, AdapterWithdrawalAnnouncement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>AdapterWithdrawalAnnouncement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-05: Adapter withdrawal announcement.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that announcements correctly reflect adapter withdrawal status (is_withdrawal = true) for adapter downtime or maintenance scenarios. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="148" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="148" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1a059f76a14807994f02e15776d05c2e8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, CustomDomainLabel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>CustomDomainLabel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-06: Custom domain label in announcement.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that custom domain labels are properly included in announcements when the domain type is CUSTOM. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="169" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="169" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1af31889d39ef1ef459e7e088421fcee8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, AnnouncementTimestampSet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>AnnouncementTimestampSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-07: Announcement timestamp is set during gossip publish.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the publisher sets the announced_at timestamp when publishing an announcement (even if not set by caller). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="194" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="194" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1aa9576723354f9946eb7052a41b4b29ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, ShardIdOverwrittenByPublisher)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>ShardIdOverwrittenByPublisher</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-08: Shard ID is overwritten by publisher.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the publisher always sets its own shard_id in announcements, even if the announcement already contained a different shard_id. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="216" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="216" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1ae0146615ed2096956d3f487802e688bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, EmptyAdapterIdHandling)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyAdapterIdHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-09: Empty adapter ID handling (defensive).</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that announcements with empty adapter_id can still be serialized (though would likely be rejected by policy in practice). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="242" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="242" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1a96d30548f40480ac4d10d5ff6fd745df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdapterCapabilityAnnouncementTest, MultiplePublishersForSameShard)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref></type>
+        </param>
+        <param>
+          <type>MultiplePublishersForSameShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-10: Multiple publishers for same shard.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that multiple publisher instances for the same shard can independently publish announcements without interference. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="262" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="262" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1ad05c5c54e442e025072c137e5d3c7aaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FederationTrustPolicy, AlwaysPermitAllowsAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FederationTrustPolicy</type>
+        </param>
+        <param>
+          <type>AlwaysPermitAllowsAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-TRUST-01: <ref refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" kindref="compound">AlwaysPermitTrustPolicy</ref> permits every announcement. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="294" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="294" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1a994fa7e9ba803e5bf7483f10dd0b13c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FederationTrustPolicy, CustomPolicyCanRejectAnnouncement)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FederationTrustPolicy</type>
+        </param>
+        <param>
+          <type>CustomPolicyCanRejectAnnouncement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-TRUST-02: A custom reject policy returns REJECT for flagged adapters.</para>
+</xrefdescription></xrefsect></para>
+<para>Implements <ref refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" kindref="compound">IFederationTrustPolicy</ref> inline to simulate a real domain blocklist. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="308" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="308" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1a824c95cf3c167d281fa8ac09dd3de4f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FederationTrustPolicy, TrustDecisionEnumValuesAreDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FederationTrustPolicy</type>
+        </param>
+        <param>
+          <type>TrustDecisionEnumValuesAreDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-TRUST-03: <ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" kindref="member">TrustDecision</ref> enum values are distinct. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="335" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="335" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1aa3b67b3d3fe3c91addc1d29018a647d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FederationTrustPolicy, TrustGateRejectedErrorCodeIsUnique)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FederationTrustPolicy</type>
+        </param>
+        <param>
+          <type>TrustGateRejectedErrorCodeIsUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-TRUST-04: DKErrorCode::TRUST_GATE_REJECTED is defined and distinct from all other codes. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="343" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="343" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__capability__announcement__focused_8cpp_1a82cd7a84213b9e9c45036f228fdfcb50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FederationTrustPolicy, PolymorphicDispatchThroughBasePointer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FederationTrustPolicy</type>
+        </param>
+        <param>
+          <type>PolymorphicDispatchThroughBasePointer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>ACA-TRUST-05: <ref refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" kindref="compound">AlwaysPermitTrustPolicy</ref> polymorphic dispatch works correctly.</para>
+</xrefdescription></xrefsect></para>
+<para>Accesses the policy through the base-class pointer to confirm vtable dispatch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="357" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="357" bodyend="364"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for adapter capability announcement gossip surfaces. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests the core distributed knowledge capability announcement paths:<itemizedlist>
+<listitem><para>announcement creation and JSON serialization</para>
+</listitem><listitem><para>gossip publisher announcement handling</para>
+</listitem><listitem><para>cross-shard capability discovery</para>
+</listitem><listitem><para>privacy-aware capability filtering</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: Production readiness validation for capability exchange layer. Q3 2026 Hardening: policy-edge semantics and deterministic broadcast behavior. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__capability__announcement_8h" kindref="compound">distributed_knowledge/adapter_capability_announcement.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="class_adapter_capability_announcement_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_adapter_capability_announcement_test_1a0fc079f78fce0c520e12e0144c98a74c" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_adapter_capability_announcement_test_1a4f7859b2a7674aa74849fd9f6dc46934" kindref="member">gossip_messages_</ref>.clear();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><ref refid="class_adapter_capability_announcement_test_1a4f7859b2a7674aa74849fd9f6dc46934" kindref="member">gossip_messages_</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="class_adapter_capability_announcement_test_1a7c8b8c3854e49834b6d9596220b8b310" kindref="member">make_gossip_fn</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](<ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_adapter_capability_announcement_test_1a4f7859b2a7674aa74849fd9f6dc46934" kindref="member">gossip_messages_</ref>.push_back(msg);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>Announcement<sp/>Tests<sp/>(ACA-01..ACA-03)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>CreateAndSerializeAnnouncement)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>announcement;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a63b6380ad1c102c8387da25f71256eba" kindref="member">AdapterDomainType::SECURITY_MONITOR</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6bd6d6bb22ee0ce627f64420a82d37f4" kindref="member">shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a79c0b79ed1cf3f20460f028ed2fdb27f" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a4af7b5defc5215b0b72c2e6800a0bd6a" kindref="member">is_withdrawal</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>payload<sp/>=<sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1adf42c54bfbdd479f5933947f3465d4e1" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(payload[</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;adapter-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(payload[</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(payload[</highlight><highlight class="stringliteral">&quot;adapter_version&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(payload[</highlight><highlight class="stringliteral">&quot;is_withdrawal&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>AdapterDomainTypeToString)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" kindref="member">AdapterDomainType::GENERAL</ref>),<sp/></highlight><highlight class="stringliteral">&quot;GENERAL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a63b6380ad1c102c8387da25f71256eba" kindref="member">AdapterDomainType::SECURITY_MONITOR</ref>),<sp/></highlight><highlight class="stringliteral">&quot;SECURITY_MONITOR&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a48223173d9bae7b0beb2b38d71942196" kindref="member">AdapterDomainType::SCHEMA_ADVISOR</ref>),<sp/></highlight><highlight class="stringliteral">&quot;SCHEMA_ADVISOR&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ae6bed345f53943469741d7295552fcd4" kindref="member">AdapterDomainType::TRANSACTION</ref>),<sp/></highlight><highlight class="stringliteral">&quot;TRANSACTION&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a72d0ff12af2d847e53d66baaf95cb944" kindref="member">AdapterDomainType::MULTI_TENANT</ref>),<sp/></highlight><highlight class="stringliteral">&quot;MULTI_TENANT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a1aa9fe0235b02ffbb2efb13e43d59aa9" kindref="member">AdapterDomainType::EXPLAINABILITY</ref>),<sp/></highlight><highlight class="stringliteral">&quot;EXPLAINABILITY&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a4939a0c5f946aa98a33244d2f3cfef58" kindref="member">AdapterDomainType::VECTOR_SEARCH</ref>),<sp/></highlight><highlight class="stringliteral">&quot;VECTOR_SEARCH&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a0371bb9af9d38a90a3ef955633035ddb" kindref="member">AdapterDomainType::PROCESS_MINING</ref>),<sp/></highlight><highlight class="stringliteral">&quot;PROCESS_MINING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a1e23e9a76735e87600dc4dd405202575" kindref="member">AdapterDomainType::GEOSPATIAL</ref>),<sp/></highlight><highlight class="stringliteral">&quot;GEOSPATIAL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ac53151ffd180a17416e8f09b1ca4bfc3" kindref="member">AdapterDomainType::LEGAL</ref>),<sp/></highlight><highlight class="stringliteral">&quot;LEGAL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057aea68388b0642cfd18735a4a166494310" kindref="member">AdapterDomainType::MEDICAL</ref>),<sp/></highlight><highlight class="stringliteral">&quot;MEDICAL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kindref="member">adapterDomainTypeToString</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a72baef04098f035e8a320b03ad197818" kindref="member">AdapterDomainType::CUSTOM</ref>),<sp/></highlight><highlight class="stringliteral">&quot;CUSTOM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>GossipPublisherAnnouncesCapability)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip_fn<sp/>=<sp/>make_gossip_fn();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>announcement;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a63b6380ad1c102c8387da25f71256eba" kindref="member">AdapterDomainType::SECURITY_MONITOR</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>publisher.announce(announcement);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gossip_messages_.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;message_type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;adapter_capability&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;adapter-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multiple<sp/>Announcement<sp/>Tests<sp/>(ACA-04..ACA-06)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>MultipleAdaptersFromSameShard)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip_fn<sp/>=<sp/>make_gossip_fn();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>announcement;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" kindref="member">AdapterDomainType::GENERAL</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>publisher.announce(announcement);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[i][</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;adapter-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[i][</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>AdapterWithdrawalAnnouncement)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip_fn<sp/>=<sp/>make_gossip_fn();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>announcement;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a63b6380ad1c102c8387da25f71256eba" kindref="member">AdapterDomainType::SECURITY_MONITOR</ref>;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a4af7b5defc5215b0b72c2e6800a0bd6a" kindref="member">is_withdrawal</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>is<sp/>being<sp/>withdrawn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>publisher.announce(announcement);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gossip_messages_.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;is_withdrawal&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>CustomDomainLabel)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip_fn<sp/>=<sp/>make_gossip_fn();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>announcement;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-custom&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a72baef04098f035e8a320b03ad197818" kindref="member">AdapterDomainType::CUSTOM</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ad4b4aa85af0b4edfbcd094f69da2cac0" kindref="member">custom_domain_label</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;domain-specific-workload&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>publisher.announce(announcement);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gossip_messages_.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;custom_domain_label&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;domain-specific-workload&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timestamp<sp/>and<sp/>Shard<sp/>ID<sp/>Tests<sp/>(ACA-07..ACA-08)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>AnnouncementTimestampSet)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip_fn<sp/>=<sp/>make_gossip_fn();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>announcement;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" kindref="member">AdapterDomainType::GENERAL</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>publisher.announce(announcement);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gossip_messages_.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Publisher<sp/>stamps<sp/>announced_at;<sp/>toJson()<sp/>serialises<sp/>it<sp/>as<sp/>announced_at_ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(gossip_messages_[0].contains(</highlight><highlight class="stringliteral">&quot;announced_at_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;announced_at_ms&quot;</highlight><highlight class="normal">].get&lt;int64_t&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>ShardIdOverwrittenByPublisher)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip_fn<sp/>=<sp/>make_gossip_fn();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>announcement;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6bd6d6bb22ee0ce627f64420a82d37f4" kindref="member">shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-wrong&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Incorrect<sp/>shard<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" kindref="member">AdapterDomainType::GENERAL</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>publisher.announce(announcement);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gossip_messages_.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Publisher<sp/>should<sp/>overwrite<sp/>with<sp/>correct<sp/>shard<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>Cases<sp/>and<sp/>Error<sp/>Handling<sp/>(ACA-09..ACA-10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>EmptyAdapterIdHandling)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip_fn<sp/>=<sp/>make_gossip_fn();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>announcement;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>announcement.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" kindref="member">AdapterDomainType::GENERAL</ref>;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>publisher.announce(announcement);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gossip_messages_.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>(<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>,<sp/>MultiplePublishersForSameShard)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip_fn<sp/>=<sp/>make_gossip_fn();</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher1(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kindref="compound">GossipAdapterPublisher</ref><sp/>publisher2(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>gossip_fn);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>ann1;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ann1.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>ann1.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" kindref="member">AdapterDomainType::GENERAL</ref>;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>ann2;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>ann2.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>ann2.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kindref="member">domain_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a63b6380ad1c102c8387da25f71256eba" kindref="member">AdapterDomainType::SECURITY_MONITOR</ref>;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>publisher1.announce(ann1);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>publisher2.announce(ann2);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[0][</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;adapter-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gossip_messages_[1][</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;adapter-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ACA-TRUST-01..05<sp/>—<sp/>FederationTrustPolicy<sp/>/<sp/>fail-closed<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__knowledge__api__contract_8h" kindref="compound">distributed_knowledge/distributed_knowledge_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref>;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ad05c5c54e442e025072c137e5d3c7aaa" kindref="member">TEST</ref>(FederationTrustPolicy,<sp/>AlwaysPermitAllowsAll)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" kindref="compound">AlwaysPermitTrustPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>ann;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-trusted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6bd6d6bb22ee0ce627f64420a82d37f4" kindref="member">shard_id</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-01&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a4af7b5defc5215b0b72c2e6800a0bd6a" kindref="member">is_withdrawal</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.<ref refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy_1aa172171a933cf9fdf3621b560648c0ac" kindref="member">evaluateTrustGate</ref>(ann),<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" kindref="member">TrustDecision::PERMIT</ref>);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ad05c5c54e442e025072c137e5d3c7aaa" kindref="member">TEST</ref>(FederationTrustPolicy,<sp/>CustomPolicyCanRejectAnnouncement)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>blocklist<sp/>policy<sp/>that<sp/>rejects<sp/>adapters<sp/>with<sp/>&quot;untrusted&quot;<sp/>in<sp/>the<sp/>ID.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">BlocklistPolicy<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" kindref="compound">IFederationTrustPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" kindref="member">TrustDecision</ref><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1a42cfc6b156e04084bdf3b034fb6378b8" kindref="member">evaluateTrustGate</ref>(</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AdapterCapabilityAnnouncement&amp;<sp/>ann)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ann.adapter_id.find(</highlight><highlight class="stringliteral">&quot;untrusted&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TrustDecision::REJECT;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TrustDecision::PERMIT;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>BlocklistPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>trusted;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>trusted.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-prod-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.evaluateTrustGate(trusted),<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" kindref="member">TrustDecision::PERMIT</ref>);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>rejected;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>rejected.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-untrusted-ext&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.evaluateTrustGate(rejected),<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba59b228d9fec9b88833bfe5d812ed8ad4" kindref="member">TrustDecision::REJECT</ref>);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ad05c5c54e442e025072c137e5d3c7aaa" kindref="member">TEST</ref>(FederationTrustPolicy,<sp/>TrustDecisionEnumValuesAreDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" kindref="member">TrustDecision::PERMIT</ref>,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba59b228d9fec9b88833bfe5d812ed8ad4" kindref="member">TrustDecision::REJECT</ref>);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ad05c5c54e442e025072c137e5d3c7aaa" kindref="member">TEST</ref>(FederationTrustPolicy,<sp/>TrustGateRejectedErrorCodeIsUnique)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>the<sp/>code<sp/>compiles<sp/>and<sp/>is<sp/>distinct<sp/>from<sp/>well-known<sp/>codes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1620d0f6d867933bc1b5ae4ea210e6e5" kindref="member">DKErrorCode::TRUST_GATE_REJECTED</ref>,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">DKErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1620d0f6d867933bc1b5ae4ea210e6e5" kindref="member">DKErrorCode::TRUST_GATE_REJECTED</ref>,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0baf1bcbf8e67ee40bb3f58cf89b17833b7" kindref="member">DKErrorCode::FEDERATION_TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1620d0f6d867933bc1b5ae4ea210e6e5" kindref="member">DKErrorCode::TRUST_GATE_REJECTED</ref>,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae8c0c70879b5895c615677261d64a1ee" kindref="member">DKErrorCode::INTERNAL_ERROR</ref>);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TRUST_GATE_REJECTED<sp/>is<sp/>not<sp/>retryable<sp/>(fail-closed:<sp/>the<sp/>caller<sp/>must<sp/>fix<sp/>the<sp/>trust<sp/>issue).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1distributed__knowledge_1a651df040528b35079a0648d1edad638c" kindref="member">isRetryableCode</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1620d0f6d867933bc1b5ae4ea210e6e5" kindref="member">DKErrorCode::TRUST_GATE_REJECTED</ref>));</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ad05c5c54e442e025072c137e5d3c7aaa" kindref="member">TEST</ref>(FederationTrustPolicy,<sp/>PolymorphicDispatchThroughBasePointer)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IFederationTrustPolicy&gt;<sp/>policy<sp/>=</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;AlwaysPermitTrustPolicy&gt;();</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref><sp/>ann;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kindref="member">adapter_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adapter-any&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy-&gt;evaluateTrustGate(ann),<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" kindref="member">TrustDecision::PERMIT</ref>);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="371"><highlight class="comment"><sp/>*<sp/>Test<sp/>Coverage<sp/>Summary<sp/>(ACA-01..ACA-10,<sp/>ACA-TRUST-01..05):</highlight></codeline>
+<codeline lineno="372"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="373"><highlight class="comment"><sp/>*<sp/>ACA-01:<sp/>Announcement<sp/>creation<sp/>and<sp/>JSON<sp/>serialization</highlight></codeline>
+<codeline lineno="374"><highlight class="comment"><sp/>*<sp/>ACA-02:<sp/>AdapterDomainType<sp/>to<sp/>string<sp/>conversion<sp/>for<sp/>all<sp/>types</highlight></codeline>
+<codeline lineno="375"><highlight class="comment"><sp/>*<sp/>ACA-03:<sp/>Basic<sp/>gossip<sp/>publisher<sp/>announcement<sp/>dispatch</highlight></codeline>
+<codeline lineno="376"><highlight class="comment"><sp/>*<sp/>ACA-04:<sp/>Multiple<sp/>adapter<sp/>announcements<sp/>from<sp/>single<sp/>shard</highlight></codeline>
+<codeline lineno="377"><highlight class="comment"><sp/>*<sp/>ACA-05:<sp/>Adapter<sp/>withdrawal<sp/>announcement<sp/>handling</highlight></codeline>
+<codeline lineno="378"><highlight class="comment"><sp/>*<sp/>ACA-06:<sp/>Custom<sp/>domain<sp/>label<sp/>in<sp/>announcements</highlight></codeline>
+<codeline lineno="379"><highlight class="comment"><sp/>*<sp/>ACA-07:<sp/>Announcement<sp/>timestamp<sp/>management</highlight></codeline>
+<codeline lineno="380"><highlight class="comment"><sp/>*<sp/>ACA-08:<sp/>Shard<sp/>ID<sp/>override<sp/>by<sp/>publisher</highlight></codeline>
+<codeline lineno="381"><highlight class="comment"><sp/>*<sp/>ACA-09:<sp/>Empty<sp/>adapter<sp/>ID<sp/>edge<sp/>case</highlight></codeline>
+<codeline lineno="382"><highlight class="comment"><sp/>*<sp/>ACA-10:<sp/>Multiple<sp/>publishers<sp/>for<sp/>same<sp/>shard</highlight></codeline>
+<codeline lineno="383"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="384"><highlight class="comment"><sp/>*<sp/>ACA-TRUST-01:<sp/>AlwaysPermitTrustPolicy<sp/>permits<sp/>every<sp/>announcement</highlight></codeline>
+<codeline lineno="385"><highlight class="comment"><sp/>*<sp/>ACA-TRUST-02:<sp/>Custom<sp/>policy<sp/>can<sp/>reject<sp/>announcements<sp/>by<sp/>domain/ID</highlight></codeline>
+<codeline lineno="386"><highlight class="comment"><sp/>*<sp/>ACA-TRUST-03:<sp/>TrustDecision<sp/>enum<sp/>values<sp/>are<sp/>distinct</highlight></codeline>
+<codeline lineno="387"><highlight class="comment"><sp/>*<sp/>ACA-TRUST-04:<sp/>TRUST_GATE_REJECTED<sp/>error<sp/>code<sp/>defined<sp/>and<sp/>non-retryable</highlight></codeline>
+<codeline lineno="388"><highlight class="comment"><sp/>*<sp/>ACA-TRUST-05:<sp/>Polymorphic<sp/>dispatch<sp/>through<sp/>base<sp/>pointer<sp/>works</highlight></codeline>
+<codeline lineno="389"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="390"><highlight class="comment"><sp/>*<sp/>Target:<sp/>Q3-Q4<sp/>2026<sp/>Hardening<sp/>-<sp/>trust-gate<sp/>fail-closed<sp/>semantics.</highlight></codeline>
+<codeline lineno="391"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_binary_manifest" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::BinaryManifest</compoundname>
+    <includes refid="binary__manifest_8h" local="no">binary_manifest.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata" prot="public">themis::security::BinaryManifest::Metadata</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_binary_manifest_1ae3dea47558c4a4382328c6cd373f7a11" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata" kindref="compound">Metadata</ref></type>
+        <definition>Metadata themis::security::BinaryManifest::metadata_</definition>
+        <argsstring></argsstring>
+        <name>metadata_</name>
+        <qualifiedname>themis::security::BinaryManifest::metadata_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="98" column="14" bodyfile="include/security/binary_manifest.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_binary_manifest_1a46c9f7b9de27a7ab5376037b6521ea9d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1_binary_file_entry" kindref="compound">BinaryFileEntry</ref> &gt;</type>
+        <definition>std::vector&lt;BinaryFileEntry&gt; themis::security::BinaryManifest::files_</definition>
+        <argsstring></argsstring>
+        <name>files_</name>
+        <qualifiedname>themis::security::BinaryManifest::files_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="99" column="17" bodyfile="include/security/binary_manifest.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1acf78d23ff2d2599af6c76ed7bc0e3f45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::BinaryManifest::BinaryManifest</definition>
+        <argsstring>()=default</argsstring>
+        <name>BinaryManifest</name>
+        <qualifiedname>themis::security::BinaryManifest::BinaryManifest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1af7e760358b1d78d5f3918a880bb16477" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::BinaryManifest::BinaryManifest</definition>
+        <argsstring>(const Metadata &amp;metadata)</argsstring>
+        <name>BinaryManifest</name>
+        <qualifiedname>themis::security::BinaryManifest::BinaryManifest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata" kindref="compound">Metadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Binary Manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="59" column="14" bodyfile="src/security/binary_manifest.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1a7d56ce37e83d44015cf2e7b2b4a7a6d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::BinaryManifest::addFile</definition>
+        <argsstring>(const BinaryFileEntry &amp;entry)</argsstring>
+        <name>addFile</name>
+        <qualifiedname>themis::security::BinaryManifest::addFile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_binary_file_entry" kindref="compound">BinaryFileEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Add File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="65" column="10" bodyfile="src/security/binary_manifest.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1ad46c56de37e1ff6d4b45a455c03af2bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1security_1_1_binary_file_entry" kindref="compound">BinaryFileEntry</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; BinaryFileEntry &gt; &amp; themis::security::BinaryManifest::getFiles</definition>
+        <argsstring>() const</argsstring>
+        <name>getFiles</name>
+        <qualifiedname>themis::security::BinaryManifest::getFiles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="67" column="23" bodyfile="include/security/binary_manifest.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1a5b77625831de6fe6669403efd7852d50" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata" kindref="compound">Metadata</ref> &amp;</type>
+        <definition>const Metadata &amp; themis::security::BinaryManifest::getMetadata</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>themis::security::BinaryManifest::getMetadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="69" column="20" bodyfile="include/security/binary_manifest.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1a34770494d006cfbee858c56f49b09240" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::BinaryManifest::setMetadata</definition>
+        <argsstring>(const Metadata &amp;metadata)</argsstring>
+        <name>setMetadata</name>
+        <qualifiedname>themis::security::BinaryManifest::setMetadata</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata" kindref="compound">Metadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata" kindref="compound">Metadata</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMetadata without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="76" column="10" bodyfile="include/security/binary_manifest.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1ab9bc722a0f6d5c1a86a564ec11f0cc07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::BinaryManifest::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>themis::security::BinaryManifest::to_json</qualifiedname>
+        <briefdescription>
+<para>To json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="82" column="20" bodyfile="src/security/binary_manifest.cpp" bodystart="70" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1a7e30d4946f8def7b2ff70423f445c59c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::BinaryManifest::getCanonicalJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getCanonicalJson</name>
+        <qualifiedname>themis::security::BinaryManifest::getCanonicalJson</qualifiedname>
+        <briefdescription>
+<para>Get Canonical Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="95" column="17" bodyfile="src/security/binary_manifest.cpp" bodystart="115" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_binary_manifest_1a9000f553d4bc385116ac6b4aabf81282" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_binary_manifest_1acf78d23ff2d2599af6c76ed7bc0e3f45" kindref="member">BinaryManifest</ref></type>
+        <definition>BinaryManifest themis::security::BinaryManifest::from_json</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>themis::security::BinaryManifest::from_json</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), std::chrono::system_clock::from_time_t(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="89" column="27" bodyfile="src/security/binary_manifest.cpp" bodystart="95" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/binary_manifest.h" line="43" column="1" bodyfile="include/security/binary_manifest.h" bodystart="43" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1a7d56ce37e83d44015cf2e7b2b4a7a6d7" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>addFile</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1acf78d23ff2d2599af6c76ed7bc0e3f45" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>BinaryManifest</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1af7e760358b1d78d5f3918a880bb16477" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>BinaryManifest</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1a46c9f7b9de27a7ab5376037b6521ea9d" prot="private" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>files_</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1a9000f553d4bc385116ac6b4aabf81282" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>from_json</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1a7e30d4946f8def7b2ff70423f445c59c" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>getCanonicalJson</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1ad46c56de37e1ff6d4b45a455c03af2bb" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>getFiles</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1a5b77625831de6fe6669403efd7852d50" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>getMetadata</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1ae3dea47558c4a4382328c6cd373f7a11" prot="private" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>metadata_</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1a34770494d006cfbee858c56f49b09240" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>setMetadata</name></member>
+      <member refid="classthemis_1_1security_1_1_binary_manifest_1ab9bc722a0f6d5c1a86a564ec11f0cc07" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest</scope><name>to_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

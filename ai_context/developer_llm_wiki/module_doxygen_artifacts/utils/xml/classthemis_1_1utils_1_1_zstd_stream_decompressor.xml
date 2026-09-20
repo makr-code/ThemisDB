@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_zstd_stream_decompressor" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::ZstdStreamDecompressor</compoundname>
+    <includes refid="zstd__codec_8h" local="no">zstd_codec.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_zstd_stream_decompressor_1_1_impl" prot="public">themis::utils::ZstdStreamDecompressor::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a4c51fe9b66b1f4dc679ee223e426fcc9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1utils_1_1_zstd_stream_decompressor_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::utils::ZstdStreamDecompressor::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="228" column="21" bodyfile="include/utils/zstd_codec.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamDecompressor::ZstdStreamDecompressor</definition>
+        <argsstring>()</argsstring>
+        <name>ZstdStreamDecompressor</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::ZstdStreamDecompressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="189" column="5" bodyfile="src/utils/zstd_codec.cpp" bodystart="560" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9d8a9fe69986ddd993ebf673583f3870" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamDecompressor::~ZstdStreamDecompressor</definition>
+        <argsstring>()</argsstring>
+        <name>~ZstdStreamDecompressor</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::~ZstdStreamDecompressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="190" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a3d3bf34f0b0831c47483473130dbcc16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamDecompressor::ZstdStreamDecompressor</definition>
+        <argsstring>(const ZstdStreamDecompressor &amp;)=delete</argsstring>
+        <name>ZstdStreamDecompressor</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::ZstdStreamDecompressor</qualifiedname>
+        <param>
+          <type>const ZstdStreamDecompressor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="193" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a501920d614e227daead72aba9fed1999" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref> &amp;</type>
+        <definition>ZstdStreamDecompressor &amp; themis::utils::ZstdStreamDecompressor::operator=</definition>
+        <argsstring>(const ZstdStreamDecompressor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="194" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a045435353caef67cfef5344b86560a38" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamDecompressor::ZstdStreamDecompressor</definition>
+        <argsstring>(ZstdStreamDecompressor &amp;&amp;) noexcept=default</argsstring>
+        <name>ZstdStreamDecompressor</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::ZstdStreamDecompressor</qualifiedname>
+        <param>
+          <type>ZstdStreamDecompressor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="195" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a2f6a745e0c936740c6b74f1335cffbbc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref> &amp;</type>
+        <definition>ZstdStreamDecompressor &amp; themis::utils::ZstdStreamDecompressor::operator=</definition>
+        <argsstring>(ZstdStreamDecompressor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="196" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::utils::ZstdStreamDecompressor::decompress_chunk</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>decompress_chunk</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::decompress_chunk</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Feed a chunk of compressed data into the stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress chunk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to compressed bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of compressed bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok(decompressed_output) — may be empty if more input needed; Err on decompression failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1a7de2875c9f12d270dce73873e3d0d5e1" kindref="member">Ok()</ref>, ZSTD_DStreamOutSize(), reserve(), chunk(), data(), size(), ZSTD_decompressStream(), ZSTD_isError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="206" column="12" bodyfile="src/utils/zstd_codec.cpp" bodystart="572" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a49f8e146c03693fd4bd93b10d46b9710" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::utils::ZstdStreamDecompressor::decompress_chunk</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress_chunk</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::decompress_chunk</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Convenience overload for std::vector input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="209" column="12" bodyfile="include/utils/zstd_codec.h" bodystart="209" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::ZstdStreamDecompressor::is_done</definition>
+        <argsstring>() const</argsstring>
+        <name>is_done</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::is_done</qualifiedname>
+        <briefdescription>
+<para>Returns true when the current ZSTD frame has been fully decoded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>After <ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" kindref="member">is_done()</ref> returns true, <ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a6af49da2fd8adc13ed1ac6ee33a18f7b" kindref="member">reset()</ref> must be called before feeding bytes from a new frame. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="219" column="10" bodyfile="src/utils/zstd_codec.cpp" bodystart="610" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a6af49da2fd8adc13ed1ac6ee33a18f7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::ZstdStreamDecompressor::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the decompressor to accept a new ZSTD frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: reinit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="224" column="10" bodyfile="src/utils/zstd_codec.cpp" bodystart="618" bodyend="624"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Streaming ZSTD decompressor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Decompress a ZSTD-framed stream chunk by chunk.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref><sp/>dec;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(read_chunk(buf,<sp/>len))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>dec.decompress_chunk(buf,<sp/>len);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(out)<sp/>process(*out);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dec.is_done())<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/utils/zstd_codec.h" line="187" column="1" bodyfile="include/utils/zstd_codec.h" bodystart="187" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>decompress_chunk</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a49f8e146c03693fd4bd93b10d46b9710" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>decompress_chunk</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a4c51fe9b66b1f4dc679ee223e426fcc9" prot="private" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>is_done</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a501920d614e227daead72aba9fed1999" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a2f6a745e0c936740c6b74f1335cffbbc" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a6af49da2fd8adc13ed1ac6ee33a18f7b" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>reset</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>ZstdStreamDecompressor</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a3d3bf34f0b0831c47483473130dbcc16" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>ZstdStreamDecompressor</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a045435353caef67cfef5344b86560a38" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>ZstdStreamDecompressor</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9d8a9fe69986ddd993ebf673583f3870" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor</scope><name>~ZstdStreamDecompressor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

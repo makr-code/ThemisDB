@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_join_exporter_test" kind="class" language="C++" prot="public">
+    <compoundname>JoinExporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_join_exporter_test_1ace221f301d60198209094f06ca5dccd9" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string JoinExporterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>JoinExporterTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_join_exporter.cpp" line="92" column="17" bodyfile="tests/exporters/test_join_exporter.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_join_exporter_test_1a1f3f1ee7e9ab45507284b78e237c0aba" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; JoinExporterTest::left_</definition>
+        <argsstring></argsstring>
+        <name>left_</name>
+        <qualifiedname>JoinExporterTest::left_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_join_exporter.cpp" line="93" column="17" bodyfile="tests/exporters/test_join_exporter.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_join_exporter_test_1a9724c50f0d4d15c55800ba7ac1323081" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; JoinExporterTest::right_</definition>
+        <argsstring></argsstring>
+        <name>right_</name>
+        <qualifiedname>JoinExporterTest::right_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_join_exporter.cpp" line="94" column="17" bodyfile="tests/exporters/test_join_exporter.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_join_exporter_test_1adb4637fdd39e9c3ae410ac7bd82b6846" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void JoinExporterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>JoinExporterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_join_exporter.cpp" line="58" column="10" bodyfile="tests/exporters/test_join_exporter.cpp" bodystart="58" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_join_exporter_test_1ab2c2ec0024ec7ca4a59124aad0ca5a09" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void JoinExporterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>JoinExporterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_join_exporter.cpp" line="82" column="10" bodyfile="tests/exporters/test_join_exporter.cpp" bodystart="82" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_join_exporter_test_1a193ffb478001adc3183a29fd9bde4e4a" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string JoinExporterTest::outPath</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>outPath</name>
+        <qualifiedname>JoinExporterTest::outPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_join_exporter.cpp" line="88" column="17" bodyfile="tests/exporters/test_join_exporter.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>JoinExporterTest</label>
+        <link refid="class_join_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>JoinExporterTest</label>
+        <link refid="class_join_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_join_exporter.cpp" line="56" column="1" bodyfile="tests/exporters/test_join_exporter.cpp" bodystart="56" bodyend="95"/>
+    <listofallmembers>
+      <member refid="class_join_exporter_test_1a1f3f1ee7e9ab45507284b78e237c0aba" prot="protected" virt="non-virtual"><scope>JoinExporterTest</scope><name>left_</name></member>
+      <member refid="class_join_exporter_test_1a193ffb478001adc3183a29fd9bde4e4a" prot="protected" virt="non-virtual"><scope>JoinExporterTest</scope><name>outPath</name></member>
+      <member refid="class_join_exporter_test_1a9724c50f0d4d15c55800ba7ac1323081" prot="protected" virt="non-virtual"><scope>JoinExporterTest</scope><name>right_</name></member>
+      <member refid="class_join_exporter_test_1adb4637fdd39e9c3ae410ac7bd82b6846" prot="protected" virt="non-virtual"><scope>JoinExporterTest</scope><name>SetUp</name></member>
+      <member refid="class_join_exporter_test_1ab2c2ec0024ec7ca4a59124aad0ca5a09" prot="protected" virt="non-virtual"><scope>JoinExporterTest</scope><name>TearDown</name></member>
+      <member refid="class_join_exporter_test_1ace221f301d60198209094f06ca5dccd9" prot="protected" virt="non-virtual"><scope>JoinExporterTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

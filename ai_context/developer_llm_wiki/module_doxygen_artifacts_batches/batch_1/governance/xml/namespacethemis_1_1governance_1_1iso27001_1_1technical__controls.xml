@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1technical__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::technical_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technical__controls_1aec7201246588b9661764e9e0123b8252" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technical_controls::kAccessControl</definition>
+        <argsstring></argsstring>
+        <name>kAccessControl</name>
+        <qualifiedname>themis::governance::iso27001::technical_controls::kAccessControl</qualifiedname>
+        <initializer>= &quot;A.9.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="143" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technical__controls_1ad61d0ef1157229fa0890c21533b8e786" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technical_controls::kUserManagement</definition>
+        <argsstring></argsstring>
+        <name>kUserManagement</name>
+        <qualifiedname>themis::governance::iso27001::technical_controls::kUserManagement</qualifiedname>
+        <initializer>= &quot;A.9.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="144" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technical__controls_1a79a26752dec62c35837422058bff84c5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technical_controls::kSpecialAccessRights</definition>
+        <argsstring></argsstring>
+        <name>kSpecialAccessRights</name>
+        <qualifiedname>themis::governance::iso27001::technical_controls::kSpecialAccessRights</qualifiedname>
+        <initializer>= &quot;A.9.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="145" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technical__controls_1a1a5c42805ac39cc6b531e82c529fa581" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technical_controls::kAccessMeasurement</definition>
+        <argsstring></argsstring>
+        <name>kAccessMeasurement</name>
+        <qualifiedname>themis::governance::iso27001::technical_controls::kAccessMeasurement</qualifiedname>
+        <initializer>= &quot;A.9.4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="146" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technical__controls_1a89a052f1010960d77720ff4226f90f93" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technical_controls::kEncryptionKeys</definition>
+        <argsstring></argsstring>
+        <name>kEncryptionKeys</name>
+        <qualifiedname>themis::governance::iso27001::technical_controls::kEncryptionKeys</qualifiedname>
+        <initializer>= &quot;A.9.5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="147" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="142" column="1"/>
+  </compounddef>
+</doxygen>

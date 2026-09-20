@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_stream_session" kind="class" language="C++" prot="public">
+    <compoundname>StubStreamSession</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_stream_session_1a74cd91b7a9cc93ce877bd4a4a588183b" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubStreamSession::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>StubStreamSession::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="52" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_stream_session_1ae2dab40101e38987ee8c36a258a38dc3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubStreamSession::token_count_</definition>
+        <argsstring></argsstring>
+        <name>token_count_</name>
+        <qualifiedname>StubStreamSession::token_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="53" column="17" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_stream_session_1a6afd69eaaf2e75027bc61825109aad61" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; StubStreamSession::closed_</definition>
+        <argsstring></argsstring>
+        <name>closed_</name>
+        <qualifiedname>StubStreamSession::closed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="54" column="17" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_stream_session_1a01016e9bd07461f3e6f263ee35550f7b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubStreamSession::StubStreamSession</definition>
+        <argsstring>(uint64_t id)</argsstring>
+        <name>StubStreamSession</name>
+        <qualifiedname>StubStreamSession::StubStreamSession</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="40" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_stream_session_1ace644c29ccaa4968b1dfa18b85d0c929" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubStreamSession::sendToken</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>sendToken</name>
+        <qualifiedname>StubStreamSession::sendToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="42" column="10" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_stream_session_1a6a898da1b90c05f08929773910091173" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubStreamSession::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <qualifiedname>StubStreamSession::close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="46" column="10" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_stream_session_1af6461917e01a7ac0aee92c3c02811bbd" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubStreamSession::isClosed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isClosed</name>
+        <qualifiedname>StubStreamSession::isClosed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="47" column="10" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_stream_session_1a7291396be08361c75873b8e9c6e23c2f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubStreamSession::tokenCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>tokenCount</name>
+        <qualifiedname>StubStreamSession::tokenCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="48" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_stream_session_1aff6b0374c2ce5a97138bd3952354ff3e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubStreamSession::id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>id</name>
+        <qualifiedname>StubStreamSession::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="49" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="38" column="1" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="38" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_stub_stream_session_1a6a898da1b90c05f08929773910091173" prot="public" virt="non-virtual"><scope>StubStreamSession</scope><name>close</name></member>
+      <member refid="class_stub_stream_session_1a6afd69eaaf2e75027bc61825109aad61" prot="private" virt="non-virtual"><scope>StubStreamSession</scope><name>closed_</name></member>
+      <member refid="class_stub_stream_session_1aff6b0374c2ce5a97138bd3952354ff3e" prot="public" virt="non-virtual"><scope>StubStreamSession</scope><name>id</name></member>
+      <member refid="class_stub_stream_session_1a74cd91b7a9cc93ce877bd4a4a588183b" prot="private" virt="non-virtual"><scope>StubStreamSession</scope><name>id_</name></member>
+      <member refid="class_stub_stream_session_1af6461917e01a7ac0aee92c3c02811bbd" prot="public" virt="non-virtual"><scope>StubStreamSession</scope><name>isClosed</name></member>
+      <member refid="class_stub_stream_session_1ace644c29ccaa4968b1dfa18b85d0c929" prot="public" virt="non-virtual"><scope>StubStreamSession</scope><name>sendToken</name></member>
+      <member refid="class_stub_stream_session_1a01016e9bd07461f3e6f263ee35550f7b" prot="public" virt="non-virtual"><scope>StubStreamSession</scope><name>StubStreamSession</name></member>
+      <member refid="class_stub_stream_session_1ae2dab40101e38987ee8c36a258a38dc3" prot="private" virt="non-virtual"><scope>StubStreamSession</scope><name>token_count_</name></member>
+      <member refid="class_stub_stream_session_1a7291396be08361c75873b8e9c6e23c2f" prot="public" virt="non-virtual"><scope>StubStreamSession</scope><name>tokenCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1plg" kind="namespace" language="C++">
+    <compoundname>themis::bench::plg</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1plg_1a8f72382ef86579bf7ef446c0ae278fce" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::plg::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::plg::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all PLG benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="54" column="27" bodyfile="benchmarks/plugins/bench_plugins_release_gates.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1plg_1ad3222b5dabcbb6483679f1632bc69350" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::plg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::plg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of repetitions for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="57" column="22" bodyfile="benchmarks/plugins/bench_plugins_release_gates.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1plg_1af07fc2e0232dfe181360d323690a98a0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::plg::BM_PLG01_ErrorEnumCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PLG01_ErrorEnumCast</name>
+        <qualifiedname>themis::bench::plg::BM_PLG01_ErrorEnumCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="63" column="13" bodyfile="benchmarks/plugins/bench_plugins_release_gates.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1plg_1a19c0943e43fd8b193ba7584133b672fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::plg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::plg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="73" column="5" declfile="benchmarks/plugins/bench_plugins_release_gates.cpp" declline="73" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1plg_1ae2d710ccdee4f180f0fe9e22f27a5673" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::plg::BM_PLG02_SwitchDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PLG02_SwitchDispatch</name>
+        <qualifiedname>themis::bench::plg::BM_PLG02_SwitchDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="80" column="13" bodyfile="benchmarks/plugins/bench_plugins_release_gates.cpp" bodystart="80" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1plg_1a220037dee4f73adae2254e499831e0b1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::plg::BM_PLG03_StructAlloc</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PLG03_StructAlloc</name>
+        <qualifiedname>themis::bench::plg::BM_PLG03_StructAlloc</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="119" column="13" bodyfile="benchmarks/plugins/bench_plugins_release_gates.cpp" bodystart="119" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1plg_1a521984159f1f9aba79c83df34ce58e19" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::plg::BM_PLG04_BatchCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PLG04_BatchCast</name>
+        <qualifiedname>themis::bench::plg::BM_PLG04_BatchCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="137" column="13" bodyfile="benchmarks/plugins/bench_plugins_release_gates.cpp" bodystart="137" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="51" column="1"/>
+  </compounddef>
+</doxygen>

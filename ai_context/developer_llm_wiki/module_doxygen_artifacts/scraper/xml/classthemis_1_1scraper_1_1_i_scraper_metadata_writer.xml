@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::scraper::IScraperMetadataWriter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer" prot="public" virt="non-virtual">themis::scraper::InMemoryScraperMetadataWriter</derivedcompoundref>
+    <includes refid="scraper__metadata__writer_8h" local="no">scraper_metadata_writer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1a6ab4a901a2ef2851d5b2f18831fdd49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::scraper::IScraperMetadataWriter::~IScraperMetadataWriter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IScraperMetadataWriter</name>
+        <qualifiedname>themis::scraper::IScraperMetadataWriter::~IScraperMetadataWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="132" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1aa161e6904418a9f39b70ef089127463d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>virtual WriteResult themis::scraper::IScraperMetadataWriter::write</definition>
+        <argsstring>(const ScraperRelationalRecord &amp;rel, const ScraperGraphNode &amp;node, const std::vector&lt; ScraperGraphEdge &gt; &amp;edges, const ScraperVectorRecord &amp;vec)=0</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::scraper::IScraperMetadataWriter::write</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1af110af936779f71a8057e0c5207db63b">write</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref> &amp;</type>
+          <declname>rel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_graph_node" kindref="compound">ScraperGraphNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_scraper_graph_edge" kindref="compound">ScraperGraphEdge</ref> &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_vector_record" kindref="compound">ScraperVectorRecord</ref> &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Persist one scraped document to all storage layers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations must set provenance fields before writing and must not modify the <computeroutput>rel.is_scraper_ingested</computeroutput>, <computeroutput>rel.ingestion_source_type</computeroutput>, or <computeroutput>rel.ingestion_plugin_version</computeroutput> fields.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Relational record with full document metadata. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Property-graph node derived from the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Property-graph edges (e.g. FILLS_GAP, PUBLISHED_BY). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector record for ANN indexing. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1scraper_1_1_write_result" kindref="compound">WriteResult</ref> indicating per-layer success and the assigned doc_id. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="147" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1a0b8cf20782ed50b0acc492d9c7c98041" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::scraper::IScraperMetadataWriter::flush</definition>
+        <argsstring>()=0</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::scraper::IScraperMetadataWriter::flush</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a648e7ec229cd2941d55144d78587f0a0">flush</reimplementedby>
+        <briefdescription>
+<para>Flush any buffered writes to durable storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when all buffered writes were persisted successfully. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="157" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistence interface for scraper output records. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A single <ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1aa161e6904418a9f39b70ef089127463d" kindref="member">write()</ref> call persists one document to all three storage layers (relational, property graph, and vector). Partial-write failures are reported via <ref refid="structthemis_1_1scraper_1_1_write_result" kindref="compound">WriteResult</ref> without aborting the overall scraper run. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::scraper::IScraperMetadataWriter</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer"/>
+      </node>
+      <node id="2">
+        <label>themis::scraper::InMemoryScraperMetadataWriter</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/scraper/scraper_metadata_writer.h" line="130" column="1" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="130" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1a0b8cf20782ed50b0acc492d9c7c98041" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperMetadataWriter</scope><name>flush</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1aa161e6904418a9f39b70ef089127463d" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperMetadataWriter</scope><name>write</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1a6ab4a901a2ef2851d5b2f18831fdd49e" prot="public" virt="virtual"><scope>themis::scraper::IScraperMetadataWriter</scope><name>~IScraperMetadataWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

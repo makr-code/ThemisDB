@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__http__vector__largescale_8cpp" kind="file" language="C++">
+    <compoundname>test_http_vector_largescale.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">boost/asio.hpp</includes>
+    <includes local="no">boost/beast.hpp</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="yes">server/http_server.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes local="yes">transaction/transaction_manager.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_http_vector_largescale.cpp</label>
+        <link refid="test__http__vector__largescale_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="5">
+        <label>boost/beast.hpp</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="11">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="13">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>server/http_server.h</label>
+      </node>
+      <node id="15">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="10">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>transaction/transaction_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_http_vector_large_scale_test" prot="public">HttpVectorLargeScaleTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__http__vector__largescale_8cpp_1a181860e25d2802b170f4a56a5643b22a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpVectorLargeScaleTest, VectorBatchInsert_Handles1000Items)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref></type>
+        </param>
+        <param>
+          <type>VectorBatchInsert_Handles1000Items</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="122" column="1" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="122" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__vector__largescale_8cpp_1a6c7b5c7de8e62e934cc7af3e20efde9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpVectorLargeScaleTest, VectorBatchInsert_EmptyBatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref></type>
+        </param>
+        <param>
+          <type>VectorBatchInsert_EmptyBatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="156" column="1" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="156" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__vector__largescale_8cpp_1a883b83f574fff2bc05fddd8f7180a4f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpVectorLargeScaleTest, VectorBatchInsert_PartialErrors)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref></type>
+        </param>
+        <param>
+          <type>VectorBatchInsert_PartialErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="169" column="1" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="169" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__vector__largescale_8cpp_1a7e8c91ef17a7554b4e04b5386b6c40b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpVectorLargeScaleTest, VectorSearch_CursorPagination_MultiplePage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref></type>
+        </param>
+        <param>
+          <type>VectorSearch_CursorPagination_MultiplePage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="197" column="1" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="197" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__vector__largescale_8cpp_1a85030232ef39c1a477347fa19e549f18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpVectorLargeScaleTest, VectorDeleteByFilter_PrefixNoMatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref></type>
+        </param>
+        <param>
+          <type>VectorDeleteByFilter_PrefixNoMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="239" column="1" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="239" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__vector__largescale_8cpp_1a98987e56809622f6170da892fd6ac91f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpVectorLargeScaleTest, VectorIndexStats_AfterBatchInsert)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref></type>
+        </param>
+        <param>
+          <type>VectorIndexStats_AfterBatchInsert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="264" column="1" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="264" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/beast.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/http_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/transaction_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">beast<sp/>=<sp/>boost::beast;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/>=<sp/>beast::http;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">net<sp/>=<sp/>boost::asio;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network_1a7c0ea458b8c694bc6d3c7e2c14f67649" kindref="member">tcp</ref><sp/>=<sp/>net::ip::tcp;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_http_vector_large_scale_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_http_vector_large_scale_test_1a2b1c26b96ba27f530f62b41bd0da50e8" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>db_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/themis_http_vector_largescale_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(db_path))<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(db_path);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/>db_path;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref><sp/>=<sp/>std::make_shared&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1a1ac1034b2508fd83d8f901961dce406b" kindref="member">secondary_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::SecondaryIndexManager&gt;(*<ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1a976f7cd7ae45d173837d699d8c608bfe" kindref="member">graph_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::GraphIndexManager&gt;(*<ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1aa1a4a8d2d6772d3e9aa99dfefe7a3015" kindref="member">vector_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::VectorIndexManager&gt;(*<ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1a5e6a1f5abaa41ab51ff6cdcf95ff6ce1" kindref="member">tx_manager_</ref><sp/>=<sp/>std::make_shared&lt;themis::TransactionManager&gt;(*<ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref>,<sp/>*<ref refid="class_http_vector_large_scale_test_1a1ac1034b2508fd83d8f901961dce406b" kindref="member">secondary_index_</ref>,<sp/>*<ref refid="class_http_vector_large_scale_test_1a976f7cd7ae45d173837d699d8c608bfe" kindref="member">graph_index_</ref>,<sp/>*<ref refid="class_http_vector_large_scale_test_1aa1a4a8d2d6772d3e9aa99dfefe7a3015" kindref="member">vector_index_</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/><ref refid="class_http_vector_large_scale_test_1aa1a4a8d2d6772d3e9aa99dfefe7a3015" kindref="member">vector_index_</ref>-&gt;init(</highlight><highlight class="stringliteral">&quot;test_docs&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>themis::VectorIndexManager::Metric::COSINE,<sp/>16,<sp/>200,<sp/>64);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(st.ok)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::server::HttpServer::Config<sp/>scfg;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.host<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.port<sp/>=<sp/>18086;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.num_threads<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1a7cbc568487807a36caa827749b3287b6" kindref="member">server_</ref><sp/>=<sp/>std::make_unique&lt;themis::server::HttpServer&gt;(scfg,<sp/><ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref>,<sp/><ref refid="class_http_vector_large_scale_test_1a1ac1034b2508fd83d8f901961dce406b" kindref="member">secondary_index_</ref>,<sp/><ref refid="class_http_vector_large_scale_test_1a976f7cd7ae45d173837d699d8c608bfe" kindref="member">graph_index_</ref>,<sp/><ref refid="class_http_vector_large_scale_test_1aa1a4a8d2d6772d3e9aa99dfefe7a3015" kindref="member">vector_index_</ref>,<sp/><ref refid="class_http_vector_large_scale_test_1a5e6a1f5abaa41ab51ff6cdcf95ff6ce1" kindref="member">tx_manager_</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1a7cbc568487807a36caa827749b3287b6" kindref="member">server_</ref>-&gt;start();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_http_vector_large_scale_test_1a15076c2580eeba552615e484504b6644" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_http_vector_large_scale_test_1a7cbc568487807a36caa827749b3287b6" kindref="member">server_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1a7cbc568487807a36caa827749b3287b6" kindref="member">server_</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(</highlight><highlight class="stringliteral">&quot;data/themis_http_vector_largescale_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/><ref refid="class_http_vector_large_scale_test_1a06fa1d59db7c72cac0d790fe8270c8e6" kindref="member">httpPost</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>net::io_context<sp/>ioc;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::resolver<sp/>resolver(ioc);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::tcp_stream<sp/>stream(ioc);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>resolver.resolve(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/>std::to_string(18086));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.connect(results);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{http::verb::post,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::content_type,<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.body()<sp/>=<sp/>body.dump();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.prepare_payload();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::write(stream,<sp/>req);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::flat_buffer<sp/>buffer;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::read(stream,<sp/>buffer,<sp/>res);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::error_code<sp/>ec;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.socket().shutdown(tcp::socket::shutdown_both,<sp/>ec);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/><ref refid="class_http_vector_large_scale_test_1af3f1a8e4bd60b6fec6d34f9e850d2a2e" kindref="member">httpGet</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>net::io_context<sp/>ioc;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::resolver<sp/>resolver(ioc);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::tcp_stream<sp/>stream(ioc);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>resolver.resolve(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/>std::to_string(18086));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.connect(results);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{http::verb::get,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::write(stream,<sp/>req);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::flat_buffer<sp/>buffer;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::read(stream,<sp/>buffer,<sp/>res);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::error_code<sp/>ec;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.socket().shutdown(tcp::socket::shutdown_both,<sp/>ec);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::RocksDBWrapper&gt;<sp/><ref refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::SecondaryIndexManager&gt;<sp/><ref refid="class_http_vector_large_scale_test_1a1ac1034b2508fd83d8f901961dce406b" kindref="member">secondary_index_</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::GraphIndexManager&gt;<sp/><ref refid="class_http_vector_large_scale_test_1a976f7cd7ae45d173837d699d8c608bfe" kindref="member">graph_index_</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/><ref refid="class_http_vector_large_scale_test_1aa1a4a8d2d6772d3e9aa99dfefe7a3015" kindref="member">vector_index_</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::TransactionManager&gt;<sp/><ref refid="class_http_vector_large_scale_test_1a5e6a1f5abaa41ab51ff6cdcf95ff6ce1" kindref="member">tx_manager_</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::server::HttpServer&gt;<sp/><ref refid="class_http_vector_large_scale_test_1a7cbc568487807a36caa827749b3287b6" kindref="member">server_</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__http__vector__largescale_8cpp_1a181860e25d2802b170f4a56a5643b22a" kindref="member">TEST_F</ref>(<ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref>,<sp/>VectorBatchInsert_Handles1000Items)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>batch_items<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reduziert<sp/>auf<sp/>500<sp/>für<sp/>Test-Stabilität<sp/>(1000<sp/>führt<sp/>zu<sp/>großen<sp/>Payloads<sp/>&gt;<sp/>10MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>500;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>64-dim<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec(64);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>0;<sp/>d<sp/>&lt;<sp/>64;<sp/>++d)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vec[d]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>/<sp/>500.0f<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(d)<sp/>/<sp/>64.0f;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch_items.push_back({</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;batch500_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)},</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>vec},</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;fields&quot;</highlight><highlight class="normal">,<sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;idx&quot;</highlight><highlight class="normal">,<sp/>i}}}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>request<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;vector_field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>batch_items}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>httpPost(</highlight><highlight class="stringliteral">&quot;/vector/batch_insert&quot;</highlight><highlight class="normal">,<sp/>request);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(response.contains(</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">],<sp/>500);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">],<sp/>0);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>target:<sp/>&lt;<sp/>500ms<sp/>für<sp/>500<sp/>Elemente<sp/>(64-dim)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(duration_ms,<sp/>1000)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Batch<sp/>insert<sp/>took<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>duration_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms<sp/>(target:<sp/>&lt;<sp/>1000ms)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__http__vector__largescale_8cpp_1a181860e25d2802b170f4a56a5643b22a" kindref="member">TEST_F</ref>(<ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref>,<sp/>VectorBatchInsert_EmptyBatch)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>request<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;vector_field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>json::array()}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>httpPost(</highlight><highlight class="stringliteral">&quot;/vector/batch_insert&quot;</highlight><highlight class="normal">,<sp/>request);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(response.contains(</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">],<sp/>0);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">],<sp/>0);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__http__vector__largescale_8cpp_1a181860e25d2802b170f4a56a5643b22a" kindref="member">TEST_F</ref>(<ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref>,<sp/>VectorBatchInsert_PartialErrors)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>batch_items<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>item<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec1(64,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>batch_items.push_back({{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;valid1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>vec1}});</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>item:<sp/>wrong<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec2(32,<sp/>0.3f);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>batch_items.push_back({{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;invalid1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>vec2}});</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>item<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec3(64,<sp/>0.7f);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>batch_items.push_back({{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;valid2&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>vec3}});</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>item:<sp/>missing<sp/>pk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec4(64,<sp/>0.2f);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>batch_items.push_back({{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>vec4}});</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>request<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>batch_items}};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>httpPost(</highlight><highlight class="stringliteral">&quot;/vector/batch_insert&quot;</highlight><highlight class="normal">,<sp/>request);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(response.contains(</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(response.contains(</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">],<sp/>2);<sp/></highlight><highlight class="comment">//<sp/>valid1,<sp/>valid2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">],<sp/>2);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>invalid1,<sp/>missing<sp/>pk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__http__vector__largescale_8cpp_1a181860e25d2802b170f4a56a5643b22a" kindref="member">TEST_F</ref>(<ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref>,<sp/>VectorSearch_CursorPagination_MultiplePage)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>50<sp/>items</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>batch_items<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec(64,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>/<sp/>50.0f);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch_items.push_back({{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;page_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)},<sp/>{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>vec}});</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>insert_req<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>batch_items}};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>insert_resp<sp/>=<sp/>httpPost(</highlight><highlight class="stringliteral">&quot;/vector/batch_insert&quot;</highlight><highlight class="normal">,<sp/>insert_req);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(insert_resp[</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">],<sp/>50);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>with<sp/>cursor<sp/>pagination:<sp/>k=10,<sp/>expect<sp/>5<sp/>pages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query_vec(64,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>cursor<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_items<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>page_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>search_req<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>query_vec},<sp/>{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>10},<sp/>{</highlight><highlight class="stringliteral">&quot;use_cursor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!cursor.empty())<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>search_req[</highlight><highlight class="stringliteral">&quot;cursor&quot;</highlight><highlight class="normal">]<sp/>=<sp/>cursor;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>search_resp<sp/>=<sp/>httpPost(</highlight><highlight class="stringliteral">&quot;/vector/search&quot;</highlight><highlight class="normal">,<sp/>search_req);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(search_resp.contains(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(search_resp.contains(</highlight><highlight class="stringliteral">&quot;has_more&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_items<sp/>+=<sp/>search_resp[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].size();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++page_count;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!search_resp[</highlight><highlight class="stringliteral">&quot;has_more&quot;</highlight><highlight class="normal">].get&lt;bool&gt;())<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(search_resp.contains(</highlight><highlight class="stringliteral">&quot;next_cursor&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cursor<sp/>=<sp/>search_resp[</highlight><highlight class="stringliteral">&quot;next_cursor&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total_items,<sp/>50);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(page_count,<sp/>5);<sp/></highlight><highlight class="comment">//<sp/>50<sp/>items<sp/>/<sp/>10<sp/>per<sp/>page<sp/>=<sp/>5<sp/>pages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__http__vector__largescale_8cpp_1a181860e25d2802b170f4a56a5643b22a" kindref="member">TEST_F</ref>(<ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref>,<sp/>VectorDeleteByFilter_PrefixNoMatch)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>some<sp/>items<sp/>without<sp/>matching<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>batch_items<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec(64,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>/<sp/>10.0f);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch_items.push_back({{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;keep_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)},<sp/>{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>vec}});</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>insert_req<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>batch_items}};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>insert_resp<sp/>=<sp/>httpPost(</highlight><highlight class="stringliteral">&quot;/vector/batch_insert&quot;</highlight><highlight class="normal">,<sp/>insert_req);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(insert_resp[</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">],<sp/>10);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>delete<sp/>with<sp/>non-matching<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>delete_req<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;prefix&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;remove_&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>delete_resp<sp/>=<sp/>httpPost(</highlight><highlight class="stringliteral">&quot;/vector/by-filter&quot;</highlight><highlight class="normal">,<sp/>delete_req);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Correct<sp/>endpoint<sp/>is<sp/>DELETE<sp/>/vector/by-filter,<sp/>but<sp/>httpPost<sp/>uses<sp/>POST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We&apos;ll<sp/>use<sp/>a<sp/>workaround:<sp/>send<sp/>empty<sp/>pks<sp/>for<sp/>now<sp/>to<sp/>test<sp/>prefix<sp/>logic<sp/>elsewhere</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(this<sp/>test<sp/>validates<sp/>response<sp/>structure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Instead,<sp/>we<sp/>validate<sp/>stats<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>httpGet(</highlight><highlight class="stringliteral">&quot;/vector/index/stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;vectorCount&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;vectorCount&quot;</highlight><highlight class="normal">],<sp/>10);<sp/></highlight><highlight class="comment">//<sp/>All<sp/>items<sp/>still<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__http__vector__largescale_8cpp_1a181860e25d2802b170f4a56a5643b22a" kindref="member">TEST_F</ref>(<ref refid="class_http_vector_large_scale_test" kindref="compound">HttpVectorLargeScaleTest</ref>,<sp/>VectorIndexStats_AfterBatchInsert)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>100<sp/>items</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>batch_items<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec(64,<sp/>0.1f<sp/>*<sp/>i);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch_items.push_back({{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stats_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)},<sp/>{</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">,<sp/>vec}});</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>insert_req<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>batch_items}};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>insert_resp<sp/>=<sp/>httpPost(</highlight><highlight class="stringliteral">&quot;/vector/batch_insert&quot;</highlight><highlight class="normal">,<sp/>insert_req);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(insert_resp[</highlight><highlight class="stringliteral">&quot;inserted&quot;</highlight><highlight class="normal">],<sp/>100);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>httpGet(</highlight><highlight class="stringliteral">&quot;/vector/index/stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;vectorCount&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;vectorCount&quot;</highlight><highlight class="normal">],<sp/>100);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;dimension&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;dimension&quot;</highlight><highlight class="normal">],<sp/>64);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;metric&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;metric&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;COSINE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_http_vector_largescale.cpp"/>
+  </compounddef>
+</doxygen>

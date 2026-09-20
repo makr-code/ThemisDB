@@ -1,0 +1,940 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__distributed__coordinator_8cpp" kind="file" language="C++">
+    <compoundname>bench_distributed_coordinator.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="distributed__coordinator_8h" local="yes">sharding/distributed_coordinator.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/sharding/bench_distributed_coordinator.cpp</label>
+        <link refid="bench__distributed__coordinator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>sharding/cross_shard_fk_validator.h</label>
+        <link refid="cross__shard__fk__validator_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>sharding/cross_shard_ssi_manager.h</label>
+        <link refid="cross__shard__ssi__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>sharding/cross_shard_transaction.h</label>
+        <link refid="cross__shard__transaction_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sharding/distributed_coordinator.h</label>
+        <link refid="distributed__coordinator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>sharding/distributed_transaction.h</label>
+        <link refid="distributed__transaction_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sharding/gossip_config_manager.h</label>
+        <link refid="gossip__config__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>sharding/truetime.h</label>
+        <link refid="truetime_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>cstdint</label>
+      </node>
+      <node id="29">
+        <label>filesystem</label>
+      </node>
+      <node id="28">
+        <label>fstream</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="21">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="33">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="31">
+        <label>string_view</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="30">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+      </node>
+      <node id="32">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1ae081c52006ac4a11addf78939f725873" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_StartElection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_StartElection</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="6" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="6" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1ad8e8f56cb83a406b268772badde59e27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(3) -&gt; Arg(10) -&gt;Arg(50) -&gt;Unit(benchmark::kMillisecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>3</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="42" column="5" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="42" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a141ab7746bcf05face7b5ea6f221e315" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_ScheduleTask</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_ScheduleTask</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="45" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="45" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Coordinator_ScheduleTask) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Coordinator_ScheduleTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="72" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="72" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1abb5f4cd71c9eaa18a125405b34e04418" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_GetLeaderInfo</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_GetLeaderInfo</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="74" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="74" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1ab3b7e9ad921654b1dfaadd148fb90280" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Coordinator_GetLeaderInfo) -&gt; Unit(benchmark::kNanosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Coordinator_GetLeaderInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="94" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="94" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1ae6d963cfcc9c10347e2ef90bb47ba30b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_GetStatistics</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_GetStatistics</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="96" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="96" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1ac77599498599bf7bd78dd1fbb366fffc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Coordinator_GetStatistics) -&gt; Unit(benchmark::kNanosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Coordinator_GetStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="115" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="115" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a03c33572e977383e56e0854a739a26ca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_StepDown</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_StepDown</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="117" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="117" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1afb0a8117390912ad55c9e4481ac78593" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Coordinator_StepDown) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Coordinator_StepDown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="136" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="136" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a2075fcf9c1d65b308e5224a53fc8ecfb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_TaskJsonSerialization</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_TaskJsonSerialization</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="138" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="138" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1aee9433ba8a020edb27d85cb3d21ec859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Coordinator_TaskJsonSerialization) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Coordinator_TaskJsonSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="161" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="161" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1ad3d78d1845f8e51be38e2404a571b545" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_TaskJsonDeserialization</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_TaskJsonDeserialization</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="163" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="163" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1aab75733edadba911b83dd965e2503bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Coordinator_TaskJsonDeserialization) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Coordinator_TaskJsonDeserialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="185" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="185" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1aab4f55dd14bf05e4cedb33d7c9d56fcf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_GetPendingTasks</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_GetPendingTasks</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="187" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="187" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1addbe609ec799d65b2628563196eba572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(10) -&gt; Arg(100) -&gt;Arg(1000) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="219" column="5" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="219" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a16ee46b11d5e301703cceaebac6dc25a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_CancelTask</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_CancelTask</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="222" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="222" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a24af1ffdfc47788aaf9e69231e8599b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Coordinator_CancelTask) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Coordinator_CancelTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="254" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="254" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a6813f00ff1503354b05eef6d9b9cda6d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Coordinator_BecomeLeader</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Coordinator_BecomeLeader</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="256" column="13" bodyfile="benchmarks/sharding/bench_distributed_coordinator.cpp" bodystart="256" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a3c0e5d0d12b4d92bbfd0375a3b0d32e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Coordinator_BecomeLeader) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Coordinator_BecomeLeader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="275" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="275" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__coordinator_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_distributed_coordinator.cpp" line="277" column="1" declfile="benchmarks/sharding/bench_distributed_coordinator.cpp" declline="277" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__coordinator_8h" kindref="compound">sharding/distributed_coordinator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref>;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_StartElection(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>topology<sp/>(not<sp/>measured)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>state.range(0);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref><sp/>shard;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ae0dc4d91166407118570fcbf15925139" kindref="member">shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ade615fa13cb2b8a2d82a96af7073d279" kindref="member">primary_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(8000<sp/>+<sp/>i);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1a4ccbd108adcca19c5af5325aa64eb69f" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>topology-&gt;addShard(shard);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref><sp/>gossip_config;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" kindref="member">local_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip<sp/>=<sp/>std::make_shared&lt;GossipConfigManager&gt;(gossip_config,<sp/>topology);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" kindref="compound">DistributedCoordinator::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a5085249841ce6580090becdd13648acd" kindref="member">election_timeout_ms</ref><sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Faster<sp/>for<sp/>benchmarking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref><sp/>coordinator(</highlight><highlight class="stringliteral">&quot;shard0&quot;</highlight><highlight class="normal">,<sp/>topology,<sp/>gossip,<sp/>config);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measured<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.startElection();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.stepDown();<sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>for<sp/>next<sp/>iteration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_StartElection)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(3)-&gt;Arg(10)-&gt;Arg(50)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_ScheduleTask(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>(one-time,<sp/>not<sp/>measured)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref><sp/>gossip_config;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" kindref="member">local_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip<sp/>=<sp/>std::make_shared&lt;GossipConfigManager&gt;(gossip_config,<sp/>topology);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref><sp/>coordinator(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>topology,<sp/>gossip);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.becomeLeader();<sp/><sp/></highlight><highlight class="comment">//<sp/>Manually<sp/>become<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>counter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">DistributedCoordinator::CoordinatorTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" kindref="member">task_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;task-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(counter++);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768aa49182544bf417d2e02cae1f35c9c8b8" kindref="member">DistributedCoordinator::TaskType::MAINTENANCE</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" kindref="member">created_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" kindref="member">assigned_leader</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.scheduleTask(task);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_ScheduleTask)-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_GetLeaderInfo(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref><sp/>gossip_config;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" kindref="member">local_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip<sp/>=<sp/>std::make_shared&lt;GossipConfigManager&gt;(gossip_config,<sp/>topology);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref><sp/>coordinator(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>topology,<sp/>gossip);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.becomeLeader();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>coordinator.getLeaderInfo();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(info);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_GetLeaderInfo)-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_GetStatistics(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref><sp/>gossip_config;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" kindref="member">local_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip<sp/>=<sp/>std::make_shared&lt;GossipConfigManager&gt;(gossip_config,<sp/>topology);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref><sp/>coordinator(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>topology,<sp/>gossip);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>coordinator.getStatistics();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(stats);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_GetStatistics)-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_StepDown(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref><sp/>gossip_config;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" kindref="member">local_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip<sp/>=<sp/>std::make_shared&lt;GossipConfigManager&gt;(gossip_config,<sp/>topology);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref><sp/>coordinator(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>topology,<sp/>gossip);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.becomeLeader();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.stepDown();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_StepDown)-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_TaskJsonSerialization(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">DistributedCoordinator::CoordinatorTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" kindref="member">task_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;benchmark-task-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768a4de776532ea0cedb1321093084572a80" kindref="member">DistributedCoordinator::TaskType::REBALANCE</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae3477b8d7034a75154d15c5d841a616b" kindref="member">payload</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source_shard&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;target_shard&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;token_range_start&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;token_range_end&quot;</highlight><highlight class="normal">,<sp/>1000000}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a870ed1bd1a7c28524adf5c0003e050cf" kindref="member">ttl</ref><sp/>=<sp/>std::chrono::seconds(600);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" kindref="member">created_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a269628d0dbb3d645fe40f9c683032d97" kindref="member">started_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" kindref="member">assigned_leader</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a716da07227124d6d89ce67c95cfb4b36" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(<ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_TaskJsonSerialization)-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_TaskJsonDeserialization(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">DistributedCoordinator::CoordinatorTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" kindref="member">task_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;benchmark-task-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768a4de776532ea0cedb1321093084572a80" kindref="member">DistributedCoordinator::TaskType::REBALANCE</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae3477b8d7034a75154d15c5d841a616b" kindref="member">payload</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source_shard&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;target_shard&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a870ed1bd1a7c28524adf5c0003e050cf" kindref="member">ttl</ref><sp/>=<sp/>std::chrono::seconds(600);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" kindref="member">created_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a269628d0dbb3d645fe40f9c683032d97" kindref="member">started_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" kindref="member">assigned_leader</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a716da07227124d6d89ce67c95cfb4b36" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deserialized<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a1e78fadd9fb3f48f157f594b97ff99cd" kindref="member">DistributedCoordinator::CoordinatorTask::fromJson</ref>(<ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(deserialized);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_TaskJsonDeserialization)-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_GetPendingTasks(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>(one-time,<sp/>not<sp/>measured)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref><sp/>gossip_config;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" kindref="member">local_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip<sp/>=<sp/>std::make_shared&lt;GossipConfigManager&gt;(gossip_config,<sp/>topology);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref><sp/>coordinator(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>topology,<sp/>gossip);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.becomeLeader();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>some<sp/>tasks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>state.range(0);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">DistributedCoordinator::CoordinatorTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" kindref="member">task_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;task-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768aa49182544bf417d2e02cae1f35c9c8b8" kindref="member">DistributedCoordinator::TaskType::MAINTENANCE</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" kindref="member">created_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" kindref="member">assigned_leader</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.scheduleTask(task);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tasks<sp/>=<sp/>coordinator.getPendingTasks();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(tasks);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_GetPendingTasks)</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(10)-&gt;Arg(100)-&gt;Arg(1000)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_CancelTask(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref><sp/>gossip_config;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" kindref="member">local_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip<sp/>=<sp/>std::make_shared&lt;GossipConfigManager&gt;(gossip_config,<sp/>topology);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref><sp/>coordinator(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>topology,<sp/>gossip);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.becomeLeader();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>counter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schedule<sp/>a<sp/>task</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">DistributedCoordinator::CoordinatorTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" kindref="member">task_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;task-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(counter);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768aa49182544bf417d2e02cae1f35c9c8b8" kindref="member">DistributedCoordinator::TaskType::MAINTENANCE</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" kindref="member">created_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" kindref="member">assigned_leader</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.scheduleTask(task);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cancel<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cancelled<sp/>=<sp/>coordinator.cancelTask(task.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" kindref="member">task_id</ref>);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(cancelled);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>counter++;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_CancelTask)-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Coordinator_BecomeLeader(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref><sp/>gossip_config;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" kindref="member">local_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>gossip_config.<ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gossip<sp/>=<sp/>std::make_shared&lt;GossipConfigManager&gt;(gossip_config,<sp/>topology);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref><sp/>coordinator(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>topology,<sp/>gossip);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.becomeLeader();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.stepDown();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_Coordinator_BecomeLeader)-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/sharding/bench_distributed_coordinator.cpp"/>
+  </compounddef>
+</doxygen>

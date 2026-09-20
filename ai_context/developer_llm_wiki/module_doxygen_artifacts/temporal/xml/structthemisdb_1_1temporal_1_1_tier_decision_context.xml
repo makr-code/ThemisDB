@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_tier_decision_context" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TierDecisionContext</compoundname>
+    <includes refid="temporal__tier__manager_8h" local="no">temporal_tier_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1a23a57946ee44cbcd427702efcaa0c178" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TierDecisionContext::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="177" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1a9941e0b3b67e18a5d7e4044aa22a2131" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TierDecisionContext::doc_key</definition>
+        <argsstring></argsstring>
+        <name>doc_key</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::doc_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="178" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1abdf00fa6e749bcbcb473887adfc6dad5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TierDecisionContext::hot_version_count</definition>
+        <argsstring></argsstring>
+        <name>hot_version_count</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::hot_version_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current hot-tier version count for key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="180" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1acb0ed186695b906c76624242c5802a05" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TierDecisionContext::warm_block_count</definition>
+        <argsstring></argsstring>
+        <name>warm_block_count</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::warm_block_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current warm-tier block count for key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="181" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1ad24373e4318ff8597ac191749efd13ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TierDecisionContext::warm_versions_for_key</definition>
+        <argsstring></argsstring>
+        <name>warm_versions_for_key</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::warm_versions_for_key</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="182" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1a483ec9b9c8de5e0217b127806eaf4223" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::TierDecisionContext::warm_bytes_for_key</definition>
+        <argsstring></argsstring>
+        <name>warm_bytes_for_key</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::warm_bytes_for_key</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>RAM used by warm blocks for this key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="183" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1aef5860aa64982608f1c87545ff6e04c5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::TierDecisionContext::total_warm_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_warm_bytes</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::total_warm_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total RAM used by ALL warm blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="184" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="184" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1a0dc29c58f3a7f81e6326b66e86feca8e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::TierDecisionContext::oldest_hot_sys_start</definition>
+        <argsstring></argsstring>
+        <name>oldest_hot_sys_start</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::oldest_hot_sys_start</qualifiedname>
+        <initializer>{kMaxTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="186" column="15" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1a0e03bd40bbdfffd0d7cc0de7ea1deae5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::TierDecisionContext::now_ts</definition>
+        <argsstring></argsstring>
+        <name>now_ts</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::now_ts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="187" column="15" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_decision_context_1a114f2ebd7835f63e6e0d0b5237a5c079" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::temporal::TierDecisionContext::warm_pressure</definition>
+        <argsstring></argsstring>
+        <name>warm_pressure</name>
+        <qualifiedname>themisdb::temporal::TierDecisionContext::warm_pressure</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Ratio of <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1aef5860aa64982608f1c87545ff6e04c5" kindref="member">total_warm_bytes</ref></computeroutput> to the configured <computeroutput>max_warm_bytes</computeroutput> (0.0–1.0+). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="190" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Input snapshot passed to the tier-decision function. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains all observable signals that a threshold-based rule or an ML model needs to emit a <ref refid="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6aba" kindref="member">TierDecision</ref>. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_tier_manager.h" line="176" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="176" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1a9941e0b3b67e18a5d7e4044aa22a2131" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>doc_key</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1abdf00fa6e749bcbcb473887adfc6dad5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>hot_version_count</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1a0e03bd40bbdfffd0d7cc0de7ea1deae5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>now_ts</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1a0dc29c58f3a7f81e6326b66e86feca8e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>oldest_hot_sys_start</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1a23a57946ee44cbcd427702efcaa0c178" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>table_name</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1aef5860aa64982608f1c87545ff6e04c5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>total_warm_bytes</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1acb0ed186695b906c76624242c5802a05" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>warm_block_count</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1a483ec9b9c8de5e0217b127806eaf4223" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>warm_bytes_for_key</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1a114f2ebd7835f63e6e0d0b5237a5c079" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>warm_pressure</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_decision_context_1ad24373e4318ff8597ac191749efd13ed" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>warm_versions_for_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

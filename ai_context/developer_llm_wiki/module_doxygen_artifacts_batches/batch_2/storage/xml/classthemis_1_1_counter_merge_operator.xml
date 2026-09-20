@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_counter_merge_operator" kind="class" language="C++" prot="public">
+    <compoundname>themis::CounterMergeOperator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">rocksdb::AssociativeMergeOperator</basecompoundref>
+    <includes refid="merge__operators_8h" local="no">merge_operators.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_counter_merge_operator_1a32a61d9a85166d7fc69b3c2a82031636" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CounterMergeOperator::Merge</definition>
+        <argsstring>(const rocksdb::Slice &amp;key, const rocksdb::Slice *existing_value, const rocksdb::Slice &amp;value, std::string *new_value, rocksdb::Logger *logger) const override</argsstring>
+        <name>Merge</name>
+        <qualifiedname>themis::CounterMergeOperator::Merge</qualifiedname>
+        <param>
+          <type>const rocksdb::Slice &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const rocksdb::Slice *</type>
+          <declname>existing_value</declname>
+        </param>
+        <param>
+          <type>const rocksdb::Slice &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>new_value</declname>
+        </param>
+        <param>
+          <type>rocksdb::Logger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/merge_operators.h" line="26" column="10" bodyfile="src/storage/merge_operators.cpp" bodystart="27" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_counter_merge_operator_1afa656a1c68fa08f464c4540e02497668" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::CounterMergeOperator::Name</definition>
+        <argsstring>() const override</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::CounterMergeOperator::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/merge_operators.h" line="32" column="16" bodyfile="include/storage/merge_operators.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_counter_merge_operator" kindref="compound">CounterMergeOperator</ref> - Atomic numeric increments Use Case: Query statistics, counters Example: &quot;stats:query:count:+5&quot; + &quot;stats:query:count:+3&quot; → &quot;+8&quot; </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>rocksdb::AssociativeMergeOperator</label>
+      </node>
+      <node id="1">
+        <label>themis::CounterMergeOperator</label>
+        <link refid="classthemis_1_1_counter_merge_operator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>rocksdb::AssociativeMergeOperator</label>
+      </node>
+      <node id="1">
+        <label>themis::CounterMergeOperator</label>
+        <link refid="classthemis_1_1_counter_merge_operator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/merge_operators.h" line="24" column="1" bodyfile="include/storage/merge_operators.h" bodystart="24" bodyend="33"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_counter_merge_operator_1a32a61d9a85166d7fc69b3c2a82031636" prot="public" virt="non-virtual"><scope>themis::CounterMergeOperator</scope><name>Merge</name></member>
+      <member refid="classthemis_1_1_counter_merge_operator_1afa656a1c68fa08f464c4540e02497668" prot="public" virt="non-virtual"><scope>themis::CounterMergeOperator</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

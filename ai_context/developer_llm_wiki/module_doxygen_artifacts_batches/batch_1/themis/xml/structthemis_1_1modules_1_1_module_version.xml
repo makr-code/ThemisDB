@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_module_version" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleVersion</compoundname>
+    <includes refid="hot__reload__manager_8h" local="no">hot_reload_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_version_1ae05ace925798e6f2bf13936a598008db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleVersion::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::modules::ModuleVersion::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string (e.g. &quot;1.2.3&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="46" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_version_1af225f30dae49ba8efae45ae7cff99c8c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleVersion::abiVersion</definition>
+        <argsstring></argsstring>
+        <name>abiVersion</name>
+        <qualifiedname>themis::modules::ModuleVersion::abiVersion</qualifiedname>
+        <briefdescription>
+<para>ABI version token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="47" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_version_1a556a4963d29300754a9a717d76c63511" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleVersion::buildId</definition>
+        <argsstring></argsstring>
+        <name>buildId</name>
+        <qualifiedname>themis::modules::ModuleVersion::buildId</qualifiedname>
+        <briefdescription>
+<para>Build identifier / commit hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="48" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_version_1a3727b009ce712d29e7a645741dd538a0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::ModuleVersion::major</definition>
+        <argsstring></argsstring>
+        <name>major</name>
+        <qualifiedname>themis::modules::ModuleVersion::major</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="49" column="14" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_version_1ad253aa8d510eede03b78a3bb112cd6bd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::ModuleVersion::minor</definition>
+        <argsstring></argsstring>
+        <name>minor</name>
+        <qualifiedname>themis::modules::ModuleVersion::minor</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="50" column="14" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_version_1a19a22809e00324fc176dcb400c48e211" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::ModuleVersion::patch</definition>
+        <argsstring></argsstring>
+        <name>patch</name>
+        <qualifiedname>themis::modules::ModuleVersion::patch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="51" column="14" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_module_version_1a152bce9fdc22c222282fe1038b908e71" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleVersion::operator==</definition>
+        <argsstring>(const ModuleVersion &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::modules::ModuleVersion::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_module_version" kindref="compound">ModuleVersion</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="53" column="10" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_module_version_1a7d05800eb380d3dc88be0e10c52209c5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleVersion::operator!=</definition>
+        <argsstring>(const ModuleVersion &amp;o) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::modules::ModuleVersion::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_module_version" kindref="compound">ModuleVersion</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="57" column="10" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_module_version_1a68eea9b62c51fb953376462b084382be" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleVersion::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::modules::ModuleVersion::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>&quot;major.minor.patch&quot; or version string, whichever is available. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="60" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="60" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_module_version_1a819759d4185ee69f6d367c623e0cf37a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_version" kindref="compound">ModuleVersion</ref></type>
+        <definition>static ModuleVersion themis::modules::ModuleVersion::fromMetadata</definition>
+        <argsstring>(const ModuleMetadata &amp;m)</argsstring>
+        <name>fromMetadata</name>
+        <qualifiedname>themis::modules::ModuleVersion::fromMetadata</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Construct from <ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="69" column="26" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="69" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Version information for a loaded module. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/hot_reload_manager.h" line="45" column="1" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="45" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_module_version_1af225f30dae49ba8efae45ae7cff99c8c" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>abiVersion</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1a556a4963d29300754a9a717d76c63511" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>buildId</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1a819759d4185ee69f6d367c623e0cf37a" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>fromMetadata</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1a3727b009ce712d29e7a645741dd538a0" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>major</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1ad253aa8d510eede03b78a3bb112cd6bd" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>minor</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1a7d05800eb380d3dc88be0e10c52209c5" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1a152bce9fdc22c222282fe1038b908e71" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1a19a22809e00324fc176dcb400c48e211" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>patch</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1a68eea9b62c51fb953376462b084382be" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>toString</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_version_1ae05ace925798e6f2bf13936a598008db" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVersion</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

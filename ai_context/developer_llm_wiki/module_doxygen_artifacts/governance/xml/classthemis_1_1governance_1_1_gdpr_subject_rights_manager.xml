@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::GdprSubjectRightsManager</compoundname>
+    <includes refid="gdpr__subject__rights_8h" local="no">gdpr_subject_rights.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1afa32e95c806dac18d12e846c8d9a3753" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;( const std::vector&lt; uint8_t &gt; &amp;data)&gt;</type>
+        <definition>using themis::governance::GdprSubjectRightsManager::TsaSigner = std::function&lt;std::vector&lt;uint8_t&gt;(
+       const std::vector&lt;uint8_t&gt;&amp; data)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TsaSigner</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::TsaSigner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="89" column="5" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ae8cc2589aaf1d68eef98043c7f96324c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_gdpr_erase_target" kindref="compound">IGdprEraseTarget</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IGdprEraseTarget&gt; &gt; themis::governance::GdprSubjectRightsManager::targets_</definition>
+        <argsstring></argsstring>
+        <name>targets_</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::targets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="125" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a7652a7f17fab09d9a39a97277bb923d9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1afa32e95c806dac18d12e846c8d9a3753" kindref="member">TsaSigner</ref></type>
+        <definition>TsaSigner themis::governance::GdprSubjectRightsManager::tsa_signer_</definition>
+        <argsstring></argsstring>
+        <name>tsa_signer_</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::tsa_signer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="126" column="15" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a9b15b95e28bdd8cd8dcab5b4b7fd8174" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::GdprSubjectRightsManager::targets_mutex_</definition>
+        <argsstring></argsstring>
+        <name>targets_mutex_</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::targets_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="127" column="24" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1acda10cf45ca8d1c81120821dfe2c2757" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::mutex &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::mutex&gt; themis::governance::GdprSubjectRightsManager::subject_mutexes_</definition>
+        <argsstring></argsstring>
+        <name>subject_mutexes_</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::subject_mutexes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="130" column="24" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ae04d23893512d5079f30e2791236e51a" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::GdprSubjectRightsManager::subject_map_mutex_</definition>
+        <argsstring></argsstring>
+        <name>subject_map_mutex_</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::subject_map_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="131" column="16" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::GdprSubjectRightsManager::GdprSubjectRightsManager</definition>
+        <argsstring>(TsaSigner tsa_signer=nullptr)</argsstring>
+        <name>GdprSubjectRightsManager</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::GdprSubjectRightsManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1afa32e95c806dac18d12e846c8d9a3753" kindref="member">TsaSigner</ref></type>
+          <declname>tsa_signer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="92" column="14" bodyfile="src/governance/gdpr_subject_rights.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1acec0567f6a7f5c554ce0e1c4a8e2f7f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::GdprSubjectRightsManager::~GdprSubjectRightsManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GdprSubjectRightsManager</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::~GdprSubjectRightsManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="93" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a6e125a0f59b2794426fc5d596ef46d35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::GdprSubjectRightsManager::GdprSubjectRightsManager</definition>
+        <argsstring>(const GdprSubjectRightsManager &amp;)=delete</argsstring>
+        <name>GdprSubjectRightsManager</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::GdprSubjectRightsManager</qualifiedname>
+        <param>
+          <type>const GdprSubjectRightsManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a44b4deb9b8aca24534cabd99d25067a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" kindref="member">GdprSubjectRightsManager</ref> &amp;</type>
+        <definition>GdprSubjectRightsManager &amp; themis::governance::GdprSubjectRightsManager::operator=</definition>
+        <argsstring>(const GdprSubjectRightsManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" kindref="member">GdprSubjectRightsManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="97" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ad58adfcdd38666e69dde80cc7c7bfa5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::GdprSubjectRightsManager::registerEraseTarget</definition>
+        <argsstring>(std::shared_ptr&lt; IGdprEraseTarget &gt; target)</argsstring>
+        <name>registerEraseTarget</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::registerEraseTarget</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_gdpr_erase_target" kindref="compound">IGdprEraseTarget</ref> &gt;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Register Erase Target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: storeId(), empty(), lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="104" column="10" bodyfile="src/governance/gdpr_subject_rights.cpp" bodystart="56" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ac7e7e8198ddeb5ea5748aaeebbbd7e22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::governance::GdprSubjectRightsManager::targetCount</definition>
+        <argsstring>() const</argsstring>
+        <name>targetCount</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::targetCount</qualifiedname>
+        <briefdescription>
+<para>Target Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">targets_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="110" column="12" bodyfile="src/governance/gdpr_subject_rights.cpp" bodystart="67" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a611daca3b03f725a610f21b475670bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_erasure_report" kindref="compound">ErasureReport</ref></type>
+        <definition>ErasureReport themis::governance::GdprSubjectRightsManager::requestErasure</definition>
+        <argsstring>(const std::string &amp;subject_id, Regulation regulation, const std::string &amp;reason, const std::string &amp;operator_id=&quot;system&quot;)</argsstring>
+        <name>requestErasure</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::requestErasure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref></type>
+          <declname>regulation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_id</declname>
+          <defval>&quot;system&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Request Erasure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">regulation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), subject_lock(), getSubjectMutex(), THEMIS_INFO(), lock(), std::chrono::system_clock::now(), eraseSubject(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="114" column="19" bodyfile="src/governance/gdpr_subject_rights.cpp" bodystart="97" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ada3e3871ad5170abef5fbec17b56ece0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_portability_package" kindref="compound">PortabilityPackage</ref></type>
+        <definition>PortabilityPackage themis::governance::GdprSubjectRightsManager::requestPortability</definition>
+        <argsstring>(const std::string &amp;subject_id, const std::string &amp;format=&quot;json&quot;)</argsstring>
+        <name>requestPortability</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::requestPortability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+          <defval>&quot;json&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Request Portability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), THEMIS_INFO(), exportSubjectData(), std::string(), begin(), end(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="121" column="24" bodyfile="src/governance/gdpr_subject_rights.cpp" bodystart="161" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ae19a84fc7a62b1395ce0f1be45823a11" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>std::mutex &amp; themis::governance::GdprSubjectRightsManager::getSubjectMutex</definition>
+        <argsstring>(const std::string &amp;subject_id)</argsstring>
+        <name>getSubjectMutex</name>
+        <qualifiedname>themis::governance::GdprSubjectRightsManager::getSubjectMutex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Subject Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_map_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="138" column="16" bodyfile="src/governance/gdpr_subject_rights.cpp" bodystart="77" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/gdpr_subject_rights.h" line="87" column="1" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="87" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>GdprSubjectRightsManager</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a6e125a0f59b2794426fc5d596ef46d35" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>GdprSubjectRightsManager</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ae19a84fc7a62b1395ce0f1be45823a11" prot="private" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>getSubjectMutex</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a44b4deb9b8aca24534cabd99d25067a7" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ad58adfcdd38666e69dde80cc7c7bfa5a" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>registerEraseTarget</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a611daca3b03f725a610f21b475670bc8" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>requestErasure</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ada3e3871ad5170abef5fbec17b56ece0" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>requestPortability</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ae04d23893512d5079f30e2791236e51a" prot="private" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>subject_map_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1acda10cf45ca8d1c81120821dfe2c2757" prot="private" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>subject_mutexes_</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ac7e7e8198ddeb5ea5748aaeebbbd7e22" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>targetCount</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ae8cc2589aaf1d68eef98043c7f96324c" prot="private" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>targets_</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a9b15b95e28bdd8cd8dcab5b4b7fd8174" prot="private" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>targets_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a7652a7f17fab09d9a39a97277bb923d9" prot="private" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>tsa_signer_</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1afa32e95c806dac18d12e846c8d9a3753" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>TsaSigner</name></member>
+      <member refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1acec0567f6a7f5c554ce0e1c4a8e2f7f5" prot="public" virt="non-virtual"><scope>themis::governance::GdprSubjectRightsManager</scope><name>~GdprSubjectRightsManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::KerberosConfig::PrincipalMapping</compoundname>
+    <includes refid="gssapi__authenticator_8h" local="no">gssapi_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping_1af00a1310bc6bed3712f66789fdef5a8c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::KerberosConfig::PrincipalMapping::principal_pattern</definition>
+        <argsstring></argsstring>
+        <name>principal_pattern</name>
+        <qualifiedname>themis::auth::KerberosConfig::PrincipalMapping::principal_pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="66" column="21" bodyfile="include/auth/gssapi_authenticator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping_1add7e9cc4695ead78dc277fb95aea3c67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::KerberosConfig::PrincipalMapping::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::auth::KerberosConfig::PrincipalMapping::role</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="67" column="21" bodyfile="include/auth/gssapi_authenticator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/gssapi_authenticator.h" line="65" column="5" bodyfile="include/auth/gssapi_authenticator.h" bodystart="65" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping_1af00a1310bc6bed3712f66789fdef5a8c" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig::PrincipalMapping</scope><name>principal_pattern</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping_1add7e9cc4695ead78dc277fb95aea3c67" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig::PrincipalMapping</scope><name>role</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

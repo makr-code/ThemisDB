@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1retrieval_1_1_integrity_helper" kind="namespace" language="C++">
+    <compoundname>themis::retrieval::IntegrityHelper</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1_integrity_helper_1aaa08298db90e694094f11a1e6534ae3c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::IntegrityHelper::sha256Hex</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::retrieval::IntegrityHelper::sha256Hex</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: update(), bytesToHex(), finalise(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="279" column="14" bodyfile="src/retrieval/src/lora_package.cc" bodystart="161" bodyend="165" declfile="src/retrieval/include/lora_package.h" declline="279" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1_integrity_helper_1ad0a9978098d04702955c421ba0cd98a5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::IntegrityHelper::sha256Hex</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::retrieval::IntegrityHelper::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="281" column="14" bodyfile="src/retrieval/src/lora_package.cc" bodystart="173" bodyend="175" declfile="src/retrieval/include/lora_package.h" declline="281" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1_integrity_helper_1a6e11b8d1736bc5e61f0497ca439dd447" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::IntegrityHelper::verifyHash</definition>
+        <argsstring>(const uint8_t *data, size_t size, const std::string &amp;expected_hex)</argsstring>
+        <name>verifyHash</name>
+        <qualifiedname>themis::retrieval::IntegrityHelper::verifyHash</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_hex</declname>
+        </param>
+        <briefdescription>
+<para>Verify Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1retrieval_1_1_integrity_helper_1aaa08298db90e694094f11a1e6534ae3c" kindref="member">sha256Hex()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="283" column="7" bodyfile="src/retrieval/src/lora_package.cc" bodystart="185" bodyend="188" declfile="src/retrieval/include/lora_package.h" declline="283" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1_integrity_helper_1a370f68292be8327b11aa168e4258a16f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::IntegrityHelper::verifyHash</definition>
+        <argsstring>(const std::string &amp;input, const std::string &amp;expected_hex)</argsstring>
+        <name>verifyHash</name>
+        <qualifiedname>themis::retrieval::IntegrityHelper::verifyHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_hex</declname>
+        </param>
+        <briefdescription>
+<para>Verify Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1retrieval_1_1_integrity_helper_1aaa08298db90e694094f11a1e6534ae3c" kindref="member">sha256Hex()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="286" column="7" bodyfile="src/retrieval/src/lora_package.cc" bodystart="197" bodyend="200" declfile="src/retrieval/include/lora_package.h" declline="286" declcolumn="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/retrieval/include/lora_package.h" line="277" column="1"/>
+  </compounddef>
+</doxygen>

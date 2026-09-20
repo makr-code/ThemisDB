@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_segment_key" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SegmentKey</compoundname>
+    <includes refid="columnar__cache_8h" local="no">columnar_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_segment_key_1af8d6a40040a31868573674a892a899b7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SegmentKey::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::storage::SegmentKey::table_name</qualifiedname>
+        <briefdescription>
+<para>Logical table or collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="37" column="17" bodyfile="include/storage/columnar_cache.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_segment_key_1ab873ba03ec6ad352c83d5e52afae8ea3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SegmentKey::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::storage::SegmentKey::column_name</qualifiedname>
+        <briefdescription>
+<para>Column name within the table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="38" column="17" bodyfile="include/storage/columnar_cache.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_segment_key_1a684c7cb8386f280a326f7b6b023a764c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::SegmentKey::segment_id</definition>
+        <argsstring></argsstring>
+        <name>segment_id</name>
+        <qualifiedname>themis::storage::SegmentKey::segment_id</qualifiedname>
+        <briefdescription>
+<para>Zero-based segment index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="39" column="17" bodyfile="include/storage/columnar_cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_segment_key_1a718a84f87d1c5807ca40e1c5b27d132a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::SegmentKey::operator==</definition>
+        <argsstring>(const SegmentKey &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::storage::SegmentKey::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="41" column="10" bodyfile="include/storage/columnar_cache.h" bodystart="41" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compound key identifying one column segment. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A segment covers rows <computeroutput>[<ref refid="structthemis_1_1storage_1_1_segment_key_1a684c7cb8386f280a326f7b6b023a764c" kindref="member">segment_id</ref> * segment_rows, (segment_id+1) * segment_rows)</computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/storage/columnar_cache.h" line="36" column="1" bodyfile="include/storage/columnar_cache.h" bodystart="36" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_segment_key_1ab873ba03ec6ad352c83d5e52afae8ea3" prot="public" virt="non-virtual"><scope>themis::storage::SegmentKey</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1storage_1_1_segment_key_1a718a84f87d1c5807ca40e1c5b27d132a" prot="public" virt="non-virtual"><scope>themis::storage::SegmentKey</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1storage_1_1_segment_key_1a684c7cb8386f280a326f7b6b023a764c" prot="public" virt="non-virtual"><scope>themis::storage::SegmentKey</scope><name>segment_id</name></member>
+      <member refid="structthemis_1_1storage_1_1_segment_key_1af8d6a40040a31868573674a892a899b7" prot="public" virt="non-virtual"><scope>themis::storage::SegmentKey</scope><name>table_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

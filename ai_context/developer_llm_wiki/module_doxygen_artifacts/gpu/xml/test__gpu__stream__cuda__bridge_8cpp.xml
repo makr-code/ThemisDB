@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__stream__cuda__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_stream_cuda_bridge.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/stream_manager.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_stream_cuda_bridge.cpp</label>
+        <link refid="test__gpu__stream__cuda__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/stream_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_gpu_stream_cuda_bridge_test" prot="public">GpuStreamCudaBridgeTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__stream__cuda__bridge_8cpp_1a0e93e8cbafd64a35f9595e9f87a6c957" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuStreamCudaBridgeTest, NoFnUsesRocmFallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_stream_cuda_bridge_test" kindref="compound">GpuStreamCudaBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>NoFnUsesRocmFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_cuda_bridge.cpp" line="33" column="1" bodyfile="tests/gpu/test_gpu_stream_cuda_bridge.cpp" bodystart="33" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__cuda__bridge_8cpp_1aeac6b9952305e90ec74f87722db360ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuStreamCudaBridgeTest, InjectedFnIsCalledAndStreamIsCreated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_stream_cuda_bridge_test" kindref="compound">GpuStreamCudaBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>InjectedFnIsCalledAndStreamIsCreated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_cuda_bridge.cpp" line="51" column="1" bodyfile="tests/gpu/test_gpu_stream_cuda_bridge.cpp" bodystart="51" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__cuda__bridge_8cpp_1ac7b9398b8b9cb9819b5f513e481806fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuStreamCudaBridgeTest, ThrowingFnFallsBackToRocm)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_stream_cuda_bridge_test" kindref="compound">GpuStreamCudaBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>ThrowingFnFallsBackToRocm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_cuda_bridge.cpp" line="88" column="1" bodyfile="tests/gpu/test_gpu_stream_cuda_bridge.cpp" bodystart="88" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for GPUStreamManager CudaStreamBackendFn bridge (STUB #77). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies that the CudaStreamBackendFn injection works correctly in non-CUDA builds (THEMIS_ENABLE_CUDA not defined): GSM-CB-01 No fn set → ROCm/CPU fallback used; stream created. GSM-CB-02 Fn returns BackendFn → stream created with injected backend. GSM-CB-03 Fn throws exception → fall back to ROCm/CPU (fail-safe).</para>
+<para>Tests run in builds WITHOUT THEMIS_ENABLE_CUDA. In CUDA builds the injected fn is never reached and the tests are skipped. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/stream_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_gpu_stream_cuda_bridge_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_gpu_stream_cuda_bridge_test" kindref="compound">GpuStreamCudaBridgeTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gpu_stream_cuda_bridge_test_1aa20d649b743d45deb8ff78484c481eb3" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUStreamManager::setCudaStreamBackendFn({});<sp/><sp/></highlight><highlight class="comment">//<sp/>restore<sp/>clean<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GSM-CB-01<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>fn<sp/>registered,<sp/>createCudaStream()<sp/>falls<sp/>back<sp/>to<sp/>the<sp/>ROCm/CPU<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>still<sp/>returns<sp/>true<sp/>(stream<sp/>successfully<sp/>created).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_gpu_stream_cuda_bridge_test" kindref="compound">GpuStreamCudaBridgeTest</ref>,<sp/>NoFnUsesRocmFallback)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:stub_path_active=false;reason=real_cuda_path_active&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::setCudaStreamBackendFn({});<sp/><sp/></highlight><highlight class="comment">//<sp/>ensure<sp/>clean<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::StreamConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_stream_no_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mgr.createCudaStream(cfg,<sp/>0);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;createCudaStream()<sp/>must<sp/>succeed<sp/>even<sp/>without<sp/>injected<sp/>fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.hasStream(</highlight><highlight class="stringliteral">&quot;test_stream_no_fn&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GSM-CB-02<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>An<sp/>injected<sp/>CudaStreamBackendFn<sp/>is<sp/>called<sp/>and<sp/>its<sp/>returned<sp/>BackendFn<sp/>is<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>create<sp/>the<sp/>stream.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_gpu_stream_cuda_bridge_test" kindref="compound">GpuStreamCudaBridgeTest</ref>,<sp/>InjectedFnIsCalledAndStreamIsCreated)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:stub_path_active=false;reason=real_cuda_path_active&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>backend_fn_call_count{0};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>factory_call_count{0};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expected_device<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>received_device<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::setCudaStreamBackendFn(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index)<sp/>-&gt;<sp/>GPULauncher::BackendFn<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++factory_call_count;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_device<sp/>=<sp/>device_index;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>a<sp/>simple<sp/>CPU-dispatch<sp/>backend<sp/>fn.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;<sp/>item)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++backend_fn_call_count;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)item;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::StreamConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_stream_injected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mgr.createCudaStream(cfg,<sp/>expected_device);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;createCudaStream()<sp/>must<sp/>succeed<sp/>with<sp/>injected<sp/>fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(factory_call_count.load(),<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;factory<sp/>fn<sp/>must<sp/>be<sp/>called<sp/>once&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received_device,<sp/>expected_device)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;factory<sp/>fn<sp/>must<sp/>receive<sp/>the<sp/>correct<sp/>device<sp/>index&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.hasStream(</highlight><highlight class="stringliteral">&quot;test_stream_injected&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GSM-CB-03<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>injected<sp/>fn<sp/>throws,<sp/>createCudaStream()<sp/>must<sp/>fall<sp/>back<sp/>to<sp/>the<sp/>ROCm/CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>backend<sp/>and<sp/>still<sp/>return<sp/>true<sp/>(fail-safe,<sp/>not<sp/>fail-closed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_gpu_stream_cuda_bridge_test" kindref="compound">GpuStreamCudaBridgeTest</ref>,<sp/>ThrowingFnFallsBackToRocm)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:stub_path_active=false;reason=real_cuda_path_active&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::setCudaStreamBackendFn(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*device_index*/</highlight><highlight class="normal">)<sp/>-&gt;<sp/>GPULauncher::BackendFn<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;simulated<sp/>CUDA<sp/>init<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::StreamConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_stream_throw&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(ok<sp/>=<sp/>mgr.createCudaStream(cfg,<sp/>0))</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Throwing<sp/>CudaStreamBackendFn<sp/>must<sp/>not<sp/>propagate<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;createCudaStream()<sp/>must<sp/>succeed<sp/>via<sp/>ROCm<sp/>fallback&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.hasStream(</highlight><highlight class="stringliteral">&quot;test_stream_throw&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_stream_cuda_bridge.cpp"/>
+  </compounddef>
+</doxygen>

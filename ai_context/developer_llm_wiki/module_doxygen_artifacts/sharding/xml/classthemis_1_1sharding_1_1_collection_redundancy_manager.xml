@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_collection_redundancy_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::CollectionRedundancyManager</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1af4a0c66eaa097d33f05f579f8feeeba6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref></type>
+        <definition>RedundancyConfig themis::sharding::CollectionRedundancyManager::default_config_</definition>
+        <argsstring></argsstring>
+        <name>default_config_</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::default_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="886" column="22" bodyfile="include/sharding/redundancy_strategy.h" bodystart="886" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1adcf48d288199095978cef9c614f34549" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RedundancyConfig&gt; themis::sharding::CollectionRedundancyManager::collection_configs_</definition>
+        <argsstring></argsstring>
+        <name>collection_configs_</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::collection_configs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="887" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="887" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1ac0b660afeaadf2030ce5cd7dff0da9c1" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;RedundancyStrategy&gt; &gt; themis::sharding::CollectionRedundancyManager::strategies_</definition>
+        <argsstring></argsstring>
+        <name>strategies_</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::strategies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="888" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="888" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a4b8fb7b4706ea8bc5287b281a8f918dc" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::sharding::CollectionRedundancyManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="889" column="31" bodyfile="include/sharding/redundancy_strategy.h" bodystart="889" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a6e760407d85731840b5a6b69bfb567f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::CollectionRedundancyManager::CollectionRedundancyManager</definition>
+        <argsstring>()</argsstring>
+        <name>CollectionRedundancyManager</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::CollectionRedundancyManager</qualifiedname>
+        <briefdescription>
+<para>Construct collection-level redundancy manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="862" column="5" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="4128" bodyend="4132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a70cef9368e19dd6f67af8ff654495419" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::CollectionRedundancyManager::~CollectionRedundancyManager</definition>
+        <argsstring>()</argsstring>
+        <name>~CollectionRedundancyManager</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::~CollectionRedundancyManager</qualifiedname>
+        <briefdescription>
+<para>Destroy manager and owned strategy instances. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="864" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1acddac7c71b331201a4025e0c4a4d040a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CollectionRedundancyManager::setDefaultConfig</definition>
+        <argsstring>(const RedundancyConfig &amp;config)</argsstring>
+        <name>setDefaultConfig</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::setDefaultConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set default redundancy config used when collection override is absent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Default Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="867" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="4141" bodyend="4144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1aaa381e9b2298ffa35bf14a1758636289" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CollectionRedundancyManager::setCollectionConfig</definition>
+        <argsstring>(const std::string &amp;collection, const RedundancyConfig &amp;config)</argsstring>
+        <name>setCollectionConfig</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::setCollectionConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set or replace per-collection redundancy configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Collection Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="870" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="4152" bodyend="4161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1ad6ec992405b47f197acb5771034c71a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_redundancy_config" kindref="compound">RedundancyConfig</ref></type>
+        <definition>RedundancyConfig themis::sharding::CollectionRedundancyManager::getConfig</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::getConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Get effective config for collection (default fallback when unset). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="874" column="22" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="4163" bodyend="4177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a024c6d0e6b1e6b16d5302b787c1ea9a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; RedundancyStrategy &gt; themis::sharding::CollectionRedundancyManager::getStrategy</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>getStrategy</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::getStrategy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Get lazily-created strategy instance for collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="877" column="21" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="4185" bodyend="4205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1afe37c22ebd7b211c4bd05e64536b1361" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::CollectionRedundancyManager::listCollections</definition>
+        <argsstring>() const</argsstring>
+        <name>listCollections</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::listCollections</qualifiedname>
+        <briefdescription>
+<para>List collections with explicit configuration overrides. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="880" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="4207" bodyend="4222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a09b3abfbbb2864ba07b17ef6bc69a819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CollectionRedundancyManager::removeCollectionConfig</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>removeCollectionConfig</name>
+        <qualifiedname>themis::sharding::CollectionRedundancyManager::removeCollectionConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Remove collection override and associated cached strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Collection Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="883" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="4229" bodyend="4233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Per-Collection Redundancy Manager Allows different redundancy configurations per collection </para>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="859" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="859" bodyend="890"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1adcf48d288199095978cef9c614f34549" prot="private" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>collection_configs_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a6e760407d85731840b5a6b69bfb567f6" prot="public" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>CollectionRedundancyManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1af4a0c66eaa097d33f05f579f8feeeba6" prot="private" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>default_config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1ad6ec992405b47f197acb5771034c71a2" prot="public" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a024c6d0e6b1e6b16d5302b787c1ea9a2" prot="public" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>getStrategy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1afe37c22ebd7b211c4bd05e64536b1361" prot="public" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>listCollections</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a4b8fb7b4706ea8bc5287b281a8f918dc" prot="private" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a09b3abfbbb2864ba07b17ef6bc69a819" prot="public" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>removeCollectionConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1aaa381e9b2298ffa35bf14a1758636289" prot="public" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>setCollectionConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1acddac7c71b331201a4025e0c4a4d040a" prot="public" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>setDefaultConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1ac0b660afeaadf2030ce5cd7dff0da9c1" prot="private" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>strategies_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_collection_redundancy_manager_1a70cef9368e19dd6f67af8ff654495419" prot="public" virt="non-virtual"><scope>themis::sharding::CollectionRedundancyManager</scope><name>~CollectionRedundancyManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

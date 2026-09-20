@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fixed_scorer" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>FixedScorer</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer" prot="public" virt="non-virtual">themis::prompt_engineering::IReflectionScorer</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_fixed_scorer_1ad1071c2aabdcc54bc3cea26e727d0b00" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double FixedScorer::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>FixedScorer::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="44" column="12" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_fixed_scorer_1a10b33fdaf28aca2297f86a725636ad6b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FixedScorer::FixedScorer</definition>
+        <argsstring>(double value)</argsstring>
+        <name>FixedScorer</name>
+        <qualifiedname>FixedScorer::FixedScorer</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="39" column="14" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fixed_scorer_1a2f0ad7ee782cad1b0794091cc171788c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double FixedScorer::score</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) const override</argsstring>
+        <name>score</name>
+        <qualifiedname>FixedScorer::score</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer_1a080622f9902bd7ab6d16e28b391c6aaa">score</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the quality of <computeroutput>response</computeroutput> for <computeroutput>prompt</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Quality score in [0.0, 1.0]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="40" column="12" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FixedScorer</label>
+        <link refid="class_fixed_scorer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IReflectionScorer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FixedScorer</label>
+        <link refid="class_fixed_scorer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IReflectionScorer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="37" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="37" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_fixed_scorer_1a10b33fdaf28aca2297f86a725636ad6b" prot="public" virt="non-virtual"><scope>FixedScorer</scope><name>FixedScorer</name></member>
+      <member refid="class_fixed_scorer_1a2f0ad7ee782cad1b0794091cc171788c" prot="public" virt="virtual"><scope>FixedScorer</scope><name>score</name></member>
+      <member refid="class_fixed_scorer_1ad1071c2aabdcc54bc3cea26e727d0b00" prot="private" virt="non-virtual"><scope>FixedScorer</scope><name>value_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer_1a0573c9089b9913422255d26674e4267b" prot="public" virt="virtual"><scope>FixedScorer</scope><name>~IReflectionScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

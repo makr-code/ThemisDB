@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_tenant_stats_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::TransactionManager::TenantStatsEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_tenant_stats_entry_1a609825904eacd9a2f36b74333c09cad9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::TenantStatsEntry::total_begun</definition>
+        <argsstring></argsstring>
+        <name>total_begun</name>
+        <qualifiedname>themis::TransactionManager::TenantStatsEntry::total_begun</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="890" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="890" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_tenant_stats_entry_1ac1ae1ffce2bfa7bfc21afe8f2de85798" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::TenantStatsEntry::total_committed</definition>
+        <argsstring></argsstring>
+        <name>total_committed</name>
+        <qualifiedname>themis::TransactionManager::TenantStatsEntry::total_committed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="891" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="891" bodyend="891"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_tenant_stats_entry_1a82f89102d0c0d2a902f7c0358159a987" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::TenantStatsEntry::total_aborted</definition>
+        <argsstring></argsstring>
+        <name>total_aborted</name>
+        <qualifiedname>themis::TransactionManager::TenantStatsEntry::total_aborted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="892" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="892" bodyend="892"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="889" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="889" bodyend="893"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_tenant_stats_entry_1a82f89102d0c0d2a902f7c0358159a987" prot="public" virt="non-virtual"><scope>themis::TransactionManager::TenantStatsEntry</scope><name>total_aborted</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_tenant_stats_entry_1a609825904eacd9a2f36b74333c09cad9" prot="public" virt="non-virtual"><scope>themis::TransactionManager::TenantStatsEntry</scope><name>total_begun</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_tenant_stats_entry_1ac1ae1ffce2bfa7bfc21afe8f2de85798" prot="public" virt="non-virtual"><scope>themis::TransactionManager::TenantStatsEntry</scope><name>total_committed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

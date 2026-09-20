@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_remediation_action" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::RemediationAction</compoundname>
+    <includes refid="operator__remediation__engine_8h" local="no">operator_remediation_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_remediation_action_1ab253953b3717f58db6703a6578c0c93d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationAction::action_name</definition>
+        <argsstring></argsstring>
+        <name>action_name</name>
+        <qualifiedname>themis::observability::RemediationAction::action_name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name of the action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="115" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_remediation_action_1a8becb87872aff0fa47934ab248fc01cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationAction::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::observability::RemediationAction::description</qualifiedname>
+        <briefdescription>
+<para>Detailed description of what to do. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="118" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_remediation_action_1ac50ee4abb5dc86125d2d0fa852dcb69b" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::RemediationAction::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::observability::RemediationAction::priority</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Priority level for executing this action (1 = highest). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="121" column="19" bodyfile="include/observability/operator_remediation_engine.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_remediation_action_1a31bef0dda3af0e12b42d21c11cb4e666" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::RemediationAction::estimated_duration_seconds</definition>
+        <argsstring></argsstring>
+        <name>estimated_duration_seconds</name>
+        <qualifiedname>themis::observability::RemediationAction::estimated_duration_seconds</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Estimated time to execute this action (in seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="124" column="19" bodyfile="include/observability/operator_remediation_engine.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_remediation_action_1ad3a6b3463acc6ddf68f83bf9655b9baa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::RemediationAction::is_safe_to_automate</definition>
+        <argsstring></argsstring>
+        <name>is_safe_to_automate</name>
+        <qualifiedname>themis::observability::RemediationAction::is_safe_to_automate</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether this action is safe to execute automatically. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="127" column="10" bodyfile="include/observability/operator_remediation_engine.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_remediation_action_1a3596525b77c323d7cbb62db08919c42d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationAction::automation_command</definition>
+        <argsstring></argsstring>
+        <name>automation_command</name>
+        <qualifiedname>themis::observability::RemediationAction::automation_command</qualifiedname>
+        <briefdescription>
+<para>Optional shell command or API call for automation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="130" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_remediation_action_1a4e07604f04f2f4b4d11f29d12fd38988" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationAction::expected_outcome</definition>
+        <argsstring></argsstring>
+        <name>expected_outcome</name>
+        <qualifiedname>themis::observability::RemediationAction::expected_outcome</qualifiedname>
+        <briefdescription>
+<para>Expected outcome if action is successful. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="133" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Remediation action suggestion. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents a single actionable remediation step recommended to resolve or mitigate an observability problem. </para>
+    </detaileddescription>
+    <location file="include/observability/operator_remediation_engine.h" line="113" column="1" bodyfile="include/observability/operator_remediation_engine.h" bodystart="113" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_remediation_action_1ab253953b3717f58db6703a6578c0c93d" prot="public" virt="non-virtual"><scope>themis::observability::RemediationAction</scope><name>action_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_remediation_action_1a3596525b77c323d7cbb62db08919c42d" prot="public" virt="non-virtual"><scope>themis::observability::RemediationAction</scope><name>automation_command</name></member>
+      <member refid="structthemis_1_1observability_1_1_remediation_action_1a8becb87872aff0fa47934ab248fc01cc" prot="public" virt="non-virtual"><scope>themis::observability::RemediationAction</scope><name>description</name></member>
+      <member refid="structthemis_1_1observability_1_1_remediation_action_1a31bef0dda3af0e12b42d21c11cb4e666" prot="public" virt="non-virtual"><scope>themis::observability::RemediationAction</scope><name>estimated_duration_seconds</name></member>
+      <member refid="structthemis_1_1observability_1_1_remediation_action_1a4e07604f04f2f4b4d11f29d12fd38988" prot="public" virt="non-virtual"><scope>themis::observability::RemediationAction</scope><name>expected_outcome</name></member>
+      <member refid="structthemis_1_1observability_1_1_remediation_action_1ad3a6b3463acc6ddf68f83bf9655b9baa" prot="public" virt="non-virtual"><scope>themis::observability::RemediationAction</scope><name>is_safe_to_automate</name></member>
+      <member refid="structthemis_1_1observability_1_1_remediation_action_1ac50ee4abb5dc86125d2d0fa852dcb69b" prot="public" virt="non-virtual"><scope>themis::observability::RemediationAction</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

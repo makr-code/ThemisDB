@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_default_query_planner" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::evaluation::DefaultQueryPlanner</compoundname>
+    <basecompoundref refid="classthemis_1_1evaluation_1_1_query_planner" prot="public" virt="non-virtual">themis::evaluation::QueryPlanner</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_default_query_planner_1a4b11fa413c75b0bf1f7a706334e9c8a7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1evaluation_1_1_planner_observer" kindref="compound">PlannerObserver</ref> *</type>
+        <definition>PlannerObserver* themis::evaluation::DefaultQueryPlanner::observer_</definition>
+        <argsstring></argsstring>
+        <name>observer_</name>
+        <qualifiedname>themis::evaluation::DefaultQueryPlanner::observer_</qualifiedname>
+        <briefdescription>
+<para>Non-owning observer pointer; null when no observability hook is registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/query_planner.cc" line="298" column="21" bodyfile="src/evaluation/src/query_planner.cc" bodystart="298" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_query_planner_1a0442f92765728b7de5d6afdcafc144b7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::DefaultQueryPlanner::DefaultQueryPlanner</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>DefaultQueryPlanner</name>
+        <qualifiedname>themis::evaluation::DefaultQueryPlanner::DefaultQueryPlanner</qualifiedname>
+        <briefdescription>
+<para>Construct without an observer (no observability callbacks). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/query_planner.cc" line="255" column="5" bodyfile="src/evaluation/src/query_planner.cc" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_query_planner_1ad08388895c34efc362f95038a4019188" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::DefaultQueryPlanner::DefaultQueryPlanner</definition>
+        <argsstring>(PlannerObserver *observer) noexcept</argsstring>
+        <name>DefaultQueryPlanner</name>
+        <qualifiedname>themis::evaluation::DefaultQueryPlanner::DefaultQueryPlanner</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1evaluation_1_1_planner_observer" kindref="compound">PlannerObserver</ref> *</type>
+          <declname>observer</declname>
+        </param>
+        <briefdescription>
+<para>Construct with an optional observer for observability hooks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>observer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a <ref refid="classthemis_1_1evaluation_1_1_planner_observer" kindref="compound">PlannerObserver</ref>, or <computeroutput>nullptr</computeroutput> to disable callbacks. Lifetime of <computeroutput>observer</computeroutput> must exceed the lifetime of this planner instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/query_planner.cc" line="264" column="14" bodyfile="src/evaluation/src/query_planner.cc" bodystart="264" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_query_planner_1a98cb7a2496714a5b8f7aecc10ce53508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::DefaultQueryPlanner::~DefaultQueryPlanner</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~DefaultQueryPlanner</name>
+        <qualifiedname>themis::evaluation::DefaultQueryPlanner::~DefaultQueryPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/query_planner.cc" line="267" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_query_planner_1afe6c6f7f5ff91b637f66dffb15a01797" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_planner_decision" kindref="compound">PlannerDecision</ref></type>
+        <definition>PlannerDecision themis::evaluation::DefaultQueryPlanner::selectPath</definition>
+        <argsstring>(const ExecutionEligibility &amp;eligibility, const TensorArtifactFreshness &amp;freshness, const PlannerConfig &amp;config) const noexcept override</argsstring>
+        <name>selectPath</name>
+        <qualifiedname>themis::evaluation::DefaultQueryPlanner::selectPath</qualifiedname>
+        <reimplements refid="classthemis_1_1evaluation_1_1_query_planner_1a26e40d112fd1fbde3abf0c7fc5372a90">selectPath</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_execution_eligibility" kindref="compound">ExecutionEligibility</ref> &amp;</type>
+          <declname>eligibility</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness" kindref="compound">TensorArtifactFreshness</ref> &amp;</type>
+          <declname>freshness</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_planner_config" kindref="compound">PlannerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Select the optimal execution path for a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The planner evaluates paths 1–5 in order from cheapest to most expensive. Any failed gate causes a fall-through to the next path with the appropriate <computeroutput><ref refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008" kindref="member">FallbackReason</ref></computeroutput>. The safe default is Path 4 (DirectExactGraph).</para>
+<para>After the decision is made, <computeroutput><ref refid="classthemis_1_1evaluation_1_1_planner_observer_1a194eef3877c6cefbb2df2e5a78f67135" kindref="member">PlannerObserver::onDecision()</ref></computeroutput> is called (if an observer was registered) with the decision and the wall-clock latency of the planner logic in microseconds.</para>
+<para><simplesect kind="note"><para>Distributed Path 5 is only eligible when distributed mode signals are set; it is not evaluated in the normal 1–4 fallback chain. Callers may request Path 5 explicitly by setting eligibility signals that disable paths 1–3 while marking <computeroutput>distributed_multi_shard</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eligibility</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime hardware and module-readiness signals. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>freshness</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor artifact freshness state. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Versioned policy thresholds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="structthemis_1_1evaluation_1_1_planner_decision" kindref="compound">PlannerDecision</ref> with the selected path and any fallback reason. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/query_planner.cc" line="291" column="22" bodyfile="src/evaluation/src/query_planner.cc" bodystart="305" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Production-ready concrete query planner. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates the five canonical execution paths in order (cheapest to most exact) and returns the first path whose eligibility gates all pass.</para>
+<para><bold>Thread safety</bold>: <computeroutput><ref refid="classthemis_1_1evaluation_1_1_default_query_planner_1afe6c6f7f5ff91b637f66dffb15a01797" kindref="member">selectPath()</ref></computeroutput> is const; concurrent calls are safe provided the injected <computeroutput><ref refid="classthemis_1_1evaluation_1_1_planner_observer" kindref="compound">PlannerObserver</ref></computeroutput> (if any) is also thread-safe.</para>
+<para><bold>Failure contract</bold>: any unexpected state results in <computeroutput><ref refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adcadefc5c9258471d12484c76a1b8ec77f5" kindref="member">ExecutionPath::DirectExactGraph</ref></computeroutput> with a non-None <computeroutput><ref refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008" kindref="member">FallbackReason</ref></computeroutput>. The method never throws.</para>
+<para><bold>Observability</bold>: when a non-null <computeroutput><ref refid="classthemis_1_1evaluation_1_1_planner_observer" kindref="compound">PlannerObserver</ref></computeroutput> is registered via <computeroutput>makeDefaultQueryPlanner(observer)</computeroutput>, <computeroutput><ref refid="classthemis_1_1evaluation_1_1_planner_observer_1a194eef3877c6cefbb2df2e5a78f67135" kindref="member">PlannerObserver::onDecision()</ref></computeroutput> is called after every <computeroutput><ref refid="classthemis_1_1evaluation_1_1_default_query_planner_1afe6c6f7f5ff91b637f66dffb15a01797" kindref="member">selectPath()</ref></computeroutput> invocation with the decision and wall-clock latency in microseconds. The observer pointer lifetime must exceed the planner lifetime.</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1evaluation_1_1_query_planner" kindref="compound">QueryPlanner</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::evaluation::DefaultQueryPlanner</label>
+        <link refid="classthemis_1_1evaluation_1_1_default_query_planner"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::evaluation::QueryPlanner</label>
+        <link refid="classthemis_1_1evaluation_1_1_query_planner"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::evaluation::DefaultQueryPlanner</label>
+        <link refid="classthemis_1_1evaluation_1_1_default_query_planner"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::evaluation::QueryPlanner</label>
+        <link refid="classthemis_1_1evaluation_1_1_query_planner"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/src/query_planner.cc" line="252" column="1" bodyfile="src/evaluation/src/query_planner.cc" bodystart="252" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1a0442f92765728b7de5d6afdcafc144b7" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>DefaultQueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1ad08388895c34efc362f95038a4019188" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>DefaultQueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1ad0eb3ee7e6c1b35bb2db0841b10f2434" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>isKernelEligibleForGpu</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1a4b11fa413c75b0bf1f7a706334e9c8a7" prot="private" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>observer_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a214ca1aaee23e0944815bab29a9ec208" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a2041c3b31c0ef85a2e3a9d4706fd4c26" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a857e79fa498aba733b3ed2b8e69bfc2a" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>QueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a341b22b620f58e4c03c28a8a42997af4" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>QueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a09647479584b209c08733fac45a1d4a2" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>QueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1afe6c6f7f5ff91b637f66dffb15a01797" prot="public" virt="virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>selectPath</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1a98cb7a2496714a5b8f7aecc10ce53508" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>~DefaultQueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a1320c6690a842a05b6dac40e42e65120" prot="public" virt="virtual"><scope>themis::evaluation::DefaultQueryPlanner</scope><name>~QueryPlanner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

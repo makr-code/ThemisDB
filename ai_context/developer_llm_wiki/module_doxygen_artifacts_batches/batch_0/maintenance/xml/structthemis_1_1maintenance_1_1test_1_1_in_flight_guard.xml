@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::test::InFlightGuard</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1af03de8c6ebd577180d229ef25c4bf15d" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::test::InFlightGuard::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::maintenance::test::InFlightGuard::mu</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="49" column="35" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a2000668772ed7108428aad40c810cc9a" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::maintenance::test::InFlightGuard::in_flight</definition>
+        <argsstring></argsstring>
+        <name>in_flight</name>
+        <qualifiedname>themis::maintenance::test::InFlightGuard::in_flight</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="50" column="24" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a64b8d801068bea91fa6f833e59bc327b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::maintenance::test::InFlightGuard::tryEnter</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>tryEnter</name>
+        <qualifiedname>themis::maintenance::test::InFlightGuard::tryEnter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Returns false if schedule_id already in-flight (SKIPPED_CONCURRENT case). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="53" column="10" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a14d0082fd8985167ba62bb98e6ddfc95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::test::InFlightGuard::leave</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>leave</name>
+        <qualifiedname>themis::maintenance::test::InFlightGuard::leave</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="58" column="10" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="48" column="1" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="48" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a2000668772ed7108428aad40c810cc9a" prot="public" virt="non-virtual"><scope>themis::maintenance::test::InFlightGuard</scope><name>in_flight</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a14d0082fd8985167ba62bb98e6ddfc95" prot="public" virt="non-virtual"><scope>themis::maintenance::test::InFlightGuard</scope><name>leave</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1af03de8c6ebd577180d229ef25c4bf15d" prot="public" virt="non-virtual"><scope>themis::maintenance::test::InFlightGuard</scope><name>mu</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard_1a64b8d801068bea91fa6f833e59bc327b" prot="public" virt="non-virtual"><scope>themis::maintenance::test::InFlightGuard</scope><name>tryEnter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage_1_1_0d264320353003100246272060334323052362010213107315" kind="namespace" language="C++">
+    <compoundname>themis::storage::@264320353003100246272060334323052362010213107315</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/tiered_storage.cpp" line="114" column="1"/>
+  </compounddef>
+</doxygen>

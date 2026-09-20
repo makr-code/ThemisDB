@@ -1,0 +1,414 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_extraction_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::ExtractionContext</compoundname>
+    <includes refid="extraction__context_8h" local="no">extraction_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1ae32bf028bb5090986929a9dc643d9102" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_file_manifest" kindref="compound">FileManifest</ref></type>
+        <definition>FileManifest themis::ingestion::ExtractionContext::manifest</definition>
+        <argsstring></argsstring>
+        <name>manifest</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::manifest</qualifiedname>
+        <briefdescription>
+<para>Immutable after construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="108" column="18" bodyfile="include/ingestion/extraction_context.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a0ec698226f75bc619b0d2fc8fdf31b3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ExtractionContext::raw_text</definition>
+        <argsstring></argsstring>
+        <name>raw_text</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::raw_text</qualifiedname>
+        <briefdescription>
+<para>Full extracted text (UTF-8). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="111" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1affd1d8d14cdd560dbd05c34505f0a32e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ExtractionContext::text_language</definition>
+        <argsstring></argsstring>
+        <name>text_language</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::text_language</qualifiedname>
+        <briefdescription>
+<para>Detected language BCP-47 code (&quot;de&quot;, &quot;en&quot;, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="112" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1aa980271566bea3bbb79b0945799f5719" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ExtractionContext::text_from_ocr</definition>
+        <argsstring></argsstring>
+        <name>text_from_ocr</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::text_from_ocr</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when raw_text came from an OCR engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="113" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a652d914b4ecda6555ed9a0dfb409a6e3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref> &gt;</type>
+        <definition>std::vector&lt;TextChunk&gt; themis::ingestion::ExtractionContext::chunks</definition>
+        <argsstring></argsstring>
+        <name>chunks</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="116" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a8c795796747c9375834273899c09e7a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref> &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; themis::ingestion::ExtractionContext::entities</definition>
+        <argsstring></argsstring>
+        <name>entities</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::entities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="119" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a4a7422c2dd1576a2732cf8d379f52056" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref> &gt;</type>
+        <definition>std::vector&lt;EntityRelation&gt; themis::ingestion::ExtractionContext::relations</definition>
+        <argsstring></argsstring>
+        <name>relations</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::relations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="122" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a86382df39fa6d7faf4a39591fa575b76" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> &gt;</type>
+        <definition>std::vector&lt;VectorRecord&gt; themis::ingestion::ExtractionContext::embeddings</definition>
+        <argsstring></argsstring>
+        <name>embeddings</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::embeddings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="125" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1ae2b1322b9d6f511ce639b0056c071bac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref> &gt;</type>
+        <definition>std::vector&lt;TensorCoreRecord&gt; themis::ingestion::ExtractionContext::tensor_cores</definition>
+        <argsstring></argsstring>
+        <name>tensor_cores</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::tensor_cores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tensor-Train cores produced by <computeroutput>builtin.chunk_tt_decompose</computeroutput>. Populated only when a <computeroutput>TensorIngestionBridge</computeroutput> is injected and the embedding data passes the κ-gate (shouldDecompose() == true). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="131" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a1a59fb9bb455fdf46ddc4e85e2d33d64" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_geo_feature" kindref="compound">GeoFeature</ref> &gt;</type>
+        <definition>std::vector&lt;GeoFeature&gt; themis::ingestion::ExtractionContext::geo_features</definition>
+        <argsstring></argsstring>
+        <name>geo_features</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::geo_features</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="134" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a0949c1d1b574f2d52c95fcf85e54b9e1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_table_row" kindref="compound">TableRow</ref> &gt;</type>
+        <definition>std::vector&lt;TableRow&gt; themis::ingestion::ExtractionContext::table_rows</definition>
+        <argsstring></argsstring>
+        <name>table_rows</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::table_rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="137" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a639ce9f03577f21056708552c0cd43ce" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::ExtractionContext::extracted_file_paths</definition>
+        <argsstring></argsstring>
+        <name>extracted_file_paths</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::extracted_file_paths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Paths to files unpacked from a ZIP/tar archive; <ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref> recursively ingests these after the decompress step completes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="140" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1adb449fc83cfee61a51206bb172982f3f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::ExtractionContext::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-fatal per-step warnings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="145" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1ae8a42a1c3d6f0606c098f584939d73c2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::ExtractionContext::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::errors</qualifiedname>
+        <briefdescription>
+<para>Fatal step errors (step aborted). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="146" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extraction_context_1a94a5f4250a5cdb406b370f6846082056" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::ingestion::ExtractionContext::extra</definition>
+        <argsstring></argsstring>
+        <name>extra</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::extra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Arbitrary string→string payload; use namespaced keys, e.g. &quot;audio.transcription_model&quot; = &quot;whisper-large-v3&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="149" column="24" bodyfile="include/ingestion/extraction_context.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extraction_context_1ab5f8e95682f121d107507af9b1ba2242" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ExtractionContext::hasText</definition>
+        <argsstring>() const</argsstring>
+        <name>hasText</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::hasText</qualifiedname>
+        <briefdescription>
+<para>Returns true when raw_text is non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="156" column="10" bodyfile="include/ingestion/extraction_context.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extraction_context_1a2ca13cce0ff39de92731668dbb1115f9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ExtractionContext::hasChunks</definition>
+        <argsstring>() const</argsstring>
+        <name>hasChunks</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::hasChunks</qualifiedname>
+        <briefdescription>
+<para>Returns true when at least one chunk was produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="159" column="10" bodyfile="include/ingestion/extraction_context.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extraction_context_1a9bd23b4d06b4cc2f6ec256d027c9dfce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ExtractionContext::hasEntities</definition>
+        <argsstring>() const</argsstring>
+        <name>hasEntities</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::hasEntities</qualifiedname>
+        <briefdescription>
+<para>Returns true when at least one entity was extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="162" column="10" bodyfile="include/ingestion/extraction_context.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extraction_context_1a4706c6426848803c541e56c3395e17d8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ExtractionContext::hasEmbeddings</definition>
+        <argsstring>() const</argsstring>
+        <name>hasEmbeddings</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::hasEmbeddings</qualifiedname>
+        <briefdescription>
+<para>Returns true when at least one embedding was produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="165" column="10" bodyfile="include/ingestion/extraction_context.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extraction_context_1a924d9732856ca41312592221a41dadb1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ExtractionContext::hasTensorCores</definition>
+        <argsstring>() const</argsstring>
+        <name>hasTensorCores</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::hasTensorCores</qualifiedname>
+        <briefdescription>
+<para>Returns true when at least one TT-core record was produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="168" column="10" bodyfile="include/ingestion/extraction_context.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extraction_context_1a6f00b9276620924db39d4091db492097" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ExtractionContext::hasGeoFeatures</definition>
+        <argsstring>() const</argsstring>
+        <name>hasGeoFeatures</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::hasGeoFeatures</qualifiedname>
+        <briefdescription>
+<para>Returns true when at least one geo feature was extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="171" column="10" bodyfile="include/ingestion/extraction_context.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extraction_context_1a9fae59aa86bde7fb494c520fd695bd61" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ExtractionContext::hasTableRows</definition>
+        <argsstring>() const</argsstring>
+        <name>hasTableRows</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::hasTableRows</qualifiedname>
+        <briefdescription>
+<para>Returns true when at least one table row was extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="174" column="10" bodyfile="include/ingestion/extraction_context.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extraction_context_1aab6ad2fb787cad47ae858820b185a6e6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::ingestion::ExtractionContext::extraOr</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;default_val) const</argsstring>
+        <name>extraOr</name>
+        <qualifiedname>themis::ingestion::ExtractionContext::extraOr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>default_val</declname>
+        </param>
+        <briefdescription>
+<para>Returns the <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a94a5f4250a5cdb406b370f6846082056" kindref="member">extra</ref></computeroutput> value for <computeroutput>key</computeroutput>, or <computeroutput>default_val</computeroutput> when absent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="177" column="23" bodyfile="include/ingestion/extraction_context.h" bodystart="177" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mutable pipeline state shared across all workflow steps. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></computeroutput> is constructed once per file by the <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref></computeroutput> and passed (by non-const reference) to each <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8" kindref="member">IIngestionStep::execute()</ref></computeroutput>. Steps read earlier results and append their own extractions.</para>
+<para>Thread-safety ───────────── The context is NOT thread-safe by design. Parallel step execution (when <computeroutput>parallel: true</computeroutput> in the YAML profile) must be managed by the <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref></computeroutput> itself, which merges partial contexts after all parallel steps complete.</para>
+<para>Lifecycle ─────────<orderedlist>
+<listitem><para><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref> creates an <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> with the <ref refid="structthemis_1_1ingestion_1_1_file_manifest" kindref="compound">FileManifest</ref>.</para>
+</listitem><listitem><para>Steps execute sequentially (or in controlled parallel batches), enriching the context.</para>
+</listitem><listitem><para><computeroutput>builtin.base_entity_assembler</computeroutput> reads the final context and produces a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput>.</para>
+</listitem><listitem><para>Sinks (GraphWriter, VectorWriter, DocWriter) consume the <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>.</para>
+</listitem></orderedlist>
+</para>
+<para>Extending the context ────────────────────── New step types can add domain-specific data via the <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a94a5f4250a5cdb406b370f6846082056" kindref="member">extra</ref></computeroutput> map: <programlisting><codeline><highlight class="normal">ctx.extra[</highlight><highlight class="stringliteral">&quot;audio_transcription&quot;</highlight><highlight class="normal">]<sp/>=<sp/>transcript_text;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::ExtractionContext</label>
+        <link refid="structthemis_1_1ingestion_1_1_extraction_context"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>manifest</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::FileManifest</label>
+        <link refid="structthemis_1_1ingestion_1_1_file_manifest"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/extraction_context.h" line="106" column="1" bodyfile="include/ingestion/extraction_context.h" bodystart="106" bodyend="182"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a652d914b4ecda6555ed9a0dfb409a6e3" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>chunks</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a86382df39fa6d7faf4a39591fa575b76" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>embeddings</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a8c795796747c9375834273899c09e7a7" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>entities</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1ae8a42a1c3d6f0606c098f584939d73c2" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>errors</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a94a5f4250a5cdb406b370f6846082056" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>extra</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a639ce9f03577f21056708552c0cd43ce" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>extracted_file_paths</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1aab6ad2fb787cad47ae858820b185a6e6" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>extraOr</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a1a59fb9bb455fdf46ddc4e85e2d33d64" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>geo_features</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a2ca13cce0ff39de92731668dbb1115f9" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>hasChunks</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a4706c6426848803c541e56c3395e17d8" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>hasEmbeddings</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a9bd23b4d06b4cc2f6ec256d027c9dfce" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>hasEntities</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a6f00b9276620924db39d4091db492097" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>hasGeoFeatures</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a9fae59aa86bde7fb494c520fd695bd61" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>hasTableRows</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a924d9732856ca41312592221a41dadb1" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>hasTensorCores</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1ab5f8e95682f121d107507af9b1ba2242" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>hasText</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1ae32bf028bb5090986929a9dc643d9102" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>manifest</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a0ec698226f75bc619b0d2fc8fdf31b3e" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>raw_text</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a4a7422c2dd1576a2732cf8d379f52056" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>relations</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1a0949c1d1b574f2d52c95fcf85e54b9e1" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>table_rows</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1ae2b1322b9d6f511ce639b0056c071bac" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>tensor_cores</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1aa980271566bea3bbb79b0945799f5719" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>text_from_ocr</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1affd1d8d14cdd560dbd05c34505f0a32e" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>text_language</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extraction_context_1adb449fc83cfee61a51206bb172982f3f" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractionContext</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

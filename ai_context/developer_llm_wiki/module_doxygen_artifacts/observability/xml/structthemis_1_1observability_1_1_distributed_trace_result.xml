@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_distributed_trace_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::DistributedTraceResult</compoundname>
+    <includes refid="distributed__tracing__sdk_8h" local="no">distributed_tracing_sdk.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_trace_result_1acd8d8cf0ab563fe475dd3351cca6efbb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::DistributedTraceResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::observability::DistributedTraceResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether the operation succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="234" column="10" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_trace_result_1a59de010bb984d9bc97bc74494a2cd7ab" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::DistributedTraceResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::observability::DistributedTraceResult::error_code</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Error code if operation failed (0 = no error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="237" column="9" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_trace_result_1abdedc83f6767ff840149424cb7a5edc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::observability::DistributedTraceResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message if operation failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="240" column="17" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_trace_result_1a604f6c13f949f287dd60de66af6a0eb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceResult::debug_context</definition>
+        <argsstring></argsstring>
+        <name>debug_context</name>
+        <qualifiedname>themis::observability::DistributedTraceResult::debug_context</qualifiedname>
+        <briefdescription>
+<para>Optional additional context for debugging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="243" column="17" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a distributed trace operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Encapsulates the success/failure status of distributed tracing operations. </para>
+    </detaileddescription>
+    <location file="include/observability/distributed_tracing_sdk.h" line="232" column="1" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="232" bodyend="244"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_distributed_trace_result_1a604f6c13f949f287dd60de66af6a0eb8" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceResult</scope><name>debug_context</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_trace_result_1a59de010bb984d9bc97bc74494a2cd7ab" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceResult</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_trace_result_1abdedc83f6767ff840149424cb7a5edc4" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_trace_result_1acd8d8cf0ab563fe475dd3351cca6efbb" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

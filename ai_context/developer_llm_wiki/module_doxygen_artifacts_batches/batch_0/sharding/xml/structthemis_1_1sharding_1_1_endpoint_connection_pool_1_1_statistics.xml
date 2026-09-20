@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::EndpointConnectionPool::Statistics</compoundname>
+    <includes refid="mtls__connection__pool_8h" local="no">mtls_connection_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1aabef97d1c9e83962130a33454cad14f6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::EndpointConnectionPool::Statistics::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Statistics::active_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="68" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1a4773e5c2646b45717fbc793414388b3c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::EndpointConnectionPool::Statistics::idle_connections</definition>
+        <argsstring></argsstring>
+        <name>idle_connections</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Statistics::idle_connections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="69" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1ac80b7410bb57bb062ad1423923862102" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::EndpointConnectionPool::Statistics::total_created</definition>
+        <argsstring></argsstring>
+        <name>total_created</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Statistics::total_created</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="70" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1a7f48ee2b3345c622465914c76c3fc286" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::EndpointConnectionPool::Statistics::connections_failed</definition>
+        <argsstring></argsstring>
+        <name>connections_failed</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Statistics::connections_failed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="71" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1aa4bd8d93ec01d69984cdcc391e73730b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::EndpointConnectionPool::Statistics::utilization_percent</definition>
+        <argsstring></argsstring>
+        <name>utilization_percent</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Statistics::utilization_percent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="72" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pool statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/mtls_connection_pool.h" line="67" column="5" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="67" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1aabef97d1c9e83962130a33454cad14f6" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Statistics</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1a7f48ee2b3345c622465914c76c3fc286" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Statistics</scope><name>connections_failed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1a4773e5c2646b45717fbc793414388b3c" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Statistics</scope><name>idle_connections</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1ac80b7410bb57bb062ad1423923862102" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Statistics</scope><name>total_created</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1aa4bd8d93ec01d69984cdcc391e73730b" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Statistics</scope><name>utilization_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

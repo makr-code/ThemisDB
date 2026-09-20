@@ -1,0 +1,665 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::attention::KVCacheManager</compoundname>
+    <includes refid="kv__cache__manager_8h" local="no">kv_cache_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a7f707743ed8f82ea28b8df0b8ee0cd3e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref></type>
+        <definition>FlashAttentionConfig themis::llm::attention::KVCacheManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="134" column="26" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a39507c2cb34254238ac948c6f2d00284" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref> &gt;</type>
+        <definition>std::vector&lt;Block&gt; themis::llm::attention::KVCacheManager::blocks_</definition>
+        <argsstring></argsstring>
+        <name>blocks_</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="137" column="17" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1ac7ee9ce3f26e12a4913cb6a0a9c41b1a" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; int &gt;</type>
+        <definition>std::queue&lt;int&gt; themis::llm::attention::KVCacheManager::free_blocks_</definition>
+        <argsstring></argsstring>
+        <name>free_blocks_</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::free_blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="140" column="16" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1abab1dd57ff50135e23087a6cb81f4016" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, <ref refid="structthemis_1_1llm_1_1attention_1_1_block_table" kindref="compound">BlockTable</ref> &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, BlockTable&gt; themis::llm::attention::KVCacheManager::sequences_</definition>
+        <argsstring></argsstring>
+        <name>sequences_</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::sequences_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="143" column="24" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a105a4ba78c6f061c931bdd2561ca283d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::attention::KVCacheManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="146" column="24" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a206eaf4e5a05924ec6ae98cc1d3f2d4f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::KVCacheManager::KVCacheManager</definition>
+        <argsstring>(const FlashAttentionConfig &amp;config)</argsstring>
+        <name>KVCacheManager</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::KVCacheManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>KVCache Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="73" column="14" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="23" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1aa1900db6a7c1de9b695f78ee2e83cc26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::KVCacheManager::~KVCacheManager</definition>
+        <argsstring>()</argsstring>
+        <name>~KVCacheManager</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::~KVCacheManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="74" column="5" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a2f8436101b2265437aa52fd0b83d2c3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_block_table" kindref="compound">BlockTable</ref></type>
+        <definition>BlockTable themis::llm::attention::KVCacheManager::allocateSequence</definition>
+        <argsstring>(uint64_t seq_id, int expected_tokens)</argsstring>
+        <name>allocateSequence</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::allocateSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>expected_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Allocate Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), empty(), freeBlock(), allocateBlock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="82" column="16" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="67" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1ae1c4ef572966bf31560b7edc64f56656" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::KVCacheManager::freeSequence</definition>
+        <argsstring>(uint64_t seq_id)</argsstring>
+        <name>freeSequence</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::freeSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq_id</declname>
+        </param>
+        <briefdescription>
+<para>Free Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), freeBlock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="88" column="10" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="111" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a2ca6c76d177eb54d7c6f6771ac41d678" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::KVCacheManager::appendToken</definition>
+        <argsstring>(uint64_t seq_id, const KVTensor &amp;kv)</argsstring>
+        <name>appendToken</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::appendToken</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_k_v_tensor" kindref="compound">KVTensor</ref> &amp;</type>
+          <declname>kv</declname>
+        </param>
+        <briefdescription>
+<para>Append Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), size(), empty(), allocateBlock(), push_back(), std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="95" column="10" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="134" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a6d27ba0e1167d0c17fbd46cc21d41c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::KVCacheManager::sharePrefix</definition>
+        <argsstring>(uint64_t new_seq_id, uint64_t parent_seq_id, int prefix_length)</argsstring>
+        <name>sharePrefix</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::sharePrefix</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>new_seq_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>parent_seq_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>prefix_length</declname>
+        </param>
+        <briefdescription>
+<para>Share Prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the new seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the new seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::min(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="103" column="10" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="181" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a7fc499da6031fa22f466c1fac286ddac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_block_table" kindref="compound">BlockTable</ref> *</type>
+        <definition>const BlockTable * themis::llm::attention::KVCacheManager::getBlockTable</definition>
+        <argsstring>(uint64_t seq_id) const</argsstring>
+        <name>getBlockTable</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::getBlockTable</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref> Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="110" column="22" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="224" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a727d24b68cb34d3b692e1584c99b192a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref> *</type>
+        <definition>const Block * themis::llm::attention::KVCacheManager::getBlock</definition>
+        <argsstring>(int block_id) const</argsstring>
+        <name>getBlock</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::getBlock</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="117" column="17" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="240" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a0146955efd7f2b57911d75633e9f1c79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref></type>
+        <definition>AttentionMemoryStats themis::llm::attention::KVCacheManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="123" column="26" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="247" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1aa08d224cbea6f36367e6bfe800270ecf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::KVCacheManager::getFreeBlockCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getFreeBlockCount</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::getFreeBlockCount</qualifiedname>
+        <briefdescription>
+<para>Get Free <ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref> Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="129" column="12" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="282" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a49d44a9d62c34dff1e25a058af675902" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::KVCacheManager::getTotalBlockCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalBlockCount</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::getTotalBlockCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="131" column="12" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a8d9ce7e34593df3e7169f468d3466e6f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::attention::KVCacheManager::allocateBlock</definition>
+        <argsstring>()</argsstring>
+        <name>allocateBlock</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::allocateBlock</qualifiedname>
+        <briefdescription>
+<para>Allocate <ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), front(), pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="153" column="9" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="297" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1ad9d49c820781f5738ac9992f60260eff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::KVCacheManager::freeBlock</definition>
+        <argsstring>(int block_id)</argsstring>
+        <name>freeBlock</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::freeBlock</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Free <ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="158" column="10" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="316" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a3b0bc6cfba51fdb7722bb0266986d986" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::KVCacheManager::calculateBlockSize</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateBlockSize</name>
+        <qualifiedname>themis::llm::attention::KVCacheManager::calculateBlockSize</qualifiedname>
+        <briefdescription>
+<para>Calculate <ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref> Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="163" column="12" bodyfile="src/llm/attention/kv_cache_manager.cpp" bodystart="333" bodyend="350"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/kv_cache_manager.h" line="66" column="1" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="66" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a8d9ce7e34593df3e7169f468d3466e6f" prot="private" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>allocateBlock</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a2f8436101b2265437aa52fd0b83d2c3d" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>allocateSequence</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a2ca6c76d177eb54d7c6f6771ac41d678" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>appendToken</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a39507c2cb34254238ac948c6f2d00284" prot="private" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>blocks_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a3b0bc6cfba51fdb7722bb0266986d986" prot="private" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>calculateBlockSize</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a7f707743ed8f82ea28b8df0b8ee0cd3e" prot="private" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1ac7ee9ce3f26e12a4913cb6a0a9c41b1a" prot="private" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>free_blocks_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1ad9d49c820781f5738ac9992f60260eff" prot="private" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>freeBlock</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1ae1c4ef572966bf31560b7edc64f56656" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>freeSequence</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a727d24b68cb34d3b692e1584c99b192a" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>getBlock</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a7fc499da6031fa22f466c1fac286ddac" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>getBlockTable</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1aa08d224cbea6f36367e6bfe800270ecf" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>getFreeBlockCount</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a0146955efd7f2b57911d75633e9f1c79" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a49d44a9d62c34dff1e25a058af675902" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>getTotalBlockCount</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a206eaf4e5a05924ec6ae98cc1d3f2d4f" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>KVCacheManager</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a105a4ba78c6f061c931bdd2561ca283d" prot="private" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1abab1dd57ff50135e23087a6cb81f4016" prot="private" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>sequences_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1a6d27ba0e1167d0c17fbd46cc21d41c95" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>sharePrefix</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager_1aa1900db6a7c1de9b695f78ee2e83cc26" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVCacheManager</scope><name>~KVCacheManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

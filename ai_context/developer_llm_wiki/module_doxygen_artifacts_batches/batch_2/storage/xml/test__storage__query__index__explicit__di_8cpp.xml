@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__storage__query__index__explicit__di_8cpp" kind="file" language="C++">
+    <compoundname>test_storage_query_index_explicit_di.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/index_manager.h</includes>
+    <includes local="yes">query/query_engine.h</includes>
+    <includes local="yes">security/encryption.h</includes>
+    <includes local="yes">security/mock_key_provider.h</includes>
+    <includes refid="base__entity_8h" local="yes">storage/base_entity.h</includes>
+    <includes refid="storage__engine_8h" local="yes">storage/storage_engine.h</includes>
+    <includes local="yes">themis/edition.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>storage/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>storage/storage_engine.h</label>
+        <link refid="storage__engine_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_storage_query_index_explicit_di.cpp</label>
+        <link refid="test__storage__query__index__explicit__di_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>atomic</label>
+      </node>
+      <node id="31">
+        <label>chrono</label>
+      </node>
+      <node id="25">
+        <label>condition_variable</label>
+      </node>
+      <node id="28">
+        <label>cstddef</label>
+      </node>
+      <node id="29">
+        <label>cstdint</label>
+      </node>
+      <node id="32">
+        <label>filesystem</label>
+      </node>
+      <node id="22">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/index_manager.h</label>
+      </node>
+      <node id="13">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="24">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>query/query_engine.h</label>
+      </node>
+      <node id="5">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="6">
+        <label>security/mock_key_provider.h</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="20">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="18">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="19">
+        <label>themis/base/interfaces/security_interface.h</label>
+      </node>
+      <node id="17">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="30">
+        <label>themis/edition.h</label>
+      </node>
+      <node id="26">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="15">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="14">
+        <label>variant</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_storage_query_index_explicit_d_i_test" prot="public">StorageQueryIndexExplicitDITest</innerclass>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__storage__query__index__explicit__di_8cpp_1a01aef89b4074cbb93983907a4c037262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageQueryIndexExplicitDITest, ExplicitDIStorageRoundTripUsesRealRocksDB)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref></type>
+        </param>
+        <param>
+          <type>ExplicitDIStorageRoundTripUsesRealRocksDB</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_query_index_explicit_di.cpp" line="88" column="1" bodyfile="tests/storage/test_storage_query_index_explicit_di.cpp" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__query__index__explicit__di_8cpp_1a35a7e86f94d0b01e0a2c700dd0894843" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageQueryIndexExplicitDITest, ExplicitDIStorageUsesQueryEvaluatorForFilters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref></type>
+        </param>
+        <param>
+          <type>ExplicitDIStorageUsesQueryEvaluatorForFilters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_query_index_explicit_di.cpp" line="96" column="1" bodyfile="tests/storage/test_storage_query_index_explicit_di.cpp" bodystart="96" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__query__index__explicit__di_8cpp_1ab0ecc6b0608bf237bb8fd282f34ea3c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageQueryIndexExplicitDITest, ExplicitDIStorageIndexAndQueryComposeWithoutDefaultShims)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref></type>
+        </param>
+        <param>
+          <type>ExplicitDIStorageIndexAndQueryComposeWithoutDefaultShims</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_query_index_explicit_di.cpp" line="104" column="1" bodyfile="tests/storage/test_storage_query_index_explicit_di.cpp" bodystart="104" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__query__index__explicit__di_8cpp_1a912537fe16aa928abc3d11cc58408f40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageQueryIndexExplicitDITest, ExplicitDIStorageEncryptsAndDecryptsWithConfiguredProvider)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref></type>
+        </param>
+        <param>
+          <type>ExplicitDIStorageEncryptsAndDecryptsWithConfiguredProvider</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_query_index_explicit_di.cpp" line="125" column="1" bodyfile="tests/storage/test_storage_query_index_explicit_di.cpp" bodystart="125" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/index_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/encryption.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/mock_key_provider.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="base__entity_8h" kindref="compound">storage/base_entity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__engine_8h" kindref="compound">storage/storage_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/edition.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">[[nodiscard]]<sp/>std::string<sp/>makeTempDbPath()<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::steady_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_storage_query_index_explicit_di_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(now))))</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="class_storage_query_index_explicit_d_i_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a7cb4d31728841ad94cf7824c7922d82f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a2b6dc844cdb17e14dafaa8b230d8a0d8" kindref="member">db_path_</ref><sp/>=<sp/>makeTempDbPath();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_storage_query_index_explicit_d_i_test_1a2b6dc844cdb17e14dafaa8b230d8a0d8" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a680db9090df5dee5e3f5e73e14e873cd" kindref="member">key_provider_</ref><sp/>=<sp/>std::make_shared&lt;MockKeyProvider&gt;();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a680db9090df5dee5e3f5e73e14e873cd" kindref="member">key_provider_</ref>-&gt;createKey(</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1ac225a309deee86dff4e61d6a92055d8c" kindref="member">encryption_</ref><sp/>=<sp/>std::make_shared&lt;FieldEncryption&gt;(<ref refid="class_storage_query_index_explicit_d_i_test_1a680db9090df5dee5e3f5e73e14e873cd" kindref="member">key_provider_</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1af9a4ee384275274c45c9f5b3dfe1b909" kindref="member">index_manager_</ref><sp/>=<sp/>std::make_shared&lt;IndexManager&gt;();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a9e2119504624c04c621d182dddf1f169" kindref="member">evaluator_engine_</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1af9a4ee384275274c45c9f5b3dfe1b909" kindref="member">index_manager_</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>evaluator<sp/>=<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a9e2119504624c04c621d182dddf1f169" kindref="member">evaluator_engine_</ref>-&gt;get_expression_evaluator();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref><sp/>=<sp/>std::make_shared&lt;StorageEngine&gt;(</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evaluator,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::static_pointer_cast&lt;IFieldEncryption&gt;(<ref refid="class_storage_query_index_explicit_d_i_test_1ac225a309deee86dff4e61d6a92055d8c" kindref="member">encryption_</ref>),</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::static_pointer_cast&lt;IKeyProvider&gt;(<ref refid="class_storage_query_index_explicit_d_i_test_1a680db9090df5dee5e3f5e73e14e873cd" kindref="member">key_provider_</ref>),</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::static_pointer_cast&lt;IIndexManager&gt;(<ref refid="class_storage_query_index_explicit_d_i_test_1af9a4ee384275274c45c9f5b3dfe1b909" kindref="member">index_manager_</ref>));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>-&gt;open(<ref refid="class_storage_query_index_explicit_d_i_test_1a2b6dc844cdb17e14dafaa8b230d8a0d8" kindref="member">db_path_</ref>).has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>explicit-DI<sp/>StorageEngine&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>db_alias<sp/>=<sp/>std::shared_ptr&lt;RocksDBWrapper&gt;(<ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>,<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>-&gt;rawDB());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1af9a4ee384275274c45c9f5b3dfe1b909" kindref="member">index_manager_</ref>-&gt;setStorage(<ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1af9a4ee384275274c45c9f5b3dfe1b909" kindref="member">index_manager_</ref>-&gt;setRocksDB(db_alias);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a9e2119504624c04c621d182dddf1f169" kindref="member">evaluator_engine_</ref>-&gt;setStorage(<ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>secondary_manager<sp/>=<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1af9a4ee384275274c45c9f5b3dfe1b909" kindref="member">index_manager_</ref>-&gt;getSecondaryIndexManager();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(secondary_manager,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;SecondaryIndexManager<sp/>was<sp/>not<sp/>initialized&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1adafb8385b3d1a88a2eec767a32a932d0" kindref="member">query_engine_</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>-&gt;rawDB(),<sp/>*secondary_manager);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1abe477cfe80127d4df9304faad8d1aa20" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1adafb8385b3d1a88a2eec767a32a932d0" kindref="member">query_engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a9e2119504624c04c621d182dddf1f169" kindref="member">evaluator_engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>.reset();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1ac225a309deee86dff4e61d6a92055d8c" kindref="member">encryption_</ref>.reset();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a680db9090df5dee5e3f5e73e14e873cd" kindref="member">key_provider_</ref>.reset();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_query_index_explicit_d_i_test_1af9a4ee384275274c45c9f5b3dfe1b909" kindref="member">index_manager_</ref>.reset();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_storage_query_index_explicit_d_i_test_1a2b6dc844cdb17e14dafaa8b230d8a0d8" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a2b6dc844cdb17e14dafaa8b230d8a0d8" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MockKeyProvider&gt;<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a680db9090df5dee5e3f5e73e14e873cd" kindref="member">key_provider_</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;FieldEncryption&gt;<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1ac225a309deee86dff4e61d6a92055d8c" kindref="member">encryption_</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IndexManager&gt;<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1af9a4ee384275274c45c9f5b3dfe1b909" kindref="member">index_manager_</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;StorageEngine&gt;<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1ab931109257b4f7f07fb8c8dad823c7ce" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1a9e2119504624c04c621d182dddf1f169" kindref="member">evaluator_engine_</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_storage_query_index_explicit_d_i_test_1adafb8385b3d1a88a2eec767a32a932d0" kindref="member">query_engine_</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__storage__query__index__explicit__di_8cpp_1a01aef89b4074cbb93983907a4c037262" kindref="member">TEST_F</ref>(<ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref>,<sp/>ExplicitDIStorageRoundTripUsesRealRocksDB)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(storage_-&gt;put(</highlight><highlight class="stringliteral">&quot;doc:users:u1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;status&quot;:&quot;active&quot;,&quot;age&quot;:30})&quot;).has_value());</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_result<sp/>=<sp/>storage_-&gt;get(</highlight><highlight class="stringliteral">&quot;doc:users:u1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(get_result.has_value())<sp/>&lt;&lt;<sp/>get_result.error().message();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(get_result-&gt;find(</highlight><highlight class="stringliteral">&quot;\&quot;status\&quot;:\&quot;active\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__storage__query__index__explicit__di_8cpp_1a01aef89b4074cbb93983907a4c037262" kindref="member">TEST_F</ref>(<ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref>,<sp/>ExplicitDIStorageUsesQueryEvaluatorForFilters)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryEngine::EvaluationContext<sp/>ctx;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.bind(</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>30}});</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(storage_-&gt;apply_filter(</highlight><highlight class="stringliteral">&quot;doc.status<sp/>==<sp/>\&quot;active\&quot;&quot;</highlight><highlight class="normal">,<sp/>&amp;ctx));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(storage_-&gt;apply_filter(</highlight><highlight class="stringliteral">&quot;doc.status<sp/>==<sp/>\&quot;inactive\&quot;&quot;</highlight><highlight class="normal">,<sp/>&amp;ctx));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__storage__query__index__explicit__di_8cpp_1a01aef89b4074cbb93983907a4c037262" kindref="member">TEST_F</ref>(<ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref>,<sp/>ExplicitDIStorageIndexAndQueryComposeWithoutDefaultShims)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>create_index_result<sp/>=<sp/>index_manager_-&gt;createSecondaryIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(create_index_result.has_value())<sp/>&lt;&lt;<sp/>create_index_result.error().message();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>secondary_manager<sp/>=<sp/>index_manager_-&gt;getSecondaryIndexManager();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(secondary_manager,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" kindref="member">BaseEntity::FieldMap</ref><sp/>user1{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">)},<sp/>{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(30)},<sp/>{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">)}};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" kindref="member">BaseEntity::FieldMap</ref><sp/>user2{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">)},<sp/>{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(31)},<sp/>{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">)}};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(secondary_manager-&gt;put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1_base_entity_1af7f9faed7f6998fddfa9608bc6fb2c6f" kindref="member">BaseEntity::fromFields</ref>(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/>user1)).ok);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(secondary_manager-&gt;put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1_base_entity_1af7f9faed7f6998fddfa9608bc6fb2c6f" kindref="member">BaseEntity::fromFields</ref>(</highlight><highlight class="stringliteral">&quot;u2&quot;</highlight><highlight class="normal">,<sp/>user2)).ok);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ConjunctiveQuery<sp/>query{</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;30&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>query_engine_-&gt;executeAndKeys(query);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result-&gt;size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ((*result)[0],<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__storage__query__index__explicit__di_8cpp_1a01aef89b4074cbb93983907a4c037262" kindref="member">TEST_F</ref>(<ref refid="class_storage_query_index_explicit_d_i_test" kindref="compound">StorageQueryIndexExplicitDITest</ref>,<sp/>ExplicitDIStorageEncryptsAndDecryptsWithConfiguredProvider)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>plaintext{0x10,<sp/>0x20,<sp/>0x30,<sp/>0x40};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!themis::edition::IsFeatureEnabled(</highlight><highlight class="stringliteral">&quot;field_encryption&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)storage_-&gt;encrypt_field(</highlight><highlight class="stringliteral">&quot;sensitive_field&quot;</highlight><highlight class="normal">,<sp/>plaintext);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ciphertext<sp/>=<sp/>storage_-&gt;encrypt_field(</highlight><highlight class="stringliteral">&quot;sensitive_field&quot;</highlight><highlight class="normal">,<sp/>plaintext);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ciphertext,<sp/>plaintext);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roundtrip<sp/>=<sp/>storage_-&gt;decrypt_field(</highlight><highlight class="stringliteral">&quot;sensitive_field&quot;</highlight><highlight class="normal">,<sp/>ciphertext);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(roundtrip,<sp/>plaintext);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_storage_query_index_explicit_di.cpp"/>
+  </compounddef>
+</doxygen>

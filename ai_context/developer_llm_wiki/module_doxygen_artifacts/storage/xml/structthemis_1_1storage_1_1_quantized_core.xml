@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_quantized_core" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::QuantizedCore</compoundname>
+    <includes refid="tt__quantizer_8h" local="no">tt_quantizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_core_1a55863cc849df9113ad7009f0736042a4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::QuantizedCore::r_left</definition>
+        <argsstring></argsstring>
+        <name>r_left</name>
+        <qualifiedname>themis::storage::QuantizedCore::r_left</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Original core dimensions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="46" column="17" bodyfile="include/storage/tt_quantizer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_core_1afcb1dbd9c244c00b69dac06a98a96814" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::QuantizedCore::n</definition>
+        <argsstring></argsstring>
+        <name>n</name>
+        <qualifiedname>themis::storage::QuantizedCore::n</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="47" column="17" bodyfile="include/storage/tt_quantizer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_core_1a9df7e68eb2725595718ebaaa9f8f6416" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::QuantizedCore::r_right</definition>
+        <argsstring></argsstring>
+        <name>r_right</name>
+        <qualifiedname>themis::storage::QuantizedCore::r_right</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="48" column="17" bodyfile="include/storage/tt_quantizer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_core_1a0d4117bd92a40efa429b70b4fc6a4037" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref></type>
+        <definition>QuantizationType themis::storage::QuantizedCore::quant_type</definition>
+        <argsstring></argsstring>
+        <name>quant_type</name>
+        <qualifiedname>themis::storage::QuantizedCore::quant_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbab50339a10e1de285ac99d4c3990b8693" kindref="member">QuantizationType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="50" column="22" bodyfile="include/storage/tt_quantizer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_core_1ad9a465ceae6946223cdcf14cb18286b4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::storage::QuantizedCore::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::storage::QuantizedCore::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compressed data bytes.<itemizedlist>
+<listitem><para>NONE: raw float32 (4 bytes/element)</para>
+</listitem><listitem><para>INT8: 1 byte/element (signed)</para>
+</listitem><listitem><para>NF4: ceil(elements/2) bytes (two 4-bit indices per byte) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="56" column="17" bodyfile="include/storage/tt_quantizer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_core_1a05eaecbf402811ab3eeb0c01a379c924" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::QuantizedCore::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>themis::storage::QuantizedCore::scale</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Per-core absolute-max scale factor (used by INT8). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="59" column="11" bodyfile="include/storage/tt_quantizer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_core_1a1a65a97155fa913aae5beae6420037a3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::QuantizedCore::mean</definition>
+        <argsstring></argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::storage::QuantizedCore::mean</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Original mean (used for NF4 centre correction). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="62" column="11" bodyfile="include/storage/tt_quantizer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_quantized_core_1a42300c1608867fc6202b6d9533954dfe" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::QuantizedCore::numElements</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>numElements</name>
+        <qualifiedname>themis::storage::QuantizedCore::numElements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="64" column="17" bodyfile="include/storage/tt_quantizer.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_quantized_core_1a92c6ff9a3017cce5970b8a28b2106232" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::storage::QuantizedCore::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::storage::QuantizedCore::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialise to bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="67" column="17" bodyfile="src/storage/tt_quantizer.cpp" bodystart="29" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_quantized_core_1ac130f84044a2460e7e85a8ff4414b17a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref> &gt;</type>
+        <definition>std::optional&lt; QuantizedCore &gt; themis::storage::QuantizedCore::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::storage::QuantizedCore::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::memcpy(), readU64(), readF32(), assign(), begin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="70" column="26" bodyfile="src/storage/tt_quantizer.cpp" bodystart="57" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A TT-core after quantisation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores compressed bytes plus per-core metadata needed for dequantisation. </para>
+    </detaileddescription>
+    <location file="include/storage/tt_quantizer.h" line="44" column="1" bodyfile="include/storage/tt_quantizer.h" bodystart="44" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1ad9a465ceae6946223cdcf14cb18286b4" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>data</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1ac130f84044a2460e7e85a8ff4414b17a" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1a1a65a97155fa913aae5beae6420037a3" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>mean</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1afcb1dbd9c244c00b69dac06a98a96814" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>n</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1a42300c1608867fc6202b6d9533954dfe" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>numElements</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1a0d4117bd92a40efa429b70b4fc6a4037" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>quant_type</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1a55863cc849df9113ad7009f0736042a4" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>r_left</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1a9df7e68eb2725595718ebaaa9f8f6416" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>r_right</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1a05eaecbf402811ab3eeb0c01a379c924" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>scale</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_core_1a92c6ff9a3017cce5970b8a28b2106232" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedCore</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

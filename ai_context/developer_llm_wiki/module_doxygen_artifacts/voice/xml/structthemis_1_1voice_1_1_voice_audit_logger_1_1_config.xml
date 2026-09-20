@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceAuditLogger::Config</compoundname>
+    <includes refid="voice__audit__logger_8h" local="no">voice_audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config_1ad0b2e4663b2e830f9d8e3540e4251f11" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAuditLogger::Config::enable_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_logging</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::Config::enable_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Global on/off switch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="109" column="14" bodyfile="include/voice/voice_audit_logger.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config_1a3c41e360f7b03f87f6787d6ec2462a85" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAuditLogger::Config::log_to_console</definition>
+        <argsstring></argsstring>
+        <name>log_to_console</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::Config::log_to_console</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Also print to stderr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="110" column="14" bodyfile="include/voice/voice_audit_logger.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config_1a5004aca791a5f9002f29ce6f81070918" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditLogger::Config::log_file_path</definition>
+        <argsstring></argsstring>
+        <name>log_file_path</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::Config::log_file_path</qualifiedname>
+        <briefdescription>
+<para>File path for log output (empty = no file). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="111" column="21" bodyfile="include/voice/voice_audit_logger.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config_1a82ebbd01dc5b2bff5e81a6070f6ba2d5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAuditLogger::Config::include_audio_metadata</definition>
+        <argsstring></argsstring>
+        <name>include_audio_metadata</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::Config::include_audio_metadata</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Include audio characteristics in logs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="112" column="14" bodyfile="include/voice/voice_audit_logger.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for audit logging. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_audit_logger.h" line="108" column="5" bodyfile="include/voice/voice_audit_logger.h" bodystart="108" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config_1ad0b2e4663b2e830f9d8e3540e4251f11" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger::Config</scope><name>enable_logging</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config_1a82ebbd01dc5b2bff5e81a6070f6ba2d5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger::Config</scope><name>include_audio_metadata</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config_1a5004aca791a5f9002f29ce6f81070918" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger::Config</scope><name>log_file_path</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config_1a3c41e360f7b03f87f6787d6ec2462a85" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger::Config</scope><name>log_to_console</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

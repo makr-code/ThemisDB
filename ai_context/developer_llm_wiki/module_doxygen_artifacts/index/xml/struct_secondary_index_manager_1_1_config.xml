@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_secondary_index_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>SecondaryIndexManager::Config</compoundname>
+    <includes refid="secondary__index_8h" local="no">secondary_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1a8eaacbe80b0431da1c47a23a9508e126" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::Config::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>SecondaryIndexManager::Config::enable_compression</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="55" column="14" bodyfile="include/index/secondary_index.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1a0978c1eb6db3b93e9d0fd59d0bee53ef" prot="public" static="no" mutable="no">
+        <type>index::CompressionAlgorithm</type>
+        <definition>index::CompressionAlgorithm themis::SecondaryIndexManager::Config::compression_algorithm</definition>
+        <argsstring></argsstring>
+        <name>compression_algorithm</name>
+        <qualifiedname>SecondaryIndexManager::Config::compression_algorithm</qualifiedname>
+        <initializer>= index::CompressionAlgorithm::NONE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="56" column="37" bodyfile="include/index/secondary_index.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1a4675714f6995be4c2bf916a44e356978" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::SecondaryIndexManager::Config::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>SecondaryIndexManager::Config::compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Algorithm-specific level (e.g. 1–22 for ZSTD). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="57" column="14" bodyfile="include/index/secondary_index.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1a6cc3fc821b02a788a6bd18ab5d80db22" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SecondaryIndexManager::Config::transactional_put_batch_size</definition>
+        <argsstring></argsstring>
+        <name>transactional_put_batch_size</name>
+        <qualifiedname>SecondaryIndexManager::Config::transactional_put_batch_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Default chunk size for <ref refid="class_secondary_index_manager_1ad38f286b60739a0cb481da3fdbb5fd8c" kindref="member">putBatch()</ref> transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="58" column="16" bodyfile="include/index/secondary_index.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1aacffc133205b6ae63011c0f09f739311" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::Config::enable_prefix_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_prefix_compression</name>
+        <qualifiedname>SecondaryIndexManager::Config::enable_prefix_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="62" column="14" bodyfile="include/index/secondary_index.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1a76359a73d864251a9dcadbb4d1688014" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::Config::enable_delta_encoding</definition>
+        <argsstring></argsstring>
+        <name>enable_delta_encoding</name>
+        <qualifiedname>SecondaryIndexManager::Config::enable_delta_encoding</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="63" column="14" bodyfile="include/index/secondary_index.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1ae93a6a206b6452928718b0ebffef9f5a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::Config::enable_rle</definition>
+        <argsstring></argsstring>
+        <name>enable_rle</name>
+        <qualifiedname>SecondaryIndexManager::Config::enable_rle</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="64" column="14" bodyfile="include/index/secondary_index.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1a73e67d65ec9675ea0ce9273877ff8601" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::Config::enable_dict_encoding</definition>
+        <argsstring></argsstring>
+        <name>enable_dict_encoding</name>
+        <qualifiedname>SecondaryIndexManager::Config::enable_dict_encoding</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="65" column="14" bodyfile="include/index/secondary_index.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_config_1a69cc20fb119f59657b73197606228bd4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::Config::enable_bloom_filter</definition>
+        <argsstring></argsstring>
+        <name>enable_bloom_filter</name>
+        <qualifiedname>SecondaryIndexManager::Config::enable_bloom_filter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="66" column="14" bodyfile="include/index/secondary_index.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Index compression configuration (v1.7.0). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/secondary_index.h" line="54" column="5" bodyfile="include/index/secondary_index.h" bodystart="54" bodyend="67"/>
+    <listofallmembers>
+      <member refid="struct_secondary_index_manager_1_1_config_1a0978c1eb6db3b93e9d0fd59d0bee53ef" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>compression_algorithm</name></member>
+      <member refid="struct_secondary_index_manager_1_1_config_1a4675714f6995be4c2bf916a44e356978" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>compression_level</name></member>
+      <member refid="struct_secondary_index_manager_1_1_config_1a69cc20fb119f59657b73197606228bd4" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>enable_bloom_filter</name></member>
+      <member refid="struct_secondary_index_manager_1_1_config_1a8eaacbe80b0431da1c47a23a9508e126" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>enable_compression</name></member>
+      <member refid="struct_secondary_index_manager_1_1_config_1a76359a73d864251a9dcadbb4d1688014" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>enable_delta_encoding</name></member>
+      <member refid="struct_secondary_index_manager_1_1_config_1a73e67d65ec9675ea0ce9273877ff8601" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>enable_dict_encoding</name></member>
+      <member refid="struct_secondary_index_manager_1_1_config_1aacffc133205b6ae63011c0f09f739311" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>enable_prefix_compression</name></member>
+      <member refid="struct_secondary_index_manager_1_1_config_1ae93a6a206b6452928718b0ebffef9f5a" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>enable_rle</name></member>
+      <member refid="struct_secondary_index_manager_1_1_config_1a6cc3fc821b02a788a6bd18ab5d80db22" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::Config</scope><name>transactional_put_batch_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

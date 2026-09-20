@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SelectivityAnalyzer::SelectivityStats</compoundname>
+    <includes refid="adaptive__index_8h" local="no">adaptive_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a304755dd7c7be97907b21fef4f0ec3f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SelectivityAnalyzer::SelectivityStats::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="110" column="21" bodyfile="include/index/adaptive_index.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a658a2b32b98a3e2ac5a6f5d32af01cb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SelectivityAnalyzer::SelectivityStats::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="111" column="21" bodyfile="include/index/adaptive_index.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ad97cf86921c607156ac6ebece07611b7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::SelectivityAnalyzer::SelectivityStats::total_documents</definition>
+        <argsstring></argsstring>
+        <name>total_documents</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::total_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="112" column="17" bodyfile="include/index/adaptive_index.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a95aa5352c3404559d7ad3f14bfd6622a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::SelectivityAnalyzer::SelectivityStats::unique_values</definition>
+        <argsstring></argsstring>
+        <name>unique_values</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::unique_values</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="113" column="17" bodyfile="include/index/adaptive_index.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ae4005390d2b6d95f8ca2b59bcf7ad538" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::SelectivityAnalyzer::SelectivityStats::null_count</definition>
+        <argsstring></argsstring>
+        <name>null_count</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::null_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="114" column="17" bodyfile="include/index/adaptive_index.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a301fdc44f49d5ecc6c46c22a067a131f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SelectivityAnalyzer::SelectivityStats::selectivity</definition>
+        <argsstring></argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::selectivity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="115" column="16" bodyfile="include/index/adaptive_index.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a70224f81840aa08b089d0ee09c7b5fe8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SelectivityAnalyzer::SelectivityStats::distribution</definition>
+        <argsstring></argsstring>
+        <name>distribution</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::distribution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="116" column="21" bodyfile="include/index/adaptive_index.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a4853557cd3c8fe6d16a24ae64480e91a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SelectivityAnalyzer::SelectivityStats::estimated_l3_cache_fit_ratio</definition>
+        <argsstring></argsstring>
+        <name>estimated_l3_cache_fit_ratio</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::estimated_l3_cache_fit_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="119" column="16" bodyfile="include/index/adaptive_index.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1aeceeffea0d5b5a05af7a30b0593c89d4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SelectivityAnalyzer::SelectivityStats::estimated_cache_miss_rate</definition>
+        <argsstring></argsstring>
+        <name>estimated_cache_miss_rate</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::estimated_cache_miss_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="120" column="16" bodyfile="include/index/adaptive_index.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ab794a28762c4ebe0de46b6647b84b3ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::SelectivityAnalyzer::SelectivityStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="126" column="24" bodyfile="src/index/adaptive_index.cpp" bodystart="307" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a00420e189c03233a644cfa4b880298af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref></type>
+        <definition>SelectivityAnalyzer::SelectivityStats themis::SelectivityAnalyzer::SelectivityStats::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityStats::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="132" column="33" bodyfile="src/index/adaptive_index.cpp" bodystart="322" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/adaptive_index.h" line="109" column="5" bodyfile="include/index/adaptive_index.h" bodystart="109" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a304755dd7c7be97907b21fef4f0ec3f5" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>collection</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a70224f81840aa08b089d0ee09c7b5fe8" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>distribution</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1aeceeffea0d5b5a05af7a30b0593c89d4" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>estimated_cache_miss_rate</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a4853557cd3c8fe6d16a24ae64480e91a" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>estimated_l3_cache_fit_ratio</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a658a2b32b98a3e2ac5a6f5d32af01cb3" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>field</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a00420e189c03233a644cfa4b880298af" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ae4005390d2b6d95f8ca2b59bcf7ad538" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>null_count</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a301fdc44f49d5ecc6c46c22a067a131f" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>selectivity</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ab794a28762c4ebe0de46b6647b84b3ad" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ad97cf86921c607156ac6ebece07611b7" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>total_documents</name></member>
+      <member refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a95aa5352c3404559d7ad3f14bfd6622a" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer::SelectivityStats</scope><name>unique_values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

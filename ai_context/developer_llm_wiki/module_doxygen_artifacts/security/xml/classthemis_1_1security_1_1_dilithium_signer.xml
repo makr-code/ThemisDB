@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_dilithium_signer" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::DilithiumSigner</compoundname>
+    <includes refid="post__quantum__crypto_8h" local="no">post_quantum_crypto.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_dilithium_signer_1_1_key_pair" prot="public">themis::security::DilithiumSigner::KeyPair</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_dilithium_signer_1_1_impl" prot="public">themis::security::DilithiumSigner::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SecurityLevel</name>
+        <qualifiedname>themis::security::DilithiumSigner::SecurityLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509aa4b4367f88a76ddb411e65b5a0dcae87" prot="public">
+          <name>DILITHIUM_2</name>
+          <briefdescription>
+<para>128-bit quantum security </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509a8b81b7c6aa0b9e99ddb49ce7d3dc4069" prot="public">
+          <name>DILITHIUM_3</name>
+          <briefdescription>
+<para>192-bit quantum security </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509a51d88b066333280503841b7da9be313c" prot="public">
+          <name>DILITHIUM_5</name>
+          <briefdescription>
+<para>256-bit quantum security (recommended) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="154" column="5" bodyfile="include/security/post_quantum_crypto.h" bodystart="154" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_dilithium_signer_1a050a787cd5d2abd0fe41e499f64a2b3d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::security::DilithiumSigner::level_</definition>
+        <argsstring></argsstring>
+        <name>level_</name>
+        <qualifiedname>themis::security::DilithiumSigner::level_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="212" column="19" bodyfile="include/security/post_quantum_crypto.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_dilithium_signer_1a364bf30ec593566f8aa0d5c18b22b705" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1security_1_1_dilithium_signer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::security::DilithiumSigner::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::security::DilithiumSigner::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="214" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1a9505cd80d2488c7e02c89a3b279a5647" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::DilithiumSigner::DilithiumSigner</definition>
+        <argsstring>(SecurityLevel level=SecurityLevel::DILITHIUM_5)</argsstring>
+        <name>DilithiumSigner</name>
+        <qualifiedname>themis::security::DilithiumSigner::DilithiumSigner</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+          <defval><ref refid="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509a51d88b066333280503841b7da9be313c" kindref="member">SecurityLevel::DILITHIUM_5</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="160" column="14" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="649" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1ab77821bc05be7beabbea83b363ccaebf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::DilithiumSigner::~DilithiumSigner</definition>
+        <argsstring>()</argsstring>
+        <name>~DilithiumSigner</name>
+        <qualifiedname>themis::security::DilithiumSigner::~DilithiumSigner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1abe64170f7149eb2770a2f0d70f58bceb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::DilithiumSigner::DilithiumSigner</definition>
+        <argsstring>(const DilithiumSigner &amp;)=delete</argsstring>
+        <name>DilithiumSigner</name>
+        <qualifiedname>themis::security::DilithiumSigner::DilithiumSigner</qualifiedname>
+        <param>
+          <type>const DilithiumSigner &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="164" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1af36620e10071b3661b7097169ff06735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_dilithium_signer_1a9505cd80d2488c7e02c89a3b279a5647" kindref="member">DilithiumSigner</ref> &amp;</type>
+        <definition>DilithiumSigner &amp; themis::security::DilithiumSigner::operator=</definition>
+        <argsstring>(const DilithiumSigner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::DilithiumSigner::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_dilithium_signer_1a9505cd80d2488c7e02c89a3b279a5647" kindref="member">DilithiumSigner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="165" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1a2137a9d74a74b40f597d1b79da43db1a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::DilithiumSigner::DilithiumSigner</definition>
+        <argsstring>(DilithiumSigner &amp;&amp;) noexcept</argsstring>
+        <name>DilithiumSigner</name>
+        <qualifiedname>themis::security::DilithiumSigner::DilithiumSigner</qualifiedname>
+        <param>
+          <type>DilithiumSigner &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="166" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1ac6b5c7ebd28a4ff4d66946e6c50054eb" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_dilithium_signer_1a9505cd80d2488c7e02c89a3b279a5647" kindref="member">DilithiumSigner</ref> &amp;</type>
+        <definition>DilithiumSigner &amp; themis::security::DilithiumSigner::operator=</definition>
+        <argsstring>(DilithiumSigner &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::DilithiumSigner::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_dilithium_signer_1a9505cd80d2488c7e02c89a3b279a5647" kindref="member">DilithiumSigner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="167" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1a4b308d8be21d645edad1c087af150890" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_dilithium_signer_1_1_key_pair" kindref="compound">KeyPair</ref></type>
+        <definition>DilithiumSigner::KeyPair themis::security::DilithiumSigner::generateKeyPair</definition>
+        <argsstring>()</argsstring>
+        <name>generateKeyPair</name>
+        <qualifiedname>themis::security::DilithiumSigner::generateKeyPair</qualifiedname>
+        <briefdescription>
+<para>Generate a Dilithium key pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Key Pair.</para>
+<para><simplesect kind="return"><para>New key pair </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if key generation fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: s(), dilithiumAlgName(), resize(), OQS_SIG_keypair(), data(), THEMIS_DEBUG(), size(), ed25519_keygen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="183" column="13" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="670" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1a369a74f3f630b9403ed7aa10cf84ac99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::DilithiumSigner::sign</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;message, const std::vector&lt; uint8_t &gt; &amp;secret_key)</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::security::DilithiumSigner::sign</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>secret_key</declname>
+        </param>
+        <briefdescription>
+<para>Sign a message with a Dilithium secret key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arbitrary byte sequence to sign </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>secret_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dilithium signing key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Signature bytes </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if secret_key size is unexpected </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if signing fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="194" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="694" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1a4ba80c350b57c32caca0856f144861c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::DilithiumSigner::verify</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;message, const std::vector&lt; uint8_t &gt; &amp;signature, const std::vector&lt; uint8_t &gt; &amp;public_key)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::security::DilithiumSigner::verify</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>public_key</declname>
+        </param>
+        <briefdescription>
+<para>Verify a Dilithium signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify identity and enforce network policies for a request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signature to verify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>public_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signer&apos;s Dilithium public key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the signature is authentic, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">public_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: s(), dilithiumAlgName(), size(), OQS_SIG_verify(), data(), THEMIS_DEBUG(), ed25519_verify(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="205" column="10" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="735" bodyend="757"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_dilithium_signer_1a6920ac501235c6d2d363bb502cc6ffa0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::security::DilithiumSigner::securityLevel</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>securityLevel</name>
+        <qualifiedname>themis::security::DilithiumSigner::securityLevel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="209" column="19" bodyfile="include/security/post_quantum_crypto.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CRYSTALS-Dilithium digital signature scheme. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>NIST-approved post-quantum signature algorithm (FIPS 204 / ML-DSA). Suitable for document signing, code signing, and CMS/PKCS#7 operations.</para>
+<para><simplesect kind="note"><para>This implementation uses an OpenSSL-backed software simulation (Ed25519) that is API-compatible with the full liboqs backend. Once liboqs is available the backend will be replaced transparently. The simulation is labeled DILITHIUM_SIM in diagnostic output.</para>
+</simplesect>
+Security levels: DILITHIUM_2 – 128-bit quantum security DILITHIUM_3 – 192-bit quantum security DILITHIUM_5 – 256-bit quantum security ← recommended</para>
+<para>Thread safety: all methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/security/post_quantum_crypto.h" line="152" column="1" bodyfile="include/security/post_quantum_crypto.h" bodystart="152" bodyend="215"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1a9505cd80d2488c7e02c89a3b279a5647" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>DilithiumSigner</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1abe64170f7149eb2770a2f0d70f58bceb" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>DilithiumSigner</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1a2137a9d74a74b40f597d1b79da43db1a" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>DilithiumSigner</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1a4b308d8be21d645edad1c087af150890" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>generateKeyPair</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1a364bf30ec593566f8aa0d5c18b22b705" prot="private" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1a050a787cd5d2abd0fe41e499f64a2b3d" prot="private" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>level_</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1af36620e10071b3661b7097169ff06735" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1ac6b5c7ebd28a4ff4d66946e6c50054eb" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1ada0df932449fee513474202731aa7509" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>SecurityLevel</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1a6920ac501235c6d2d363bb502cc6ffa0" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>securityLevel</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1a369a74f3f630b9403ed7aa10cf84ac99" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>sign</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1a4ba80c350b57c32caca0856f144861c8" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>verify</name></member>
+      <member refid="classthemis_1_1security_1_1_dilithium_signer_1ab77821bc05be7beabbea83b363ccaebf" prot="public" virt="non-virtual"><scope>themis::security::DilithiumSigner</scope><name>~DilithiumSigner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

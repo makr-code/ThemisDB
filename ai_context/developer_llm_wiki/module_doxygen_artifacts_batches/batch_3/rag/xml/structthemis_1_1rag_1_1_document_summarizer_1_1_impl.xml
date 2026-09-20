@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_document_summarizer_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSummarizer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summarizer_1_1_impl_1a82acb947c4c611e0d79903db3cff28ce" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref></type>
+        <definition>DocumentSummarizerConfig themis::rag::DocumentSummarizer::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/document_summarizer.cpp" line="231" column="30" bodyfile="src/rag/document_summarizer.cpp" bodystart="231" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_document_summarizer_1_1_impl_1a637162402e9c6083d64810166ab1e653" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999" kindref="member">DocumentSummarizerConfig::Strategy</ref></type>
+        <definition>DocumentSummarizerConfig::Strategy themis::rag::DocumentSummarizer::Impl::effectiveStrategy</definition>
+        <argsstring>() const</argsstring>
+        <name>effectiveStrategy</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::Impl::effectiveStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/document_summarizer.cpp" line="233" column="40" bodyfile="src/rag/document_summarizer.cpp" bodystart="233" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_document_summarizer_1_1_impl_1ab531d74b6fd1ec9add0709c7e40dd159" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt; std::string &gt; themis::rag::DocumentSummarizer::Impl::queryTerms</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>queryTerms</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::Impl::queryTerms</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/document_summarizer.cpp" line="243" column="24" bodyfile="src/rag/document_summarizer.cpp" bodystart="243" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_document_summarizer_1_1_impl_1a5da07f4827100cade6a4ab7f59d5607c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_document_summary" kindref="compound">DocumentSummary</ref></type>
+        <definition>DocumentSummary themis::rag::DocumentSummarizer::Impl::summarizeOne</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, const std::string &amp;query, size_t budget_chars) const</argsstring>
+        <name>summarizeOne</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::Impl::summarizeOne</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>budget_chars</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/document_summarizer.cpp" line="254" column="21" bodyfile="src/rag/document_summarizer.cpp" bodystart="254" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::DocumentSummarizer::Impl</label>
+        <link refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::DocumentSummarizerConfig</label>
+        <link refid="structthemis_1_1rag_1_1_document_summarizer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/document_summarizer.cpp" line="230" column="1" bodyfile="src/rag/document_summarizer.cpp" bodystart="230" bodyend="298"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl_1a82acb947c4c611e0d79903db3cff28ce" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl_1a637162402e9c6083d64810166ab1e653" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer::Impl</scope><name>effectiveStrategy</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl_1ab531d74b6fd1ec9add0709c7e40dd159" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer::Impl</scope><name>queryTerms</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl_1a5da07f4827100cade6a4ab7f59d5607c" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer::Impl</scope><name>summarizeOne</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_simple_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::SimpleSpan</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1a79671a482bd97670c33effa53db094e1" prot="private" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* themis::analytics::test::SimpleSpan&lt; T &gt;::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="140" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1af4e1da3896ec276201dab7915c6b65e6" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::test::SimpleSpan&lt; T &gt;::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="141" column="12" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1ac95fe13a59b8ceddf1b2f403c536970d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::SimpleSpan&lt; T &gt;::SimpleSpan</definition>
+        <argsstring>(T *ptr, size_t size)</argsstring>
+        <name>SimpleSpan</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::SimpleSpan</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="104" column="5" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1af901a92c4aa6bc45ecd5e418eda8d542" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::SimpleSpan&lt; T &gt;::SimpleSpan</definition>
+        <argsstring>(std::vector&lt; T &gt; &amp;vec)</argsstring>
+        <name>SimpleSpan</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::SimpleSpan</qualifiedname>
+        <param>
+          <type>std::vector&lt; T &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="106" column="5" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1afe6a901bf3a22a48d3f958dfca91b664" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::analytics::test::SimpleSpan&lt; T &gt;::data</definition>
+        <argsstring>() const</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="108" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1a423cb8c8532f0e5088e6a51597691e2f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::test::SimpleSpan&lt; T &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="109" column="12" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1aef258e2e114579ea085142628e4c3a4d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::test::SimpleSpan&lt; T &gt;::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="110" column="10" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1a9dd7f8eb54af9048e68ac680c340dbc7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::analytics::test::SimpleSpan&lt; T &gt;::operator[]</definition>
+        <argsstring>(size_t index)</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="112" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="112" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1a69c65bab10a43cb128c1e4ba737a0358" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; themis::analytics::test::SimpleSpan&lt; T &gt;::operator[]</definition>
+        <argsstring>(size_t index) const</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="119" column="13" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="119" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1ac64c2bdc4a2e984e4212d10eedf724dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1ac95fe13a59b8ceddf1b2f403c536970d" kindref="member">SimpleSpan</ref>&lt; T &gt;</type>
+        <definition>SimpleSpan&lt; T &gt; themis::analytics::test::SimpleSpan&lt; T &gt;::subspan</definition>
+        <argsstring>(size_t offset, size_t count) const</argsstring>
+        <name>subspan</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::subspan</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="126" column="16" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="126" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1af756d8094397743ef0b03f1c67f9cb4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::analytics::test::SimpleSpan&lt; T &gt;::begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="133" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1a67c95e137c3255e1908205863604cb1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::analytics::test::SimpleSpan&lt; T &gt;::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="134" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1a009bb2f3c43cbd21797443bf71b903f6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T *</type>
+        <definition>const T * themis::analytics::test::SimpleSpan&lt; T &gt;::begin</definition>
+        <argsstring>() const</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="136" column="13" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_simple_span_1a057941d43907121b9dc54e384980adbb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T *</type>
+        <definition>const T * themis::analytics::test::SimpleSpan&lt; T &gt;::end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::analytics::test::SimpleSpan::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="137" column="13" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="137" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple span implementation for bounds-checked access. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="102" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="102" bodyend="142"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1af756d8094397743ef0b03f1c67f9cb4f" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>begin</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1a009bb2f3c43cbd21797443bf71b903f6" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>begin</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1afe6a901bf3a22a48d3f958dfca91b664" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>data</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1aef258e2e114579ea085142628e4c3a4d" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>empty</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1a67c95e137c3255e1908205863604cb1c" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>end</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1a057941d43907121b9dc54e384980adbb" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>end</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1a9dd7f8eb54af9048e68ac680c340dbc7" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1a69c65bab10a43cb128c1e4ba737a0358" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1a79671a482bd97670c33effa53db094e1" prot="private" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1ac95fe13a59b8ceddf1b2f403c536970d" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>SimpleSpan</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1af901a92c4aa6bc45ecd5e418eda8d542" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>SimpleSpan</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1a423cb8c8532f0e5088e6a51597691e2f" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>size</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1af4e1da3896ec276201dab7915c6b65e6" prot="private" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>size_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_simple_span_1ac64c2bdc4a2e984e4212d10eedf724dc" prot="public" virt="non-virtual"><scope>themis::analytics::test::SimpleSpan</scope><name>subspan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

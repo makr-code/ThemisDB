@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::WALArchivalManager::ArchivalConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1aef0516a176e6b2145c72cd7f549a1103" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALArchivalManager::ArchivalConfig::wal_directory</definition>
+        <argsstring></argsstring>
+        <name>wal_directory</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::wal_directory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1827" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1827" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a6eb466e4ae1dfb495d88bcfe3465bf81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALArchivalManager::ArchivalConfig::archive_directory</definition>
+        <argsstring></argsstring>
+        <name>archive_directory</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::archive_directory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1829" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1829" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a204a82e011f1371eaa95b10a433d50c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALArchivalManager::ArchivalConfig::storage_type</definition>
+        <argsstring></argsstring>
+        <name>storage_type</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::storage_type</qualifiedname>
+        <initializer>= &quot;local&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1832" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1832" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1aee72fd9d5a4557ce526851f26b615a69" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALArchivalManager::ArchivalConfig::bucket_name</definition>
+        <argsstring></argsstring>
+        <name>bucket_name</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::bucket_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1833" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1833" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1abc6061d7c01a78610a526db656de8cbd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALArchivalManager::ArchivalConfig::prefix</definition>
+        <argsstring></argsstring>
+        <name>prefix</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1834" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1834" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1ab51915ba1e992fd0f4f51562fa82f95a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::ArchivalConfig::archive_after_segments</definition>
+        <argsstring></argsstring>
+        <name>archive_after_segments</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::archive_after_segments</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1837" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1837" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1abb6613ceeb591f8bfe6b2bee83b30c37" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::ArchivalConfig::local_retention_segments</definition>
+        <argsstring></argsstring>
+        <name>local_retention_segments</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::local_retention_segments</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1838" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1838" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a14ac5d8b886e858686dd71c0a2b66482" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::WALArchivalManager::ArchivalConfig::compress_before_archive</definition>
+        <argsstring></argsstring>
+        <name>compress_before_archive</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::compress_before_archive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1839" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1839" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a5d9b4b8f90e4a034e4191873d63bfd8e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::ArchivalConfig::delete_after_days</definition>
+        <argsstring></argsstring>
+        <name>delete_after_days</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::delete_after_days</qualifiedname>
+        <initializer>= 365</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1840" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1840" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a60040f0198b47fcaa693dc420f03cbeb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::WALArchivalManager::ArchivalConfig::encrypt_at_rest</definition>
+        <argsstring></argsstring>
+        <name>encrypt_at_rest</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::encrypt_at_rest</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1843" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1843" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1af694419190b83ee347d6fcf55ac7cf26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALArchivalManager::ArchivalConfig::encryption_key_hex</definition>
+        <argsstring></argsstring>
+        <name>encryption_key_hex</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::encryption_key_hex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1846" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1846" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a89eccf2f6f9992e24783ad84c15ef81b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::ArchivalConfig::transition_to_cold_after_days</definition>
+        <argsstring></argsstring>
+        <name>transition_to_cold_after_days</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::transition_to_cold_after_days</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1850" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1850" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1aa126cdf665d5b497906a9fcf043b7ee2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::ArchivalConfig::archival_scan_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>archival_scan_timeout_ms</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::ArchivalConfig::archival_scan_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum milliseconds allowed for a full archival-scan iteration. 0 = no deadline enforced. (Wave 1 CRITICAL fix — no_timeout:6024) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1853" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1853" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1825" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1825" bodyend="1854"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1aa126cdf665d5b497906a9fcf043b7ee2" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>archival_scan_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1ab51915ba1e992fd0f4f51562fa82f95a" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>archive_after_segments</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a6eb466e4ae1dfb495d88bcfe3465bf81" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>archive_directory</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1aee72fd9d5a4557ce526851f26b615a69" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>bucket_name</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a14ac5d8b886e858686dd71c0a2b66482" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>compress_before_archive</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a5d9b4b8f90e4a034e4191873d63bfd8e" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>delete_after_days</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a60040f0198b47fcaa693dc420f03cbeb" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>encrypt_at_rest</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1af694419190b83ee347d6fcf55ac7cf26" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>encryption_key_hex</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1abb6613ceeb591f8bfe6b2bee83b30c37" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>local_retention_segments</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1abc6061d7c01a78610a526db656de8cbd" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>prefix</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a204a82e011f1371eaa95b10a433d50c3" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>storage_type</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1a89eccf2f6f9992e24783ad84c15ef81b" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>transition_to_cold_after_days</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config_1aef0516a176e6b2145c72cd7f549a1103" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager::ArchivalConfig</scope><name>wal_directory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

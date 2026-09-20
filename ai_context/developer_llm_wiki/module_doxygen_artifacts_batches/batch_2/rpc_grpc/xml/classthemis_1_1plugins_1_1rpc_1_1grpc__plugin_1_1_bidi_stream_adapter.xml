@@ -1,0 +1,477 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</compoundname>
+    <includes refid="bidi__stream__adapter_8h" local="no">bidi_stream_adapter.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Req</type>
+      </param>
+      <param>
+        <type>typename Resp</type>
+      </param>
+      <param>
+        <type>typename Stream</type>
+        <defval>grpc::ServerReaderWriter&lt;Resp, Req&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa1b23ab7bb3b0e492596df0e14ba7b66" prot="public" static="no">
+        <type>std::function&lt; void(Req &amp;&amp;)&gt;</type>
+        <definition>using themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::MessageHandler = std::function&lt;void(Req&amp;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>MessageHandler</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::MessageHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="33" column="5" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1ad62323c747a70dc7817d3aaee2720723" prot="private" static="no" mutable="no">
+        <type>Stream *</type>
+        <definition>Stream* themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::stream_</definition>
+        <argsstring></argsstring>
+        <name>stream_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::stream_</qualifiedname>
+        <briefdescription>
+<para>Non-owning pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="159" column="12" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa226c04eff375243e9eb1ac34bf1536f" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::max_queue_depth_</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::max_queue_depth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="160" column="23" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a81295dc50622ba1f28ea1a23f630fc20" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::finished_</definition>
+        <argsstring></argsstring>
+        <name>finished_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::finished_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="161" column="17" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a95fca3c6e1dd93e0b448abcfa760ced2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="163" column="24" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa46c77ef6f42f0e231022cb011e07170" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::queue_not_full_</definition>
+        <argsstring></argsstring>
+        <name>queue_not_full_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::queue_not_full_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="164" column="29" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a031bf9805121ac9e9188b2e0ed4cd588" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; Resp &gt;</type>
+        <definition>std::queue&lt;Resp&gt; themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="165" column="16" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a545e31041ef1e7f43d5ec9366c1b0826" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa1b23ab7bb3b0e492596df0e14ba7b66" kindref="member">MessageHandler</ref></type>
+        <definition>MessageHandler themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="166" column="20" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a6212cdc7da606ddb97ff5d171d52c3f2" prot="private" static="no" mutable="no">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::finish_status_</definition>
+        <argsstring></argsstring>
+        <name>finish_status_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::finish_status_</qualifiedname>
+        <initializer>{grpc::Status::OK}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="167" column="18" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af8ec2bf327ab17e57b5e7f51b80e54f2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::BidiStreamAdapter</definition>
+        <argsstring>(Stream *stream, std::size_t max_queue_depth=100)</argsstring>
+        <name>BidiStreamAdapter</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::BidiStreamAdapter</qualifiedname>
+        <param>
+          <type>Stream *</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_queue_depth</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="35" column="14" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="35" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa170ccf125011c738063ecbeaa06a73f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::BidiStreamAdapter</definition>
+        <argsstring>(const BidiStreamAdapter &amp;)=delete</argsstring>
+        <name>BidiStreamAdapter</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::BidiStreamAdapter</qualifiedname>
+        <param>
+          <type>const BidiStreamAdapter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aff0b7b01af705afeb1641fc4cd563294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af8ec2bf327ab17e57b5e7f51b80e54f2" kindref="member">BidiStreamAdapter</ref> &amp;</type>
+        <definition>BidiStreamAdapter &amp; themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::operator=</definition>
+        <argsstring>(const BidiStreamAdapter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af8ec2bf327ab17e57b5e7f51b80e54f2" kindref="member">BidiStreamAdapter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="47" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3550aa0bcfa4032bee8a283a39df7ae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::BidiStreamAdapter</definition>
+        <argsstring>(BidiStreamAdapter &amp;&amp;)=delete</argsstring>
+        <name>BidiStreamAdapter</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::BidiStreamAdapter</qualifiedname>
+        <param>
+          <type>BidiStreamAdapter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a129bac402c4be1e35d0782265e4ad6be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af8ec2bf327ab17e57b5e7f51b80e54f2" kindref="member">BidiStreamAdapter</ref> &amp;</type>
+        <definition>BidiStreamAdapter &amp; themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::operator=</definition>
+        <argsstring>(BidiStreamAdapter &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af8ec2bf327ab17e57b5e7f51b80e54f2" kindref="member">BidiStreamAdapter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="49" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1abe9b63518a8ca15cb976989b7a29cf77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::~BidiStreamAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BidiStreamAdapter</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::~BidiStreamAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1ac25010951d904c5adcfe00cafd68a8b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::onMessage</definition>
+        <argsstring>(MessageHandler handler)</argsstring>
+        <name>onMessage</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::onMessage</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa1b23ab7bb3b0e492596df0e14ba7b66" kindref="member">MessageHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>On Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="58" column="10" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a45b483e4bef118a3f438f1eaead4df69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::run</qualifiedname>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: Read(), handler_(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="66" column="10" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="66" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a433b4c5253a83e789b250b135159d12b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::write</definition>
+        <argsstring>(Resp response)</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::write</qualifiedname>
+        <param>
+          <type>Resp</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), wait(), size(), push(), std::move(), flush(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="82" column="10" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="82" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3893f4d0d75c2f5587e0059379a0e29b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::finish</definition>
+        <argsstring>(grpc::Status status)</argsstring>
+        <name>finish</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::finish</qualifiedname>
+        <param>
+          <type>grpc::Status</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Finish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="106" column="10" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="106" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3695d5b074172be1c5d01c7d6223ae9c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::finishStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>finishStatus</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::finishStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="115" column="18" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a224c3f9b99fd7e8f77c6792c7514eced" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::queueDepth</definition>
+        <argsstring>() const</argsstring>
+        <name>queueDepth</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::queueDepth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="125" column="17" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="125" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a99e41783b2a1c40d5406502987fe36c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::isFinished</definition>
+        <argsstring>() const</argsstring>
+        <name>isFinished</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::isFinished</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="135" column="10" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="135" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af71ecc8d406bac231df3255f6a0048c9" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::BidiStreamAdapter&lt; Req, Resp, Stream &gt;::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), empty(), std::move(), front(), pop(), unlock(), Write(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/bidi_stream_adapter.h" line="144" column="10" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="144" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rpc_grpc/bidi_stream_adapter.h" line="31" column="1" bodyfile="src/rpc_grpc/bidi_stream_adapter.h" bodystart="31" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af8ec2bf327ab17e57b5e7f51b80e54f2" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>BidiStreamAdapter</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa170ccf125011c738063ecbeaa06a73f" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>BidiStreamAdapter</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3550aa0bcfa4032bee8a283a39df7ae7" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>BidiStreamAdapter</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3893f4d0d75c2f5587e0059379a0e29b" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>finish</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a6212cdc7da606ddb97ff5d171d52c3f2" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>finish_status_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a81295dc50622ba1f28ea1a23f630fc20" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>finished_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3695d5b074172be1c5d01c7d6223ae9c" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>finishStatus</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af71ecc8d406bac231df3255f6a0048c9" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>flush</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a545e31041ef1e7f43d5ec9366c1b0826" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>handler_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a99e41783b2a1c40d5406502987fe36c8" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>isFinished</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa226c04eff375243e9eb1ac34bf1536f" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>max_queue_depth_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa1b23ab7bb3b0e492596df0e14ba7b66" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>MessageHandler</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1ac25010951d904c5adcfe00cafd68a8b7" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>onMessage</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aff0b7b01af705afeb1641fc4cd563294" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a129bac402c4be1e35d0782265e4ad6be" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a031bf9805121ac9e9188b2e0ed4cd588" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>queue_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a95fca3c6e1dd93e0b448abcfa760ced2" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa46c77ef6f42f0e231022cb011e07170" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>queue_not_full_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a224c3f9b99fd7e8f77c6792c7514eced" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>queueDepth</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a45b483e4bef118a3f438f1eaead4df69" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>run</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1ad62323c747a70dc7817d3aaee2720723" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>stream_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a433b4c5253a83e789b250b135159d12b" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>write</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1abe9b63518a8ca15cb976989b7a29cf77" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</scope><name>~BidiStreamAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

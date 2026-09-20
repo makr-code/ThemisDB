@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1security_1_1_injection_scan_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::security::InjectionScanResult</compoundname>
+    <includes refid="prompt__injection__detector_8h" local="no">prompt_injection_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1ae1020b8ed168c1d1b26334a192c85b8f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986" kindref="member">InjectionSeverity</ref></type>
+        <definition>InjectionSeverity themis::rag::security::InjectionScanResult::max_severity</definition>
+        <argsstring></argsstring>
+        <name>max_severity</name>
+        <qualifiedname>themis::rag::security::InjectionScanResult::max_severity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986ab50339a10e1de285ac99d4c3990b8693" kindref="member">InjectionSeverity::NONE</ref></initializer>
+        <briefdescription>
+<para>Highest severity across all findings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="57" column="26" bodyfile="include/rag/prompt_injection_detector.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1a4c74f7dc5fd09407466b278656eb151a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1security_1_1_injection_finding" kindref="compound">InjectionFinding</ref> &gt;</type>
+        <definition>std::vector&lt;InjectionFinding&gt; themis::rag::security::InjectionScanResult::findings</definition>
+        <argsstring></argsstring>
+        <name>findings</name>
+        <qualifiedname>themis::rag::security::InjectionScanResult::findings</qualifiedname>
+        <briefdescription>
+<para>All findings in detection order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="60" column="17" bodyfile="include/rag/prompt_injection_detector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1ac5f35371756cbc2ddce59a3ec3b4a3aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::security::InjectionScanResult::is_suspicious</definition>
+        <argsstring>() const</argsstring>
+        <name>is_suspicious</name>
+        <qualifiedname>themis::rag::security::InjectionScanResult::is_suspicious</qualifiedname>
+        <briefdescription>
+<para>True if any finding is MEDIUM or higher. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="63" column="10" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1aeaf4f20b43e5489d2273baa60174b2ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::security::InjectionScanResult::is_blocked</definition>
+        <argsstring>() const</argsstring>
+        <name>is_blocked</name>
+        <qualifiedname>themis::rag::security::InjectionScanResult::is_blocked</qualifiedname>
+        <briefdescription>
+<para>True if any finding is HIGH or CRITICAL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="66" column="10" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1a2ef3f9228ae5c4bfa45bbdc5b317157e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::security::InjectionScanResult::countAtOrAbove</definition>
+        <argsstring>(InjectionSeverity threshold) const</argsstring>
+        <name>countAtOrAbove</name>
+        <qualifiedname>themis::rag::security::InjectionScanResult::countAtOrAbove</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986" kindref="member">InjectionSeverity</ref></type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Number of findings at or above <computeroutput>threshold</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="69" column="12" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="38" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of scanning a single text fragment. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/prompt_injection_detector.h" line="55" column="1" bodyfile="include/rag/prompt_injection_detector.h" bodystart="55" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1a2ef3f9228ae5c4bfa45bbdc5b317157e" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionScanResult</scope><name>countAtOrAbove</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1a4c74f7dc5fd09407466b278656eb151a" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionScanResult</scope><name>findings</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1aeaf4f20b43e5489d2273baa60174b2ab" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionScanResult</scope><name>is_blocked</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1ac5f35371756cbc2ddce59a3ec3b4a3aa" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionScanResult</scope><name>is_suspicious</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result_1ae1020b8ed168c1d1b26334a192c85b8f" prot="public" virt="non-virtual"><scope>themis::rag::security::InjectionScanResult</scope><name>max_severity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

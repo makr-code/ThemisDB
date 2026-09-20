@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HotShardSplitPolicy::Config</compoundname>
+    <includes refid="auto__rebalancer_8h" local="no">auto_rebalancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1adf70a7b9b46a167015f50ef4878d2e63" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::HotShardSplitPolicy::Config::cpu_split_threshold</definition>
+        <argsstring></argsstring>
+        <name>cpu_split_threshold</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::Config::cpu_split_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+<para>CPU usage fraction that triggers a reactive split (default 80 %). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="77" column="16" bodyfile="include/sharding/auto_rebalancer.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1a95de8b14af3d524147f441b0439cef05" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::HotShardSplitPolicy::Config::storage_split_threshold</definition>
+        <argsstring></argsstring>
+        <name>storage_split_threshold</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::Config::storage_split_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+<para>Storage usage fraction that triggers a reactive split (default 80 %). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="80" column="16" bodyfile="include/sharding/auto_rebalancer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1aa2c939ffa963d670b2b81c9d80f7d823" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::HotShardSplitPolicy::Config::predictive_load_threshold</definition>
+        <argsstring></argsstring>
+        <name>predictive_load_threshold</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::Config::predictive_load_threshold</qualifiedname>
+        <initializer>= 80.0</initializer>
+        <briefdescription>
+<para>Composite load score (0–100) that triggers a statistical predictive split. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="83" column="16" bodyfile="include/sharding/auto_rebalancer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1a15fbbb6cf1d5c1c47e9b9f39592db07a" prot="public" static="no" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::sharding::HotShardSplitPolicy::Config::forecast_horizon</definition>
+        <argsstring></argsstring>
+        <name>forecast_horizon</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::Config::forecast_horizon</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>How far ahead to forecast load (statistical mode). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="86" column="30" bodyfile="include/sharding/auto_rebalancer.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1a59f46f93177f8b22443d913bca20b499" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotShardSplitPolicy::Config::enable_predictive_splitting</definition>
+        <argsstring></argsstring>
+        <name>enable_predictive_splitting</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::Config::enable_predictive_splitting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable statistical (pre-emptive) splitting based on forecasted load. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="89" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1abaf0fbccd903ec3008facba8198007d0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::HotShardSplitPolicy::Config::failure_probability_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_probability_threshold</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::Config::failure_probability_threshold</qualifiedname>
+        <initializer>= 0.70f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Failure probability [0, 1] from PredictiveFailureDetector above which a pre-emptive split is triggered (ML-based mode). Only consulted when a PredictiveFailureDetector is attached. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="94" column="15" bodyfile="include/sharding/auto_rebalancer.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1a04dd32774d846d3ca825c1342ba94fca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotShardSplitPolicy::Config::enable_ml_predictive_splitting</definition>
+        <argsstring></argsstring>
+        <name>enable_ml_predictive_splitting</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::Config::enable_ml_predictive_splitting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable ML-based predictive splitting via PredictiveFailureDetector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="97" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/auto_rebalancer.h" line="75" column="5" bodyfile="include/sharding/auto_rebalancer.h" bodystart="75" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1adf70a7b9b46a167015f50ef4878d2e63" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::Config</scope><name>cpu_split_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1a04dd32774d846d3ca825c1342ba94fca" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::Config</scope><name>enable_ml_predictive_splitting</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1a59f46f93177f8b22443d913bca20b499" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::Config</scope><name>enable_predictive_splitting</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1abaf0fbccd903ec3008facba8198007d0" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::Config</scope><name>failure_probability_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1a15fbbb6cf1d5c1c47e9b9f39592db07a" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::Config</scope><name>forecast_horizon</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1aa2c939ffa963d670b2b81c9d80f7d823" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::Config</scope><name>predictive_load_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1a95de8b14af3d524147f441b0439cef05" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::Config</scope><name>storage_split_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

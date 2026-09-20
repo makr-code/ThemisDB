@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::AsyncInferenceEngine::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1afbc0dec5f176d5c4d5c4660c79292a62" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::AsyncInferenceEngine::Stats::total_submitted</definition>
+        <argsstring></argsstring>
+        <name>total_submitted</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_submitted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="249" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a47099ae4f2d2488a4cb2ee8e8895f72d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::AsyncInferenceEngine::Stats::total_completed</definition>
+        <argsstring></argsstring>
+        <name>total_completed</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="250" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a0edfff502ce1676af3f3d68bacf7d971" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::AsyncInferenceEngine::Stats::total_cancelled</definition>
+        <argsstring></argsstring>
+        <name>total_cancelled</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_cancelled</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="251" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a8fab14d2d8406f71687b57ec9ccb37ac" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::AsyncInferenceEngine::Stats::total_rejected</definition>
+        <argsstring></argsstring>
+        <name>total_rejected</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_rejected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="252" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1ab822a7b36f1cbbbd141534dd00b5729c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::AsyncInferenceEngine::Stats::total_timed_out</definition>
+        <argsstring></argsstring>
+        <name>total_timed_out</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_timed_out</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="253" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1af9bce65e9dd20088f6e2386efc2f6519" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::llm::AsyncInferenceEngine::Stats::total_inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_inference_time_ms</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_inference_time_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="254" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1ad9fc70b8229f13aa76d2649c7b4d2b28" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::llm::AsyncInferenceEngine::Stats::total_queue_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_queue_time_ms</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_queue_time_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="255" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a31349003d32170feb014247b7a849e38" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::AsyncInferenceEngine::Stats::total_dedup_cache_hits</definition>
+        <argsstring></argsstring>
+        <name>total_dedup_cache_hits</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_dedup_cache_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="256" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a272048993f963396b5f3fc14a1f376a1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::AsyncInferenceEngine::Stats::total_dedup_cache_misses</definition>
+        <argsstring></argsstring>
+        <name>total_dedup_cache_misses</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_dedup_cache_misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="257" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1aeeaeab95e32df14839e795136db9b4ac" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::AsyncInferenceEngine::Stats::total_tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_generated</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Stats::total_tokens_generated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="258" column="21" bodyfile="include/llm/async_inference_engine.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/async_inference_engine.h" line="248" column="5" bodyfile="include/llm/async_inference_engine.h" bodystart="248" bodyend="259"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a0edfff502ce1676af3f3d68bacf7d971" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_cancelled</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a47099ae4f2d2488a4cb2ee8e8895f72d" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_completed</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a31349003d32170feb014247b7a849e38" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_dedup_cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a272048993f963396b5f3fc14a1f376a1" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_dedup_cache_misses</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1af9bce65e9dd20088f6e2386efc2f6519" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_inference_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1ad9fc70b8229f13aa76d2649c7b4d2b28" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_queue_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1a8fab14d2d8406f71687b57ec9ccb37ac" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_rejected</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1afbc0dec5f176d5c4d5c4660c79292a62" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_submitted</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1ab822a7b36f1cbbbd141534dd00b5729c" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_timed_out</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats_1aeeaeab95e32df14839e795136db9b4ac" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Stats</scope><name>total_tokens_generated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

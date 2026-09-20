@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::MetaVerdictBuilder</compoundname>
+    <includes refid="meta__verdict__builder_8h" local="no">meta_verdict_builder.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a7902d66d24d41c272ae4808a3afeee9d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref></type>
+        <definition>LegalGrounding themis::plugins::ethics::MetaVerdictBuilder::grounding_</definition>
+        <argsstring></argsstring>
+        <name>grounding_</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::grounding_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="64" column="20" bodyfile="include/ethics_ai/meta_verdict_builder.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::MetaVerdictBuilder::MetaVerdictBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>MetaVerdictBuilder</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::MetaVerdictBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a193345faa237fccb745717b78d90f04f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::MetaVerdictBuilder::~MetaVerdictBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MetaVerdictBuilder</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::~MetaVerdictBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a5266bdc6cfee8390d040c4d9cda1fe6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::MetaVerdictBuilder::MetaVerdictBuilder</definition>
+        <argsstring>(const MetaVerdictBuilder &amp;)=delete</argsstring>
+        <name>MetaVerdictBuilder</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::MetaVerdictBuilder</qualifiedname>
+        <param>
+          <type>const MetaVerdictBuilder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1adf46e6939cd80abc663748a7a77a5846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref> &amp;</type>
+        <definition>MetaVerdictBuilder &amp; themis::plugins::ethics::MetaVerdictBuilder::operator=</definition>
+        <argsstring>(const MetaVerdictBuilder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="45" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee6dc78560065f475fcc36872727c262" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::MetaVerdictBuilder::MetaVerdictBuilder</definition>
+        <argsstring>(MetaVerdictBuilder &amp;&amp;) noexcept=default</argsstring>
+        <name>MetaVerdictBuilder</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::MetaVerdictBuilder</qualifiedname>
+        <param>
+          <type>MetaVerdictBuilder &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee759e3d6e7a74d0034e3257b5c98f68" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref> &amp;</type>
+        <definition>MetaVerdictBuilder &amp; themis::plugins::ethics::MetaVerdictBuilder::operator=</definition>
+        <argsstring>(MetaVerdictBuilder &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="47" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a4f734c3c82fd8a5b0ac60d3f472e12d2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::MetaVerdictBuilder::setLegalGrounding</definition>
+        <argsstring>(LegalGrounding grounding) noexcept</argsstring>
+        <name>setLegalGrounding</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::setLegalGrounding</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref></type>
+          <declname>grounding</declname>
+        </param>
+        <briefdescription>
+<para>Set Legal Grounding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grounding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="54" column="10" bodyfile="src/ethics_ai/meta_verdict_builder.cpp" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1ad83b4e01134da9bbe29788e50d351d36" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict" kindref="compound">MetaVerdict</ref></type>
+        <definition>MetaVerdict themis::plugins::ethics::MetaVerdictBuilder::buildMetaVerdict</definition>
+        <argsstring>(const std::vector&lt; DiscourseRoundOutput &gt; &amp;ebene1_results, const std::vector&lt; ClusterPosition &gt; &amp;cluster_positions, const LegalGrounding &amp;legal_grounding, DiscourseMode mode, const std::vector&lt; DiscourseRoundOutput &gt; &amp;mirror_dissent) const</argsstring>
+        <name>buildMetaVerdict</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::buildMetaVerdict</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &gt; &amp;</type>
+          <declname>ebene1_results</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position" kindref="compound">ClusterPosition</ref> &gt; &amp;</type>
+          <declname>cluster_positions</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref> &amp;</type>
+          <declname>legal_grounding</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kindref="member">DiscourseMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &gt; &amp;</type>
+          <declname>mirror_dissent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="56" column="18" bodyfile="src/ethics_ai/meta_verdict_builder.cpp" bodystart="118" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1ab4d9ea7382865c60903b2a3f1bdde11e" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::MetaVerdictBuilder::culturalRegion</definition>
+        <argsstring>(const std::string &amp;school_id) noexcept</argsstring>
+        <name>culturalRegion</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictBuilder::culturalRegion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/meta_verdict_builder.h" line="66" column="25" bodyfile="src/ethics_ai/meta_verdict_builder.cpp" bodystart="111" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/meta_verdict_builder.h" line="38" column="1" bodyfile="include/ethics_ai/meta_verdict_builder.h" bodystart="38" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1ad83b4e01134da9bbe29788e50d351d36" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>buildMetaVerdict</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1ab4d9ea7382865c60903b2a3f1bdde11e" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>culturalRegion</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a7902d66d24d41c272ae4808a3afeee9d" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>grounding_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>MetaVerdictBuilder</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a5266bdc6cfee8390d040c4d9cda1fe6e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>MetaVerdictBuilder</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee6dc78560065f475fcc36872727c262" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>MetaVerdictBuilder</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1adf46e6939cd80abc663748a7a77a5846" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee759e3d6e7a74d0034e3257b5c98f68" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a4f734c3c82fd8a5b0ac60d3f472e12d2" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>setLegalGrounding</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a193345faa237fccb745717b78d90f04f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictBuilder</scope><name>~MetaVerdictBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

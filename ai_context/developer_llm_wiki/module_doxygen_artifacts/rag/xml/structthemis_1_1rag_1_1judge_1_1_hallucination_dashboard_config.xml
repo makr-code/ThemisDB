@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::HallucinationDashboardConfig</compoundname>
+    <includes refid="hallucination__dashboard_8h" local="no">hallucination_dashboard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a955156780f06755798e1b3b4c458731b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationDashboardConfig::faithfulness_threshold</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_threshold</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboardConfig::faithfulness_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Faithfulness score below which an evaluation counts as a hallucination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="86" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a20eb34ebb289b2d6243d5e4a3e615a4e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::HallucinationDashboardConfig::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboardConfig::window_size</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Maximum number of evaluations retained in the rolling window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="89" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a4521617d9e8aeb49ee694e29cf124a62" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationDashboardConfig::alert_threshold_info</definition>
+        <argsstring></argsstring>
+        <name>alert_threshold_info</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboardConfig::alert_threshold_info</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>Hallucination rate that triggers an INFO alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>5 % rate → INFO </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="92" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a974254394a42ea9f107ebb86826d69d8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationDashboardConfig::alert_threshold_warning</definition>
+        <argsstring></argsstring>
+        <name>alert_threshold_warning</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboardConfig::alert_threshold_warning</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+<para>Hallucination rate that triggers a WARNING alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>15 % rate → WARNING </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="94" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a984f01894041b8b870123d43a4ce0024" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationDashboardConfig::alert_threshold_critical</definition>
+        <argsstring></argsstring>
+        <name>alert_threshold_critical</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboardConfig::alert_threshold_critical</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+<para>Hallucination rate that triggers a CRITICAL alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>30 % rate → CRITICAL </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="96" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard" kindref="compound">HallucinationDashboard</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/hallucination_dashboard.h" line="84" column="1" bodyfile="include/rag/hallucination_dashboard.h" bodystart="84" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a984f01894041b8b870123d43a4ce0024" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboardConfig</scope><name>alert_threshold_critical</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a4521617d9e8aeb49ee694e29cf124a62" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboardConfig</scope><name>alert_threshold_info</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a974254394a42ea9f107ebb86826d69d8" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboardConfig</scope><name>alert_threshold_warning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a955156780f06755798e1b3b4c458731b" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboardConfig</scope><name>faithfulness_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a20eb34ebb289b2d6243d5e4a3e615a4e" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboardConfig</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

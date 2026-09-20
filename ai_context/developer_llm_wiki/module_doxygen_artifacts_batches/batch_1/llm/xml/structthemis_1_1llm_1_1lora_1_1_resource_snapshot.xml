@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ResourceSnapshot</compoundname>
+    <includes refid="resource__profiler_8h" local="no">resource_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a48528f470c7eb1d73b47e11f0856d258" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::lora::ResourceSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="33" column="43" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1ac711ffa30c573389bc1e843b7f7c008b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceSnapshot::gpu_memory_allocated</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_allocated</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::gpu_memory_allocated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="36" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a747306b287c05f44d16e4ab4308c375f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceSnapshot::gpu_memory_reserved</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_reserved</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::gpu_memory_reserved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="37" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a04722b1cb0494b7f4be23908e5e4838d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceSnapshot::gpu_memory_free</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_free</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::gpu_memory_free</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="38" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1ad98e152faaf12aea0aa2ebe773dfe19a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceSnapshot::gpu_memory_total</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_total</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::gpu_memory_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="39" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a4b35010d012d3ae67f2f08ef7375e071" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceSnapshot::cpu_memory_used</definition>
+        <argsstring></argsstring>
+        <name>cpu_memory_used</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::cpu_memory_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="42" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1ae296f4692dbfd5fc6d1dd196eb1e91ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceSnapshot::cpu_memory_available</definition>
+        <argsstring></argsstring>
+        <name>cpu_memory_available</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::cpu_memory_available</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="43" column="12" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a65037747e71e8ac12c759095567175a2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceSnapshot::gpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>gpu_utilization</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::gpu_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="46" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1aba4551beb827f9428d136f6f1bf3c197" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceSnapshot::gpu_memory_utilization</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_utilization</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::gpu_memory_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="47" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a2c8f5fcc47cddbefb6fedd25cc03d28d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::ResourceSnapshot::current_epoch</definition>
+        <argsstring></argsstring>
+        <name>current_epoch</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::current_epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="50" column="9" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a376bba22855b94e09311a4cb7c038657" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::ResourceSnapshot::current_step</definition>
+        <argsstring></argsstring>
+        <name>current_step</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::current_step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="51" column="9" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a196bf3603c0dd230d9b63dc630dcafc4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceSnapshot::current_loss</definition>
+        <argsstring></argsstring>
+        <name>current_loss</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::current_loss</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="52" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1aeeb9aec4d01b987129747aaf6422c113" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceSnapshot::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::learning_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="53" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a129f2ef98978a8c64555e0a8fbdce0c9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceSnapshot::samples_per_second</definition>
+        <argsstring></argsstring>
+        <name>samples_per_second</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::samples_per_second</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="56" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1af1f1a75fc2580a18c80e97e7581ab948" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceSnapshot::tokens_per_second</definition>
+        <argsstring></argsstring>
+        <name>tokens_per_second</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::tokens_per_second</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="57" column="11" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a351866954244722faf703e21a4d77c69" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::ResourceSnapshot::~ResourceSnapshot</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ResourceSnapshot</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::~ResourceSnapshot</qualifiedname>
+        <briefdescription>
+<para>Resource Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="32" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a0a538ca81f58837d1f0258e9bd80fa7b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::ResourceSnapshot::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::ResourceSnapshot::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="59" column="10" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="59" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/resource_profiler.h" line="27" column="1" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="27" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1ae296f4692dbfd5fc6d1dd196eb1e91ed" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>cpu_memory_available</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a4b35010d012d3ae67f2f08ef7375e071" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>cpu_memory_used</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a2c8f5fcc47cddbefb6fedd25cc03d28d" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>current_epoch</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a196bf3603c0dd230d9b63dc630dcafc4" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>current_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a376bba22855b94e09311a4cb7c038657" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>current_step</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1ac711ffa30c573389bc1e843b7f7c008b" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>gpu_memory_allocated</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a04722b1cb0494b7f4be23908e5e4838d" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>gpu_memory_free</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a747306b287c05f44d16e4ab4308c375f" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>gpu_memory_reserved</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1ad98e152faaf12aea0aa2ebe773dfe19a" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>gpu_memory_total</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1aba4551beb827f9428d136f6f1bf3c197" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>gpu_memory_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a65037747e71e8ac12c759095567175a2" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>gpu_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1aeeb9aec4d01b987129747aaf6422c113" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a129f2ef98978a8c64555e0a8fbdce0c9" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>samples_per_second</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a48528f470c7eb1d73b47e11f0856d258" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a0a538ca81f58837d1f0258e9bd80fa7b" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1af1f1a75fc2580a18c80e97e7581ab948" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>tokens_per_second</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot_1a351866954244722faf703e21a4d77c69" prot="public" virt="virtual"><scope>themis::llm::lora::ResourceSnapshot</scope><name>~ResourceSnapshot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::HnswParameterTuner::ConstructionParams</compoundname>
+    <includes refid="hnsw__parameter__tuner_8h" local="no">hnsw_parameter_tuner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1ac3677c3d52aa014f7670edf44b35ecf4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::ConstructionParams::M</definition>
+        <argsstring></argsstring>
+        <name>M</name>
+        <qualifiedname>themis::index::HnswParameterTuner::ConstructionParams::M</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Recommended connections per node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="159" column="13" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1aa6b99e2255605d4633f26f070ae94eea" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::ConstructionParams::ef_construction</definition>
+        <argsstring></argsstring>
+        <name>ef_construction</name>
+        <qualifiedname>themis::index::HnswParameterTuner::ConstructionParams::ef_construction</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Recommended construction-time search width. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="160" column="13" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1aa5998a00a737b557ccb51757c75f258f" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::index::HnswParameterTuner::ConstructionParams::detected_workload</definition>
+        <argsstring></argsstring>
+        <name>detected_workload</name>
+        <qualifiedname>themis::index::HnswParameterTuner::ConstructionParams::detected_workload</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref></initializer>
+        <briefdescription>
+<para>Detected or inferred workload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="161" column="22" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Recommended construction-time parameters returned by the auto-tuner. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/hnsw_parameter_tuner.h" line="158" column="5" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="158" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1aa5998a00a737b557ccb51757c75f258f" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::ConstructionParams</scope><name>detected_workload</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1aa6b99e2255605d4633f26f070ae94eea" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::ConstructionParams</scope><name>ef_construction</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1ac3677c3d52aa014f7670edf44b35ecf4" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::ConstructionParams</scope><name>M</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::BiTemporalTable::MergeResult</compoundname>
+    <includes refid="bi__temporal_8h" local="no">bi_temporal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result_1aedca185b34ca1079077246f8d09a2e4a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::BiTemporalTable::MergeResult::rows_inserted</definition>
+        <argsstring></argsstring>
+        <name>rows_inserted</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::MergeResult::rows_inserted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Rows from <computeroutput>other</computeroutput> not present locally. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="221" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="221" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result_1a8d970314c868235ef20489550bdefec2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::BiTemporalTable::MergeResult::rows_skipped</definition>
+        <argsstring></argsstring>
+        <name>rows_skipped</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::MergeResult::rows_skipped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Rows that were already present (no diff). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="222" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result_1aeb84429c8ad191f20aac31f775d9878f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::BiTemporalTable::MergeResult::conflicts_lww</definition>
+        <argsstring></argsstring>
+        <name>conflicts_lww</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::MergeResult::conflicts_lww</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Rows accepted via Last-Writer-Wins (higher sys_time). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="223" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Result of a merge operation. </para>
+    </detaileddescription>
+    <location file="include/temporal/bi_temporal.h" line="220" column="5" bodyfile="include/temporal/bi_temporal.h" bodystart="220" bodyend="224"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result_1aeb84429c8ad191f20aac31f775d9878f" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable::MergeResult</scope><name>conflicts_lww</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result_1aedca185b34ca1079077246f8d09a2e4a" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable::MergeResult</scope><name>rows_inserted</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result_1a8d970314c868235ef20489550bdefec2" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable::MergeResult</scope><name>rows_skipped</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

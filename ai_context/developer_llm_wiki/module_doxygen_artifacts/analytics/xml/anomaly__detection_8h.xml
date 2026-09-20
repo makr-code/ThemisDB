@@ -1,0 +1,533 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="anomaly__detection_8h" kind="file" language="C++">
+    <compoundname>anomaly_detection.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="automl_8h" local="yes">include/analytics/automl.h</includedby>
+    <includedby refid="lora__pattern__classifier_8h" local="yes">include/analytics/lora_pattern_classifier.h</includedby>
+    <includedby refid="ml__serving_8h" local="yes">include/analytics/ml_serving.h</includedby>
+    <includedby refid="anomaly__detection_8cpp" local="yes">src/analytics/anomaly_detection.cpp</includedby>
+    <includedby refid="test__anomaly__detection_8cpp" local="yes">tests/analytics/test_anomaly_detection.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>deque</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>future</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>variant</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="18">
+        <label>benchmarks/analytics/bench_analytics_operability_paths.cpp</label>
+        <link refid="bench__analytics__operability__paths_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/analytics/automl.h</label>
+        <link refid="automl_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/analytics/expert_system_engine.h</label>
+        <link refid="expert__system__engine_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/analytics/lora_pattern_classifier.h</label>
+        <link refid="lora__pattern__classifier_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/analytics/ml_serving.h</label>
+        <link refid="ml__serving_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/analytics/model_serving.h</label>
+        <link refid="model__serving_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>src/analytics/anomaly_detection.cpp</label>
+        <link refid="anomaly__detection_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/analytics/automl.cpp</label>
+        <link refid="automl_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/analytics/expert_system_engine.cpp</label>
+        <link refid="expert__system__engine_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/analytics/lora_pattern_classifier.cpp</label>
+        <link refid="lora__pattern__classifier_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/analytics/ml_serving.cpp</label>
+        <link refid="ml__serving_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/analytics/model_serving.cpp</label>
+        <link refid="model__serving_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/analytics/test_analytics_bounded_execution_policy.cpp</label>
+        <link refid="test__analytics__bounded__execution__policy_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/analytics/test_analytics_gap_closure.cpp</label>
+        <link refid="test__analytics__gap__closure_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/analytics/test_analytics_optional_fallback_focused.cpp</label>
+        <link refid="test__analytics__optional__fallback__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/analytics/test_analytics_serving_export_integration.cpp</label>
+        <link refid="test__analytics__serving__export__integration_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/analytics/test_analytics_wave_d_operability.cpp</label>
+        <link refid="test__analytics__wave__d__operability_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/analytics/test_anomaly_detection.cpp</label>
+        <link refid="test__anomaly__detection_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/analytics/test_automl.cpp</label>
+        <link refid="test__automl_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/analytics/test_automl_onnx.cpp</label>
+        <link refid="test__automl__onnx_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/analytics/test_expert_system_engine.cpp</label>
+        <link refid="test__expert__system__engine_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/analytics/test_lora_pattern_classifier.cpp</label>
+        <link refid="test__lora__pattern__classifier_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/analytics/test_ml_serving.cpp</label>
+        <link refid="test__ml__serving_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/analytics/test_model_serving.cpp</label>
+        <link refid="test__model__serving_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_data_point" prot="public">themisdb::analytics::DataPoint</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_anomaly_result" prot="public">themisdb::analytics::AnomalyResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_anomaly_explanation" prot="public">themisdb::analytics::AnomalyExplanation</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_detector_config" prot="public">themisdb::analytics::DetectorConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_anomaly_detector" prot="public">themisdb::analytics::AnomalyDetector</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats" prot="public">themisdb::analytics::AnomalyDetector::ModelStats</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector" prot="public">themisdb::analytics::StreamingAnomalyDetector</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config" prot="public">themisdb::analytics::StreamingAnomalyDetector::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats" prot="public">themisdb::analytics::StreamingAnomalyDetector::WindowStats</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.32 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector" kindref="compound">AnomalyDetector</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector" kindref="compound">StreamingAnomalyDetector</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Value<sp/>type<sp/>(mirrors<sp/>RecordValue<sp/>from<sp/>streaming_window.h)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemisdb_1_1analytics_1aa06d97c7da13db2977fe25761aa16b16" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1aa06d97c7da13db2977fe25761aa16b16" kindref="member">PointValue</ref><sp/>=<sp/>std::variant&lt;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::monostate,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>null</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>bool,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>double,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Algorithms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">Z_SCORE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea78490d32e166341dd4ab17d19e590966" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea78490d32e166341dd4ab17d19e590966" kindref="member">MODIFIED_Z_SCORE</ref>,<sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea58d3efe734ac81fe0387c1862a1f4924" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea58d3efe734ac81fe0387c1862a1f4924" kindref="member">IQR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea985f421efd8ffc9fa63ddf4863120c47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea985f421efd8ffc9fa63ddf4863120c47" kindref="member">ISOLATION_FOREST</ref>,<sp/></highlight></codeline>
+<codeline lineno="88" refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ead611e5db747e7340c80e9bfa1986b0bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ead611e5db747e7340c80e9bfa1986b0bb" kindref="member">LOF</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea6ed80ac51c01c67befa758cf79ff1c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea6ed80ac51c01c67befa758cf79ff1c99" kindref="member">ENSEMBLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DataPoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1analytics_1_1_data_point" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="structthemisdb_1_1analytics_1_1_data_point_1a4c367048e348b446bd76a8743c1d910d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1analytics_1_1_data_point_1a718bf92345f090db2c7bdf52805abdfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1a718bf92345f090db2c7bdf52805abdfe" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99" refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>PointValue&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" kindref="member">fields</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convenience<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v)<sp/><sp/><sp/><sp/><sp/><sp/>{<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" kindref="member">fields</ref>[name]<sp/>=<sp/>v;<sp/>}</highlight></codeline>
+<codeline lineno="115" refid="structthemisdb_1_1analytics_1_1_data_point_1afed0a86c250f54cf8219bcc31be04637" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1afed0a86c250f54cf8219bcc31be04637" kindref="member">set</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/>int64_t<sp/>v)<sp/><sp/><sp/><sp/><sp/>{<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" kindref="member">fields</ref>[name]<sp/>=<sp/>v;<sp/>}</highlight></codeline>
+<codeline lineno="122" refid="structthemisdb_1_1analytics_1_1_data_point_1a70cf8df16786da077c76c8c68d345e44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1a70cf8df16786da077c76c8c68d345e44" kindref="member">set</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>v)<sp/>{<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" kindref="member">fields</ref>[name]<sp/>=<sp/>v;<sp/>}</highlight></codeline>
+<codeline lineno="129" refid="structthemisdb_1_1analytics_1_1_data_point_1ac1c0681320b492af99cfb8ee13b0f17f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ac1c0681320b492af99cfb8ee13b0f17f" kindref="member">set</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>v)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" kindref="member">fields</ref>[name]<sp/>=<sp/>v;<sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="132" refid="structthemisdb_1_1analytics_1_1_data_point_1ad908cddf5e78f4c09af295f5e51634c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;T&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ad908cddf5e78f4c09af295f5e51634c5" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" kindref="member">fields</ref>.find(name);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" kindref="member">fields</ref>.end())<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>std::get_if&lt;T&gt;(&amp;it-&gt;second))<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*p;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1a1028e0b6bd9e872ad7173f5efc3d3744" kindref="member">numericFeatures</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point_1a9eb37d47eca8b0d5601d0bcc150533f9" kindref="member">numericFieldNames</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AnomalyResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemisdb_1_1analytics_1_1_anomaly_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result" kindref="compound">AnomalyResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="161" refid="structthemisdb_1_1analytics_1_1_anomaly_result_1ace8fd0d17253edb167d5b1b488f4acd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result_1ace8fd0d17253edb167d5b1b488f4acd6" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="162" refid="structthemisdb_1_1analytics_1_1_anomaly_result_1a4ce230c97b8eac731e8dc253bd382d93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result_1a4ce230c97b8eac731e8dc253bd382d93" kindref="member">score</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="structthemisdb_1_1analytics_1_1_anomaly_result_1a14c7ee65c54513ee63c92b9743df3e9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result_1a14c7ee65c54513ee63c92b9743df3e9c" kindref="member">is_anomaly</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="164" refid="structthemisdb_1_1analytics_1_1_anomaly_result_1a8a87b3e0e621f4bad63502ccde691bd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result_1a8a87b3e0e621f4bad63502ccde691bd9" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref>;</highlight></codeline>
+<codeline lineno="165" refid="structthemisdb_1_1analytics_1_1_anomaly_result_1add06e27f5244983bb5f030d188e6f0e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result_1add06e27f5244983bb5f030d188e6f0e0" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="166" refid="structthemisdb_1_1analytics_1_1_anomaly_result_1a13e550f3d6d2194476ba097388fcf6a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result_1a13e550f3d6d2194476ba097388fcf6a3" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AnomalyExplanation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemisdb_1_1analytics_1_1_anomaly_explanation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_anomaly_explanation" kindref="compound">AnomalyExplanation</ref><sp/>{</highlight></codeline>
+<codeline lineno="174" refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1ad62bae7d6d618f2c652236ad0d10d6eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1ad62bae7d6d618f2c652236ad0d10d6eb" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="175" refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1ae97b5c8d4511ef58e07fea85098b30c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1ae97b5c8d4511ef58e07fea85098b30c9" kindref="member">score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="176" refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1a863f4b0857c34ea6caafa8c95a262555" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>double&gt;&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1a863f4b0857c34ea6caafa8c95a262555" kindref="member">feature_contributions</ref>;<sp/></highlight></codeline>
+<codeline lineno="177" refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1a1f21c9969ef7da2ed7eaaab21c741399" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1a1f21c9969ef7da2ed7eaaab21c741399" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DetectorConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="structthemisdb_1_1analytics_1_1_detector_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_detector_config" kindref="compound">DetectorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="185" refid="structthemisdb_1_1analytics_1_1_detector_config_1a7bc7e5e223b0a3f74dcab47be58b80e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1a7bc7e5e223b0a3f74dcab47be58b80e2" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref>;</highlight></codeline>
+<codeline lineno="186" refid="structthemisdb_1_1analytics_1_1_detector_config_1a78ba56bc3b55940950689e57197b9c92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1a78ba56bc3b55940950689e57197b9c92" kindref="member">contamination</ref><sp/><sp/>=<sp/>0.1;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187" refid="structthemisdb_1_1analytics_1_1_detector_config_1ad3bb397a53362da7a35328ed6789b23e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1ad3bb397a53362da7a35328ed6789b23e" kindref="member">threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.6;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188" refid="structthemisdb_1_1analytics_1_1_detector_config_1a4c177b1b833b0e7c0bfdd6fd86527f9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1a4c177b1b833b0e7c0bfdd6fd86527f9c" kindref="member">n_estimators</ref><sp/><sp/><sp/>=<sp/>100;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189" refid="structthemisdb_1_1analytics_1_1_detector_config_1a76f27fd34c051fc81ced2fb21da10cd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1a76f27fd34c051fc81ced2fb21da10cd7" kindref="member">max_samples</ref><sp/><sp/><sp/><sp/>=<sp/>256;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190" refid="structthemisdb_1_1analytics_1_1_detector_config_1a9b01f072a75b7597c1090db1c566eaa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1a9b01f072a75b7597c1090db1c566eaa7" kindref="member">k_neighbors</ref><sp/><sp/><sp/><sp/>=<sp/>5;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191" refid="structthemisdb_1_1analytics_1_1_detector_config_1a2a3f6f39bebf637bf67dd3643e516210" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1a2a3f6f39bebf637bf67dd3643e516210" kindref="member">adaptive</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="192" refid="structthemisdb_1_1analytics_1_1_detector_config_1adc2d37caf021694333f708f4095195b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AnomalyMethod&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1adc2d37caf021694333f708f4095195b1" kindref="member">ensemble_methods</ref>;</highlight></codeline>
+<codeline lineno="193" refid="structthemisdb_1_1analytics_1_1_detector_config_1a7f9d791e701d5bc60a7935332a2f07e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config_1a7f9d791e701d5bc60a7935332a2f07e7" kindref="member">ensemble_weights</ref>;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AnomalyDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="classthemisdb_1_1analytics_1_1_anomaly_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Construction<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>(<ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref><sp/>method<sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref>);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config" kindref="compound">DetectorConfig</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ef2893849d8d058b393950b4b3d13c3" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="210" refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a7c8a45e2ba1e13dd58c9a8ae7abc37e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a7c8a45e2ba1e13dd58c9a8ae7abc37e9" kindref="member">~AnomalyDetector</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ad46a647be25fa071bc7ed4303b160bce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ad46a647be25fa071bc7ed4303b160bce" kindref="member">AnomalyDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214" refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a56a96a580e377421acb5d7b213205a8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a56a96a580e377421acb5d7b213205a8a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>(<ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1aa88f082e96889a0a321d9f2320124083" kindref="member">train</ref>(const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ab2295fdf6eb4da6f271bf159e798c8be" kindref="member">isTrained</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result" kindref="compound">AnomalyResult</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a47052f3faa9ef8f66723c84881e90ded" kindref="member">predict</ref>(const<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/>point)<sp/>const;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_anomaly_result" kindref="compound">AnomalyResult</ref>&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ac18ef234cc8af180a427522b03925d11" kindref="member">predictBatch</ref>(const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;&amp;<sp/>data)<sp/>const;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_explanation" kindref="compound">AnomalyExplanation</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a43a703101c5bfd0995918de39bc1a3fb" kindref="member">explain</ref>(const<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/>point)<sp/>const;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ece04db21793e884ef71da508934cf8" kindref="member">update</ref>(const<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/>point);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ac6762f30f9eb95bff75015450d4d6766" kindref="member">serialize</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1aad1604b008a2820b1993eeb6272af8dc" kindref="member">deserialize</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Diagnostics<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats" kindref="compound">ModelStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="270" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1a93c12661ccf280a6dabb9a5e4d7ec810" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1a93c12661ccf280a6dabb9a5e4d7ec810" kindref="member">training_samples</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="271" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1af225fac08a2e5f108858f908acf82f77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1af225fac08a2e5f108858f908acf82f77" kindref="member">contamination</ref><sp/><sp/><sp/><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="272" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1acfeee9c36c00ad619d54fb5b4e7f6503" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1acfeee9c36c00ad619d54fb5b4e7f6503" kindref="member">n_features</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="273" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1aeff0a085e1b0cb00c1e8935aabbbe64e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1aeff0a085e1b0cb00c1e8935aabbbe64e" kindref="member">feature_names</ref>;</highlight></codeline>
+<codeline lineno="274" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1aa9c2043ff7da5cbd19a7069093046582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1aa9c2043ff7da5cbd19a7069093046582" kindref="member">feature_means</ref>;</highlight></codeline>
+<codeline lineno="275" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1a906866fc2999c5cf78fab0ba69c035ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1a906866fc2999c5cf78fab0ba69c035ed" kindref="member">feature_stddevs</ref>;</highlight></codeline>
+<codeline lineno="276" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1adcdd4f7b07afb01a63970078fb0dd07b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1adcdd4f7b07afb01a63970078fb0dd07b" kindref="member">feature_medians</ref>;</highlight></codeline>
+<codeline lineno="277" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1a41f4a3727e4d6ce48db1004baa43b1f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1a41f4a3727e4d6ce48db1004baa43b1f3" kindref="member">feature_mads</ref>;</highlight></codeline>
+<codeline lineno="278" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1aec63815e67ac360b12a52879d8d38970" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1aec63815e67ac360b12a52879d8d38970" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref>;</highlight></codeline>
+<codeline lineno="279" refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1af61ef568da8938109ced2926a0801b4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats_1af61ef568da8938109ced2926a0801b4a" kindref="member">trained</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats" kindref="compound">ModelStats</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a95cc3a7ffb733a190c4c91c40c582a47" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config" kindref="compound">DetectorConfig</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ef2893849d8d058b393950b4b3d13c3" kindref="member">config</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StreamingAnomalyDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1ade64cbf0533103df680384999bf487be" kindref="member">StreamingAnomalyDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="305" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="306" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a32db7223044930206e4e50c1529f7327" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a32db7223044930206e4e50c1529f7327" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref>;</highlight></codeline>
+<codeline lineno="307" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a867b7372fd8fc57ee4171175a6ca327d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a867b7372fd8fc57ee4171175a6ca327d" kindref="member">threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.6;</highlight></codeline>
+<codeline lineno="308" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a2fb7e97929a406987b93c3e271b6f0b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a2fb7e97929a406987b93c3e271b6f0b2" kindref="member">window_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;<sp/></highlight></codeline>
+<codeline lineno="309" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a7c20e9557d40387e2260a2d9cfe0eef1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a7c20e9557d40387e2260a2d9cfe0eef1" kindref="member">auto_train</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1ae0a7c96f3cb4741720665aa944a061e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1ae0a7c96f3cb4741720665aa944a061e1" kindref="member">auto_train_after</ref><sp/><sp/>=<sp/>100;<sp/><sp/></highlight></codeline>
+<codeline lineno="311" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a68173d835b912feb4aef96004518f7d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a68173d835b912feb4aef96004518f7d5" kindref="member">retrain_on_window</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1ade64cbf0533103df680384999bf487be" kindref="member">StreamingAnomalyDetector</ref>();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1ade64cbf0533103df680384999bf487be" kindref="member">StreamingAnomalyDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ef2893849d8d058b393950b4b3d13c3" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1ade64cbf0533103df680384999bf487be" kindref="member">~StreamingAnomalyDetector</ref>();</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AnomalyResult&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1a21e65c4b4ad5ff647d188f8013f9c262" kindref="member">process</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/>point);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AnomalyResult&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1af1444aae29b97defd1cd87369b9cae27" kindref="member">getAnomalies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1a0d534b149ddc502de6e1e7249685f908" kindref="member">clearAnomalies</ref>();</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats" kindref="compound">WindowStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="343" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1aad25f962c604043bf2bba1313b384204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1aad25f962c604043bf2bba1313b384204" kindref="member">window_size</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1a0e2e4de5b1b628f2bf87b85c3d6adb05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1a0e2e4de5b1b628f2bf87b85c3d6adb05" kindref="member">anomaly_count</ref>;</highlight></codeline>
+<codeline lineno="345" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1aa8348ba9a568f54a4bd62b17c270937b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1aa8348ba9a568f54a4bd62b17c270937b" kindref="member">anomaly_rate</ref>;</highlight></codeline>
+<codeline lineno="346" refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1a9f30494957c24714bfdf03df74d55830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1a9f30494957c24714bfdf03df74d55830" kindref="member">trained</ref>;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats" kindref="compound">WindowStats</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1a57ca7aca55c97c931f0778c7a041fa3d" kindref="member">getWindowStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354" refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1aacd0ceaa613d7666f1f265dbdcc83cb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector" kindref="compound">AnomalyDetector</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1aacd0ceaa613d7666f1f265dbdcc83cb1" kindref="member">detector</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>detector_;<sp/>}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DataPoint&gt;<sp/>snapshotWindow()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_detector_config" kindref="compound">DetectorConfig</ref><sp/>makeDetectorConfig()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector" kindref="compound">AnomalyDetector</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>detector_;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>window_mu_;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>detector_mu_;<sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;<ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>window_;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_anomaly_result" kindref="compound">AnomalyResult</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>anomalies_;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>points_seen_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>retraining_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stopping_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>retrain_future_;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Free<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385" refid="namespacethemisdb_1_1analytics_1a8ee20cda3f41e683fe2555e74eca149c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemisdb_1_1analytics_1a8ee20cda3f41e683fe2555e74eca149c" kindref="member">anomalyMethodName</ref>(<ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref><sp/>m)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(m)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Z_SCORE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea78490d32e166341dd4ab17d19e590966" kindref="member">AnomalyMethod::MODIFIED_Z_SCORE</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MODIFIED_Z_SCORE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea58d3efe734ac81fe0387c1862a1f4924" kindref="member">AnomalyMethod::IQR</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;IQR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea985f421efd8ffc9fa63ddf4863120c47" kindref="member">AnomalyMethod::ISOLATION_FOREST</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ISOLATION_FOREST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ead611e5db747e7340c80e9bfa1986b0bb" kindref="member">AnomalyMethod::LOF</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LOF&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea6ed80ac51c01c67befa758cf79ff1c99" kindref="member">AnomalyMethod::ENSEMBLE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ENSEMBLE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/anomaly_detection.h"/>
+  </compounddef>
+</doxygen>

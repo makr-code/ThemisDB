@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__hsm__dek__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_hsm_dek_bridge.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="hsm__key__provider__adapter_8h" local="yes">security/hsm_key_provider_adapter.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>security/hsm_key_provider_adapter.h</label>
+        <link refid="hsm__key__provider__adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_hsm_dek_bridge.cpp</label>
+        <link refid="test__hsm__dek__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="15">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>security/key_provider.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_hsm_dek_bridge_test" prot="public">HsmDekBridgeTest</innerclass>
+    <innerclass refid="class_h_s_m_key_provider_adapter" prot="public">HSMKeyProviderAdapter</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__hsm__dek__bridge_8cpp_1ae493fcff2565d3fb3fda2db70e104bb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HsmDekBridgeTest, WrapFnSlotAcceptsAndClears)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hsm_dek_bridge_test" kindref="compound">HsmDekBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>WrapFnSlotAcceptsAndClears</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_dek_bridge.cpp" line="33" column="1" bodyfile="tests/security/test_hsm_dek_bridge.cpp" bodystart="33" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__dek__bridge_8cpp_1ada8f92659cce02c38fba0854f3188fb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HsmDekBridgeTest, UnwrapFnSlotAcceptsAndClears)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hsm_dek_bridge_test" kindref="compound">HsmDekBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>UnwrapFnSlotAcceptsAndClears</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_dek_bridge.cpp" line="49" column="1" bodyfile="tests/security/test_hsm_dek_bridge.cpp" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__dek__bridge_8cpp_1a88f056e4068341cfa47ca4afa03dd807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HsmDekBridgeTest, WrapAndUnwrapSlotsAreIndependent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hsm_dek_bridge_test" kindref="compound">HsmDekBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>WrapAndUnwrapSlotsAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_dek_bridge.cpp" line="61" column="1" bodyfile="tests/security/test_hsm_dek_bridge.cpp" bodystart="61" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="class_h_s_m_key_provider_adapter" kindref="compound">HSMKeyProviderAdapter</ref> WrapDEKFn/UnwrapDEKFn bridge (STUB #47 / #48). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests verify the injectable callback slots: – null by default (slot empty after TearDown) – setting a non-null fn and a null fn both succeed without error – the two slots are independent (clearing one does not affect the other)</para>
+<para>Tests: HSM-DEK-BRIDGE-01..03 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__key__provider__adapter_8h" kindref="compound">security/hsm_key_provider_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter" kindref="compound">themis::security::HSMKeyProviderAdapter</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Fixture<sp/>──────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="class_hsm_dek_bridge_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_hsm_dek_bridge_test" kindref="compound">HsmDekBridgeTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_hsm_dek_bridge_test_1aac0ad5dce30a07beb3da91bc755ca712" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Always<sp/>clear<sp/>both<sp/>global<sp/>bridge<sp/>slots<sp/>after<sp/>each<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aba0fab296fc2c671d78d9fe95eb2fdd2" kindref="member">HSMKeyProviderAdapter::setWrapDEKFn</ref>({});</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aeefdbc70540ac563471fa4c95faa00f7" kindref="member">HSMKeyProviderAdapter::setUnwrapDEKFn</ref>({});</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>HSM-DEK-BRIDGE-01<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WrapDEKFn<sp/>slot:<sp/>registering<sp/>a<sp/>non-null<sp/>fn<sp/>and<sp/>then<sp/>clearing<sp/>it<sp/>both<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>without<sp/>throwing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__hsm__dek__bridge_8cpp_1ae493fcff2565d3fb3fda2db70e104bb5" kindref="member">TEST_F</ref>(<ref refid="class_hsm_dek_bridge_test" kindref="compound">HsmDekBridgeTest</ref>,<sp/>WrapFnSlotAcceptsAndClears)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_key_provider_adapter_1aba0fab296fc2c671d78d9fe95eb2fdd2" kindref="member">HSMKeyProviderAdapter::setWrapDEKFn</ref>(</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)<sp/>-&gt;<sp/>std::vector&lt;uint8_t&gt;<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0xDE,<sp/>0xAD};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clearing<sp/>the<sp/>slot<sp/>must<sp/>also<sp/>succeed<sp/>without<sp/>throwing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="class_h_s_m_key_provider_adapter_1aba0fab296fc2c671d78d9fe95eb2fdd2" kindref="member">HSMKeyProviderAdapter::setWrapDEKFn</ref>({}));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)called;<sp/><sp/></highlight><highlight class="comment">//<sp/>fn<sp/>was<sp/>only<sp/>stored,<sp/>not<sp/>called<sp/>in<sp/>this<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>HSM-DEK-BRIDGE-02<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UnwrapDEKFn<sp/>slot:<sp/>same<sp/>acceptance<sp/>+<sp/>clear<sp/>contract<sp/>as<sp/>the<sp/>wrap<sp/>slot.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__hsm__dek__bridge_8cpp_1ae493fcff2565d3fb3fda2db70e104bb5" kindref="member">TEST_F</ref>(<ref refid="class_hsm_dek_bridge_test" kindref="compound">HsmDekBridgeTest</ref>,<sp/>UnwrapFnSlotAcceptsAndClears)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_key_provider_adapter_1aeefdbc70540ac563471fa4c95faa00f7" kindref="member">HSMKeyProviderAdapter::setUnwrapDEKFn</ref>(</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)<sp/>-&gt;<sp/>std::vector&lt;uint8_t&gt;<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0xBE,<sp/>0xEF};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="class_h_s_m_key_provider_adapter_1aeefdbc70540ac563471fa4c95faa00f7" kindref="member">HSMKeyProviderAdapter::setUnwrapDEKFn</ref>({}));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>HSM-DEK-BRIDGE-03<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wrap<sp/>and<sp/>unwrap<sp/>slots<sp/>are<sp/>independent:<sp/>clearing<sp/>one<sp/>does<sp/>not<sp/>affect<sp/>the<sp/>other.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__hsm__dek__bridge_8cpp_1ae493fcff2565d3fb3fda2db70e104bb5" kindref="member">TEST_F</ref>(<ref refid="class_hsm_dek_bridge_test" kindref="compound">HsmDekBridgeTest</ref>,<sp/>WrapAndUnwrapSlotsAreIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>both<sp/>slots.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_key_provider_adapter_1aba0fab296fc2c671d78d9fe95eb2fdd2" kindref="member">HSMKeyProviderAdapter::setWrapDEKFn</ref>(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)<sp/>-&gt;<sp/>std::vector&lt;uint8_t&gt;<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0x01};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_key_provider_adapter_1aeefdbc70540ac563471fa4c95faa00f7" kindref="member">HSMKeyProviderAdapter::setUnwrapDEKFn</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)<sp/>-&gt;<sp/>std::vector&lt;uint8_t&gt;<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0x02};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clearing<sp/>only<sp/>the<sp/>wrap<sp/>slot<sp/>must<sp/>not<sp/>throw<sp/>and<sp/>must<sp/>leave<sp/>unwrap<sp/>intact.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="class_h_s_m_key_provider_adapter_1aba0fab296fc2c671d78d9fe95eb2fdd2" kindref="member">HSMKeyProviderAdapter::setWrapDEKFn</ref>({}));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replacing<sp/>the<sp/>unwrap<sp/>slot<sp/>after<sp/>clearing<sp/>the<sp/>wrap<sp/>slot<sp/>must<sp/>still<sp/>work.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_key_provider_adapter_1aeefdbc70540ac563471fa4c95faa00f7" kindref="member">HSMKeyProviderAdapter::setUnwrapDEKFn</ref>(</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)<sp/>-&gt;<sp/>std::vector&lt;uint8_t&gt;<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0x03};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Final<sp/>clean-up<sp/>(also<sp/>exercised<sp/>by<sp/>TearDown,<sp/>but<sp/>explicit<sp/>here<sp/>for<sp/>clarity).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="class_h_s_m_key_provider_adapter_1aeefdbc70540ac563471fa4c95faa00f7" kindref="member">HSMKeyProviderAdapter::setUnwrapDEKFn</ref>({}));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_hsm_dek_bridge.cpp"/>
+  </compounddef>
+</doxygen>

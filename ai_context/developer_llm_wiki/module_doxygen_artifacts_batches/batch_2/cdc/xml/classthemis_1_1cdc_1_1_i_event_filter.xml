@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_i_event_filter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cdc::IEventFilter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1cdc_1_1_event_type_filter" prot="public" virt="non-virtual">themis::cdc::EventTypeFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1cdc_1_1_key_prefix_filter" prot="public" virt="non-virtual">themis::cdc::KeyPrefixFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1cdc_1_1_predicate_filter" prot="public" virt="non-virtual">themis::cdc::PredicateFilter</derivedcompoundref>
+    <includes refid="icdc__filter__pipeline_8h" local="no">icdc_filter_pipeline.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_event_filter_1ad47cd016fe06b408ca021af83d61ecce" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cdc::IEventFilter::~IEventFilter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEventFilter</name>
+        <qualifiedname>themis::cdc::IEventFilter::~IEventFilter</qualifiedname>
+        <briefdescription>
+<para>IEvent Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="62" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_event_filter_1a58670484e3fe0e056674a898e78c86d6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39" kindref="member">FilterResult</ref></type>
+        <definition>virtual FilterResult themis::cdc::IEventFilter::evaluate</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) const noexcept=0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::cdc::IEventFilter::evaluate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_event_type_filter_1ad9ba639734bd91981a129cc17db3ada7">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_key_prefix_filter_1ac61cd83f0f2f2eb6d621418dbfd06c53">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_predicate_filter_1ac92cb6e9cae7f30fd699f14025393cc5">evaluate</reimplementedby>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="64" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_event_filter_1a385a5c1a468ddc4f75ffab8c2149582f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::cdc::IEventFilter::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cdc::IEventFilter::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_event_type_filter_1a658407d4ee8c89054011aa6c21be99cd">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_key_prefix_filter_1a3664289e3fb32c31a7c787f84002f538">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_predicate_filter_1a08927c2f5a289a3a616af9989bfe115c">name</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="66" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::EventTypeFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_event_type_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cdc::IEventFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_i_event_filter"/>
+      </node>
+      <node id="3">
+        <label>themis::cdc::KeyPrefixFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_key_prefix_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::cdc::PredicateFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_predicate_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/cdc/icdc_filter_pipeline.h" line="56" column="1" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="56" bodyend="67"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_i_event_filter_1a58670484e3fe0e056674a898e78c86d6" prot="public" virt="pure-virtual"><scope>themis::cdc::IEventFilter</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_event_filter_1a385a5c1a468ddc4f75ffab8c2149582f" prot="public" virt="pure-virtual"><scope>themis::cdc::IEventFilter</scope><name>name</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_event_filter_1ad47cd016fe06b408ca021af83d61ecce" prot="public" virt="virtual"><scope>themis::cdc::IEventFilter</scope><name>~IEventFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

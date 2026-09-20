@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_metadata_based_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::MetadataBasedDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_redundancy_detector" prot="public" virt="non-virtual">themis::tensor::IRedundancyDetector</basecompoundref>
+    <includes refid="tensor__redundancy__detection_8h" local="no">tensor_redundancy_detection.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_metadata_based_detector_1a152a4454f2cb80197964fbe3ac8720c1" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::MetadataBasedDetector::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::MetadataBasedDetector::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1a2c16ef5e4efb6d3810fd995df41b640e">name</reimplements>
+        <briefdescription>
+<para>Get the name of this detector strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="218" column="17" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="339" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_metadata_based_detector_1aff400aaef4d956a21f229b284d8d4d74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_redundancy_metrics" kindref="compound">RedundancyMetrics</ref></type>
+        <definition>RedundancyMetrics themis::tensor::MetadataBasedDetector::detect</definition>
+        <argsstring>(const std::vector&lt; const BaseTensorSummary * &gt; &amp;summaries, float threshold) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::tensor::MetadataBasedDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ab1e76b2bfc7f7d5e88b5d1be1739c913">detect</reimplements>
+        <param>
+          <type>const std::vector&lt; const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> * &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Detect redundant candidates in a summary list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of tensor summaries to analyze. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Similarity threshold for redundancy (0.0-1.0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Redundancy metrics and indices of redundant items. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="220" column="23" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="343" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_metadata_based_detector_1af651e772d25acdd3eeed81365c572880" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt; std::size_t &gt; themis::tensor::MetadataBasedDetector::deduplicate</definition>
+        <argsstring>(std::vector&lt; BaseTensorSummary &gt; &amp;summaries, float threshold) override</argsstring>
+        <name>deduplicate</name>
+        <qualifiedname>themis::tensor::MetadataBasedDetector::deduplicate</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1a550458709de27722e6111d5881bb71a9">deduplicate</reimplements>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Deduplicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), push_back(), std::sort(), rbegin(), rend(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="224" column="17" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="379" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_metadata_based_detector_1ae83a229ee182f56da009c567393ed6ec" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::MetadataBasedDetector::areRedundant</definition>
+        <argsstring>(const BaseTensorSummary &amp;a, const BaseTensorSummary &amp;b, float threshold) const noexcept override</argsstring>
+        <name>areRedundant</name>
+        <qualifiedname>themis::tensor::MetadataBasedDetector::areRedundant</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ac1dd71862a79332654face92b59e6efb">areRedundant</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Check if two summaries are redundant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Similarity threshold. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if a and b are considered redundant. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="228" column="10" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="404" bodyend="410"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Redundancy detection based on metadata patterns. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Identifies redundant candidates by comparing metadata fields (e.g., source, domain, entity type) and structural patterns. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::IRedundancyDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_i_redundancy_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::MetadataBasedDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_metadata_based_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::IRedundancyDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_i_redundancy_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::MetadataBasedDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_metadata_based_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_redundancy_detection.h" line="216" column="1" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="216" bodyend="232"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_metadata_based_detector_1ae83a229ee182f56da009c567393ed6ec" prot="public" virt="virtual"><scope>themis::tensor::MetadataBasedDetector</scope><name>areRedundant</name></member>
+      <member refid="classthemis_1_1tensor_1_1_metadata_based_detector_1af651e772d25acdd3eeed81365c572880" prot="public" virt="virtual"><scope>themis::tensor::MetadataBasedDetector</scope><name>deduplicate</name></member>
+      <member refid="classthemis_1_1tensor_1_1_metadata_based_detector_1aff400aaef4d956a21f229b284d8d4d74" prot="public" virt="virtual"><scope>themis::tensor::MetadataBasedDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1tensor_1_1_metadata_based_detector_1a152a4454f2cb80197964fbe3ac8720c1" prot="public" virt="virtual"><scope>themis::tensor::MetadataBasedDetector</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ac32144a119b014f91b5b9078b540c63a" prot="public" virt="virtual"><scope>themis::tensor::MetadataBasedDetector</scope><name>~IRedundancyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

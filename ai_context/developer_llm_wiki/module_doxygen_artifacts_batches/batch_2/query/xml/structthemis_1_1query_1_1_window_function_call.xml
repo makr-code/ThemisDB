@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_window_function_call" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::WindowFunctionCall</compoundname>
+    <includes refid="window__evaluator_8h" local="no">window_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_window_function_call_1ac5bf199b793918f378302d834b780a2e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a52587cea71a83a38ddb8f9649ac30a9e" kindref="member">WindowFunctionType</ref></type>
+        <definition>WindowFunctionType themis::query::WindowFunctionCall::funcType</definition>
+        <argsstring></argsstring>
+        <name>funcType</name>
+        <qualifiedname>themis::query::WindowFunctionCall::funcType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="127" column="24" bodyfile="include/query/window_evaluator.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_window_function_call_1a4877fb23af4bc64d17ae9070277fb030" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::WindowFunctionCall::argument</definition>
+        <argsstring></argsstring>
+        <name>argument</name>
+        <qualifiedname>themis::query::WindowFunctionCall::argument</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="128" column="21" bodyfile="include/query/window_evaluator.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_window_function_call_1a7e03ecde35f2f47ddf5908f101fdbbfb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::WindowFunctionCall::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::query::WindowFunctionCall::offset</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="129" column="13" bodyfile="include/query/window_evaluator.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_window_function_call_1af4a83f097caa8c99f54f89ea854f0bc9" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::WindowFunctionCall::defaultValue</definition>
+        <argsstring></argsstring>
+        <name>defaultValue</name>
+        <qualifiedname>themis::query::WindowFunctionCall::defaultValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="130" column="21" bodyfile="include/query/window_evaluator.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_window_function_call_1aaab4f2c795a273e0ffff2480e2e8a62b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::WindowFunctionCall::windowName</definition>
+        <argsstring></argsstring>
+        <name>windowName</name>
+        <qualifiedname>themis::query::WindowFunctionCall::windowName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="131" column="17" bodyfile="include/query/window_evaluator.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_window_function_call_1ac476c1105515ad02cc23c4bde170e5ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::WindowFunctionCall::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::WindowFunctionCall::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="137" column="20" bodyfile="src/query/window_evaluator.cpp" bodystart="48" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/window_evaluator.h" line="126" column="1" bodyfile="include/query/window_evaluator.h" bodystart="126" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_window_function_call_1a4877fb23af4bc64d17ae9070277fb030" prot="public" virt="non-virtual"><scope>themis::query::WindowFunctionCall</scope><name>argument</name></member>
+      <member refid="structthemis_1_1query_1_1_window_function_call_1af4a83f097caa8c99f54f89ea854f0bc9" prot="public" virt="non-virtual"><scope>themis::query::WindowFunctionCall</scope><name>defaultValue</name></member>
+      <member refid="structthemis_1_1query_1_1_window_function_call_1ac5bf199b793918f378302d834b780a2e" prot="public" virt="non-virtual"><scope>themis::query::WindowFunctionCall</scope><name>funcType</name></member>
+      <member refid="structthemis_1_1query_1_1_window_function_call_1a7e03ecde35f2f47ddf5908f101fdbbfb" prot="public" virt="non-virtual"><scope>themis::query::WindowFunctionCall</scope><name>offset</name></member>
+      <member refid="structthemis_1_1query_1_1_window_function_call_1ac476c1105515ad02cc23c4bde170e5ee" prot="public" virt="non-virtual"><scope>themis::query::WindowFunctionCall</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_window_function_call_1aaab4f2c795a273e0ffff2480e2e8a62b" prot="public" virt="non-virtual"><scope>themis::query::WindowFunctionCall</scope><name>windowName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

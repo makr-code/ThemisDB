@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StaleArtifactMetrics</compoundname>
+    <includes refid="stale__artifact__detector_8h" local="no">stale_artifact_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a2dd954e660b46b9cac32ebc6982ee50b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::StaleArtifactMetrics::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="48" column="15" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ad498cdcd02556a0f81b6f42df833dc1d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref></type>
+        <definition>StalenessLevel themis::distributed_tensor::StaleArtifactMetrics::staleness</definition>
+        <argsstring></argsstring>
+        <name>staleness</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::staleness</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaa56278fcd527ad6b4619050916ca2ca8" kindref="member">StalenessLevel::FRESH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="50" column="18" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1afe23f6d41f9addf836287220875b14b2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StaleArtifactMetrics::delta_lag</definition>
+        <argsstring></argsstring>
+        <name>delta_lag</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::delta_lag</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="52" column="12" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a8d6bb3bf57503e19c703e5c143969fac" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::StaleArtifactMetrics::age_seconds</definition>
+        <argsstring></argsstring>
+        <name>age_seconds</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::age_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="54" column="11" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a20488db2b40f1fcc851a697cf1e44f47" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StaleArtifactMetrics::delta_backlog</definition>
+        <argsstring></argsstring>
+        <name>delta_backlog</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::delta_backlog</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="56" column="12" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a4a72d5408a6829ea6f8ef9da66537942" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::StaleArtifactMetrics::worker_throughput</definition>
+        <argsstring></argsstring>
+        <name>worker_throughput</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::worker_throughput</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="58" column="10" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a0527e3c1f898071b7f6b3f5d88245139" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::StaleArtifactMetrics::delta_arrival_rate</definition>
+        <argsstring></argsstring>
+        <name>delta_arrival_rate</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::delta_arrival_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="60" column="10" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ad3abaa5bd771422361e5565ca197277f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StaleArtifactMetrics::should_fallback</definition>
+        <argsstring></argsstring>
+        <name>should_fallback</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::should_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="62" column="8" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ac431ec747d51d745bb23745c2c3d2fb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::StaleArtifactMetrics::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactMetrics::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="64" column="15" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="47" column="1" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="47" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a8d6bb3bf57503e19c703e5c143969fac" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>age_seconds</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a2dd954e660b46b9cac32ebc6982ee50b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a0527e3c1f898071b7f6b3f5d88245139" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>delta_arrival_rate</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a20488db2b40f1fcc851a697cf1e44f47" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>delta_backlog</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1afe23f6d41f9addf836287220875b14b2" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>delta_lag</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ac431ec747d51d745bb23745c2c3d2fb3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>reason</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ad3abaa5bd771422361e5565ca197277f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>should_fallback</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ad498cdcd02556a0f81b6f42df833dc1d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>staleness</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a4a72d5408a6829ea6f8ef9da66537942" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactMetrics</scope><name>worker_throughput</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

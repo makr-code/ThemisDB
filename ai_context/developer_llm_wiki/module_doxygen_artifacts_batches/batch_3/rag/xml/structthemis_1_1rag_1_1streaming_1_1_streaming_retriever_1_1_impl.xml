@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::streaming::StreamingRetriever::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1aa573115c43e2db498a8a295fac5129d1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref></type>
+        <definition>StreamingRetrieverConfig themis::rag::streaming::StreamingRetriever::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/streaming_retriever.cpp" line="150" column="30" bodyfile="src/rag/streaming_retriever.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a820dbf3f36067c2f2821580e38134c12" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1streaming_1a52e9951aebaf27cf24478acd2d9002c2" kindref="member">DocumentAcceptedCallback</ref></type>
+        <definition>DocumentAcceptedCallback themis::rag::streaming::StreamingRetriever::Impl::on_accepted</definition>
+        <argsstring></argsstring>
+        <name>on_accepted</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::Impl::on_accepted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/streaming_retriever.cpp" line="152" column="30" bodyfile="src/rag/streaming_retriever.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a56339882daad0cbd2bb34072d7d6bb83" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1streaming_1ac27063e57798dd34b0f31abbe866c085" kindref="member">DocumentSkippedCallback</ref></type>
+        <definition>DocumentSkippedCallback themis::rag::streaming::StreamingRetriever::Impl::on_skipped</definition>
+        <argsstring></argsstring>
+        <name>on_skipped</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::Impl::on_skipped</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/streaming_retriever.cpp" line="153" column="30" bodyfile="src/rag/streaming_retriever.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a0486b970fc6ce5ec1b50ef02eb4c9763" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1streaming_1ad37cc7fac053b34cff9cf72ac1de3aec" kindref="member">WindowFullCallback</ref></type>
+        <definition>WindowFullCallback themis::rag::streaming::StreamingRetriever::Impl::on_window_full</definition>
+        <argsstring></argsstring>
+        <name>on_window_full</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::Impl::on_window_full</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/streaming_retriever.cpp" line="154" column="30" bodyfile="src/rag/streaming_retriever.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1aecfbd72933be5f115dce52875c2922f8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::streaming::StreamingRetriever::Impl::streaming</definition>
+        <argsstring></argsstring>
+        <name>streaming</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::Impl::streaming</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/streaming_retriever.cpp" line="156" column="17" bodyfile="src/rag/streaming_retriever.cpp" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a57f1accad8173358ca5018f1857664dc" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::streaming::StreamingRetriever::Impl::cancel_requested</definition>
+        <argsstring></argsstring>
+        <name>cancel_requested</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::Impl::cancel_requested</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/streaming_retriever.cpp" line="157" column="17" bodyfile="src/rag/streaming_retriever.cpp" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a7d4193008c7865348dc013b969500bb4" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::streaming::StreamingRetriever::Impl::callback_mutex</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::Impl::callback_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/streaming_retriever.cpp" line="160" column="24" bodyfile="src/rag/streaming_retriever.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1acaaa4a808a7727b442d9b8b72e2b18b1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::streaming::StreamingRetriever::Impl::isDuplicate</definition>
+        <argsstring>(const StreamedDocument &amp;candidate, const std::vector&lt; StreamedDocument &gt; &amp;selected) const</argsstring>
+        <name>isDuplicate</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::Impl::isDuplicate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &amp;</type>
+          <declname>candidate</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &gt; &amp;</type>
+          <declname>selected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/streaming_retriever.cpp" line="162" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="162" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::streaming::StreamingRetriever::Impl</label>
+        <link refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::streaming::StreamingRetrieverConfig</label>
+        <link refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/streaming_retriever.cpp" line="149" column="1" bodyfile="src/rag/streaming_retriever.cpp" bodystart="149" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a7d4193008c7865348dc013b969500bb4" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever::Impl</scope><name>callback_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a57f1accad8173358ca5018f1857664dc" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever::Impl</scope><name>cancel_requested</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1aa573115c43e2db498a8a295fac5129d1" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1acaaa4a808a7727b442d9b8b72e2b18b1" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever::Impl</scope><name>isDuplicate</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a820dbf3f36067c2f2821580e38134c12" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever::Impl</scope><name>on_accepted</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a56339882daad0cbd2bb34072d7d6bb83" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever::Impl</scope><name>on_skipped</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1a0486b970fc6ce5ec1b50ef02eb4c9763" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever::Impl</scope><name>on_window_full</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl_1aecfbd72933be5f115dce52875c2922f8" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever::Impl</scope><name>streaming</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

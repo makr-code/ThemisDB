@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_model_router_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLModelRouterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router" kindref="compound">AQLModelRouter</ref></type>
+        <definition>AQLModelRouter AQLModelRouterTest::router</definition>
+        <argsstring></argsstring>
+        <name>router</name>
+        <qualifiedname>AQLModelRouterTest::router</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="21" column="20" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_q_l_model_router_test_1a45cd3c712a5bd0ed4c209c39b1a79cae" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLModelRouterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLModelRouterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="23" column="10" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="23" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLModelRouterTest</label>
+        <link refid="class_a_q_l_model_router_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLModelRouterTest</label>
+        <link refid="class_a_q_l_model_router_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>router</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::aql::AQLModelRouter</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_model_router"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::aql::IModelRouter</label>
+        <link refid="classthemis_1_1aql_1_1_i_model_router"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_model_router.cpp" line="19" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="19" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" prot="protected" virt="non-virtual"><scope>AQLModelRouterTest</scope><name>router</name></member>
+      <member refid="class_a_q_l_model_router_test_1a45cd3c712a5bd0ed4c209c39b1a79cae" prot="protected" virt="non-virtual"><scope>AQLModelRouterTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_mock_shard" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::MockShard</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::test::MockShard::State</qualifiedname>
+        <enumvalue id="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378faf068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378fa0e3066cbbd284dce8b76e7c4620d6d75" prot="public">
+          <name>SLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378fa44c98f91eb8d3d58eda8b38501db52b3" prot="public">
+          <name>PARTITIONED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378fab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378fabdfbb6f2aa06fd5d4c2cc0072f960254" prot="public">
+          <name>RECOVERING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="42" column="5" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_1a74316ce3b73111976cf88bbe94b4e737" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockShard::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::test::MockShard::shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="92" column="9" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_1aeafc01cd6dd07a0483b79dada66725d8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378f" kindref="member">State</ref></type>
+        <definition>State themis::test::MockShard::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::test::MockShard::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="93" column="11" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_1a43e9ad1b83aca118bd38d2f3712ce3c4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::test::MockShard::request_count_</definition>
+        <argsstring></argsstring>
+        <name>request_count_</name>
+        <qualifiedname>themis::test::MockShard::request_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="94" column="17" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_1a2561d8d5ce805d557fbfd13b565e4a10" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::test::MockShard::error_count_</definition>
+        <argsstring></argsstring>
+        <name>error_count_</name>
+        <qualifiedname>themis::test::MockShard::error_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="95" column="17" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_1a5655354c6c31cbb5cfd25fb8a58fe313" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::test::MockShard::is_leader_</definition>
+        <argsstring></argsstring>
+        <name>is_leader_</name>
+        <qualifiedname>themis::test::MockShard::is_leader_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="96" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_1aca3d3f385d08bb6d42eba40cba7169a5" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::test::MockShard::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::test::MockShard::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="97" column="14" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_1ab560636ac4459338b4698cd6a9e74903" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::MockShard::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::test::MockShard::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="98" column="24" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1a2cce2f0b9eef12ae77bfcbcfc5fcbc19" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::MockShard::MockShard</definition>
+        <argsstring>(int shard_id)</argsstring>
+        <name>MockShard</name>
+        <qualifiedname>themis::test::MockShard::MockShard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="44" column="14" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1ae48f56746d83aec4a1a02f9767e62da8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockShard::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>themis::test::MockShard::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="51" column="9" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1a33ed999d88867386e8079a6c1e021dea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378f" kindref="member">State</ref></type>
+        <definition>State themis::test::MockShard::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::test::MockShard::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="52" column="11" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1acd14935f2099e33ac1da9fe08e1ee7aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockShard::setState</definition>
+        <argsstring>(State s)</argsstring>
+        <name>setState</name>
+        <qualifiedname>themis::test::MockShard::setState</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378f" kindref="member">State</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="53" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1ad12bf5abffc631c09e141f67e371b396" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockShard::processRequest</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>processRequest</name>
+        <qualifiedname>themis::test::MockShard::processRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="55" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="55" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1abfbf3dae03a2b6e32a54fd6abd8bf093" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockShard::canServeRequest</definition>
+        <argsstring>() const</argsstring>
+        <name>canServeRequest</name>
+        <qualifiedname>themis::test::MockShard::canServeRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="82" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="82" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1a0817b1e6c6f728fb0fcaebbfe088e423" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockShard::getRequestCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getRequestCount</name>
+        <qualifiedname>themis::test::MockShard::getRequestCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="86" column="9" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1a66e344f4e20b4f03868e1a1b045d4621" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockShard::getErrorCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorCount</name>
+        <qualifiedname>themis::test::MockShard::getErrorCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="87" column="9" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1ab18755b2da9a1bd5615d7261373c3f77" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockShard::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themis::test::MockShard::isLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="88" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_1a64ea92308b1adf084b381fc58ba83caa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockShard::setLeader</definition>
+        <argsstring>(bool is_leader)</argsstring>
+        <name>setLeader</name>
+        <qualifiedname>themis::test::MockShard::setLeader</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>is_leader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="89" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="40" column="1" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="40" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1abfbf3dae03a2b6e32a54fd6abd8bf093" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>canServeRequest</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1aca3d3f385d08bb6d42eba40cba7169a5" prot="private" virt="non-virtual"><scope>themis::test::MockShard</scope><name>data_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a2561d8d5ce805d557fbfd13b565e4a10" prot="private" virt="non-virtual"><scope>themis::test::MockShard</scope><name>error_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a66e344f4e20b4f03868e1a1b045d4621" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>getErrorCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1ae48f56746d83aec4a1a02f9767e62da8" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>getId</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a0817b1e6c6f728fb0fcaebbfe088e423" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>getRequestCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a33ed999d88867386e8079a6c1e021dea" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>getState</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a5655354c6c31cbb5cfd25fb8a58fe313" prot="private" virt="non-virtual"><scope>themis::test::MockShard</scope><name>is_leader_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1ab18755b2da9a1bd5615d7261373c3f77" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>isLeader</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a2cce2f0b9eef12ae77bfcbcfc5fcbc19" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>MockShard</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1ab560636ac4459338b4698cd6a9e74903" prot="private" virt="non-virtual"><scope>themis::test::MockShard</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1ad12bf5abffc631c09e141f67e371b396" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>processRequest</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a43e9ad1b83aca118bd38d2f3712ce3c4" prot="private" virt="non-virtual"><scope>themis::test::MockShard</scope><name>request_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a64ea92308b1adf084b381fc58ba83caa" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>setLeader</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1acd14935f2099e33ac1da9fe08e1ee7aa" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>setState</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a74316ce3b73111976cf88bbe94b4e737" prot="private" virt="non-virtual"><scope>themis::test::MockShard</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1a4e1b02314c9e0269e8fc5feb57d4378f" prot="public" virt="non-virtual"><scope>themis::test::MockShard</scope><name>State</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_1aeafc01cd6dd07a0483b79dada66725d8" prot="private" virt="non-virtual"><scope>themis::test::MockShard</scope><name>state_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_engine_1_1_query_expression_evaluator" kind="class" language="C++" prot="private">
+    <compoundname>QueryEngine::QueryExpressionEvaluator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IExpressionEvaluator</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_query_engine_1_1_query_expression_evaluator_1aec2ac72a0d8921c453de0014747e9838" prot="private" static="no" mutable="no">
+        <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> *</type>
+        <definition>QueryEngine* themis::query::QueryEngine::QueryExpressionEvaluator::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>QueryEngine::QueryExpressionEvaluator::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="747" column="21" bodyfile="include/query/query_engine.h" bodystart="747" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_query_engine_1_1_query_expression_evaluator_1a03ed24ea20c46ac7584dad99331d20e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryEngine::QueryExpressionEvaluator::~QueryExpressionEvaluator</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~QueryExpressionEvaluator</name>
+        <qualifiedname>QueryEngine::QueryExpressionEvaluator::~QueryExpressionEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="719" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_engine_1_1_query_expression_evaluator_1a4edb4ac117c0216a4e0fc78a34e9fcef" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryEngine::QueryExpressionEvaluator::QueryExpressionEvaluator</definition>
+        <argsstring>(QueryEngine *engine)</argsstring>
+        <name>QueryExpressionEvaluator</name>
+        <qualifiedname>QueryEngine::QueryExpressionEvaluator::QueryExpressionEvaluator</qualifiedname>
+        <param>
+          <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Query <ref refid="struct_expression" kindref="compound">Expression</ref> Evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="725" column="18" bodyfile="include/query/query_engine.h" bodystart="725" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_engine_1_1_query_expression_evaluator_1a9976500e8a896c7f7c16840f822c8f93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryEngine::QueryExpressionEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;expression, const void *context) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>QueryEngine::QueryExpressionEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="729" column="14" bodyfile="src/query/query_engine.cpp" bodystart="397" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_engine_1_1_query_expression_evaluator_1a0b5c9f3cc5fb6e972fb6a50cbc4633db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryEngine::QueryExpressionEvaluator::get_expression_type</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_expression_type</name>
+        <qualifiedname>QueryEngine::QueryExpressionEvaluator::get_expression_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="730" column="21" bodyfile="src/query/query_engine.cpp" bodystart="417" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_engine_1_1_query_expression_evaluator_1a3326c8fcae3e338433f6b85bd90c9e03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryEngine::QueryExpressionEvaluator::evaluateBoolean</definition>
+        <argsstring>(std::string_view expression, const void *context) const</argsstring>
+        <name>evaluateBoolean</name>
+        <qualifiedname>QueryEngine::QueryExpressionEvaluator::evaluateBoolean</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>expression</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Helpers for richer evaluation paths (non-override). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="738" column="14" bodyfile="src/query/query_engine.cpp" bodystart="421" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_engine_1_1_query_expression_evaluator_1a522f8e4efc30376568005f23edc61692" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryEngine::QueryExpressionEvaluator::canEvaluate</definition>
+        <argsstring>(std::string_view expression) const</argsstring>
+        <name>canEvaluate</name>
+        <qualifiedname>QueryEngine::QueryExpressionEvaluator::canEvaluate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+<para>Can Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="744" column="14" bodyfile="src/query/query_engine.cpp" bodystart="432" bodyend="444"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IExpressionEvaluator</label>
+      </node>
+      <node id="1">
+        <label>QueryEngine::QueryExpressionEvaluator</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IExpressionEvaluator</label>
+      </node>
+      <node id="1">
+        <label>QueryEngine::QueryExpressionEvaluator</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_engine.h" line="717" column="5" bodyfile="include/query/query_engine.h" bodystart="717" bodyend="748"/>
+    <listofallmembers>
+      <member refid="class_query_engine_1_1_query_expression_evaluator_1a522f8e4efc30376568005f23edc61692" prot="public" virt="non-virtual"><scope>QueryEngine::QueryExpressionEvaluator</scope><name>canEvaluate</name></member>
+      <member refid="class_query_engine_1_1_query_expression_evaluator_1aec2ac72a0d8921c453de0014747e9838" prot="private" virt="non-virtual"><scope>QueryEngine::QueryExpressionEvaluator</scope><name>engine_</name></member>
+      <member refid="class_query_engine_1_1_query_expression_evaluator_1a9976500e8a896c7f7c16840f822c8f93" prot="public" virt="non-virtual"><scope>QueryEngine::QueryExpressionEvaluator</scope><name>evaluate</name></member>
+      <member refid="class_query_engine_1_1_query_expression_evaluator_1a3326c8fcae3e338433f6b85bd90c9e03" prot="public" virt="non-virtual"><scope>QueryEngine::QueryExpressionEvaluator</scope><name>evaluateBoolean</name></member>
+      <member refid="class_query_engine_1_1_query_expression_evaluator_1a0b5c9f3cc5fb6e972fb6a50cbc4633db" prot="public" virt="non-virtual"><scope>QueryEngine::QueryExpressionEvaluator</scope><name>get_expression_type</name></member>
+      <member refid="class_query_engine_1_1_query_expression_evaluator_1a4edb4ac117c0216a4e0fc78a34e9fcef" prot="public" virt="non-virtual"><scope>QueryEngine::QueryExpressionEvaluator</scope><name>QueryExpressionEvaluator</name></member>
+      <member refid="class_query_engine_1_1_query_expression_evaluator_1a03ed24ea20c46ac7584dad99331d20e5" prot="public" virt="non-virtual"><scope>QueryEngine::QueryExpressionEvaluator</scope><name>~QueryExpressionEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentSecurityManager::Metrics</compoundname>
+    <includes refid="content__security_8h" local="no">content_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ab216b7cd9b4f706161d4c50d18a628f6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::total_checks</definition>
+        <argsstring></argsstring>
+        <name>total_checks</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::total_checks</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="190" column="21" bodyfile="include/content/content_security.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a1e5edd4de8fd075b505820d0a4a1083c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::malware_scans</definition>
+        <argsstring></argsstring>
+        <name>malware_scans</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::malware_scans</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="191" column="21" bodyfile="include/content/content_security.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a51138cf72bcd78f0acacc26c2f22f8ef" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::malware_detected</definition>
+        <argsstring></argsstring>
+        <name>malware_detected</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::malware_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="192" column="21" bodyfile="include/content/content_security.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a8be60e6e2aa416b5c113eed5360dac0f" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::malware_blocked</definition>
+        <argsstring></argsstring>
+        <name>malware_blocked</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::malware_blocked</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="193" column="21" bodyfile="include/content/content_security.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a7d7c8dbcafef869c97b7d4488fdbb1e2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::pii_scans</definition>
+        <argsstring></argsstring>
+        <name>pii_scans</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::pii_scans</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="194" column="21" bodyfile="include/content/content_security.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ab14fc04b2d32025d0b770ec5c9d32e16" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::pii_detected</definition>
+        <argsstring></argsstring>
+        <name>pii_detected</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::pii_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="195" column="21" bodyfile="include/content/content_security.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a3e1c0bc48f5ae1a3a68a9160911413f8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::pii_blocked</definition>
+        <argsstring></argsstring>
+        <name>pii_blocked</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::pii_blocked</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="196" column="21" bodyfile="include/content/content_security.h" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a061f4f9660b901c1e98100fda8f2551a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::abuse_scans</definition>
+        <argsstring></argsstring>
+        <name>abuse_scans</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::abuse_scans</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="197" column="21" bodyfile="include/content/content_security.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a34c2b75760647c24c4fe26b66780c8f1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::abuse_detected</definition>
+        <argsstring></argsstring>
+        <name>abuse_detected</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::abuse_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="198" column="21" bodyfile="include/content/content_security.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ac22f23323fc83595ffe32fad2748d3a8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::abuse_blocked</definition>
+        <argsstring></argsstring>
+        <name>abuse_blocked</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::abuse_blocked</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="199" column="21" bodyfile="include/content/content_security.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a6664ef29163e1af034446c88a0cd0eaf" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::errors_sanitized</definition>
+        <argsstring></argsstring>
+        <name>errors_sanitized</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::errors_sanitized</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="200" column="21" bodyfile="include/content/content_security.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a3ccaa908c68b20d1e6ff7b3c992571de" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::zip_bomb_scans</definition>
+        <argsstring></argsstring>
+        <name>zip_bomb_scans</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::zip_bomb_scans</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="201" column="21" bodyfile="include/content/content_security.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a464d27838f335de157bbc335d9d2803c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentSecurityManager::Metrics::zip_bomb_blocked</definition>
+        <argsstring></argsstring>
+        <name>zip_bomb_blocked</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::zip_bomb_blocked</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="202" column="21" bodyfile="include/content/content_security.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1afb1917eaf595c228e427c2fe4aefbf1a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentSecurityManager::Metrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ContentSecurityManager::Metrics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="208" column="14" bodyfile="src/content/content_security.cpp" bodystart="674" bodyend="690"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_security.h" line="189" column="5" bodyfile="include/content/content_security.h" bodystart="189" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ac22f23323fc83595ffe32fad2748d3a8" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>abuse_blocked</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a34c2b75760647c24c4fe26b66780c8f1" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>abuse_detected</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a061f4f9660b901c1e98100fda8f2551a" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>abuse_scans</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a6664ef29163e1af034446c88a0cd0eaf" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>errors_sanitized</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a8be60e6e2aa416b5c113eed5360dac0f" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>malware_blocked</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a51138cf72bcd78f0acacc26c2f22f8ef" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>malware_detected</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a1e5edd4de8fd075b505820d0a4a1083c" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>malware_scans</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a3e1c0bc48f5ae1a3a68a9160911413f8" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>pii_blocked</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ab14fc04b2d32025d0b770ec5c9d32e16" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>pii_detected</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a7d7c8dbcafef869c97b7d4488fdbb1e2" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>pii_scans</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1afb1917eaf595c228e427c2fe4aefbf1a" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ab216b7cd9b4f706161d4c50d18a628f6" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>total_checks</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a464d27838f335de157bbc335d9d2803c" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>zip_bomb_blocked</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a3ccaa908c68b20d1e6ff7b3c992571de" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityManager::Metrics</scope><name>zip_bomb_scans</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

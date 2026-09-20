@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_token_stream_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubTokenStreamBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_token_stream_bench_1a7949b1ac3a4e275920a99e3583719067" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTokenStreamBench::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>StubTokenStreamBench::count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="44" column="17" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_token_stream_bench_1af2b01171372c4688b036e5e242214818" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubTokenStreamBench::sendToken</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>sendToken</name>
+        <qualifiedname>StubTokenStreamBench::sendToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="38" column="10" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_token_stream_bench_1a04f32f23432174e5ebd92eb6f85f80eb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTokenStreamBench::count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>count</name>
+        <qualifiedname>StubTokenStreamBench::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="42" column="14" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="36" column="1" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="36" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_stub_token_stream_bench_1a04f32f23432174e5ebd92eb6f85f80eb" prot="public" virt="non-virtual"><scope>StubTokenStreamBench</scope><name>count</name></member>
+      <member refid="class_stub_token_stream_bench_1a7949b1ac3a4e275920a99e3583719067" prot="private" virt="non-virtual"><scope>StubTokenStreamBench</scope><name>count_</name></member>
+      <member refid="class_stub_token_stream_bench_1af2b01171372c4688b036e5e242214818" prot="public" virt="non-virtual"><scope>StubTokenStreamBench</scope><name>sendToken</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

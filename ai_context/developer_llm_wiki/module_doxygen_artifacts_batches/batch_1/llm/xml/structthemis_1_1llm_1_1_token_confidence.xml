@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_token_confidence" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TokenConfidence</compoundname>
+    <includes refid="ethics__aware__confidence__detector_8h" local="no">ethics_aware_confidence_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_token_confidence_1af6f126a5a46ca64f832d2c33c826ab45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TokenConfidence::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::llm::TokenConfidence::token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="83" column="17" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_token_confidence_1a65833969eea53aa1d90f7927f5b2f8bf" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::TokenConfidence::probability</definition>
+        <argsstring></argsstring>
+        <name>probability</name>
+        <qualifiedname>themis::llm::TokenConfidence::probability</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="84" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_token_confidence_1aa92ae2b2348c3d81d4ca2db3d4575dbf" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::TokenConfidence::entropy</definition>
+        <argsstring></argsstring>
+        <name>entropy</name>
+        <qualifiedname>themis::llm::TokenConfidence::entropy</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="85" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_token_confidence_1a8449623d17892fd2d23159fbab5e9e98" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TokenConfidence::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::llm::TokenConfidence::position</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="86" column="9" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_token_confidence_1a4b79b50a1e004e07cbf8e0181ad5a101" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::TokenConfidence::~TokenConfidence</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TokenConfidence</name>
+        <qualifiedname>themis::llm::TokenConfidence::~TokenConfidence</qualifiedname>
+        <briefdescription>
+<para>Token Confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="82" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethics_aware_confidence_detector.h" line="77" column="1" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="77" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_token_confidence_1aa92ae2b2348c3d81d4ca2db3d4575dbf" prot="public" virt="non-virtual"><scope>themis::llm::TokenConfidence</scope><name>entropy</name></member>
+      <member refid="structthemis_1_1llm_1_1_token_confidence_1a8449623d17892fd2d23159fbab5e9e98" prot="public" virt="non-virtual"><scope>themis::llm::TokenConfidence</scope><name>position</name></member>
+      <member refid="structthemis_1_1llm_1_1_token_confidence_1a65833969eea53aa1d90f7927f5b2f8bf" prot="public" virt="non-virtual"><scope>themis::llm::TokenConfidence</scope><name>probability</name></member>
+      <member refid="structthemis_1_1llm_1_1_token_confidence_1af6f126a5a46ca64f832d2c33c826ab45" prot="public" virt="non-virtual"><scope>themis::llm::TokenConfidence</scope><name>token</name></member>
+      <member refid="structthemis_1_1llm_1_1_token_confidence_1a4b79b50a1e004e07cbf8e0181ad5a101" prot="public" virt="virtual"><scope>themis::llm::TokenConfidence</scope><name>~TokenConfidence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

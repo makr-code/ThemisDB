@@ -1,0 +1,776 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_data_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DataLoader</compoundname>
+    <includes refid="data__loader_8h" local="no">data_loader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a4c02ad03ab01b7c79fd4e99a21f719dd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" kindref="compound">ITokenizer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ITokenizer&gt; themis::llm::lora::DataLoader::tokenizer_</definition>
+        <argsstring></argsstring>
+        <name>tokenizer_</name>
+        <qualifiedname>themis::llm::lora::DataLoader::tokenizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="220" column="21" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5d9959d8b3ea5e605a6ace3b981f6365" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref></type>
+        <definition>DataLoaderConfig themis::llm::lora::DataLoader::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::DataLoader::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="221" column="22" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5b0d7c4f7a5df249fa8e9afb713f77a1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt;</type>
+        <definition>std::vector&lt;InstructionDataSample&gt; themis::llm::lora::DataLoader::samples_</definition>
+        <argsstring></argsstring>
+        <name>samples_</name>
+        <qualifiedname>themis::llm::lora::DataLoader::samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="223" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1af2669ac0bfb28e61dd38c1673054dbe2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::DataLoader::indices_</definition>
+        <argsstring></argsstring>
+        <name>indices_</name>
+        <qualifiedname>themis::llm::lora::DataLoader::indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="224" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a05dd2efb18a4bfdca68887b8497f9009" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DataLoader::current_index_</definition>
+        <argsstring></argsstring>
+        <name>current_index_</name>
+        <qualifiedname>themis::llm::lora::DataLoader::current_index_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="225" column="12" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a2904ba7067861760922e421bf375df75" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const InstructionDataSample&amp;)&gt; themis::llm::lora::DataLoader::custom_formatter_</definition>
+        <argsstring></argsstring>
+        <name>custom_formatter_</name>
+        <qualifiedname>themis::llm::lora::DataLoader::custom_formatter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="228" column="19" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a7170ea0c728b96cd0d39371b68a78194" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DataLoader::DataLoader</definition>
+        <argsstring>(std::shared_ptr&lt; ITokenizer &gt; tokenizer, const DataLoaderConfig &amp;config=DataLoaderConfig{})</argsstring>
+        <name>DataLoader</name>
+        <qualifiedname>themis::llm::lora::DataLoader::DataLoader</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" kindref="compound">ITokenizer</ref> &gt;</type>
+          <declname>tokenizer</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="151" column="14" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1ae3597e9dc7bcb3813b3ea457e3bf1cb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DataLoader::~DataLoader</definition>
+        <argsstring>()</argsstring>
+        <name>~DataLoader</name>
+        <qualifiedname>themis::llm::lora::DataLoader::~DataLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="153" column="5" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="103" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1ade57ad1fcd5bf982a6a10030933b3834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoader::loadFromFile</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::llm::lora::DataLoader::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Load From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), parseJSONL(), parseAlpaca(), parseShareGPT(), parsePlainText(), spdlog::error(), tokenizeSample(), resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="160" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="112" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa61eef74b23dbb481ed9e4b3e9e5a287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoader::loadFromJSON</definition>
+        <argsstring>(const std::string &amp;json_data)</argsstring>
+        <name>loadFromJSON</name>
+        <qualifiedname>themis::llm::lora::DataLoader::loadFromJSON</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_data</declname>
+        </param>
+        <briefdescription>
+<para>Load From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: json::parse(), is_array(), value(), push_back(), is_object(), tokenizeSample(), resize(), <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="167" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="162" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a1c1e7204e123c9e74e35f4fbb418810c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoader::loadFromSamples</definition>
+        <argsstring>(const std::vector&lt; InstructionDataSample &gt; &amp;samples)</argsstring>
+        <name>loadFromSamples</name>
+        <qualifiedname>themis::llm::lora::DataLoader::loadFromSamples</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Load From Samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: tokenizeSample(), resize(), <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" kindref="member">size()</ref>, std::iota(), begin(), end(), <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5582c13f40154fa898e07567c9559283" kindref="member">shuffle()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="174" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="209" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DataLoader::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::lora::DataLoader::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="176" column="12" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a39f12c0f1d515f976a358b178c2e1865" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DataLoader::num_batches</definition>
+        <argsstring>() const</argsstring>
+        <name>num_batches</name>
+        <qualifiedname>themis::llm::lora::DataLoader::num_batches</qualifiedname>
+        <briefdescription>
+<para>Num batches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="182" column="12" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="404" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa46177eaaf1d85fb9c3ee60e082126f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch" kindref="compound">TrainingBatch</ref></type>
+        <definition>TrainingBatch themis::llm::lora::DataLoader::getNextBatch</definition>
+        <argsstring>()</argsstring>
+        <name>getNextBatch</name>
+        <qualifiedname>themis::llm::lora::DataLoader::getNextBatch</qualifiedname>
+        <briefdescription>
+<para>Get Next Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a40c0b32185bfed621c99c6d109b56aaf" kindref="member">hasNext()</ref>, std::min(), <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" kindref="member">size()</ref>, push_back(), createBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="188" column="19" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="413" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa6355a7ec18e8ab8a3e0f4d40d4d2c2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DataLoader::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::lora::DataLoader::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5582c13f40154fa898e07567c9559283" kindref="member">shuffle()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="193" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="491" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a40c0b32185bfed621c99c6d109b56aaf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoader::hasNext</definition>
+        <argsstring>() const</argsstring>
+        <name>hasNext</name>
+        <qualifiedname>themis::llm::lora::DataLoader::hasNext</qualifiedname>
+        <briefdescription>
+<para>Has Next. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="199" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="499" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5582c13f40154fa898e07567c9559283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DataLoader::shuffle</definition>
+        <argsstring>()</argsstring>
+        <name>shuffle</name>
+        <qualifiedname>themis::llm::lora::DataLoader::shuffle</qualifiedname>
+        <briefdescription>
+<para>Shuffle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: gen(), rd(), begin(), end(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="204" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="507" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a284907f6a4279d49640fd4bffa937407" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt;</type>
+        <definition>std::optional&lt; InstructionDataSample &gt; themis::llm::lora::DataLoader::getSample</definition>
+        <argsstring>(size_t idx) const</argsstring>
+        <name>getSample</name>
+        <qualifiedname>themis::llm::lora::DataLoader::getSample</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Get Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="211" column="19" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="515" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1ade8f2686a9964b426d0247535621135f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DataLoader::setFormatter</definition>
+        <argsstring>(std::function&lt; std::string(const InstructionDataSample &amp;)&gt; formatter)</argsstring>
+        <name>setFormatter</name>
+        <qualifiedname>themis::llm::lora::DataLoader::setFormatter</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &amp;)&gt;</type>
+          <declname>formatter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="213" column="10" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="213" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a9a477f976645b442da003bbc025a3a27" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref> &amp;</type>
+        <definition>const DataLoaderConfig &amp; themis::llm::lora::DataLoader::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::lora::DataLoader::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="217" column="28" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a2efdc84a128dfb8ebb45432fba3cc90e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoader::parseJSONL</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>parseJSONL</name>
+        <qualifiedname>themis::llm::lora::DataLoader::parseJSONL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Parse JSONL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), spdlog::error(), std::getline(), empty(), json::parse(), value(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="236" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="235" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5569529da7e8af39e0ebcbd187e0c045" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoader::parseAlpaca</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>parseAlpaca</name>
+        <qualifiedname>themis::llm::lora::DataLoader::parseAlpaca</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Parse Alpaca. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), spdlog::error(), <ref refid="namespacethemis_1_1llm_1_1lora_1_1data__utils_1a7c2be358d6a7d67decab26c76d64a4c0" kindref="member">data_utils::loadAlpacaFormat()</ref>, dump(), empty(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="242" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="278" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a2c93c8d0c3ad355eba25618fffd634ec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoader::parseShareGPT</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>parseShareGPT</name>
+        <qualifiedname>themis::llm::lora::DataLoader::parseShareGPT</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Parse Share GPT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), spdlog::error(), <ref refid="namespacethemis_1_1llm_1_1lora_1_1data__utils_1a27117aba7ed5b40a229d55452e43f847" kindref="member">data_utils::loadShareGPTFormat()</ref>, dump(), empty(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="248" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="305" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1aed3d4bb4d8780e893e2b2203c9900d2c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoader::parsePlainText</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>parsePlainText</name>
+        <qualifiedname>themis::llm::lora::DataLoader::parsePlainText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Parse Plain Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), spdlog::error(), rdbuf(), str(), <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" kindref="member">size()</ref>, std::min(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="254" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="332" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1aff00aa0b272cb25fb82b5c4857795a36" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DataLoader::formatSample</definition>
+        <argsstring>(const InstructionDataSample &amp;sample) const</argsstring>
+        <name>formatSample</name>
+        <qualifiedname>themis::llm::lora::DataLoader::formatSample</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &amp;</type>
+          <declname>sample</declname>
+        </param>
+        <briefdescription>
+<para>Format Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="261" column="17" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="363" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a56ae93521836d5a6ca871d9889565dd4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DataLoader::tokenizeSample</definition>
+        <argsstring>(InstructionDataSample &amp;sample)</argsstring>
+        <name>tokenizeSample</name>
+        <qualifiedname>themis::llm::lora::DataLoader::tokenizeSample</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &amp;</type>
+          <declname>sample</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: formatSample(), encode(), <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" kindref="member">size()</ref>, resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="266" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="385" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1aea9cfe91733042ea2a410444e03d6ac4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch" kindref="compound">TrainingBatch</ref></type>
+        <definition>TrainingBatch themis::llm::lora::DataLoader::createBatch</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;batch_indices)</argsstring>
+        <name>createBatch</name>
+        <qualifiedname>themis::llm::lora::DataLoader::createBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>batch_indices</declname>
+        </param>
+        <briefdescription>
+<para>Create Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" kindref="member">size()</ref>, push_back(), std::min(), max(), std::max(), padBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="272" column="19" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="438" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_data_loader_1a1ada1661599475bf4c51863a9de72b98" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DataLoader::padBatch</definition>
+        <argsstring>(TrainingBatch &amp;batch)</argsstring>
+        <name>padBatch</name>
+        <qualifiedname>themis::llm::lora::DataLoader::padBatch</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch" kindref="compound">TrainingBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Pad Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" kindref="member">size()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="277" column="10" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="469" bodyend="485"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/data_loader.h" line="149" column="1" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="149" bodyend="278"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5d9959d8b3ea5e605a6ace3b981f6365" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aea9cfe91733042ea2a410444e03d6ac4" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>createBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a05dd2efb18a4bfdca68887b8497f9009" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>current_index_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a2904ba7067861760922e421bf375df75" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>custom_formatter_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a7170ea0c728b96cd0d39371b68a78194" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>DataLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aff00aa0b272cb25fb82b5c4857795a36" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>formatSample</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a9a477f976645b442da003bbc025a3a27" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa46177eaaf1d85fb9c3ee60e082126f5" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>getNextBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a284907f6a4279d49640fd4bffa937407" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>getSample</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a40c0b32185bfed621c99c6d109b56aaf" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>hasNext</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1af2669ac0bfb28e61dd38c1673054dbe2" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>indices_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1ade57ad1fcd5bf982a6a10030933b3834" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa61eef74b23dbb481ed9e4b3e9e5a287" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>loadFromJSON</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a1c1e7204e123c9e74e35f4fbb418810c" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>loadFromSamples</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a39f12c0f1d515f976a358b178c2e1865" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>num_batches</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a1ada1661599475bf4c51863a9de72b98" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>padBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5569529da7e8af39e0ebcbd187e0c045" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>parseAlpaca</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a2efdc84a128dfb8ebb45432fba3cc90e" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>parseJSONL</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aed3d4bb4d8780e893e2b2203c9900d2c" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>parsePlainText</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a2c93c8d0c3ad355eba25618fffd634ec" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>parseShareGPT</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa6355a7ec18e8ab8a3e0f4d40d4d2c2d" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5b0d7c4f7a5df249fa8e9afb713f77a1" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>samples_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1ade8f2686a9964b426d0247535621135f" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>setFormatter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5582c13f40154fa898e07567c9559283" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>shuffle</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a4c02ad03ab01b7c79fd4e99a21f719dd" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>tokenizer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a56ae93521836d5a6ca871d9889565dd4" prot="private" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>tokenizeSample</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1ae3597e9dc7bcb3813b3ea457e3bf1cb1" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoader</scope><name>~DataLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

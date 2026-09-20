@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="kv__cache__buffer_8h" kind="file" language="C++">
+    <compoundname>kv_cache_buffer.h</compoundname>
+    <includes local="yes">index/vector_auto_buffer.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="kv__cache__buffer_8cpp" local="yes">src/llm/kv_cache_buffer.cpp</includedby>
+    <includedby refid="test__llm__exception__safety_8cpp" local="yes">tests/llm/test_llm_exception_safety.cpp</includedby>
+    <includedby refid="test__llm__memory__lifecycle_8cpp" local="yes">tests/llm/test_llm_memory_lifecycle.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/kv_cache_buffer.h</label>
+        <link refid="kv__cache__buffer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>index/vector_auto_buffer.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/kv_cache_buffer.h</label>
+        <link refid="kv__cache__buffer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/kv_cache_buffer.cpp</label>
+        <link refid="kv__cache__buffer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/llm/test_llm_exception_safety.cpp</label>
+        <link refid="test__llm__exception__safety_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm/test_llm_memory_lifecycle.cpp</label>
+        <link refid="test__llm__memory__lifecycle_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_k_v_cache_buffer" prot="public">themis::llm::KVCacheBuffer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config" prot="public">themis::llm::KVCacheBuffer::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache" prot="public">themis::llm::KVCacheBuffer::KVCache</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats" prot="public">themis::llm::KVCacheBuffer::Stats</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool" prot="public">themis::llm::KVCacheBufferPool</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" prot="public">themis::llm::KVCacheBufferPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats" prot="public">themis::llm::KVCacheBufferPool::PoolStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_auto_buffer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1llm_1_1_k_v_cache_buffer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1aae675107b7dba8318adf0cbc18f78e5c" kindref="member">KVCacheBuffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1a1bbcf2672f0240dcad2fd47bc03aa1c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1a1bbcf2672f0240dcad2fd47bc03aa1c7" kindref="member">max_tokens_per_batch</ref><sp/>=<sp/>2048;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-flush<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1ab41c748a6292d47648e0749290b118e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1ab41c748a6292d47648e0749290b118e1" kindref="member">embedding_dim</ref><sp/>=<sp/>4096;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>embedding<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1a173cc078de32bdf7b3a493f230e804c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1a173cc078de32bdf7b3a493f230e804c7" kindref="member">num_layers</ref><sp/>=<sp/>32;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>transformer<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1aef381e67385684d3bb8acd40c80b31cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1aef381e67385684d3bb8acd40c80b31cc" kindref="member">enable_auto_flush</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-flush<sp/>when<sp/>full</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1aad5b9ba00b97d09657544396dcc31092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1aad5b9ba00b97d09657544396dcc31092" kindref="member">flush_interval</ref>{100};<sp/><sp/></highlight><highlight class="comment">//<sp/>Periodic<sp/>flush</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache" kindref="compound">KVCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache_1ab8084ae4738024b5b62517e272a8299a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache_1ab8084ae4738024b5b62517e272a8299a" kindref="member">keys</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[n_tokens,<sp/>embedding_dim]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache_1aa4e6c9d1e53c9232a965e029cdbaa6da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache_1aa4e6c9d1e53c9232a965e029cdbaa6da" kindref="member">values</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>[n_tokens,<sp/>embedding_dim]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache_1abc453170e279066e80a6e31af7eb149d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache_1abc453170e279066e80a6e31af7eb149d" kindref="member">n_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache_1a063bd376f63fbf5f82ae34c5243ae6b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache_1a063bd376f63fbf5f82ae34c5243ae6b3" kindref="member">sequence_id</ref><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request/sequence<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac30c6ca7007756e5d851c6fb85777385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac30c6ca7007756e5d851c6fb85777385" kindref="member">total_appends</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac3aa9264e17eef9893f996d014923964" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac3aa9264e17eef9893f996d014923964" kindref="member">total_flushes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1a3bdddc109ae51608880c9c9169d358e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1a3bdddc109ae51608880c9c9169d358e1" kindref="member">total_tokens_cached</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac098b767dd6ac8e84da5b50dac8f2584" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac098b767dd6ac8e84da5b50dac8f2584" kindref="member">current_batch_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1adabd7d96f60183206d076621231f958b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1adabd7d96f60183206d076621231f958b" kindref="member">avg_batch_utilization</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1aae675107b7dba8318adf0cbc18f78e5c" kindref="member">KVCacheBuffer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a8ab1770383d2d9ba31fa72a22f2d5d3f" kindref="member">~KVCacheBuffer</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a271b701880f2acf73fef00a9cd8ce0b5" kindref="member">appendToken</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sequence_id,<sp/>const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>key,<sp/>const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>value);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1ad0984a9109362904a728a7d66f627263" kindref="member">appendTokens</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sequence_id,<sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&amp;<sp/>keys,<sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&amp;<sp/>values,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n_tokens);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a213791a7ee3f5da6d17368a8b9901a0a" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>current<sp/>batch<sp/>(for<sp/>inspection)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1abbe74eb71b241cd4fa73f58d7bb4be68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_k_v_cache" kindref="compound">KVCache</ref>&gt;&amp;<sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1abbe74eb71b241cd4fa73f58d7bb4be68" kindref="member">getCurrentBatch</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_batch_;<sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a2187fd6dcfa6afb1ac6c563c4a571290" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a078279640384bede719a243643618834" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>flush<sp/>callback<sp/>(called<sp/>when<sp/>batch<sp/>is<sp/>flushed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a4c7feb15ab6a162b6985eef86bf9238a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a4c7feb15ab6a162b6985eef86bf9238a" kindref="member">FlushCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;KVCache&gt;&amp;)&gt;;</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a3960ac793c49af6e2ecccad092c2f31a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a3960ac793c49af6e2ecccad092c2f31a" kindref="member">setFlushCallback</ref>(<ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a4c7feb15ab6a162b6985eef86bf9238a" kindref="member">FlushCallback</ref><sp/>callback)<sp/>{<sp/>flush_callback_<sp/>=<sp/>callback;<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>batch<sp/>being<sp/>accumulated<sp/>(analogous<sp/>to<sp/>VectorAutoBuffer)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;KVCache&gt;<sp/>current_batch_;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_batch_tokens_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>for<sp/>each<sp/>sequence<sp/>in<sp/>current<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>size_t&gt;<sp/>sequence_to_index_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flush<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_1a4c7feb15ab6a162b6985eef86bf9238a" kindref="member">FlushCallback</ref><sp/>flush_callback_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-flush<sp/>timer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_flush_time_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkAndFlush();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>KVCache&amp;<sp/>getCacheForSequence(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sequence_id);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a91db1871cd5e2a325d2d7980490525f8" kindref="member">KVCacheBufferPool</ref><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config_1aac0a5ac0ff848cda794a99949dcdda56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config_1aac0a5ac0ff848cda794a99949dcdda56" kindref="member">num_buffers</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pool<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config_1a517274b4e9d8229860bc75d09f6cd0bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config" kindref="compound">KVCacheBuffer::Config</ref><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config_1a517274b4e9d8229860bc75d09f6cd0bc" kindref="member">buffer_config</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Config<sp/>for<sp/>each<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a91db1871cd5e2a325d2d7980490525f8" kindref="member">KVCacheBufferPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a70dbb9f6e9360f3e612eb3f505580288" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a70dbb9f6e9360f3e612eb3f505580288" kindref="member">~KVCacheBufferPool</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;KVCacheBuffer&gt;<sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a98667e2df3d8311d8ddb0a0c7f3e9869" kindref="member">acquireBuffer</ref>();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a4d6d5026b8e47e53945b3932a49a4154" kindref="member">releaseBuffer</ref>(std::shared_ptr&lt;KVCacheBuffer&gt;<sp/>buffer);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>pool<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats" kindref="compound">PoolStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1a94d242a71d1213b618a286fa0bd6d405" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1a94d242a71d1213b618a286fa0bd6d405" kindref="member">total_buffers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1ad25eab079216c88af51e0f517ac4e35e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1ad25eab079216c88af51e0f517ac4e35e" kindref="member">available_buffers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1af13d655258eaad0d6f0efd601c0c5451" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1af13d655258eaad0d6f0efd601c0c5451" kindref="member">acquired_buffers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats" kindref="compound">PoolStats</ref><sp/><ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a2777f187a8155fc2c547a71d910dda31" kindref="member">getPoolStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;KVCacheBuffer&gt;&gt;<sp/>buffers_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/>buffer_available_;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>pool_mutex_;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/kv_cache_buffer.h"/>
+  </compounddef>
+</doxygen>

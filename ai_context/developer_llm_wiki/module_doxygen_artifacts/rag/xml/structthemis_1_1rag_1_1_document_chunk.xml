@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_document_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentChunk</compoundname>
+    <includes refid="document__splitter_8h" local="no">document_splitter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_chunk_1a3d994faa4fe8389dfbebe9dc0505318f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentChunk::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::rag::DocumentChunk::index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Zero-based sequential index within the original document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="80" column="12" bodyfile="include/rag/document_splitter.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_chunk_1a01a71c7c8133f38db52a0bfef29a339b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::DocumentChunk::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::rag::DocumentChunk::text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Text content of this chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="83" column="17" bodyfile="include/rag/document_splitter.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_chunk_1a7ea139803b8c3cfb76d64d0025e47ded" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::DocumentChunk::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::rag::DocumentChunk::document_id</qualifiedname>
+        <briefdescription>
+<para>Source document identifier (passed in by the caller). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="86" column="17" bodyfile="include/rag/document_splitter.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_chunk_1a9854b273f3d3570436258aee2d062829" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentChunk::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>themis::rag::DocumentChunk::token_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated token count for this chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="89" column="12" bodyfile="include/rag/document_splitter.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_chunk_1a8b5e66e4e9d26f0538937edd69a56fc3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentChunk::start_offset</definition>
+        <argsstring></argsstring>
+        <name>start_offset</name>
+        <qualifiedname>themis::rag::DocumentChunk::start_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Byte offset of the first character of this chunk within the original document text (before any overlap is prepended). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="93" column="12" bodyfile="include/rag/document_splitter.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_chunk_1a59589fca89b6695d59fe891075a74c21" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentChunk::end_offset</definition>
+        <argsstring></argsstring>
+        <name>end_offset</name>
+        <qualifiedname>themis::rag::DocumentChunk::end_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Byte offset one past the last character of this chunk&apos;s core content (excluding overlap carried over from the preceding chunk). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="97" column="12" bodyfile="include/rag/document_splitter.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single chunk produced by <ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/document_splitter.h" line="78" column="1" bodyfile="include/rag/document_splitter.h" bodystart="78" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_document_chunk_1a7ea139803b8c3cfb76d64d0025e47ded" prot="public" virt="non-virtual"><scope>themis::rag::DocumentChunk</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_chunk_1a59589fca89b6695d59fe891075a74c21" prot="public" virt="non-virtual"><scope>themis::rag::DocumentChunk</scope><name>end_offset</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_chunk_1a3d994faa4fe8389dfbebe9dc0505318f" prot="public" virt="non-virtual"><scope>themis::rag::DocumentChunk</scope><name>index</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_chunk_1a8b5e66e4e9d26f0538937edd69a56fc3" prot="public" virt="non-virtual"><scope>themis::rag::DocumentChunk</scope><name>start_offset</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_chunk_1a01a71c7c8133f38db52a0bfef29a339b" prot="public" virt="non-virtual"><scope>themis::rag::DocumentChunk</scope><name>text</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_chunk_1a9854b273f3d3570436258aee2d062829" prot="public" virt="non-virtual"><scope>themis::rag::DocumentChunk</scope><name>token_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

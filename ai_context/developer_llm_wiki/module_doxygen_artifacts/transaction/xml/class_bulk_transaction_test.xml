@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bulk_transaction_test" kind="class" language="C++" prot="public">
+    <compoundname>BulkTransactionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_bulk_transaction_test_1afe9edf2008480b262438a3f20c660dd5" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* BulkTransactionTest::DB_PATH</definition>
+        <argsstring></argsstring>
+        <name>DB_PATH</name>
+        <qualifiedname>BulkTransactionTest::DB_PATH</qualifiedname>
+        <initializer>= &quot;/tmp/themis_bulk_txn_test_db&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="18" column="33" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_bulk_transaction_test_1aae4914f029c5cd1cb5d3c1e1e2322e87" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; BulkTransactionTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>BulkTransactionTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="56" column="28" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bulk_transaction_test_1a904203e8a0d264f3b65689df2b3aa8b1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; BulkTransactionTest::sec_idx_</definition>
+        <argsstring></argsstring>
+        <name>sec_idx_</name>
+        <qualifiedname>BulkTransactionTest::sec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="57" column="21" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bulk_transaction_test_1a5c06b4fdfcb5e4967a963b460629338d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; BulkTransactionTest::graph_idx_</definition>
+        <argsstring></argsstring>
+        <name>graph_idx_</name>
+        <qualifiedname>BulkTransactionTest::graph_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="58" column="25" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bulk_transaction_test_1a413b7269cce31ec7cc9d305c1a29f89b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; BulkTransactionTest::vec_idx_</definition>
+        <argsstring></argsstring>
+        <name>vec_idx_</name>
+        <qualifiedname>BulkTransactionTest::vec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="59" column="24" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bulk_transaction_test_1a016cbb588e5d3559c904c8b39044b553" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; BulkTransactionTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>BulkTransactionTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="60" column="24" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_bulk_transaction_test_1a9d058fc4a35b536cb1a73772bd9d875c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BulkTransactionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BulkTransactionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="20" column="10" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="20" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bulk_transaction_test_1a04fa6c599483a77722a6b29ba96d4870" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BulkTransactionTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>BulkTransactionTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="34" column="10" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="34" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_bulk_transaction_test_1a9f48e48a94af5d2881b8ab3e2191396b" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>static BaseEntity BulkTransactionTest::makeEntity</definition>
+        <argsstring>(const std::string &amp;pk, const std::string &amp;name=&quot;&quot;, const std::string &amp;city=&quot;&quot;)</argsstring>
+        <name>makeEntity</name>
+        <qualifiedname>BulkTransactionTest::makeEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>city</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_bulk.cpp" line="44" column="23" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="44" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BulkTransactionTest</label>
+        <link refid="class_bulk_transaction_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BulkTransactionTest</label>
+        <link refid="class_bulk_transaction_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_bulk.cpp" line="16" column="1" bodyfile="tests/transaction/test_transaction_bulk.cpp" bodystart="16" bodyend="61"/>
+    <listofallmembers>
+      <member refid="class_bulk_transaction_test_1aae4914f029c5cd1cb5d3c1e1e2322e87" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>db_</name></member>
+      <member refid="class_bulk_transaction_test_1afe9edf2008480b262438a3f20c660dd5" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>DB_PATH</name></member>
+      <member refid="class_bulk_transaction_test_1a5c06b4fdfcb5e4967a963b460629338d" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>graph_idx_</name></member>
+      <member refid="class_bulk_transaction_test_1a9f48e48a94af5d2881b8ab3e2191396b" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>makeEntity</name></member>
+      <member refid="class_bulk_transaction_test_1a016cbb588e5d3559c904c8b39044b553" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>mgr_</name></member>
+      <member refid="class_bulk_transaction_test_1a904203e8a0d264f3b65689df2b3aa8b1" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>sec_idx_</name></member>
+      <member refid="class_bulk_transaction_test_1a9d058fc4a35b536cb1a73772bd9d875c" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>SetUp</name></member>
+      <member refid="class_bulk_transaction_test_1a04fa6c599483a77722a6b29ba96d4870" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>TearDown</name></member>
+      <member refid="class_bulk_transaction_test_1a413b7269cce31ec7cc9d305c1a29f89b" prot="protected" virt="non-virtual"><scope>BulkTransactionTest</scope><name>vec_idx_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

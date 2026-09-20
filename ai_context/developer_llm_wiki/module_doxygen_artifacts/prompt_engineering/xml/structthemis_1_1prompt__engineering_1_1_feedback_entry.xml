@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_feedback_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::FeedbackEntry</compoundname>
+    <includes refid="feedback__collector_8h" local="no">feedback_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a85e4d3cee85d61872ec4b9b168b6e1d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::id</qualifiedname>
+        <briefdescription>
+<para>Unique feedback ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="63" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a5a12791e3a1566ec2774f61dbf5598f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackEntry::prompt_id</definition>
+        <argsstring></argsstring>
+        <name>prompt_id</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::prompt_id</qualifiedname>
+        <briefdescription>
+<para>Associated prompt template ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="64" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a48a618bcd28fd5a4b59b6f58328a8265" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref></type>
+        <definition>FeedbackType themis::prompt_engineering::FeedbackEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::type</qualifiedname>
+        <briefdescription>
+<para>Type of feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="65" column="18" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a346d0f0150da231d7282c3571d0c37e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackEntry::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::query</qualifiedname>
+        <briefdescription>
+<para>Original query/input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="66" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a2d3beb08079c9239a0d0eb6a4c8a4de1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackEntry::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::response</qualifiedname>
+        <briefdescription>
+<para>LLM response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="67" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a85c61530e09eddf8383adc28025e55aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackEntry::feedback_text</definition>
+        <argsstring></argsstring>
+        <name>feedback_text</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::feedback_text</qualifiedname>
+        <briefdescription>
+<para>Optional feedback message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="68" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a8634b2b0fec786a79bc0026ca8c28ba6" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::FeedbackEntry::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="69" column="20" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1aa98ea0e0423cd73d2b5857313a788290" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::FeedbackEntry::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::severity</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Severity score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="70" column="12" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a883c5e32ca65b0cc22c1183baa16f0f4" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::FeedbackEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::timestamp</qualifiedname>
+        <briefdescription>
+<para>When recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="71" column="43" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a3c5c0bc2284f23309e7f2d905ea9d635" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackEntry::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::checksum</qualifiedname>
+        <briefdescription>
+<para>FNV-1a 64-bit audit checksum of key fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="72" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a20cbd05ecc0b2317833833f217a2ce36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::FeedbackEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert entry to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="77" column="20" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="85" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1aaba7afb30081e826e5a3c07cb341a903" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackEntry::computeChecksum</definition>
+        <argsstring>() const</argsstring>
+        <name>computeChecksum</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::computeChecksum</qualifiedname>
+        <briefdescription>
+<para>Compute a simple audit checksum over key fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="87" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="133" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a009572f1fc7def28409ddac66e9f50e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref></type>
+        <definition>FeedbackEntry themis::prompt_engineering::FeedbackEntry::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackEntry::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse entry from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="namespacethemis_1_1prompt__engineering_1a0ad370753ccccf535cd2480a15d03739" kindref="member">stringToFeedbackType()</ref>, value_or(), nlohmann::json::object(), contains(), std::chrono::system_clock::from_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="82" column="26" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="109" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single feedback entry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/feedback_collector.h" line="62" column="1" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="62" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a3c5c0bc2284f23309e7f2d905ea9d635" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1aaba7afb30081e826e5a3c07cb341a903" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>computeChecksum</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a85c61530e09eddf8383adc28025e55aa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>feedback_text</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a009572f1fc7def28409ddac66e9f50e0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a85e4d3cee85d61872ec4b9b168b6e1d3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a8634b2b0fec786a79bc0026ca8c28ba6" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a5a12791e3a1566ec2774f61dbf5598f1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>prompt_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a346d0f0150da231d7282c3571d0c37e4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>query</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a2d3beb08079c9239a0d0eb6a4c8a4de1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>response</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1aa98ea0e0423cd73d2b5857313a788290" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>severity</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a883c5e32ca65b0cc22c1183baa16f0f4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a20cbd05ecc0b2317833833f217a2ce36" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a48a618bcd28fd5a4b59b6f58328a8265" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackEntry</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

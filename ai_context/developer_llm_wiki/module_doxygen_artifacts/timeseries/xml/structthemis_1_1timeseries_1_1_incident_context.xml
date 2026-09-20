@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1_incident_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::IncidentContext</compoundname>
+    <includes refid="timeseries__incident__taxonomy_8h" local="no">timeseries_incident_taxonomy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_context_1a43d19d5a32410de77cdcbad21b2034a6" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::timeseries::IncidentContext::series_id</definition>
+        <argsstring></argsstring>
+        <name>series_id</name>
+        <qualifiedname>themis::timeseries::IncidentContext::series_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Series name or identifier (if applicable). Must remain valid for the full duration of any handler that consumes this incident. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="331" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_context_1a9a1243449084536b7c830b001c707b48" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::timeseries::IncidentContext::recovery_hint</definition>
+        <argsstring></argsstring>
+        <name>recovery_hint</name>
+        <qualifiedname>themis::timeseries::IncidentContext::recovery_hint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Human-readable recovery hint (e.g., &quot;increase buffer_capacity&quot; or &quot;check encryption keys&quot;). Must remain valid for the full duration of any handler that consumes this incident. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="335" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_context_1ad9e0562b600e9d09ac2262673e168cd6" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::timeseries::IncidentContext::caller_tag</definition>
+        <argsstring></argsstring>
+        <name>caller_tag</name>
+        <qualifiedname>themis::timeseries::IncidentContext::caller_tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Caller-provided tag for tracing. Must remain valid for the full duration of any handler that consumes this incident. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="339" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_context_1a1c5d6e1b626705da59ab05e9cbf96e68" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::timeseries::IncidentContext::extra_info</definition>
+        <argsstring></argsstring>
+        <name>extra_info</name>
+        <qualifiedname>themis::timeseries::IncidentContext::extra_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Additional structured data (e.g., metric names, retry count). Must remain valid for the full duration of any handler that consumes this incident. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="343" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Optional context attached to an incident for diagnostics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="warning"><para><bold>Lifetime contract</bold>: All <computeroutput>std::string_view</computeroutput> fields are non-owning. Callers MUST ensure the underlying string storage outlives the incident and any handler invocation that may persist it (e.g., into a log buffer or metrics system). Passing a temporary <computeroutput>std::string</computeroutput> or a local char array whose lifetime ends before the handler returns will result in undefined behaviour. If the incident may outlive the emitting stack frame, store the strings in a stable buffer (e.g., a <computeroutput>static constexpr</computeroutput> literal or a heap-allocated string) and construct <computeroutput><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></computeroutput> from that stable storage. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/timeseries/timeseries_incident_taxonomy.h" line="328" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="328" bodyend="344"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1_incident_context_1ad9e0562b600e9d09ac2262673e168cd6" prot="public" virt="non-virtual"><scope>themis::timeseries::IncidentContext</scope><name>caller_tag</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_context_1a1c5d6e1b626705da59ab05e9cbf96e68" prot="public" virt="non-virtual"><scope>themis::timeseries::IncidentContext</scope><name>extra_info</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_context_1a9a1243449084536b7c830b001c707b48" prot="public" virt="non-virtual"><scope>themis::timeseries::IncidentContext</scope><name>recovery_hint</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_context_1a43d19d5a32410de77cdcbad21b2034a6" prot="public" virt="non-virtual"><scope>themis::timeseries::IncidentContext</scope><name>series_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

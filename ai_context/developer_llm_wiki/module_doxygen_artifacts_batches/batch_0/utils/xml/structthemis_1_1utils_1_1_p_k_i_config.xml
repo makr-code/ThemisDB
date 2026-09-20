@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_p_k_i_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PKIConfig</compoundname>
+    <includes refid="pki__client_8h" local="no">pki_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1a10908b0f67f434ea89cd76584ccfad6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PKIConfig::service_id</definition>
+        <argsstring></argsstring>
+        <name>service_id</name>
+        <qualifiedname>themis::utils::PKIConfig::service_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="25" column="17" bodyfile="include/utils/pki_client.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1ab3d90805882e4867bc4f7d73dd870f0d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PKIConfig::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::utils::PKIConfig::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="26" column="17" bodyfile="include/utils/pki_client.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1af55adf2a6e4d955b4427d3774a47a4b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PKIConfig::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themis::utils::PKIConfig::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="27" column="17" bodyfile="include/utils/pki_client.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1aea7db2df5ea394acb318aa970cd78121" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PKIConfig::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themis::utils::PKIConfig::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="28" column="17" bodyfile="include/utils/pki_client.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1a57695a5e15ec81db031e25bb5f4531f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PKIConfig::key_passphrase</definition>
+        <argsstring></argsstring>
+        <name>key_passphrase</name>
+        <qualifiedname>themis::utils::PKIConfig::key_passphrase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="29" column="17" bodyfile="include/utils/pki_client.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1a7d576783cf6aa1fcfde43ac3c52ddd85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PKIConfig::signature_algorithm</definition>
+        <argsstring></argsstring>
+        <name>signature_algorithm</name>
+        <qualifiedname>themis::utils::PKIConfig::signature_algorithm</qualifiedname>
+        <initializer>= &quot;RSA-SHA256&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="30" column="17" bodyfile="include/utils/pki_client.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1a5b2a2289369db798314be58020a1f358" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::PKIConfig::enable_cert_pinning</definition>
+        <argsstring></argsstring>
+        <name>enable_cert_pinning</name>
+        <qualifiedname>themis::utils::PKIConfig::enable_cert_pinning</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="33" column="10" bodyfile="include/utils/pki_client.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1a7035307d8cc846f74230a1e08731c63d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::utils::PKIConfig::pinned_cert_fingerprints</definition>
+        <argsstring></argsstring>
+        <name>pinned_cert_fingerprints</name>
+        <qualifiedname>themis::utils::PKIConfig::pinned_cert_fingerprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="38" column="17" bodyfile="include/utils/pki_client.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1a54fec33dd20d1f4837ae8a9f39ccaeaf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::PKIConfig::pin_leaf_only</definition>
+        <argsstring></argsstring>
+        <name>pin_leaf_only</name>
+        <qualifiedname>themis::utils::PKIConfig::pin_leaf_only</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="39" column="10" bodyfile="include/utils/pki_client.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1a5b64a9edce6779f3b12a9a686b6e3f32" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PKIConfig::trust_store_path</definition>
+        <argsstring></argsstring>
+        <name>trust_store_path</name>
+        <qualifiedname>themis::utils::PKIConfig::trust_store_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="44" column="17" bodyfile="include/utils/pki_client.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_k_i_config_1a95146052ba10af8b87e300d8ca13233e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PKIConfig::ca_url</definition>
+        <argsstring></argsstring>
+        <name>ca_url</name>
+        <qualifiedname>themis::utils::PKIConfig::ca_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="50" column="17" bodyfile="include/utils/pki_client.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/pki_client.h" line="24" column="1" bodyfile="include/utils/pki_client.h" bodystart="24" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1a95146052ba10af8b87e300d8ca13233e" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>ca_url</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1af55adf2a6e4d955b4427d3774a47a4b5" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>cert_path</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1a5b2a2289369db798314be58020a1f358" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>enable_cert_pinning</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1ab3d90805882e4867bc4f7d73dd870f0d" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1a57695a5e15ec81db031e25bb5f4531f7" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>key_passphrase</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1aea7db2df5ea394acb318aa970cd78121" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>key_path</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1a54fec33dd20d1f4837ae8a9f39ccaeaf" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>pin_leaf_only</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1a7035307d8cc846f74230a1e08731c63d" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>pinned_cert_fingerprints</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1a10908b0f67f434ea89cd76584ccfad6c" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>service_id</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1a7d576783cf6aa1fcfde43ac3c52ddd85" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>signature_algorithm</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_k_i_config_1a5b64a9edce6779f3b12a9a686b6e3f32" prot="public" virt="non-virtual"><scope>themis::utils::PKIConfig</scope><name>trust_store_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

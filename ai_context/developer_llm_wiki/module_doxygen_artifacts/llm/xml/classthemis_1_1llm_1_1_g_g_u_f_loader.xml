@@ -1,0 +1,990 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_g_g_u_f_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::GGUFLoader</compoundname>
+    <includes refid="gguf__loader_8h" local="no">gguf_loader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a602114eaee300609101f26c4632a1590" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata" kindref="compound">GGUFMetadata</ref></type>
+        <definition>GGUFMetadata themis::llm::GGUFLoader::metadata_</definition>
+        <argsstring></argsstring>
+        <name>metadata_</name>
+        <qualifiedname>themis::llm::GGUFLoader::metadata_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="179" column="18" bodyfile="include/llm/gguf_loader.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1acf30fb3777e584b95b5199b35d379d3a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GGUFLoader::filepath_</definition>
+        <argsstring></argsstring>
+        <name>filepath_</name>
+        <qualifiedname>themis::llm::GGUFLoader::filepath_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="180" column="17" bodyfile="include/llm/gguf_loader.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1acdbcd9ebf92f4a3c548d06a16daf2487" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GGUFLoader::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::llm::GGUFLoader::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="181" column="17" bodyfile="include/llm/gguf_loader.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a2d61279fd39dc36f862acacf0b11473b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GGUFLoader::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::llm::GGUFLoader::fd_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="182" column="9" bodyfile="include/llm/gguf_loader.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a6bd1fc9305209d57989e016f0bfaf720" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::GGUFLoader::mmap_base_</definition>
+        <argsstring></argsstring>
+        <name>mmap_base_</name>
+        <qualifiedname>themis::llm::GGUFLoader::mmap_base_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="183" column="10" bodyfile="include/llm/gguf_loader.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a5676b2519c4e7cf527731aafe30f4661" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GGUFLoader::mmap_size_</definition>
+        <argsstring></argsstring>
+        <name>mmap_size_</name>
+        <qualifiedname>themis::llm::GGUFLoader::mmap_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="184" column="12" bodyfile="include/llm/gguf_loader.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1af25eeb1a8052f7ca9592405ee103d031" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::GGUFLoader::file_buffer_</definition>
+        <argsstring></argsstring>
+        <name>file_buffer_</name>
+        <qualifiedname>themis::llm::GGUFLoader::file_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="185" column="17" bodyfile="include/llm/gguf_loader.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1ab98eef4c235f64d255e797b5023a2ecd" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::llm::GGUFLoader::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::llm::GGUFLoader::db_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="186" column="20" bodyfile="include/llm/gguf_loader.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1ab602a872e61528656c4382b52097ca90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GGUFLoader::GGUFLoader</definition>
+        <argsstring>()</argsstring>
+        <name>GGUFLoader</name>
+        <qualifiedname>themis::llm::GGUFLoader::GGUFLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="107" column="5" bodyfile="src/llm/gguf_loader.cpp" bodystart="239" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a17e9f81baccf4bb6723781bbb9446784" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GGUFLoader::GGUFLoader</definition>
+        <argsstring>(RocksDBWrapper *db)</argsstring>
+        <name>GGUFLoader</name>
+        <qualifiedname>themis::llm::GGUFLoader::GGUFLoader</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader" kindref="compound">GGUFLoader</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="113" column="14" bodyfile="src/llm/gguf_loader.cpp" bodystart="243" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a0373b0bf2b4833232067cd39a3c62080" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GGUFLoader::~GGUFLoader</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GGUFLoader</name>
+        <qualifiedname>themis::llm::GGUFLoader::~GGUFLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="114" column="5" bodyfile="src/llm/gguf_loader.cpp" bodystart="247" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a53b9acf65d442cfb79028a5db8e0bce8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::parseFile</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>parseFile</name>
+        <qualifiedname>themis::llm::GGUFLoader::parseFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Parse GGUF file header and metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Returns false and sets <ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a68ea0b1be439c594568f914d41e7491e" kindref="member">getLastError()</ref> on failure (including unsupported quantization formats).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: releaseResources(), empty(), clear(), open(), c_str(), fd_guard(), fstat(), mmap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="122" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="277" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a246dd635372ca40e3827447923f82f18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata" kindref="compound">GGUFMetadata</ref> &amp;</type>
+        <definition>const GGUFMetadata &amp; themis::llm::GGUFLoader::getMetadata</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>themis::llm::GGUFLoader::getMetadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="125" column="24" bodyfile="include/llm/gguf_loader.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a68ea0b1be439c594568f914d41e7491e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::GGUFLoader::getLastError</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::llm::GGUFLoader::getLastError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="128" column="23" bodyfile="include/llm/gguf_loader.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a4b30f6e3296db99496751f08fb9ebdfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GGUFLoader::loadToThemisDB</definition>
+        <argsstring>(const std::string &amp;model_name)</argsstring>
+        <name>loadToThemisDB</name>
+        <qualifiedname>themis::llm::GGUFLoader::loadToThemisDB</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+<para>Load tensor data into ThemisDB Blob Store Returns URN of stored model: urn:themis:model:{model_name}:v1 Requires RocksDBWrapper to be set (via constructor or setDatabase). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load To Themis DB.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), reserve(), size(), escapeJson(), type_string(), str(), metadata_bytes(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="135" column="17" bodyfile="src/llm/gguf_loader.cpp" bodystart="780" bodyend="882"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a0b41bcd1a7c88662159d2224bc681be0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GGUFLoader::setDatabase</definition>
+        <argsstring>(RocksDBWrapper *db)</argsstring>
+        <name>setDatabase</name>
+        <qualifiedname>themis::llm::GGUFLoader::setDatabase</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Set the database instance (if not provided in constructor). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setDatabase without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="142" column="10" bodyfile="include/llm/gguf_loader.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1af9b9ad029a889e81b2a43515f42c55f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::GGUFLoader::mmapTensor</definition>
+        <argsstring>(const std::string &amp;tensor_name)</argsstring>
+        <name>mmapTensor</name>
+        <qualifiedname>themis::llm::GGUFLoader::mmapTensor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_name</declname>
+        </param>
+        <briefdescription>
+<para>Memory-mapped loading for zero-copy access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mmap Tensor.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: empty(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="149" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="950" bodyend="970"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1aaf939a313592ae12203a82a54286a6b7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GGUFLoader::unmapTensor</definition>
+        <argsstring>(void *ptr) noexcept</argsstring>
+        <name>unmapTensor</name>
+        <qualifiedname>themis::llm::GGUFLoader::unmapTensor</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Unmap Tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="155" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="972" bodyend="975"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a952a4ce527dda4ef1a104cf013f80444" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llm::GGUFLoader::getTensorData</definition>
+        <argsstring>(const std::string &amp;tensor_name)</argsstring>
+        <name>getTensorData</name>
+        <qualifiedname>themis::llm::GGUFLoader::getTensorData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_name</declname>
+        </param>
+        <briefdescription>
+<para>Extract specific tensor data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Tensor Data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), reserve(), resize(), std::memcpy(), data(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="162" column="17" bodyfile="src/llm/gguf_loader.cpp" bodystart="983" bodyend="1036"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a989a9f9f8122ed1a694b7ffc786c2837" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::validateQuantizationMetadata</definition>
+        <argsstring>(const std::string &amp;tensor_name) const</argsstring>
+        <name>validateQuantizationMetadata</name>
+        <qualifiedname>themis::llm::GGUFLoader::validateQuantizationMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_name</declname>
+        </param>
+        <briefdescription>
+<para>Validate Quantization Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="169" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="1038" bodyend="1152"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1ac9db4796983ce108ce3830f93eb41048" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::isFormatSupported</definition>
+        <argsstring>(GGMLType type)</argsstring>
+        <name>isFormatSupported</name>
+        <qualifiedname>themis::llm::GGUFLoader::isFormatSupported</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Is Format Supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>isFormatSupported: returns true for quantization types that the loader can convert to an internal representation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Unsupported types cause <ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a53b9acf65d442cfb79028a5db8e0bce8" kindref="member">parseFile()</ref> to return false with a descriptive error rather than silently returning raw bytes that would produce numerical corruption downstream. Implements isFormatSupported without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="176" column="17" bodyfile="src/llm/gguf_loader.cpp" bodystart="152" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1ae98aeff3a4e4760e0a3e8a219c0f7152" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::parseHeader</definition>
+        <argsstring>()</argsstring>
+        <name>parseHeader</name>
+        <qualifiedname>themis::llm::GGUFLoader::parseHeader</qualifiedname>
+        <briefdescription>
+<para>Parse Header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::memcmp(), std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="193" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="401" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1aeb87c4d6f1c7bee9463b070621cd8163" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::parseMetadataKV</definition>
+        <argsstring>()</argsstring>
+        <name>parseMetadataKV</name>
+        <qualifiedname>themis::llm::GGUFLoader::parseMetadataKV</qualifiedname>
+        <briefdescription>
+<para>Parse Metadata KV. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::memcpy(), readString(), readMetadataValue(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="198" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="568" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1ac1692e7a0c01a856af3fa20d59b45933" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::parseTensorInfo</definition>
+        <argsstring>()</argsstring>
+        <name>parseTensorInfo</name>
+        <qualifiedname>themis::llm::GGUFLoader::parseTensorInfo</qualifiedname>
+        <briefdescription>
+<para>Parse Tensor Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::memcpy(), readString(), readMetadataValue(), clear(), reserve(), resize(), <ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ac9db4796983ce108ce3830f93eb41048" kindref="member">isFormatSupported()</ref>, type_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="203" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="629" bodyend="749"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1abc5debc23c95831d0a0f0260ffdc0b32" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GGUFLoader::releaseResources</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>releaseResources</name>
+        <qualifiedname>themis::llm::GGUFLoader::releaseResources</qualifiedname>
+        <briefdescription>
+<para>RAII resource cleanup — safe to call multiple times (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+Used by destructor and at the top of <ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a53b9acf65d442cfb79028a5db8e0bce8" kindref="member">parseFile()</ref> to prevent fd/mmap leaks when <ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a53b9acf65d442cfb79028a5db8e0bce8" kindref="member">parseFile()</ref> is called more than once on the same object. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="210" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="251" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a14e0dbd346b017e983e73bd7cbe55d91" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GGUFLoader::getDtypeSize</definition>
+        <argsstring>(const std::string &amp;dtype) const</argsstring>
+        <name>getDtypeSize</name>
+        <qualifiedname>themis::llm::GGUFLoader::getDtypeSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dtype</declname>
+        </param>
+        <briefdescription>
+<para>Get Dtype Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="218" column="12" bodyfile="src/llm/gguf_loader.cpp" bodystart="1154" bodyend="1168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a75326b5b29790f845d5cd3e87b29a678" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GGUFLoader::getGGMLTypeSize</definition>
+        <argsstring>(GGMLType type) const</argsstring>
+        <name>getGGMLTypeSize</name>
+        <qualifiedname>themis::llm::GGUFLoader::getGGMLTypeSize</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref> Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="224" column="12" bodyfile="src/llm/gguf_loader.cpp" bodystart="751" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a34af9ffbda1615e36280fe10bf9e0ce6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::readString</definition>
+        <argsstring>(size_t &amp;offset, std::string &amp;out)</argsstring>
+        <name>readString</name>
+        <qualifiedname>themis::llm::GGUFLoader::readString</qualifiedname>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Read String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::memcpy(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="233" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="448" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a7c984b050c041a0d64d0029f5d7ddd25" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::readMetadataValue</definition>
+        <argsstring>(size_t &amp;offset, GGUFValueType type, std::string &amp;out)</argsstring>
+        <name>readMetadataValue</name>
+        <qualifiedname>themis::llm::GGUFLoader::readMetadataValue</qualifiedname>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ff" kindref="member">GGUFValueType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Read Metadata Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::memcpy(), std::to_string(), readString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="241" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="475" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1ade9c6bfc61c3d1f4459e6ad2cbee6a0e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFLoader::storeTensorInChunks</definition>
+        <argsstring>(const std::string &amp;model_name, const TensorMetadata &amp;tensor, size_t chunk_size)</argsstring>
+        <name>storeTensorInChunks</name>
+        <qualifiedname>themis::llm::GGUFLoader::storeTensorInChunks</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref> &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>chunk_size</declname>
+        </param>
+        <briefdescription>
+<para>Helper to store tensor data in chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store Tensor In Chunks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: reserve(), std::min(), resize(), std::memcpy(), data(), put(), str(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="250" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="892" bodyend="942"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_loader_1a73c3539e4abffb5ae901d5442e03a477" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GGUFLoader::alignOffset</definition>
+        <argsstring>(size_t offset, size_t alignment=32)</argsstring>
+        <name>alignOffset</name>
+        <qualifiedname>themis::llm::GGUFLoader::alignOffset</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+<para>Align Offset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements alignOffset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="255" column="12" bodyfile="src/llm/gguf_loader.cpp" bodystart="620" bodyend="622"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gguf_loader.h" line="105" column="1" bodyfile="include/llm/gguf_loader.h" bodystart="105" bodyend="256"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a73c3539e4abffb5ae901d5442e03a477" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>alignOffset</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ab98eef4c235f64d255e797b5023a2ecd" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a2d61279fd39dc36f862acacf0b11473b" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1af25eeb1a8052f7ca9592405ee103d031" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>file_buffer_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1acf30fb3777e584b95b5199b35d379d3a" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>filepath_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a14e0dbd346b017e983e73bd7cbe55d91" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>getDtypeSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a75326b5b29790f845d5cd3e87b29a678" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>getGGMLTypeSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a68ea0b1be439c594568f914d41e7491e" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a246dd635372ca40e3827447923f82f18" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>getMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a952a4ce527dda4ef1a104cf013f80444" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>getTensorData</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ab602a872e61528656c4382b52097ca90" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>GGUFLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a17e9f81baccf4bb6723781bbb9446784" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>GGUFLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ac9db4796983ce108ce3830f93eb41048" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>isFormatSupported</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1acdbcd9ebf92f4a3c548d06a16daf2487" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a4b30f6e3296db99496751f08fb9ebdfd" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>loadToThemisDB</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a602114eaee300609101f26c4632a1590" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>metadata_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a6bd1fc9305209d57989e016f0bfaf720" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>mmap_base_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a5676b2519c4e7cf527731aafe30f4661" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>mmap_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1af9b9ad029a889e81b2a43515f42c55f8" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>mmapTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a53b9acf65d442cfb79028a5db8e0bce8" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>parseFile</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ae98aeff3a4e4760e0a3e8a219c0f7152" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>parseHeader</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1aeb87c4d6f1c7bee9463b070621cd8163" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>parseMetadataKV</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ac1692e7a0c01a856af3fa20d59b45933" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>parseTensorInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a7c984b050c041a0d64d0029f5d7ddd25" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>readMetadataValue</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a34af9ffbda1615e36280fe10bf9e0ce6" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>readString</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1abc5debc23c95831d0a0f0260ffdc0b32" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>releaseResources</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a0b41bcd1a7c88662159d2224bc681be0" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>setDatabase</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ade9c6bfc61c3d1f4459e6ad2cbee6a0e" prot="private" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>storeTensorInChunks</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1aaf939a313592ae12203a82a54286a6b7" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>unmapTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a989a9f9f8122ed1a694b7ffc786c2837" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>validateQuantizationMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a0373b0bf2b4833232067cd39a3c62080" prot="public" virt="non-virtual"><scope>themis::llm::GGUFLoader</scope><name>~GGUFLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

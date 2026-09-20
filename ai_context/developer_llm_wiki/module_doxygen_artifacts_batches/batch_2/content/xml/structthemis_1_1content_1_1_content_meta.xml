@@ -1,0 +1,458 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentMeta</compoundname>
+    <includes refid="content__manager_8h" local="no">content_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a2c0d3851df6271190d2d3054faa6bcea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMeta::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::content::ContentMeta::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="42" column="17" bodyfile="include/content/content_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1ab967a4a9b0ad069732c272e4ff32f2b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMeta::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::content::ContentMeta::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="43" column="17" bodyfile="include/content/content_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a503b04ec71fea51f9a617afeebc9efd5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref></type>
+        <definition>ContentCategory themis::content::ContentMeta::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::content::ContentMeta::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="44" column="21" bodyfile="include/content/content_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1aa5bd8371e448287c36384e7e6e892c63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMeta::original_filename</definition>
+        <argsstring></argsstring>
+        <name>original_filename</name>
+        <qualifiedname>themis::content::ContentMeta::original_filename</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="45" column="17" bodyfile="include/content/content_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a718a5b03891d88754bc8e279eb1870c1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::ContentMeta::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::content::ContentMeta::size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="46" column="13" bodyfile="include/content/content_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a197a9903b030769a8e5f1abb8109232a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentMeta::compressed</definition>
+        <argsstring></argsstring>
+        <name>compressed</name>
+        <qualifiedname>themis::content::ContentMeta::compressed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="48" column="10" bodyfile="include/content/content_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a81191ac9a2d34a902807fb3557c2d2a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMeta::compression_type</definition>
+        <argsstring></argsstring>
+        <name>compression_type</name>
+        <qualifiedname>themis::content::ContentMeta::compression_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="49" column="17" bodyfile="include/content/content_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a185dda315d22b4c9644d998a6b810af2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentMeta::encrypted</definition>
+        <argsstring></argsstring>
+        <name>encrypted</name>
+        <qualifiedname>themis::content::ContentMeta::encrypted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="50" column="10" bodyfile="include/content/content_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1ade206b71bd2e3db0a855ee489f1d7d9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMeta::encryption_type</definition>
+        <argsstring></argsstring>
+        <name>encryption_type</name>
+        <qualifiedname>themis::content::ContentMeta::encryption_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="51" column="17" bodyfile="include/content/content_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a7db40ca8cd28e5a0ae2a9ecad06d3145" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::ContentMeta::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::content::ContentMeta::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="52" column="13" bodyfile="include/content/content_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1aded0400c8f0ddbd917527a41cd7763be" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::ContentMeta::modified_at</definition>
+        <argsstring></argsstring>
+        <name>modified_at</name>
+        <qualifiedname>themis::content::ContentMeta::modified_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="53" column="13" bodyfile="include/content/content_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a5319fc7e738640433d0d185be23d518f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMeta::hash_sha256</definition>
+        <argsstring></argsstring>
+        <name>hash_sha256</name>
+        <qualifiedname>themis::content::ContentMeta::hash_sha256</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="54" column="17" bodyfile="include/content/content_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a7ff5ef3668b6d662eaed88416e0481c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentMeta::text_extracted</definition>
+        <argsstring></argsstring>
+        <name>text_extracted</name>
+        <qualifiedname>themis::content::ContentMeta::text_extracted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="57" column="10" bodyfile="include/content/content_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1af03c56f892a625b48efe131c9ac51efb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentMeta::chunked</definition>
+        <argsstring></argsstring>
+        <name>chunked</name>
+        <qualifiedname>themis::content::ContentMeta::chunked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="58" column="10" bodyfile="include/content/content_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a353ecf16a4d36d4964dac0202024a535" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentMeta::indexed</definition>
+        <argsstring></argsstring>
+        <name>indexed</name>
+        <qualifiedname>themis::content::ContentMeta::indexed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="59" column="10" bodyfile="include/content/content_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1ab8df252e83a19dc7c79bc7df7889d002" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentMeta::chunk_count</definition>
+        <argsstring></argsstring>
+        <name>chunk_count</name>
+        <qualifiedname>themis::content::ContentMeta::chunk_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="60" column="9" bodyfile="include/content/content_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a497ab985e01122cc5e06662e9e5adf4b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentMeta::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::content::ContentMeta::embedding_dim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="61" column="9" bodyfile="include/content/content_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a49480b225fb6496f0415ba8257c0493b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentMeta::extracted_metadata</definition>
+        <argsstring></argsstring>
+        <name>extracted_metadata</name>
+        <qualifiedname>themis::content::ContentMeta::extracted_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="64" column="10" bodyfile="include/content/content_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1af8ad1ab8cceeb4aef4fe8bb287f19475" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentMeta::user_metadata</definition>
+        <argsstring></argsstring>
+        <name>user_metadata</name>
+        <qualifiedname>themis::content::ContentMeta::user_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="67" column="10" bodyfile="include/content/content_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a2db06e8601197f3d24b4c74bca94d10f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ContentMeta::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::content::ContentMeta::tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="68" column="17" bodyfile="include/content/content_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1aeb2a26bb4a2d69842fa520c4988125f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMeta::parent_id</definition>
+        <argsstring></argsstring>
+        <name>parent_id</name>
+        <qualifiedname>themis::content::ContentMeta::parent_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="71" column="17" bodyfile="include/content/content_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a897a278d8a832fd103d6825291d96da1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ContentMeta::child_ids</definition>
+        <argsstring></argsstring>
+        <name>child_ids</name>
+        <qualifiedname>themis::content::ContentMeta::child_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="72" column="17" bodyfile="include/content/content_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1ae5bf872c52261f448267b801a8ffc0fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMeta::virtual_path</definition>
+        <argsstring></argsstring>
+        <name>virtual_path</name>
+        <qualifiedname>themis::content::ContentMeta::virtual_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="75" column="17" bodyfile="include/content/content_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_meta_1a8c36f85f4a5dfbdba0141184f81a524b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentMeta::is_directory</definition>
+        <argsstring></argsstring>
+        <name>is_directory</name>
+        <qualifiedname>themis::content::ContentMeta::is_directory</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="76" column="10" bodyfile="include/content/content_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_meta_1aacb5281fffd0fc5db0a73b53e007a94b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentMeta::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ContentMeta::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="82" column="10" bodyfile="src/content/content_manager.cpp" bodystart="591" bodyend="618"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_meta_1a41bbc2a8de9e8672f97e23fb44432768" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_meta" kindref="compound">ContentMeta</ref></type>
+        <definition>ContentMeta themis::content::ContentMeta::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::content::ContentMeta::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_number_integer(), is_string(), std::transform(), begin(), end(), std::toupper(), value(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="88" column="24" bodyfile="src/content/content_manager.cpp" bodystart="626" bodyend="695"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::ContentCategory</label>
+        <link refid="structthemis_1_1content_1_1_content_category"/>
+      </node>
+      <node id="1">
+        <label>themis::content::ContentMeta</label>
+        <link refid="structthemis_1_1content_1_1_content_meta"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>category</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/content_manager.h" line="41" column="1" bodyfile="include/content/content_manager.h" bodystart="41" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a503b04ec71fea51f9a617afeebc9efd5" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>category</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a897a278d8a832fd103d6825291d96da1" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>child_ids</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1ab8df252e83a19dc7c79bc7df7889d002" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>chunk_count</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1af03c56f892a625b48efe131c9ac51efb" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>chunked</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a197a9903b030769a8e5f1abb8109232a" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>compressed</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a81191ac9a2d34a902807fb3557c2d2a5" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>compression_type</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a7db40ca8cd28e5a0ae2a9ecad06d3145" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a497ab985e01122cc5e06662e9e5adf4b" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a185dda315d22b4c9644d998a6b810af2" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>encrypted</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1ade206b71bd2e3db0a855ee489f1d7d9e" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>encryption_type</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a49480b225fb6496f0415ba8257c0493b" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>extracted_metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a41bbc2a8de9e8672f97e23fb44432768" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a5319fc7e738640433d0d185be23d518f" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>hash_sha256</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a2c0d3851df6271190d2d3054faa6bcea" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>id</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a353ecf16a4d36d4964dac0202024a535" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>indexed</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a8c36f85f4a5dfbdba0141184f81a524b" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>is_directory</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1ab967a4a9b0ad069732c272e4ff32f2b2" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1aded0400c8f0ddbd917527a41cd7763be" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>modified_at</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1aa5bd8371e448287c36384e7e6e892c63" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>original_filename</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1aeb2a26bb4a2d69842fa520c4988125f5" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>parent_id</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a718a5b03891d88754bc8e279eb1870c1" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a2db06e8601197f3d24b4c74bca94d10f" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>tags</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1a7ff5ef3668b6d662eaed88416e0481c0" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>text_extracted</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1aacb5281fffd0fc5db0a73b53e007a94b" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1af8ad1ab8cceeb4aef4fe8bb287f19475" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>user_metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_content_meta_1ae5bf872c52261f448267b801a8ffc0fe" prot="public" virt="non-virtual"><scope>themis::content::ContentMeta</scope><name>virtual_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1042 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_distributed_saga_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::DistributedSagaCoordinator</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <innerclass refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics" prot="public">themis::DistributedSagaCoordinator::Metrics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_distributed_saga_coordinator_1a43cbaa6f382196050808380230b091ff" prot="public" static="no">
+        <type><ref refid="structthemis_1_1_distributed_saga_coordinator_config" kindref="compound">DistributedSagaCoordinatorConfig</ref></type>
+        <definition>using themis::DistributedSagaCoordinator::Config = DistributedSagaCoordinatorConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="245" column="5" bodyfile="include/transaction/distributed_saga.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1_distributed_saga_coordinator_1a3beaf2f6cd71e24cb61af45b3aea83a9" prot="private" static="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref> * &gt;</type>
+        <definition>using themis::DistributedSagaCoordinator::RecordIndex = std::unordered_map&lt;std::string, StepRecord*&gt;</definition>
+        <argsstring></argsstring>
+        <name>RecordIndex</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::RecordIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="365" column="5" bodyfile="include/transaction/distributed_saga.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_distributed_saga_coordinator_1a575260f45d23b537245dca2ee6177617" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_distributed_saga_coordinator_1a43cbaa6f382196050808380230b091ff" kindref="member">Config</ref></type>
+        <definition>Config themis::DistributedSagaCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="345" column="12" bodyfile="include/transaction/distributed_saga.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_saga_coordinator_1ae4932d9272c3fe98401af0a33cedd0d5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::DistributedSagaCoordinator::reports_mutex_</definition>
+        <argsstring></argsstring>
+        <name>reports_mutex_</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::reports_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="347" column="24" bodyfile="include/transaction/distributed_saga.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_saga_coordinator_1abaa3b8ea86045a80a82242b063a72b4c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref> &gt;</type>
+        <definition>std::map&lt;std::string, DistributedSagaReport&gt; themis::DistributedSagaCoordinator::reports_</definition>
+        <argsstring></argsstring>
+        <name>reports_</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::reports_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="348" column="14" bodyfile="include/transaction/distributed_saga.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_saga_coordinator_1a84a6a1c63444071073248d64cd1c1683" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::DistributedSagaCoordinator::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="351" column="24" bodyfile="include/transaction/distributed_saga.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_saga_coordinator_1a361d81eb11cd6b96f3eb0575678a83c4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::DistributedSagaCoordinator::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="352" column="13" bodyfile="include/transaction/distributed_saga.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedSagaCoordinator::DistributedSagaCoordinator</definition>
+        <argsstring>(Config config={})</argsstring>
+        <name>DistributedSagaCoordinator</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::DistributedSagaCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_distributed_saga_coordinator_1a43cbaa6f382196050808380230b091ff" kindref="member">Config</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="247" column="14" bodyfile="src/transaction/distributed_saga.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1aa8b502a99741642e2ec18469ed488ba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedSagaCoordinator::~DistributedSagaCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedSagaCoordinator</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::~DistributedSagaCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="248" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1ab6ff4f568db27aaea352eba5f95ba877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedSagaCoordinator::DistributedSagaCoordinator</definition>
+        <argsstring>(const DistributedSagaCoordinator &amp;)=delete</argsstring>
+        <name>DistributedSagaCoordinator</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::DistributedSagaCoordinator</qualifiedname>
+        <param>
+          <type>const DistributedSagaCoordinator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="251" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a8e5f84f999ac4f6f6d9e2a341e12991a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref> &amp;</type>
+        <definition>DistributedSagaCoordinator &amp; themis::DistributedSagaCoordinator::operator=</definition>
+        <argsstring>(const DistributedSagaCoordinator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="252" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a64499a02d07ec90cea26024463da37a8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedSagaCoordinator::DistributedSagaCoordinator</definition>
+        <argsstring>(DistributedSagaCoordinator &amp;&amp;) noexcept=default</argsstring>
+        <name>DistributedSagaCoordinator</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::DistributedSagaCoordinator</qualifiedname>
+        <param>
+          <type>DistributedSagaCoordinator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="253" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a19bda96bd25bed9dd116b2922073f128" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref> &amp;</type>
+        <definition>DistributedSagaCoordinator &amp; themis::DistributedSagaCoordinator::operator=</definition>
+        <argsstring>(DistributedSagaCoordinator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" kindref="member">DistributedSagaCoordinator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="254" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1af5c1cb15b1b7a990b52e76f2719ad983" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref></type>
+        <definition>DistributedSagaReport themis::DistributedSagaCoordinator::execute</definition>
+        <argsstring>(const DistributedSagaDefinition &amp;saga)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), THEMIS_ERROR(), journalWrite(), mk(), std::chrono::system_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="262" column="27" bodyfile="src/transaction/distributed_saga.cpp" bodystart="128" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a8e89c60a2fd1ab8561b8dcb3d4a3caec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref></type>
+        <definition>DistributedSagaStatus themis::DistributedSagaCoordinator::validate</definition>
+        <argsstring>(const DistributedSagaDefinition &amp;saga) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="269" column="27" bodyfile="src/transaction/distributed_saga.cpp" bodystart="37" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a0faeffce1e1774b97784d5e789cdfeb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref></type>
+        <definition>DistributedSagaReport themis::DistributedSagaCoordinator::executeDistributed</definition>
+        <argsstring>(const DistributedSAGADefinition &amp;saga)</argsstring>
+        <name>executeDistributed</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::executeDistributed</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_s_a_g_a_definition" kindref="compound">DistributedSAGADefinition</ref> &amp;</type>
+          <declname>saga</declname>
+          <defname>remote_saga</defname>
+        </param>
+        <briefdescription>
+<para>Execute Distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), journalWrite(), lk(), THEMIS_ERROR(), rejectDistributed(), size(), std::to_string(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="277" column="27" bodyfile="src/transaction/distributed_saga.cpp" bodystart="986" bodyend="1062"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a055b7ed691024f21033bf3fd30fbef98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref> &gt;</type>
+        <definition>std::optional&lt; DistributedSagaReport &gt; themis::DistributedSagaCoordinator::getDistributedStatus</definition>
+        <argsstring>(const std::string &amp;saga_id) const</argsstring>
+        <name>getDistributedStatus</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::getDistributedStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Distributed Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="284" column="19" bodyfile="src/transaction/distributed_saga.cpp" bodystart="1068" bodyend="1072"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1ad88ea21295ded87ace2252ec17fb9441" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::DistributedSagaCoordinator::recoverInProgressSAGAs</definition>
+        <argsstring>()</argsstring>
+        <name>recoverInProgressSAGAs</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::recoverInProgressSAGAs</qualifiedname>
+        <briefdescription>
+<para>Recover In Progress SAGAs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), f(), is_open(), std::getline(), nlohmann::json::parse(), value(), lk(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="292" column="17" bodyfile="src/transaction/distributed_saga.cpp" bodystart="1083" bodyend="1138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a9b8ec9e18c8bbe9f04f369425cc38323" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_saga_visualization" kindref="compound">SagaVisualization</ref></type>
+        <definition>SagaVisualization themis::DistributedSagaCoordinator::visualize</definition>
+        <argsstring>(const DistributedSagaDefinition &amp;saga) const</argsstring>
+        <name>visualize</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::visualize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Visualize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="300" column="23" bodyfile="src/transaction/distributed_saga.cpp" bodystart="1144" bodyend="1254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1acc222d672cf672e7defe0032c467d9ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedSagaCoordinator::forceCompensate</definition>
+        <argsstring>(const std::string &amp;saga_id)</argsstring>
+        <name>forceCompensate</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::forceCompensate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <briefdescription>
+<para>Force Compensate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), journalWrite(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="308" column="10" bodyfile="src/transaction/distributed_saga.cpp" bodystart="1266" bodyend="1277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1aec6adaff798fe91371c6b412f6c86e39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedSagaCoordinator::forceComplete</definition>
+        <argsstring>(const std::string &amp;saga_id)</argsstring>
+        <name>forceComplete</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::forceComplete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <briefdescription>
+<para>Force Complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), clear(), journalWrite(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="315" column="10" bodyfile="src/transaction/distributed_saga.cpp" bodystart="1285" bodyend="1296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1ae7301175e70503a53a91b56a1bdaf89b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_distributed_saga_report" kindref="compound">DistributedSagaReport</ref> &gt;</type>
+        <definition>std::optional&lt; DistributedSagaReport &gt; themis::DistributedSagaCoordinator::getReport</definition>
+        <argsstring>(const std::string &amp;saga_id) const</argsstring>
+        <name>getReport</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::getReport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reports_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="323" column="19" bodyfile="src/transaction/distributed_saga.cpp" bodystart="845" bodyend="859"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1aaa76bc95b647da12822f1a979a46a3a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>DistributedSagaCoordinator::Metrics themis::DistributedSagaCoordinator::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics" kindref="compound">Metrics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="342" column="13" bodyfile="src/transaction/distributed_saga.cpp" bodystart="865" bodyend="873"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a01123538c0d33b696085487f2d1eb8a5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::DistributedSagaCoordinator::topologicalSort</definition>
+        <argsstring>(const DistributedSagaDefinition &amp;saga) const</argsstring>
+        <name>topologicalSort</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::topologicalSort</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_saga_definition" kindref="compound">DistributedSagaDefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Topological Sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="360" column="17" bodyfile="src/transaction/distributed_saga.cpp" bodystart="334" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a55487bc21e0fcc750abeadf6107399ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref></type>
+        <definition>DistributedSagaStatus themis::DistributedSagaCoordinator::executeWave</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;wave, const std::map&lt; std::string, DistributedSagaStep &gt; &amp;step_map, RecordIndex &amp;index, std::string &amp;failure_reason, std::optional&lt; std::chrono::steady_clock::time_point &gt; deadline)</argsstring>
+        <name>executeWave</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::executeWave</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>wave</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref> &gt; &amp;</type>
+          <declname>step_map</declname>
+        </param>
+        <param>
+          <type>RecordIndex &amp;</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>failure_reason</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::steady_clock::time_point &gt;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="367" column="27" bodyfile="src/transaction/distributed_saga.cpp" bodystart="378" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a1e994467936959ab35368c662b439353" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref></type>
+        <definition>DistributedSagaStatus themis::DistributedSagaCoordinator::executeStep</definition>
+        <argsstring>(const DistributedSagaStep &amp;step, StepRecord &amp;record, std::optional&lt; std::chrono::steady_clock::time_point &gt; deadline)</argsstring>
+        <name>executeStep</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::executeStep</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::steady_clock::time_point &gt;</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Execute Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), count(), std::min(), std::this_thread::sleep_for(), THEMIS_DEBUG(), has_value(), std::chrono::steady_clock::now(), <ref refid="structthemis_1_1_distributed_saga_status_1a57f415ce8d9c8972a8578e87a41cca23" kindref="member">DistributedSagaStatus::Error()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="382" column="27" bodyfile="src/transaction/distributed_saga.cpp" bodystart="494" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1aefa8b35ca72779ac8b39db74db1e91a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedSagaCoordinator::verifyStepConsensus</definition>
+        <argsstring>(const std::string &amp;step_name, const std::string &amp;node_id, StepRecord &amp;record, std::string *failure_detail=nullptr)</argsstring>
+        <name>verifyStepConsensus</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::verifyStepConsensus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>failure_detail</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── verifyStepConsensus() — QW-39: Distributed consensus verification ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">failure_detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="388" column="10" bodyfile="src/transaction/distributed_saga.cpp" bodystart="758" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1ade06613972418af79536fdda08e2b35e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedSagaCoordinator::compensate</definition>
+        <argsstring>(const std::map&lt; std::string, DistributedSagaStep &gt; &amp;step_map, const std::vector&lt; std::string &gt; &amp;executed_order, RecordIndex &amp;index)</argsstring>
+        <name>compensate</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::compensate</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref> &gt; &amp;</type>
+          <declname>step_map</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>executed_order</declname>
+        </param>
+        <param>
+          <type>RecordIndex &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="395" column="10" bodyfile="src/transaction/distributed_saga.cpp" bodystart="626" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a332968f22ff5f2ad8125664abaf167c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref></type>
+        <definition>DistributedSagaStatus themis::DistributedSagaCoordinator::compensateStep</definition>
+        <argsstring>(const DistributedSagaStep &amp;step, StepRecord &amp;record)</argsstring>
+        <name>compensateStep</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::compensateStep</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Compensate Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: count(), std::min(), std::this_thread::sleep_for(), std::async(), wait_for(), <ref refid="structthemis_1_1_distributed_saga_status_1a57f415ce8d9c8972a8578e87a41cca23" kindref="member">DistributedSagaStatus::Error()</ref>, lk(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="407" column="27" bodyfile="src/transaction/distributed_saga.cpp" bodystart="689" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1a84b2041ea51369add43cf4cc0df85450" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedSagaCoordinator::journalWrite</definition>
+        <argsstring>(const std::string &amp;saga_id, const std::string &amp;event, const std::string &amp;detail={})</argsstring>
+        <name>journalWrite</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::journalWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Journal Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), f(), is_open(), std::chrono::system_clock::now(), time_since_epoch(), count(), reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="412" column="10" bodyfile="src/transaction/distributed_saga.cpp" bodystart="886" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_saga_coordinator_1aabd1f761099ff6891f71094778741303" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref></type>
+        <definition>DistributedSagaStep themis::DistributedSagaCoordinator::remoteStepToLocal</definition>
+        <argsstring>(const RemoteStep &amp;remote) const</argsstring>
+        <name>remoteStepToLocal</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::remoteStepToLocal</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_remote_step" kindref="compound">RemoteStep</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Remote Step To Local. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="420" column="25" bodyfile="src/transaction/distributed_saga.cpp" bodystart="932" bodyend="974"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="243" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="243" bodyend="421"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1ade06613972418af79536fdda08e2b35e" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>compensate</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a332968f22ff5f2ad8125664abaf167c4" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>compensateStep</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a43cbaa6f382196050808380230b091ff" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>Config</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a575260f45d23b537245dca2ee6177617" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1af18774648c9fd6affe646e4c33d49e53" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>DistributedSagaCoordinator</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1ab6ff4f568db27aaea352eba5f95ba877" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>DistributedSagaCoordinator</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a64499a02d07ec90cea26024463da37a8" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>DistributedSagaCoordinator</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1af5c1cb15b1b7a990b52e76f2719ad983" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>execute</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a0faeffce1e1774b97784d5e789cdfeb9" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>executeDistributed</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a1e994467936959ab35368c662b439353" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>executeStep</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a55487bc21e0fcc750abeadf6107399ac" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>executeWave</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1acc222d672cf672e7defe0032c467d9ee" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>forceCompensate</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1aec6adaff798fe91371c6b412f6c86e39" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>forceComplete</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a055b7ed691024f21033bf3fd30fbef98" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>getDistributedStatus</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1aaa76bc95b647da12822f1a979a46a3a2" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1ae7301175e70503a53a91b56a1bdaf89b" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>getReport</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a84b2041ea51369add43cf4cc0df85450" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>journalWrite</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a361d81eb11cd6b96f3eb0575678a83c4" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a84a6a1c63444071073248d64cd1c1683" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a8e5f84f999ac4f6f6d9e2a341e12991a" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a19bda96bd25bed9dd116b2922073f128" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a3beaf2f6cd71e24cb61af45b3aea83a9" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>RecordIndex</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1ad88ea21295ded87ace2252ec17fb9441" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>recoverInProgressSAGAs</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1aabd1f761099ff6891f71094778741303" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>remoteStepToLocal</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1abaa3b8ea86045a80a82242b063a72b4c" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>reports_</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1ae4932d9272c3fe98401af0a33cedd0d5" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>reports_mutex_</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a01123538c0d33b696085487f2d1eb8a5" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>topologicalSort</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a8e89c60a2fd1ab8561b8dcb3d4a3caec" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1aefa8b35ca72779ac8b39db74db1e91a5" prot="private" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>verifyStepConsensus</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1a9b8ec9e18c8bbe9f04f369425cc38323" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>visualize</name></member>
+      <member refid="classthemis_1_1_distributed_saga_coordinator_1aa8b502a99741642e2ec18469ed488ba1" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator</scope><name>~DistributedSagaCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

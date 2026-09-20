@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_delta_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DeltaLogEntry</compoundname>
+    <includes refid="tensor__delta__log_8h" local="no">tensor_delta_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a982083429f76a92f74b946cb12d51439" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DeltaLogEntry::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="63" column="12" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1aba760e7e42bd74045bd310f08d8d6e2d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6" kindref="member">DeltaMutationType</ref></type>
+        <definition>DeltaMutationType themis::distributed_tensor::DeltaLogEntry::mutation_type</definition>
+        <argsstring></argsstring>
+        <name>mutation_type</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::mutation_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">DeltaMutationType::INSERT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="65" column="21" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1ad5fb1ca580853956c74adb00a926afe7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DeltaLogEntry::affected_entity_id</definition>
+        <argsstring></argsstring>
+        <name>affected_entity_id</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::affected_entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="67" column="15" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a22991a9d2e761355ef7b7199082fd308" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::DeltaLogEntry::recorded_at_ms</definition>
+        <argsstring></argsstring>
+        <name>recorded_at_ms</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::recorded_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="69" column="11" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a060ca8f40c138502346a256ec62f66a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DeltaLogEntry::source_transaction_id</definition>
+        <argsstring></argsstring>
+        <name>source_transaction_id</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::source_transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="71" column="15" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a855c579245405cf1c9b17760720d3df4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DeltaLogEntry::shard_hint</definition>
+        <argsstring></argsstring>
+        <name>shard_hint</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::shard_hint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="73" column="15" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1abf84153cd231338728a81a688776e892" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::DeltaLogEntry::payload_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>payload_size_bytes</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::payload_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="75" column="12" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a923a3d91eaba1fc0d670031cd5b845a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DeltaLogEntry::payload_checksum</definition>
+        <argsstring></argsstring>
+        <name>payload_checksum</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::payload_checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="77" column="15" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1ac94c6b972327839d4913fc8cd14e741c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DeltaLogEntry::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::isValid</qualifiedname>
+        <briefdescription>
+<para>Is Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="83" column="8" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="147" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a9b156af986afe3e568b39d2e2b5aa976" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DeltaLogEntry::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="89" column="15" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="160" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1aad1389fa7111e7b5785ac57360153e12" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry" kindref="compound">DeltaLogEntry</ref> &gt;</type>
+        <definition>std::optional&lt; DeltaLogEntry &gt; themis::distributed_tensor::DeltaLogEntry::deserialize</definition>
+        <argsstring>(const std::string &amp;serialized)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::distributed_tensor::DeltaLogEntry::deserialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serialized</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">serialized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">serialized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::getline(), std::stoull(), std::stoi(), std::stoll(), std::stoul(), <ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1ac94c6b972327839d4913fc8cd14e741c" kindref="member">isValid()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="96" column="24" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="179" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/tensor_delta_log.h" line="62" column="1" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="62" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1ad5fb1ca580853956c74adb00a926afe7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>affected_entity_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1aad1389fa7111e7b5785ac57360153e12" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1ac94c6b972327839d4913fc8cd14e741c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1aba760e7e42bd74045bd310f08d8d6e2d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>mutation_type</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a923a3d91eaba1fc0d670031cd5b845a7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>payload_checksum</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1abf84153cd231338728a81a688776e892" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>payload_size_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a22991a9d2e761355ef7b7199082fd308" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>recorded_at_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a982083429f76a92f74b946cb12d51439" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>sequence_number</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a9b156af986afe3e568b39d2e2b5aa976" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a855c579245405cf1c9b17760720d3df4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>shard_hint</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a060ca8f40c138502346a256ec62f66a3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaLogEntry</scope><name>source_transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

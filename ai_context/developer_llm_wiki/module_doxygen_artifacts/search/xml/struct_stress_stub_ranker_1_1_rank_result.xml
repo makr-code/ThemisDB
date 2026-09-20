@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stress_stub_ranker_1_1_rank_result" kind="struct" language="C++" prot="public">
+    <compoundname>StressStubRanker::RankResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stress_stub_ranker_1_1_rank_result_1a271acae29302785e0b33b8ae3ceaba2f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StressStubRanker::RankResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>StressStubRanker::RankResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="59" column="26" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stress_stub_ranker_1_1_rank_result_1a8b6acee75a6a12d80c691176b2bc61b6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float StressStubRanker::RankResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>StressStubRanker::RankResult::score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="59" column="36" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/search/test_search_highcardinality_stress.cpp" line="59" column="5" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="59" bodyend="59"/>
+    <listofallmembers>
+      <member refid="struct_stress_stub_ranker_1_1_rank_result_1a271acae29302785e0b33b8ae3ceaba2f" prot="public" virt="non-virtual"><scope>StressStubRanker::RankResult</scope><name>ok</name></member>
+      <member refid="struct_stress_stub_ranker_1_1_rank_result_1a8b6acee75a6a12d80c691176b2bc61b6" prot="public" virt="non-virtual"><scope>StressStubRanker::RankResult</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::WebRtcCallSession::Config</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a132dcb11bdb01c0cdaa69c8b24fc6930" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::WebRtcCallSession::Config::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::session_id</qualifiedname>
+        <briefdescription>
+<para>Application-level session identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="338" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a1a94698caf1d584353ac1dc8cb8ccd83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::WebRtcCallSession::Config::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::user_id</qualifiedname>
+        <briefdescription>
+<para>Optional user ID for personalisation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="339" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a44ecf34675c6e86f5539cd929c5e1968" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1ae650ea81d1f35201800909d85db40f56" kindref="member">AudioCodec</ref></type>
+        <definition>AudioCodec themis::voice::WebRtcCallSession::Config::preferred_codec</definition>
+        <argsstring></argsstring>
+        <name>preferred_codec</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::preferred_codec</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1ae650ea81d1f35201800909d85db40f56a4c2223596711a6a941bc19e8067ceef9" kindref="member">AudioCodec::OPUS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="340" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a89e89c463968ebf1a26cd541948e9d23" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::WebRtcCallSession::Config::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::sample_rate</qualifiedname>
+        <initializer>= 48000</initializer>
+        <briefdescription>
+<para>Hz (Opus standard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="341" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a18b7b4e3754ea04b4802bde0d480371d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::WebRtcCallSession::Config::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="342" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a883eea2a3ae2493d2369bb56916607fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::WebRtcCallSession::Config::enable_tts</definition>
+        <argsstring></argsstring>
+        <name>enable_tts</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::enable_tts</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="343" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1adf0f5341f83c5f6188d95c5595f17c0d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::WebRtcCallSession::Config::record_audio</definition>
+        <argsstring></argsstring>
+        <name>record_audio</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::record_audio</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="344" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1aa12d0746de1fc2375aea7b8cb584d6b3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::WebRtcCallSession::Config::max_duration_s</definition>
+        <argsstring></argsstring>
+        <name>max_duration_s</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::max_duration_s</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="345" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1ac1122e215749412b958bf816f359bf72" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::WebRtcCallSession::Config::require_dtls</definition>
+        <argsstring></argsstring>
+        <name>require_dtls</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::Config::require_dtls</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Reject connections without DTLS-SRTP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="346" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>WebRTC call session configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="337" column="5" bodyfile="include/voice/voice_telephony.h" bodystart="337" bodyend="347"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a883eea2a3ae2493d2369bb56916607fd" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>enable_tts</name></member>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a18b7b4e3754ea04b4802bde0d480371d" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>language</name></member>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1aa12d0746de1fc2375aea7b8cb584d6b3" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>max_duration_s</name></member>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a44ecf34675c6e86f5539cd929c5e1968" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>preferred_codec</name></member>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1adf0f5341f83c5f6188d95c5595f17c0d" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>record_audio</name></member>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1ac1122e215749412b958bf816f359bf72" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>require_dtls</name></member>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a89e89c463968ebf1a26cd541948e9d23" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a132dcb11bdb01c0cdaa69c8b24fc6930" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config_1a1a94698caf1d584353ac1dc8cb8ccd83" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession::Config</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

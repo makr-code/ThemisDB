@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_context_scope" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::ContextScope</compoundname>
+    <includes refid="context__propagation_8h" local="no">context_propagation.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_context_scope_1a450381c35835887cc1d402dc2788fc98" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1core_1_1concerns_1a831cdd39cc5d78686339175934e5c26a" kindref="member">IContextPtr</ref></type>
+        <definition>IContextPtr themis::core::concerns::ContextScope::previous_</definition>
+        <argsstring></argsstring>
+        <name>previous_</name>
+        <qualifiedname>themis::core::concerns::ContextScope::previous_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="72" column="17" bodyfile="include/core/concerns/context_propagation.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_scope_1a9457f8ef24bf6e2eebd2d7ab0deb2887" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ContextScope::ContextScope</definition>
+        <argsstring>(IContextPtr ctx) noexcept</argsstring>
+        <name>ContextScope</name>
+        <qualifiedname>themis::core::concerns::ContextScope::ContextScope</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1core_1_1concerns_1a831cdd39cc5d78686339175934e5c26a" kindref="member">IContextPtr</ref></type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="55" column="14" bodyfile="include/core/concerns/context_propagation.h" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_scope_1aaa769f34f32be605cfd047e24ec8b398" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ContextScope::~ContextScope</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ContextScope</name>
+        <qualifiedname>themis::core::concerns::ContextScope::~ContextScope</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="61" column="5" bodyfile="include/core/concerns/context_propagation.h" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_scope_1adb47b6f71ed1bc5a8537ae185a706047" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ContextScope::ContextScope</definition>
+        <argsstring>(const ContextScope &amp;)=delete</argsstring>
+        <name>ContextScope</name>
+        <qualifiedname>themis::core::concerns::ContextScope::ContextScope</qualifiedname>
+        <param>
+          <type>const ContextScope &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_scope_1a5a032d11cfecf8d7b5329aab21f3bf15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a9457f8ef24bf6e2eebd2d7ab0deb2887" kindref="member">ContextScope</ref> &amp;</type>
+        <definition>ContextScope &amp; themis::core::concerns::ContextScope::operator=</definition>
+        <argsstring>(const ContextScope &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::core::concerns::ContextScope::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a9457f8ef24bf6e2eebd2d7ab0deb2887" kindref="member">ContextScope</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="67" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_scope_1a8650dc26ab044e23d736a85f2e9daf8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ContextScope::ContextScope</definition>
+        <argsstring>(ContextScope &amp;&amp;)=delete</argsstring>
+        <name>ContextScope</name>
+        <qualifiedname>themis::core::concerns::ContextScope::ContextScope</qualifiedname>
+        <param>
+          <type>ContextScope &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="68" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_scope_1a494cacc4ced3fce893a91e84de41ffb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a9457f8ef24bf6e2eebd2d7ab0deb2887" kindref="member">ContextScope</ref> &amp;</type>
+        <definition>ContextScope &amp; themis::core::concerns::ContextScope::operator=</definition>
+        <argsstring>(ContextScope &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::core::concerns::ContextScope::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a9457f8ef24bf6e2eebd2d7ab0deb2887" kindref="member">ContextScope</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="69" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/context_propagation.h" line="53" column="1" bodyfile="include/core/concerns/context_propagation.h" bodystart="53" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a9457f8ef24bf6e2eebd2d7ab0deb2887" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextScope</scope><name>ContextScope</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1adb47b6f71ed1bc5a8537ae185a706047" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextScope</scope><name>ContextScope</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a8650dc26ab044e23d736a85f2e9daf8a" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextScope</scope><name>ContextScope</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a5a032d11cfecf8d7b5329aab21f3bf15" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextScope</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a494cacc4ced3fce893a91e84de41ffb3" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextScope</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1a450381c35835887cc1d402dc2788fc98" prot="private" virt="non-virtual"><scope>themis::core::concerns::ContextScope</scope><name>previous_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_scope_1aaa769f34f32be605cfd047e24ec8b398" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextScope</scope><name>~ContextScope</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

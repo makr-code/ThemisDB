@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_data_distribution" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::DataDistribution</compoundname>
+    <includes refid="geospatial__index__selector_8h" local="no">geospatial_index_selector.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856" prot="public" static="no" strong="no">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::query::DataDistribution::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" prot="public">
+          <name>UNIFORM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a6803285b9c18333b8a16d263ca7f5691" prot="public">
+          <name>CLUSTERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a4480645423bf172d52cf118d10e7d2e6" prot="public">
+          <name>SKEWED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="37" column="5" bodyfile="include/query/geospatial_index_selector.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856" kindref="member">Type</ref></type>
+        <definition>Type themis::query::DataDistribution::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::DataDistribution::type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">UNIFORM</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="39" column="10" bodyfile="include/query/geospatial_index_selector.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_data_distribution_1a310ab19b832cf10a67df0fcac083b7b2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DataDistribution::clusteringRatio</definition>
+        <argsstring></argsstring>
+        <name>clusteringRatio</name>
+        <qualifiedname>themis::query::DataDistribution::clusteringRatio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="40" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_data_distribution_1aaea920579781da8fc362584901d499c7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::DataDistribution::isGlobalDataset</definition>
+        <argsstring></argsstring>
+        <name>isGlobalDataset</name>
+        <qualifiedname>themis::query::DataDistribution::isGlobalDataset</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="41" column="10" bodyfile="include/query/geospatial_index_selector.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_data_distribution_1af3f153ee8aa626a59cdbbb31bef0c8fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::DataDistribution::approximateClusterCount</definition>
+        <argsstring></argsstring>
+        <name>approximateClusterCount</name>
+        <qualifiedname>themis::query::DataDistribution::approximateClusterCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="42" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_data_distribution_1a0d088f9a3e323de7384109d22f0e5ab4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref></type>
+        <definition>DataDistribution themis::query::DataDistribution::infer</definition>
+        <argsstring>(size_t totalPoints, size_t distinctLocationCells, double spatialVariance)</argsstring>
+        <name>infer</name>
+        <qualifiedname>themis::query::DataDistribution::infer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>totalPoints</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>distinctLocationCells</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>spatialVariance</declname>
+        </param>
+        <briefdescription>
+<para>Infer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distinctLocationCells</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spatialVariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distinctLocationCells</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spatialVariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="51" column="29" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="29" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_index_selector.h" line="36" column="1" bodyfile="include/query/geospatial_index_selector.h" bodystart="36" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1af3f153ee8aa626a59cdbbb31bef0c8fc" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>approximateClusterCount</name></member>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a6803285b9c18333b8a16d263ca7f5691" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>CLUSTERED</name></member>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1a310ab19b832cf10a67df0fcac083b7b2" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>clusteringRatio</name></member>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1a0d088f9a3e323de7384109d22f0e5ab4" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>infer</name></member>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1aaea920579781da8fc362584901d499c7" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>isGlobalDataset</name></member>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a4480645423bf172d52cf118d10e7d2e6" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>SKEWED</name></member>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>Type</name></member>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" prot="public" virt="non-virtual"><scope>themis::query::DataDistribution</scope><name>UNIFORM</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

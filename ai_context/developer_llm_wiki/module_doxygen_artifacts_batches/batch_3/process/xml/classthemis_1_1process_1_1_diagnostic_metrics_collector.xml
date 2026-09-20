@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_diagnostic_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::DiagnosticMetricsCollector</compoundname>
+    <includes refid="process__diagnostics_8h" local="no">process_diagnostics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_diagnostic_metrics_collector_1a74c46113251ff0f5cfd16b1ebb4cb9b0" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref>, uint64_t &gt;</type>
+        <definition>std::map&lt;DiagnosticIncidentType, uint64_t&gt; themis::process::DiagnosticMetricsCollector::incident_counts_</definition>
+        <argsstring></argsstring>
+        <name>incident_counts_</name>
+        <qualifiedname>themis::process::DiagnosticMetricsCollector::incident_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="397" column="14" bodyfile="include/process/process_diagnostics.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_diagnostic_metrics_collector_1abdb5dabac0189810ec867eb52a939c16" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::process::DiagnosticMetricsCollector::metrics_lock_</definition>
+        <argsstring></argsstring>
+        <name>metrics_lock_</name>
+        <qualifiedname>themis::process::DiagnosticMetricsCollector::metrics_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="398" column="31" bodyfile="include/process/process_diagnostics.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_metrics_collector_1accdef7761e27305a6580fdbe22226021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::DiagnosticMetricsCollector::recordIncident</definition>
+        <argsstring>(DiagnosticIncidentType incident_type)</argsstring>
+        <name>recordIncident</name>
+        <qualifiedname>themis::process::DiagnosticMetricsCollector::recordIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+          <declname>incident_type</declname>
+        </param>
+        <briefdescription>
+<para>Record an incident occurrence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of incident.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incident_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="370" column="10" bodyfile="src/process/process_diagnostics.cpp" bodystart="442" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_metrics_collector_1a6c598e5cf33dca988db540af9fbd74bc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::DiagnosticMetricsCollector::getIncidentCount</definition>
+        <argsstring>(DiagnosticIncidentType incident_type) const</argsstring>
+        <name>getIncidentCount</name>
+        <qualifiedname>themis::process::DiagnosticMetricsCollector::getIncidentCount</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+          <declname>incident_type</declname>
+        </param>
+        <briefdescription>
+<para>Get count of incidents by type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The incident type to query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Count of incidents of this type since collector creation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="377" column="15" bodyfile="src/process/process_diagnostics.cpp" bodystart="447" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_metrics_collector_1abaa36e8305ff49028f53e04784724f88" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::DiagnosticMetricsCollector::getTotalIncidentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalIncidentCount</name>
+        <qualifiedname>themis::process::DiagnosticMetricsCollector::getTotalIncidentCount</qualifiedname>
+        <briefdescription>
+<para>Get total incident count across all types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Total count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="383" column="15" bodyfile="src/process/process_diagnostics.cpp" bodystart="458" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_metrics_collector_1ae33316fa14404380387bc6f8ec6cae7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::DiagnosticMetricsCollector::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::process::DiagnosticMetricsCollector::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="388" column="10" bodyfile="src/process/process_diagnostics.cpp" bodystart="476" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_metrics_collector_1a90bb3b6155d277ad1224ccf0d06d4350" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::DiagnosticMetricsCollector::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::process::DiagnosticMetricsCollector::toJson</qualifiedname>
+        <briefdescription>
+<para>Get metrics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with per-incident-type counts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="394" column="21" bodyfile="src/process/process_diagnostics.cpp" bodystart="481" bodyend="496"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metrics collector for process module performance and incident tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Aggregates incident statistics for monitoring and diagnosis. </para>
+    </detaileddescription>
+    <location file="include/process/process_diagnostics.h" line="364" column="1" bodyfile="include/process/process_diagnostics.h" bodystart="364" bodyend="399"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1a6c598e5cf33dca988db540af9fbd74bc" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticMetricsCollector</scope><name>getIncidentCount</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1abaa36e8305ff49028f53e04784724f88" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticMetricsCollector</scope><name>getTotalIncidentCount</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1a74c46113251ff0f5cfd16b1ebb4cb9b0" prot="private" virt="non-virtual"><scope>themis::process::DiagnosticMetricsCollector</scope><name>incident_counts_</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1abdb5dabac0189810ec867eb52a939c16" prot="private" virt="non-virtual"><scope>themis::process::DiagnosticMetricsCollector</scope><name>metrics_lock_</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1accdef7761e27305a6580fdbe22226021" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticMetricsCollector</scope><name>recordIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1ae33316fa14404380387bc6f8ec6cae7a" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticMetricsCollector</scope><name>reset</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1a90bb3b6155d277ad1224ccf0d06d4350" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticMetricsCollector</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

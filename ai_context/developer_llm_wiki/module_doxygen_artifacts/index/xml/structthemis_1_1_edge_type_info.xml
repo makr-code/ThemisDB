@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_edge_type_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EdgeTypeInfo</compoundname>
+    <includes refid="edge__types_8h" local="no">edge_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_edge_type_info_1a22f855440eb581a47f15da079c88f7f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EdgeTypeInfo::type_name</definition>
+        <argsstring></argsstring>
+        <name>type_name</name>
+        <qualifiedname>themis::EdgeTypeInfo::type_name</qualifiedname>
+        <briefdescription>
+<para>The edge type identifier (e.g., &quot;FOLLOWS&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="37" column="17" bodyfile="include/index/edge_types.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_edge_type_info_1a292290437b77550ba7243b4beb2f8669" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a2c28054804de81e270b1be226f2dc787" kindref="member">EdgeCategory</ref></type>
+        <definition>EdgeCategory themis::EdgeTypeInfo::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::EdgeTypeInfo::category</qualifiedname>
+        <briefdescription>
+<para>Category this type belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="38" column="18" bodyfile="include/index/edge_types.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_edge_type_info_1ab527312f15e770db6ef39ebbf62e581d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EdgeTypeInfo::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::EdgeTypeInfo::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="39" column="17" bodyfile="include/index/edge_types.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_edge_type_info_1ac0d675a6a5675e5ddcac081773ba3331" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::EdgeTypeInfo::is_bidirectional</definition>
+        <argsstring></argsstring>
+        <name>is_bidirectional</name>
+        <qualifiedname>themis::EdgeTypeInfo::is_bidirectional</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>If true, traversal works both directions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="40" column="10" bodyfile="include/index/edge_types.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_edge_type_info_1a6ac2146965b4588d65e9da88178d02c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::EdgeTypeInfo::requires_temporal</definition>
+        <argsstring></argsstring>
+        <name>requires_temporal</name>
+        <qualifiedname>themis::EdgeTypeInfo::requires_temporal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>If true, edges must have valid_from/valid_to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="41" column="10" bodyfile="include/index/edge_types.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_edge_type_info_1a8243dd732218d4a16369207d7ef56ced" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::EdgeTypeInfo::is_weighted</definition>
+        <argsstring></argsstring>
+        <name>is_weighted</name>
+        <qualifiedname>themis::EdgeTypeInfo::is_weighted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>If true, edges should have _weight field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="42" column="10" bodyfile="include/index/edge_types.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_edge_type_info_1a81a5944de0e5cc5b4b90fc2fbf414424" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::EdgeTypeInfo::inverse_type</definition>
+        <argsstring></argsstring>
+        <name>inverse_type</name>
+        <qualifiedname>themis::EdgeTypeInfo::inverse_type</qualifiedname>
+        <briefdescription>
+<para>Inverse type for bidirectional (e.g., PARENT_OF &lt;-&gt; CHILD_OF). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="43" column="19" bodyfile="include/index/edge_types.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/edge_types.h" line="36" column="1" bodyfile="include/index/edge_types.h" bodystart="36" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_edge_type_info_1a292290437b77550ba7243b4beb2f8669" prot="public" virt="non-virtual"><scope>themis::EdgeTypeInfo</scope><name>category</name></member>
+      <member refid="structthemis_1_1_edge_type_info_1ab527312f15e770db6ef39ebbf62e581d" prot="public" virt="non-virtual"><scope>themis::EdgeTypeInfo</scope><name>description</name></member>
+      <member refid="structthemis_1_1_edge_type_info_1a81a5944de0e5cc5b4b90fc2fbf414424" prot="public" virt="non-virtual"><scope>themis::EdgeTypeInfo</scope><name>inverse_type</name></member>
+      <member refid="structthemis_1_1_edge_type_info_1ac0d675a6a5675e5ddcac081773ba3331" prot="public" virt="non-virtual"><scope>themis::EdgeTypeInfo</scope><name>is_bidirectional</name></member>
+      <member refid="structthemis_1_1_edge_type_info_1a8243dd732218d4a16369207d7ef56ced" prot="public" virt="non-virtual"><scope>themis::EdgeTypeInfo</scope><name>is_weighted</name></member>
+      <member refid="structthemis_1_1_edge_type_info_1a6ac2146965b4588d65e9da88178d02c4" prot="public" virt="non-virtual"><scope>themis::EdgeTypeInfo</scope><name>requires_temporal</name></member>
+      <member refid="structthemis_1_1_edge_type_info_1a22f855440eb581a47f15da079c88f7f5" prot="public" virt="non-virtual"><scope>themis::EdgeTypeInfo</scope><name>type_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

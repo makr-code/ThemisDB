@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_retransmit_simulator" kind="struct" language="C++" prot="public">
+    <compoundname>RetransmitSimulator</compoundname>
+    <innerclass refid="struct_retransmit_simulator_1_1_result" prot="public">RetransmitSimulator::Result</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_retransmit_simulator_1ada49de6a80aa157ee7042417ab7486c1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double RetransmitSimulator::loss_rate</definition>
+        <argsstring></argsstring>
+        <name>loss_rate</name>
+        <qualifiedname>RetransmitSimulator::loss_rate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0.0–1.0 fraction of packets dropped </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="120" column="14" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retransmit_simulator_1ac7f8779ae792681ec6b7e207bf39d8ca" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t RetransmitSimulator::base_rtt_ms</definition>
+        <argsstring></argsstring>
+        <name>base_rtt_ms</name>
+        <qualifiedname>RetransmitSimulator::base_rtt_ms</qualifiedname>
+        <briefdescription>
+<para>base round-trip time (ms) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="121" column="14" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retransmit_simulator_1a7160e8e593223e7684a8b0aa417ee195" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t RetransmitSimulator::max_retransmits</definition>
+        <argsstring></argsstring>
+        <name>max_retransmits</name>
+        <qualifiedname>RetransmitSimulator::max_retransmits</qualifiedname>
+        <briefdescription>
+<para>maximum retransmit attempts before giving up </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="122" column="14" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_retransmit_simulator_1aa10bd56e4ebf170f0cc008071c9ae729" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_retransmit_simulator_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result RetransmitSimulator::simulate</definition>
+        <argsstring>(uint32_t seed_offset) const</argsstring>
+        <name>simulate</name>
+        <qualifiedname>RetransmitSimulator::simulate</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>seed_offset</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulate sending a single request under packet loss. Uses a seeded PRNG for determinism. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="131" column="12" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="131" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub retransmit simulator: injects packet loss and measures completion time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_http3_stress_focused.cpp" line="119" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="119" bodyend="150"/>
+    <listofallmembers>
+      <member refid="struct_retransmit_simulator_1ac7f8779ae792681ec6b7e207bf39d8ca" prot="public" virt="non-virtual"><scope>RetransmitSimulator</scope><name>base_rtt_ms</name></member>
+      <member refid="struct_retransmit_simulator_1ada49de6a80aa157ee7042417ab7486c1" prot="public" virt="non-virtual"><scope>RetransmitSimulator</scope><name>loss_rate</name></member>
+      <member refid="struct_retransmit_simulator_1a7160e8e593223e7684a8b0aa417ee195" prot="public" virt="non-virtual"><scope>RetransmitSimulator</scope><name>max_retransmits</name></member>
+      <member refid="struct_retransmit_simulator_1aa10bd56e4ebf170f0cc008071c9ae729" prot="public" virt="non-virtual"><scope>RetransmitSimulator</scope><name>simulate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_h_s_m_startup_policy_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::HSMStartupPolicyResult</compoundname>
+    <includes refid="hsm__startup__policy_8h" local="no">hsm_startup_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a56c34aba571df550b6fe08e17c40aa8d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref></type>
+        <definition>HSMConfig themis::security::HSMStartupPolicyResult::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::security::HSMStartupPolicyResult::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="28" column="18" bodyfile="include/security/hsm_startup_policy.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a40203a9ecd53ff20c4d43f6eaf0a4547" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMStartupPolicyResult::explicit_stub_opt_in</definition>
+        <argsstring></argsstring>
+        <name>explicit_stub_opt_in</name>
+        <qualifiedname>themis::security::HSMStartupPolicyResult::explicit_stub_opt_in</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="29" column="18" bodyfile="include/security/hsm_startup_policy.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1aa045f2382ac8259b259bf3df81061a8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMStartupPolicyResult::hsm_config_present</definition>
+        <argsstring></argsstring>
+        <name>hsm_config_present</name>
+        <qualifiedname>themis::security::HSMStartupPolicyResult::hsm_config_present</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="30" column="18" bodyfile="include/security/hsm_startup_policy.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a7291180aa85e35a0f3e0255b0aaf8997" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMStartupPolicyResult::config_source</definition>
+        <argsstring></argsstring>
+        <name>config_source</name>
+        <qualifiedname>themis::security::HSMStartupPolicyResult::config_source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="31" column="18" bodyfile="include/security/hsm_startup_policy.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a79ebd882b7a1b65fc0c26ac570cc7fa4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMStartupPolicyResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::security::HSMStartupPolicyResult::error</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="32" column="18" bodyfile="include/security/hsm_startup_policy.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a4389485a189636ecf73cdc9e427b3b0b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMStartupPolicyResult::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::security::HSMStartupPolicyResult::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="34" column="11" bodyfile="include/security/hsm_startup_policy.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::security::HSMConfig</label>
+        <link refid="structthemis_1_1security_1_1_h_s_m_config"/>
+      </node>
+      <node id="1">
+        <label>themis::security::HSMStartupPolicyResult</label>
+        <link refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/hsm_startup_policy.h" line="27" column="1" bodyfile="include/security/hsm_startup_policy.h" bodystart="27" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a56c34aba571df550b6fe08e17c40aa8d" prot="public" virt="non-virtual"><scope>themis::security::HSMStartupPolicyResult</scope><name>config</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a7291180aa85e35a0f3e0255b0aaf8997" prot="public" virt="non-virtual"><scope>themis::security::HSMStartupPolicyResult</scope><name>config_source</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a79ebd882b7a1b65fc0c26ac570cc7fa4" prot="public" virt="non-virtual"><scope>themis::security::HSMStartupPolicyResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a40203a9ecd53ff20c4d43f6eaf0a4547" prot="public" virt="non-virtual"><scope>themis::security::HSMStartupPolicyResult</scope><name>explicit_stub_opt_in</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1aa045f2382ac8259b259bf3df81061a8c" prot="public" virt="non-virtual"><scope>themis::security::HSMStartupPolicyResult</scope><name>hsm_config_present</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a4389485a189636ecf73cdc9e427b3b0b" prot="public" virt="non-virtual"><scope>themis::security::HSMStartupPolicyResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

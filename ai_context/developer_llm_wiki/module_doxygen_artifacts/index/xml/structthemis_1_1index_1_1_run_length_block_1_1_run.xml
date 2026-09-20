@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_run_length_block_1_1_run" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::RunLengthBlock::Run</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_run_length_block_1_1_run_1a4f842ebdc93f2c4baf2c49c9ebbe0004" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::RunLengthBlock::Run::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::index::RunLengthBlock::Run::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="197" column="21" bodyfile="include/index/index_compression.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_run_length_block_1_1_run_1af0b0831698b75724ea5dbea9cdd1c0a4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::index::RunLengthBlock::Run::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::index::RunLengthBlock::Run::count</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="198" column="21" bodyfile="include/index/index_compression.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="196" column="5" bodyfile="include/index/index_compression.h" bodystart="196" bodyend="199"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_run_length_block_1_1_run_1af0b0831698b75724ea5dbea9cdd1c0a4" prot="public" virt="non-virtual"><scope>themis::index::RunLengthBlock::Run</scope><name>count</name></member>
+      <member refid="structthemis_1_1index_1_1_run_length_block_1_1_run_1a4f842ebdc93f2c4baf2c49c9ebbe0004" prot="public" virt="non-virtual"><scope>themis::index::RunLengthBlock::Run</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

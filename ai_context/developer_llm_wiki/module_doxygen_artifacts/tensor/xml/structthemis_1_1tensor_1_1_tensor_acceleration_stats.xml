@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_acceleration_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorAccelerationStats</compoundname>
+    <includes refid="tensor__compression__routing__accelerator_8h" local="no">tensor_compression_routing_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a4396187dcd5a877f0915687ed4381449" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorAccelerationStats::gpu_compression_calls</definition>
+        <argsstring></argsstring>
+        <name>gpu_compression_calls</name>
+        <qualifiedname>themis::tensor::TensorAccelerationStats::gpu_compression_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="10" column="17" bodyfile="include/tensor/tensor_compression_routing_accelerator.h" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a9586958ce64cace925ec48809d4dffa3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorAccelerationStats::gpu_routing_calls</definition>
+        <argsstring></argsstring>
+        <name>gpu_routing_calls</name>
+        <qualifiedname>themis::tensor::TensorAccelerationStats::gpu_routing_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="11" column="17" bodyfile="include/tensor/tensor_compression_routing_accelerator.h" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a26058df239957086a654c43a2c606810" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorAccelerationStats::cpu_fallback_calls</definition>
+        <argsstring></argsstring>
+        <name>cpu_fallback_calls</name>
+        <qualifiedname>themis::tensor::TensorAccelerationStats::cpu_fallback_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="12" column="17" bodyfile="include/tensor/tensor_compression_routing_accelerator.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a5a8cda9ba2e5c0cdc135150ee65c5693" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorAccelerationStats::gpu_error_calls</definition>
+        <argsstring></argsstring>
+        <name>gpu_error_calls</name>
+        <qualifiedname>themis::tensor::TensorAccelerationStats::gpu_error_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="13" column="17" bodyfile="include/tensor/tensor_compression_routing_accelerator.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_compression_routing_accelerator.h" line="9" column="1" bodyfile="include/tensor/tensor_compression_routing_accelerator.h" bodystart="9" bodyend="14"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a26058df239957086a654c43a2c606810" prot="public" virt="non-virtual"><scope>themis::tensor::TensorAccelerationStats</scope><name>cpu_fallback_calls</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a4396187dcd5a877f0915687ed4381449" prot="public" virt="non-virtual"><scope>themis::tensor::TensorAccelerationStats</scope><name>gpu_compression_calls</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a5a8cda9ba2e5c0cdc135150ee65c5693" prot="public" virt="non-virtual"><scope>themis::tensor::TensorAccelerationStats</scope><name>gpu_error_calls</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a9586958ce64cace925ec48809d4dffa3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorAccelerationStats</scope><name>gpu_routing_calls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

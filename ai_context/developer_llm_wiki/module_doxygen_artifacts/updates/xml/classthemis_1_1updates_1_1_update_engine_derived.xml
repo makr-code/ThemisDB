@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_update_engine_derived" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::UpdateEngineDerived</compoundname>
+    <basecompoundref refid="classthemis_1_1updates_1_1_update_engine_base" prot="public" virt="non-virtual">themis::updates::UpdateEngineBase</basecompoundref>
+    <includes refid="batch5__safety__helpers_8h" local="no">batch5_safety_helpers.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_engine_derived_1a94e78dd5819656444ad4e1b3317439e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::UpdateEngineDerived::~UpdateEngineDerived</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~UpdateEngineDerived</name>
+        <qualifiedname>themis::updates::UpdateEngineDerived::~UpdateEngineDerived</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="395" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_engine_derived_1a11afd7a6566a8ca475d61b5578fa07c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::updates::UpdateEngineDerived::apply</definition>
+        <argsstring>() override</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::updates::UpdateEngineDerived::apply</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_engine_base_1ab40d1b635c21ae2c6519cf5344efc2ba">apply</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="398" column="10" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="398" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_engine_derived_1a4f3a3dea9cdaa7aee12691b6ee301669" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateEngineDerived::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::updates::UpdateEngineDerived::name</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_engine_base_1ab5587638721488ecf9695ddb56249be6">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="399" column="17" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="399" bodyend="399"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::updates::UpdateEngineBase</label>
+        <link refid="classthemis_1_1updates_1_1_update_engine_base"/>
+      </node>
+      <node id="1">
+        <label>themis::updates::UpdateEngineDerived</label>
+        <link refid="classthemis_1_1updates_1_1_update_engine_derived"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::updates::UpdateEngineBase</label>
+        <link refid="classthemis_1_1updates_1_1_update_engine_base"/>
+      </node>
+      <node id="1">
+        <label>themis::updates::UpdateEngineDerived</label>
+        <link refid="classthemis_1_1updates_1_1_update_engine_derived"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/batch5_safety_helpers.h" line="393" column="1" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="393" bodyend="400"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_update_engine_derived_1a11afd7a6566a8ca475d61b5578fa07c9" prot="public" virt="virtual"><scope>themis::updates::UpdateEngineDerived</scope><name>apply</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_engine_derived_1a4f3a3dea9cdaa7aee12691b6ee301669" prot="public" virt="virtual"><scope>themis::updates::UpdateEngineDerived</scope><name>name</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_engine_base_1a7ad39f79de8b13f6a21438b216a4a533" prot="public" virt="virtual"><scope>themis::updates::UpdateEngineDerived</scope><name>~UpdateEngineBase</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_engine_derived_1a94e78dd5819656444ad4e1b3317439e7" prot="public" virt="non-virtual"><scope>themis::updates::UpdateEngineDerived</scope><name>~UpdateEngineDerived</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

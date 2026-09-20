@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::PhilosophyProfile</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a5b224d641cc4902d3b33695905994dcf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::PhilosophyProfile::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::school_id</qualifiedname>
+        <briefdescription>
+<para>Unique school identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="88" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a08eaaeed392de429d7ff4c4ea61c3dd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::PhilosophyProfile::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::name</qualifiedname>
+        <briefdescription>
+<para>Display name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="89" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a99bcd5a5d6fd09de99724db1ddf0df5c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::PhilosophyProfile::main_theses</definition>
+        <argsstring></argsstring>
+        <name>main_theses</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::main_theses</qualifiedname>
+        <briefdescription>
+<para>Core theses (plain-text, backward compat). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="90" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1ac6caff7df8b73f13f38864bbc83bffc3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::PhilosophyProfile::secondary_theses</definition>
+        <argsstring></argsstring>
+        <name>secondary_theses</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::secondary_theses</qualifiedname>
+        <briefdescription>
+<para>Supporting theses (plain-text, backward compat). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="91" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1aba885160e701ea1170c1bb0b68fe2781" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis" kindref="compound">PhilosophyThesis</ref> &gt;</type>
+        <definition>std::vector&lt;PhilosophyThesis&gt; themis::plugins::ethics::PhilosophyProfile::typed_theses</definition>
+        <argsstring></argsstring>
+        <name>typed_theses</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::typed_theses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="92" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a6f2acc3de03733e584e859b09e96574a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::ethics::PhilosophyProfile::decision_framework</definition>
+        <argsstring></argsstring>
+        <name>decision_framework</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::decision_framework</qualifiedname>
+        <briefdescription>
+<para>Decision-making rules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="93" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a02845f00ba18ee8d815d368a6873f38e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::PhilosophyProfile::strengths</definition>
+        <argsstring></argsstring>
+        <name>strengths</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::strengths</qualifiedname>
+        <briefdescription>
+<para>Philosophical strengths. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="94" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a5dd8be93e30433ae1777d0735938a87a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::PhilosophyProfile::weaknesses</definition>
+        <argsstring></argsstring>
+        <name>weaknesses</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::weaknesses</qualifiedname>
+        <briefdescription>
+<para>Philosophical weaknesses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="95" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a68628136fccd97e2ee920d56559a748e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::ethics::PhilosophyProfile::internal_debate</definition>
+        <argsstring></argsstring>
+        <name>internal_debate</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::internal_debate</qualifiedname>
+        <briefdescription>
+<para>Internal debate points. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="96" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a2ed3c045f2d3311b1c89b9a144d2cdee" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::ethics::PhilosophyProfile::philosophical_positioning</definition>
+        <argsstring></argsstring>
+        <name>philosophical_positioning</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyProfile::philosophical_positioning</qualifiedname>
+        <briefdescription>
+<para>Positioning relative to others. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="97" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="87" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="87" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a6f2acc3de03733e584e859b09e96574a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>decision_framework</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a68628136fccd97e2ee920d56559a748e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>internal_debate</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a99bcd5a5d6fd09de99724db1ddf0df5c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>main_theses</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a08eaaeed392de429d7ff4c4ea61c3dd1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>name</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a2ed3c045f2d3311b1c89b9a144d2cdee" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>philosophical_positioning</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a5b224d641cc4902d3b33695905994dcf" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1ac6caff7df8b73f13f38864bbc83bffc3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>secondary_theses</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a02845f00ba18ee8d815d368a6873f38e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>strengths</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1aba885160e701ea1170c1bb0b68fe2781" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>typed_theses</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a5dd8be93e30433ae1777d0735938a87a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyProfile</scope><name>weaknesses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

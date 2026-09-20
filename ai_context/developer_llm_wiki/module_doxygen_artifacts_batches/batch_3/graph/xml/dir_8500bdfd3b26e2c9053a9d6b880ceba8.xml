@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8500bdfd3b26e2c9053a9d6b880ceba8" kind="dir">
+    <compoundname>include/graph</compoundname>
+    <innerfile refid="adjacency__list_8h">adjacency_list.h</innerfile>
+    <innerfile refid="distributed__graph_8h">distributed_graph.h</innerfile>
+    <innerfile refid="explain__plan_8h">explain_plan.h</innerfile>
+    <innerfile refid="gpu__traversal_8h">gpu_traversal.h</innerfile>
+    <innerfile refid="graph__cache__manager_8h">graph_cache_manager.h</innerfile>
+    <innerfile refid="graph__embedding_8h">graph_embedding.h</innerfile>
+    <innerfile refid="graph__error__taxonomy_8h">graph_error_taxonomy.h</innerfile>
+    <innerfile refid="graph__load__balancer_8h">graph_load_balancer.h</innerfile>
+    <innerfile refid="graph__phase__gate__orchestrator_8h">graph_phase_gate_orchestrator.h</innerfile>
+    <innerfile refid="graph__plan__cache_8h">graph_plan_cache.h</innerfile>
+    <innerfile refid="graph__query__cache_8h">graph_query_cache.h</innerfile>
+    <innerfile refid="graph__query__optimizer_8h">graph_query_optimizer.h</innerfile>
+    <innerfile refid="graph__query__rewriter_8h">graph_query_rewriter.h</innerfile>
+    <innerfile refid="graph__resource__pool_8h">graph_resource_pool.h</innerfile>
+    <innerfile refid="graph__watermark_8h">graph_watermark.h</innerfile>
+    <innerfile refid="knowledge__graph__reasoner_8h">knowledge_graph_reasoner.h</innerfile>
+    <innerfile refid="namespace__config_8h">namespace_config.h</innerfile>
+    <innerfile refid="ontology__manager_8h">ontology_manager.h</innerfile>
+    <innerfile refid="parallel__traversal_8h">parallel_traversal.h</innerfile>
+    <innerfile refid="path__constraints_8h">path_constraints.h</innerfile>
+    <innerfile refid="rotate__completion_8h">rotate_completion.h</innerfile>
+    <innerfile refid="scheduled__edge__refresh_8h">scheduled_edge_refresh.h</innerfile>
+    <innerfile refid="tensor__deduplication__manager_8h">tensor_deduplication_manager.h</innerfile>
+    <innerfile refid="tensor__fingerprint__graph_8h">tensor_fingerprint_graph.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_vector_writer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::IVectorWriter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer" prot="public" virt="non-virtual">themis::ingestion::InMemoryVectorWriter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter" prot="public" virt="non-virtual">themis::ingestion::VectorIndexSinkAdapter</derivedcompoundref>
+    <includes refid="ingestion__sinks_8h" local="no">ingestion_sinks.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_vector_writer_1af9a420cc1a968e95d32f93041ccced49" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::IVectorWriter::~IVectorWriter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IVectorWriter</name>
+        <qualifiedname>themis::ingestion::IVectorWriter::~IVectorWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="107" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_vector_writer_1a72c6318311c50c2b63c1fef7de33fee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::ingestion::IVectorWriter::writeVectors</definition>
+        <argsstring>(const std::vector&lt; VectorRecord &gt; &amp;records)=0</argsstring>
+        <name>writeVectors</name>
+        <qualifiedname>themis::ingestion::IVectorWriter::writeVectors</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a2ca4aac3407ac47567a3a2d12567c0c5">writeVectors</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a22a9f95176b7b66e8b0a63ac41f8ba1f">writeVectors</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <briefdescription>
+<para>Insert or update a batch of <computeroutput><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref></computeroutput> entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Records are keyed by <computeroutput><ref refid="structthemis_1_1ingestion_1_1_vector_record_1a98e0d93b83a78f864020c34c4e573ee0" kindref="member">VectorRecord::chunk_id</ref></computeroutput>; an existing record is replaced when a new record with the same key is written.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector records to upsert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error on capacity overflow or I/O failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="118" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_vector_writer_1a4b29b9a276336ecf177fb1bf767a5b1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::ingestion::IVectorWriter::vectorCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>vectorCount</name>
+        <qualifiedname>themis::ingestion::IVectorWriter::vectorCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1aebf925001729042607251f9555eb456e">vectorCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a9364359eca7b629f7659cf36f386859e">vectorCount</reimplementedby>
+        <briefdescription>
+<para>Returns the number of vectors currently indexed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="123" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_vector_writer_1ab2b16e33a675776dc950bbca10a4ea91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> *</type>
+        <definition>virtual const VectorRecord * themis::ingestion::IVectorWriter::findByChunkId</definition>
+        <argsstring>(const std::string &amp;chunk_id) const =0</argsstring>
+        <name>findByChunkId</name>
+        <qualifiedname>themis::ingestion::IVectorWriter::findByChunkId</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1ad05821b2e0e48df33e005c2d0760957a">findByChunkId</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a5c20db6e7d9514da6ea3294a237c5e06">findByChunkId</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a stored vector record by chunk_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns nullptr when not found. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="130" column="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for writing <computeroutput><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref></computeroutput> entries to a vector index. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations:<itemizedlist>
+<listitem><para>ThemisDB HNSW vector index (production)</para>
+</listitem><listitem><para>In-memory linear-scan index (tests / development)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety: <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a72c6318311c50c2b63c1fef7de33fee1" kindref="member">writeVectors()</ref></computeroutput> MUST be thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::IVectorWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_vector_writer"/>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::InMemoryVectorWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::VectorIndexSinkAdapter</label>
+        <link refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/ingestion_sinks.h" line="105" column="1" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="105" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_vector_writer_1ab2b16e33a675776dc950bbca10a4ea91" prot="public" virt="pure-virtual"><scope>themis::ingestion::IVectorWriter</scope><name>findByChunkId</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a4b29b9a276336ecf177fb1bf767a5b1b" prot="public" virt="pure-virtual"><scope>themis::ingestion::IVectorWriter</scope><name>vectorCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a72c6318311c50c2b63c1fef7de33fee1" prot="public" virt="pure-virtual"><scope>themis::ingestion::IVectorWriter</scope><name>writeVectors</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_vector_writer_1af9a420cc1a968e95d32f93041ccced49" prot="public" virt="virtual"><scope>themis::ingestion::IVectorWriter</scope><name>~IVectorWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_n_v_me_capabilities" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::NVMeCapabilities</compoundname>
+    <includes refid="nvme__manager_8h" local="no">nvme_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_capabilities_1a0a5dac7294d4bd91a23bba4a0598534a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeCapabilities::io_uring_available</definition>
+        <argsstring></argsstring>
+        <name>io_uring_available</name>
+        <qualifiedname>themis::storage::NVMeCapabilities::io_uring_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Kernel supports io_uring (Linux ≥ 5.1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="98" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_capabilities_1a4ea3ec0b94d8cad523fe868554c413b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeCapabilities::zns_available</definition>
+        <argsstring></argsstring>
+        <name>zns_available</name>
+        <qualifiedname>themis::storage::NVMeCapabilities::zns_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Block device is ZNS-capable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="99" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_capabilities_1ac508259abdf28a4baf1d6a85db6ec400" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeCapabilities::direct_io_available</definition>
+        <argsstring></argsstring>
+        <name>direct_io_available</name>
+        <qualifiedname>themis::storage::NVMeCapabilities::direct_io_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>O_DIRECT supported on the filesystem. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="100" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_capabilities_1a560c9612e22e97267e7b10921f9dc440" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeCapabilities::hw_queue_count</definition>
+        <argsstring></argsstring>
+        <name>hw_queue_count</name>
+        <qualifiedname>themis::storage::NVMeCapabilities::hw_queue_count</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Number of hardware queue pairs detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="101" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_capabilities_1ac7aa2cde6832b40d2e37a68066b0ba9d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeCapabilities::kernel_major</definition>
+        <argsstring></argsstring>
+        <name>kernel_major</name>
+        <qualifiedname>themis::storage::NVMeCapabilities::kernel_major</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Running kernel major version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="102" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_capabilities_1ab854092920b4eb41ee1a887ff7c122a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeCapabilities::kernel_minor</definition>
+        <argsstring></argsstring>
+        <name>kernel_minor</name>
+        <qualifiedname>themis::storage::NVMeCapabilities::kernel_minor</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Running kernel minor version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="103" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_capabilities_1a50ed917ff350bc5150f1f1986cda29d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::NVMeCapabilities::device_model</definition>
+        <argsstring></argsstring>
+        <name>device_model</name>
+        <qualifiedname>themis::storage::NVMeCapabilities::device_model</qualifiedname>
+        <briefdescription>
+<para>NVMe device model string (if detected). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="104" column="17" bodyfile="include/storage/nvme_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detected NVMe / OS capabilities on the current host. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/nvme_manager.h" line="97" column="1" bodyfile="include/storage/nvme_manager.h" bodystart="97" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a50ed917ff350bc5150f1f1986cda29d2" prot="public" virt="non-virtual"><scope>themis::storage::NVMeCapabilities</scope><name>device_model</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ac508259abdf28a4baf1d6a85db6ec400" prot="public" virt="non-virtual"><scope>themis::storage::NVMeCapabilities</scope><name>direct_io_available</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a560c9612e22e97267e7b10921f9dc440" prot="public" virt="non-virtual"><scope>themis::storage::NVMeCapabilities</scope><name>hw_queue_count</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a0a5dac7294d4bd91a23bba4a0598534a" prot="public" virt="non-virtual"><scope>themis::storage::NVMeCapabilities</scope><name>io_uring_available</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ac7aa2cde6832b40d2e37a68066b0ba9d" prot="public" virt="non-virtual"><scope>themis::storage::NVMeCapabilities</scope><name>kernel_major</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ab854092920b4eb41ee1a887ff7c122a7" prot="public" virt="non-virtual"><scope>themis::storage::NVMeCapabilities</scope><name>kernel_minor</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a4ea3ec0b94d8cad523fe868554c413b3" prot="public" virt="non-virtual"><scope>themis::storage::NVMeCapabilities</scope><name>zns_available</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

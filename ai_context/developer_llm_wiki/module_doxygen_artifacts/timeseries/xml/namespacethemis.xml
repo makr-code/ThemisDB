@@ -1,0 +1,840 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_adaptive_flush_controller" prot="public">themis::AdaptiveFlushController</innerclass>
+    <innerclass refid="structthemis_1_1_adaptive_flush_controller_config" prot="public">themis::AdaptiveFlushControllerConfig</innerclass>
+    <innerclass refid="structthemis_1_1_adaptive_flush_controller_stats" prot="public">themis::AdaptiveFlushControllerStats</innerclass>
+    <innerclass refid="structthemis_1_1_agg_config" prot="public">themis::AggConfig</innerclass>
+    <innerclass refid="classthemis_1_1_aggregate_scheduler" prot="public">themis::AggregateScheduler</innerclass>
+    <innerclass refid="structthemis_1_1_agg_shard_result" prot="public">themis::AggShardResult</innerclass>
+    <innerclass refid="structthemis_1_1_agg_window" prot="public">themis::AggWindow</innerclass>
+    <innerclass refid="structthemis_1_1_anomaly_config" prot="public">themis::AnomalyConfig</innerclass>
+    <innerclass refid="classthemis_1_1_anomaly_detector" prot="public">themis::AnomalyDetector</innerclass>
+    <innerclass refid="structthemis_1_1_anomaly_point" prot="public">themis::AnomalyPoint</innerclass>
+    <innerclass refid="classthemis_1_1_backward_fill_gap_filler" prot="public">themis::BackwardFillGapFiller</innerclass>
+    <innerclass refid="classthemis_1_1_bit_reader" prot="public">themis::BitReader</innerclass>
+    <innerclass refid="classthemis_1_1_bit_writer" prot="public">themis::BitWriter</innerclass>
+    <innerclass refid="structthemis_1_1_continuous_agg_definition" prot="public">themis::ContinuousAggDefinition</innerclass>
+    <innerclass refid="classthemis_1_1_continuous_agg_materialization_engine" prot="public">themis::ContinuousAggMaterializationEngine</innerclass>
+    <innerclass refid="structthemis_1_1_continuous_agg_materialization_status" prot="public">themis::ContinuousAggMaterializationStatus</innerclass>
+    <innerclass refid="classthemis_1_1_continuous_aggregate_manager" prot="public">themis::ContinuousAggregateManager</innerclass>
+    <innerclass refid="classthemis_1_1_continuous_agg_watermark_store" prot="public">themis::ContinuousAggWatermarkStore</innerclass>
+    <innerclass refid="classthemis_1_1_distributed_aggregate_coordinator" prot="public">themis::DistributedAggregateCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1_downsampling_pipeline" prot="public">themis::DownsamplingPipeline</innerclass>
+    <innerclass refid="structthemis_1_1_downsampling_policy" prot="public">themis::DownsamplingPolicy</innerclass>
+    <innerclass refid="structthemis_1_1_downsampling_tier" prot="public">themis::DownsamplingTier</innerclass>
+    <innerclass refid="classthemis_1_1_encrypted_chunk_store" prot="public">themis::EncryptedChunkStore</innerclass>
+    <innerclass refid="classthemis_1_1_flush_controller" prot="public">themis::FlushController</innerclass>
+    <innerclass refid="structthemis_1_1_flush_controller_config" prot="public">themis::FlushControllerConfig</innerclass>
+    <innerclass refid="structthemis_1_1_flush_controller_stats" prot="public">themis::FlushControllerStats</innerclass>
+    <innerclass refid="classthemis_1_1_forward_fill_gap_filler" prot="public">themis::ForwardFillGapFiller</innerclass>
+    <innerclass refid="structthemis_1_1_gap_fill_config" prot="public">themis::GapFillConfig</innerclass>
+    <innerclass refid="classthemis_1_1_gap_filler" prot="public">themis::GapFiller</innerclass>
+    <innerclass refid="classthemis_1_1_gorilla_decoder" prot="public">themis::GorillaDecoder</innerclass>
+    <innerclass refid="classthemis_1_1_gorilla_encoder" prot="public">themis::GorillaEncoder</innerclass>
+    <innerclass refid="classthemis_1_1_gorilla_s_i_m_d_decoder" prot="public">themis::GorillaSIMDDecoder</innerclass>
+    <innerclass refid="classthemis_1_1_heuristic_compression_selector" prot="public">themis::HeuristicCompressionSelector</innerclass>
+    <innerclass refid="classthemis_1_1_hypertable" prot="public">themis::Hypertable</innerclass>
+    <innerclass refid="classthemis_1_1_i_anomaly_detector" prot="public">themis::IAnomalyDetector</innerclass>
+    <innerclass refid="classthemis_1_1_i_compression_selector" prot="public">themis::ICompressionSelector</innerclass>
+    <innerclass refid="classthemis_1_1_i_gap_filler" prot="public">themis::IGapFiller</innerclass>
+    <innerclass refid="classthemis_1_1_i_q_r_detector" prot="public">themis::IQRDetector</innerclass>
+    <innerclass refid="classthemis_1_1_linear_interpolation_gap_filler" prot="public">themis::LinearInterpolationGapFiller</innerclass>
+    <innerclass refid="classthemis_1_1_per_series_compression_registry" prot="public">themis::PerSeriesCompressionRegistry</innerclass>
+    <innerclass refid="structthemis_1_1_retention_audit_entry" prot="public">themis::RetentionAuditEntry</innerclass>
+    <innerclass refid="classthemis_1_1_retention_manager" prot="public">themis::RetentionManager</innerclass>
+    <innerclass refid="structthemis_1_1_retention_policy" prot="public">themis::RetentionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1_retention_stats" prot="public">themis::RetentionStats</innerclass>
+    <innerclass refid="structthemis_1_1_rollup_hierarchy" prot="public">themis::RollupHierarchy</innerclass>
+    <innerclass refid="structthemis_1_1_series_profile" prot="public">themis::SeriesProfile</innerclass>
+    <innerclass refid="structthemis_1_1_staged_deletion_policy" prot="public">themis::StagedDeletionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1_tier_selector" prot="public">themis::TierSelector</innerclass>
+    <innerclass refid="classthemis_1_1_time_series_aggregates" prot="public">themis::TimeSeriesAggregates</innerclass>
+    <innerclass refid="classthemis_1_1_time_series_metrics" prot="public">themis::TimeSeriesMetrics</innerclass>
+    <innerclass refid="classthemis_1_1_time_series_store" prot="public">themis::TimeSeriesStore</innerclass>
+    <innerclass refid="classthemis_1_1_t_s_auto_buffer" prot="public">themis::TSAutoBuffer</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_auto_buffer_config" prot="public">themis::TSAutoBufferConfig</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_auto_buffer_stats" prot="public">themis::TSAutoBufferStats</innerclass>
+    <innerclass refid="classthemis_1_1_ts_encrypted_key_rotation" prot="public">themis::TsEncryptedKeyRotation</innerclass>
+    <innerclass refid="structthemis_1_1_ts_encrypted_key_rotation_config" prot="public">themis::TsEncryptedKeyRotationConfig</innerclass>
+    <innerclass refid="classthemis_1_1_t_s_query_optimizer" prot="public">themis::TSQueryOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1_t_s_store" prot="public">themis::TSStore</innerclass>
+    <innerclass refid="classthemis_1_1_z_score_detector" prot="public">themis::ZScoreDetector</innerclass>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1timeseries">themis::timeseries</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1ac6ac6b1da215b6285e2111a58888ea36" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AnomalyMethod</name>
+        <qualifiedname>themis::AnomalyMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1ac6ac6b1da215b6285e2111a58888ea36a0864acd24c328bdc0b2c2e8aa9ee4e03" prot="public">
+          <name>ZScore</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ac6ac6b1da215b6285e2111a58888ea36a58d3efe734ac81fe0387c1862a1f4924" prot="public">
+          <name>IQR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ac6ac6b1da215b6285e2111a58888ea36a130c5b3473c57faa76e2a1c54e26f88e" prot="public">
+          <name>Both</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="45" column="1" bodyfile="include/timeseries/anomaly_detection.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a8d703d274585c059c53eb99e50403e39" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionStrategy</name>
+        <qualifiedname>themis::CompressionStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1a8d703d274585c059c53eb99e50403e39a95f9c2f146f04d4ce9fed7eea8c703de" prot="public">
+          <name>Gorilla</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8d703d274585c059c53eb99e50403e39a201d62e73ec2737e69458c7d05f796f3" prot="public">
+          <name>DeltaOfDelta</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8d703d274585c059c53eb99e50403e39a302b8314168ece92512f77202a90a1fd" prot="public">
+          <name>RLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8d703d274585c059c53eb99e50403e39a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Compression strategy that can be applied to a time-series chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>Gorilla : XOR delta-of-delta float encoding; best for floating-point metrics with continuous variation.</para>
+</listitem><listitem><para>DeltaOfDelta : Integer-only DoD encoding; best for monotonically increasing integer counters (e.g. event sequences).</para>
+</listitem><listitem><para>RLE : Run-Length Encoding; best for step-function or constant-value series (e.g. binary state sensors).</para>
+</listitem><listitem><para>None : No compression; raw JSON storage (debugging / tiny series). </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="37" column="1" bodyfile="include/timeseries/compression_selector.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a65f664dde1ed1986adabcb21b2b63bed" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggFunc</name>
+        <qualifiedname>themis::AggFunc</qualifiedname>
+        <enumvalue id="namespacethemis_1a65f664dde1ed1986adabcb21b2b63beda78d811e98514cd165dda532286610fd2" prot="public">
+          <name>Min</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a65f664dde1ed1986adabcb21b2b63beda6a061313d22e51e0f25b7cd4dc065233" prot="public">
+          <name>Max</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a65f664dde1ed1986adabcb21b2b63beda5c0c148daa2c67922abe6018b87a759f" prot="public">
+          <name>Avg</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a65f664dde1ed1986adabcb21b2b63bedaa0ec87054b5e5b7847d0d8780a01a3d5" prot="public">
+          <name>Sum</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a65f664dde1ed1986adabcb21b2b63bedae93f994f01c537c4e2f7d8528c3eb5e9" prot="public">
+          <name>Count</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="30" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a2619708a427005b1cc47755e13a6e3b3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ContinuousAggStatus</name>
+        <qualifiedname>themis::ContinuousAggStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1a2619708a427005b1cc47755e13a6e3b3a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Registered and eligible for refresh. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2619708a427005b1cc47755e13a6e3b3a4d855a061b3066dc14a3b12ed26b5456" prot="public">
+          <name>STALE</name>
+          <briefdescription>
+<para>Watermark is behind to_ms by more than refresh_interval. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2619708a427005b1cc47755e13a6e3b3a6b273343c454f9c53dcfc9c4ccf171d2" prot="public">
+          <name>INACTIVE</name>
+          <briefdescription>
+<para>Manually disabled; skipped during refreshAll(). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Status of a registered continuous aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="264" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="264" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1af3fec8d15013b13e8111c8bcac143303" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GapFillMethod</name>
+        <qualifiedname>themis::GapFillMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1af3fec8d15013b13e8111c8bcac143303a6633bda6a8019da3fdeea254eb22416c" prot="public">
+          <name>ForwardFill</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af3fec8d15013b13e8111c8bcac143303a14517b35b26ed67a34ffd446a9b86e33" prot="public">
+          <name>LinearInterpolation</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af3fec8d15013b13e8111c8bcac143303a89a08c85520deb3ffcadfe07c30bb7f5" prot="public">
+          <name>BackwardFill</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1af3fec8d15013b13e8111c8bcac143303aa53513ea93c8cc5e8dc9c4339cbbce19" prot="public">
+          <name>NullFill</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Strategy for synthesising values at timestamps that have no observed data point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>ForwardFill : LOCF — carry the last known value forward.</para>
+</listitem><listitem><para>LinearInterp : Linear interpolation between the nearest preceding and following known values.</para>
+</listitem><listitem><para>BackwardFill : Carry the next known value backward (NOCB).</para>
+</listitem><listitem><para>NullFill : Insert a point with a configurable constant (default 0). </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="35" column="1" bodyfile="include/timeseries/gap_fill.h" bodystart="35" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1a235e24824e83fe9b0ac9eaa08d320f2b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::kGorillaMagic0</definition>
+        <argsstring></argsstring>
+        <name>kGorillaMagic0</name>
+        <qualifiedname>themis::kGorillaMagic0</qualifiedname>
+        <initializer>= 0x47</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gorilla-style time-series compression for (timestamp_ms, double)</para>
+<para>Implements:<itemizedlist>
+<listitem><para>Timestamps: delta-of-delta encoding with ZigZag + varint</para>
+</listitem><listitem><para>Values: XOR of IEEE-754 double bit patterns with leading/trailing zero optimization</para>
+</listitem></itemizedlist>
+</para>
+<para>Sources:<itemizedlist>
+<listitem><para>Algorithm: Gorilla Time Series Compression</para>
+</listitem><listitem><para>Paper: Pelkonen, T., Franklin, S., et al. (2015) &quot;Gorilla: A Fast, Scalable, In-Memory Time Series Database&quot; Proceedings of the VLDB Endowment, Vol. 8, No. 12</para>
+</listitem><listitem><para>Company: Facebook (Meta)</para>
+</listitem><listitem><para>URL: <ulink url="http://www.vldb.org/pvldb/vol8/p1816-teller.pdf">http://www.vldb.org/pvldb/vol8/p1816-teller.pdf</ulink></para>
+</listitem><listitem><para>Implementation: Custom implementation for ThemisDB based on algorithm description </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="44" column="26" bodyfile="include/timeseries/gorilla.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a17eda8620560f75bb882fa3ba031a313" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::kGorillaMagic1</definition>
+        <argsstring></argsstring>
+        <name>kGorillaMagic1</name>
+        <qualifiedname>themis::kGorillaMagic1</qualifiedname>
+        <initializer>= 0x4F</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="45" column="26" bodyfile="include/timeseries/gorilla.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a278000bff4fbca253df48e002e73ccbc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::kGorillaCurrentVersion</definition>
+        <argsstring></argsstring>
+        <name>kGorillaCurrentVersion</name>
+        <qualifiedname>themis::kGorillaCurrentVersion</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="46" column="26" bodyfile="include/timeseries/gorilla.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1a4d3b8f8add5de78330dad7d908157a35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_series_profile" kindref="compound">SeriesProfile</ref></type>
+        <definition>SeriesProfile themis::profileSeries</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points)</argsstring>
+        <name>profileSeries</name>
+        <qualifiedname>themis::profileSeries</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <briefdescription>
+<para>Compute a <ref refid="structthemis_1_1_series_profile" kindref="compound">SeriesProfile</ref> from a vector of DataPoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Profile Series.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input data points (need not be sorted, but duplicate timestamps are counted as identical value runs). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Computed profile. Returns a zero-initialised profile when <computeroutput>points</computeroutput> is empty or contains a single element.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), reserve(), push_back(), empty(), std::count(), begin(), end(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/compression_selector.cpp" line="30" column="15" bodyfile="src/timeseries/compression_selector.cpp" bodystart="30" bodyend="98" declfile="include/timeseries/compression_selector.h" declline="74" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ab1579bde7c5ba25f63305de45085a60f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_agg_shard_result" kindref="compound">AggShardResult</ref></type>
+        <definition>AggShardResult themis::mergeShardResults</definition>
+        <argsstring>(const std::vector&lt; AggShardResult &gt; &amp;shards)</argsstring>
+        <name>mergeShardResults</name>
+        <qualifiedname>themis::mergeShardResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_agg_shard_result" kindref="compound">AggShardResult</ref> &gt; &amp;</type>
+          <declname>shards</declname>
+        </param>
+        <briefdescription>
+<para>Merge multiple partial shard results into one global result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge Shard Results.</para>
+<para>The coordinator calls this after collecting all shards&apos; AggShardResults. Returns a single <ref refid="structthemis_1_1_agg_shard_result" kindref="compound">AggShardResult</ref> that reflects the global aggregate. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), max(), lowest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/continuous_agg.cpp" line="30" column="16" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="30" bodyend="74" declfile="include/timeseries/continuous_agg.h" declline="88" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a8cc978fcefa8a7fab31f34e4ace62bc6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gorilla_simd_has_avx2</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>gorilla_simd_has_avx2</name>
+        <qualifiedname>themis::gorilla_simd_has_avx2</qualifiedname>
+        <briefdescription>
+<para>Returns true if AVX2 is available on this CPU at runtime (x86-64 only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True on success. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+On all other platforms this always returns false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla_simd.cpp" line="39" column="6" bodyfile="src/timeseries/gorilla_simd.cpp" bodystart="39" bodyend="53" declfile="include/timeseries/gorilla_simd.h" declline="27" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a4a2f1079e69c8450af42a0bdd965bce2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gorilla_simd_has_neon</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>gorilla_simd_has_neon</name>
+        <qualifiedname>themis::gorilla_simd_has_neon</qualifiedname>
+        <briefdescription>
+<para>Returns true if NEON is available at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True on success. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+On ARM64 targets this always returns true; on all other platforms false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla_simd.cpp" line="55" column="6" bodyfile="src/timeseries/gorilla_simd.cpp" bodystart="55" bodyend="61" declfile="include/timeseries/gorilla_simd.h" declline="35" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1aab1035743c799f97771fa6450114a7ca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::writeU32BE</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, uint32_t v)</argsstring>
+        <name>writeU32BE</name>
+        <qualifiedname>themis::writeU32BE</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Write U32 BE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/encrypted_chunk_store.cpp" line="64" column="13" bodyfile="src/timeseries/encrypted_chunk_store.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1affc7d583da1cb0e1e85a82dee00cfff8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::readU32BE</definition>
+        <argsstring>(const uint8_t *p)</argsstring>
+        <name>readU32BE</name>
+        <qualifiedname>themis::readU32BE</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Read U32 BE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements readU32BE without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/encrypted_chunk_store.cpp" line="77" column="17" bodyfile="src/timeseries/encrypted_chunk_store.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ab304c59e04f81aafc15a18e12f1ee88b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::dbl_to_bits</definition>
+        <argsstring>(double v)</argsstring>
+        <name>dbl_to_bits</name>
+        <qualifiedname>themis::dbl_to_bits</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Dbl to bits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla.cpp" line="27" column="24" bodyfile="src/timeseries/gorilla.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a0be24699164f00bbeb8c2890816b71c0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::bits_to_dbl</definition>
+        <argsstring>(uint64_t b)</argsstring>
+        <name>bits_to_dbl</name>
+        <qualifiedname>themis::bits_to_dbl</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Bits to dbl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla.cpp" line="39" column="22" bodyfile="src/timeseries/gorilla.cpp" bodystart="39" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a2dbc23b4bd21135721f3ebfce6d833e1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::clz64</definition>
+        <argsstring>(uint64_t x)</argsstring>
+        <name>clz64</name>
+        <qualifiedname>themis::clz64</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Clz64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), _BitScanReverse64(), __builtin_clzll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla.cpp" line="51" column="19" bodyfile="src/timeseries/gorilla.cpp" bodystart="51" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a15065944316b48a97fe77d0bae11b664" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::ctz64</definition>
+        <argsstring>(uint64_t x)</argsstring>
+        <name>ctz64</name>
+        <qualifiedname>themis::ctz64</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Ctz64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), _BitScanForward64(), __builtin_ctzll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla.cpp" line="70" column="19" bodyfile="src/timeseries/gorilla.cpp" bodystart="70" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1abfa6106b777d18c9315237ea0c091c69" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::bits_to_dbl_simd</definition>
+        <argsstring>(uint64_t b)</argsstring>
+        <name>bits_to_dbl_simd</name>
+        <qualifiedname>themis::bits_to_dbl_simd</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Bits to dbl simd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla_simd.cpp" line="73" column="22" bodyfile="src/timeseries/gorilla_simd.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a33a061a5a4e5b6442406a695ff69b59d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::prefix_sum_i64</definition>
+        <argsstring>(int64_t *arr, size_t n, int64_t seed)</argsstring>
+        <name>prefix_sum_i64</name>
+        <qualifiedname>themis::prefix_sum_i64</qualifiedname>
+        <param>
+          <type>int64_t *</type>
+          <declname>arr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>────────────────────────────────────────────────────────────────────────── Phase 2a: in-place prefix-sum on int64_t array (for timestamps) On exit: arr[i] = seed + arr[0] + arr[1] + … + arr[i] AVX2 path processes 4 × int64_t per iteration using an in-register Kogge-Stone prefix scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">arr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Falls back to scalar on non-AVX2 targets. ────────────────────────────────────────────────────────────────────────── Calls: defined(), _mm256_loadu_si256(), _mm256_setzero_si256(), _mm256_permute4x64_epi64(), _mm256_blend_epi32(), _mm256_add_epi64(), _mm256_permute2x128_si256(), _mm256_set1_epi64x(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla_simd.cpp" line="87" column="13" bodyfile="src/timeseries/gorilla_simd.cpp" bodystart="87" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a5c79f8395e2967664439e375c91723bc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::prefix_xor_u64</definition>
+        <argsstring>(uint64_t *arr, size_t n, uint64_t seed)</argsstring>
+        <name>prefix_xor_u64</name>
+        <qualifiedname>themis::prefix_xor_u64</qualifiedname>
+        <param>
+          <type>uint64_t *</type>
+          <declname>arr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>────────────────────────────────────────────────────────────────────────── Phase 2b: in-place prefix-XOR on uint64_t array (for double bit-patterns) On exit: arr[i] = seed XOR arr[0] XOR arr[1] XOR … XOR arr[i] The XOR operation is associative and commutative; the in-register prefix scan uses the same shift structure as the prefix sum above. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">arr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+────────────────────────────────────────────────────────────────────────── Calls: defined(), _mm256_loadu_si256(), _mm256_setzero_si256(), _mm256_permute4x64_epi64(), _mm256_blend_epi32(), _mm256_xor_si256(), _mm256_permute2x128_si256(), _mm256_set1_epi64x(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/gorilla_simd.cpp" line="169" column="13" bodyfile="src/timeseries/gorilla_simd.cpp" bodystart="169" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a3062b09b23d6fd3a44c1cc83fd17b70b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::nowMs</qualifiedname>
+        <briefdescription>
+<para>Now Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/retention.cpp" line="25" column="16" bodyfile="src/timeseries/retention.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB Time Series Auto-Batching Buffer</para>
+<para>Automatic buffering of single data points for batch compression. Inspired by CEPEngine event buffering and BackpressureProtocol adaptive strategies.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Configurable buffer size and flush intervals</para>
+</listitem><listitem><para>Per-metric:entity buffering</para>
+</listitem><listitem><para>Thread-safe operation</para>
+</listitem><listitem><para>Automatic flush on size/time thresholds</para>
+</listitem><listitem><para>Manual flush support</para>
+</listitem><listitem><para>Integration with existing <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/timeseries/adaptive_flush_controller.h" line="55" column="1"/>
+  </compounddef>
+</doxygen>

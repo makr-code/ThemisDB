@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_columnar_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ColumnarCache::Config</compoundname>
+    <includes refid="columnar__cache_8h" local="no">columnar_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1aa4ea222d653ba2730531e1edd4319454" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnarCache::Config::max_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_bytes</name>
+        <qualifiedname>themis::storage::ColumnarCache::Config::max_bytes</qualifiedname>
+        <initializer>= 256ull * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum total bytes allowed in the cache (eviction threshold). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="176" column="16" bodyfile="include/storage/columnar_cache.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1a15baf2a76597e50b0b3d92595fa76613" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const SegmentKey&amp;)&gt; themis::storage::ColumnarCache::Config::on_evict</definition>
+        <argsstring></argsstring>
+        <name>on_evict</name>
+        <qualifiedname>themis::storage::ColumnarCache::Config::on_evict</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional eviction callback invoked (under no lock) when a segment is evicted. Useful for write-back policies or metrics. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="180" column="23" bodyfile="include/storage/columnar_cache.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1af04fc5d4b2fbf874faa46c7dd08271e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ColumnarCache::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::storage::ColumnarCache::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="182" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/columnar_cache.h" line="174" column="5" bodyfile="include/storage/columnar_cache.h" bodystart="174" bodyend="183"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1af04fc5d4b2fbf874faa46c7dd08271e1" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1aa4ea222d653ba2730531e1edd4319454" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache::Config</scope><name>max_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1a15baf2a76597e50b0b3d92595fa76613" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache::Config</scope><name>on_evict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

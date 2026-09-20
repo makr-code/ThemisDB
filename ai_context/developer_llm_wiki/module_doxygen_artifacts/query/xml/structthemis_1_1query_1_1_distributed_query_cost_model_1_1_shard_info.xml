@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::DistributedQueryCostModel::ShardInfo</compoundname>
+    <includes refid="adaptive__optimizer_8h" local="no">adaptive_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1ab636a349587df2c6974bb726ffdaf2f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::DistributedQueryCostModel::ShardInfo::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::ShardInfo::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="144" column="21" bodyfile="include/query/adaptive_optimizer.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1aa5e0467ba924fa1c0c701def94212b6a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::DistributedQueryCostModel::ShardInfo::estimated_rows</definition>
+        <argsstring></argsstring>
+        <name>estimated_rows</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::ShardInfo::estimated_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="145" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1a102de6cd5ca2437a1a6ecbf06fdacc01" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DistributedQueryCostModel::ShardInfo::network_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>network_latency_ms</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::ShardInfo::network_latency_ms</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="146" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1a9dcd383679e0602b5b6e76ca8c091c45" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::DistributedQueryCostModel::ShardInfo::is_local</definition>
+        <argsstring></argsstring>
+        <name>is_local</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::ShardInfo::is_local</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="147" column="14" bodyfile="include/query/adaptive_optimizer.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_optimizer.h" line="143" column="5" bodyfile="include/query/adaptive_optimizer.h" bodystart="143" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1aa5e0467ba924fa1c0c701def94212b6a" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel::ShardInfo</scope><name>estimated_rows</name></member>
+      <member refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1a9dcd383679e0602b5b6e76ca8c091c45" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel::ShardInfo</scope><name>is_local</name></member>
+      <member refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1a102de6cd5ca2437a1a6ecbf06fdacc01" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel::ShardInfo</scope><name>network_latency_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1ab636a349587df2c6974bb726ffdaf2f2" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel::ShardInfo</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

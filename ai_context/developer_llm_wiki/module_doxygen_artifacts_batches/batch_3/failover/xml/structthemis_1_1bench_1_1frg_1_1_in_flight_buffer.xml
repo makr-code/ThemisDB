@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::frg::InFlightBuffer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a868422a650dc3d5cb438f0470b037c0a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::bench::frg::InFlightBuffer::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::bench::frg::InFlightBuffer::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="147" column="17" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a865bc0409bc11233da10f1eedb712ab4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::frg::InFlightBuffer::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::bench::frg::InFlightBuffer::capacity</qualifiedname>
+        <initializer>{kBufSize}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="148" column="30" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="148" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a2e5bb76b56e20b031c05e1c0182e9b51" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::frg::InFlightBuffer::hasRoom</definition>
+        <argsstring>(std::size_t n=1) const noexcept</argsstring>
+        <name>hasRoom</name>
+        <qualifiedname>themis::bench::frg::InFlightBuffer::hasRoom</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="150" column="10" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="146" column="1" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="146" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a865bc0409bc11233da10f1eedb712ab4" prot="public" virt="non-virtual"><scope>themis::bench::frg::InFlightBuffer</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a868422a650dc3d5cb438f0470b037c0a" prot="public" virt="non-virtual"><scope>themis::bench::frg::InFlightBuffer</scope><name>count</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a2e5bb76b56e20b031c05e1c0182e9b51" prot="public" virt="non-virtual"><scope>themis::bench::frg::InFlightBuffer</scope><name>hasRoom</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

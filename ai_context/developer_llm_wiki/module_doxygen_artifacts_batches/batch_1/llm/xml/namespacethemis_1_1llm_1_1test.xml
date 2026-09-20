@@ -1,0 +1,1314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::llm::test</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_atomic_data_guard" prot="public">themis::llm::test::AtomicDataGuard</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache" prot="public">themis::llm::test::ContentionAwareCache</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool" prot="public">themis::llm::test::DBConnectionPool</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_exception_safe_resource" prot="public">themis::llm::test::ExceptionSafeResource</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool" prot="public">themis::llm::test::GPUMemoryPool</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_movable_resource" prot="public">themis::llm::test::MovableResource</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager" prot="public">themis::llm::test::NestedResourceManager</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" prot="public">themis::llm::test::NVFP4QuantizationTest</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_r_a_i_i_resource_wrapper" prot="public">themis::llm::test::RAIIResourceWrapper</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper" prot="public">themis::llm::test::SafeDeleteWrapper</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_thread_safe_cache" prot="public">themis::llm::test::ThreadSafeCache</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a89b89567bca8cd1de5a3462f293dbeb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_01_RAIIResourceCleanup)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_01_RAIIResourceCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="42" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="42" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a9c71b49007637bd9ad9a12ea8cf2368f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_02_GPUMemoryLeakDetection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_02_GPUMemoryLeakDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="94" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a9c762608cc5cab975dbc6c4d5e155c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_03_DBConnectionLeakDetection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_03_DBConnectionLeakDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="142" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="142" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a2bc378d7b1c33a20b7d15c7ba1fd0738" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_04_ExceptionSafeDestructor)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_04_ExceptionSafeDestructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="171" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="171" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ac1b80763d3a34d7bd844a5c85deaa0aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_05_SafeDeleteWithNullptrCheck)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_05_SafeDeleteWithNullptrCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="198" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="198" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a714322ad2d75cdce409b53d8d9616426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_06_LockOrderingDeadlockPrevention)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_06_LockOrderingDeadlockPrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="239" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="239" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a00a22b391c7a2250d38618094767f83e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_07_AtomicMemoryOrder)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_07_AtomicMemoryOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="266" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="266" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a5b3aa90841643fce591a0407ec61bf65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_08_MoveSemanticsNonDoubleDelete)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_08_MoveSemanticsNonDoubleDelete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="312" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="312" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1afe8bc4f517a567862e56e0f7bf35fab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_09_NestedResourceManagement)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_09_NestedResourceManagement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="355" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="355" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1aedaf69f4ef6b36164071240d50eebc0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_10_CacheEvictionLockContention)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_10_CacheEvictionLockContention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="398" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="398" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a03cbc7eeeae0fbc7460052de1dc4ce3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_11_ConcurrentAllocationDeallocation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_11_ConcurrentAllocationDeallocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="416" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="416" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a8139aeab06a2b0c719eca95880ef6e14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_12_ResourceAcquisitionReleasePattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_12_ResourceAcquisitionReleasePattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="435" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="435" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a5890cf30a6cb5c226a93ce4f3b56a015" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_13_ExceptionSafetyGuarantee)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_13_ExceptionSafetyGuarantee</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="447" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="447" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1adab3464f56241623f16966a4e4740f07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_14_SharedPtrCircularReferencePrevention)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_14_SharedPtrCircularReferencePrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="454" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="454" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a1af13096919f8c48d31716beee03cd40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_15_VectorReserveToAvoidReallocation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_15_VectorReserveToAvoidReallocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="470" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="470" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a7b10cead51886a217e3a5f113e7eb68b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_16_SmartPtrUniquePtrVsSharedPtr)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_16_SmartPtrUniquePtrVsSharedPtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="482" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="482" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a3e2d255f69d89a2108c3b7cada0215ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_17_QuotaGuardReleaseOnScopeExit)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_17_QuotaGuardReleaseOnScopeExit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="502" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="502" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1abd67ed332d0eadfc7f82436ac04f8c55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_18_MultipleQuotaGuardsSequence)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_18_MultipleQuotaGuardsSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="516" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="516" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a1c8001023e4ec21f8bc2bc3c3c6c4348" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_19_BatchGuardExceptionSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_19_BatchGuardExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="532" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="532" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a5d75694ab9d02d9b85fe14fb9bae61b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_20_ConcurrentQuotaAcquisition)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_20_ConcurrentQuotaAcquisition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="548" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="548" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1abbad2d31d45a2ce2b73f255554159c48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_21_ThreadSafeCounterIncrement)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_21_ThreadSafeCounterIncrement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="569" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="569" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a64d15a666b4e3f52e4ead8a1990c6371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_22_BatchGuardMoveSemantics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_22_BatchGuardMoveSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="587" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="587" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a9ffe7aa1635008f0b34c5b7b70a3e0d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_23_QuotaGuardZeroAmount)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_23_QuotaGuardZeroAmount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="603" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="603" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ab338fd649381af6cbf89d1da475a8df7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_24_ThreadCounterMixedOps)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_24_ThreadCounterMixedOps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="616" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="616" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ad9dc9f6b087baa9d37fd0c32b1869cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_25_BatchGuardMultipleAcquisitions)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_25_BatchGuardMultipleAcquisitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="640" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="640" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a78e557630ba4b74b39a37e7eda15f3ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_26_QuotaPartialConsumption)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_26_QuotaPartialConsumption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="660" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="660" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ad046bc17805fdfb336d1d1083460d8b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_27_CounterMemoryOrdering)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_27_CounterMemoryOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="677" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="677" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1aa704cd6874df10fe85c2bc7543af9735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, MEM_28_BatchQuotaCombinedExceptionSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>MEM_28_BatchQuotaCombinedExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="695" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="695" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a1d3c685e9a6497df732fe50d875e830a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_01_ModelLoadSuccessfulCleanup)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_01_ModelLoadSuccessfulCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="720" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="720" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a647316f60d7fc0a657dcac8384baf33d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_02_ModelLoadFailure)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_02_ModelLoadFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="734" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="734" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ac302b92847fefd479f0bd99028568d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_03_ModelUnloadIdempotency)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_03_ModelUnloadIdempotency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="747" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="747" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1abe1a1b516403d1543522b906749743eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_04_DoubleUnloadPrevention)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_04_DoubleUnloadPrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="765" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="765" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a9caf503eb6b8d7a2d44e54debac251b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_05_ExceptionDuringDestruction)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_05_ExceptionDuringDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="783" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="783" bodyend="797"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1aad19e240bd15352562300fe0616b36f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_06_StrongExceptionGuarantee)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_06_StrongExceptionGuarantee</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="800" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="800" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ac646210de718c3427708b2ed21d69880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_07_BasicExceptionGuarantee)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_07_BasicExceptionGuarantee</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="823" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="823" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ab57691557bcbf58e484d5f0f1611763b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_08_AdapterSequence)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_08_AdapterSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="846" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="846" bodyend="870"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1af153aed006f3ec42807ca74c74cdacd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_09_ModelLoadResourceAcquisition)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_09_ModelLoadResourceAcquisition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="873" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="873" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a614c45d188f8cf639b5573d4488b0371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_10_ConstructorCleanupOnException)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_10_ConstructorCleanupOnException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="893" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="893" bodyend="908"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a3f20577019edc275263af807fda49939" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_11_PartialLoadConsistency)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_11_PartialLoadConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="911" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="911" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a04c51f5521423fab30efefe6040f9746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_12_PluginRAII)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_12_PluginRAII</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="931" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="931" bodyend="943"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1af1aa2d85975ca04fa37aa1d587e240a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_13_ModelCacheException)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_13_ModelCacheException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="946" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="946" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a48f29fe328a7b5b6ddef566a2efde48a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_14_ShutdownUnderException)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_14_ShutdownUnderException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="958" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="958" bodyend="973"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a8526a9d34d1846460003302cfb995d4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_15_ConcurrentLoadExceptionSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_15_ConcurrentLoadExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="976" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="976" bodyend="991"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1abe60fb94a37e9198a3b18c311030c170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_16_ParameterUpdateRollback)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_16_ParameterUpdateRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="994" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="994" bodyend="1019"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a4c7abf1ef425533f7e450246e5e7b8c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_17_ModelReloadSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_17_ModelReloadSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1022" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1022" bodyend="1035"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1af7cafb33d5f58c86f1eadb69bdad69e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_18_AdapterMethodException)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_18_AdapterMethodException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1038" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1038" bodyend="1047"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a104641321e2fd4b36cd8feb9deaf3bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_19_MultipleCleanupSteps)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_19_MultipleCleanupSteps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1050" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1050" bodyend="1066"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a8e97a3ec94ff83a860a9b471353dba8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_20_SharedResourceException)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_20_SharedResourceException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1069" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1069" bodyend="1079"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ac4cc51a6229acf0d3975fb65931a56e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_21_LoadWithValidation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_21_LoadWithValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1082" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1082" bodyend="1097"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a6d52d250405a91affd6192c9b30055bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_22_PluginUnloadDependencies)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_22_PluginUnloadDependencies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1100" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1100" bodyend="1112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a5f42fc4a3fc06949c811dc2cb6759570" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_23_StateAfterFailedInit)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_23_StateAfterFailedInit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1115" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1115" bodyend="1135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a90b2dde94f5d2693ea0eebfd80c1315d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_24_ConcurrentAccessException)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_24_ConcurrentAccessException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1138" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1138" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a3f941df71893ad17e73ce2e738fe8091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST</definition>
+        <argsstring>(MemorySafetyHardening, EXS_25_CompleteLifecycleExceptionSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::llm::test::TEST</qualifiedname>
+        <param>
+          <type>MemorySafetyHardening</type>
+        </param>
+        <param>
+          <type>EXS_25_CompleteLifecycleExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="1160" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="1160" bodyend="1187"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, RoundTripAccuracyRandomData)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>RoundTripAccuracyRandomData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000220"><xreftitle>Test</xreftitle><xrefdescription><para>NVFP4 Quantization: Round-trip accuracy with random data</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that quantizing and dequantizing KV data preserves values within tolerance. Gate P2-GATE-01: Accuracy delta ≤ 1% vs FP16 baseline </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="129" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="129" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1aef2ad87a9dfdfaf32e07d73aef353c13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, NVFP4VsFP16AccuracyDelta)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>NVFP4VsFP16AccuracyDelta</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000221"><xreftitle>Test</xreftitle><xrefdescription><para>NVFP4 vs FP16 accuracy comparison</para>
+</xrefdescription></xrefsect></para>
+<para>Compares accuracy of NVFP4 quantization against FP16 baseline. Gate P2-GATE-01: NVFP4 accuracy delta ≤ 1% vs FP16 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="162" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="162" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a5aebd9741a91cc1ec13ff3d45f812136" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, INT8QuantizationAccuracy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>INT8QuantizationAccuracy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000222"><xreftitle>Test</xreftitle><xrefdescription><para>INT8 quantization: Per-channel quantization accuracy</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies INT8 quantization with scale/zero-point parameters. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="192" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="192" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ac2020aea4b925f0ce5e47adce342bc00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, CompressionFactorVerification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>CompressionFactorVerification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000223"><xreftitle>Test</xreftitle><xrefdescription><para>Compression factor verification</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that compression factors match theoretical expectations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="220" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="220" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ac7a4942b1fbedf82f3e34b38f919063b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, ExpectedAccuracyTargets)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>ExpectedAccuracyTargets</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000224"><xreftitle>Test</xreftitle><xrefdescription><para>Expected accuracy values match phase gates</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that expected accuracy targets align with Phase 2 requirements. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="240" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="240" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1aca39a326cfea8a42698c528b273ec84a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, NVFP4EdgeCases)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>NVFP4EdgeCases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000225"><xreftitle>Test</xreftitle><xrefdescription><para>NVFP4 quantization with zero and extreme values</para>
+</xrefdescription></xrefsect></para>
+<para>Edge case testing: verifies quantization handles zero, negative, and extreme values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="259" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="259" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a8de74c93fa5ab5bf6f0564d66504754e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, BatchQuantizationPerformance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>BatchQuantizationPerformance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000226"><xreftitle>Test</xreftitle><xrefdescription><para>Batch quantization with multiple sequences</para>
+</xrefdescription></xrefsect></para>
+<para>Tests quantization performance on batched KV data (multiple sequences in parallel). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="302" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="302" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1af41ac8c274a88af2d9047c86c241363b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, NumericStabilityMultipleCycles)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>NumericStabilityMultipleCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000227"><xreftitle>Test</xreftitle><xrefdescription><para>NVFP4 quantization numeric stability</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that repeated quantize/dequantize cycles maintain stability. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="338" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="338" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a829c1db54bfa1cf5ed98746e6ac8311b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, EmptyDataHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyDataHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000228"><xreftitle>Test</xreftitle><xrefdescription><para>Empty data handling</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies quantization gracefully handles empty inputs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="361" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="361" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ae76e06e424b624df3ccc9fa81836854e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(NVFP4QuantizationTest, MemoryFootprintGateP2GATE04)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryFootprintGateP2GATE04</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000229"><xreftitle>Test</xreftitle><xrefdescription><para>Memory footprint validation for P2-GATE-04</para>
+</xrefdescription></xrefsect></para>
+<para>Validates VRAM footprint reduction: NVFP4 ≤ 55% of FP16 footprint. This is the gate requirement from the Phase 2 specification. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="384" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="384" bodyend="409"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

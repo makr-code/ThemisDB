@@ -1,0 +1,670 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__safe__operations_8h" kind="file" language="C++">
+    <compoundname>gpu_safe_operations.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstring</includes>
+    <includedby refid="bench__gpu__a8__baselines_8cpp" local="yes">benchmarks/gpu/bench_gpu_a8_baselines.cpp</includedby>
+    <includedby refid="gpu__safe__operations_8cpp" local="yes">src/gpu/gpu_safe_operations.cpp</includedby>
+    <includedby refid="test__gpu__chaos__fault__injection_8cpp" local="yes">tests/gpu/test_gpu_chaos_fault_injection.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/gpu/gpu_safe_operations.h</label>
+        <link refid="gpu__safe__operations_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstring</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/gpu/bench_gpu_a8_baselines.cpp</label>
+        <link refid="bench__gpu__a8__baselines_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/gpu/gpu_safe_operations.h</label>
+        <link refid="gpu__safe__operations_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/gpu/gpu_safe_operations.cpp</label>
+        <link refid="gpu__safe__operations_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/gpu/test_gpu_chaos_fault_injection.cpp</label>
+        <link refid="test__gpu__chaos__fault__injection_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_cuda_error" prot="public">themis::gpu::CudaError</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_cuda_device_memory" prot="public">themis::gpu::CudaDeviceMemory</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_cuda_stream_guard" prot="public">themis::gpu::CudaStreamGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_kernel_execution_guard" prot="public">themis::gpu::KernelExecutionGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="gpu__safe__operations_8h_1a42181f14c97d860a88677b293e862303" prot="public" static="no">
+        <name>THEMIS_GPU_SAFE_OPS_HAS_CUDA</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="26" column="9" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" prot="public" static="no">
+        <name>CUDA_CHECK</name>
+        <param><defname>call</defname></param>
+        <initializer>do { \
+    <ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref> err = (call); \
+    if (err != <ref refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>) { \
+        throw <ref refid="classthemis_1_1gpu_1_1_cuda_error" kindref="compound">::themis::gpu::CudaError</ref>( \
+            #call, \
+            err, \
+            __FILE__, \
+            __LINE__ \
+        ); \
+    } \
+} while(0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="81" column="9" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="81" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="define" id="gpu__safe__operations_8h_1a5ca9f09c06e6ea7520f7fb22076ee620" prot="public" static="no">
+        <name>CUDA_CHECK_NOTHROW</name>
+        <param><defname>call</defname></param>
+        <initializer>((call))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="94" column="9" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="gpu__safe__operations_8h_1a17334a718f9e33ac9e3b937c3212c492" prot="public" static="no">
+        <type>void *</type>
+        <definition>using cudaStream_t = void*</definition>
+        <argsstring></argsstring>
+        <name>cudaStream_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="28" column="1" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaSuccess</definition>
+        <argsstring></argsstring>
+        <name>cudaSuccess</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="29" column="23" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="gpu__safe__operations_8h_1afc794266fd49407ed22b55dab2af95d7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaErrorNotReady</definition>
+        <argsstring></argsstring>
+        <name>cudaErrorNotReady</name>
+        <initializer>= 34</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="30" column="23" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="gpu__safe__operations_8h_1af8527596f3ce97144201ae79ee89874f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaErrorMemoryAllocation</definition>
+        <argsstring></argsstring>
+        <name>cudaErrorMemoryAllocation</name>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="31" column="23" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="gpu__safe__operations_8h_1a3a93b37c71854e741fdd71bf3fa77712" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaErrorInvalidConfiguration</definition>
+        <argsstring></argsstring>
+        <name>cudaErrorInvalidConfiguration</name>
+        <initializer>= 9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="32" column="23" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="gpu__safe__operations_8h_1aa82b43834276a0dcc94a1108998304d4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaErrorInvalidValue</definition>
+        <argsstring></argsstring>
+        <name>cudaErrorInvalidValue</name>
+        <initializer>= 11</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="33" column="23" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="gpu__safe__operations_8h_1a795d244edd557dd54efbb3f01a2dffcf" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned cudaStreamDefault</definition>
+        <argsstring></argsstring>
+        <name>cudaStreamDefault</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="34" column="20" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * cudaGetErrorString</definition>
+        <argsstring>(cudaError_t) noexcept</argsstring>
+        <name>cudaGetErrorString</name>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="36" column="19" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaSetDevice</definition>
+        <argsstring>(int) noexcept</argsstring>
+        <name>cudaSetDevice</name>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="40" column="20" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="gpu__safe__operations_8h_1a4ecdf944440947b7052c1b8fd828e74f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaMalloc</definition>
+        <argsstring>(void **, size_t) noexcept</argsstring>
+        <name>cudaMalloc</name>
+        <param>
+          <type>void **</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="44" column="20" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="gpu__safe__operations_8h_1a25725b6e9e9f62029a772cc453c55387" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaFree</definition>
+        <argsstring>(void *) noexcept</argsstring>
+        <name>cudaFree</name>
+        <param>
+          <type>void *</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="48" column="20" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="gpu__safe__operations_8h_1ad2dda0671b0ea6cb7e2c090418af4b3e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaStreamCreateWithPriority</definition>
+        <argsstring>(cudaStream_t *, unsigned, int) noexcept</argsstring>
+        <name>cudaStreamCreateWithPriority</name>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref> *</type>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="52" column="20" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="gpu__safe__operations_8h_1a7b94bb4f69a97366d9211b97c3202ea6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaStreamDestroy</definition>
+        <argsstring>(cudaStream_t) noexcept</argsstring>
+        <name>cudaStreamDestroy</name>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="56" column="20" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="gpu__safe__operations_8h_1a7c464c3a31e4323c2485f1a716fbddf3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaStreamSynchronize</definition>
+        <argsstring>(cudaStream_t) noexcept</argsstring>
+        <name>cudaStreamSynchronize</name>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="60" column="20" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="gpu__safe__operations_8h_1a7e4f1241fc60f826093cb16e172a26cd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaStreamQuery</definition>
+        <argsstring>(cudaStream_t) noexcept</argsstring>
+        <name>cudaStreamQuery</name>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="64" column="20" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="64" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrappers, error handling macros, and fail-closed patterns for GPU operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-16</para>
+</simplesect>
+Wave A-8 GPU hardening: implements fail-closed error handling, resource lifecycle guarantees (RAII), and kernel timeout enforcement with automatic CPU fallback.</para>
+<para>All CUDA operations use CUDA_CHECK or explicit error handling to prevent unchecked CUDA call exposure (Phase C target: reduce 340 → 170 calls).</para>
+<para><simplesect kind="see"><para>src/gpu/ROADMAP.md § Wave A Scope for gpu </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_ENABLE_CUDA)<sp/>&amp;&amp;<sp/>THEMIS_ENABLE_CUDA<sp/>&amp;&amp;<sp/>defined(__has_include)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&lt;cuda_runtime.h&gt;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cuda_runtime.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_GPU_SAFE_OPS_HAS_CUDA<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_GPU_SAFE_OPS_HAS_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="gpu__safe__operations_8h_1a42181f14c97d860a88677b293e862303" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_GPU_SAFE_OPS_HAS_CUDA<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>=<sp/>int;</highlight></codeline>
+<codeline lineno="28" refid="gpu__safe__operations_8h_1a17334a718f9e33ac9e3b937c3212c492" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref><sp/>=<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*;</highlight></codeline>
+<codeline lineno="29" refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="30" refid="gpu__safe__operations_8h_1afc794266fd49407ed22b55dab2af95d7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1afc794266fd49407ed22b55dab2af95d7" kindref="member">cudaErrorNotReady</ref><sp/>=<sp/>34;</highlight></codeline>
+<codeline lineno="31" refid="gpu__safe__operations_8h_1af8527596f3ce97144201ae79ee89874f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1af8527596f3ce97144201ae79ee89874f" kindref="member">cudaErrorMemoryAllocation</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="32" refid="gpu__safe__operations_8h_1a3a93b37c71854e741fdd71bf3fa77712" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1a3a93b37c71854e741fdd71bf3fa77712" kindref="member">cudaErrorInvalidConfiguration</ref><sp/>=<sp/>9;</highlight></codeline>
+<codeline lineno="33" refid="gpu__safe__operations_8h_1aa82b43834276a0dcc94a1108998304d4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1aa82b43834276a0dcc94a1108998304d4" kindref="member">cudaErrorInvalidValue</ref><sp/>=<sp/>11;</highlight></codeline>
+<codeline lineno="34" refid="gpu__safe__operations_8h_1a795d244edd557dd54efbb3f01a2dffcf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="gpu__safe__operations_8h_1a795d244edd557dd54efbb3f01a2dffcf" kindref="member">cudaStreamDefault</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString</ref>(<ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CUDA<sp/>runtime<sp/>unavailable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" kindref="member">cudaSetDevice</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="gpu__safe__operations_8h_1a4ecdf944440947b7052c1b8fd828e74f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1a4ecdf944440947b7052c1b8fd828e74f" kindref="member">cudaMalloc</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">**,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="gpu__safe__operations_8h_1a25725b6e9e9f62029a772cc453c55387" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1a25725b6e9e9f62029a772cc453c55387" kindref="member">cudaFree</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="gpu__safe__operations_8h_1ad2dda0671b0ea6cb7e2c090418af4b3e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1ad2dda0671b0ea6cb7e2c090418af4b3e" kindref="member">cudaStreamCreateWithPriority</ref>(<ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref>*,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="gpu__safe__operations_8h_1a7b94bb4f69a97366d9211b97c3202ea6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1a7b94bb4f69a97366d9211b97c3202ea6" kindref="member">cudaStreamDestroy</ref>(<ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="gpu__safe__operations_8h_1a7c464c3a31e4323c2485f1a716fbddf3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1a7c464c3a31e4323c2485f1a716fbddf3" kindref="member">cudaStreamSynchronize</ref>(<ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="gpu__safe__operations_8h_1a7e4f1241fc60f826093cb16e172a26cd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__safe__operations_8h_1a7e4f1241fc60f826093cb16e172a26cd" kindref="member">cudaStreamQuery</ref>(<ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CUDA<sp/>Error<sp/>Handling<sp/>Macros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CUDA_CHECK(call)<sp/>\</highlight></codeline>
+<codeline lineno="82"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>do<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="83"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cudaError_t<sp/>err<sp/>=<sp/>(call);<sp/>\</highlight></codeline>
+<codeline lineno="84"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(err<sp/>!=<sp/>cudaSuccess)<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="85"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>throw<sp/>::themis::gpu::CudaError(<sp/>\</highlight></codeline>
+<codeline lineno="86"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#call,<sp/>\</highlight></codeline>
+<codeline lineno="87"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>err,<sp/>\</highlight></codeline>
+<codeline lineno="88"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__FILE__,<sp/>\</highlight></codeline>
+<codeline lineno="89"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__LINE__<sp/>\</highlight></codeline>
+<codeline lineno="90"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);<sp/>\</highlight></codeline>
+<codeline lineno="91"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="92"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}<sp/>while(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="gpu__safe__operations_8h_1a5ca9f09c06e6ea7520f7fb22076ee620" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CUDA_CHECK_NOTHROW(call)<sp/>((call))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Custom<sp/>Exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1gpu_1_1_cuda_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_cuda_error_1af2afef8ce8c94200f998779247a5cf07" kindref="member">CudaError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1gpu_1_1_cuda_error_1af2afef8ce8c94200f998779247a5cf07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_error_1af2afef8ce8c94200f998779247a5cf07" kindref="member">CudaError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>call_str,<sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>err,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>file,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(build_message(call_str,<sp/>err,<sp/>file,<sp/>line)),</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error_code_(err)<sp/>{}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1gpu_1_1_cuda_error_1a41e188762cc8e3a1248ca5408c72310e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_error_1a41e188762cc8e3a1248ca5408c72310e" kindref="member">error_code</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_code_;<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>error_code_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>build_message(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>call_str,<sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>err,<sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>file,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA<sp/>error<sp/>at<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/>file;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/>std::to_string(line);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>in<sp/>call:<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/>call_str;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>-&gt;<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/><ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString</ref>(err);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>msg;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII<sp/>Wrappers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1gpu_1_1_cuda_device_memory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a51002605c7d32e7338b3d91e7c157ead" kindref="member">size</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1af9c071c1dfb39fba9008af8dd71866bd" kindref="member">device_id</ref><sp/>=<sp/>0)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>device_ptr_(nullptr),<sp/>size_(<ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a51002605c7d32e7338b3d91e7c157ead" kindref="member">size</ref>),<sp/>device_id_(<ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1af9c071c1dfb39fba9008af8dd71866bd" kindref="member">device_id</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a51002605c7d32e7338b3d91e7c157ead" kindref="member">size</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;CudaDeviceMemory<sp/>size<sp/>must<sp/>be<sp/>&gt;<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1af9c071c1dfb39fba9008af8dd71866bd" kindref="member">device_id</ref><sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;device_id<sp/>must<sp/>be<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK</ref>(<ref refid="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" kindref="member">cudaSetDevice</ref>(<ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1af9c071c1dfb39fba9008af8dd71866bd" kindref="member">device_id</ref>));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK</ref>(<ref refid="gpu__safe__operations_8h_1a4ecdf944440947b7052c1b8fd828e74f" kindref="member">cudaMalloc</ref>(&amp;device_ptr_,<sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a51002605c7d32e7338b3d91e7c157ead" kindref="member">size</ref>));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a65e67842f7a101837108a54f111a85e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a65e67842f7a101837108a54f111a85e2" kindref="member">~CudaDeviceMemory</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(device_ptr_)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ignore<sp/>errors<sp/>during<sp/>cleanup<sp/>to<sp/>avoid<sp/>exceptions<sp/>in<sp/>destructors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" kindref="member">cudaSetDevice</ref>(device_id_);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a25725b6e9e9f62029a772cc453c55387" kindref="member">cudaFree</ref>(device_ptr_);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>constructor<sp/>and<sp/>copy<sp/>assignment<sp/>(no<sp/>shallow<sp/>copies).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a88681a685ee57197dc2532ac01bcd98a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a88681a685ee57197dc2532ac01bcd98a" kindref="member">CudaDeviceMemory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1afc632e6b041beec21414bf81f3b84638" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1afc632e6b041beec21414bf81f3b84638" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ad39cded8d5319f6236936e3ca05426d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ad39cded8d5319f6236936e3ca05426d6" kindref="member">CudaDeviceMemory</ref>(<ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref>&amp;&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>device_ptr_(other.device_ptr_),<sp/>size_(other.size_),<sp/>device_id_(other.device_id_)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.device_ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.size_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a11f5d0d71ced89e73619da14bf5268a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a11f5d0d71ced89e73619da14bf5268a0" kindref="member">operator=</ref>(<ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>!=<sp/>&amp;other)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up<sp/>existing<sp/>memory.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(device_ptr_)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" kindref="member">cudaSetDevice</ref>(device_id_);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a25725b6e9e9f62029a772cc453c55387" kindref="member">cudaFree</ref>(device_ptr_);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Take<sp/>ownership<sp/>of<sp/>other&apos;s<sp/>memory.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>device_ptr_<sp/>=<sp/>other.device_ptr_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size_<sp/>=<sp/>other.size_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>device_id_<sp/>=<sp/>other.device_id_;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.device_ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.size_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a758d5340065e94bc048fb6ec573d4597" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a758d5340065e94bc048fb6ec573d4597" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>device_ptr_;<sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a51002605c7d32e7338b3d91e7c157ead" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a51002605c7d32e7338b3d91e7c157ead" kindref="member">size</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>size_;<sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1af9c071c1dfb39fba9008af8dd71866bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1af9c071c1dfb39fba9008af8dd71866bd" kindref="member">device_id</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>device_id_;<sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a694a636efeb16bd2110bd72d3a660c64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a694a636efeb16bd2110bd72d3a660c64" kindref="member">release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/>device_ptr_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>device_ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ptr;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>device_ptr_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">CudaStreamGuard<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a63434ebb3d93d4b09133ea5e623a40fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a63434ebb3d93d4b09133ea5e623a40fc" kindref="member">CudaStreamGuard</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id<sp/>=<sp/>0,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>priority<sp/>=<sp/>0)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>device_id_(device_id),<sp/>stream_(nullptr)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(device_id<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;device_id<sp/>must<sp/>be<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK</ref>(<ref refid="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" kindref="member">cudaSetDevice</ref>(device_id));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK</ref>(<ref refid="gpu__safe__operations_8h_1ad2dda0671b0ea6cb7e2c090418af4b3e" kindref="member">cudaStreamCreateWithPriority</ref>(&amp;stream_,<sp/><ref refid="gpu__safe__operations_8h_1a795d244edd557dd54efbb3f01a2dffcf" kindref="member">cudaStreamDefault</ref>,<sp/>priority));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1aa5eb25ef3ce4129c802dc1f618f6e4a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1aa5eb25ef3ce4129c802dc1f618f6e4a7" kindref="member">~CudaStreamGuard</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(stream_)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" kindref="member">cudaSetDevice</ref>(device_id_);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a7b94bb4f69a97366d9211b97c3202ea6" kindref="member">cudaStreamDestroy</ref>(stream_);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>operations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a77d0f1aa5683a237a4e3c596e1d8ec99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a77d0f1aa5683a237a4e3c596e1d8ec99" kindref="member">CudaStreamGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a93a50f9bafa5cb5af3549151f5a8b3e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref>&amp;<sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a93a50f9bafa5cb5af3549151f5a8b3e0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a7101df084792229cbdac90a5c6d4dc9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a7101df084792229cbdac90a5c6d4dc9e" kindref="member">CudaStreamGuard</ref>(<ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref>&amp;&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>device_id_(other.device_id_),<sp/>stream_(other.stream_)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.stream_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a6c0a3cf45123b28d62b9f3b399192954" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref>&amp;<sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a6c0a3cf45123b28d62b9f3b399192954" kindref="member">operator=</ref>(<ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>!=<sp/>&amp;other)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(stream_)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a1b3adcb33438a29b52b456a605f799ea" kindref="member">cudaSetDevice</ref>(device_id_);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a7b94bb4f69a97366d9211b97c3202ea6" kindref="member">cudaStreamDestroy</ref>(stream_);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>device_id_<sp/>=<sp/>other.device_id_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream_<sp/>=<sp/>other.stream_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.stream_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1af65b9a51be44d09937129d71d2b68fde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1af65b9a51be44d09937129d71d2b68fde" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stream_;<sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1acc1e28b936b44bae8fa59de22dae2878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1acc1e28b936b44bae8fa59de22dae2878" kindref="member">synchronize</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(stream_)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK</ref>(<ref refid="gpu__safe__operations_8h_1a7c464c3a31e4323c2485f1a716fbddf3" kindref="member">cudaStreamSynchronize</ref>(stream_));</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a02f6e3199dc62f78602b79ac482a7448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a02f6e3199dc62f78602b79ac482a7448" kindref="member">is_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!stream_)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>err<sp/>=<sp/><ref refid="gpu__safe__operations_8h_1a7e4f1241fc60f826093cb16e172a26cd" kindref="member">cudaStreamQuery</ref>(stream_);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>err<sp/>==<sp/><ref refid="gpu__safe__operations_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref><sp/>stream_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="classthemis_1_1gpu_1_1_kernel_execution_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a1992073e62636fdf79b480c8dc1e9679" kindref="member">KernelExecutionGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="273" refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a1992073e62636fdf79b480c8dc1e9679" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a1992073e62636fdf79b480c8dc1e9679" kindref="member">KernelExecutionGuard</ref>(uint64_t<sp/>timeout_ms<sp/>=<sp/>5000)</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>timeout_ms_(timeout_ms),<sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start_time_(std::chrono::high_resolution_clock::now()),</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cpu_fallback_triggered_(false)<sp/>{}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a39fd0a8011acc087669915b10e026e05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a39fd0a8011acc087669915b10e026e05" kindref="member">has_timed_out</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(timeout_ms_<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>timeout<sp/>configured.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::high_resolution_clock::now()<sp/>-<sp/>start_time_;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1af95a2846fd1c90e7a45e26173d620610" kindref="member">elapsed_ms</ref><sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(elapsed).count();</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1af95a2846fd1c90e7a45e26173d620610" kindref="member">elapsed_ms</ref><sp/>&gt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(timeout_ms_);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287" refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1af74a85b3109f7f5352e8ec0c045a5d5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1af74a85b3109f7f5352e8ec0c045a5d5c" kindref="member">trigger_cpu_fallback</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cpu_fallback_triggered_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a9a592db3c99bc658fcbae64f137e88f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a9a592db3c99bc658fcbae64f137e88f0" kindref="member">is_cpu_fallback_triggered</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cpu_fallback_triggered_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1af95a2846fd1c90e7a45e26173d620610" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1af95a2846fd1c90e7a45e26173d620610" kindref="member">elapsed_ms</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::high_resolution_clock::now()<sp/>-<sp/>start_time_;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(elapsed).count();</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>timeout_ms_;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::time_point<sp/>start_time_;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cpu_fallback_triggered_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="namespacethemis_1_1gpu_1a87790dc2d2b7e72ebfddd0e2c50869ff" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1gpu_1a87790dc2d2b7e72ebfddd0e2c50869ff" kindref="member">cuda_error_to_string</ref>(<ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>err)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(<ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString</ref>(err));</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="namespacethemis_1_1gpu_1a4bd82c0d2f224435267a191eb08d8417" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1gpu_1a4bd82c0d2f224435267a191eb08d8417" kindref="member">ms_to_us</ref>(uint64_t<sp/>ms)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ms<sp/>*<sp/>1000;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="namespacethemis_1_1gpu_1aac138f6deab1b718b16a45ab9b120a4f" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1gpu_1aac138f6deab1b718b16a45ab9b120a4f" kindref="member">us_to_ms</ref>(uint64_t<sp/>us)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>us<sp/>/<sp/>1000;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/gpu/gpu_safe_operations.h"/>
+  </compounddef>
+</doxygen>

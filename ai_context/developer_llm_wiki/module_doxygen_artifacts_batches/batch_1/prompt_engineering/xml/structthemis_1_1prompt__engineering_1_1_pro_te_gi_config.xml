@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ProTeGiConfig</compoundname>
+    <includes refid="protegi__optimizer_8h" local="no">protegi_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1a949623efcb090945b9bec9636e431601" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ProTeGiConfig::max_steps</definition>
+        <argsstring></argsstring>
+        <name>max_steps</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiConfig::max_steps</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum optimization steps (outer loop). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="31" column="12" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1aff6ea28b20ec9b9317289d75f9fde114" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ProTeGiConfig::beam_width</definition>
+        <argsstring></argsstring>
+        <name>beam_width</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiConfig::beam_width</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Number of candidate prompts retained between steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="32" column="12" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1a5e0e0df4a9f0da89cdf00f0741e0247a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ProTeGiConfig::num_candidates</definition>
+        <argsstring></argsstring>
+        <name>num_candidates</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiConfig::num_candidates</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>New prompt candidates generated per gradient step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="33" column="12" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1a09d1dce8801d59a3f49924e51fa0e28c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ProTeGiConfig::mini_batch_size</definition>
+        <argsstring></argsstring>
+        <name>mini_batch_size</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiConfig::mini_batch_size</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Inputs sampled per gradient computation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="34" column="12" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1a3539212b2a9976c9cf36d9e55e86c802" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ProTeGiConfig::target_score</definition>
+        <argsstring></argsstring>
+        <name>target_score</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiConfig::target_score</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+<para>Early-stop when best beam score ≥ this value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="35" column="12" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1ac269417217a65eee784c154b5410027f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ProTeGiConfig::min_improvement</definition>
+        <argsstring></argsstring>
+        <name>min_improvement</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiConfig::min_improvement</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Stop when best-beam improvement drops below this. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="36" column="12" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration knobs for the ProTeGi optimizer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/protegi_optimizer.h" line="30" column="1" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="30" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1aff6ea28b20ec9b9317289d75f9fde114" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiConfig</scope><name>beam_width</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1a949623efcb090945b9bec9636e431601" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiConfig</scope><name>max_steps</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1ac269417217a65eee784c154b5410027f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiConfig</scope><name>min_improvement</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1a09d1dce8801d59a3f49924e51fa0e28c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiConfig</scope><name>mini_batch_size</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1a5e0e0df4a9f0da89cdf00f0741e0247a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiConfig</scope><name>num_candidates</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config_1a3539212b2a9976c9cf36d9e55e86c802" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiConfig</scope><name>target_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

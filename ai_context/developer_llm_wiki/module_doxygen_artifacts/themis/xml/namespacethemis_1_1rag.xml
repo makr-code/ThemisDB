@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag" kind="namespace" language="C++">
+    <compoundname>themis::rag</compoundname>
+    <innernamespace refid="namespacethemis_1_1rag_1_1kg">themis::rag::kg</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="11" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_gateway_hook_registry" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::IGatewayHookRegistry</compoundname>
+    <includes refid="api__gateway__hook_8h" local="no">api_gateway_hook.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_gateway_hook_registry_1aa68cef425f0547f023399b12fdd201ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::IGatewayHookRegistry::~IGatewayHookRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGatewayHookRegistry</name>
+        <qualifiedname>themis::api::IGatewayHookRegistry::~IGatewayHookRegistry</qualifiedname>
+        <briefdescription>
+<para>IGateway Hook Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="100" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_gateway_hook_registry_1a6214af65a4d945183e295e93ad8b3c5a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::IGatewayHookRegistry::registerHook</definition>
+        <argsstring>(std::shared_ptr&lt; IAPIGatewayHook &gt; hook)=0</argsstring>
+        <name>registerHook</name>
+        <qualifiedname>themis::api::IGatewayHookRegistry::registerHook</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook" kindref="compound">IAPIGatewayHook</ref> &gt;</type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+<para>Register Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="108" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_gateway_hook_registry_1ae1de807e422d499b55c8d76f600c4b60" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::IGatewayHookRegistry::unregisterHook</definition>
+        <argsstring>(const std::string &amp;hook_id)=0</argsstring>
+        <name>unregisterHook</name>
+        <qualifiedname>themis::api::IGatewayHookRegistry::unregisterHook</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hook_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hook_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the hook. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="116" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_gateway_hook_registry_1a0399da098b4ba43f7ed1f8b266bf3700" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook" kindref="compound">IAPIGatewayHook</ref> &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::shared_ptr&lt; IAPIGatewayHook &gt; &gt; themis::api::IGatewayHookRegistry::getHooks</definition>
+        <argsstring>(GatewayHookPhase phase) const =0</argsstring>
+        <name>getHooks</name>
+        <qualifiedname>themis::api::IGatewayHookRegistry::getHooks</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87a" kindref="member">GatewayHookPhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+<para>Get Hooks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="124" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_gateway_hook.h" line="94" column="1" bodyfile="include/api/api_gateway_hook.h" bodystart="94" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1a0399da098b4ba43f7ed1f8b266bf3700" prot="public" virt="pure-virtual"><scope>themis::api::IGatewayHookRegistry</scope><name>getHooks</name></member>
+      <member refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1a6214af65a4d945183e295e93ad8b3c5a" prot="public" virt="pure-virtual"><scope>themis::api::IGatewayHookRegistry</scope><name>registerHook</name></member>
+      <member refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1ae1de807e422d499b55c8d76f600c4b60" prot="public" virt="pure-virtual"><scope>themis::api::IGatewayHookRegistry</scope><name>unregisterHook</name></member>
+      <member refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1aa68cef425f0547f023399b12fdd201ec" prot="public" virt="virtual"><scope>themis::api::IGatewayHookRegistry</scope><name>~IGatewayHookRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_consensus_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConsensusSnapshot</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_snapshot_1ab45d032173e4dbee3d789758647e1e3f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConsensusSnapshot::snapshot_term</definition>
+        <argsstring></argsstring>
+        <name>snapshot_term</name>
+        <qualifiedname>themis::process::ConsensusSnapshot::snapshot_term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Term at which this snapshot was taken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="228" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_snapshot_1a6f157e919f9c4bf45ebe80f7092b137a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConsensusSnapshot::snapshot_index</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index</name>
+        <qualifiedname>themis::process::ConsensusSnapshot::snapshot_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Log index at which this snapshot was taken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="231" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_snapshot_1af150b6ae3b1c890f99292d245a771833" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ConsensusSnapshot::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::process::ConsensusSnapshot::timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of snapshot creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="234" column="13" bodyfile="include/process/federated_consensus_contract.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_snapshot_1a9a9ecb71652db031f73907d62cb03f18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConsensusSnapshot::model_state</definition>
+        <argsstring></argsstring>
+        <name>model_state</name>
+        <qualifiedname>themis::process::ConsensusSnapshot::model_state</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Serialized process model state (opaque to consensus layer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="237" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_snapshot_1ab697eb5e856c34a5b34dd83a487a3387" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConsensusSnapshot::model_state_hash</definition>
+        <argsstring></argsstring>
+        <name>model_state_hash</name>
+        <qualifiedname>themis::process::ConsensusSnapshot::model_state_hash</qualifiedname>
+        <briefdescription>
+<para>Cryptographic hash of model_state (for integrity verification). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="240" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_snapshot_1a27f9f1533eaa9e27b5fd2288c9ba0ac6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ConsensusSnapshot::persisted_shards</definition>
+        <argsstring></argsstring>
+        <name>persisted_shards</name>
+        <qualifiedname>themis::process::ConsensusSnapshot::persisted_shards</qualifiedname>
+        <briefdescription>
+<para>List of shard IDs that have persisted this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="243" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_consensus_snapshot_1a87b902b3ef91eca71f5bd8a158c7511d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ConsensusSnapshot::isValid</definition>
+        <argsstring>(const std::string &amp;computed_hash) const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::process::ConsensusSnapshot::isValid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>computed_hash</declname>
+        </param>
+        <briefdescription>
+<para>Check if this snapshot is valid (hash matches state). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>computed_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hash computed by verifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if hashes match </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="250" column="10" bodyfile="include/process/federated_consensus_contract.h" bodystart="250" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref> of process model state at a logical point in replication log. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used for log compaction and follower catch-up when leader log is ahead by many entries. </para>
+    </detaileddescription>
+    <location file="include/process/federated_consensus_contract.h" line="226" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="226" bodyend="253"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_consensus_snapshot_1a87b902b3ef91eca71f5bd8a158c7511d" prot="public" virt="non-virtual"><scope>themis::process::ConsensusSnapshot</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_snapshot_1a9a9ecb71652db031f73907d62cb03f18" prot="public" virt="non-virtual"><scope>themis::process::ConsensusSnapshot</scope><name>model_state</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_snapshot_1ab697eb5e856c34a5b34dd83a487a3387" prot="public" virt="non-virtual"><scope>themis::process::ConsensusSnapshot</scope><name>model_state_hash</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_snapshot_1a27f9f1533eaa9e27b5fd2288c9ba0ac6" prot="public" virt="non-virtual"><scope>themis::process::ConsensusSnapshot</scope><name>persisted_shards</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_snapshot_1a6f157e919f9c4bf45ebe80f7092b137a" prot="public" virt="non-virtual"><scope>themis::process::ConsensusSnapshot</scope><name>snapshot_index</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_snapshot_1ab45d032173e4dbee3d789758647e1e3f" prot="public" virt="non-virtual"><scope>themis::process::ConsensusSnapshot</scope><name>snapshot_term</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_snapshot_1af150b6ae3b1c890f99292d245a771833" prot="public" virt="non-virtual"><scope>themis::process::ConsensusSnapshot</scope><name>timestamp_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

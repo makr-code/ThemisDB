@@ -1,0 +1,704 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_resource_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::ResourceMonitor</compoundname>
+    <includes refid="resource__monitor_8h" local="no">resource_monitor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1a2db9bdc160f86f7b54f7df8c0b6587aa" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::ResourceMonitor::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="383" column="24" bodyfile="include/ingestion/resource_monitor.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1aeacf2a46310fd95c24b02513bff28397" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::ResourceMonitor::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="384" column="24" bodyfile="include/ingestion/resource_monitor.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1a765eaf27678261f6e146cecdf41893da" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::ingestion::ResourceMonitor::is_running_</definition>
+        <argsstring></argsstring>
+        <name>is_running_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::is_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="385" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="385" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1aee63ccf469f4729b17bfa36f0f6b5992" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::ResourceMonitor::system_memory_percent_</definition>
+        <argsstring></argsstring>
+        <name>system_memory_percent_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::system_memory_percent_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="388" column="12" bodyfile="include/ingestion/resource_monitor.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1a5ff7713b0058b4faabd25290040f05c8" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::ResourceMonitor::memory_exhaustion_threshold_</definition>
+        <argsstring></argsstring>
+        <name>memory_exhaustion_threshold_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::memory_exhaustion_threshold_</qualifiedname>
+        <initializer>= 85.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="389" column="12" bodyfile="include/ingestion/resource_monitor.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1aa07520f92c72dd3146084fbaa3b0a116" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::size_t &gt;</type>
+        <definition>std::map&lt;std::string, std::size_t&gt; themis::ingestion::ResourceMonitor::component_memory_</definition>
+        <argsstring></argsstring>
+        <name>component_memory_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::component_memory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="392" column="14" bodyfile="include/ingestion/resource_monitor.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1a957926c795fc820d85494a176a2d564d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config" kindref="compound">QualityCheckTimeoutConfig</ref></type>
+        <definition>QualityCheckTimeoutConfig themis::ingestion::ResourceMonitor::qc_timeout_config_</definition>
+        <argsstring></argsstring>
+        <name>qc_timeout_config_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::qc_timeout_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="395" column="31" bodyfile="include/ingestion/resource_monitor.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1a19b2908ef4ccaa77490727e2b704fd45" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::ResourceMonitor::cluster_size_</definition>
+        <argsstring></argsstring>
+        <name>cluster_size_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::cluster_size_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="398" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_resource_monitor_1a7f29d6c7504eeb5a6e6b303015f9596c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1ingestion_1a41f28f9c030a3052cf76994d1e58a61a" kindref="member">ResourceExhaustionCallback</ref> &gt;</type>
+        <definition>std::vector&lt;ResourceExhaustionCallback&gt; themis::ingestion::ResourceMonitor::exhaustion_callbacks_</definition>
+        <argsstring></argsstring>
+        <name>exhaustion_callbacks_</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::exhaustion_callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="401" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ResourceMonitor::ResourceMonitor</definition>
+        <argsstring>()=default</argsstring>
+        <name>ResourceMonitor</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::ResourceMonitor</qualifiedname>
+        <briefdescription>
+<para>Construct a resource monitor with default thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="176" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a85743c517340e04c0c1d83cdcdb69269" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ResourceMonitor::~ResourceMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>~ResourceMonitor</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::~ResourceMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="178" column="5" bodyfile="include/ingestion/resource_monitor.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a93e40c531ef4fc1a139569d1668fd364" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ResourceMonitor::ResourceMonitor</definition>
+        <argsstring>(const ResourceMonitor &amp;)=delete</argsstring>
+        <name>ResourceMonitor</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::ResourceMonitor</qualifiedname>
+        <param>
+          <type>const ResourceMonitor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="181" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a16e14d3bfadbd485cf1370026bee7991" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" kindref="member">ResourceMonitor</ref> &amp;</type>
+        <definition>ResourceMonitor &amp; themis::ingestion::ResourceMonitor::operator=</definition>
+        <argsstring>(const ResourceMonitor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" kindref="member">ResourceMonitor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="182" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a133139d3a3a24315d84353c4d8ea587f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::startMonitoring</definition>
+        <argsstring>()</argsstring>
+        <name>startMonitoring</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::startMonitoring</qualifiedname>
+        <briefdescription>
+<para>Start background monitoring thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The monitor thread polls system resources and checks component usage at a regular interval. Default interval: 100 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="192" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="192" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a737d600c91f3dadf93fbac505a21c23e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::stopMonitoring</definition>
+        <argsstring>()</argsstring>
+        <name>stopMonitoring</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::stopMonitoring</qualifiedname>
+        <briefdescription>
+<para>Stop background monitoring thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="203" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="203" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1ac8c0fafc095c3e75016c2173e8717d5d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ResourceMonitor::isMonitoring</definition>
+        <argsstring>() const</argsstring>
+        <name>isMonitoring</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::isMonitoring</qualifiedname>
+        <briefdescription>
+<para>Check if monitoring is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="210" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a195a30325da4efa5cad3bd1b3d272685" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::onResourceExhaustion</definition>
+        <argsstring>(ResourceExhaustionCallback callback)</argsstring>
+        <name>onResourceExhaustion</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::onResourceExhaustion</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a41f28f9c030a3052cf76994d1e58a61a" kindref="member">ResourceExhaustionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback to be invoked on resource exhaustion events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to invoke when a resource exhaustion event occurs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="218" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="218" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1aceaa8fc7d9560e8d19f66d3ed53b09c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ingestion::ResourceMonitor::getSystemMemoryPercent</definition>
+        <argsstring>() const</argsstring>
+        <name>getSystemMemoryPercent</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::getSystemMemoryPercent</qualifiedname>
+        <briefdescription>
+<para>Get current system memory usage as a percentage (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Percentage of total system memory currently in use </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="229" column="12" bodyfile="include/ingestion/resource_monitor.h" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a3d1a9cdbf31996c5eca32b36d22a0a7e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::setMemoryExhaustionThreshold</definition>
+        <argsstring>(double percent_threshold)</argsstring>
+        <name>setMemoryExhaustionThreshold</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::setMemoryExhaustionThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>percent_threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set the memory usage threshold that triggers exhaustion alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>percent_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Percentage (0-100) above which to alert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="238" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="238" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a1c1a83eb88ce31b4c9ea465d2e7329db" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ingestion::ResourceMonitor::getMemoryExhaustionThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryExhaustionThreshold</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::getMemoryExhaustionThreshold</qualifiedname>
+        <briefdescription>
+<para>Get the current memory exhaustion threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="246" column="12" bodyfile="include/ingestion/resource_monitor.h" bodystart="246" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1aa615a587f5a13e86a5112a4b9aceb844" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::registerComponentMemory</definition>
+        <argsstring>(const std::string &amp;component_name, std::size_t memory_bytes)</argsstring>
+        <name>registerComponentMemory</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::registerComponentMemory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_name</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>memory_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Register a component and its initial memory usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical name of the component (e.g., &quot;api_connector&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial memory allocation in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="258" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="258" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1aa93a710d218dbc4bd3b48f8a9d05c582" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::updateComponentMemory</definition>
+        <argsstring>(const std::string &amp;component_name, std::size_t memory_bytes)</argsstring>
+        <name>updateComponentMemory</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::updateComponentMemory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_name</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>memory_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update the memory usage reported for a component. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Component identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Updated memory usage </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="269" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="269" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a7608350bf45123f490591aba72d4d836" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::size_t &gt;</type>
+        <definition>std::optional&lt; std::size_t &gt; themis::ingestion::ResourceMonitor::getComponentMemory</definition>
+        <argsstring>(const std::string &amp;component_name) const</argsstring>
+        <name>getComponentMemory</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::getComponentMemory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_name</declname>
+        </param>
+        <briefdescription>
+<para>Get the current memory usage for a component. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Component identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Memory usage in bytes, or std::nullopt if component not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="280" column="19" bodyfile="include/ingestion/resource_monitor.h" bodystart="280" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1ab0f12dd8d758a43b710f05dc46ec31ce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::ResourceMonitor::getTotalComponentMemory</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalComponentMemory</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::getTotalComponentMemory</qualifiedname>
+        <briefdescription>
+<para>Get total memory usage across all registered components. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="293" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="293" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a1e5d77e5811368cce03ec314ec689660" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::map&lt; std::string, std::size_t &gt;</type>
+        <definition>std::map&lt; std::string, std::size_t &gt; themis::ingestion::ResourceMonitor::getAllComponentMemory</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllComponentMemory</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::getAllComponentMemory</qualifiedname>
+        <briefdescription>
+<para>Get memory usage for all registered components. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of component name -&gt; memory bytes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="306" column="14" bodyfile="include/ingestion/resource_monitor.h" bodystart="306" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a838aec4e6027c82d6a21d427b918da18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::unregisterComponent</definition>
+        <argsstring>(const std::string &amp;component_name)</argsstring>
+        <name>unregisterComponent</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::unregisterComponent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove a component from memory tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="314" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="314" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1adae8ba5b0fb038f98b8885196d6a25ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::setQualityCheckTimeoutConfig</definition>
+        <argsstring>(const QualityCheckTimeoutConfig &amp;config)</argsstring>
+        <name>setQualityCheckTimeoutConfig</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::setQualityCheckTimeoutConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config" kindref="compound">QualityCheckTimeoutConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set the quality check timeout configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="324" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="324" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a37f7da9504aa3b7530ffa613adef9069" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config" kindref="compound">QualityCheckTimeoutConfig</ref></type>
+        <definition>QualityCheckTimeoutConfig themis::ingestion::ResourceMonitor::getQualityCheckTimeoutConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getQualityCheckTimeoutConfig</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::getQualityCheckTimeoutConfig</qualifiedname>
+        <briefdescription>
+<para>Get the current quality check timeout configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="333" column="31" bodyfile="include/ingestion/resource_monitor.h" bodystart="333" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a21aa262e1f03f2d38d5ba7d880239c9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::setDistributedClusterSize</definition>
+        <argsstring>(std::size_t node_count)</argsstring>
+        <name>setDistributedClusterSize</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::setDistributedClusterSize</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>node_count</declname>
+        </param>
+        <briefdescription>
+<para>Notify the monitor of the current distributed cluster size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used for coordinating resource limits across multiple nodes. For example, if cluster size is 3, each node&apos;s local limit might be adjusted to 1/3 of the cluster-wide limit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of nodes in the cluster </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="349" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="349" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1a1fd625fb8cb2ad51b26b9a45f8925fb4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::ResourceMonitor::getDistributedClusterSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getDistributedClusterSize</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::getDistributedClusterSize</qualifiedname>
+        <briefdescription>
+<para>Get the distributed cluster size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="357" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="357" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1ae0fdc8d691a45050a156a3e1eb87194b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::ResourceMonitor::calculatePerNodeQuota</definition>
+        <argsstring>(std::size_t cluster_wide_limit) const</argsstring>
+        <name>calculatePerNodeQuota</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::calculatePerNodeQuota</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>cluster_wide_limit</declname>
+        </param>
+        <briefdescription>
+<para>Calculate per-node resource quota given a cluster-wide limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for distributing a global limit across cluster nodes to prevent starvation.</para>
+<para>Example: if cluster-wide limit is 1000 items and there are 5 nodes, per-node quota is 200 items.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cluster_wide_limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total limit across all nodes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Per-node quota (cluster_wide_limit / cluster_size) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="374" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="374" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_resource_monitor_1ac94eb48d51f53d30d7d08289b487b1ad" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ResourceMonitor::alertExhaustion</definition>
+        <argsstring>(const ResourceExhaustionAlert &amp;alert)</argsstring>
+        <name>alertExhaustion</name>
+        <qualifiedname>themis::ingestion::ResourceMonitor::alertExhaustion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert" kindref="compound">ResourceExhaustionAlert</ref> &amp;</type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="404" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="404" bodyend="409"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Monitors system and component resource usage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks memory, CPU, disk, and component-specific resources. Generates alerts when thresholds are exceeded.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" kindref="member">ResourceMonitor</ref><sp/>monitor;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>alert<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">monitor.onResourceExhaustion([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ResourceExhaustionAlert&amp;<sp/>alert)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Resource<sp/>alert:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>alert.description<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Start<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">monitor.startMonitoring();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>component<sp/>resource<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">monitor.registerComponentMemory(</highlight><highlight class="stringliteral">&quot;api_connector&quot;</highlight><highlight class="normal">,<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Update<sp/>component<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">monitor.updateComponentMemory(</highlight><highlight class="stringliteral">&quot;api_connector&quot;</highlight><highlight class="normal">,<sp/>2048<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get<sp/>current<sp/>system<sp/>memory<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>system_mem<sp/>=<sp/>monitor.getSystemMemoryPercent();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(system_mem<sp/>&gt;<sp/>85.0)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Take<sp/>action</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stop<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">monitor.stopMonitoring();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/resource_monitor.h" line="171" column="1" bodyfile="include/ingestion/resource_monitor.h" bodystart="171" bodyend="410"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1ac94eb48d51f53d30d7d08289b487b1ad" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>alertExhaustion</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1ae0fdc8d691a45050a156a3e1eb87194b" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>calculatePerNodeQuota</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a2db9bdc160f86f7b54f7df8c0b6587aa" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>callback_mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a19b2908ef4ccaa77490727e2b704fd45" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>cluster_size_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1aa07520f92c72dd3146084fbaa3b0a116" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>component_memory_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a7f29d6c7504eeb5a6e6b303015f9596c" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>exhaustion_callbacks_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1e5d77e5811368cce03ec314ec689660" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>getAllComponentMemory</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a7608350bf45123f490591aba72d4d836" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>getComponentMemory</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1fd625fb8cb2ad51b26b9a45f8925fb4" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>getDistributedClusterSize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1c1a83eb88ce31b4c9ea465d2e7329db" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>getMemoryExhaustionThreshold</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a37f7da9504aa3b7530ffa613adef9069" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>getQualityCheckTimeoutConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1aceaa8fc7d9560e8d19f66d3ed53b09c9" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>getSystemMemoryPercent</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1ab0f12dd8d758a43b710f05dc46ec31ce" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>getTotalComponentMemory</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a765eaf27678261f6e146cecdf41893da" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>is_running_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1ac8c0fafc095c3e75016c2173e8717d5d" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>isMonitoring</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a5ff7713b0058b4faabd25290040f05c8" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>memory_exhaustion_threshold_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a195a30325da4efa5cad3bd1b3d272685" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>onResourceExhaustion</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a16e14d3bfadbd485cf1370026bee7991" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a957926c795fc820d85494a176a2d564d" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>qc_timeout_config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1aa615a587f5a13e86a5112a4b9aceb844" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>registerComponentMemory</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>ResourceMonitor</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a93e40c531ef4fc1a139569d1668fd364" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>ResourceMonitor</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a21aa262e1f03f2d38d5ba7d880239c9b" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>setDistributedClusterSize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a3d1a9cdbf31996c5eca32b36d22a0a7e" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>setMemoryExhaustionThreshold</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1adae8ba5b0fb038f98b8885196d6a25ac" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>setQualityCheckTimeoutConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a133139d3a3a24315d84353c4d8ea587f" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>startMonitoring</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1aeacf2a46310fd95c24b02513bff28397" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>state_mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a737d600c91f3dadf93fbac505a21c23e" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>stopMonitoring</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1aee63ccf469f4729b17bfa36f0f6b5992" prot="private" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>system_memory_percent_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a838aec4e6027c82d6a21d427b918da18" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>unregisterComponent</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1aa93a710d218dbc4bd3b48f8a9d05c582" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>updateComponentMemory</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_resource_monitor_1a85743c517340e04c0c1d83cdcdb69269" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceMonitor</scope><name>~ResourceMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

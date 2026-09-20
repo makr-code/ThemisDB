@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ONNXServingBackend::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl_1ad99519e082dcc862afd0a7d766d9932b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" kindref="compound">ONNXBackendConfig</ref></type>
+        <definition>ONNXBackendConfig themisdb::analytics::ONNXServingBackend::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::ONNXServingBackend::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/ml_serving.cpp" line="437" column="23" bodyfile="src/analytics/ml_serving.cpp" bodystart="437" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl_1a203a1851d65554999f1e945e2fa2948d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ONNXServingBackend::Impl::Impl</definition>
+        <argsstring>(const ONNXBackendConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themisdb::analytics::ONNXServingBackend::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" kindref="compound">ONNXBackendConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/ml_serving.cpp" line="438" column="14" bodyfile="src/analytics/ml_serving.cpp" bodystart="438" bodyend="438"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::ONNXBackendConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ONNXServingBackend::Impl</label>
+        <link refid="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/ml_serving.cpp" line="436" column="1" bodyfile="src/analytics/ml_serving.cpp" bodystart="436" bodyend="439"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl_1ad99519e082dcc862afd0a7d766d9932b" prot="public" virt="non-virtual"><scope>themisdb::analytics::ONNXServingBackend::Impl</scope><name>config</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl_1a203a1851d65554999f1e945e2fa2948d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ONNXServingBackend::Impl</scope><name>Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

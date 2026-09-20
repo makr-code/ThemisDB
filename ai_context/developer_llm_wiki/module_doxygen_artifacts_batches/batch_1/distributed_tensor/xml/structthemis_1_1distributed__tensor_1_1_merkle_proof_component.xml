@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_merkle_proof_component" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::MerkleProofComponent</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2integrity__verification_8h" local="no">integrity_verification.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_merkle_proof_component_1a56d6e5e31675cac10e6a9290ef1fd1c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::MerkleProofComponent::sibling_hash</definition>
+        <argsstring></argsstring>
+        <name>sibling_hash</name>
+        <qualifiedname>themis::distributed_tensor::MerkleProofComponent::sibling_hash</qualifiedname>
+        <briefdescription>
+<para>Sibling node hash in the proof path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="66" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_merkle_proof_component_1a585ce4fa83419f34570ee1521027f4ab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::MerkleProofComponent::is_left</definition>
+        <argsstring></argsstring>
+        <name>is_left</name>
+        <qualifiedname>themis::distributed_tensor::MerkleProofComponent::is_left</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if sibling is to the left; false if right </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="67" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_merkle_proof_component_1af13a9745d1380c4b15768cefbb749825" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref></type>
+        <definition>json themis::distributed_tensor::MerkleProofComponent::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::distributed_tensor::MerkleProofComponent::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="69" column="11" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="99" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_merkle_proof_component_1acca710dd9fca260345e954de7e4fc98c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_merkle_proof_component" kindref="compound">MerkleProofComponent</ref> &gt;</type>
+        <definition>std::optional&lt; MerkleProofComponent &gt; themis::distributed_tensor::MerkleProofComponent::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::distributed_tensor::MerkleProofComponent::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), getRequiredString(), find(), has_value(), end(), is_boolean(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="71" column="27" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="112" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/integrity_verification.h" line="65" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="65" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_merkle_proof_component_1acca710dd9fca260345e954de7e4fc98c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MerkleProofComponent</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_merkle_proof_component_1a585ce4fa83419f34570ee1521027f4ab" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MerkleProofComponent</scope><name>is_left</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_merkle_proof_component_1a56d6e5e31675cac10e6a9290ef1fd1c6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MerkleProofComponent</scope><name>sibling_hash</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_merkle_proof_component_1af13a9745d1380c4b15768cefbb749825" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::MerkleProofComponent</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

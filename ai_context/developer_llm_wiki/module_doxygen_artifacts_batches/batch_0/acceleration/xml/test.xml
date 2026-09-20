@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1ad9655f8424302d263c244ed1674e80f0" kindref="member">TEST_F</ref>  (<ref refid="class_timeout_handling_test" kindref="compound">TimeoutHandlingTest</ref>, DeviceHang_DetectedAndRecovered)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>Device hang is detected and timed out  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1a48409eb65eafa4263e1a16e58e6e402c" kindref="member">TEST_F</ref>  (<ref refid="class_timeout_handling_test" kindref="compound">TimeoutHandlingTest</ref>, KernelTimeout_ExplicitError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>Kernel timeout rejected with explicit error  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1a106ac4e94e77914b966e838f9a9025cc" kindref="member">TEST_F</ref>  (<ref refid="class_timeout_handling_test" kindref="compound">TimeoutHandlingTest</ref>, NetworkTimeout_InMultiDeviceCoordination)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>Multi-device timeout in coordination layer  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1aeffda708d3f09bff30ea6c51a65916b9" kindref="member">TEST_F</ref>  (<ref refid="class_degradation_recovery_test" kindref="compound">DegradationRecoveryTest</ref>, PartialDeviceFailure_TriggersFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>Partial device failure triggers fallback  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1aba030b5fc0db33f0c6044817eb644e18" kindref="member">TEST_F</ref>  (<ref refid="class_degradation_recovery_test" kindref="compound">DegradationRecoveryTest</ref>, DriverError_RecoveryPath)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>Driver error recovery  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1a4ab61882c780151b461bf18ce2f0e480" kindref="member">TEST_F</ref>  (<ref refid="class_degradation_recovery_test" kindref="compound">DegradationRecoveryTest</ref>, DegradedState_ExplicitlyReported)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>Degraded state is explicit, not implicit  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1af1a5eb088b23dfdc3877719c83baf905" kindref="member">TEST_F</ref>  (<ref refid="class_resource_exhaustion_test" kindref="compound">ResourceExhaustionTest</ref>, OutOfMemory_ExplicitRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>Out of memory is caught and handled  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1a4a499901a9800d5499f98fed03fd9ab4" kindref="member">TEST_F</ref>  (<ref refid="class_resource_exhaustion_test" kindref="compound">ResourceExhaustionTest</ref>, HostResourceExhaustion_BoundedBehavior)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>Host resource exhaustion handled  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1a2c1fff6df614c913d2595aa541225228" kindref="member">TEST_F</ref>  (<ref refid="class_resource_exhaustion_test" kindref="compound">ResourceExhaustionTest</ref>, RecoveryBounded_NoInfiniteRetry)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>Recovery is bounded (not infinite retry)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1ab73528bebe7984c9a397c352824c8196" kindref="member">TEST_F</ref>  (<ref refid="class_explicit_fallback_test" kindref="compound">ExplicitFallbackTest</ref>, FallbackAlways_Explicit)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>Fallback path is always explicit  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1a70ef6e12a7127f3828f4e53cd96d84c9" kindref="member">TEST_F</ref>  (<ref refid="class_explicit_fallback_test" kindref="compound">ExplicitFallbackTest</ref>, InvalidInput_ImmediateFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>Invalid input triggers immediate fallback (no retry)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1a0521e8c5a4b06c68114b8c4e32cb543d" kindref="member">TEST_F</ref>  (<ref refid="class_explicit_fallback_test" kindref="compound">ExplicitFallbackTest</ref>, FallbackCorrectness_Maintained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>Fallback maintains correctness (not just availability)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__failure__handling_8cpp_1aa3064b6f5a9d1313b3d6e1f10c84c8bf" kindref="member">TEST_F</ref>  (<ref refid="class_failure_handling_integration_test" kindref="compound">FailureHandlingIntegrationTest</ref>, FullPipeline_FailureDetectionAndRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>Complete failure handling pipeline  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a75d2bad340603016335f22a1c7818ed5" kindref="member">TEST_F</ref>  (<ref refid="class_plugin_signature_validation_test" kindref="compound">PluginSignatureValidationTest</ref>, InvalidSignature_RejectLoadAttempt)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>Plugin signature validation rejects invalid signatures  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a69b3503c328e59e74ea6f2eb098c1c3f" kindref="member">TEST_F</ref>  (<ref refid="class_plugin_signature_validation_test" kindref="compound">PluginSignatureValidationTest</ref>, SignatureValidation_RunsOnEveryLoad)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>Plugin loader validates signature on every load  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a610b6298168c08f7ac80fd2ef1c1034b" kindref="member">TEST_F</ref>  (<ref refid="class_plugin_signature_validation_test" kindref="compound">PluginSignatureValidationTest</ref>, TrustPath_RequiresExplicitApproval)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>Plugin trust path requires explicit approval  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a1927fe4dd57a990cea472476932cf53f" kindref="member">TEST_F</ref>  (<ref refid="class_shader_integrity_test" kindref="compound">ShaderIntegrityTest</ref>, MalformedShader_RejectExecution)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>Shader integrity validation rejects malformed input  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1aedce35714d73a261ce641308eb1c55eb" kindref="member">TEST_F</ref>  (<ref refid="class_shader_integrity_test" kindref="compound">ShaderIntegrityTest</ref>, ShaderSize_EnforcedBoundaries)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>Shader size boundaries enforced  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a35f4e76f6fe7dddfe66ad4b9fb5855fb" kindref="member">TEST_F</ref>  (<ref refid="class_shader_integrity_test" kindref="compound">ShaderIntegrityTest</ref>, NullShader_RejectedImmediately)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>Null shader pointer rejected  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1afa7eeeb7996ae33c54f0c64f08ac2679" kindref="member">TEST_F</ref>  (<ref refid="class_fail_closed_behavior_test" kindref="compound">FailClosedBehaviorTest</ref>, DeniedOperation_LoggedExplicitly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>Security denial logged and cannot be silently bypassed  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a0258e7c455d7479c25d80bf918eba6e2" kindref="member">TEST_F</ref>  (<ref refid="class_fail_closed_behavior_test" kindref="compound">FailClosedBehaviorTest</ref>, SecurityFailure_ExplicitRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>Recovery from security failure is explicit  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a04e8be61d4d909c00b927e468fb7d889" kindref="member">TEST_F</ref>  (<ref refid="class_fail_closed_behavior_test" kindref="compound">FailClosedBehaviorTest</ref>, InvalidConfig_RejectedAtStartup)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>Invalid configuration rejected at startup  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a7e35ba876dcba6875389a74b5beafdef" kindref="member">TEST_F</ref>  (<ref refid="class_trust_path_diagnostics_test" kindref="compound">TrustPathDiagnosticsTest</ref>, TrustChain_ProvideDiagnostics)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>Plugin trust chain validation provides diagnostic output  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a1656c5b8d8e9d60c361c089e4868447d" kindref="member">TEST_F</ref>  (<ref refid="class_trust_path_diagnostics_test" kindref="compound">TrustPathDiagnosticsTest</ref>, CertificateExpiry_CheckedAndReported)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>Certificate expiry checked and reported  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1ae29dc46ad1957157b0793e59654288f0" kindref="member">TEST_F</ref>  (<ref refid="class_trust_path_diagnostics_test" kindref="compound">TrustPathDiagnosticsTest</ref>, RevocationCheck_Documented)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>Revocation check documented in diagnostics  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a5664c289faec65424e006a5f314cfb8c" kindref="member">TEST_F</ref>  (<ref refid="class_security_integration_test" kindref="compound">SecurityIntegrationTest</ref>, FullPipeline_ValidateAndRegister)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>Full security validation pipeline for backend registration  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__acceleration__plugin__security__hardening_8cpp_1a235e5571a28f8f153a1f3dac24ceaf94" kindref="member">TEST_F</ref>  (<ref refid="class_security_integration_test" kindref="compound">SecurityIntegrationTest</ref>, ValidationFailure_TriggersExplicitFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>Security validation failure triggers fallback </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

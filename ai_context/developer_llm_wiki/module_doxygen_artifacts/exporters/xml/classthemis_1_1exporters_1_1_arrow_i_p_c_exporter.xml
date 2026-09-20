@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::ArrowIPCExporter</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_i_exporter" prot="public" virt="non-virtual">themis::exporters::IExporter</basecompoundref>
+    <includes refid="arrow__ipc__exporter_8h" local="no">arrow_ipc_exporter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1aaecfef78ea418c721826a75ff1469fab" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config" kindref="compound">ArrowIPCExportConfig</ref></type>
+        <definition>ArrowIPCExportConfig themis::exporters::ArrowIPCExporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="83" column="26" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a9b3dcdbff440a8e0291b12dbd5c19569" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExporterMetrics&gt; themis::exporters::ArrowIPCExporter::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="84" column="21" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a3397a9580523d709eda763082d9b6cdd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ArrowIPCExporter::ArrowIPCExporter</definition>
+        <argsstring>(const ArrowIPCExportConfig &amp;config={})</argsstring>
+        <name>ArrowIPCExporter</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::ArrowIPCExporter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config" kindref="compound">ArrowIPCExportConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="46" column="14" bodyfile="src/exporters/arrow_ipc_exporter.cpp" bodystart="842" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1ab63315c1029f2d2f8e1421d8e3cccece" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>ExportStats themis::exporters::ArrowIPCExporter::exportEntities</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options) override</argsstring>
+        <name>exportEntities</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::exportEntities</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff">exportEntities</reimplements>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Export Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExporterException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ConfigException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ExportIOException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1exporters_1a4317f0c21d3baab4b276c88957dc072e" kindref="member">enforceExportPolicy()</ref>, std::chrono::steady_clock::now(), hasScope(), empty(), size(), resolveColumns(), exportWithArrow(), exportFallback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="49" column="17" bodyfile="src/exporters/arrow_ipc_exporter.cpp" bodystart="907" bodyend="950"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a81dc849ce7d8a2db5df85954972ac687" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::ArrowIPCExporter::getSupportedFormats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedFormats</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::getSupportedFormats</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287">getSupportedFormats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="54" column="17" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a0b7ec0db82d019781e0ea98cf3f8bec5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ArrowIPCExporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="57" column="17" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1ac22fa4b26420e2e9a2a063f39b9e6694" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ArrowIPCExporter::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908">getVersion</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="58" column="17" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a981515de4df483fd1e60b5231c243839" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ArrowIPCExporter::setConfig</definition>
+        <argsstring>(const ArrowIPCExportConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config" kindref="compound">ArrowIPCExportConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="65" column="10" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1aec3923d5e567f233cef532000c529c4d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config" kindref="compound">ArrowIPCExportConfig</ref> &amp;</type>
+        <definition>const ArrowIPCExportConfig &amp; themis::exporters::ArrowIPCExporter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="66" column="32" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1abfa3ad2a62775f6eb1aab4692c0b0c23" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ExporterMetrics &gt; themis::exporters::ArrowIPCExporter::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="68" column="21" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a105fcc2756162310c725197b6e280138" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ArrowIPCExporter::resetMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::resetMetrics</qualifiedname>
+        <briefdescription>
+<para>Reset Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="74" column="10" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a53c1eac9c071400e0f3dd9bc7eee17e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::ArrowIPCExporter::isArrowAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isArrowAvailable</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::isArrowAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Arrow Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isArrowAvailable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="80" column="17" bodyfile="src/exporters/arrow_ipc_exporter.cpp" bodystart="850" bodyend="856"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a25263b049b32a6a63f9cf74e7e21e998" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::ArrowIPCExporter::resolveColumns</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options) const</argsstring>
+        <name>resolveColumns</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::resolveColumns</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Columns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="92" column="17" bodyfile="src/exporters/arrow_ipc_exporter.cpp" bodystart="858" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a220f97c438c1814a520e080c6ff7d323" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>ExportStats themis::exporters::ArrowIPCExporter::exportFallback</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options, const std::vector&lt; std::string &gt; &amp;columns)</argsstring>
+        <name>exportFallback</name>
+        <qualifiedname>themis::exporters::ArrowIPCExporter::exportFallback</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <briefdescription>
+<para>Export Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Fallback: minimal Arrow IPC File writer (no Arrow library required) ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExportIOException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), out(), is_open(), buildSchemaMessage(), empty(), buildBatchBody(), buildRecordBatchMessage(), write(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="119" column="17" bodyfile="src/exporters/arrow_ipc_exporter.cpp" bodystart="962" bodyend="1064"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::exporters::ArrowIPCExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::exporters::ArrowIPCExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/arrow_ipc_exporter.h" line="44" column="1" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="44" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a3397a9580523d709eda763082d9b6cdd" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>ArrowIPCExporter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1aaecfef78ea418c721826a75ff1469fab" prot="private" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1ab63315c1029f2d2f8e1421d8e3cccece" prot="public" virt="virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>exportEntities</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a220f97c438c1814a520e080c6ff7d323" prot="private" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>exportFallback</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1aec3923d5e567f233cef532000c529c4d" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1abfa3ad2a62775f6eb1aab4692c0b0c23" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a0b7ec0db82d019781e0ea98cf3f8bec5" prot="public" virt="virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a81dc849ce7d8a2db5df85954972ac687" prot="public" virt="virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>getSupportedFormats</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1ac22fa4b26420e2e9a2a063f39b9e6694" prot="public" virt="virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a53c1eac9c071400e0f3dd9bc7eee17e3" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>isArrowAvailable</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a9b3dcdbff440a8e0291b12dbd5c19569" prot="private" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a105fcc2756162310c725197b6e280138" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a25263b049b32a6a63f9cf74e7e21e998" prot="private" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>resolveColumns</name></member>
+      <member refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a981515de4df483fd1e60b5231c243839" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" prot="public" virt="virtual"><scope>themis::exporters::ArrowIPCExporter</scope><name>~IExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

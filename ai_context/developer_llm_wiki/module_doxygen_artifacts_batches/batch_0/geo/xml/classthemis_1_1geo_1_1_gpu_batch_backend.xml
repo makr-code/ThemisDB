@@ -1,0 +1,654 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_gpu_batch_backend" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::GpuBatchBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" prot="public" virt="non-virtual">themis::geo::ISpatialComputeBackend</basecompoundref>
+    <innerclass refid="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config" prot="public">themis::geo::GpuBatchBackend::Config</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_stats" prot="public">themis::geo::GpuBatchBackend::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1ac41d2de99d6200f31316102127282fe8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::geo::GpuBatchBackend::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1234" column="12" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a510d56380daf4f043c76fcf3770eea22" prot="private" static="no" mutable="yes">
+        <type>themis::gpu::GPUSafeFail</type>
+        <definition>themis::gpu::GPUSafeFail themis::geo::GpuBatchBackend::safe_fail_</definition>
+        <argsstring></argsstring>
+        <name>safe_fail_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::safe_fail_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1235" column="38" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1af83d71db8efa4271cc8869d5c2b8cd30" prot="private" static="no" mutable="no">
+        <type>themis::gpu::GPUAuditLog</type>
+        <definition>themis::gpu::GPUAuditLog themis::geo::GpuBatchBackend::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::audit_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1236" column="30" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1aab3c659e7c9e3e8860c331fafefa336d" prot="private" static="no" mutable="no">
+        <type>themis::gpu::DeviceInfo</type>
+        <definition>themis::gpu::DeviceInfo themis::geo::GpuBatchBackend::active_device_</definition>
+        <argsstring></argsstring>
+        <name>active_device_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::active_device_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1237" column="29" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a069ca75a3646d926a290fa8314d40c72" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GpuBatchBackend::gpu_device_present_</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_present_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::gpu_device_present_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1238" column="10" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1238" bodyend="1238"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a7b2578b967d41ddf6227a13579c205e6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher" kindref="compound">GpuKernelDispatcher</ref></type>
+        <definition>GpuKernelDispatcher themis::geo::GpuBatchBackend::kernel_dispatcher_</definition>
+        <argsstring></argsstring>
+        <name>kernel_dispatcher_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::kernel_dispatcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1239" column="25" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1ae9ff6b507908be4bfb0cd6469327849b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GpuBatchBackend::batch_calls_</definition>
+        <argsstring></argsstring>
+        <name>batch_calls_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::batch_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1241" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1241" bodyend="1241"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a15913f77e5a4185c8103be325b30d72c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GpuBatchBackend::batch_fallbacks_</definition>
+        <argsstring></argsstring>
+        <name>batch_fallbacks_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::batch_fallbacks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1242" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1242" bodyend="1242"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1ace1df5862a5c1bef4928b39f716d889b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GpuBatchBackend::batch_pairs_processed_</definition>
+        <argsstring></argsstring>
+        <name>batch_pairs_processed_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::batch_pairs_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1243" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1243" bodyend="1243"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a57d6a735b1cf0c1e4830d1362a0ac3dc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GpuBatchBackend::batch_latency_ns_total_</definition>
+        <argsstring></argsstring>
+        <name>batch_latency_ns_total_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::batch_latency_ns_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1244" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1244" bodyend="1244"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a1288dd85e918e582af4456e8cb3f678a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GpuBatchBackend::batch_latency_ns_max_</definition>
+        <argsstring></argsstring>
+        <name>batch_latency_ns_max_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::batch_latency_ns_max_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1245" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1245" bodyend="1245"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a0d6c718c566e1a63523f41dfb626cfdf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GpuBatchBackend::exact_calls_</definition>
+        <argsstring></argsstring>
+        <name>exact_calls_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::exact_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1246" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1246" bodyend="1246"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a7cf58eaabee47ace4e8d98f34b8057e2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GpuBatchBackend::exact_errors_</definition>
+        <argsstring></argsstring>
+        <name>exact_errors_</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::exact_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1247" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1247" bodyend="1247"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a6477f72050a72a30d07990669fd3d0a3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GpuBatchBackend::GpuBatchBackend</definition>
+        <argsstring>()</argsstring>
+        <name>GpuBatchBackend</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::GpuBatchBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="780" column="5" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="780" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1ae6c1858017f3a12c1b677f2224393de8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GpuBatchBackend::GpuBatchBackend</definition>
+        <argsstring>(Config cfg)</argsstring>
+        <name>GpuBatchBackend</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::GpuBatchBackend</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Gpu Batch Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="787" column="14" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="787" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1aabc8745a0e6528f7960567b081c884d1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::geo::GpuBatchBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="816" column="16" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="816" bodyend="818"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1aac1106364c505d708e7cf1c968501444" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GpuBatchBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a9425c0b8acfa7591052b641da875de6b">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="820" column="10" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="820" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a3fda501d717b6f338eabda2df23694e6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_spatial_batch_results" kindref="compound">SpatialBatchResults</ref></type>
+        <definition>SpatialBatchResults themis::geo::GpuBatchBackend::batchIntersects</definition>
+        <argsstring>(const SpatialBatchInputs &amp;in) override</argsstring>
+        <name>batchIntersects</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::batchIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca">batchIntersects</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="842" column="25" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="842" bodyend="925"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a5b03c5eea08742b4a106087aae4cb1c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GpuBatchBackend::exactIntersects</definition>
+        <argsstring>(const GeometryInfo &amp;g1, const GeometryInfo &amp;g2) override</argsstring>
+        <name>exactIntersects</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::exactIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8">exactIntersects</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="936" column="10" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="936" bodyend="948"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a94f26f9f9dcf5697be9ca82974edb2dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::geo::GpuBatchBackend::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="967" column="11" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="967" bodyend="983"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1ae4797b57700974cf62e0795e21595e96" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GpuBatchBackend::computeExactIntersects</definition>
+        <argsstring>(const GeometryInfo &amp;g1, const GeometryInfo &amp;g2)</argsstring>
+        <name>computeExactIntersects</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::computeExactIntersects</qualifiedname>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g2</declname>
+        </param>
+        <briefdescription>
+<para>Compute Exact Intersects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">g2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isPoint(), empty(), std::abs(), isPolygon(), pointInRing(), outerRing(), isLineString(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="996" column="10" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="996" bodyend="1121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a9867602171a035a9e2127cd275d85d82" prot="private" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::GpuBatchBackend::stBuffer</definition>
+        <argsstring>(const GeometryInfo &amp;geom, double distance_m, int arc_points) override</argsstring>
+        <name>stBuffer</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::stBuffer</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e">stBuffer</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>distance_m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>arc_points</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1130" column="18" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1130" bodyend="1134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1af1ed89f941177dda97da54d449b079c4" prot="private" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::GpuBatchBackend::stUnion</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2) override</argsstring>
+        <name>stUnion</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::stUnion</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a75a0a61492e8bf2755c3307e901206d7">stUnion</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1143" column="18" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1143" bodyend="1181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a7de7353c1aa982c208f619a4dda12563" prot="private" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::GpuBatchBackend::stDifference</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2) override</argsstring>
+        <name>stDifference</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::stDifference</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1e4ba225af0b839f94b1f4877b9af33b">stDifference</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1183" column="18" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1183" bodyend="1222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a8e0d000a7cf653fcbb20bbda5fce99de" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::geo::GpuBatchBackend::geodesicDistance</definition>
+        <argsstring>(double lat1, double lon1, double lat2, double lon2) const override</argsstring>
+        <name>geodesicDistance</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::geodesicDistance</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6f7d1da128cc4b93dd3d1345f56b329e">geodesicDistance</reimplements>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1230" column="12" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1230" bodyend="1232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a6fba9ea49a8c146911483a76f31f60a6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_containment_result" kindref="compound">GpuKernelDispatcher::ContainmentResult</ref></type>
+        <definition>GpuKernelDispatcher::ContainmentResult themis::geo::GpuBatchBackend::tryGpuContainmentDispatch</definition>
+        <argsstring>(const SpatialBatchInputs &amp;in, std::size_t n)</argsstring>
+        <name>tryGpuContainmentDispatch</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::tryGpuContainmentDispatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Try Gpu Containment Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lats(), lons(), empty(), outerRing(), size(), reserve(), push_back(), dispatchContainment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1314" column="44" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1314" bodyend="1345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a8e1ef9a10fe81efebf84167ec620e512" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GpuBatchBackend::recordLatency</definition>
+        <argsstring>(const std::chrono::steady_clock::time_point &amp;t0)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::recordLatency</qualifiedname>
+        <param>
+          <type>const std::chrono::steady_clock::time_point &amp;</type>
+          <declname>t0</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), count(), load(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1352" column="10" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1352" bodyend="1361"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1aa52645db5227a66ca8298371152bde81" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>themis::acceleration::GeoKernelDispatch</type>
+        <definition>static themis::acceleration::GeoKernelDispatch themis::geo::GpuBatchBackend::buildDispatchTable</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>buildDispatchTable</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::buildDispatchTable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1253" column="52" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1253" bodyend="1287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_batch_backend_1a18c4bf6182e529812aebb7244f1d8e98" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GpuBatchBackend::isAllPointsVsPolygon</definition>
+        <argsstring>(const SpatialBatchInputs &amp;in, std::size_t n) noexcept</argsstring>
+        <name>isAllPointsVsPolygon</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::isAllPointsVsPolygon</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="1289" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="1289" bodyend="1305"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::geo::GpuBatchBackend</label>
+        <link refid="classthemis_1_1geo_1_1_gpu_batch_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::geo::GpuBatchBackend</label>
+        <link refid="classthemis_1_1geo_1_1_gpu_batch_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/geo/gpu_backend_stub.cpp" line="772" column="1" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="772" bodyend="1362"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1aab3c659e7c9e3e8860c331fafefa336d" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>active_device_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1af83d71db8efa4271cc8869d5c2b8cd30" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1ae9ff6b507908be4bfb0cd6469327849b" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>batch_calls_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a15913f77e5a4185c8103be325b30d72c" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>batch_fallbacks_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a1288dd85e918e582af4456e8cb3f678a" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>batch_latency_ns_max_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a57d6a735b1cf0c1e4830d1362a0ac3dc" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>batch_latency_ns_total_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1ace1df5862a5c1bef4928b39f716d889b" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>batch_pairs_processed_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a3fda501d717b6f338eabda2df23694e6" prot="public" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>batchIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1aa52645db5227a66ca8298371152bde81" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>buildDispatchTable</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1ac41d2de99d6200f31316102127282fe8" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1ae4797b57700974cf62e0795e21595e96" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>computeExactIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a0d6c718c566e1a63523f41dfb626cfdf" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>exact_calls_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a7cf58eaabee47ace4e8d98f34b8057e2" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>exact_errors_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a5b03c5eea08742b4a106087aae4cb1c0" prot="public" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>exactIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a8e0d000a7cf653fcbb20bbda5fce99de" prot="private" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>geodesicDistance</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a94f26f9f9dcf5697be9ca82974edb2dc" prot="public" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a069ca75a3646d926a290fa8314d40c72" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>gpu_device_present_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a6477f72050a72a30d07990669fd3d0a3" prot="public" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>GpuBatchBackend</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1ae6c1858017f3a12c1b677f2224393de8" prot="public" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>GpuBatchBackend</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a18c4bf6182e529812aebb7244f1d8e98" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>isAllPointsVsPolygon</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1aac1106364c505d708e7cf1c968501444" prot="public" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a7b2578b967d41ddf6227a13579c205e6" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>kernel_dispatcher_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1aabc8745a0e6528f7960567b081c884d1" prot="public" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a8e1ef9a10fe81efebf84167ec620e512" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a510d56380daf4f043c76fcf3770eea22" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>safe_fail_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a9867602171a035a9e2127cd275d85d82" prot="private" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>stBuffer</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a7de7353c1aa982c208f619a4dda12563" prot="private" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>stDifference</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1af1ed89f941177dda97da54d449b079c4" prot="private" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>stUnion</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_batch_backend_1a6fba9ea49a8c146911483a76f31f60a6" prot="private" virt="non-virtual"><scope>themis::geo::GpuBatchBackend</scope><name>tryGpuContainmentDispatch</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1ac73e2531ea40978af133460e88a1a242" prot="public" virt="virtual"><scope>themis::geo::GpuBatchBackend</scope><name>~ISpatialComputeBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

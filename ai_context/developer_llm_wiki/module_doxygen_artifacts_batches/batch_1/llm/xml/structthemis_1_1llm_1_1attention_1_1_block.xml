@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1attention_1_1_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::attention::Block</compoundname>
+    <includes refid="kv__cache__manager_8h" local="no">kv_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_1acb008d6391c7d9dccfd445a73260cec3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::Block::block_id</definition>
+        <argsstring></argsstring>
+        <name>block_id</name>
+        <qualifiedname>themis::llm::attention::Block::block_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="60" column="9" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_1a3df56e04a26a363a0f59d124443b9ae2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::Block::is_free</definition>
+        <argsstring></argsstring>
+        <name>is_free</name>
+        <qualifiedname>themis::llm::attention::Block::is_free</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="61" column="10" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_1a6cdf2197a8a96b9cd286d5b10bf650dc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::Block::ref_count</definition>
+        <argsstring></argsstring>
+        <name>ref_count</name>
+        <qualifiedname>themis::llm::attention::Block::ref_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="62" column="9" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_1a84d08b501d9264ed35c4e3e637639b45" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::attention::Block::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::llm::attention::Block::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="63" column="17" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1attention_1_1_block_1a7be3889e9431961b6a9f77001c3f6030" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::attention::Block::~Block</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Block</name>
+        <qualifiedname>themis::llm::attention::Block::~Block</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="59" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/kv_cache_manager.h" line="54" column="1" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="54" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_1acb008d6391c7d9dccfd445a73260cec3" prot="public" virt="non-virtual"><scope>themis::llm::attention::Block</scope><name>block_id</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_1a84d08b501d9264ed35c4e3e637639b45" prot="public" virt="non-virtual"><scope>themis::llm::attention::Block</scope><name>data</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_1a3df56e04a26a363a0f59d124443b9ae2" prot="public" virt="non-virtual"><scope>themis::llm::attention::Block</scope><name>is_free</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_1a6cdf2197a8a96b9cd286d5b10bf650dc" prot="public" virt="non-virtual"><scope>themis::llm::attention::Block</scope><name>ref_count</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_1a7be3889e9431961b6a9f77001c3f6030" prot="public" virt="virtual"><scope>themis::llm::attention::Block</scope><name>~Block</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

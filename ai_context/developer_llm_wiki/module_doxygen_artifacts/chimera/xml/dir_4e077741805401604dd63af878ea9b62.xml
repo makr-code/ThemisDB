@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4e077741805401604dd63af878ea9b62" kind="dir">
+    <compoundname>include/chimera</compoundname>
+    <innerfile refid="batch__executor_8hpp">batch_executor.hpp</innerfile>
+    <innerfile refid="database__adapter_8hpp">database_adapter.hpp</innerfile>
+    <innerfile refid="mongodb__adapter_8hpp">mongodb_adapter.hpp</innerfile>
+    <innerfile refid="neo4j__adapter_8hpp">neo4j_adapter.hpp</innerfile>
+    <innerfile refid="qdrant__adapter_8hpp">qdrant_adapter.hpp</innerfile>
+    <innerfile refid="retry__executor_8hpp">retry_executor.hpp</innerfile>
+    <innerfile refid="themisdb__adapter_8hpp">themisdb_adapter.hpp</innerfile>
+    <innerfile refid="transaction_8hpp">transaction.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/"/>
+  </compounddef>
+</doxygen>

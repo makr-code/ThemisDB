@@ -1,0 +1,454 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_column_compressed_storage" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::ColumnCompressedStorage</compoundname>
+    <includes refid="compressed__storage_8h" local="no">compressed_storage.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_column_compressed_storage_1a49990dc5c5ac11aa90266e6bcaa2020c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend" kindref="compound">CompressedStorageWrapper::IStorageBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CompressedStorageWrapper::IStorageBackend&gt; themis::storage::ColumnCompressedStorage::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="237" column="21" bodyfile="include/storage/compressed_storage.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_column_compressed_storage_1a0f97f75aefb107815ae913d7a34c4e42" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">compression::CompressionConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, compression::CompressionConfig&gt; themis::storage::ColumnCompressedStorage::column_configs_</definition>
+        <argsstring></argsstring>
+        <name>column_configs_</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::column_configs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="238" column="24" bodyfile="include/storage/compressed_storage.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_column_compressed_storage_1ac2274655bb2faa69c8255e3a550836b4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1compression_1_1_compression_strategy_manager" kindref="compound">compression::CompressionStrategyManager</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;compression::CompressionStrategyManager&gt; &gt; themis::storage::ColumnCompressedStorage::column_compressors_</definition>
+        <argsstring></argsstring>
+        <name>column_compressors_</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::column_compressors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="239" column="24" bodyfile="include/storage/compressed_storage.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_column_compressed_storage_1a90f8d539d4a7aac82eb45198cf0cd893" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::ColumnCompressedStorage::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="240" column="24" bodyfile="include/storage/compressed_storage.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_column_compressed_storage_1a72e4d99330cb3480dcf3cd0d14539fcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ColumnCompressedStorage::ColumnCompressedStorage</definition>
+        <argsstring>(std::shared_ptr&lt; CompressedStorageWrapper::IStorageBackend &gt; backend)</argsstring>
+        <name>ColumnCompressedStorage</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::ColumnCompressedStorage</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend" kindref="compound">CompressedStorageWrapper::IStorageBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="177" column="5" bodyfile="src/storage/compressed_storage.cpp" bodystart="217" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_column_compressed_storage_1a1c895c74ab144fa6a1b76c471b96ffc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ColumnCompressedStorage::configure_column</definition>
+        <argsstring>(const std::string &amp;column, const compression::CompressionConfig &amp;config)</argsstring>
+        <name>configure_column</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::configure_column</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">compression::CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure compression for a specific column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure column.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column name/namespace </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration for this column</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="185" column="10" bodyfile="src/storage/compressed_storage.cpp" bodystart="229" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_column_compressed_storage_1a40c8aa297b7a7ff2ed24c4d7d60b517e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ColumnCompressedStorage::put</definition>
+        <argsstring>(const std::string &amp;column, const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;value, std::optional&lt; compression::DataType &gt; hint=std::nullopt)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">compression::DataType</ref> &gt;</type>
+          <declname>hint</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Store value in a specific column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column name/namespace </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key within the column </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> to store </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional data type hint</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), <ref refid="classthemis_1_1storage_1_1_column_compressed_storage_1abf63b96476b7926b42be8ec5cf462afc" kindref="member">get()</ref>, compress(), std::move(), serialize(), make_full_key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="198" column="10" bodyfile="src/storage/compressed_storage.cpp" bodystart="247" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_column_compressed_storage_1abf63b96476b7926b42be8ec5cf462afc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::ColumnCompressedStorage::get</definition>
+        <argsstring>(const std::string &amp;column, const std::string &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve value from a specific column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column name/namespace </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key within the column </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decompressed value or nullopt</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: make_full_key(), <ref refid="structthemis_1_1storage_1_1_compressed_value_1a4494c7d62618e7718372ae70bcdcbcc1" kindref="member">CompressedValue::deserialize()</ref>, lock(), find(), end(), decompress(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="212" column="19" bodyfile="src/storage/compressed_storage.cpp" bodystart="291" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_column_compressed_storage_1ab579e90a0836e62b2336d7f915d7b0f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ColumnCompressedStorage::del</definition>
+        <argsstring>(const std::string &amp;column, const std::string &amp;key)</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete key from column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Del.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: make_full_key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="220" column="10" bodyfile="src/storage/compressed_storage.cpp" bodystart="343" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_column_compressed_storage_1af252d76da69c3ba362044ba0ccac2fa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ColumnCompressedStorage::get_all_column_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_all_column_stats</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::get_all_column_stats</qualifiedname>
+        <briefdescription>
+<para>Get compression statistics for all columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="225" column="17" bodyfile="src/storage/compressed_storage.cpp" bodystart="350" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_column_compressed_storage_1a2d273a5911ff2acad140bafba68dfa3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ColumnCompressedStorage::get_column_stats</definition>
+        <argsstring>(const std::string &amp;column) const</argsstring>
+        <name>get_column_stats</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::get_column_stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Get compression statistics for specific column. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="230" column="17" bodyfile="src/storage/compressed_storage.cpp" bodystart="372" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_column_compressed_storage_1a48e6fb55f34c01ad0f069905814bd161" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ColumnCompressedStorage::make_full_key</definition>
+        <argsstring>(const std::string &amp;column, const std::string &amp;key) const</argsstring>
+        <name>make_full_key</name>
+        <qualifiedname>themis::storage::ColumnCompressedStorage::make_full_key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="233" column="17" bodyfile="include/storage/compressed_storage.h" bodystart="233" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Column-aware compressed storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Allows different compression strategies for different columns/namespaces. Each column can have its own compression configuration optimized for its data type. </para>
+    </detaileddescription>
+    <location file="include/storage/compressed_storage.h" line="175" column="1" bodyfile="include/storage/compressed_storage.h" bodystart="175" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1a49990dc5c5ac11aa90266e6bcaa2020c" prot="private" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1ac2274655bb2faa69c8255e3a550836b4" prot="private" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>column_compressors_</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1a0f97f75aefb107815ae913d7a34c4e42" prot="private" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>column_configs_</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1a72e4d99330cb3480dcf3cd0d14539fcd" prot="public" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>ColumnCompressedStorage</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1a1c895c74ab144fa6a1b76c471b96ffc0" prot="public" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>configure_column</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1ab579e90a0836e62b2336d7f915d7b0f5" prot="public" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>del</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1abf63b96476b7926b42be8ec5cf462afc" prot="public" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1af252d76da69c3ba362044ba0ccac2fa6" prot="public" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>get_all_column_stats</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1a2d273a5911ff2acad140bafba68dfa3e" prot="public" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>get_column_stats</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1a48e6fb55f34c01ad0f069905814bd161" prot="private" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>make_full_key</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1a90f8d539d4a7aac82eb45198cf0cd893" prot="private" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_column_compressed_storage_1a40c8aa297b7a7ff2ed24c4d7d60b517e" prot="public" virt="non-virtual"><scope>themis::storage::ColumnCompressedStorage</scope><name>put</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

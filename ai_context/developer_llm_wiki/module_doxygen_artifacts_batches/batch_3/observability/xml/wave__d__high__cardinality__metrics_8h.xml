@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wave__d__high__cardinality__metrics_8h" kind="file" language="C++">
+    <compoundname>wave_d_high_cardinality_metrics.h</compoundname>
+    <includes refid="metrics__collector_8h" local="yes">observability/metrics_collector.h</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">shared_mutex</includes>
+    <includedby refid="wave__d__high__cardinality__metrics_8cpp" local="yes">src/observability/wave_d_high_cardinality_metrics.cpp</includedby>
+    <includedby refid="test__high__cardinality__metrics_8cpp" local="yes">tests/observability/test_high_cardinality_metrics.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>observability/metrics_collector.h</label>
+        <link refid="metrics__collector_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/wave_d_high_cardinality_metrics.h</label>
+        <link refid="wave__d__high__cardinality__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/wave_d_high_cardinality_metrics.h</label>
+        <link refid="wave__d__high__cardinality__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/wave_d_high_cardinality_metrics.cpp</label>
+        <link refid="wave__d__high__cardinality__metrics_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/observability/test_high_cardinality_metrics.cpp</label>
+        <link refid="test__high__cardinality__metrics_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1observability_1_1_shard_latency_histogram" prot="public">themis::observability::ShardLatencyHistogram</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles" prot="public">themis::observability::ShardLatencyHistogram::LatencyQuantiles</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_replica_lag_tracker" prot="public">themis::observability::ReplicaLagTracker</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles" prot="public">themis::observability::ReplicaLagTracker::LagQuantiles</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_retry_counter" prot="public">themis::observability::RetryCounter</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager" prot="public">themis::observability::HighCardinalityMetricsManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Wave D Phase 2B: High-cardinality metrics collection with bounded memory. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.4.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-17</para>
+</simplesect>
+Extends MetricsCollector with shard histograms, replica-lag quantiles, and retry counters. Enforces cardinality bounds to prevent OOM under high-volume metric emission.</para>
+<para>Wave D Phase 2B Gate: W4A-METRICS-01 (memory bounded, no OOM at 50k dimensions)</para>
+<sect1 id="wave__d__high__cardinality__metrics_8h_1autotoc_md21_1s1"><sect2 id="wave__d__high__cardinality__metrics_8h_1autotoc_md21">
+<title>Cardinality Bounds</title><para><itemizedlist>
+<listitem><para><computeroutput>shard_latency{shard_id}</computeroutput>: max dimensions = cluster topology size (≤ 1024)</para>
+</listitem><listitem><para><computeroutput>replica_lag_ms{replica_id}</computeroutput>: max dimensions = replica set size (≤ 32)</para>
+</listitem><listitem><para><computeroutput>retry_counter{reason}</computeroutput>: max dimensions = enumerated failure reasons (≤ 10)</para>
+</listitem><listitem><para>Total high-cardinality metrics: ≤ 50k unique label combinations</para>
+</listitem><listitem><para>Memory budget: ≤ 512 MB at 50k cardinality</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="test__high__cardinality__metrics_8cpp" kindref="compound">tests/observability/test_high_cardinality_metrics.cpp</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="metrics__collector_8h" kindref="compound">observability/metrics_collector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1observability_1_1_shard_latency_histogram" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram" kindref="compound">ShardLatencyHistogram</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a6942439ad2066ce4e99377a9f15b4577" kindref="member">recordLatency</ref>(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_type,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles" kindref="compound">LatencyQuantiles</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1a3496feb0c24839dce0157fba55f03a09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1a3496feb0c24839dce0157fba55f03a09" kindref="member">p50</ref>{0.0};</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1af071dd493dbcaf361777c93e56e74695" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1af071dd493dbcaf361777c93e56e74695" kindref="member">p95</ref>{0.0};</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1a69670573378ff692ae6f8d96bc58007c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1a69670573378ff692ae6f8d96bc58007c" kindref="member">p99</ref>{0.0};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>LatencyQuantiles<sp/><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a1d05f26d4e8ae18e7cc73a9a8a24a056" kindref="member">getQuantiles</ref>(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a41b187d793b10737256ec1f95c39f508" kindref="member">getCardinality</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a390e5757e6fe5c0875835b29de41505f" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-shard-operation<sp/>histograms:<sp/>map&lt;shard_id,<sp/>map&lt;operation_type,<sp/>vector&lt;observations&gt;&gt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::map&lt;std::string,<sp/>std::vector&lt;double&gt;&gt;&gt;<sp/>shard_latencies_;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cardinality<sp/>limit<sp/>(max<sp/>unique<sp/>shards)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxShardCardinality<sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1observability_1_1_replica_lag_tracker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker" kindref="compound">ReplicaLagTracker</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker_1a5015566aca3cfc1cf3394e4772e2d4a4" kindref="member">recordLag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>replica_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lag_ms);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles" kindref="compound">LagQuantiles</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1aca174156e79aedd6dac88d6b87512ff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1aca174156e79aedd6dac88d6b87512ff9" kindref="member">p50</ref>{0.0};</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1ad382bcf81754905d83a5a2ad9b1f3dfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1ad382bcf81754905d83a5a2ad9b1f3dfa" kindref="member">p95</ref>{0.0};</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1aa0037fae9b8e40515af6199d76869e23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1aa0037fae9b8e40515af6199d76869e23" kindref="member">p99</ref>{0.0};</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1abad2b210d2efbc8a03c8ba57b2e9e43b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1abad2b210d2efbc8a03c8ba57b2e9e43b" kindref="member">max</ref>{0.0};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>LagQuantiles<sp/><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker_1abb4da4aa468f0cbd1054455949a36134" kindref="member">getQuantiles</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>replica_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker_1ab3ebfbfb0f90c6dd1f320764c460ab48" kindref="member">getMaxLag</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker_1a7072109c360bdf77d62a4bc5580b6c3b" kindref="member">getCardinality</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker_1a6071b98086edff5108e9b06a403fbe8b" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-replica<sp/>lag<sp/>observations:<sp/>map&lt;replica_id,<sp/>vector&lt;observations&gt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;double&gt;&gt;<sp/>replica_lags_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cardinality<sp/>limit<sp/>(max<sp/>unique<sp/>replicas)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxReplicaCardinality<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1observability_1_1_retry_counter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_retry_counter" kindref="compound">RetryCounter</ref><sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_retry_counter_1a23c677fe57edb708a15c7f6f4788daf1" kindref="member">recordRetry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason,<sp/>int64_t<sp/>count<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1observability_1_1_retry_counter_1ac61af5d439fb1cf34e6701fedbad98c9" kindref="member">getRetryCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int64_t&gt;<sp/><ref refid="classthemis_1_1observability_1_1_retry_counter_1a66f1471451d9b1ebad8a4df48ec16e79" kindref="member">getAllRetries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1observability_1_1_retry_counter_1a8265899608722af4410f91536682f557" kindref="member">getTotalRetries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_retry_counter_1ace07b4b5534ac4c0a10017cdfa5737b1" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-reason<sp/>retry<sp/>counters:<sp/>map&lt;reason,<sp/>count&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int64_t&gt;<sp/>retry_counts_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cardinality<sp/>limit<sp/>(max<sp/>unique<sp/>failure<sp/>reasons)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxReasonCardinality<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">getInstance</ref>();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a659b6977d379207f9dc210987c7789e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a659b6977d379207f9dc210987c7789e7" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1af9c11df2f3414d8bd3a85d75474f8a54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram" kindref="compound">ShardLatencyHistogram</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1af9c11df2f3414d8bd3a85d75474f8a54" kindref="member">shardLatencies</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shard_latencies_;<sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0355ad94c2c808d38a36546ed1f50823" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker" kindref="compound">ReplicaLagTracker</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0355ad94c2c808d38a36546ed1f50823" kindref="member">replicaLag</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>replica_lag_;<sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1aa46a07b9ef4ffa3ecb3c9b27cc419e01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_retry_counter" kindref="compound">RetryCounter</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1aa46a07b9ef4ffa3ecb3c9b27cc419e01" kindref="member">retryCounter</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>retry_counter_;<sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0646a9f4ba2dbfbac4adbf90439b8af1" kindref="member">getTotalCardinality</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a86a4eb7c5d480962e3921a1ec74fb926" kindref="member">getEstimatedMemoryBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1aaf6c3abc21c39b313c85ef233daa19" kindref="member">isCardinalitySafe</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ad97f8f4ffd15ef8ddd83b0b19696dbe6" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager" kindref="compound">~HighCardinalityMetricsManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram" kindref="compound">ShardLatencyHistogram</ref><sp/>shard_latencies_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker" kindref="compound">ReplicaLagTracker</ref><sp/>replica_lag_;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_retry_counter" kindref="compound">RetryCounter</ref><sp/>retry_counter_;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cardinality<sp/>limit<sp/>for<sp/>the<sp/>entire<sp/>high-cardinality<sp/>metrics<sp/>subsystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kTotalCardinalityLimit<sp/>=<sp/>50000;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kMemoryBudgetBytes<sp/>=<sp/>512<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/wave_d_high_cardinality_metrics.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_kyber_k_e_m" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::KyberKEM</compoundname>
+    <includes refid="post__quantum__crypto_8h" local="no">post_quantum_crypto.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_kyber_k_e_m_1_1_key_pair" prot="public">themis::security::KyberKEM::KeyPair</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_kyber_k_e_m_1_1_encapsulation_result" prot="public">themis::security::KyberKEM::EncapsulationResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_kyber_k_e_m_1_1_impl" prot="public">themis::security::KyberKEM::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SecurityLevel</name>
+        <qualifiedname>themis::security::KyberKEM::SecurityLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61a0e5102714f25d3ebf873617b56ad849a" prot="public">
+          <name>KYBER_512</name>
+          <briefdescription>
+<para>128-bit quantum security </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61ab5242f3638824cd0a3945d19c95e5b61" prot="public">
+          <name>KYBER_768</name>
+          <briefdescription>
+<para>192-bit quantum security </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61a6e5e9fab6751a1b20f5d15fe228045e0" prot="public">
+          <name>KYBER_1024</name>
+          <briefdescription>
+<para>256-bit quantum security (recommended) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="53" column="5" bodyfile="include/security/post_quantum_crypto.h" bodystart="53" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_kyber_k_e_m_1a32cbf8f3539d20af06be0682b290d43d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::security::KyberKEM::level_</definition>
+        <argsstring></argsstring>
+        <name>level_</name>
+        <qualifiedname>themis::security::KyberKEM::level_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="129" column="19" bodyfile="include/security/post_quantum_crypto.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_kyber_k_e_m_1a2fb9efc3e51e9cd789e6a67be3f84804" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1security_1_1_kyber_k_e_m_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::security::KyberKEM::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::security::KyberKEM::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="131" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1aa32f56cdd350e5760923d69513769402" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::KyberKEM::KyberKEM</definition>
+        <argsstring>(SecurityLevel level=SecurityLevel::KYBER_1024)</argsstring>
+        <name>KyberKEM</name>
+        <qualifiedname>themis::security::KyberKEM::KyberKEM</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+          <defval><ref refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61a6e5e9fab6751a1b20f5d15fe228045e0" kindref="member">SecurityLevel::KYBER_1024</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="59" column="14" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="466" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1aae85a1541824f5fcce4962fb3d9392f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::KyberKEM::~KyberKEM</definition>
+        <argsstring>()</argsstring>
+        <name>~KyberKEM</name>
+        <qualifiedname>themis::security::KyberKEM::~KyberKEM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1af1bf7b5eedfc08343eca4a8f38937a3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::KyberKEM::KyberKEM</definition>
+        <argsstring>(const KyberKEM &amp;)=delete</argsstring>
+        <name>KyberKEM</name>
+        <qualifiedname>themis::security::KyberKEM::KyberKEM</qualifiedname>
+        <param>
+          <type>const KyberKEM &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1a0255e38f0e88b549eaee8281bef76f9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa32f56cdd350e5760923d69513769402" kindref="member">KyberKEM</ref> &amp;</type>
+        <definition>KyberKEM &amp; themis::security::KyberKEM::operator=</definition>
+        <argsstring>(const KyberKEM &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::KyberKEM::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa32f56cdd350e5760923d69513769402" kindref="member">KyberKEM</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="64" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1ab50963df4248fe55c7b3219e43c54bc0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::KyberKEM::KyberKEM</definition>
+        <argsstring>(KyberKEM &amp;&amp;) noexcept</argsstring>
+        <name>KyberKEM</name>
+        <qualifiedname>themis::security::KyberKEM::KyberKEM</qualifiedname>
+        <param>
+          <type>KyberKEM &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1af37d07d27d054e8cc6296df62ae04787" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa32f56cdd350e5760923d69513769402" kindref="member">KyberKEM</ref> &amp;</type>
+        <definition>KyberKEM &amp; themis::security::KyberKEM::operator=</definition>
+        <argsstring>(KyberKEM &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::KyberKEM::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa32f56cdd350e5760923d69513769402" kindref="member">KyberKEM</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="66" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1aee8e9924aa7075f3877e83086e4ffda2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_kyber_k_e_m_1_1_key_pair" kindref="compound">KeyPair</ref></type>
+        <definition>KyberKEM::KeyPair themis::security::KyberKEM::generateKeyPair</definition>
+        <argsstring>()</argsstring>
+        <name>generateKeyPair</name>
+        <qualifiedname>themis::security::KyberKEM::generateKeyPair</qualifiedname>
+        <briefdescription>
+<para>Generate a Kyber key pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Key Pair.</para>
+<para><simplesect kind="return"><para>New key pair (public + secret key) </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if key generation fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: k(), kyberAlgName(), resize(), OQS_KEM_keypair(), data(), THEMIS_DEBUG(), size(), x25519_keygen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="90" column="13" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="512" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1a6824591c251ea88fe673c446ffe5ac78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_kyber_k_e_m_1_1_encapsulation_result" kindref="compound">EncapsulationResult</ref></type>
+        <definition>KyberKEM::EncapsulationResult themis::security::KyberKEM::encapsulate</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;public_key)</argsstring>
+        <name>encapsulate</name>
+        <qualifiedname>themis::security::KyberKEM::encapsulate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>public_key</declname>
+        </param>
+        <briefdescription>
+<para>Encapsulate a fresh shared secret under the recipient&apos;s public key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Both the returned ciphertext (sent to recipient) and the shared secret (used locally as an AES-256-GCM key or HKDF input) are produced.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>public_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recipient&apos;s Kyber public key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_kyber_k_e_m_1_1_encapsulation_result" kindref="compound">EncapsulationResult</ref> containing ciphertext and shared_secret </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if public_key size is unexpected </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if encapsulation fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="103" column="25" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="536" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1af252595121df68bd3c04fd1fbc4dd951" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::KyberKEM::decapsulate</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;ciphertext, const std::vector&lt; uint8_t &gt; &amp;secret_key)</argsstring>
+        <name>decapsulate</name>
+        <qualifiedname>themis::security::KyberKEM::decapsulate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>secret_key</declname>
+        </param>
+        <briefdescription>
+<para>Decapsulate to recover the shared secret. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ciphertext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>KEM ciphertext received from sender </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>secret_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recipient&apos;s Kyber secret key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>32-byte shared secret matching the encapsulator&apos;s value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if sizes are inconsistent </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if decapsulation fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="114" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="580" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1ad6bc93347f01754c7cfe83e82cb68bdc" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::KyberKEM::publicKeySize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>publicKeySize</name>
+        <qualifiedname>themis::security::KyberKEM::publicKeySize</qualifiedname>
+        <briefdescription>
+<para>Expected public key size in bytes for this security level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="118" column="12" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="481" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1a8f91943734e74758f91abe35697700f3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::KyberKEM::secretKeySize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>secretKeySize</name>
+        <qualifiedname>themis::security::KyberKEM::secretKeySize</qualifiedname>
+        <briefdescription>
+<para>Expected secret key size in bytes for this security level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="120" column="12" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="489" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1a4505debadb7857ac8548b54b811a283e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::KyberKEM::ciphertextSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ciphertextSize</name>
+        <qualifiedname>themis::security::KyberKEM::ciphertextSize</qualifiedname>
+        <briefdescription>
+<para>Expected KEM ciphertext size in bytes for this security level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="122" column="12" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="497" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1a7d80f8d3172ba385337649dcdfbbb247" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::security::KyberKEM::securityLevel</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>securityLevel</name>
+        <qualifiedname>themis::security::KyberKEM::securityLevel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="126" column="19" bodyfile="include/security/post_quantum_crypto.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_kyber_k_e_m_1a0404ae2704b56599746b635e935d2ab1" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static constexpr size_t themis::security::KyberKEM::sharedSecretSize</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>sharedSecretSize</name>
+        <qualifiedname>themis::security::KyberKEM::sharedSecretSize</qualifiedname>
+        <briefdescription>
+<para>Shared secret size – always 32 bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="124" column="29" bodyfile="include/security/post_quantum_crypto.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CRYSTALS-Kyber key encapsulation mechanism (KEM). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>NIST-approved post-quantum algorithm for key exchange (FIPS 203 / ML-KEM). Provides quantum-resistant key encapsulation at configurable security levels.</para>
+<para><simplesect kind="note"><para>This implementation uses an OpenSSL-backed software simulation (X25519 ECDH + HKDF) that is API-compatible with the full liboqs backend. Once liboqs is added as a vcpkg dependency the backend will be transparently replaced while the public interface remains stable. The simulation is labeled KYBER_SIM in diagnostic output.</para>
+</simplesect>
+Security levels: KYBER_512 – equivalent to AES-128 (128-bit classical / quantum) KYBER_768 – equivalent to AES-192 (192-bit classical / quantum) KYBER_1024 – equivalent to AES-256 (256-bit classical / quantum) ← recommended</para>
+<para>Performance (software simulation): Key generation: &lt; 0.1 ms Encapsulation: &lt; 0.1 ms Decapsulation: &lt; 0.1 ms Throughput: &gt; 10 000 ops/s</para>
+<para>Thread safety: all methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/security/post_quantum_crypto.h" line="51" column="1" bodyfile="include/security/post_quantum_crypto.h" bodystart="51" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1a4505debadb7857ac8548b54b811a283e" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>ciphertextSize</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1af252595121df68bd3c04fd1fbc4dd951" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>decapsulate</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1a6824591c251ea88fe673c446ffe5ac78" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>encapsulate</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1aee8e9924aa7075f3877e83086e4ffda2" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>generateKeyPair</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1a2fb9efc3e51e9cd789e6a67be3f84804" prot="private" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa32f56cdd350e5760923d69513769402" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>KyberKEM</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1af1bf7b5eedfc08343eca4a8f38937a3a" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>KyberKEM</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1ab50963df4248fe55c7b3219e43c54bc0" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>KyberKEM</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1a32cbf8f3539d20af06be0682b290d43d" prot="private" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>level_</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1a0255e38f0e88b549eaee8281bef76f9b" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1af37d07d27d054e8cc6296df62ae04787" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1ad6bc93347f01754c7cfe83e82cb68bdc" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>publicKeySize</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1a8f91943734e74758f91abe35697700f3" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>secretKeySize</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1aa91de5b8ed227978acd1b01a1c2bae61" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>SecurityLevel</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1a7d80f8d3172ba385337649dcdfbbb247" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>securityLevel</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1a0404ae2704b56599746b635e935d2ab1" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>sharedSecretSize</name></member>
+      <member refid="classthemis_1_1security_1_1_kyber_k_e_m_1aae85a1541824f5fcce4962fb3d9392f2" prot="public" virt="non-virtual"><scope>themis::security::KyberKEM</scope><name>~KyberKEM</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

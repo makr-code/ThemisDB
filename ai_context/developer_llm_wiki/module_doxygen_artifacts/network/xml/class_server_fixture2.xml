@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_server_fixture2" kind="class" language="C++" prot="public">
+    <compoundname>ServerFixture2</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_server_fixture2_1a96eec21c41556962901251b6fa0108ec" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; ServerFixture2::server_running_</definition>
+        <argsstring></argsstring>
+        <name>server_running_</name>
+        <qualifiedname>ServerFixture2::server_running_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="130" column="17" bodyfile="tests/network/test_http_range_index.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_fixture2_1ae359aefa6d0d8c79c88b937de9254efe" prot="private" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t ServerFixture2::server_port_</definition>
+        <argsstring></argsstring>
+        <name>server_port_</name>
+        <qualifiedname>ServerFixture2::server_port_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="131" column="14" bodyfile="tests/network/test_http_range_index.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_server_fixture2_1a6a41a784e9dc7c952a2cb06da0b2b1f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ServerFixture2::ServerFixture2</definition>
+        <argsstring>()</argsstring>
+        <name>ServerFixture2</name>
+        <qualifiedname>ServerFixture2::ServerFixture2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="18" column="5" bodyfile="tests/network/test_http_range_index.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_fixture2_1a4f5e67890fa8d9032ae850aa8cf8864a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ServerFixture2::~ServerFixture2</definition>
+        <argsstring>()</argsstring>
+        <name>~ServerFixture2</name>
+        <qualifiedname>ServerFixture2::~ServerFixture2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="19" column="5" bodyfile="tests/network/test_http_range_index.cpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_fixture2_1a5e88ba83d0233e960159e6ee72c4831a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerFixture2::startServer</definition>
+        <argsstring>()</argsstring>
+        <name>startServer</name>
+        <qualifiedname>ServerFixture2::startServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="21" column="10" bodyfile="tests/network/test_http_range_index.cpp" bodystart="21" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_fixture2_1a23b2e20d9473dd4852e39021c714419e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerFixture2::stopServer</definition>
+        <argsstring>()</argsstring>
+        <name>stopServer</name>
+        <qualifiedname>ServerFixture2::stopServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="72" column="10" bodyfile="tests/network/test_http_range_index.cpp" bodystart="72" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_fixture2_1af9563e6e61af543aad6fee4dea1ae373" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::status</type>
+        <definition>http::status ServerFixture2::check</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>check</name>
+        <qualifiedname>ServerFixture2::check</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="87" column="18" bodyfile="tests/network/test_http_range_index.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_fixture2_1a4c7e38c33b29522dc44f7cb24a25e755" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; ServerFixture2::postJson</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;j)</argsstring>
+        <name>postJson</name>
+        <qualifiedname>ServerFixture2::postJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="89" column="20" bodyfile="tests/network/test_http_range_index.cpp" bodystart="89" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_fixture2_1a152e56eb0ba9e66d27f5d2d25e6c957f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; ServerFixture2::request</definition>
+        <argsstring>(http::verb method, const std::string &amp;target)</argsstring>
+        <name>request</name>
+        <qualifiedname>ServerFixture2::request</qualifiedname>
+        <param>
+          <type>http::verb</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_range_index.cpp" line="111" column="20" bodyfile="tests/network/test_http_range_index.cpp" bodystart="111" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_http_range_index.cpp" line="16" column="1" bodyfile="tests/network/test_http_range_index.cpp" bodystart="16" bodyend="132"/>
+    <listofallmembers>
+      <member refid="class_server_fixture2_1af9563e6e61af543aad6fee4dea1ae373" prot="public" virt="non-virtual"><scope>ServerFixture2</scope><name>check</name></member>
+      <member refid="class_server_fixture2_1a4c7e38c33b29522dc44f7cb24a25e755" prot="public" virt="non-virtual"><scope>ServerFixture2</scope><name>postJson</name></member>
+      <member refid="class_server_fixture2_1a152e56eb0ba9e66d27f5d2d25e6c957f" prot="public" virt="non-virtual"><scope>ServerFixture2</scope><name>request</name></member>
+      <member refid="class_server_fixture2_1ae359aefa6d0d8c79c88b937de9254efe" prot="private" virt="non-virtual"><scope>ServerFixture2</scope><name>server_port_</name></member>
+      <member refid="class_server_fixture2_1a96eec21c41556962901251b6fa0108ec" prot="private" virt="non-virtual"><scope>ServerFixture2</scope><name>server_running_</name></member>
+      <member refid="class_server_fixture2_1a6a41a784e9dc7c952a2cb06da0b2b1f8" prot="public" virt="non-virtual"><scope>ServerFixture2</scope><name>ServerFixture2</name></member>
+      <member refid="class_server_fixture2_1a5e88ba83d0233e960159e6ee72c4831a" prot="public" virt="non-virtual"><scope>ServerFixture2</scope><name>startServer</name></member>
+      <member refid="class_server_fixture2_1a23b2e20d9473dd4852e39021c714419e" prot="public" virt="non-virtual"><scope>ServerFixture2</scope><name>stopServer</name></member>
+      <member refid="class_server_fixture2_1a4f5e67890fa8d9032ae850aa8cf8864a" prot="public" virt="non-virtual"><scope>ServerFixture2</scope><name>~ServerFixture2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

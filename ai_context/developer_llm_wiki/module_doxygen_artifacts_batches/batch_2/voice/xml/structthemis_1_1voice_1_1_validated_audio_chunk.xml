@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_validated_audio_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::ValidatedAudioChunk</compoundname>
+    <includes refid="voice__stream__validator_8h" local="no">voice_stream_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_validated_audio_chunk_1a6e69977b8941186edc6db5f1f882b2ef" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::voice::ValidatedAudioChunk::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::voice::ValidatedAudioChunk::data</qualifiedname>
+        <briefdescription>
+<para>Raw audio data (byte stream). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="99" column="17" bodyfile="include/voice/voice_stream_validator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_validated_audio_chunk_1ab242b00f4041bf8f9a511a7e70263a51" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::ValidatedAudioChunk::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::voice::ValidatedAudioChunk::sample_rate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sample rate in Hz. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="102" column="14" bodyfile="include/voice/voice_stream_validator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_validated_audio_chunk_1a0641ade6d2125e1e2e61e814958dac90" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::ValidatedAudioChunk::num_channels</definition>
+        <argsstring></argsstring>
+        <name>num_channels</name>
+        <qualifiedname>themis::voice::ValidatedAudioChunk::num_channels</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of audio channels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="105" column="13" bodyfile="include/voice/voice_stream_validator.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_validated_audio_chunk_1a6707557a0ae384be5d71e3aace1ce06d" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::ValidatedAudioChunk::bit_depth</definition>
+        <argsstring></argsstring>
+        <name>bit_depth</name>
+        <qualifiedname>themis::voice::ValidatedAudioChunk::bit_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bit depth (8, 16, 24, or 32). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="108" column="13" bodyfile="include/voice/voice_stream_validator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_validated_audio_chunk_1a1adf4c7886f7fdd53f0e9f4a6f055802" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::ValidatedAudioChunk::sequence_num</definition>
+        <argsstring></argsstring>
+        <name>sequence_num</name>
+        <qualifiedname>themis::voice::ValidatedAudioChunk::sequence_num</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Chunk sequence number (for ordering). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="111" column="14" bodyfile="include/voice/voice_stream_validator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_validated_audio_chunk_1a8ee9f0687c336f5dea39daacee0e8a46" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::ValidatedAudioChunk::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::ValidatedAudioChunk::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp in milliseconds (relative to stream start). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="114" column="14" bodyfile="include/voice/voice_stream_validator.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_validated_audio_chunk_1ab49752abbfc3553875ee9d5c18f8574a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ValidatedAudioChunk::is_final_chunk</definition>
+        <argsstring></argsstring>
+        <name>is_final_chunk</name>
+        <qualifiedname>themis::voice::ValidatedAudioChunk::is_final_chunk</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if this is the final chunk in the stream. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="117" column="10" bodyfile="include/voice/voice_stream_validator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Audio stream chunk with validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Encapsulates a validated audio chunk with metadata. </para>
+    </detaileddescription>
+    <location file="include/voice/voice_stream_validator.h" line="97" column="1" bodyfile="include/voice/voice_stream_validator.h" bodystart="97" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a6707557a0ae384be5d71e3aace1ce06d" prot="public" virt="non-virtual"><scope>themis::voice::ValidatedAudioChunk</scope><name>bit_depth</name></member>
+      <member refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a6e69977b8941186edc6db5f1f882b2ef" prot="public" virt="non-virtual"><scope>themis::voice::ValidatedAudioChunk</scope><name>data</name></member>
+      <member refid="structthemis_1_1voice_1_1_validated_audio_chunk_1ab49752abbfc3553875ee9d5c18f8574a" prot="public" virt="non-virtual"><scope>themis::voice::ValidatedAudioChunk</scope><name>is_final_chunk</name></member>
+      <member refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a0641ade6d2125e1e2e61e814958dac90" prot="public" virt="non-virtual"><scope>themis::voice::ValidatedAudioChunk</scope><name>num_channels</name></member>
+      <member refid="structthemis_1_1voice_1_1_validated_audio_chunk_1ab242b00f4041bf8f9a511a7e70263a51" prot="public" virt="non-virtual"><scope>themis::voice::ValidatedAudioChunk</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a1adf4c7886f7fdd53f0e9f4a6f055802" prot="public" virt="non-virtual"><scope>themis::voice::ValidatedAudioChunk</scope><name>sequence_num</name></member>
+      <member refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a8ee9f0687c336f5dea39daacee0e8a46" prot="public" virt="non-virtual"><scope>themis::voice::ValidatedAudioChunk</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

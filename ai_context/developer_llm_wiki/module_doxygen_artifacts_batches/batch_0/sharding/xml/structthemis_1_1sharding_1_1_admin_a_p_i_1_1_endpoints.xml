@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::AdminAPI::Endpoints</compoundname>
+    <includes refid="admin__api_8h" local="no">admin_api.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af984c68a54dbfe356c752d60af246188" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::TOPOLOGY</definition>
+        <argsstring></argsstring>
+        <name>TOPOLOGY</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::TOPOLOGY</qualifiedname>
+        <initializer>= &quot;/admin/topology&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="77" column="37" bodyfile="include/sharding/admin_api.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1adfa9fd7f349cd3642d8a48042dd2791d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::SHARD_ADD</definition>
+        <argsstring></argsstring>
+        <name>SHARD_ADD</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::SHARD_ADD</qualifiedname>
+        <initializer>= &quot;/admin/shard/add&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="78" column="37" bodyfile="include/sharding/admin_api.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a63bb47257de5a4ae5436a97733cb5953" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::SHARD_REMOVE</definition>
+        <argsstring></argsstring>
+        <name>SHARD_REMOVE</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::SHARD_REMOVE</qualifiedname>
+        <initializer>= &quot;/admin/shard/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="79" column="37" bodyfile="include/sharding/admin_api.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a42fef27bc6036d47be17230c3457ce6b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::REBALANCE</definition>
+        <argsstring></argsstring>
+        <name>REBALANCE</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::REBALANCE</qualifiedname>
+        <initializer>= &quot;/admin/rebalance&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="80" column="37" bodyfile="include/sharding/admin_api.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a8c93795ec635b74278009967d218d1fb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::REBALANCE_STATUS</definition>
+        <argsstring></argsstring>
+        <name>REBALANCE_STATUS</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::REBALANCE_STATUS</qualifiedname>
+        <initializer>= &quot;/admin/rebalance/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="81" column="37" bodyfile="include/sharding/admin_api.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af2315bb6893eb3e04799b3605a4aeccb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::HEALTH</definition>
+        <argsstring></argsstring>
+        <name>HEALTH</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::HEALTH</qualifiedname>
+        <initializer>= &quot;/admin/health&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="82" column="37" bodyfile="include/sharding/admin_api.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a0586e2c5d9e30257d60d3aa7750b8e42" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::STATS</definition>
+        <argsstring></argsstring>
+        <name>STATS</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::STATS</qualifiedname>
+        <initializer>= &quot;/admin/stats&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="83" column="37" bodyfile="include/sharding/admin_api.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a8652a4d79761c71ae2b3b03cc567d5e9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::CERTS</definition>
+        <argsstring></argsstring>
+        <name>CERTS</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::CERTS</qualifiedname>
+        <initializer>= &quot;/admin/certs&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="84" column="37" bodyfile="include/sharding/admin_api.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a2175d2b59f1aa34ce4c03a656fb8a083" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::CAPABILITIES</definition>
+        <argsstring></argsstring>
+        <name>CAPABILITIES</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::CAPABILITIES</qualifiedname>
+        <initializer>= &quot;/admin/capabilities&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="87" column="37" bodyfile="include/sharding/admin_api.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a9c189d833bd3006c373ed4b7424596c8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::SHARD_CAPABILITIES_GET</definition>
+        <argsstring></argsstring>
+        <name>SHARD_CAPABILITIES_GET</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::SHARD_CAPABILITIES_GET</qualifiedname>
+        <initializer>= &quot;/admin/shard/{shard_id}/capabilities&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="88" column="37" bodyfile="include/sharding/admin_api.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a1037803aab3fba6f8b80117671c23bac" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::SHARD_CAPABILITIES_PUT</definition>
+        <argsstring></argsstring>
+        <name>SHARD_CAPABILITIES_PUT</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::SHARD_CAPABILITIES_PUT</qualifiedname>
+        <initializer>= &quot;/admin/shard/{shard_id}/capabilities&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="89" column="37" bodyfile="include/sharding/admin_api.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a801c924203bd888fd2ea47f77fb881f9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::CAPABILITIES_BULK</definition>
+        <argsstring></argsstring>
+        <name>CAPABILITIES_BULK</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::CAPABILITIES_BULK</qualifiedname>
+        <initializer>= &quot;/admin/capabilities/bulk&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="90" column="37" bodyfile="include/sharding/admin_api.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a7b84b991d2b41c9e98c75a89aa23d26c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::REPAIR</definition>
+        <argsstring></argsstring>
+        <name>REPAIR</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::REPAIR</qualifiedname>
+        <initializer>= &quot;/admin/repair&quot;</initializer>
+        <briefdescription>
+<para>POST /admin/repair – trigger repair (body: {&quot;shard_id&quot;:&quot;...&quot;} or {}). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="94" column="37" bodyfile="include/sharding/admin_api.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a1a8fbd237e831ca93bae33adf141f745" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::REPAIR_SCAN</definition>
+        <argsstring></argsstring>
+        <name>REPAIR_SCAN</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::REPAIR_SCAN</qualifiedname>
+        <initializer>= &quot;/admin/repair/scan&quot;</initializer>
+        <briefdescription>
+<para>POST /admin/repair/scan – trigger full anti-entropy scan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="96" column="37" bodyfile="include/sharding/admin_api.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af891d5a1943e2ca1656673924375d8ca" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::REPAIR_STATUS</definition>
+        <argsstring></argsstring>
+        <name>REPAIR_STATUS</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::REPAIR_STATUS</qualifiedname>
+        <initializer>= &quot;/admin/repair/&quot;</initializer>
+        <briefdescription>
+<para>GET /admin/repair/{job_id} – query repair job status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="98" column="37" bodyfile="include/sharding/admin_api.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a641e641d359b636a0ecc3155416fb90a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::MIGRATE_HARDWARE_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>MIGRATE_HARDWARE_PREFIX</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::MIGRATE_HARDWARE_PREFIX</qualifiedname>
+        <initializer>= &quot;/api/v1/shards/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>POST /api/v1/shards/{id}/migrate-hardware Body: {&quot;new_endpoint&quot;: &quot;host:port&quot;} Response: {&quot;success&quot;: bool, &quot;shard_id&quot;: &quot;...&quot;, &quot;old_endpoint&quot;: &quot;...&quot;, &quot;new_endpoint&quot;: &quot;...&quot;} </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="104" column="37" bodyfile="include/sharding/admin_api.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a57218e97c08c95e421933184ebf4afd7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::AdminAPI::Endpoints::MIGRATE_HARDWARE_SUFFIX</definition>
+        <argsstring></argsstring>
+        <name>MIGRATE_HARDWARE_SUFFIX</name>
+        <qualifiedname>themis::sharding::AdminAPI::Endpoints::MIGRATE_HARDWARE_SUFFIX</qualifiedname>
+        <initializer>= &quot;/migrate-hardware&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="105" column="37" bodyfile="include/sharding/admin_api.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/admin_api.h" line="76" column="5" bodyfile="include/sharding/admin_api.h" bodystart="76" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a2175d2b59f1aa34ce4c03a656fb8a083" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>CAPABILITIES</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a801c924203bd888fd2ea47f77fb881f9" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>CAPABILITIES_BULK</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a8652a4d79761c71ae2b3b03cc567d5e9" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>CERTS</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af2315bb6893eb3e04799b3605a4aeccb" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>HEALTH</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a641e641d359b636a0ecc3155416fb90a" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>MIGRATE_HARDWARE_PREFIX</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a57218e97c08c95e421933184ebf4afd7" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>MIGRATE_HARDWARE_SUFFIX</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a42fef27bc6036d47be17230c3457ce6b" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>REBALANCE</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a8c93795ec635b74278009967d218d1fb" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>REBALANCE_STATUS</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a7b84b991d2b41c9e98c75a89aa23d26c" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>REPAIR</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a1a8fbd237e831ca93bae33adf141f745" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>REPAIR_SCAN</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af891d5a1943e2ca1656673924375d8ca" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>REPAIR_STATUS</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1adfa9fd7f349cd3642d8a48042dd2791d" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>SHARD_ADD</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a9c189d833bd3006c373ed4b7424596c8" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>SHARD_CAPABILITIES_GET</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a1037803aab3fba6f8b80117671c23bac" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>SHARD_CAPABILITIES_PUT</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a63bb47257de5a4ae5436a97733cb5953" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>SHARD_REMOVE</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a0586e2c5d9e30257d60d3aa7750b8e42" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>STATS</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af984c68a54dbfe356c752d60af246188" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI::Endpoints</scope><name>TOPOLOGY</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

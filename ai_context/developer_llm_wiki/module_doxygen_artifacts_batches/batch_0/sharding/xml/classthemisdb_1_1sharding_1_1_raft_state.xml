@@ -1,0 +1,1172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_raft_state" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftState</compoundname>
+    <includes refid="raft__state_8h" local="no">raft_state.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1acfea9f3170ebc9fcf74cb29e5d54d658" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_config" kindref="compound">RaftConfig</ref></type>
+        <definition>RaftConfig themisdb::sharding::RaftState::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::RaftState::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="290" column="16" bodyfile="include/sharding/raft_state.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a47dc32ec69571c874958d147de3f7c84" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::RaftState::current_term_</definition>
+        <argsstring></argsstring>
+        <name>current_term_</name>
+        <qualifiedname>themisdb::sharding::RaftState::current_term_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Latest term observed by this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="293" column="17" bodyfile="include/sharding/raft_state.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a7a1f3474dadba70ca21dfdf1b18a4e0c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftState::voted_for_</definition>
+        <argsstring></argsstring>
+        <name>voted_for_</name>
+        <qualifiedname>themisdb::sharding::RaftState::voted_for_</qualifiedname>
+        <briefdescription>
+<para>Candidate ID voted for in current term. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="294" column="17" bodyfile="include/sharding/raft_state.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a3477d0b246658510ffee2ffe0ac2dc54" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref></type>
+        <definition>RaftLog themisdb::sharding::RaftState::log_</definition>
+        <argsstring></argsstring>
+        <name>log_</name>
+        <qualifiedname>themisdb::sharding::RaftState::log_</qualifiedname>
+        <briefdescription>
+<para>Durable replicated log abstraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="295" column="13" bodyfile="include/sharding/raft_state.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a2dc221ed91e711871e03078039ac7ad1" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftState::snapshot_index_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index_</name>
+        <qualifiedname>themisdb::sharding::RaftState::snapshot_index_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Index of the last installed snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="298" column="14" bodyfile="include/sharding/raft_state.h" bodystart="298" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a554bfb4b78f6b876108d10648634b9fa" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftState::snapshot_term_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_term_</name>
+        <qualifiedname>themisdb::sharding::RaftState::snapshot_term_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Term of the last installed snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="299" column="14" bodyfile="include/sharding/raft_state.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a18526ca0b899abd97e68af01060980cb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::RaftState::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themisdb::sharding::RaftState::state_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects mutable consensus state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="302" column="24" bodyfile="include/sharding/raft_state.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a608adb1ad187754e0edfbd2bebd92642" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a5625d4cf328a2cd31b3291f665623f26" kindref="member">RaftNodeState</ref></type>
+        <definition>RaftNodeState themisdb::sharding::RaftState::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::sharding::RaftState::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1a5625d4cf328a2cd31b3291f665623f26a8026987f2531b5fa5178a851c108397c" kindref="member">RaftNodeState::FOLLOWER</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="303" column="19" bodyfile="include/sharding/raft_state.h" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a42d3951a6445f2e924bbeb634e20e63d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftState::leader_id_</definition>
+        <argsstring></argsstring>
+        <name>leader_id_</name>
+        <qualifiedname>themisdb::sharding::RaftState::leader_id_</qualifiedname>
+        <briefdescription>
+<para>Current known leader ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="304" column="17" bodyfile="include/sharding/raft_state.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a142651d584e20d14c9bb55a93dc7f6dc" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::RaftState::election_timeout_time_</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_time_</name>
+        <qualifiedname>themisdb::sharding::RaftState::election_timeout_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="307" column="43" bodyfile="include/sharding/raft_state.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1afc90539752998479c1dd12e8e30f04cb" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::RaftState::last_heartbeat_time_</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_time_</name>
+        <qualifiedname>themisdb::sharding::RaftState::last_heartbeat_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="308" column="43" bodyfile="include/sharding/raft_state.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1aefbc9ce9876ca8d12c59c743d882cff2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, bool &gt;</type>
+        <definition>std::map&lt;std::string, bool&gt; themisdb::sharding::RaftState::votes_received_</definition>
+        <argsstring></argsstring>
+        <name>votes_received_</name>
+        <qualifiedname>themisdb::sharding::RaftState::votes_received_</qualifiedname>
+        <briefdescription>
+<para>Votes collected in active election. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="309" column="14" bodyfile="include/sharding/raft_state.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1ac8e2b6698841238a2ab8714bd9e01c85" prot="private" static="no" mutable="yes">
+        <type>std::random_device</type>
+        <definition>std::random_device themisdb::sharding::RaftState::rd_</definition>
+        <argsstring></argsstring>
+        <name>rd_</name>
+        <qualifiedname>themisdb::sharding::RaftState::rd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="312" column="32" bodyfile="include/sharding/raft_state.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_state_1a72ece5173e47270f0f80586e9e2e8d72" prot="private" static="no" mutable="yes">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themisdb::sharding::RaftState::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themisdb::sharding::RaftState::rng_</qualifiedname>
+        <initializer>{rd_()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="313" column="26" bodyfile="include/sharding/raft_state.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1ae593839ac7ec50703cebabe9963e9854" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftState::RaftState</definition>
+        <argsstring>(const RaftConfig &amp;config)</argsstring>
+        <name>RaftState</name>
+        <qualifiedname>themisdb::sharding::RaftState::RaftState</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_raft_config" kindref="compound">RaftConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raft configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="83" column="14" bodyfile="src/sharding/raft_state.cpp" bodystart="19" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1aa28afe6d0260b6ae0133b693436f23d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftState::~RaftState</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RaftState</name>
+        <qualifiedname>themisdb::sharding::RaftState::~RaftState</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="88" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1acc1259e1c043e5fdaaba0da30fcd360c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftState::RaftState</definition>
+        <argsstring>(const RaftState &amp;)=delete</argsstring>
+        <name>RaftState</name>
+        <qualifiedname>themisdb::sharding::RaftState::RaftState</qualifiedname>
+        <param>
+          <type>const RaftState &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="91" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a49b13c71fc5b3eb557369bb8fcac6076" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_state_1ae593839ac7ec50703cebabe9963e9854" kindref="member">RaftState</ref> &amp;</type>
+        <definition>RaftState &amp; themisdb::sharding::RaftState::operator=</definition>
+        <argsstring>(const RaftState &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::RaftState::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_state_1ae593839ac7ec50703cebabe9963e9854" kindref="member">RaftState</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="92" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a4c2268f4ba451e669249ff9e02774fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::becomeFollower</definition>
+        <argsstring>(uint64_t term)</argsstring>
+        <name>becomeFollower</name>
+        <qualifiedname>themisdb::sharding::RaftState::becomeFollower</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+<para>Become follower with given term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Become Follower.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Term number</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), clear(), <ref refid="classthemisdb_1_1sharding_1_1_raft_state_1a03ae67601ec097abaa5ec13a76fbff57" kindref="member">resetElectionTimeout()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="98" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="30" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1afeafa20d637243f93269eee2f2e2fc24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::becomeCandidate</definition>
+        <argsstring>()</argsstring>
+        <name>becomeCandidate</name>
+        <qualifiedname>themisdb::sharding::RaftState::becomeCandidate</qualifiedname>
+        <briefdescription>
+<para>Become candidate and start election. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Become Candidate.</para>
+<para>Calls: lock(), clear(), <ref refid="classthemisdb_1_1sharding_1_1_raft_state_1a03ae67601ec097abaa5ec13a76fbff57" kindref="member">resetElectionTimeout()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="103" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="47" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1acba951986588f61216739d9c8bda7bfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::becomeLeader</definition>
+        <argsstring>()</argsstring>
+        <name>becomeLeader</name>
+        <qualifiedname>themisdb::sharding::RaftState::becomeLeader</qualifiedname>
+        <briefdescription>
+<para>Become leader (after winning election). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Become Leader.</para>
+<para>Calls: lock(), hasQuorum(), clear(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="108" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="64" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a9ca8509dd904fbe17b795f174d349445" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::startElection</definition>
+        <argsstring>()</argsstring>
+        <name>startElection</name>
+        <qualifiedname>themisdb::sharding::RaftState::startElection</qualifiedname>
+        <briefdescription>
+<para>Start a new election. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Election.</para>
+<para>Increments term, votes for self, and requests votes from peers.</para>
+<para>Calls: <ref refid="classthemisdb_1_1sharding_1_1_raft_state_1afeafa20d637243f93269eee2f2e2fc24" kindref="member">becomeCandidate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="115" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="87" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a044139f808bf29990d92cb67bbdc89a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_vote_response" kindref="compound">VoteResponse</ref></type>
+        <definition>VoteResponse themisdb::sharding::RaftState::handleVoteRequest</definition>
+        <argsstring>(const VoteRequest &amp;request)</argsstring>
+        <name>handleVoteRequest</name>
+        <qualifiedname>themisdb::sharding::RaftState::handleVoteRequest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_vote_request" kindref="compound">VoteRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Handle vote request from candidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Vote Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vote request </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vote response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), clear(), empty(), <ref refid="classthemisdb_1_1sharding_1_1_raft_state_1a03ae67601ec097abaa5ec13a76fbff57" kindref="member">resetElectionTimeout()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="122" column="18" bodyfile="src/sharding/raft_state.cpp" bodystart="100" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a3dd1bc59ac6a5691a2a67867361324a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::receiveVote</definition>
+        <argsstring>(const std::string &amp;voter_id, bool granted)</argsstring>
+        <name>receiveVote</name>
+        <qualifiedname>themisdb::sharding::RaftState::receiveVote</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>voter_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>granted</declname>
+        </param>
+        <briefdescription>
+<para>Receive vote from a peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive Vote.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>voter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the voting node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether vote was granted</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">voter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the voter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), hasQuorum(), unlock(), <ref refid="classthemisdb_1_1sharding_1_1_raft_state_1acba951986588f61216739d9c8bda7bfa" kindref="member">becomeLeader()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="129" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="142" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a03ae67601ec097abaa5ec13a76fbff57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::resetElectionTimeout</definition>
+        <argsstring>()</argsstring>
+        <name>resetElectionTimeout</name>
+        <qualifiedname>themisdb::sharding::RaftState::resetElectionTimeout</qualifiedname>
+        <briefdescription>
+<para>Reset election timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Election Timeout.</para>
+<para>Called when receiving heartbeat from leader or granting vote.</para>
+<para>Calls: getRandomElectionTimeout(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="136" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a58778f3c87f8a86a5bc84e99610b10d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftState::isElectionTimeout</definition>
+        <argsstring>() const</argsstring>
+        <name>isElectionTimeout</name>
+        <qualifiedname>themisdb::sharding::RaftState::isElectionTimeout</qualifiedname>
+        <briefdescription>
+<para>Check if election timeout has occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if election timeout has passed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="142" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="171" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a43964e71b13028350565a1375c894c65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::sendHeartbeat</definition>
+        <argsstring>()</argsstring>
+        <name>sendHeartbeat</name>
+        <qualifiedname>themisdb::sharding::RaftState::sendHeartbeat</qualifiedname>
+        <briefdescription>
+<para>Send heartbeat (as leader). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send <ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref>.</para>
+<para>Resets election timeouts on followers.</para>
+<para>Calls: lock(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="149" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="190" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1ac68d36a9d2b1682c382447f82a109dc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftState::shouldSendHeartbeat</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldSendHeartbeat</name>
+        <qualifiedname>themisdb::sharding::RaftState::shouldSendHeartbeat</qualifiedname>
+        <briefdescription>
+<para>Check if heartbeat interval has passed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if should send heartbeat </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="155" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="203" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a96ed9e5c6710a389944f3a6381ba5098" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a5625d4cf328a2cd31b3291f665623f26" kindref="member">RaftNodeState</ref></type>
+        <definition>RaftNodeState themisdb::sharding::RaftState::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themisdb::sharding::RaftState::getState</qualifiedname>
+        <briefdescription>
+<para>Get current state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current Raft state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="161" column="19" bodyfile="src/sharding/raft_state.cpp" bodystart="222" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a24ab084240be169b35bc0a86c4419af1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftState::getCurrentTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTerm</name>
+        <qualifiedname>themisdb::sharding::RaftState::getCurrentTerm</qualifiedname>
+        <briefdescription>
+<para>Get current term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current term number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="167" column="14" bodyfile="src/sharding/raft_state.cpp" bodystart="232" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1ac10efc99ff145af153c017084a7aad16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftState::getLeaderId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderId</name>
+        <qualifiedname>themisdb::sharding::RaftState::getLeaderId</qualifiedname>
+        <briefdescription>
+<para>Get current leader ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Leader ID (empty if no known leader) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="173" column="17" bodyfile="src/sharding/raft_state.cpp" bodystart="236" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1afec85778588c318e85e212fe8aaaf5c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftState::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themisdb::sharding::RaftState::isLeader</qualifiedname>
+        <briefdescription>
+<para>Check if this node is the leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if this node is the leader </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="179" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="246" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a2becdb15c116802b5726df4b26ffa41e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftState::isFollower</definition>
+        <argsstring>() const</argsstring>
+        <name>isFollower</name>
+        <qualifiedname>themisdb::sharding::RaftState::isFollower</qualifiedname>
+        <briefdescription>
+<para>Check if this node is a follower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if this node is a follower </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="185" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="250" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1ada1f5754afcca26dd385214ece5556fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftState::isCandidate</definition>
+        <argsstring>() const</argsstring>
+        <name>isCandidate</name>
+        <qualifiedname>themisdb::sharding::RaftState::isCandidate</qualifiedname>
+        <briefdescription>
+<para>Check if this node is a candidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if this node is a candidate </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="191" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="254" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a8ca54fbcde8173e290fb6f21ee82346c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_append_entries_response" kindref="compound">AppendEntriesResponse</ref></type>
+        <definition>AppendEntriesResponse themisdb::sharding::RaftState::handleAppendEntries</definition>
+        <argsstring>(const AppendEntriesRequest &amp;request)</argsstring>
+        <name>handleAppendEntries</name>
+        <qualifiedname>themisdb::sharding::RaftState::handleAppendEntries</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_append_entries_request" kindref="compound">AppendEntriesRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Handle AppendEntries RPC from leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Append Entries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AppendEntries request </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>AppendEntries response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), clear(), <ref refid="classthemisdb_1_1sharding_1_1_raft_state_1a03ae67601ec097abaa5ec13a76fbff57" kindref="member">resetElectionTimeout()</ref>, hasEntry(), getLastLogIndex(), getEntry(), has_value(), truncateFrom(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="198" column="27" bodyfile="src/sharding/raft_state.cpp" bodystart="313" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1aaa816f6aa0df4c4cf0c73f43b5a32dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref> &amp;</type>
+        <definition>RaftLog &amp; themisdb::sharding::RaftState::getLog</definition>
+        <argsstring>()</argsstring>
+        <name>getLog</name>
+        <qualifiedname>themisdb::sharding::RaftState::getLog</qualifiedname>
+        <briefdescription>
+<para>Get reference to the Raft log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Log.</para>
+<para><simplesect kind="return"><para>Mutable reference to <ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref> storage state.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getLog without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="204" column="13" bodyfile="src/sharding/raft_state.cpp" bodystart="386" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1adf627763c238dddf07a5ff3b41e62e77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref> &amp;</type>
+        <definition>const RaftLog &amp; themisdb::sharding::RaftState::getLog</definition>
+        <argsstring>() const</argsstring>
+        <name>getLog</name>
+        <qualifiedname>themisdb::sharding::RaftState::getLog</qualifiedname>
+        <briefdescription>
+<para>Get reference to the Raft log (const). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Const reference to <ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref> storage state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="210" column="19" bodyfile="src/sharding/raft_state.cpp" bodystart="390" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a888a1c75e8009cdfdf3b2cf700d7e0fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftState::getNodeId</definition>
+        <argsstring>() const</argsstring>
+        <name>getNodeId</name>
+        <qualifiedname>themisdb::sharding::RaftState::getNodeId</qualifiedname>
+        <briefdescription>
+<para>Get node ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>This node&apos;s ID </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="216" column="17" bodyfile="src/sharding/raft_state.cpp" bodystart="258" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a87f862f03e71db96d7c51aaf1e47dd64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::sharding::RaftState::getClusterMembers</definition>
+        <argsstring>() const</argsstring>
+        <name>getClusterMembers</name>
+        <qualifiedname>themisdb::sharding::RaftState::getClusterMembers</qualifiedname>
+        <briefdescription>
+<para>Get cluster members. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>List of all cluster member IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="222" column="17" bodyfile="src/sharding/raft_state.cpp" bodystart="262" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a14cdc9303661ce351df3e56f8508319d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::setClusterMembers</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;members)</argsstring>
+        <name>setClusterMembers</name>
+        <qualifiedname>themisdb::sharding::RaftState::setClusterMembers</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>members</declname>
+        </param>
+        <briefdescription>
+<para>Update the cluster member list after a committed membership change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Cluster Members.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>members</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New authoritative list of cluster member IDs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Caller is responsible for applying this only after consensus commit.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">members</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="229" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="271" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a3ba2a5dbd96f1a8138b2986a49c0f386" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::RaftState::getQuorumSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getQuorumSize</name>
+        <qualifiedname>themisdb::sharding::RaftState::getQuorumSize</qualifiedname>
+        <briefdescription>
+<para>Get quorum size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of nodes needed for quorum (n/2 + 1) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="235" column="12" bodyfile="src/sharding/raft_state.cpp" bodystart="276" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a1e6d626aac5afe90edf62181ce3c1b55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftState::getVotedFor</definition>
+        <argsstring>() const</argsstring>
+        <name>getVotedFor</name>
+        <qualifiedname>themisdb::sharding::RaftState::getVotedFor</qualifiedname>
+        <briefdescription>
+<para>Get who this node voted for in current term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Candidate ID (empty if haven&apos;t voted) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="241" column="17" bodyfile="src/sharding/raft_state.cpp" bodystart="280" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a46d9cf8164d1fdcebe17e7176d3aedf3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::RaftState::getVotesReceived</definition>
+        <argsstring>() const</argsstring>
+        <name>getVotesReceived</name>
+        <qualifiedname>themisdb::sharding::RaftState::getVotesReceived</qualifiedname>
+        <briefdescription>
+<para>Get votes received in current election. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of votes received </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="247" column="12" bodyfile="src/sharding/raft_state.cpp" bodystart="290" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a721d665827d7a8fb71e732f1cfd6a48a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftState::setSnapshotMeta</definition>
+        <argsstring>(uint64_t index, uint64_t term)</argsstring>
+        <name>setSnapshotMeta</name>
+        <qualifiedname>themisdb::sharding::RaftState::setSnapshotMeta</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+<para>Record the index and term of the most recently installed snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Snapshot Meta.</para>
+<para>Called by <ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager" kindref="compound">RaftSnapshotManager</ref> after a snapshot has been successfully persisted and the log has been compacted up to snapshot_index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index of the last log entry covered by the snapshot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Term of the last log entry covered by the snapshot</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="262" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="422" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a7667ae13a71e5744c4c7bfd0aee0a5e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftState::getSnapshotIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getSnapshotIndex</name>
+        <qualifiedname>themisdb::sharding::RaftState::getSnapshotIndex</qualifiedname>
+        <briefdescription>
+<para>Get the index of the last installed snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot index (0 if no snapshot has been taken) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="268" column="14" bodyfile="src/sharding/raft_state.cpp" bodystart="430" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a14985f0e4e4a874c49b64cf65d51356d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftState::getSnapshotTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getSnapshotTerm</name>
+        <qualifiedname>themisdb::sharding::RaftState::getSnapshotTerm</qualifiedname>
+        <briefdescription>
+<para>Get the term of the last installed snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot term (0 if no snapshot has been taken) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="274" column="14" bodyfile="src/sharding/raft_state.cpp" bodystart="440" bodyend="448"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1af2a47654348c2b9a31f82bc000cd6370" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::RaftState::getRandomElectionTimeout</definition>
+        <argsstring>()</argsstring>
+        <name>getRandomElectionTimeout</name>
+        <qualifiedname>themisdb::sharding::RaftState::getRandomElectionTimeout</qualifiedname>
+        <briefdescription>
+<para>Calculate random election timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Random Election Timeout.</para>
+<para><simplesect kind="return"><para>Random timeout in configured [min,max] range.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dist(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="281" column="31" bodyfile="src/sharding/raft_state.cpp" bodystart="399" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_state_1a700d4b947aea073dc117e96210c4d5bd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftState::hasQuorum</definition>
+        <argsstring>() const</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themisdb::sharding::RaftState::hasQuorum</qualifiedname>
+        <briefdescription>
+<para>Check if have enough votes to become leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when granted votes satisfy current quorum size. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="287" column="10" bodyfile="src/sharding/raft_state.cpp" bodystart="406" bodyend="414"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Raft consensus state machine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements the core Raft consensus algorithm for leader election. Handles state transitions (FOLLOWER → CANDIDATE → LEADER) and maintains term-based leadership.</para>
+<para>Thread-safe for concurrent access. </para>
+    </detaileddescription>
+    <location file="include/sharding/raft_state.h" line="77" column="1" bodyfile="include/sharding/raft_state.h" bodystart="77" bodyend="314"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1afeafa20d637243f93269eee2f2e2fc24" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>becomeCandidate</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a4c2268f4ba451e669249ff9e02774fad" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>becomeFollower</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1acba951986588f61216739d9c8bda7bfa" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>becomeLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1acfea9f3170ebc9fcf74cb29e5d54d658" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a47dc32ec69571c874958d147de3f7c84" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>current_term_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a142651d584e20d14c9bb55a93dc7f6dc" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>election_timeout_time_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a87f862f03e71db96d7c51aaf1e47dd64" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getClusterMembers</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a24ab084240be169b35bc0a86c4419af1" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getCurrentTerm</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1ac10efc99ff145af153c017084a7aad16" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getLeaderId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1aaa816f6aa0df4c4cf0c73f43b5a32dbd" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getLog</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1adf627763c238dddf07a5ff3b41e62e77" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getLog</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a888a1c75e8009cdfdf3b2cf700d7e0fb" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getNodeId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a3ba2a5dbd96f1a8138b2986a49c0f386" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getQuorumSize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1af2a47654348c2b9a31f82bc000cd6370" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getRandomElectionTimeout</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a7667ae13a71e5744c4c7bfd0aee0a5e1" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getSnapshotIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a14985f0e4e4a874c49b64cf65d51356d" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getSnapshotTerm</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a96ed9e5c6710a389944f3a6381ba5098" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a1e6d626aac5afe90edf62181ce3c1b55" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getVotedFor</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a46d9cf8164d1fdcebe17e7176d3aedf3" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>getVotesReceived</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a8ca54fbcde8173e290fb6f21ee82346c" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>handleAppendEntries</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a044139f808bf29990d92cb67bbdc89a1" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>handleVoteRequest</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a700d4b947aea073dc117e96210c4d5bd" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>hasQuorum</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1ada1f5754afcca26dd385214ece5556fa" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>isCandidate</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a58778f3c87f8a86a5bc84e99610b10d8" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>isElectionTimeout</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a2becdb15c116802b5726df4b26ffa41e" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>isFollower</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1afec85778588c318e85e212fe8aaaf5c2" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>isLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1afc90539752998479c1dd12e8e30f04cb" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>last_heartbeat_time_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a42d3951a6445f2e924bbeb634e20e63d" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>leader_id_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a3477d0b246658510ffee2ffe0ac2dc54" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>log_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a49b13c71fc5b3eb557369bb8fcac6076" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1ae593839ac7ec50703cebabe9963e9854" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>RaftState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1acc1259e1c043e5fdaaba0da30fcd360c" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>RaftState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1ac8e2b6698841238a2ab8714bd9e01c85" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>rd_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a3dd1bc59ac6a5691a2a67867361324a5" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>receiveVote</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a03ae67601ec097abaa5ec13a76fbff57" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>resetElectionTimeout</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a72ece5173e47270f0f80586e9e2e8d72" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>rng_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a43964e71b13028350565a1375c894c65" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>sendHeartbeat</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a14cdc9303661ce351df3e56f8508319d" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>setClusterMembers</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a721d665827d7a8fb71e732f1cfd6a48a" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>setSnapshotMeta</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1ac68d36a9d2b1682c382447f82a109dc1" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>shouldSendHeartbeat</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a2dc221ed91e711871e03078039ac7ad1" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>snapshot_index_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a554bfb4b78f6b876108d10648634b9fa" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>snapshot_term_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a9ca8509dd904fbe17b795f174d349445" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>startElection</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a608adb1ad187754e0edfbd2bebd92642" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a18526ca0b899abd97e68af01060980cb" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>state_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1a7a1f3474dadba70ca21dfdf1b18a4e0c" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>voted_for_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1aefbc9ce9876ca8d12c59c743d882cff2" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>votes_received_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_state_1aa28afe6d0260b6ae0133b693436f23d9" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftState</scope><name>~RaftState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

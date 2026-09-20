@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_i_result_stream" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>chimera::IResultStream</compoundname>
+    <derivedcompoundref refid="classchimera_1_1_themis_d_b_result_stream" prot="public" virt="non-virtual">chimera::ThemisDBResultStream</derivedcompoundref>
+    <includes refid="database__adapter_8hpp" local="no">database_adapter.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_i_result_stream_1ab0c82e3dba9d21dff91ed482b98610e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual chimera::IResultStream::~IResultStream</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IResultStream</name>
+        <qualifiedname>chimera::IResultStream::~IResultStream</qualifiedname>
+        <briefdescription>
+<para>IResult Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="153" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_result_stream_1a20e91df78ea1e202ff76821212e61569" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool chimera::IResultStream::has_more</definition>
+        <argsstring>() const =0</argsstring>
+        <name>has_more</name>
+        <qualifiedname>chimera::IResultStream::has_more</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_result_stream_1a3247f69af77f6c8de4c0ad4c93b8b07f">has_more</reimplementedby>
+        <briefdescription>
+<para>Has more. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="159" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_result_stream_1a556531b47277a91d4e785212ad38b687" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::vector&lt; RelationalRow &gt; &gt; chimera::IResultStream::next_batch</definition>
+        <argsstring>(size_t batch_size=0)=0</argsstring>
+        <name>next_batch</name>
+        <qualifiedname>chimera::IResultStream::next_batch</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_result_stream_1a68b1cd262bcf396315f2fd002654755d">next_batch</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="161" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_result_stream_1a2133b74bff64e896130ec0d2d554aabe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t chimera::IResultStream::position</definition>
+        <argsstring>() const =0</argsstring>
+        <name>position</name>
+        <qualifiedname>chimera::IResultStream::position</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_result_stream_1a12ed9ac75707a097dabb3216d00160e5">position</reimplementedby>
+        <briefdescription>
+<para>Position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="169" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_result_stream_1ac31688f837b01600a5029cc43b3f7f78" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>virtual std::optional&lt; size_t &gt; chimera::IResultStream::total_size</definition>
+        <argsstring>() const =0</argsstring>
+        <name>total_size</name>
+        <qualifiedname>chimera::IResultStream::total_size</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_result_stream_1a503e003aa5536a394dd7bd1ee61d7b8e">total_size</reimplementedby>
+        <briefdescription>
+<para>Total size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="175" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_result_stream_1a6fdc6ce9ec149d83a9a5ad609aa49353" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IResultStream::close</definition>
+        <argsstring>()=0</argsstring>
+        <name>close</name>
+        <qualifiedname>chimera::IResultStream::close</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_result_stream_1afb7b7e9323bb4ed35ff22d2ed7f4ce41">close</reimplementedby>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="181" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>chimera::IResultStream</label>
+        <link refid="classchimera_1_1_i_result_stream"/>
+      </node>
+      <node id="2">
+        <label>chimera::ThemisDBResultStream</label>
+        <link refid="classchimera_1_1_themis_d_b_result_stream"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/chimera/database_adapter.hpp" line="147" column="1" bodyfile="include/chimera/database_adapter.hpp" bodystart="147" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_i_result_stream_1a6fdc6ce9ec149d83a9a5ad609aa49353" prot="public" virt="pure-virtual"><scope>chimera::IResultStream</scope><name>close</name></member>
+      <member refid="classchimera_1_1_i_result_stream_1a20e91df78ea1e202ff76821212e61569" prot="public" virt="pure-virtual"><scope>chimera::IResultStream</scope><name>has_more</name></member>
+      <member refid="classchimera_1_1_i_result_stream_1a556531b47277a91d4e785212ad38b687" prot="public" virt="pure-virtual"><scope>chimera::IResultStream</scope><name>next_batch</name></member>
+      <member refid="classchimera_1_1_i_result_stream_1a2133b74bff64e896130ec0d2d554aabe" prot="public" virt="pure-virtual"><scope>chimera::IResultStream</scope><name>position</name></member>
+      <member refid="classchimera_1_1_i_result_stream_1ac31688f837b01600a5029cc43b3f7f78" prot="public" virt="pure-virtual"><scope>chimera::IResultStream</scope><name>total_size</name></member>
+      <member refid="classchimera_1_1_i_result_stream_1ab0c82e3dba9d21dff91ed482b98610e6" prot="public" virt="virtual"><scope>chimera::IResultStream</scope><name>~IResultStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

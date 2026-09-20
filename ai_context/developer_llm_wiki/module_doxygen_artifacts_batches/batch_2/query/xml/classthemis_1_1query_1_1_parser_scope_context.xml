@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_parser_scope_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::ParserScopeContext</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_scope_context_1aeda5b89f0d89a0ca7c572cd29eb6564a" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::query::ParserScopeContext::registered_collections_</definition>
+        <argsstring></argsstring>
+        <name>registered_collections_</name>
+        <qualifiedname>themis::query::ParserScopeContext::registered_collections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="70" column="14" bodyfile="include/query/aql_parser.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_scope_context_1a4c92f0d847bf7ca8545fe40316908645" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::set&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::set&lt;std::string&gt; &gt; themis::query::ParserScopeContext::scope_stack_</definition>
+        <argsstring></argsstring>
+        <name>scope_stack_</name>
+        <qualifiedname>themis::query::ParserScopeContext::scope_stack_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="71" column="17" bodyfile="include/query/aql_parser.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_scope_context_1aca2249d5d4ffc3c5a5843fd0b7c11081" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ParserScopeContext::current_scope_prefix_</definition>
+        <argsstring></argsstring>
+        <name>current_scope_prefix_</name>
+        <qualifiedname>themis::query::ParserScopeContext::current_scope_prefix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="72" column="17" bodyfile="include/query/aql_parser.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_scope_context_1a695f9fb48dcf584f279a43fa7af78d8c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::ParserScopeContext::scope_prefix_stack_</definition>
+        <argsstring></argsstring>
+        <name>scope_prefix_stack_</name>
+        <qualifiedname>themis::query::ParserScopeContext::scope_prefix_stack_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="73" column="17" bodyfile="include/query/aql_parser.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1adf1d6afc7a51c19fabb29b97a401e107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ParserScopeContext::ParserScopeContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>ParserScopeContext</name>
+        <qualifiedname>themis::query::ParserScopeContext::ParserScopeContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="37" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1abd23bfa9b1f0a4a1bcfd63acb37ed9db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ParserScopeContext::~ParserScopeContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ParserScopeContext</name>
+        <qualifiedname>themis::query::ParserScopeContext::~ParserScopeContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1ae42971855918f9b1f9077d7121697be6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::ParserScopeContext::registerCollection</definition>
+        <argsstring>(const std::string &amp;collection_name)</argsstring>
+        <name>registerCollection</name>
+        <qualifiedname>themis::query::ParserScopeContext::registerCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <briefdescription>
+<para>Register Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), find(), substr(), fmt::format(), std::move(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="44" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="32" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1a0849154e9009111586998dcffcb57c7d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::ParserScopeContext::isCollectionInScope</definition>
+        <argsstring>(const std::string &amp;collection_name) const</argsstring>
+        <name>isCollectionInScope</name>
+        <qualifiedname>themis::query::ParserScopeContext::isCollectionInScope</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="46" column="11" bodyfile="src/query/aql_parser.cpp" bodystart="54" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1a9a511620c44004b654a7bfae904db624" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::query::ParserScopeContext::validateCollectionAccess</definition>
+        <argsstring>(const std::string &amp;collection_name, const std::string &amp;context_description) const</argsstring>
+        <name>validateCollectionAccess</name>
+        <qualifiedname>themis::query::ParserScopeContext::validateCollectionAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context_description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="48" column="13" bodyfile="src/query/aql_parser.cpp" bodystart="65" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1a8f8ddc5248f7a44b0672934f6f8be31d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::ParserScopeContext::pushScope</definition>
+        <argsstring>()</argsstring>
+        <name>pushScope</name>
+        <qualifiedname>themis::query::ParserScopeContext::pushScope</qualifiedname>
+        <briefdescription>
+<para>Push Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="55" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="102" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1a3079259c4ffbed1edc9d547d10c56837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::ParserScopeContext::popScope</definition>
+        <argsstring>()</argsstring>
+        <name>popScope</name>
+        <qualifiedname>themis::query::ParserScopeContext::popScope</qualifiedname>
+        <briefdescription>
+<para>Pop Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), std::move(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="60" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="111" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1ae4eda4c67cdbefc68dcb8d94687a336d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::set&lt; std::string &gt; &amp;</type>
+        <definition>const std::set&lt; std::string &gt; &amp; themis::query::ParserScopeContext::getRegisteredCollections</definition>
+        <argsstring>() const</argsstring>
+        <name>getRegisteredCollections</name>
+        <qualifiedname>themis::query::ParserScopeContext::getRegisteredCollections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="62" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_scope_context_1a6cee79e5660495f82dfc98b5b909c39c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::ParserScopeContext::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::ParserScopeContext::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="67" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="130" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="35" column="1" bodyfile="include/query/aql_parser.h" bodystart="35" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1a6cee79e5660495f82dfc98b5b909c39c" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1aca2249d5d4ffc3c5a5843fd0b7c11081" prot="private" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>current_scope_prefix_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1ae4eda4c67cdbefc68dcb8d94687a336d" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>getRegisteredCollections</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1a0849154e9009111586998dcffcb57c7d" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>isCollectionInScope</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1adf1d6afc7a51c19fabb29b97a401e107" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>ParserScopeContext</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1a3079259c4ffbed1edc9d547d10c56837" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>popScope</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1a8f8ddc5248f7a44b0672934f6f8be31d" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>pushScope</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1ae42971855918f9b1f9077d7121697be6" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>registerCollection</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1aeda5b89f0d89a0ca7c572cd29eb6564a" prot="private" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>registered_collections_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1a695f9fb48dcf584f279a43fa7af78d8c" prot="private" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>scope_prefix_stack_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1a4c92f0d847bf7ca8545fe40316908645" prot="private" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>scope_stack_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1a9a511620c44004b654a7bfae904db624" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>validateCollectionAccess</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_scope_context_1abd23bfa9b1f0a4a1bcfd63acb37ed9db" prot="public" virt="non-virtual"><scope>themis::query::ParserScopeContext</scope><name>~ParserScopeContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

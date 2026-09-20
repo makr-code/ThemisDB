@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_wal" kind="class" language="C++" prot="public">
+    <compoundname>StubWal</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_wal_1a684cf35ae91dc4c0ab78286f4b1d70db" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_wal_entry" kindref="compound">WalEntry</ref> &gt;</type>
+        <definition>std::vector&lt;WalEntry&gt; StubWal::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>StubWal::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="222" column="17" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_wal_1acf3eb975b0b00be06538c67b6f194b08" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubWal::next_lsn_</definition>
+        <argsstring></argsstring>
+        <name>next_lsn_</name>
+        <qualifiedname>StubWal::next_lsn_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="223" column="14" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="223" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_wal_1a7fd846f235a2f95d9c55f7b49a69000f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode StubWal::append</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>append</name>
+        <qualifiedname>StubWal::append</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="188" column="23" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="188" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_wal_1a4260f8dea5a5727dfc9ed6eb2024544b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode StubWal::replay</definition>
+        <argsstring>(std::vector&lt; std::string &gt; *out) const</argsstring>
+        <name>replay</name>
+        <qualifiedname>StubWal::replay</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt; *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Replay entries in <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> order into output; detects corruption. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="198" column="23" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="198" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_wal_1a22ac81c74e6a5ff0c8d9725d79dabf82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubWal::corruptEntry</definition>
+        <argsstring>(std::size_t idx)</argsstring>
+        <name>corruptEntry</name>
+        <qualifiedname>StubWal::corruptEntry</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Inject corruption into an entry for testing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="210" column="10" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="210" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_wal_1a48c9bafd94268798b1976d4967d64c62" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubWal::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>StubWal::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="216" column="17" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_wal_1a37c4fdee4e831cf6966148674b3ab59b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubWal::lastLsn</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastLsn</name>
+        <qualifiedname>StubWal::lastLsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="217" column="14" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_wal_1a4e861545e81b75eb4bf89817db25ecb5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="struct_wal_entry" kindref="compound">WalEntry</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; WalEntry &gt; &amp; StubWal::entries</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>entries</name>
+        <qualifiedname>StubWal::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="219" column="23" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="219" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub WAL implementing contract §3. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="186" column="1" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="186" bodyend="224"/>
+    <listofallmembers>
+      <member refid="class_stub_wal_1a7fd846f235a2f95d9c55f7b49a69000f" prot="public" virt="non-virtual"><scope>StubWal</scope><name>append</name></member>
+      <member refid="class_stub_wal_1a22ac81c74e6a5ff0c8d9725d79dabf82" prot="public" virt="non-virtual"><scope>StubWal</scope><name>corruptEntry</name></member>
+      <member refid="class_stub_wal_1a4e861545e81b75eb4bf89817db25ecb5" prot="public" virt="non-virtual"><scope>StubWal</scope><name>entries</name></member>
+      <member refid="class_stub_wal_1a684cf35ae91dc4c0ab78286f4b1d70db" prot="private" virt="non-virtual"><scope>StubWal</scope><name>entries_</name></member>
+      <member refid="class_stub_wal_1a37c4fdee4e831cf6966148674b3ab59b" prot="public" virt="non-virtual"><scope>StubWal</scope><name>lastLsn</name></member>
+      <member refid="class_stub_wal_1acf3eb975b0b00be06538c67b6f194b08" prot="private" virt="non-virtual"><scope>StubWal</scope><name>next_lsn_</name></member>
+      <member refid="class_stub_wal_1a4260f8dea5a5727dfc9ed6eb2024544b" prot="public" virt="non-virtual"><scope>StubWal</scope><name>replay</name></member>
+      <member refid="class_stub_wal_1a48c9bafd94268798b1976d4967d64c62" prot="public" virt="non-virtual"><scope>StubWal</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

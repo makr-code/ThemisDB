@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_citation_extractor" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::CitationExtractor</compoundname>
+    <includes refid="modality__parser_8h" local="no">modality_parser.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_citation_extractor_1a50c43556795f9b23ee0a0ac7cfb59f65" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref></type>
+        <definition>ModalityParserConfig themis::training::CitationExtractor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::CitationExtractor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="189" column="26" bodyfile="include/training/modality_parser.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_citation_extractor_1a902d96ee994cec78970256711bef8a57" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CitationExtractor::CitationExtractor</definition>
+        <argsstring>(const ModalityParserConfig &amp;config)</argsstring>
+        <name>CitationExtractor</name>
+        <qualifiedname>themis::training::CitationExtractor::CitationExtractor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="173" column="14" bodyfile="src/training/modality_parser.cpp" bodystart="417" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_citation_extractor_1adc98d8f37fba2953d26eb4bb6e9b8706" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt; TrainingSample &gt; themis::training::CitationExtractor::extract</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;document_id) const</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::training::CitationExtractor::extract</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>Extract legal citations from <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier propagated to sample.source_id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of CITATION-typed <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> records.</para>
+</simplesect>
+Applies shared prompt-safety policy per citation text. Blocked payloads are rejected (fail-closed); allowed payloads are emitted with control-token redaction applied. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="185" column="17" bodyfile="src/training/modality_parser.cpp" bodystart="421" bodyend="492"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extracts statutory and case-law citations from legal documents. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Matches German-law citation patterns:<itemizedlist>
+<listitem><para>Statutory references: &quot;§ 242 BGB&quot;, &quot;Art. 14 Abs. 1 GG&quot;</para>
+</listitem><listitem><para>Court decisions: &quot;BGH, Urt. v. 14.12.2021, II ZR 93/21&quot; &quot;BVerwG, Beschl. v. 3.5.2022 – 4 B 12/22&quot;</para>
+</listitem><listitem><para>EU/ECHR citations: &quot;EuGH, C-123/21&quot;, &quot;EGMR 12345/20&quot;</para>
+</listitem></itemizedlist>
+</para>
+<para>Each matched citation becomes a CITATION-modality <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> whose <computeroutput>input</computeroutput> is the citation text and <computeroutput>output</computeroutput> is the inferred citation type (e.g., &quot;statutory&quot;, &quot;case_law&quot;, &quot;eu_regulation&quot;). </para>
+    </detaileddescription>
+    <location file="include/training/modality_parser.h" line="171" column="1" bodyfile="include/training/modality_parser.h" bodystart="171" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_citation_extractor_1a902d96ee994cec78970256711bef8a57" prot="public" virt="non-virtual"><scope>themis::training::CitationExtractor</scope><name>CitationExtractor</name></member>
+      <member refid="classthemis_1_1training_1_1_citation_extractor_1a50c43556795f9b23ee0a0ac7cfb59f65" prot="private" virt="non-virtual"><scope>themis::training::CitationExtractor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_citation_extractor_1adc98d8f37fba2953d26eb4bb6e9b8706" prot="public" virt="non-virtual"><scope>themis::training::CitationExtractor</scope><name>extract</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

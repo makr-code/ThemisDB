@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_route_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RouteEntry</compoundname>
+    <includes refid="openapi__route__registry_8h" local="no">openapi_route_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_entry_1a3ce297d24bc78ed23683ac780f9da0db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RouteEntry::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::server::RouteEntry::path</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;/entities/{key}&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="45" column="20" bodyfile="include/server/openapi_route_registry.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_entry_1a02c7db85c7f5bb854a2242b817177527" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RouteEntry::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::server::RouteEntry::method</qualifiedname>
+        <briefdescription>
+<para>lowercase: &quot;get&quot;, &quot;post&quot;, &quot;put&quot;, &quot;delete&quot;, &quot;patch&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="46" column="20" bodyfile="include/server/openapi_route_registry.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_entry_1a81bfaec16600e8b2a0952ce003d60aed" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_route_operation" kindref="compound">RouteOperation</ref></type>
+        <definition>RouteOperation themis::server::RouteEntry::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::server::RouteEntry::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="47" column="20" bodyfile="include/server/openapi_route_registry.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::server::RouteEntry</label>
+        <link refid="structthemis_1_1server_1_1_route_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>operation</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::server::RouteOperation</label>
+        <link refid="structthemis_1_1server_1_1_route_operation"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/openapi_route_registry.h" line="44" column="1" bodyfile="include/server/openapi_route_registry.h" bodystart="44" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_route_entry_1a02c7db85c7f5bb854a2242b817177527" prot="public" virt="non-virtual"><scope>themis::server::RouteEntry</scope><name>method</name></member>
+      <member refid="structthemis_1_1server_1_1_route_entry_1a81bfaec16600e8b2a0952ce003d60aed" prot="public" virt="non-virtual"><scope>themis::server::RouteEntry</scope><name>operation</name></member>
+      <member refid="structthemis_1_1server_1_1_route_entry_1a3ce297d24bc78ed23683ac780f9da0db" prot="public" virt="non-virtual"><scope>themis::server::RouteEntry</scope><name>path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

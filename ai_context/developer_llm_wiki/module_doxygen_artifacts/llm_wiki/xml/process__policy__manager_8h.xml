@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__policy__manager_8h" kind="file" language="C++">
+    <compoundname>process_policy_manager.h</compoundname>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="process__policy__manager_8cpp" local="yes">src/llm_wiki/process_policy_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm_wiki/process_policy_manager.h</label>
+        <link refid="process__policy__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>filesystem</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm_wiki/process_policy_manager.h</label>
+        <link refid="process__policy__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm_wiki/process_policy_manager.cpp</label>
+        <link refid="process__policy__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_process_policy_status" prot="public">themis::llm_wiki::ProcessPolicyStatus</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_stage_policy" prot="public">themis::llm_wiki::StagePolicy</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_knob_bounds" prot="public">themis::llm_wiki::KnobBounds</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" prot="public">themis::llm_wiki::LLMWikiProcessPolicy</innerclass>
+    <innerclass refid="classthemis_1_1llm__wiki_1_1_process_policy_manager" prot="public">themis::llm_wiki::ProcessPolicyManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm__wiki">themis::llm_wiki</innernamespace>
+    <briefdescription>
+<para>YAML control-plane loader and validator for LLM Wiki process orchestration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This manager loads the LLM Wiki process policy from YAML, validates mandatory security/governance invariants, and materializes the runtime control knobs for ingest/extract/synthesize/validate/re-anchor stages. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1llm__wiki" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm__wiki" kindref="compound">themis::llm_wiki</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1llm__wiki_1_1_process_policy_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093" kindref="member">Code</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093aa60852f204ed8028c1c58808b746d115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a00c7038010a974f214486dc8ad53b6e2" kindref="member">Ok</ref>,</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093abb149a06efb0aa1a2ea6711f20c82bbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a5526c87bf5cb4fffc5b41d58e85ebdde" kindref="member">InvalidFile</ref>,</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093ae41199faa7290c167f70f314c5e6c165" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc0bc6c94662363a452e18b626231fcc" kindref="member">ParseError</ref>,</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093a8180c46099f957f51b2bc31f7f0f5c42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1acdde0346d320e286b1cf6f1e447590e8" kindref="member">ValidationError</ref>,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc4b2b0de9fee7bac75f36eb0922b4e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093" kindref="member">Code</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc4b2b0de9fee7bac75f36eb0922b4e9" kindref="member">code</ref><sp/>=<sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093aa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a41bf92a4e174e0f35fb6d63d86b100d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a41bf92a4e174e0f35fb6d63d86b100d9" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1ab5bd8307012c92d9075405275f517597" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1ab5bd8307012c92d9075405275f517597" kindref="member">ok</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc4b2b0de9fee7bac75f36eb0922b4e9" kindref="member">code</ref><sp/>==<sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093aa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a00c7038010a974f214486dc8ad53b6e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a00c7038010a974f214486dc8ad53b6e2" kindref="member">Ok</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093aa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>,<sp/>{}};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a5526c87bf5cb4fffc5b41d58e85ebdde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a5526c87bf5cb4fffc5b41d58e85ebdde" kindref="member">InvalidFile</ref>(std::string<sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093abb149a06efb0aa1a2ea6711f20c82bbe" kindref="member">Code::InvalidFile</ref>,<sp/>std::move(msg)};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc0bc6c94662363a452e18b626231fcc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc0bc6c94662363a452e18b626231fcc" kindref="member">ParseError</ref>(std::string<sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093ae41199faa7290c167f70f314c5e6c165" kindref="member">Code::ParseError</ref>,<sp/>std::move(msg)};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1acdde0346d320e286b1cf6f1e447590e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1acdde0346d320e286b1cf6f1e447590e8" kindref="member">ValidationError</ref>(std::string<sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093a8180c46099f957f51b2bc31f7f0f5c42" kindref="member">Code::ValidationError</ref>,<sp/>std::move(msg)};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176" kindref="member">ProcessSchedule</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a24b9b8c0634a40138e76b2fb86894698" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a24b9b8c0634a40138e76b2fb86894698" kindref="member">Interactive</ref>,</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a680f20394e5d431b948f71b9243cfd90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a680f20394e5d431b948f71b9243cfd90" kindref="member">NearRealtime</ref>,</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a51ffe9dd1b1e143c1b9f1144d040e454" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a51ffe9dd1b1e143c1b9f1144d040e454" kindref="member">Batch</ref>,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm__wiki_1_1_stage_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm__wiki_1_1_stage_policy_1a8f13e915606beb138aa862853f5f5fc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy_1a8f13e915606beb138aa862853f5f5fc8" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm__wiki_1_1_stage_policy_1a34cd098575bff930b4269582999dfa1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176" kindref="member">ProcessSchedule</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy_1a34cd098575bff930b4269582999dfa1e" kindref="member">schedule</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a680f20394e5d431b948f71b9243cfd90" kindref="member">ProcessSchedule::NearRealtime</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm__wiki_1_1_knob_bounds" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm__wiki_1_1_knob_bounds" kindref="compound">KnobBounds</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm__wiki_1_1_knob_bounds_1a2f828e8e50063324b8c57eaec304f61c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_knob_bounds_1a2f828e8e50063324b8c57eaec304f61c" kindref="member">min</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm__wiki_1_1_knob_bounds_1ae241a33ea921775dff3e7aa7e1f59a22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_knob_bounds_1ae241a33ea921775dff3e7aa7e1f59a22" kindref="member">max</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" kindref="compound">LLMWikiProcessPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1abba97b3844d6cc2620b239c346c12d79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1abba97b3844d6cc2620b239c346c12d79" kindref="member">version</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2636897f64a1cf98a05afa58e2345b78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2636897f64a1cf98a05afa58e2345b78" kindref="member">policy_id</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ac77e0f35f43273e14f57325a948b87ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ac77e0f35f43273e14f57325a948b87ab" kindref="member">mode</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aaa4ef139e838f494750b94567274cb7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aaa4ef139e838f494750b94567274cb7d" kindref="member">planner_owner</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a9d9652f670f9a7e3d5a8ba765eb0ad7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a9d9652f670f9a7e3d5a8ba765eb0ad7e" kindref="member">second_planner_allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a1a2c146b8e0837f90d6c584a0c59f877" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a1a2c146b8e0837f90d6c584a0c59f877" kindref="member">interactive_timeout_ms</ref><sp/>=<sp/>1500;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a42a0516bbe194c31f72f2b6dcdd1c9aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a42a0516bbe194c31f72f2b6dcdd1c9aa" kindref="member">ingest</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ad5185709cc54e61ab247439730632f26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ad5185709cc54e61ab247439730632f26" kindref="member">extract</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a6605322bc957a3e74c1e0186c927b00e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a6605322bc957a3e74c1e0186c927b00e" kindref="member">synthesize</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1acad92b6970be17829cb622a31ef686b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1acad92b6970be17829cb622a31ef686b7" kindref="member">validate</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a7dd26a961164652ae7e8cd37d275660f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_stage_policy" kindref="compound">StagePolicy</ref><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a7dd26a961164652ae7e8cd37d275660f" kindref="member">re_anchor</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage-level<sp/>tuning<sp/>values<sp/>materialized<sp/>from<sp/>YAML.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>/<sp/>negative<sp/>means<sp/>&quot;not<sp/>configured&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afdfbf4290e38a17de6caa04814fdcd18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afdfbf4290e38a17de6caa04814fdcd18" kindref="member">synthesize_max_evidence_items</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afaea809266b4d79b19e66d7a9c139c6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afaea809266b4d79b19e66d7a9c139c6e" kindref="member">synthesize_min_provenance_confidence</ref><sp/>=<sp/>-1.0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a4b27d20af92a00355ace014ecd51f85d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a4b27d20af92a00355ace014ecd51f85d" kindref="member">policy_snapshot_required</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aa9cb15acb7824a0febaaf304bad05b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aa9cb15acb7824a0febaaf304bad05b88" kindref="member">require_reason_codes</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ae571043f3eb81d3b12450ac622bfbdaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ae571043f3eb81d3b12450ac622bfbdaa" kindref="member">adjustable_knobs</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2a9c23f63391baac8513ad8df1112e31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>KnobBounds&gt;<sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2a9c23f63391baac8513ad8df1112e31" kindref="member">hard_bounds</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a77770af1c589b6c98c2f0b39437286be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a77770af1c589b6c98c2f0b39437286be" kindref="member">never_adjust</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1llm__wiki_1_1_process_policy_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm__wiki_1_1_process_policy_manager" kindref="compound">ProcessPolicyManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref><sp/><ref refid="classthemis_1_1llm__wiki_1_1_process_policy_manager_1ac0f0f3dcd20e2a6ace8a2d390dd067b7" kindref="member">loadFromYaml</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::filesystem::path&amp;<sp/>yaml_path,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" kindref="compound">LLMWikiProcessPolicy</ref>&amp;<sp/>out_policy)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref><sp/><ref refid="classthemis_1_1llm__wiki_1_1_process_policy_manager_1aff81c49b0e6d52d098ea072649c08b04" kindref="member">validate</ref>(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" kindref="compound">LLMWikiProcessPolicy</ref>&amp;<sp/>policy)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm_wiki</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm_wiki/process_policy_manager.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_query_aspect" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QueryAspect</compoundname>
+    <includes refid="completeness__evaluator_8h" local="no">completeness_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_query_aspect_1a1dcaa71654c5eec72d965a30b20c77f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QueryAspect::aspect_text</definition>
+        <argsstring></argsstring>
+        <name>aspect_text</name>
+        <qualifiedname>themis::rag::judge::QueryAspect::aspect_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="24" column="17" bodyfile="include/rag/completeness_evaluator.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_query_aspect_1abe64b57b7a562078ddc5538ad141f8b7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QueryAspect::is_required</definition>
+        <argsstring></argsstring>
+        <name>is_required</name>
+        <qualifiedname>themis::rag::judge::QueryAspect::is_required</qualifiedname>
+        <briefdescription>
+<para>Required vs optional aspect. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="25" column="10" bodyfile="include/rag/completeness_evaluator.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_query_aspect_1a64dada54e398e7c35c526a694d4727e2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QueryAspect::is_covered</definition>
+        <argsstring></argsstring>
+        <name>is_covered</name>
+        <qualifiedname>themis::rag::judge::QueryAspect::is_covered</qualifiedname>
+        <briefdescription>
+<para>Whether covered in answer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="26" column="10" bodyfile="include/rag/completeness_evaluator.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_query_aspect_1a438a8a68f98286dbc429164221691341" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QueryAspect::coverage_score</definition>
+        <argsstring></argsstring>
+        <name>coverage_score</name>
+        <qualifiedname>themis::rag::judge::QueryAspect::coverage_score</qualifiedname>
+        <briefdescription>
+<para>0-1 indicating how well covered </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="27" column="12" bodyfile="include/rag/completeness_evaluator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query aspect information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/completeness_evaluator.h" line="23" column="1" bodyfile="include/rag/completeness_evaluator.h" bodystart="23" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_query_aspect_1a1dcaa71654c5eec72d965a30b20c77f6" prot="public" virt="non-virtual"><scope>themis::rag::judge::QueryAspect</scope><name>aspect_text</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_query_aspect_1a438a8a68f98286dbc429164221691341" prot="public" virt="non-virtual"><scope>themis::rag::judge::QueryAspect</scope><name>coverage_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_query_aspect_1a64dada54e398e7c35c526a694d4727e2" prot="public" virt="non-virtual"><scope>themis::rag::judge::QueryAspect</scope><name>is_covered</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_query_aspect_1abe64b57b7a562078ddc5538ad141f8b7" prot="public" virt="non-virtual"><scope>themis::rag::judge::QueryAspect</scope><name>is_required</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

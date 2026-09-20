@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherParser::Lexer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a36b983b72b2edb1720a7a7e26c29dc08" prot="public" static="no" mutable="no">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; themis::query::CypherParser::Lexer::src</definition>
+        <argsstring></argsstring>
+        <name>src</name>
+        <qualifiedname>themis::query::CypherParser::Lexer::src</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="79" column="23" bodyfile="src/query/cypher_parser.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a3e61e2ecedb399daab60a3e2b69d82e6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CypherParser::Lexer::pos</definition>
+        <argsstring></argsstring>
+        <name>pos</name>
+        <qualifiedname>themis::query::CypherParser::Lexer::pos</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="80" column="12" bodyfile="src/query/cypher_parser.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a18bbf9fba165aa0134a31b8438f6b1db" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CypherParser::Lexer::Lexer</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>Lexer</name>
+        <qualifiedname>themis::query::CypherParser::Lexer::Lexer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="82" column="14" bodyfile="src/query/cypher_parser.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a78e8f0fca1d5b99c20a022853b551dce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>char</type>
+        <definition>char themis::query::CypherParser::Lexer::peek</definition>
+        <argsstring>(size_t offset=0) const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themis::query::CypherParser::Lexer::peek</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="84" column="10" bodyfile="src/query/cypher_parser.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a7d90e6818e7897fd8deaa2762701ce34" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>char</type>
+        <definition>char themis::query::CypherParser::Lexer::advance</definition>
+        <argsstring>()</argsstring>
+        <name>advance</name>
+        <qualifiedname>themis::query::CypherParser::Lexer::advance</qualifiedname>
+        <briefdescription>
+<para>Advance an iterator within the validated range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="94" column="10" bodyfile="src/query/cypher_parser.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1ae72a1ae0cc7b1b6607130cbf033ee638" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CypherParser::Lexer::skipWhitespace</definition>
+        <argsstring>()</argsstring>
+        <name>skipWhitespace</name>
+        <qualifiedname>themis::query::CypherParser::Lexer::skipWhitespace</qualifiedname>
+        <briefdescription>
+<para>Skip Whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="102" column="10" bodyfile="src/query/cypher_parser.cpp" bodystart="102" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1ab8f31661554b4502d29aaa0c8dadb0a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_token" kindref="compound">CypherParser::Token</ref> &gt;</type>
+        <definition>std::vector&lt; CypherParser::Token &gt; themis::query::CypherParser::Lexer::tokenize</definition>
+        <argsstring>()</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::query::CypherParser::Lexer::tokenize</qualifiedname>
+        <briefdescription>
+<para>Tokenize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1ae72a1ae0cc7b1b6607130cbf033ee638" kindref="member">skipWhitespace()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a78e8f0fca1d5b99c20a022853b551dce" kindref="member">peek()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a7d90e6818e7897fd8deaa2762701ce34" kindref="member">advance()</ref>, std::move(), push_back(), std::isdigit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="205" column="17" bodyfile="src/query/cypher_parser.cpp" bodystart="205" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a80d7dbdc3d4c48fc8ac7f42942361193" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+        <definition>static TokenType themis::query::CypherParser::Lexer::classifyKeyword</definition>
+        <argsstring>(const std::string &amp;upper)</argsstring>
+        <name>classifyKeyword</name>
+        <qualifiedname>themis::query::CypherParser::Lexer::classifyKeyword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>upper</declname>
+        </param>
+        <briefdescription>
+<para>Classify Keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">upper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements classifyKeyword without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="127" column="22" bodyfile="src/query/cypher_parser.cpp" bodystart="127" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/cypher_parser.cpp" line="78" column="1" bodyfile="src/query/cypher_parser.cpp" bodystart="78" bodyend="358"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a7d90e6818e7897fd8deaa2762701ce34" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Lexer</scope><name>advance</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a80d7dbdc3d4c48fc8ac7f42942361193" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Lexer</scope><name>classifyKeyword</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a18bbf9fba165aa0134a31b8438f6b1db" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Lexer</scope><name>Lexer</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a78e8f0fca1d5b99c20a022853b551dce" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Lexer</scope><name>peek</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a3e61e2ecedb399daab60a3e2b69d82e6" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Lexer</scope><name>pos</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1ae72a1ae0cc7b1b6607130cbf033ee638" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Lexer</scope><name>skipWhitespace</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1a36b983b72b2edb1720a7a7e26c29dc08" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Lexer</scope><name>src</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer_1ab8f31661554b4502d29aaa0c8dadb0a2" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Lexer</scope><name>tokenize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

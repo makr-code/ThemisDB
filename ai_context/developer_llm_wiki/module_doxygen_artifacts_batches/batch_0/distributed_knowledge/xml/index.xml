@@ -1,0 +1,744 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kind="struct"><name>themis::distributed_knowledge::AdapterCapabilityAnnouncement</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6bd6d6bb22ee0ce627f64420a82d37f4" kind="variable"><name>shard_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" kind="variable"><name>adapter_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a79c0b79ed1cf3f20460f028ed2fdb27f" kind="variable"><name>adapter_version</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" kind="variable"><name>domain_type</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ad4b4aa85af0b4edfbcd094f69da2cac0" kind="variable"><name>custom_domain_label</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a68cc2ed9e756dfddfef70dc307c07e49" kind="variable"><name>performance_delta_p99_ms</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a1a1c4b653f96ae7f3850db0e21b47bec" kind="variable"><name>accuracy_delta</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a973b3ac1841761a604de50c005a732b4" kind="variable"><name>training_samples</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1abc7f155e70e522fa0dc02a13e17a1cb5" kind="variable"><name>federation_round</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a76a185bf77dc2df000611ac9692bc40c" kind="variable"><name>last_global_delta_version</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1aedee3ecaf27b6cd9b46f1f65c5bedbe0" kind="variable"><name>announced_at</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a4af7b5defc5215b0b72c2e6800a0bd6a" kind="variable"><name>is_withdrawal</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1adf42c54bfbdd479f5933947f3465d4e1" kind="function"><name>toJson</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a30552b1e588bd10c70a643a9553c3097" kind="function"><name>fromJson</name></member>
+  </compound>
+  <compound refid="class_adapter_capability_announcement_test" kind="class"><name>AdapterCapabilityAnnouncementTest</name>
+    <member refid="class_adapter_capability_announcement_test_1a4f7859b2a7674aa74849fd9f6dc46934" kind="variable"><name>gossip_messages_</name></member>
+    <member refid="class_adapter_capability_announcement_test_1a0fc079f78fce0c520e12e0144c98a74c" kind="function"><name>SetUp</name></member>
+    <member refid="class_adapter_capability_announcement_test_1a7c8b8c3854e49834b6d9596220b8b310" kind="function"><name>make_gossip_fn</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" kind="class"><name>themis::distributed_knowledge::AlwaysPermitTrustPolicy</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy_1aa172171a933cf9fdf3621b560648c0ac" kind="function"><name>evaluateTrustGate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity" kind="struct"><name>themis::bench::dkrg::BenchEntity</name>
+    <member refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1ada248434d374d1e96a6ca495bf261925" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1a0c7e41617c4419e3c3836bd856afd90b" kind="variable"><name>timestamp_us</name></member>
+    <member refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1af8679b72782556af266359440ca4310e" kind="variable"><name>node_id</name></member>
+    <member refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1a9f5774161f882230f7d2c251d7b1c412" kind="variable"><name>payload</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kind="class"><name>themis::distributed_knowledge::CrossShardFeedbackSync</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ac5a98c1b431a7b69ab81620d5d84b514" kind="typedef"><name>FeedbackCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae901741549d3b13a3419492ef6052daf" kind="typedef"><name>InboundPolicyCheck</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a3aae69b93a5f811c5d691c6c778eda8e" kind="typedef"><name>ZeroTrustEnforcer</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a703cd74f78a066af3b6a0ebe92b2c456" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a82464616a74920c33390ab4874603f2a" kind="variable"><name>local_shard_id_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ad3ba26bd1441a870d0f4fab3691b1ce4" kind="variable"><name>gossip_message_fn_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae738d912bcdb30783b82c1b227159b51" kind="variable"><name>on_feedback_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a4676c89e64866d250f77c9cb4694abfc" kind="variable"><name>policy_check_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a69bba23296928da00232bcc5266f3fea" kind="variable"><name>zero_trust_enforcer_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1afd400689d612eda6145846c89bd2d601" kind="variable"><name>dr_processor_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a27b519f4d09a0a122400565df371d77b" kind="variable"><name>seen_ids_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aaaab2a9dc3e9c68c3d3014a4d1389091" kind="variable"><name>published_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a45eb5406e16d0b3ed9784c2607ec923f" kind="variable"><name>received_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af60c45bfe82a402c2f086ade4cb62750" kind="variable"><name>deduplicated_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a5a443481b6bf8cdf934d9a927c866be9" kind="variable"><name>rejected_by_policy_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a052b472bdba27bfc211c5056496bc248" kind="variable"><name>skipped_publish_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a1411d4ad3d4a780fb77cd44d7b0b9f0e" kind="variable"><name>erase_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af60fb1ab3ee576d107a4a15f09707bbd" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a6fd0b2b31f2f2990fef2212f333495b1" kind="function"><name>CrossShardFeedbackSync</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a08510c6d3df99a1defd926ddcf30afe7" kind="function"><name>~CrossShardFeedbackSync</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af77b4cbb45975cfa9e339b903d38b592" kind="function"><name>CrossShardFeedbackSync</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a95a50f92b4ed99e9817028f699fd2dc8" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a9c4a7343fe43e0dcea0d7f26b179a1ca" kind="function"><name>CrossShardFeedbackSync</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae236cd215fb47d07642dd91a24f0c7bc" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a67c9e5e044e80f0b790fb861cbfcca50" kind="function"><name>publishFeedback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aa6882cea0e4c147fb657ff3f408f7679" kind="function"><name>handleInboundSummary</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a713107e423b9839a9d1ee040228d1694" kind="function"><name>setFeedbackCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a2e26ca70d27893716f1633171ea900c9" kind="function"><name>setInboundPolicyCheck</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a0a19240a6d426b69645c5a9726347d4a" kind="function"><name>setDecisionRecordProcessor</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a7078fc5bccfc10b276c5242b897fe4fe" kind="function"><name>setZeroTrustEnforcer</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a40074e95b840556ebebfa62077d584a1" kind="function"><name>getSkippedPublishCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ac024d8e6d63dec408b8d5c34d2058ad5" kind="function"><name>erase</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a74bcc7dc217c132a52562aa8d2095a0b" kind="function"><name>eraseCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a041425eaad583395fe357b9b3053352f" kind="function"><name>publishedCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aa8bad6ba3ffdac5000d089ab3dfe953a" kind="function"><name>receivedCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a92302ecdbc55f81386b723dc22e5bdad" kind="function"><name>deduplicatedCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1afe950cbc49652f3d3f4d4f84e1192e60" kind="function"><name>rejectedByPolicyCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae01db9bd6283a9fa06df8cdb6c2a7afa" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a314259a44f20214da1f1babcbe7932b0" kind="function"><name>generateSummaryId</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a3d8643ae67494f7b64491f4928e5067c" kind="function"><name>emitFeedbackDecisionRecord</name></member>
+  </compound>
+  <compound refid="class_cross_shard_feedback_sync_test" kind="class"><name>CrossShardFeedbackSyncTest</name>
+    <member refid="class_cross_shard_feedback_sync_test_1a3b31766ff706c4e9e938b16704376878" kind="variable"><name>cfg_</name></member>
+    <member refid="class_cross_shard_feedback_sync_test_1a877abeddd55518fcd2975090081f3847" kind="variable"><name>gossip_messages_</name></member>
+    <member refid="class_cross_shard_feedback_sync_test_1aef179ef431fa179e80bbb76dce58a919" kind="function"><name>SetUp</name></member>
+    <member refid="class_cross_shard_feedback_sync_test_1a6d6b9567e8595c5c8ab43c2502875232" kind="function"><name>make_gossip_fn</name></member>
+    <member refid="class_cross_shard_feedback_sync_test_1a2d449c42ce185cea0cef0ecca052db6f" kind="function"><name>makeSummary</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" kind="struct"><name>themis::distributed_knowledge::DistillationBoundedPolicy</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a02afd3f09ee8b0754b346256f28671f6" kind="variable"><name>max_distillation_rounds</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a832014d13c0bc4dee5756eac7ee7dd25" kind="variable"><name>privacy_budget_hard_limit</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a4e8ebf7f2aac5a24b689cf3e96645f57" kind="variable"><name>policy_gate_enforcement</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a070340a40db3cff621473967982ea962" kind="function"><name>isConstrained</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kind="struct"><name>themis::distributed_knowledge::DistillationConfig</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1aa441a0bb391de61c830056d8b407c6e6" kind="variable"><name>dp_epsilon</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1a0951a6bfb98040893c2dd6870f23b7a6" kind="variable"><name>dp_delta</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1ab170a8e269569def437dbbf5e7186827" kind="variable"><name>dp_sensitivity</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1a411f33b1adf8058f5587cd30aadcccb7" kind="variable"><name>temperature</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1a297d285dca86350a5a5538793d6ca35c" kind="variable"><name>alpha</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1ac6c71af10a65955adbd236ab3e586ab8" kind="variable"><name>max_rounds</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1a108fce211f731f20c39e4a96eda37bde" kind="variable"><name>min_utility_threshold</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1afed5e89a804fe9ea4425bf786351b495" kind="variable"><name>require_dp</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1a06fa5b30915fb022d5451c10d81749f1" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card" kind="struct"><name>themis::distributed_knowledge::DistillationModelCard</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ad73d194ade5f914c734eeeef9367e40d" kind="variable"><name>coordinator_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a693262fbe168d3551f3025f8f33bfa30" kind="variable"><name>teacher_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a1fa69ff400e552c7ce802aac3e555b68" kind="variable"><name>rounds_completed</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a69ac6a20ae9958877f7bcbb46f348446" kind="variable"><name>total_epsilon</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a09924965ae5e6f21c24ace163bfff226" kind="variable"><name>dp_epsilon_per_round</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a1ab221cae27de444d85d9f48967cb630" kind="variable"><name>dp_delta</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a96e3c02506e5673219bbdb716b472045" kind="variable"><name>dp_applied</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1abddd9385965d4f7a587bd396b64e17ae" kind="variable"><name>min_utility_reported</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a49e837ce42c584d0e5327e9753e8e083" kind="variable"><name>max_utility_reported</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a351bac91bb451eb8d68178deda593ae0" kind="variable"><name>rollback_count</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a0aa25a60285a5583bb0d5a9794a20599" kind="variable"><name>policy_blocks</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ae5031a3ec4a1dcc27c75d92bb0104704" kind="variable"><name>registered_students</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ae35913c6bdbb1d6bad50b3bcbde99381" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" kind="struct"><name>themis::distributed_knowledge::DistillationRound</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1aa5954a8cb6c03a6e5b254ccdf10a0a49" kind="variable"><name>round</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ae14295675a75b2adde7c43f71ab20f81" kind="variable"><name>teacher_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1a01eb65161260988210fcd4b67c42bb83" kind="variable"><name>labels</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ab10b875dd405ee932349c66f79fbb59a" kind="variable"><name>epsilon_spent</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1a9c722749f1bab1312c84810aedd5ae4b" kind="variable"><name>label_count</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1aca1e46e42a14f666d75ce78e2a91ffd4" kind="variable"><name>dp_applied</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ab4dc7c5ad161e2255d2bc1d38a8a98d7" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kind="class"><name>themis::distributed_knowledge::DistributedKnowledgeDiagnosticEmitter</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ab728ee5ed1459b41d1f5338a192e9a1b" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1aa05469bf667b907633e50ff76d14e396" kind="variable"><name>listeners_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ad4ff1d930f62cc19e3dc53e36645e593" kind="function"><name>DistributedKnowledgeDiagnosticEmitter</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a08452215fdb2c622f3c084c9ec95f3ab" kind="function"><name>~DistributedKnowledgeDiagnosticEmitter</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1aaef16ff7fc77d330b75688f9551e57a1" kind="function"><name>DistributedKnowledgeDiagnosticEmitter</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a31fdeec9a9e0cd304a054701be2263ee" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a73bb9c22b7cf233bceff3e677bac366e" kind="function"><name>DistributedKnowledgeDiagnosticEmitter</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a6b93e69a0b585bfaf13ab7f0355a36c1" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kind="function"><name>addListener</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a1c7cb9ac2028e3125d8dd8a6a0f3f994" kind="function"><name>clearListeners</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ac3b3499006b551e60d2e396cb7065bd2" kind="function"><name>listenerCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ab365e63c5a92ea27eb17a08585a4bdd9" kind="function"><name>emit</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a273acc52a24b0eac480997bae6af8a76" kind="function"><name>emitMergeTimeout</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a54230d28c0d724ff9a46efa907fd64cd" kind="function"><name>emitDedupCollision</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a990c8ee8deaff9c3d646c8aa14ce3498" kind="function"><name>emitTrustGateReject</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a2e4650abbd3b5ccb19208e812e858320" kind="function"><name>emitPartialShardMerge</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ae2e52ea3b593449d901ceffaf9aff553" kind="function"><name>emitFederationRollback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a58d83e89bfff934b3b047f9cb2e59e1c" kind="function"><name>utcNow</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kind="struct"><name>themis::distributed_knowledge::DKDiagnosticEvent</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" kind="variable"><name>severity</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ad77d5656f17016bb0df580bbf8260a16" kind="variable"><name>shard_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ac8daf3920481b35b8dc10c29bf4ed06a" kind="variable"><name>operation_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a0f50a689e663fa2188e119721911233f" kind="variable"><name>timestamp_utc</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" kind="variable"><name>cause</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" kind="variable"><name>metadata</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kind="struct"><name>themis::distributed_knowledge::EncryptedGradient</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1a415475ae9c6a4b6359ab753515bb24be" kind="variable"><name>shard_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1afe16b0feca405d063fa55e3481a22b7c" kind="variable"><name>round</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1abeacf6d828d3a44ffdb04210dad24a7c" kind="variable"><name>sample_count</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1af874c478c4dcc9cd60f096922ae97d74" kind="variable"><name>data</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1af39b0e039a2727b5e449446e556adbcb" kind="function"><name>toJson</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1a5f58e33d89dd7034428c8bfa3994acf8" kind="function"><name>fromJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kind="class"><name>themis::distributed_knowledge::FederatedDistillationCoordinator</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2ce2d2e6e1507a14ed315c3d2a78b193" kind="typedef"><name>PolicyGate</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a25af35e5adf82ad70649e4bd0b37c18c" kind="typedef"><name>NoiseGeneratorFn</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a031cee0deff6a113df97698887776a7f" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aa503c2996330977a46d925e2909ed041" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aebafb6c179e647abcd48637d05ef768e" kind="variable"><name>current_round_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a7e8991e58099e41e475e931296c941b5" kind="variable"><name>total_epsilon_spent_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ad7a8430dd937518146e39cfb3bb1ba4b" kind="variable"><name>broadcast_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a1f8ada8ca2cca2a674b6d0ada3af6350" kind="variable"><name>rollback_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ab31038e8f5fdc3fa1ae49f2c1714455a" kind="variable"><name>policy_block_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a6906c469ce392d825f44acab1f1074c0" kind="variable"><name>min_utility_reported_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1afa94e13fa2c9e544b67f679a9af1b7fa" kind="variable"><name>max_utility_reported_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac62682a1b763f367d8b7582ddae6ebd0" kind="variable"><name>any_utility_reported_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2fc93cf47cf83be68941bd4d71e19a59" kind="variable"><name>pending_teacher_id_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ab97841e2f1e4e31cea3ca144ebb5adc8" kind="variable"><name>pending_labels_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac6225efe1e2aa8830c084c598017b4ae" kind="variable"><name>has_pending_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae4604b8d33e15c2ebe7e76c783328685" kind="variable"><name>last_round_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a434a15d819ac5c017bd3d54adda7cde9" kind="variable"><name>students_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a6f902082da981e9eba46fef94e40de45" kind="variable"><name>policy_gate_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac2d8682c6113182d532540fe78a9de22" kind="variable"><name>bounded_policy_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac985cd6d459c55feb8bd70aa40c233d8" kind="variable"><name>audit_cb_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aea6cf84ebfc3188ea4209cc1c8281677" kind="variable"><name>rollback_trigger_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a45d6b3bdeaee45837dbcdf5338e64c1a" kind="variable"><name>noise_generator_fn_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a98b968e84411b1df759ae9d2eec75a73" kind="function"><name>FederatedDistillationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac359f5a3bfe74b8ca35d76c236a13bcc" kind="function"><name>~FederatedDistillationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae2d8b828d3e056bab8bc2923dfc5728c" kind="function"><name>FederatedDistillationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2d635b05783b85ecca28c76cf52a7488" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae381815869006ba2232ab171f0d853e0" kind="function"><name>FederatedDistillationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a10a73587334c6bdb5550ad18c32a12a4" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a1a93f22047457ee971bb6bfb51dd5f57" kind="function"><name>submitSoftLabels</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a3c636cb0c7d00db5bb3f79cc4d7ec67f" kind="function"><name>broadcastToStudents</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aebdf6359634dc8d233e9dbc9c72726e4" kind="function"><name>currentRound</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aef32fb29cdbd0a42102b551861a67145" kind="function"><name>submittedCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a5e9ca45bcc3c660222bfd8351340d259" kind="function"><name>lastRound</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a974619c3783e7db6c563eedaf8c4a222" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2e75ba598bcb6c8ff98adc6de855acf9" kind="function"><name>registerStudent</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a8f094b7bf146cb296f5a96a375a770c5" kind="function"><name>setNoiseGeneratorFn</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a537fea9a2cd605857210dc95fa0729ba" kind="function"><name>setPolicyGate</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a9de96d351fa0b0c21ab034a5083e5571" kind="function"><name>setBoundedPolicy</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a31ce5320abcdab63fb9676e064aa14bf" kind="function"><name>setAuditCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a86b50378cc0e49117482475b1c1fcfbd" kind="function"><name>setRollbackTrigger</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a3dabb50734f71ee3e7b20a7e64443fbf" kind="function"><name>reportStudentUtility</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a33fbd7c906f23749414d2eb210bd1af9" kind="function"><name>privacyBudgetRemaining</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a97475fb0c3d66bdf26da8de1dd85387b" kind="function"><name>verifyPrivacyBudget</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aafdab85293cdac6d99b423cf2e4d77ec" kind="function"><name>reset</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ad3ff8160c5b473772e89faec27e4decd" kind="function"><name>generateModelCard</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a05949f746521394ba5407a7847f64f03" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac5322f11152b6b4998c52f9307713f9e" kind="function"><name>applyDPNoise</name></member>
+  </compound>
+  <compound refid="class_federated_distillation_coordinator_test" kind="class"><name>FederatedDistillationCoordinatorTest</name>
+    <member refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kind="variable"><name>cfg_</name></member>
+    <member refid="class_federated_distillation_coordinator_test_1afaa487e227c2b6193757f1e80f360090" kind="function"><name>SetUp</name></member>
+    <member refid="class_federated_distillation_coordinator_test_1ae27361448366b1d2dceea22a7cf02f1d" kind="function"><name>makeLabels</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kind="class"><name>themis::distributed_knowledge::FederatedRAGMerger</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1ad974dbbd4da6940a007f16fb36a8fa54" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a86789b97e8091a370d413291c1b1818d" kind="variable"><name>erase_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa04210e240ecb08d2c0d4dd468b08908" kind="function"><name>FederatedRAGMerger</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4f931158ea80fa6ea9f067f5364d31f2" kind="function"><name>merge</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4c280d106e3f65d5b3cedd597e54d365" kind="function"><name>mergeAndBuildContext</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7df2b27cc3fdc42689bc90fe63ad5fbe" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7659cc050765203374168f62645811bf" kind="function"><name>erase</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a0f3596e0f80191c19f1a54b65b05cefa" kind="function"><name>eraseCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa058321446fff3717d4dac8378ee15aa" kind="function"><name>mergeRRF</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a2fbb0550512e12c3c59fef42fcd4021b" kind="function"><name>mergeScoreWeighted</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a937d8c292edee696f5be77d72e041c8f" kind="function"><name>mergeRoundRobin</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a6498341ed13df36582cc5ec99303aa5e" kind="function"><name>deduplicate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kind="struct"><name>themis::distributed_knowledge::FederatedRAGMergerConfig</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a16203e27bc92d751671c4c9a3ffc4bb7" kind="variable"><name>strategy</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1aaa00195a982d3df94d0e232806656064" kind="variable"><name>top_k</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1ab84436b7ab1caa78ba9531d5b3ec4f4b" kind="variable"><name>deduplicate</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a5808a96b59eacfbbda8a67c9a8ac12dc" kind="variable"><name>rrf_constant</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1abc2d153c22a64a9b2d9722fbd7e835bd" kind="variable"><name>boost_specialised</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a8f25cece98a0de15a7aa71701405f963" kind="variable"><name>specialisation_boost</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a0d7482e1f89555d6fc349ee46b00daa9" kind="variable"><name>shard_timeout_ms</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a6a107edd7879c74ef81e8f706c71e59e" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="class_federated_r_a_g_merger_test" kind="class"><name>FederatedRAGMergerTest</name>
+    <member refid="class_federated_r_a_g_merger_test_1a22a27c56e77d3da6d08ce73e81c66443" kind="variable"><name>cfg_</name></member>
+    <member refid="class_federated_r_a_g_merger_test_1a5a60d635e254c92d4f146c1efea4defe" kind="function"><name>SetUp</name></member>
+    <member refid="class_federated_r_a_g_merger_test_1a548809f8bc3ab5996e5ae0a0e395e931" kind="function"><name>makeShardResult</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kind="struct"><name>themis::distributed_knowledge::FederationConfig</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a3456accf27076c816b2eabc9ce84458a" kind="variable"><name>min_participants</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a008988391d53657527803ac372c0f431" kind="variable"><name>max_participants</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a004b9caa582d08bd4912793eb3eef62c" kind="variable"><name>federation_interval</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1ad9481f9011cd5a5172ee15e15219e58b" kind="variable"><name>aggregation_algorithm</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a94bd749490dd5b8480409bd7635b60ba" kind="variable"><name>weight_by_sample_count</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a6b59c18592945cbc88500c957796d055" kind="variable"><name>dp_epsilon</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1af2a03beff6c1824965877df7c624c01d" kind="variable"><name>dp_delta</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a3b77c6a498a304b21f4a93b2f16f7aa0" kind="variable"><name>dp_sensitivity</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1ad0826d9036764098b846f057edd37d0e" kind="variable"><name>max_rounds</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1abb2085f7164ad6936d50bf6b765f028f" kind="variable"><name>round_timeout</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1ae93b43c605d01e0987f0aa08c4c34c31" kind="variable"><name>round_timeout_ms</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1ab5781d10097c7cbf5c60c89772827e80" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kind="struct"><name>themis::distributed_knowledge::FeedbackSummary</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" kind="variable"><name>summary_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a335529705f3c4978def22eaef7da4e01" kind="variable"><name>feedback_type_label</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" kind="variable"><name>reason_embedding</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a45eeaff3721941db019d6e2a9511c39f" kind="variable"><name>shard_origin</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a21b1dcb7c12805787bbf347f3b2075f7" kind="variable"><name>rlaif_round</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ac6b978cb6ef6bf4e284cf77db17028fe" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1acad34323eb3107a8852b88a51d023f14" kind="function"><name>toJson</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1adba3f7ba30e0228c14f8b266d5bb1749" kind="function"><name>fromJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kind="struct"><name>themis::distributed_knowledge::FeedbackSyncConfig</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1aad201301214f1daa10b47603cdaf0dd1" kind="variable"><name>max_embedding_dim</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1a944091d74bd3df81d6bf951c3effe11c" kind="variable"><name>dedup_cache_size</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1a3cfc57e6934115d3e03d20fc34eb1de7" kind="variable"><name>validate_embedding_dim</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1af6c09035292933873e3a365d13b5b2e2" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kind="struct"><name>themis::distributed_knowledge::GlobalAdapterDelta</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a4685afe2b986fde078cdcc2c6f55ed7f" kind="variable"><name>round</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13f53c9dd921d87a5a97471c59ea3e93" kind="variable"><name>version</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13eb98484fc297027f6d815880bd62fa" kind="variable"><name>participants</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a58661a6170cfb1f0cac62ea596c48fa3" kind="variable"><name>algorithm</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1afe0eb122efdf05a7885c3ea690fd851d" kind="variable"><name>epsilon_spent</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a618aca5bc6817a5f9924434ae114e197" kind="variable"><name>delta</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a8196ebc5aaa34ac93483281c170208ed" kind="function"><name>toJson</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a479ba76bb165fd7922d3994af98e7f3f" kind="function"><name>fromJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" kind="class"><name>themis::distributed_knowledge::GossipAdapterPublisher</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a5e02059ebefc75936da832ff2bd11196" kind="typedef"><name>AnnouncementCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a88e1c616426f0173a967765331cc3287" kind="variable"><name>local_shard_id_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a5f41f1dd970077b12509a2278d26a603" kind="variable"><name>gossip_message_fn_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a48e8ba9d0ce3187c172a42ce32fe4f3d" kind="variable"><name>on_announcement_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a5633137d2001b7dbf98240a2d1033dcf" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a2cbd74cc6e2a6ce6312de98aa6d3bb84" kind="variable"><name>last_announcement_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a27a4b6ad047444f31030c41d79dcc75f" kind="variable"><name>erase_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a3240e62c68a3b35a80af79d8d167b766" kind="function"><name>GossipAdapterPublisher</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a4b05e54b961b01f8326f2987a1600223" kind="function"><name>~GossipAdapterPublisher</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1addd6953a65bc1a8fd3dac25de9ee0adf" kind="function"><name>GossipAdapterPublisher</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1af475c2b2c43d29bd32c2670cde5ea509" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a57243b2779e5184830e56ac0a7f70161" kind="function"><name>GossipAdapterPublisher</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a362bca51eb07814d4fb56fdbe2fa8e3e" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1abe1911a4cb1cd6087372ac488f3b8232" kind="function"><name>announce</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1aaacf142a32a3a096a226d50447b3abdd" kind="function"><name>handleInboundMessage</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1aac184d5bac87150b4678217d103f07f2" kind="function"><name>setAnnouncementCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a08b4c993f6704c897f273417f03fcf60" kind="function"><name>lastAnnouncement</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1ad4ea197ca0d1188ba476e956b48a214e" kind="function"><name>erase</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher_1a4a8eb61620049cf404d917dcec52cd47" kind="function"><name>eraseCount</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener" kind="class"><name>themis::distributed_knowledge::IDKDiagnosticListener</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a1d3c750b99891117b1aaf632f05dcc74" kind="function"><name>~IDKDiagnosticListener</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a3ed0805045cf701ada9c960db8859885" kind="function"><name>onEvent</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator" kind="class"><name>themis::distributed_knowledge::IFederatedDistillationCoordinator</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a21e7cbf77e1313ebdeaeda336801c605" kind="function"><name>~IFederatedDistillationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1ae81ee5416e2989316784ad60c1b49e76" kind="function"><name>submitSoftLabels</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a449bcdfe6705c6df5a33ee57e6778e35" kind="function"><name>broadcastToStudents</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1aeb519b99fb733606c2d5a8730e47a45d" kind="function"><name>currentRound</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a52ec06a4364937829e38a9ab561ead7a" kind="function"><name>submittedCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a15c74ab2977dc94064235d9b266d1503" kind="function"><name>lastRound</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a4c92f6bbe9c1481ce7d32d16d1a18f6f" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a283dede84fc773b6f2817440f4f0263a" kind="function"><name>registerStudent</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" kind="class"><name>themis::distributed_knowledge::IFederationTrustPolicy</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1afc43a98a1a3ef30af21ff749ac2e0078" kind="function"><name>~IFederationTrustPolicy</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1a42cfc6b156e04084bdf3b034fb6378b8" kind="function"><name>evaluateTrustGate</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator" kind="class"><name>themis::distributed_knowledge::ILoRAFederationCoordinator</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a30f8bc4c8f1be45672c4582337e32b9f" kind="function"><name>~ILoRAFederationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a4acb4e0880b52647e46d1bda39bc28be" kind="function"><name>submitGradient</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a07f9f226a7940488fd33ce7af25b64b3" kind="function"><name>triggerAggregation</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a8d4a58e984cec76f720a024fceb024f2" kind="function"><name>triggerAggregation</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a693606094199b202f60311aa84f12325" kind="function"><name>setGlobalDeltaCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a06dadb42c605865a2f5344e95720d4ed" kind="function"><name>currentRound</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a006deff0e20d78a0aca794574e929659" kind="function"><name>submittedCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1ae0132820aab82823d0778e4d53bf1773" kind="function"><name>lastDelta</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a3c12e47d954272b45dacc783614e44fd" kind="function"><name>getStats</name></member>
+  </compound>
+  <compound refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kind="class"><name>themis::distributed_knowledge::LoRAFederationCoordinator</name>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a4451e699b97d63017ddf6144c548f49e" kind="typedef"><name>GradientOutlierFilter</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ada2653033a02e590c5e24520ca224fb7" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a1cae046a41fcd43154d0ee9ebe4ca010" kind="variable"><name>current_round_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a6a21b932ae3b8a179cac96ff6dd8c38d" kind="variable"><name>pending_gradients_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8ae77521bd9e253376d2cc431902d2ce" kind="variable"><name>last_delta_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ac2b90609cc8543afbc5f8744e4b6f743" kind="variable"><name>delta_callback_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2791a5986b141be01ea174077fecadee" kind="variable"><name>dr_processor_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aac54764d35df90bea9137583991d9149" kind="variable"><name>erase_count_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a211d716520a4fc962f3c7628a92bfb6a" kind="variable"><name>cross_border_policy_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1adc8e0860eb97e2e2499b48735fc63bcf" kind="variable"><name>shard_locations_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a7b2b9b899c3145d7c9816eb2cf312dc1" kind="variable"><name>audit_record_callback_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a787d7569d556f662005206eac809f8e4" kind="variable"><name>signing_callback_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a7b8ac7d5ad22dca7c96ad5d2b01e87b0" kind="variable"><name>total_rounds_completed_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab0cd994b848810a1053e0afacd22b1db" kind="variable"><name>total_gradients_processed_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad26961104dfcca19b96eefc3310dfd3a" kind="variable"><name>total_epsilon_spent_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a32c9a6550e99a56d530adb6ac55a8a8a" kind="variable"><name>total_gradients_filtered_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aeb6ca8595250e87eead35fb9abffd8a9" kind="variable"><name>gradient_outlier_filter_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a0f26861056095100ebce13587a4854c8" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab978b84c0e19ac8a64654c66baa83547" kind="function"><name>LoRAFederationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2c2a974358fec43c49b1683e8896cc78" kind="function"><name>~LoRAFederationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab99aa30b0e8a8e897b40d2a9b3e7caf9" kind="function"><name>LoRAFederationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aa213e480d8014692dd678f455de9491a" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad4b4474797812fdb0aff676d78d19a5f" kind="function"><name>LoRAFederationCoordinator</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2aafdd5edfb1b180f28ca11a96594a32" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8a257289051836ba7c555fe0f98e1d82" kind="function"><name>submitGradient</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8a3e354a23dedb87ea776810737ed4bf" kind="function"><name>triggerAggregation</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1add63edd90358e5ffe6541324631ef9e6" kind="function"><name>triggerAggregation</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aabc3e76ebd2e826a7ca92cbe0d966279" kind="function"><name>setGlobalDeltaCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a6750ddd1085685507bcf76a57827bed9" kind="function"><name>currentRound</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a136141d3a6697dec956a8719ab0fce2f" kind="function"><name>submittedCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2891dee456e55f22ab46ef9fca78b2b1" kind="function"><name>lastDelta</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1afa8e3f4fb14580df01cf77dec3fbeef8" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1af36d61fe3794acd4cf099130b03f71bd" kind="function"><name>advanceRound</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aa11541e89a68576070ad95b4b76cfa4c" kind="function"><name>setDecisionRecordProcessor</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a86a1e619eeaba1efbeb94138ece960a8" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab6c5231ab1c1d0d9d201ac63719ca040" kind="function"><name>privacyBudgetRemaining</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a093310a9da560ff106c611d709f11aeb" kind="function"><name>verifyPrivacyBudget</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a204343b976b505b174d6bf6601c85365" kind="function"><name>erase</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a0339bae5a6003fa1d31073caddaffcb5" kind="function"><name>eraseCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad59855b91b436f360f17f3debb803fd1" kind="function"><name>setCrossBorderPolicy</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a370f0b1fac5b3348a6f27d5bd794b433" kind="function"><name>setShardLocations</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a052963646c461c81f8254efa76d068c6" kind="function"><name>setAuditRecordCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a770e96416117ba433d7899f0be8fde9a" kind="function"><name>setSigningCallback</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a869212a1e33424dda07f2d283990eac5" kind="function"><name>setGradientOutlierFilter</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a03f66237bc7a79245c71c9b70009e06b" kind="function"><name>filteredGradientsCount</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2f325c8b6256a6e7faff34593ada2966" kind="function"><name>makeL2NormOutlierFilter</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a1357cff5abe5f9026f073a13e3ab80b0" kind="function"><name>doAggregation</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aab7f2a2dfec2009b568d43464c6ebf89" kind="function"><name>applyDifferentialPrivacy</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1acf9e4b088c964ff072585185155a5ff1" kind="function"><name>nextDeltaVersion</name></member>
+    <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a98b04ef4b5e18820e32760e81af20541" kind="function"><name>emitFederationDecisionRecord</name></member>
+  </compound>
+  <compound refid="class_lo_r_a_federation_coordinator_test" kind="class"><name>LoRAFederationCoordinatorTest</name>
+    <member refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" kind="variable"><name>cfg_</name></member>
+    <member refid="class_lo_r_a_federation_coordinator_test_1a5e0ce3c1a639505d4f4d552155f01ae9" kind="function"><name>SetUp</name></member>
+    <member refid="class_lo_r_a_federation_coordinator_test_1ac9becce27b970be8ef0189e2610f45a7" kind="function"><name>makeGradient</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kind="struct"><name>themis::distributed_knowledge::MergedRAGContext</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" kind="variable"><name>documents</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a54533739af6e6f5469acc50208868c3a" kind="variable"><name>total_candidate_count</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a5a783e1f2e56837adafa028a2f803fb7" kind="variable"><name>unique_doc_count</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a27cdea5509a185e30fb65359aa22219c" kind="variable"><name>shards_queried</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" kind="variable"><name>shards_responded</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1adf5a448c8d9269ad24c18775e25d99a5" kind="variable"><name>strategy_used</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a7b68005fc39654945de2dba4dae28c42" kind="function"><name>buildPromptContext</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kind="struct"><name>themis::distributed_knowledge::MergeHardeningPolicy</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a4189f82f7a705b33b1054cac8acac583" kind="variable"><name>max_merge_latency_ms</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1ae77346caff989a6a01868200d6e3315d" kind="variable"><name>dedup_window_size</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a10aba593154b9638c2e4537919ca21a3" kind="variable"><name>partial_shard_min_count</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1aaa25b4e3fde56a2a98c1046ce6e2d841" kind="variable"><name>timeout_behavior</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" kind="function"><name>isConstrained</name></member>
+  </compound>
+  <compound refid="class_recording_listener" kind="class"><name>RecordingListener</name>
+    <member refid="class_recording_listener_1a8afb2e8557ec6b58ae378a3cd69841db" kind="variable"><name>events</name></member>
+    <member refid="class_recording_listener_1ac370ae257479ce2ae2e6f2c1f9c6475a" kind="function"><name>onEvent</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kind="struct"><name>themis::distributed_knowledge::RetrievedDocument</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a6c74caf375c09d2fba2bd35188613b5c" kind="variable"><name>doc_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2bf3e383bb3ab0b604307e40fa05ed58" kind="variable"><name>content</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1ac749dcccd101362f0b2a54ba7dd1143c" kind="variable"><name>shard_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a8cf0dfb764955e1163970f0945d8ff02" kind="variable"><name>relevance_score</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2469d3d8aca456c8f1faf9d44566844f" kind="variable"><name>rank_in_shard</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a08965b6dec19f9d0249c8087663f3dd2" kind="variable"><name>metadata</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a1f9322e14894d0424147911fa6ed5dea" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kind="struct"><name>themis::distributed_knowledge::ShardRetrievalResult</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1ab6974bbe8ab12905731cbb15dc0dddd3" kind="variable"><name>shard_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afcf1705a753bc7b6e33cc63c394744a7" kind="variable"><name>documents</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1aefc60359dbb6d940f746c7f59bff0029" kind="variable"><name>adapter_accuracy_delta</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a7a9f20c4153a91ed17c083cdac767d66" kind="variable"><name>latency_ms</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" kind="variable"><name>ok</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" kind="variable"><name>timed_out</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a1fe8f356aa7a3fded473ac6b4f36b3a8" kind="variable"><name>error_message</name></member>
+  </compound>
+  <compound refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kind="struct"><name>themis::distributed_knowledge::SoftLabel</name>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a34d5ab8927927c80cac8a3c1c483ab1d" kind="variable"><name>query_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0db6fb3f9f8dbbc3e216027841715872" kind="variable"><name>probabilities</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0e04aa801cf4ab4c709905536d71475d" kind="variable"><name>temperature</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a6866c6c024e9d568ff536f2a06a0e21a" kind="variable"><name>teacher_id</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a97e9cad377236d38306672c54b0f1715" kind="function"><name>toJson</name></member>
+    <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a3542bc90fd695b5dd55e8d394f24cc33" kind="function"><name>fromJson</name></member>
+  </compound>
+  <compound refid="class_throwing_listener" kind="class"><name>ThrowingListener</name>
+    <member refid="class_throwing_listener_1ad969c6acea7aba81800e3662340dd1a1" kind="function"><name>onEvent</name></member>
+  </compound>
+  <compound refid="namespace_0d054363232047240215020024356020113006022076014047" kind="namespace"><name>@054363232047240215020024356020113006022076014047</name>
+  </compound>
+  <compound refid="namespace_0d120177125073046366351021120052351177056151134270" kind="namespace"><name>@120177125073046366351021120052351177056151134270</name>
+  </compound>
+  <compound refid="namespace_0d231127267365321075332374372165027307043130073165" kind="namespace"><name>@231127267365321075332374372165027307043130073165</name>
+  </compound>
+  <compound refid="namespace_0d347374330310104234153131162260136217322105312256" kind="namespace"><name>@347374330310104234153131162260136217322105312256</name>
+  </compound>
+  <compound refid="namespacestd_1_1chrono__literals" kind="namespace"><name>std::chrono_literals</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench" kind="namespace"><name>themis::bench</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1dkrg" kind="namespace"><name>themis::bench::dkrg</name>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a0afba2a75db919d42c05af2d9bf7d193" kind="typedef"><name>BenchEntityStore</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1aceec6fc4319b100aa7b7d3fc79499ca8" kind="typedef"><name>BenchGraph</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a38f31a6ca02bcb944bd2b2d6be849941" kind="variable"><name>kDKCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1ac3f5e58e02b7bfde079e824bb5f02f2e" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a022b38e8b08fd4561c9e5bad081d0fc2" kind="variable"><name>kWarmupIterations</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a80082dd8a2917e6a087f9c03b5851c54" kind="function"><name>makeEntity</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a594ddd85f839f36f56cbb0b12d932fa6" kind="function"><name>makeGraph</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a30c9f2e2dfd763b9d24a1ff164a21430" kind="function"><name>getNeighbours</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a785296b5c376c7c0b18c986a7df37dc8" kind="function"><name>bfsDepth3</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1afa551c16eb47508ba27c25018195f6a6" kind="function"><name>federationUnion</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a08c9747ccde3690527056cdc9970a352" kind="function"><name>BM_DKRG01_EntityInsert</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a981fe43e7b8c8012995ce764507d370c" kind="function"><name>Repetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1ab3457b39132f3e0a08f57c349de13537" kind="function"><name>BM_DKRG02_NeighboursLookup</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a9b2dc4445d07ed45e7b618af689ef195" kind="function"><name>BM_DKRG03_PathQueryDepth3</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a82ddeff9070912106d7903d6ea76cc15" kind="function"><name>BM_DKRG04_EntityMergeLww</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1aaef4031439ad7ebd999c25cfb6da78a9" kind="function"><name>BM_DKRG05_FederationResultUnion</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1ad3b70145b772f18ae7f0dd8687ab4aeb" kind="function"><name>UseRealTime</name></member>
+    <member refid="namespacethemis_1_1bench_1_1dkrg_1a21eb8a1e52e51cdb0cd3c7eac7d2cd20" kind="function"><name>BM_DKRG06_EntitySerialization</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1distributed__knowledge" kind="namespace"><name>themis::distributed_knowledge</name>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057" kind="enum"><name>AdapterDomainType</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" kind="enumvalue"><name>GENERAL</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a63b6380ad1c102c8387da25f71256eba" kind="enumvalue"><name>SECURITY_MONITOR</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a48223173d9bae7b0beb2b38d71942196" kind="enumvalue"><name>SCHEMA_ADVISOR</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ae6bed345f53943469741d7295552fcd4" kind="enumvalue"><name>TRANSACTION</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a72d0ff12af2d847e53d66baaf95cb944" kind="enumvalue"><name>MULTI_TENANT</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a1aa9fe0235b02ffbb2efb13e43d59aa9" kind="enumvalue"><name>EXPLAINABILITY</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a4939a0c5f946aa98a33244d2f3cfef58" kind="enumvalue"><name>VECTOR_SEARCH</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a0371bb9af9d38a90a3ef955633035ddb" kind="enumvalue"><name>PROCESS_MINING</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a1e23e9a76735e87600dc4dd405202575" kind="enumvalue"><name>GEOSPATIAL</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ac53151ffd180a17416e8f09b1ca4bfc3" kind="enumvalue"><name>LEGAL</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057aea68388b0642cfd18735a4a166494310" kind="enumvalue"><name>MEDICAL</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a72baef04098f035e8a320b03ad197818" kind="enumvalue"><name>CUSTOM</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178b" kind="enum"><name>LwwDecision</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bac1c699830d1f93e6006083c8e66f9329" kind="enumvalue"><name>LocalWins</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bafb0d29ad4a448f485d741d1bb5590669" kind="enumvalue"><name>RemoteWins</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bab100297bc36c197e260e6d0399761ec9" kind="enumvalue"><name>Identical</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0b" kind="enum"><name>DKErrorCode</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae0aa021e21dddbd6d8cecec71e9cf564" kind="enumvalue"><name>OK</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1ab4e637edc3b093ebbf6544441e5759" kind="enumvalue"><name>ENTITY_NOT_FOUND</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0baf1bcbf8e67ee40bb3f58cf89b17833b7" kind="enumvalue"><name>FEDERATION_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba7f2ba9f1d809839e5f1365966a074a61" kind="enumvalue"><name>CONFLICT_UNRESOLVABLE</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba2f63cbddf74f05c390552b36825550ff" kind="enumvalue"><name>GRAPH_CORRUPTED</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba9982a2360464eae76f585b2b923eaef8" kind="enumvalue"><name>RETRIEVAL_LIMIT_EXCEEDED</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba082cfb8f68451ed0e607fd633561101b" kind="enumvalue"><name>TOMBSTONE_PROPAGATION_FAILED</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bac9833d0686295366b459058715004097" kind="enumvalue"><name>CRDT_MERGE_TYPE_MISMATCH</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae8c0c70879b5895c615677261d64a1ee" kind="enumvalue"><name>INTERNAL_ERROR</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1620d0f6d867933bc1b5ae4ea210e6e5" kind="enumvalue"><name>TRUST_GATE_REJECTED</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79" kind="enum"><name>TimeoutBehavior</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79a7d8e2271b5e4fbbed93c60aa39bf350f" kind="enumvalue"><name>FAIL_CLOSED</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79ac6d0b87b065348b4bc999742b2efd22c" kind="enumvalue"><name>BEST_EFFORT</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56" kind="enum"><name>PolicyGateEnforcement</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a7d8e2271b5e4fbbed93c60aa39bf350f" kind="enumvalue"><name>FAIL_CLOSED</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a1b51d7fd255c794f1d3f9a845c32c6e9" kind="enumvalue"><name>LOG_ONLY</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" kind="enum"><name>TrustDecision</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" kind="enumvalue"><name>PERMIT</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba59b228d9fec9b88833bfe5d812ed8ad4" kind="enumvalue"><name>REJECT</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331f" kind="enum"><name>DKDiagnosticSeverity</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa551b723eafd6a31d444fcb2f5920fbd3" kind="enumvalue"><name>INFO</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa059e9861e0400dfbe05c98a841f3f96b" kind="enumvalue"><name>WARNING</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fabb1ca97ec761fc37101737ba0aa2e7c5" kind="enumvalue"><name>ERROR</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa19da7170bea36556dde582519795f3fc" kind="enumvalue"><name>FATAL</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87" kind="enum"><name>DKDiagnosticEventType</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" kind="enumvalue"><name>MERGE_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ac481361e74b8fb938b6d80993180c6ca" kind="enumvalue"><name>DEDUP_COLLISION</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a46865df27a193a241689896dcd0f34da" kind="enumvalue"><name>PARTIAL_SHARD_MERGE</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a549e0d5b792100b22681215d7f952a72" kind="enumvalue"><name>TRUST_GATE_REJECT</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a03abcb7bc53a5cceea76d291046dd385" kind="enumvalue"><name>FEDERATION_ROLLBACK</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a169cb04bda558347b02294770e4b9e0c" kind="enumvalue"><name>POLICY_VIOLATION</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ab0c895fc1406351b83ece502f285efd6" kind="enumvalue"><name>PRIVACY_BUDGET_WARN</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kind="enum"><name>MergeStrategy</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kind="enumvalue"><name>RECIPROCAL_RANK_FUSION</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9ab38bfd483014db8397d56f7af575942f" kind="enumvalue"><name>SCORE_WEIGHTED</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a1ebd8dbf8c34e255f5cbf28f35860b71" kind="enumvalue"><name>ROUND_ROBIN</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1ad9b0ca240878f6a7c2b8b108e8a9bf58" kind="variable"><name>kMaxEntityIdBytes</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1ab197597fefde532af5c063f90bfe2d1c" kind="variable"><name>kMaxRelationTypeBytes</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a9403b9bfb781b21f5bd503c0538b3206" kind="variable"><name>kMaxEntityPayloadBytes</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a2e10876f8c2055735e8cab53615538a3" kind="variable"><name>kMaxNeighboursPerQuery</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a0ca3b4997574e80a2f79940f8e1775d0" kind="variable"><name>kFederationNodeTimeout</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1aae6faa8307f40eb73391756aef9f3717" kind="variable"><name>kFederationMaxNodeTimeout</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1afba41b1580d7e739660715c82b618298" kind="variable"><name>kMaxFederationPeers</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a6615ccb90b80a38940c1e5cb5c978fd5" kind="variable"><name>kMaxFederationResultEntities</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a0f2879c2c9a1c90707f29dbef14bddb8" kind="variable"><name>kMaxPathQueryDepth</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a02fbe32e2956db0c8efbb0b0ead5e394" kind="variable"><name>kMaxPathQueryResults</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a00bd5a00545762a140ffbec28b13cc14" kind="variable"><name>kExpectedPropagationDelay</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a5b968f906f2037aa815c45347ac33775" kind="variable"><name>kMergeStrategyRRFDescription</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a55caadebb2b288c59ca185e4f8c64005" kind="variable"><name>kMergeStrategyWeightedDescription</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1aa1fbff73e4b78baa049c80108d4d6a92" kind="variable"><name>kMergeStrategyRoundRobinDescription</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" kind="function"><name>adapterDomainTypeToString</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1acecd81fa31b64998a8606fe6b71cbad5" kind="function"><name>resolveLww</name></member>
+    <member refid="namespacethemis_1_1distributed__knowledge_1a651df040528b35079a0648d1edad638c" kind="function"><name>isRetryableCode</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1distributed__knowledge_1_1_0d130034145074237162130156227037167242006364274302" kind="namespace"><name>themis::distributed_knowledge::@130034145074237162130156227037167242006364274302</name>
+  </compound>
+  <compound refid="bench__distributed__knowledge_8cpp" kind="file"><name>bench_distributed_knowledge.cpp</name>
+    <member refid="bench__distributed__knowledge_8cpp_1a3a45c03ba94feb1935dff12637183f1b" kind="function"><name>BM_TriggerAggregation_N64</name></member>
+    <member refid="bench__distributed__knowledge_8cpp_1ad15ec9ecbf0fae611bd0c047fbf83682" kind="function"><name>Args</name></member>
+    <member refid="bench__distributed__knowledge_8cpp_1a366474de5eb3880c561aac0c46b90062" kind="function"><name>BM_FederatedRAGMerge_N16x50</name></member>
+    <member refid="bench__distributed__knowledge_8cpp_1a1740907bffb6bf16fc8e9b419caf9c36" kind="function"><name>Args</name></member>
+    <member refid="bench__distributed__knowledge_8cpp_1a38b24602e3a7baf816d02465bb478698" kind="function"><name>BM_FeedbackDedup_Throughput</name></member>
+    <member refid="bench__distributed__knowledge_8cpp_1aa3d7f798fede6a54912cec42bd1a0bbc" kind="function"><name>Arg</name></member>
+    <member refid="bench__distributed__knowledge_8cpp_1a2b8e0e992f09373a5656014e7d3150c7" kind="function"><name>BM_PublishFeedback_Latency</name></member>
+    <member refid="bench__distributed__knowledge_8cpp_1a2aa7a9364b6aa422d881caa92ec6eae7" kind="function"><name>Iterations</name></member>
+    <member refid="bench__distributed__knowledge_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__distributed__knowledge__or_8cpp" kind="file"><name>bench_distributed_knowledge_or.cpp</name>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a63f294a2ee43dac2610cd848010d5b47" kind="function"><name>BM_TriggerAggregation_NoTimeout</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a0383b545a9355479982850ec20d2f27f" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a214b60313681f885ef4b57e5581cd6fc" kind="function"><name>BM_FeedbackPublish_BackpressureSkip</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a4bb006d79b6ac75ac57d5c5d8211d7c3" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1ad118853fc2bdd06c846900885ba84a68" kind="function"><name>BM_MergeWithTimedOutShards</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1ae0642234643bfdfa1b458004082288c2" kind="function"><name>Args</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a596dad003999fef561d1672c32d852cf" kind="function"><name>BM_Erase_FederationCoordinator</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a353c5f05659b1a5c75dcc6ba74a6f623" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a911dc26b7427f14c064a3f29ac70a079" kind="function"><name>BM_ZeroTrust_LowRiskPath</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a9f29eaa3caa672343edfb139fd5e2df3" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__distributed__knowledge__or_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__dk__release__gates_8cpp" kind="file"><name>bench_dk_release_gates.cpp</name>
+    <member refid="bench__dk__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="adapter__capability__announcement_8h" kind="file"><name>adapter_capability_announcement.h</name>
+  </compound>
+  <compound refid="cross__shard__feedback__sync_8h" kind="file"><name>cross_shard_feedback_sync.h</name>
+  </compound>
+  <compound refid="distributed__knowledge__api__contract_8h" kind="file"><name>distributed_knowledge_api_contract.h</name>
+  </compound>
+  <compound refid="dk__diagnostic__emitter_8h" kind="file"><name>dk_diagnostic_emitter.h</name>
+  </compound>
+  <compound refid="federated__distillation__coordinator_8h" kind="file"><name>federated_distillation_coordinator.h</name>
+  </compound>
+  <compound refid="federated__rag__merger_8h" kind="file"><name>federated_rag_merger.h</name>
+  </compound>
+  <compound refid="lora__federation__coordinator_8h" kind="file"><name>lora_federation_coordinator.h</name>
+  </compound>
+  <compound refid="adapter__capability__announcement_8cpp" kind="file"><name>adapter_capability_announcement.cpp</name>
+  </compound>
+  <compound refid="cross__shard__feedback__sync_8cpp" kind="file"><name>cross_shard_feedback_sync.cpp</name>
+  </compound>
+  <compound refid="federated__distillation__coordinator_8cpp" kind="file"><name>federated_distillation_coordinator.cpp</name>
+  </compound>
+  <compound refid="federated__rag__merger_8cpp" kind="file"><name>federated_rag_merger.cpp</name>
+  </compound>
+  <compound refid="lora__federation__coordinator_8cpp" kind="file"><name>lora_federation_coordinator.cpp</name>
+  </compound>
+  <compound refid="test__adapter__capability__announcement__focused_8cpp" kind="file"><name>test_adapter_capability_announcement_focused.cpp</name>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kind="typedef"><name>json</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1acaa8796bd3f3dfa5024bc6cbdca685da" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1a390bc38708116a777a4e2ca22e85dd6e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1a01aef9cabaeed0ca571a115951413a1e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1ac9918fa89b086e02e76d6a7ed575b13e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1a059f76a14807994f02e15776d05c2e8d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1af31889d39ef1ef459e7e088421fcee8b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1aa9576723354f9946eb7052a41b4b29ec" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1ae0146615ed2096956d3f487802e688bb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1a96d30548f40480ac4d10d5ff6fd745df" kind="function"><name>TEST_F</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1ad05c5c54e442e025072c137e5d3c7aaa" kind="function"><name>TEST</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1a994fa7e9ba803e5bf7483f10dd0b13c3" kind="function"><name>TEST</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1a824c95cf3c167d281fa8ac09dd3de4f8" kind="function"><name>TEST</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1aa3b67b3d3fe3c91addc1d29018a647d8" kind="function"><name>TEST</name></member>
+    <member refid="test__adapter__capability__announcement__focused_8cpp_1a82cd7a84213b9e9c45036f228fdfcb50" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__cross__shard__feedback__sync__focused_8cpp" kind="file"><name>test_cross_shard_feedback_sync_focused.cpp</name>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1abb511c967894ce6066ea029e9663c398" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1a54843581e86a9b5c187839b11538e202" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1a112a4c5b130098691a81a4adffef43eb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1a154d403177479d1aa7d47a279ee2ebce" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1a4f82552b00644167026dc8746b9b8869" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1a8fb78eab92689184697deb6c63f3f62f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1aed0bcec456d0dcda8f50801c0599f987" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1a7e87990a1bd11f595dbf2e68420e6c4f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1ab21c3c3381b2937172f8e714999cab01" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1abb0a5f41c3aea78ad6ba13fd4c39ce02" kind="function"><name>TEST_F</name></member>
+    <member refid="test__cross__shard__feedback__sync__focused_8cpp_1a8f19bfa43e094cb48ce3fc3c6d4c7a71" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__distributed__knowledge__highcardinality__stress_8cpp" kind="file"><name>test_distributed_knowledge_highcardinality_stress.cpp</name>
+    <member refid="test__distributed__knowledge__highcardinality__stress_8cpp_1a2220604a2e73e9622e2d36156589b006" kind="function"><name>TEST</name></member>
+    <member refid="test__distributed__knowledge__highcardinality__stress_8cpp_1a991c225db17c9b2e6262a237cf35e986" kind="function"><name>TEST</name></member>
+    <member refid="test__distributed__knowledge__highcardinality__stress_8cpp_1a4d9fbee46f9b75d5a4d0343d884407c4" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__distributed__knowledge__llm__focused_8cpp" kind="file"><name>test_distributed_knowledge_llm_focused.cpp</name>
+    <member refid="test__distributed__knowledge__llm__focused_8cpp_1a31572dba6eb0cc6fa0ff2bfaf864fa6a" kind="function"><name>TEST</name></member>
+    <member refid="test__distributed__knowledge__llm__focused_8cpp_1af071733296f1c36c0dc67bc2546550fe" kind="function"><name>TEST</name></member>
+    <member refid="test__distributed__knowledge__llm__focused_8cpp_1a845e275e4209d56ddd38996c12e42ac4" kind="function"><name>TEST</name></member>
+    <member refid="test__distributed__knowledge__llm__focused_8cpp_1a44681428b14e0464d785d8ec7805fce9" kind="function"><name>TEST</name></member>
+    <member refid="test__distributed__knowledge__llm__focused_8cpp_1a01cc34818b778cb03255aa282a723a82" kind="function"><name>TEST</name></member>
+    <member refid="test__distributed__knowledge__llm__focused_8cpp_1a1c43266454627962f7fae04e348e2164" kind="function"><name>TEST</name></member>
+    <member refid="test__distributed__knowledge__llm__focused_8cpp_1a2d42a72a7cc4fe9d7094a36c6db5f557" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__dk__contract__hardening__focused_8cpp" kind="file"><name>test_dk_contract_hardening_focused.cpp</name>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a3569843a74668732265e79987160b844" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a741ed4825c3f1e4331041766436e1fe6" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a9f7c86e4700e56eaba9fb1a66570c071" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a4190567cbd0fcab17a775535f406bf15" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a43bc91ce09125f88b6f39df4ed55cfa2" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1ae52953ae0f7dd0ef527da0f2dcd12478" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1aaad51f480b36c3aa96a3d6cee38800a7" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1ae30eb4ec5d61de5642551e2a3b47f536" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a6341d5a1b3091281959aef4b9da73663" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a41a343249ac29775eda07997e3846658" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1ac3e6450ecac0cf84e8541d1d5ce5a23b" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a111b29b0e687d042324ae8902d54e7bf" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a346bb82b342240d0827c3e99fc13d61c" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a598cfed92d26515ef93d37655da960d8" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a82e89c66ee8f84289883e3488c12fe29" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__contract__hardening__focused_8cpp_1a25e301b7ab9ca0c257d5d18a9c000263" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__dk__diagnostics__focused_8cpp" kind="file"><name>test_dk_diagnostics_focused.cpp</name>
+    <member refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1ab8e3210b0f2a781cb5f40f2d508f6ca9" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1a4c183801a9669a4bf731c0c5fe529f00" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1ad0f13fadc66ea4a0feff44f77cf33b7c" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1a8e37ea4519cefd3b15d5a2775608eae8" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1ad51cb78776541d018b29ee66d7f2d8dc" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1a1f5d475dd8af73b18e3e70c61d1df4a2" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1a48151c31150c846d73f09b7bfa9387e3" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1a2237b57c2b6d37872caad663003297b6" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1a80b7aa82dc218aa98e814bd7cc1894a7" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1a105ec4fbb5e73e5bc02b73d05e2ea386" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1aa1c79eb7370d4d9889bc6fa56a9ae540" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1af6a2dcec717f4b4ccfc9a7a4b541a185" kind="function"><name>TEST</name></member>
+    <member refid="test__dk__diagnostics__focused_8cpp_1ad73403f44f1813aead5fd6d74ebb7faf" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__federated__distillation__coordinator__focused_8cpp" kind="file"><name>test_federated_distillation_coordinator_focused.cpp</name>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1aa29e3ab80e8af3e66ba4fdc86c81d907" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1aa06eb8c3c491874802896524e2090bd4" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1ade5d90aae77efa1914ae8a05625113f1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1a6583791f1a3c398f20529f18a1416944" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1acb8ba22f2e65185c9a46ee627d02bed0" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1a5870f652138042868a6f62b8cb37cf68" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1aa8dce1ee30b91f07c62b3830992de157" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1af89be6d33af82a1010b719c13e944965" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1a496816d4cd3008f21a0e63541b418028" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1a6b9fd018c0730cbde5759d6206245607" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1a7c2f9a937cbffb05859c8cf42a76cfb3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1ada7447e651579eaaec11a27abb86b0da" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1aeb6a8eb02aae84b865fbe1675c4079f1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__distillation__coordinator__focused_8cpp_1acb11dc2987cdab38f565da166c929075" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__federated__rag__merger__focused_8cpp" kind="file"><name>test_federated_rag_merger_focused.cpp</name>
+    <member refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1aa43cbc3b1c287bda8f80e82b172b92dc" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1a4456e769a254ba9573a5613730ea1ea5" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1afaf7340f792f24e317df32de2dd90743" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1a01e8fce66afd29ad3358bcbe7a47c800" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1abcc668eaf78610f59e7fb332f526f620" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1ad7ff30ef3d3c5ad48633dd315edc78ef" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1a649a347bddaa291afa14eabc843cf675" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1a14586c0e9d02ef79022d10d965df7af2" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1adc1abc89347e0334d7a458509cb184fc" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1a29421eecf6ad637698a5cb424f44af9b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__federated__rag__merger__focused_8cpp_1ab0770a8bfa6c7d74e8b85075fb7e6927" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__lora__federation__coordinator__focused_8cpp" kind="file"><name>test_lora_federation_coordinator_focused.cpp</name>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1af29d961ff5ac02b21e3f660cccf8fab9" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a6596f26099a7b443ba566783db73fe84" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1af08b40ca9c5a126976a4c35362e7e528" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a19722f23170dc3720c14de005beb2297" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a016f523a75c309df6db88a037d356adb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a4249e5071d2086d2b0f8cad023020cb6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a5141ce0ac61c09b3d5bdbc1db9a5b3e6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a224db27273a03c24d5fb3a3653e3c67e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a6268c308f91ee4461b6e4f9ee10ccb8d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1ad51ae943ae362ff99598ae6e030810c0" kind="function"><name>TEST_F</name></member>
+    <member refid="test__lora__federation__coordinator__focused_8cpp_1a812044e9d769c4ea89e477ec469a0bd2" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test" kind="page"><name>test</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_91e1237504da00806c2b27261267209b" kind="dir"><name>benchmarks/distributed_knowledge</name>
+  </compound>
+  <compound refid="dir_8eb2f0dcbcb48e1301b71d99b5f1fe10" kind="dir"><name>include/distributed_knowledge</name>
+  </compound>
+  <compound refid="dir_73365b9c0f83c7286f60f7252643c772" kind="dir"><name>src/distributed_knowledge</name>
+  </compound>
+  <compound refid="dir_02d5f1716644a60cd4a3677650c51bde" kind="dir"><name>tests/distributed_knowledge</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

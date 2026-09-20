@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SafeIterator::BoundsChecker</compoundname>
+    <includes refid="safe__iterator_8h" local="no">safe_iterator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker_1a7eaa5cb3927cf4d9568fbea89a98546e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iterator</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::security::SafeIterator::BoundsChecker::check_dereference</definition>
+        <argsstring>(const Iterator &amp;it, const Iterator &amp;begin, const Iterator &amp;end)</argsstring>
+        <name>check_dereference</name>
+        <qualifiedname>themis::security::SafeIterator::BoundsChecker::check_dereference</qualifiedname>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Check dereference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">begin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: constexpr(), std::distance(), <ref refid="namespacespdlog_1abfac27f3c201763e7acaf1c63b5228ea" kindref="member">spdlog::debug()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="262" column="17" bodyfile="include/security/safe_iterator.h" bodystart="262" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker_1a7b8de0150a2583a6722a37736705ae0d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iterator</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::security::SafeIterator::BoundsChecker::check_access</definition>
+        <argsstring>(const Iterator &amp;it, const Iterator &amp;begin, const Iterator &amp;end)</argsstring>
+        <name>check_access</name>
+        <qualifiedname>themis::security::SafeIterator::BoundsChecker::check_access</qualifiedname>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Check access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">begin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: constexpr(), std::distance(), <ref refid="namespacespdlog_1abfac27f3c201763e7acaf1c63b5228ea" kindref="member">spdlog::debug()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="290" column="17" bodyfile="include/security/safe_iterator.h" bodystart="290" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker_1a047d34dbaff5aed834e74efbca6a25c3" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iterator</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool themis::security::SafeIterator::BoundsChecker::is_valid_for_dereference</definition>
+        <argsstring>(const Iterator &amp;it, const Iterator &amp;begin, const Iterator &amp;end) noexcept</argsstring>
+        <name>is_valid_for_dereference</name>
+        <qualifiedname>themis::security::SafeIterator::BoundsChecker::is_valid_for_dereference</qualifiedname>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="307" column="17" bodyfile="include/security/safe_iterator.h" bodystart="307" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker_1abf5eda09c46a4ccb3fbc87fc5c7f4d94" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iterator</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool themis::security::SafeIterator::BoundsChecker::is_valid_for_access</definition>
+        <argsstring>(const Iterator &amp;it, const Iterator &amp;begin, const Iterator &amp;end) noexcept</argsstring>
+        <name>is_valid_for_access</name>
+        <qualifiedname>themis::security::SafeIterator::BoundsChecker::is_valid_for_access</qualifiedname>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="322" column="17" bodyfile="include/security/safe_iterator.h" bodystart="322" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/safe_iterator.h" line="251" column="1" bodyfile="include/security/safe_iterator.h" bodystart="251" bodyend="335"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker_1a7b8de0150a2583a6722a37736705ae0d" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::BoundsChecker</scope><name>check_access</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker_1a7eaa5cb3927cf4d9568fbea89a98546e" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::BoundsChecker</scope><name>check_dereference</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker_1abf5eda09c46a4ccb3fbc87fc5c7f4d94" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::BoundsChecker</scope><name>is_valid_for_access</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker_1a047d34dbaff5aed834e74efbca6a25c3" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::BoundsChecker</scope><name>is_valid_for_dereference</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

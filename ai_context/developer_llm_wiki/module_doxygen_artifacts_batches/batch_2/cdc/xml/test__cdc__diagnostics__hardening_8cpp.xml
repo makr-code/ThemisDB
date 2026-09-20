@@ -1,0 +1,604 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cdc__diagnostics__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_cdc_diagnostics_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="cdc__admin_8h" local="yes">cdc/cdc_admin.h</includes>
+    <includes refid="cdc__delivery__contract_8h" local="yes">cdc/cdc_delivery_contract.h</includes>
+    <includes refid="cdc__metrics_8h" local="yes">cdc/cdc_metrics.h</includes>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includes refid="delivery__tracker_8h" local="yes">cdc/delivery_tracker.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">rocksdb/utilities/transaction_db.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>cdc/cdc_admin.h</label>
+        <link refid="cdc__admin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>cdc/cdc_delivery_contract.h</label>
+        <link refid="cdc__delivery__contract_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>cdc/delivery_tracker.h</label>
+        <link refid="delivery__tracker_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/cdc/test_cdc_diagnostics_hardening.cpp</label>
+        <link refid="test__cdc__diagnostics__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>algorithm</label>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>condition_variable</label>
+      </node>
+      <node id="22">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="25">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="24">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="26">
+        <label>rocksdb/utilities/transaction_db.h</label>
+      </node>
+      <node id="15">
+        <label>set</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_diagnostics_hardening_test" prot="public">DiagnosticsHardeningTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiagnosticsHardeningTest, DGH01_HealthCheckReturnsHealthyWithEvents)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DGH01_HealthCheckReturnsHealthyWithEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp" line="102" column="1" bodyfile="tests/cdc/test_cdc_diagnostics_hardening.cpp" bodystart="102" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__diagnostics__hardening_8cpp_1adf695932efd13b445345a5488e358c51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiagnosticsHardeningTest, DGH02_DiagnosticsIncludesEventCountAndWatermarks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DGH02_DiagnosticsIncludesEventCountAndWatermarks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp" line="116" column="1" bodyfile="tests/cdc/test_cdc_diagnostics_hardening.cpp" bodystart="116" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__diagnostics__hardening_8cpp_1ac869f4f227593bc1e6ebfdfd10848208" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiagnosticsHardeningTest, DGH03_HealthCheckHandlesEmptyChangefeed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DGH03_HealthCheckHandlesEmptyChangefeed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp" line="133" column="1" bodyfile="tests/cdc/test_cdc_diagnostics_hardening.cpp" bodystart="133" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__diagnostics__hardening_8cpp_1ade9c4de5f01f845a319c2d7222c3de70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiagnosticsHardeningTest, DGH04_LatencyHistogramPercentilesAreFinite)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DGH04_LatencyHistogramPercentilesAreFinite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp" line="146" column="1" bodyfile="tests/cdc/test_cdc_diagnostics_hardening.cpp" bodystart="146" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__diagnostics__hardening_8cpp_1ae92acce44770200a0a8cea962d4f5060" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiagnosticsHardeningTest, DGH05_ThroughputTrackerIncrementsCounter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DGH05_ThroughputTrackerIncrementsCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp" line="170" column="1" bodyfile="tests/cdc/test_cdc_diagnostics_hardening.cpp" bodystart="170" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__diagnostics__hardening_8cpp_1a5dd650d86008535eb0917b064cbd392f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiagnosticsHardeningTest, DGH06_GetAllStatsReturnsAllConsumers)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DGH06_GetAllStatsReturnsAllConsumers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp" line="185" column="1" bodyfile="tests/cdc/test_cdc_diagnostics_hardening.cpp" bodystart="185" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__diagnostics__hardening_8cpp_1a15568799204dfc8a1a6207f9999a555f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiagnosticsHardeningTest, DGH07_DiagnosticsSerializesToValidJson)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DGH07_DiagnosticsSerializesToValidJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp" line="215" column="1" bodyfile="tests/cdc/test_cdc_diagnostics_hardening.cpp" bodystart="215" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__diagnostics__hardening_8cpp_1acb6083e2fbe9258154020f9c0ad4f9a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiagnosticsHardeningTest, DGH08_HealthStatusSerializesToJson)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DGH08_HealthStatusSerializesToJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp" line="234" column="1" bodyfile="tests/cdc/test_cdc_diagnostics_hardening.cpp" bodystart="234" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 3 CDC diagnostics consistency hardening tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates that CDC admin and metrics surfaces emit actionable, class-stable diagnostics for all observable failure and lag states, as required by src/cdc/ROADMAP.md (Phase 3 — Error Handling and Edge Cases).</para>
+<sect1 id="test__cdc__diagnostics__hardening_8cpp_1autotoc_md1_1s1"><sect2 id="test__cdc__diagnostics__hardening_8cpp_1autotoc_md1">
+<title>Test cases</title><para>DGH-01 <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref> healthCheck returns a healthy status when events are present. DGH-02 <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref> getDiagnostics includes event count and watermark metadata. DGH-03 <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref> healthCheck handles an empty changefeed without error. DGH-04 <ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref> <ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref> records samples; p99 is finite and ≥ p50. DGH-05 <ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref> <ref refid="classthemis_1_1cdc_1_1_throughput_tracker" kindref="compound">ThroughputTracker</ref> increments event counter. DGH-06 <ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref> getAllStats returns states for all tracked consumers. DGH-07 <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref> getDiagnostics serialises to valid JSON. DGH-08 <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref> healthCheck reflects component health in JSON representation.</para>
+<para><simplesect kind="see"><para><ref refid="cdc__delivery__contract_8h" kindref="compound">include/cdc/cdc_delivery_contract.h</ref> — § 7 diagnostic observability </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="cdc__admin_8h" kindref="compound">include/cdc/cdc_admin.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="cdc__metrics_8h" kindref="compound">include/cdc/cdc_metrics.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="delivery__tracker_8h" kindref="compound">include/cdc/delivery_tracker.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/cdc/ROADMAP.md Phase 3 </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__admin_8h" kindref="compound">cdc/cdc_admin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__delivery__contract_8h" kindref="compound">cdc/cdc_delivery_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__metrics_8h" kindref="compound">cdc/cdc_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="delivery__tracker_8h" kindref="compound">cdc/delivery_tracker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;rocksdb/utilities/transaction_db.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">themis::cdc</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>fixture<sp/>—<sp/>RocksDB<sp/>+<sp/>Changefeed<sp/>+<sp/>CDCAdmin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="class_diagnostics_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_diagnostics_hardening_test_1a58286fb5fe10a43a5b240b691da76b17" kindref="member">db_path</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::TransactionDB&gt;<sp/><ref refid="class_diagnostics_hardening_test_1a6a3a4cdaebe9f6c0909d4ceb73ef0414" kindref="member">db</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Changefeed&gt;<sp/><ref refid="class_diagnostics_hardening_test_1a2d3ef6537cd7bc9b9021d2f04b3f8315" kindref="member">changefeed</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;CDCAdmin&gt;<sp/><ref refid="class_diagnostics_hardening_test_1a9b6c4f817b6d8a350a532358e7762be5" kindref="member">admin</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_diagnostics_hardening_test_1a13524d69a03e1d95f39b031706d454d8" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_diagnostics_hardening_test_1a58286fb5fe10a43a5b240b691da76b17" kindref="member">db_path</ref><sp/>=<sp/>(fs::temp_directory_path()</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;test_cdc_dgh_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_diagnostics_hardening_test_1a58286fb5fe10a43a5b240b691da76b17" kindref="member">db_path</ref>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::Options<sp/>opts;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opts.create_if_missing<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::TransactionDBOptions<sp/>txn_opts;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>raw_db<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>rocksdb::TransactionDB::Open(opts,<sp/>txn_opts,<sp/><ref refid="class_diagnostics_hardening_test_1a58286fb5fe10a43a5b240b691da76b17" kindref="member">db_path</ref>,<sp/>&amp;raw_db);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(s.ok())<sp/>&lt;&lt;<sp/>s.ToString();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_diagnostics_hardening_test_1a6a3a4cdaebe9f6c0909d4ceb73ef0414" kindref="member">db</ref>.reset(raw_db);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_retention_policy" kindref="compound">Changefeed::RetentionPolicy</ref><sp/>ret;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret.<ref refid="struct_changefeed_1_1_retention_policy_1adad3321cce00e385353ca28ad5b50398" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_diagnostics_hardening_test_1a2d3ef6537cd7bc9b9021d2f04b3f8315" kindref="member">changefeed</ref><sp/>=<sp/>std::make_unique&lt;Changefeed&gt;(<ref refid="class_diagnostics_hardening_test_1a6a3a4cdaebe9f6c0909d4ceb73ef0414" kindref="member">db</ref>.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ret);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_diagnostics_hardening_test_1a9b6c4f817b6d8a350a532358e7762be5" kindref="member">admin</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;CDCAdmin&gt;(<ref refid="class_diagnostics_hardening_test_1a2d3ef6537cd7bc9b9021d2f04b3f8315" kindref="member">changefeed</ref>.get());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_diagnostics_hardening_test_1ace18c7d21691a71e9cd5fb46733cd33c" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_diagnostics_hardening_test_1a9b6c4f817b6d8a350a532358e7762be5" kindref="member">admin</ref>.reset();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_diagnostics_hardening_test_1a2d3ef6537cd7bc9b9021d2f04b3f8315" kindref="member">changefeed</ref>.reset();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_diagnostics_hardening_test_1a6a3a4cdaebe9f6c0909d4ceb73ef0414" kindref="member">db</ref>.reset();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_diagnostics_hardening_test_1a58286fb5fe10a43a5b240b691da76b17" kindref="member">db_path</ref>);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_diagnostics_hardening_test_1ab4c3f2994655ff04653633d0486997ba" kindref="member">seedEvents</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>prefix<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>1700000000000LL<sp/>+<sp/>i;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_diagnostics_hardening_test_1a2d3ef6537cd7bc9b9021d2f04b3f8315" kindref="member">changefeed</ref>-&gt;recordEvent(ev);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DGH-01:<sp/>healthCheck<sp/>returns<sp/>healthy<sp/>when<sp/>events<sp/>are<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" kindref="member">TEST_F</ref>(<ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref>,<sp/>DGH01_HealthCheckReturnsHealthyWithEvents)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>seedEvents(5);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>health<sp/>=<sp/>admin-&gt;healthCheck();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(health.is_healthy)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;healthCheck<sp/>must<sp/>report<sp/>healthy<sp/>for<sp/>a<sp/>changefeed<sp/>with<sp/>events&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(health.changefeed_healthy)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;changefeed<sp/>component<sp/>must<sp/>be<sp/>reported<sp/>healthy&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DGH-02:<sp/>getDiagnostics<sp/>includes<sp/>event<sp/>count<sp/>and<sp/>watermark<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" kindref="member">TEST_F</ref>(<ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref>,<sp/>DGH02_DiagnosticsIncludesEventCountAndWatermarks)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>seedEvents(3);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>diag<sp/>=<sp/>admin-&gt;getDiagnostics();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>total_events<sp/>must<sp/>reflect<sp/>the<sp/>seeded<sp/>events.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(diag.total_events,<sp/>3u)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;getDiagnostics<sp/>must<sp/>expose<sp/>total_events<sp/>≥<sp/>seeded<sp/>count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Watermarks<sp/>must<sp/>be<sp/>populated<sp/>after<sp/>events<sp/>have<sp/>been<sp/>recorded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(diag.watermarks.high_watermark,<sp/>0u)</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;high_watermark<sp/>must<sp/>be<sp/>&gt;<sp/>0<sp/>after<sp/>recording<sp/>events&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DGH-03:<sp/>healthCheck<sp/>handles<sp/>empty<sp/>changefeed<sp/>without<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" kindref="member">TEST_F</ref>(<ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref>,<sp/>DGH03_HealthCheckHandlesEmptyChangefeed)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>events<sp/>seeded<sp/>—<sp/>changefeed<sp/>is<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>health<sp/>=<sp/>admin-&gt;healthCheck();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>empty<sp/>feed<sp/>is<sp/>a<sp/>valid<sp/>operational<sp/>state;<sp/>is_healthy<sp/>may<sp/>be<sp/>true.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)health;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;healthCheck<sp/>must<sp/>not<sp/>throw<sp/>on<sp/>empty<sp/>changefeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DGH-04:<sp/>LatencyHistogram<sp/>records<sp/>samples;<sp/>p99<sp/>≥<sp/>p50<sp/>and<sp/>both<sp/>are<sp/>finite</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" kindref="member">TEST_F</ref>(<ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref>,<sp/>DGH04_LatencyHistogramPercentilesAreFinite)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref><sp/>hist;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>a<sp/>range<sp/>of<sp/>latency<sp/>samples<sp/>in<sp/>microseconds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint64_t<sp/>us<sp/>=<sp/>10;<sp/>us<sp/>&lt;=<sp/>10000;<sp/>us<sp/>+=<sp/>100)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hist.<ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a3ec0cf0fea7872d345a04eb9f583cc57" kindref="member">record</ref>(us);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(hist.<ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a8eafd497e79d3bded25f9e156aaa64a5" kindref="member">count</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>p50<sp/>=<sp/>hist.<ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a7143b2184dc917003e3472553bd3d710" kindref="member">p50</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>p99<sp/>=<sp/>hist.<ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a61b873ffb74b785802a78c654508d2c8" kindref="member">p99</ref>();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>p99<sp/>must<sp/>be<sp/>≥<sp/>p50<sp/>(monotonicity<sp/>of<sp/>percentiles).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(p99,<sp/>p50)</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;p99<sp/>must<sp/>be<sp/>&gt;=<sp/>p50<sp/>for<sp/>any<sp/>non-empty<sp/>histogram&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>p99<sp/>must<sp/>be<sp/>within<sp/>the<sp/>recorded<sp/>range.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(p99,<sp/>10000u<sp/>+<sp/>1000u)<sp/><sp/></highlight><highlight class="comment">//<sp/>allow<sp/>bucket<sp/>rounding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;p99<sp/>must<sp/>not<sp/>exceed<sp/>the<sp/>maximum<sp/>recorded<sp/>latency<sp/>by<sp/>more<sp/>than<sp/>one<sp/>bucket&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DGH-05:<sp/>ThroughputTracker<sp/>increments<sp/>event<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" kindref="member">TEST_F</ref>(<ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref>,<sp/>DGH05_ThroughputTrackerIncrementsCounter)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>before<sp/>=<sp/>metrics.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" kindref="member">events_recorded</ref>.load();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" kindref="member">events_recorded</ref>.fetch_add(10);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>after<sp/>=<sp/>metrics.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" kindref="member">events_recorded</ref>.load();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(after,<sp/>before<sp/>+<sp/>10u)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;events_recorded<sp/>counter<sp/>must<sp/>increment<sp/>atomically&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DGH-06:<sp/>getAllStats<sp/>returns<sp/>states<sp/>for<sp/>all<sp/>tracked<sp/>consumers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" kindref="member">TEST_F</ref>(<ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref>,<sp/>DGH06_GetAllStatsReturnsAllConsumers)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref><sp/>tracker;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Track<sp/>deliveries<sp/>for<sp/>two<sp/>distinct<sp/>consumers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev1;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ev1.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/>=<sp/>1;<sp/>ev1.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ev1.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">;<sp/>ev1.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;<sp/>ev1.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev2;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>ev2.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/>=<sp/>2;<sp/>ev2.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ev2.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">;<sp/>ev2.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">;<sp/>ev2.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>2000;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1a9ba679810b65035c00844c679e605f2a" kindref="member">trackDelivery</ref>(</highlight><highlight class="stringliteral">&quot;dgh_consumer_1&quot;</highlight><highlight class="normal">,<sp/>{ev1});</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1a9ba679810b65035c00844c679e605f2a" kindref="member">trackDelivery</ref>(</highlight><highlight class="stringliteral">&quot;dgh_consumer_2&quot;</highlight><highlight class="normal">,<sp/>{ev2});</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all_stats<sp/>=<sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1aa2dd5ffee30e04870ea306766e3bb5af" kindref="member">getAllStats</ref>();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all_stats.size(),<sp/>2u)</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;getAllStats<sp/>must<sp/>return<sp/>one<sp/>entry<sp/>per<sp/>tracked<sp/>consumer<sp/>(contract<sp/>§<sp/>7)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>consumer<sp/>must<sp/>have<sp/>at<sp/>least<sp/>1<sp/>pending<sp/>event.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>all_stats)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(s.pending_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(s.total_delivered,<sp/>1u);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DGH-07:<sp/>getDiagnostics<sp/>serialises<sp/>to<sp/>valid<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" kindref="member">TEST_F</ref>(<ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref>,<sp/>DGH07_DiagnosticsSerializesToValidJson)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>seedEvents(2);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>diag<sp/>=<sp/>admin-&gt;getDiagnostics();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>diag.toJson();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;watermarks&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Diagnostics<sp/>JSON<sp/>must<sp/>contain<sp/>&apos;watermarks&apos;<sp/>key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;health&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Diagnostics<sp/>JSON<sp/>must<sp/>contain<sp/>&apos;health&apos;<sp/>key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;stats&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Diagnostics<sp/>JSON<sp/>must<sp/>contain<sp/>&apos;stats&apos;<sp/>key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;toJson()<sp/>must<sp/>not<sp/>throw<sp/>on<sp/>valid<sp/>diagnostics<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DGH-08:<sp/>healthCheck<sp/>reflects<sp/>component<sp/>health<sp/>in<sp/>JSON<sp/>representation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__cdc__diagnostics__hardening_8cpp_1afdf2d3744c8cc9d507ab7153b72c57be" kindref="member">TEST_F</ref>(<ref refid="class_diagnostics_hardening_test" kindref="compound">DiagnosticsHardeningTest</ref>,<sp/>DGH08_HealthStatusSerializesToJson)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>health<sp/>=<sp/>admin-&gt;healthCheck();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>health.toJson();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;is_healthy&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;HealthStatus<sp/>JSON<sp/>must<sp/>contain<sp/>&apos;is_healthy&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;components&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;HealthStatus<sp/>JSON<sp/>must<sp/>contain<sp/>&apos;components&apos;<sp/>breakdown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;components&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;changefeed&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;components<sp/>must<sp/>include<sp/>&apos;changefeed&apos;<sp/>(contract<sp/>§<sp/>7)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;HealthStatus::toJson()<sp/>must<sp/>produce<sp/>valid<sp/>structured<sp/>output&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/cdc/test_cdc_diagnostics_hardening.cpp"/>
+  </compounddef>
+</doxygen>

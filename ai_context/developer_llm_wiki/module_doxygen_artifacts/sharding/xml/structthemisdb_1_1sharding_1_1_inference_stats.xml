@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_inference_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::InferenceStats</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a6482c2ea5de3f1c0cb256f0dbb3b8dc1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::total_tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_generated</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::total_tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="180" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a965c314485db76de40db4b204719eac9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::total_prompt_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_prompt_tokens</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::total_prompt_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="181" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a89d130d0abe9f9662a17cdbf6f59622a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::total_prefill_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_prefill_tokens</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::total_prefill_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="182" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a5bb83272a30acc238c8c68f44932d468" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::total_decode_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_decode_tokens</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::total_decode_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="183" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a16b4e572ad6bb221a769b2399f8e1ad1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="186" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a640f4671c1d381d6d4d86929306789d0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::completed_requests</definition>
+        <argsstring></argsstring>
+        <name>completed_requests</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::completed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="187" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a21d484fb0de127e059d146f3004f03bd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::failed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="188" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1ab4453e1d968f3b96e804e2bdb9b0767e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::cancelled_requests</definition>
+        <argsstring></argsstring>
+        <name>cancelled_requests</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::cancelled_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="189" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a5e4a0f3ab2b99f626ba0bdcb808b3b78" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::InferenceStats::avg_tokens_per_second</definition>
+        <argsstring></argsstring>
+        <name>avg_tokens_per_second</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::avg_tokens_per_second</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="192" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a5faf97f4f558ac5026ec12d7b1ac97da" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::InferenceStats::avg_time_to_first_token_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_time_to_first_token_ms</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::avg_time_to_first_token_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="193" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a4308332c1e6082377112ac21b720fc08" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::InferenceStats::avg_request_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_request_latency_ms</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::avg_request_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="194" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a6512e4cda29c772522c762dd7a9729e8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::InferenceStats::avg_prefill_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_prefill_time_ms</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::avg_prefill_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="197" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1af39e08e7a89c3cf7c332f49d5723ff08" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::InferenceStats::avg_decode_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_decode_time_ms</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::avg_decode_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="198" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a0aa8cd87a7a2fa9c21815d858cee5d91" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::total_speculative_acceptances</definition>
+        <argsstring></argsstring>
+        <name>total_speculative_acceptances</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::total_speculative_acceptances</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="201" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1aac41b0910f66a9926083e2f067dbc622" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::InferenceStats::total_speculative_rejections</definition>
+        <argsstring></argsstring>
+        <name>total_speculative_rejections</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::total_speculative_rejections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="202" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1af27ca412a8f9cb9ce03fd64294a530d7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::InferenceStats::speculative_acceptance_rate</definition>
+        <argsstring></argsstring>
+        <name>speculative_acceptance_rate</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::speculative_acceptance_rate</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="203" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_inference_stats_1a6873b32ad8361445a8f5b9986f792509" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themisdb::sharding::InferenceStats::adapter_usage_counts</definition>
+        <argsstring></argsstring>
+        <name>adapter_usage_counts</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::adapter_usage_counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="206" column="24" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_inference_stats_1a4d50a5a52c56cbd729ca1bf3c6ae0670" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::InferenceStats::getSpeculativeAcceptanceRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getSpeculativeAcceptanceRate</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::getSpeculativeAcceptanceRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="208" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="208" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_inference_stats_1a7083ec0cc293f66e97a085c47c30282b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::InferenceStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::InferenceStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="213" column="20" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="213" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Inference statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/inference_engine_enhanced.h" line="178" column="1" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="178" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a6873b32ad8361445a8f5b9986f792509" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>adapter_usage_counts</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1af39e08e7a89c3cf7c332f49d5723ff08" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>avg_decode_time_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a6512e4cda29c772522c762dd7a9729e8" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>avg_prefill_time_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a4308332c1e6082377112ac21b720fc08" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>avg_request_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a5faf97f4f558ac5026ec12d7b1ac97da" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>avg_time_to_first_token_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a5e4a0f3ab2b99f626ba0bdcb808b3b78" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>avg_tokens_per_second</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1ab4453e1d968f3b96e804e2bdb9b0767e" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>cancelled_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a640f4671c1d381d6d4d86929306789d0" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>completed_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a21d484fb0de127e059d146f3004f03bd" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>failed_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a4d50a5a52c56cbd729ca1bf3c6ae0670" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>getSpeculativeAcceptanceRate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1af27ca412a8f9cb9ce03fd64294a530d7" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>speculative_acceptance_rate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a7083ec0cc293f66e97a085c47c30282b" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a5bb83272a30acc238c8c68f44932d468" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>total_decode_tokens</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a89d130d0abe9f9662a17cdbf6f59622a" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>total_prefill_tokens</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a965c314485db76de40db4b204719eac9" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>total_prompt_tokens</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a16b4e572ad6bb221a769b2399f8e1ad1" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>total_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a0aa8cd87a7a2fa9c21815d858cee5d91" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>total_speculative_acceptances</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1aac41b0910f66a9926083e2f067dbc622" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>total_speculative_rejections</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_inference_stats_1a6482c2ea5de3f1c0cb256f0dbb3b8dc1" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceStats</scope><name>total_tokens_generated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

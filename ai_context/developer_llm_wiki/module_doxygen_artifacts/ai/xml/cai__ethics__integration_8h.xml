@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cai__ethics__integration_8h" kind="file" language="C++">
+    <compoundname>cai_ethics_integration.h</compoundname>
+    <includes local="yes">llm/constitutional_reasoning_engine.h</includes>
+    <includes local="yes">ethics_ai/ethics_evaluator.h</includes>
+    <includes local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="cai__ethics__integration_8cpp" local="yes">src/ai/cai_ethics_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ai/cai_ethics_integration.h</label>
+        <link refid="cai__ethics__integration_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>ethics_ai/ethics_ai_types.h</label>
+      </node>
+      <node id="3">
+        <label>ethics_ai/ethics_evaluator.h</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>llm/constitutional_reasoning_engine.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/ai/cai_ethics_integration.h</label>
+        <link refid="cai__ethics__integration_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/ai/cai_ethics_integration.cpp</label>
+        <link refid="cai__ethics__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result" prot="public">themis::ai::CAIEvaluationResult</innerclass>
+    <innerclass refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" prot="public">themis::ai::CAIEthicsConfig</innerclass>
+    <innerclass refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration" prot="public">themis::ai::CAIEthicsIntegration</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ai">themis::ai</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 HARDENED-IMPLEMENTATION </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 (focused hardening implemented; full production validation still environment-dependent) </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Focused hardening implemented; do not treat this header as standalone production sign-off </para>
+</simplesect>
+<simplesect kind="note"><para>Gap Resolution: Variant safety verified; safe assignment patterns documented </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/constitutional_reasoning_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ethics_ai/ethics_evaluator.h&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>EthicsEvaluator<sp/>(src/ethics_ai/)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ethics_ai/ethics_ai_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1ai" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ai" kindref="compound">ai</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result" kindref="compound">CAIEvaluationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>CAI<sp/>layer<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af160052105d144e1a7ba38026d182b26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af160052105d144e1a7ba38026d182b26" kindref="member">original_response</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af786f2e1b276a081a233a0da94d6fd25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af786f2e1b276a081a233a0da94d6fd25" kindref="member">revised_response</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a458f2a50c835c156b5d61040ed746fbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a458f2a50c835c156b5d61040ed746fbd" kindref="member">was_revised</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a5cc9b218dff78d321694fd5d5bbb3a45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a5cc9b218dff78d321694fd5d5bbb3a45" kindref="member">cai_iterations</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a4d24d1479026c71c3b0b295de51c3444" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a4d24d1479026c71c3b0b295de51c3444" kindref="member">cai_original_score</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a9bee2fb881cd1b9063f1b03adc0f4a74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a9bee2fb881cd1b9063f1b03adc0f4a74" kindref="member">cai_revised_score</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1f4d094f589bae70f7eda285c2d5d238" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1f4d094f589bae70f7eda285c2d5d238" kindref="member">violated_principles</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a909f1cbca8ea23d1127e6faab2b8b239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a909f1cbca8ea23d1127e6faab2b8b239" kindref="member">applied_principles</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Ethics-evaluator<sp/>layer<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a020495fe9ca67bfcb08e357ceaf92143" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a020495fe9ca67bfcb08e357ceaf92143" kindref="member">ethics_overall_score</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1ae286319ec88f0156522466e1d2c725c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1ae286319ec88f0156522466e1d2c725c2" kindref="member">ethics_decision_quality</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a3cd0fc51352f856e4f1f63a9172e3967" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a3cd0fc51352f856e4f1f63a9172e3967" kindref="member">ethics_consistency</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1aa1dca94f73616504d9e379c5540f7295" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1aa1dca94f73616504d9e379c5540f7295" kindref="member">ethics_fairness</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af327f4012d24075e3fdc7de14019b4cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af327f4012d24075e3fdc7de14019b4cc" kindref="member">ethics_alignment</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a71990b5087d9f502e2b7166ca07e80fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a71990b5087d9f502e2b7166ca07e80fe" kindref="member">ethics_transparency</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a2da37a418909098e92fe968fd4d4ce30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a2da37a418909098e92fe968fd4d4ce30" kindref="member">ethics_framework_domains</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1bc4eb365bc903c38ac663a74b86e686" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1bc4eb365bc903c38ac663a74b86e686" kindref="member">ethics_argument_chain_ids</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1abb9a10133823e3f89fd82fcd6ae881f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1abb9a10133823e3f89fd82fcd6ae881f9" kindref="member">ethics_framework_principles</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Aggregated<sp/>acceptance<sp/>gate<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a0f5e8fbe0ef10043cefe91d7f8091ef5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a0f5e8fbe0ef10043cefe91d7f8091ef5" kindref="member">safety_score</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a9bee2fb881cd1b9063f1b03adc0f4a74" kindref="member">cai_revised_score</ref>)<sp/>+<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a020495fe9ca67bfcb08e357ceaf92143" kindref="member">ethics_overall_score</ref>)<sp/>/<sp/>2.0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Timing<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1adf4bc2bb9488a60fddc6d9f69c414e45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1adf4bc2bb9488a60fddc6d9f69c414e45" kindref="member">total_latency</ref>{0};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" kindref="compound">CAIEthicsConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a7fa09ea15e923d45a513a1173dde3aa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a7fa09ea15e923d45a513a1173dde3aa5" kindref="member">max_cai_rounds</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a01bb340969a4cda284466f5e12ea7b5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a01bb340969a4cda284466f5e12ea7b5d" kindref="member">improvement_threshold</ref><sp/>=<sp/>0.05f;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a02189a57d5313d8bd44307066b1cb9ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a02189a57d5313d8bd44307066b1cb9ed" kindref="member">min_cai_score</ref><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1acf70cbde8682fccb6f1caedda328f78c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>plugins::ethics::EthicsEvaluator::Config<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1acf70cbde8682fccb6f1caedda328f78c" kindref="member">ethics_weights</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a57f75b1f99374bff2c1d21f325a3d3a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a57f75b1f99374bff2c1d21f325a3d3a5" kindref="member">load_default_principles</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" kindref="compound">CAIEthicsConfig</ref>&amp;<sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0c9e143da9cd27b51dd6170bef618f50" kindref="member">config</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a91dcecda9ed9ebfde39eea7df6b3802b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a91dcecda9ed9ebfde39eea7df6b3802b" kindref="member">~CAIEthicsIntegration</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1aadce3e2be0f2d33abedc53261d746902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1aadce3e2be0f2d33abedc53261d746902" kindref="member">CAIEthicsIntegration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8bb76680eac0b76bc604a60be3db3167" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref>&amp;<sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8bb76680eac0b76bc604a60be3db3167" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a7c9ff3df588d9f2c489b0c709cc32251" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a7c9ff3df588d9f2c489b0c709cc32251" kindref="member">CAIEthicsIntegration</ref>(<ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a62d80872156410f34a7dc982a280f798" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result" kindref="compound">CAIEvaluationResult</ref><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a56702fd931e22ebe862c98acbf1843d2" kindref="member">evaluate</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;)&gt;<sp/>llm_fn<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a69c080cad3c6ddcbc0b9c2bc4348a1ce" kindref="member">addPrinciple</ref>(const<sp/>llm::ConstitutionalPrinciple&amp;<sp/>principle);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;llm::ConstitutionalPrinciple&gt;<sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8a9ab6f90f4c687ce916ec4bd69f762d" kindref="member">getPrinciples</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1ae49cf0e98ef90d70fbd6b84971e16bd7" kindref="member">principleCount</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0c9e143da9cd27b51dd6170bef618f50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" kindref="compound">CAIEthicsConfig</ref>&amp;<sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0c9e143da9cd27b51dd6170bef618f50" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a61373448f384fd2387f7a200aa90f233" kindref="member">passesAcceptanceCriteria</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result" kindref="compound">CAIEvaluationResult</ref>&amp;<sp/>result,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_safety_score<sp/>=<sp/>0.80);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" kindref="compound">CAIEthicsConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;llm::ConstitutionalReasoningEngine&gt;<sp/><sp/><sp/><sp/>cai_engine_;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>plugins::ethics::EthicsEvaluator<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ethics_evaluator_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>plugins::ethics::EthicalDecision<sp/>buildDecision(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>llm::ConstitutionalReasoningResult&amp;<sp/>cai_result,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>formalized_principles,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>formalized_domains,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>argument_chain_ids</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;plugins::ethics::EthicalArgument&gt;<sp/>buildArguments(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>llm::ConstitutionalReasoningResult&amp;<sp/>cai_result</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ai</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ai/cai_ethics_integration.h"/>
+  </compounddef>
+</doxygen>

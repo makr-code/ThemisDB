@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_enrichment_l_r_u_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentLRUCache</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a811044da9bb809a3f15aa51456d2f9b5" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::training::EnrichmentLRUCache::Key = std::string</definition>
+        <argsstring></argsstring>
+        <name>Key</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::Key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="87" column="5" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a6daf2939b09735f24a6cc20cc6dfd70b" prot="public" static="no">
+        <type><ref refid="structthemis_1_1training_1_1_graph_context" kindref="compound">GraphContext</ref></type>
+        <definition>using themis::training::EnrichmentLRUCache::Value = GraphContext</definition>
+        <argsstring></argsstring>
+        <name>Value</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::Value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="88" column="5" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a09e5b235e62e3b9c318100d8e9822b11" prot="private" static="no">
+        <type>std::pair&lt; <ref refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a811044da9bb809a3f15aa51456d2f9b5" kindref="member">Key</ref>, <ref refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a6daf2939b09735f24a6cc20cc6dfd70b" kindref="member">Value</ref> &gt;</type>
+        <definition>using themis::training::EnrichmentLRUCache::ListEntry = std::pair&lt;Key, Value&gt;</definition>
+        <argsstring></argsstring>
+        <name>ListEntry</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::ListEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="172" column="5" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a0ad2c771b0bf36f318e781aea3fad263" prot="private" static="no">
+        <type>std::list&lt; ListEntry &gt;</type>
+        <definition>using themis::training::EnrichmentLRUCache::List = std::list&lt;ListEntry&gt;</definition>
+        <argsstring></argsstring>
+        <name>List</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::List</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="173" column="5" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a916a8bd65a82be7eb73dad70f2455519" prot="private" static="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a811044da9bb809a3f15aa51456d2f9b5" kindref="member">Key</ref>, typename List::iterator &gt;</type>
+        <definition>using themis::training::EnrichmentLRUCache::Map = std::unordered_map&lt;Key, typename List::iterator&gt;</definition>
+        <argsstring></argsstring>
+        <name>Map</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::Map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="174" column="5" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a18310fd392ea67e329f3abfd02ab2084" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentLRUCache::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="176" column="33" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a04cd71666d50acaf975162cb5fc5c4b8" prot="private" static="no" mutable="no">
+        <type>List</type>
+        <definition>List themis::training::EnrichmentLRUCache::list_</definition>
+        <argsstring></argsstring>
+        <name>list_</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="177" column="33" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1ab7a63528281c0e3341e4364e1382ef3b" prot="private" static="no" mutable="no">
+        <type>Map</type>
+        <definition>Map themis::training::EnrichmentLRUCache::map_</definition>
+        <argsstring></argsstring>
+        <name>map_</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="178" column="33" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a0bc0a10c5b3938801f80b584bda0c794" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::EnrichmentLRUCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="179" column="33" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1ab3f9d8d5f94e7538e1010731daa323fb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_cache_stats" kindref="compound">EnrichmentCacheStats</ref></type>
+        <definition>EnrichmentCacheStats themis::training::EnrichmentLRUCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="180" column="33" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a694716f510edf85d3a92e7d91e11de29" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EnrichmentLRUCache::EnrichmentLRUCache</definition>
+        <argsstring>(size_t capacity)</argsstring>
+        <name>EnrichmentLRUCache</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::EnrichmentLRUCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="90" column="14" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1ab09ef23fe665a18d59bbfb4a60a9d55d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentLRUCache::get</definition>
+        <argsstring>(const Key &amp;key, Value &amp;out)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::get</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a811044da9bb809a3f15aa51456d2f9b5" kindref="member">Key</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a6daf2939b09735f24a6cc20cc6dfd70b" kindref="member">Value</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Attempt to retrieve a cached result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Returns true on hit. Calls: lock(), find(), end(), splice(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="99" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="99" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1adea2ea8ec828ab9ded518790b7418927" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::EnrichmentLRUCache::put</definition>
+        <argsstring>(const Key &amp;key, Value value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::put</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a811044da9bb809a3f15aa51456d2f9b5" kindref="member">Key</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a6daf2939b09735f24a6cc20cc6dfd70b" kindref="member">Value</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Insert or update a cache entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::move(), splice(), begin(), size(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="119" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="119" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1ad4ee4b49d5ac149ea0a12d74d9a0ca7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::EnrichmentLRUCache::evictAll</definition>
+        <argsstring>()</argsstring>
+        <name>evictAll</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::evictAll</qualifiedname>
+        <briefdescription>
+<para>Evict all entries (e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>g., on graph-version change). Calls: lock(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="143" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="143" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a98cc4194d821570495ce8ffec0492858" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_cache_stats" kindref="compound">EnrichmentCacheStats</ref></type>
+        <definition>EnrichmentCacheStats themis::training::EnrichmentLRUCache::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="150" column="26" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="150" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a1cdffebe488368b7807ade143a420df4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::EnrichmentLRUCache::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::training::EnrichmentLRUCache::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="166" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="166" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/knowledge_graph_enricher.cpp" line="85" column="1" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="85" bodyend="181"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a18310fd392ea67e329f3abfd02ab2084" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>capacity_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a694716f510edf85d3a92e7d91e11de29" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>EnrichmentLRUCache</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1ad4ee4b49d5ac149ea0a12d74d9a0ca7b" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>evictAll</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1ab09ef23fe665a18d59bbfb4a60a9d55d" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a811044da9bb809a3f15aa51456d2f9b5" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>Key</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a0ad2c771b0bf36f318e781aea3fad263" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>List</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a04cd71666d50acaf975162cb5fc5c4b8" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>list_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a09e5b235e62e3b9c318100d8e9822b11" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>ListEntry</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a916a8bd65a82be7eb73dad70f2455519" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>Map</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1ab7a63528281c0e3341e4364e1382ef3b" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>map_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a0bc0a10c5b3938801f80b584bda0c794" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1adea2ea8ec828ab9ded518790b7418927" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a1cdffebe488368b7807ade143a420df4" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a98cc4194d821570495ce8ffec0492858" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>stats</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1ab3f9d8d5f94e7538e1010731daa323fb" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache_1a6daf2939b09735f24a6cc20cc6dfd70b" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentLRUCache</scope><name>Value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

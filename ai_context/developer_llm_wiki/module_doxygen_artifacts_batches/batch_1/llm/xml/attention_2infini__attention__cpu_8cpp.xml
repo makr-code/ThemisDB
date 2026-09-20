@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="attention_2infini__attention__cpu_8cpp" kind="file" language="C++">
+    <compoundname>infini_attention_cpu.cpp</compoundname>
+    <includes refid="infini__attention__cpu_8h" local="yes">llm/infini_attention_cpu.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/eigen_stub.h</label>
+        <link refid="eigen__stub_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/infini_attention_cpu.h</label>
+        <link refid="infini__attention__cpu_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/llm/attention/infini_attention_cpu.cpp</label>
+        <link refid="attention_2infini__attention__cpu_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>random</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Translation unit kept intentionally minimal. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The canonical InfiniAttentionCPU implementation currently lives in <ref refid="infini__attention__cpu_8h" kindref="compound">include/llm/infini_attention_cpu.h</ref> as inline definitions. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="infini__attention__cpu_8h" kindref="compound">llm/infini_attention_cpu.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/llm/attention/infini_attention_cpu.cpp"/>
+  </compounddef>
+</doxygen>

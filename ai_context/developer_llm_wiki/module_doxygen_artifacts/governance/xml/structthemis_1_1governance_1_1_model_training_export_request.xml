@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_model_training_export_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ModelTrainingExportRequest</compoundname>
+    <includes refid="model__governance_8h" local="no">model_governance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_model_training_export_request_1a39e976495e422e7f1fac32c243e9109d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ModelTrainingExportRequest::export_job_id</definition>
+        <argsstring></argsstring>
+        <name>export_job_id</name>
+        <qualifiedname>themis::governance::ModelTrainingExportRequest::export_job_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier of the export job. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/model_governance.h" line="31" column="17" bodyfile="include/governance/model_governance.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_model_training_export_request_1a6c6d9056446a769069910bf869b5abc0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::ModelTrainingExportRequest::collection_ids</definition>
+        <argsstring></argsstring>
+        <name>collection_ids</name>
+        <qualifiedname>themis::governance::ModelTrainingExportRequest::collection_ids</qualifiedname>
+        <briefdescription>
+<para>Collections to be exported. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/model_governance.h" line="32" column="17" bodyfile="include/governance/model_governance.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_model_training_export_request_1a26f5832a3d86459a6e65382ab1c21b5e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::ModelTrainingExportRequest::field_selectors</definition>
+        <argsstring></argsstring>
+        <name>field_selectors</name>
+        <qualifiedname>themis::governance::ModelTrainingExportRequest::field_selectors</qualifiedname>
+        <briefdescription>
+<para>Fields selected from the collections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/model_governance.h" line="33" column="17" bodyfile="include/governance/model_governance.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_model_training_export_request_1aaa426487130ee5f7e031df4027f48ad5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ModelTrainingExportRequest::requesting_user</definition>
+        <argsstring></argsstring>
+        <name>requesting_user</name>
+        <qualifiedname>themis::governance::ModelTrainingExportRequest::requesting_user</qualifiedname>
+        <briefdescription>
+<para>User or service requesting the export. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/model_governance.h" line="34" column="17" bodyfile="include/governance/model_governance.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_model_training_export_request_1a37d145ce188a2c97625c6f4d6a9878f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ModelTrainingExportRequest::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::governance::ModelTrainingExportRequest::adapter_id</qualifiedname>
+        <briefdescription>
+<para>LoRA adapter / model that will be trained. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/model_governance.h" line="35" column="17" bodyfile="include/governance/model_governance.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_model_training_export_request_1a7a5669254e13e6679f6258c758ebc6e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ModelTrainingExportRequest::classification</definition>
+        <argsstring></argsstring>
+        <name>classification</name>
+        <qualifiedname>themis::governance::ModelTrainingExportRequest::classification</qualifiedname>
+        <briefdescription>
+<para>Data classification level of the dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/model_governance.h" line="36" column="17" bodyfile="include/governance/model_governance.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_model_training_export_request_1ad23746d078d7b0f5d7df7d8bfb624923" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ModelTrainingExportRequest::purpose</definition>
+        <argsstring></argsstring>
+        <name>purpose</name>
+        <qualifiedname>themis::governance::ModelTrainingExportRequest::purpose</qualifiedname>
+        <initializer>{&quot;MODEL_TRAINING&quot;}</initializer>
+        <briefdescription>
+<para>Export purpose (must be &quot;MODEL_TRAINING&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/model_governance.h" line="37" column="17" bodyfile="include/governance/model_governance.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_model_training_export_request_1a0430ba6017c8436f1664ca0472d520b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ModelTrainingExportRequest::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ModelTrainingExportRequest::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/model_governance.h" line="43" column="20" bodyfile="src/governance/model_governance.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/model_governance.h" line="30" column="1" bodyfile="include/governance/model_governance.h" bodystart="30" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_model_training_export_request_1a37d145ce188a2c97625c6f4d6a9878f1" prot="public" virt="non-virtual"><scope>themis::governance::ModelTrainingExportRequest</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_model_training_export_request_1a7a5669254e13e6679f6258c758ebc6e0" prot="public" virt="non-virtual"><scope>themis::governance::ModelTrainingExportRequest</scope><name>classification</name></member>
+      <member refid="structthemis_1_1governance_1_1_model_training_export_request_1a6c6d9056446a769069910bf869b5abc0" prot="public" virt="non-virtual"><scope>themis::governance::ModelTrainingExportRequest</scope><name>collection_ids</name></member>
+      <member refid="structthemis_1_1governance_1_1_model_training_export_request_1a39e976495e422e7f1fac32c243e9109d" prot="public" virt="non-virtual"><scope>themis::governance::ModelTrainingExportRequest</scope><name>export_job_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_model_training_export_request_1a26f5832a3d86459a6e65382ab1c21b5e" prot="public" virt="non-virtual"><scope>themis::governance::ModelTrainingExportRequest</scope><name>field_selectors</name></member>
+      <member refid="structthemis_1_1governance_1_1_model_training_export_request_1ad23746d078d7b0f5d7df7d8bfb624923" prot="public" virt="non-virtual"><scope>themis::governance::ModelTrainingExportRequest</scope><name>purpose</name></member>
+      <member refid="structthemis_1_1governance_1_1_model_training_export_request_1aaa426487130ee5f7e031df4027f48ad5" prot="public" virt="non-virtual"><scope>themis::governance::ModelTrainingExportRequest</scope><name>requesting_user</name></member>
+      <member refid="structthemis_1_1governance_1_1_model_training_export_request_1a0430ba6017c8436f1664ca0472d520b2" prot="public" virt="non-virtual"><scope>themis::governance::ModelTrainingExportRequest</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

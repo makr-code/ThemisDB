@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_hyper_index_tensor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HyperIndexTensor</compoundname>
+    <includes refid="hyper__index__builder_8h" local="no">hyper_index_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_tensor_1ad89cb7ce03e9d541fa01d83fa7bce137" prot="public" static="no" mutable="no">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::HyperIndexTensor::tt_train</definition>
+        <argsstring></argsstring>
+        <name>tt_train</name>
+        <qualifiedname>themis::tensor::HyperIndexTensor::tt_train</qualifiedname>
+        <briefdescription>
+<para>TT-encoded co-occurrence tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="64" column="30" bodyfile="include/tensor/hyper_index_builder.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_tensor_1a525ba446eaff9045aadcedabeb87422c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::HyperIndexTensor::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::tensor::HyperIndexTensor::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Owning tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="65" column="30" bodyfile="include/tensor/hyper_index_builder.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_tensor_1ab69d988932b9b2e045559f87026bbf3d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_column_schema" kindref="compound">ColumnSchema</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnSchema&gt; themis::tensor::HyperIndexTensor::schema</definition>
+        <argsstring></argsstring>
+        <name>schema</name>
+        <qualifiedname>themis::tensor::HyperIndexTensor::schema</qualifiedname>
+        <briefdescription>
+<para>Column descriptors used at build time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="66" column="16" bodyfile="include/tensor/hyper_index_builder.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_tensor_1a53400cb82ee962d67d4a1239ea9b6ec0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HyperIndexTensor::bucket_count</definition>
+        <argsstring></argsstring>
+        <name>bucket_count</name>
+        <qualifiedname>themis::tensor::HyperIndexTensor::bucket_count</qualifiedname>
+        <briefdescription>
+<para>Buckets per dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="67" column="30" bodyfile="include/tensor/hyper_index_builder.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_tensor_1a701659bf856eeef0cbfec6c9b146b07a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HyperIndexTensor::total_rows</definition>
+        <argsstring></argsstring>
+        <name>total_rows</name>
+        <qualifiedname>themis::tensor::HyperIndexTensor::total_rows</qualifiedname>
+        <briefdescription>
+<para>Number of rows indexed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="68" column="30" bodyfile="include/tensor/hyper_index_builder.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hyper_index_tensor_1aee0cd52c7722c3eb31d419c3041aca19" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::tensor::HyperIndexTensor::contract</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::size_t, std::size_t &gt; &gt; &amp;pinned_modes) const</argsstring>
+        <name>contract</name>
+        <qualifiedname>themis::tensor::HyperIndexTensor::contract</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::size_t, std::size_t &gt; &gt; &amp;</type>
+          <declname>pinned_modes</declname>
+        </param>
+        <briefdescription>
+<para>Contract over a subset of modes to obtain a marginal distribution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>pinned_modes[k]</computeroutput> = b means mode k is pinned to bucket b. Modes not in <computeroutput>pinned_modes</computeroutput> are summed out. Returns the scalar count estimate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="77" column="13" bodyfile="src/tensor/hyper_index_builder.cpp" bodystart="497" bodyend="557"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>TT-encoded co-occurrence structure for one or more related tables. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The tensor mode ordering follows the column ordering in the schema. Each mode has <computeroutput><ref refid="structthemis_1_1tensor_1_1_hyper_index_tensor_1a53400cb82ee962d67d4a1239ea9b6ec0" kindref="member">bucket_count</ref></computeroutput> indices (configurable; default 8). </para>
+    </detaileddescription>
+    <location file="include/tensor/hyper_index_builder.h" line="63" column="1" bodyfile="include/tensor/hyper_index_builder.h" bodystart="63" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_tensor_1a53400cb82ee962d67d4a1239ea9b6ec0" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexTensor</scope><name>bucket_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_tensor_1aee0cd52c7722c3eb31d419c3041aca19" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexTensor</scope><name>contract</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_tensor_1ab69d988932b9b2e045559f87026bbf3d" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexTensor</scope><name>schema</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_tensor_1a525ba446eaff9045aadcedabeb87422c" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexTensor</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_tensor_1a701659bf856eeef0cbfec6c9b146b07a" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexTensor</scope><name>total_rows</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_tensor_1ad89cb7ce03e9d541fa01d83fa7bce137" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexTensor</scope><name>tt_train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

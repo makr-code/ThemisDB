@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SSMStateRocksDBStoreConfig</compoundname>
+    <includes refid="ssm__state__rocksdb__store_8h" local="no">ssm_state_rocksdb_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1a59af0896507d28fb30ec3488dca53811" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateRocksDBStoreConfig::column_family_name</definition>
+        <argsstring></argsstring>
+        <name>column_family_name</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStoreConfig::column_family_name</qualifiedname>
+        <initializer>= &quot;ssm_state&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="31" column="17" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1ab8f876191d43a3654d9a39cd6297c3b5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::SSMStateRocksDBStoreConfig::retention_window_ms</definition>
+        <argsstring></argsstring>
+        <name>retention_window_ms</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStoreConfig::retention_window_ms</qualifiedname>
+        <initializer>= 24 * 60 * 60 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="34" column="13" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1aa3aae6fb33ddd3a578e044576d4ba4a4" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::llm::SSMStateRocksDBStoreConfig::max_snapshots_per_session</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots_per_session</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStoreConfig::max_snapshots_per_session</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="37" column="13" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1ad79e6ac7f44d390ae170b95f8702ad3e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SSMStateRocksDBStoreConfig::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStoreConfig::enable_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="40" column="10" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1a4ee4bc0156c76c4834fec01b8f5df393" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SSMStateRocksDBStoreConfig::sync_on_checkpoint</definition>
+        <argsstring></argsstring>
+        <name>sync_on_checkpoint</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStoreConfig::sync_on_checkpoint</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="43" column="10" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ssm_state_rocksdb_store.h" line="29" column="1" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="29" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1a59af0896507d28fb30ec3488dca53811" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStoreConfig</scope><name>column_family_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1ad79e6ac7f44d390ae170b95f8702ad3e" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStoreConfig</scope><name>enable_compression</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1aa3aae6fb33ddd3a578e044576d4ba4a4" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStoreConfig</scope><name>max_snapshots_per_session</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1ab8f876191d43a3654d9a39cd6297c3b5" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStoreConfig</scope><name>retention_window_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config_1a4ee4bc0156c76c4834fec01b8f5df393" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStoreConfig</scope><name>sync_on_checkpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

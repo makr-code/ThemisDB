@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</compoundname>
+    <includes refid="snapshot__update__worker_8h" local="no">snapshot_update_worker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a25d247a8cbd0bb19e3b691dae002385a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_tasks_processed</definition>
+        <argsstring></argsstring>
+        <name>total_tasks_processed</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_tasks_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="228" column="14" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a74bb2223ca7a1a9b563e81c78f6da2f0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_patches_applied</definition>
+        <argsstring></argsstring>
+        <name>total_patches_applied</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_patches_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="229" column="14" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a2222d622ba953db4429700f741718bab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_partial_refits</definition>
+        <argsstring></argsstring>
+        <name>total_partial_refits</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_partial_refits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="230" column="14" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1af1f6974f851a8a87633502edc50ec50c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_rebuilds</definition>
+        <argsstring></argsstring>
+        <name>total_rebuilds</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_rebuilds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="231" column="14" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a0f90e5c4e7362dfaf0d94e734b631140" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_failed_updates</definition>
+        <argsstring></argsstring>
+        <name>total_failed_updates</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::total_failed_updates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="232" column="14" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1aea68cb925f212893de3ef468533c2a14" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::average_decision_time_ms</definition>
+        <argsstring></argsstring>
+        <name>average_decision_time_ms</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::average_decision_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="233" column="12" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a3e196f1d617fc6aa223443089e1f3dbe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::average_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>average_execution_time_ms</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::average_execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="234" column="12" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1ac6766bc439ddf629ef6545fb8609ed55" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::last_activity_ms</definition>
+        <argsstring></argsstring>
+        <name>last_activity_ms</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats::last_activity_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="235" column="13" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="227" column="3" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="227" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1aea68cb925f212893de3ef468533c2a14" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</scope><name>average_decision_time_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a3e196f1d617fc6aa223443089e1f3dbe" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</scope><name>average_execution_time_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1ac6766bc439ddf629ef6545fb8609ed55" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</scope><name>last_activity_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a0f90e5c4e7362dfaf0d94e734b631140" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</scope><name>total_failed_updates</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a2222d622ba953db4429700f741718bab" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</scope><name>total_partial_refits</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a74bb2223ca7a1a9b563e81c78f6da2f0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</scope><name>total_patches_applied</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1af1f6974f851a8a87633502edc50ec50c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</scope><name>total_rebuilds</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a25d247a8cbd0bb19e3b691dae002385a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</scope><name>total_tasks_processed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

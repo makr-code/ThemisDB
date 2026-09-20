@@ -1,0 +1,414 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1memory" kind="namespace" language="C++">
+    <compoundname>themis::memory</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1memory_1a5bf3cd1093a11942937730d73fc6014d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HugePageSize</name>
+        <qualifiedname>themis::memory::HugePageSize</qualifiedname>
+        <enumvalue id="namespacethemis_1_1memory_1a5bf3cd1093a11942937730d73fc6014da7a1920d61156abc05a60135aefe8bc67" prot="public">
+          <name>Default</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1memory_1a5bf3cd1093a11942937730d73fc6014da12c767cffcc0ffbe7af4c870071a5887" prot="public">
+          <name>Size_2MB</name>
+          <initializer>= 2097152</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1memory_1a5bf3cd1093a11942937730d73fc6014da474b58dce13464bec95fc075a1b7408c" prot="public">
+          <name>Size_1GB</name>
+          <initializer>= 1073741824</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Huge page sizes supported by the system. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/huge_pages.h" line="43" column="1" bodyfile="include/performance/huge_pages.h" bodystart="43" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a26ed3e746a740cda3c8c5b69c5744431" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::memory::allocate</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::memory::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Allocate memory using the configured allocator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When jemalloc is enabled (THEMIS_ENABLE_JEMALLOC), uses je_malloc When mimalloc is enabled (THEMIS_ENABLE_MIMALLOC), uses mi_malloc Otherwise uses standard operator new</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to allocated memory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/allocator.h" line="48" column="13" bodyfile="include/performance/allocator.h" bodystart="48" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a98ef7f69731bc134b4fb2d05816f48e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::memory::deallocate</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::memory::deallocate</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate memory allocated with <ref refid="namespacethemis_1_1memory_1a26ed3e746a740cda3c8c5b69c5744431" kindref="member">allocate()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to memory to deallocate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/allocator.h" line="63" column="13" bodyfile="include/performance/allocator.h" bodystart="63" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a36f5dcf421bfb761dfd82c90d8c7fad5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::memory::allocate_aligned</definition>
+        <argsstring>(size_t size, size_t alignment)</argsstring>
+        <name>allocate_aligned</name>
+        <qualifiedname>themis::memory::allocate_aligned</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Allocate aligned memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Alignment requirement in bytes (must be power of 2) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to aligned memory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/allocator.h" line="84" column="13" bodyfile="include/performance/allocator.h" bodystart="84" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a598c541b22e30184c831596fb2fa0873" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::memory::deallocate_aligned</definition>
+        <argsstring>(void *ptr, size_t alignment)</argsstring>
+        <name>deallocate_aligned</name>
+        <qualifiedname>themis::memory::deallocate_aligned</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate aligned memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to aligned memory </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Alignment that was used for allocation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/allocator.h" line="100" column="13" bodyfile="include/performance/allocator.h" bodystart="100" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a0750aef65eaabe8d8da701072064d267" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::memory::allocator_name</definition>
+        <argsstring>()</argsstring>
+        <name>allocator_name</name>
+        <qualifiedname>themis::memory::allocator_name</qualifiedname>
+        <briefdescription>
+<para>Get allocator name for logging/diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/allocator.h" line="117" column="19" bodyfile="include/performance/allocator.h" bodystart="117" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a6ca70ee4ce88d7ac6f2b158f47e11636" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::memory::is_jemalloc_enabled</definition>
+        <argsstring>()</argsstring>
+        <name>is_jemalloc_enabled</name>
+        <qualifiedname>themis::memory::is_jemalloc_enabled</qualifiedname>
+        <briefdescription>
+<para>Check if jemalloc optimization is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/allocator.h" line="130" column="13" bodyfile="include/performance/allocator.h" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1ad3cf93f6524fc9a5166aa2213fed9d15" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::memory::is_mimalloc_enabled</definition>
+        <argsstring>()</argsstring>
+        <name>is_mimalloc_enabled</name>
+        <qualifiedname>themis::memory::is_mimalloc_enabled</qualifiedname>
+        <briefdescription>
+<para>Check if mimalloc optimization is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/allocator.h" line="141" column="13" bodyfile="include/performance/allocator.h" bodystart="141" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a46fb16cb7af6e573a5517f7b0ecfbaab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::memory::huge_pages_available</definition>
+        <argsstring>()</argsstring>
+        <name>huge_pages_available</name>
+        <qualifiedname>themis::memory::huge_pages_available</qualifiedname>
+        <briefdescription>
+<para>Check if huge pages are available on the system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if huge pages can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/huge_pages.h" line="54" column="13" bodyfile="include/performance/huge_pages.h" bodystart="54" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a55fd4493155daafb739720be1556fe46" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::memory::get_huge_page_size</definition>
+        <argsstring>()</argsstring>
+        <name>get_huge_page_size</name>
+        <qualifiedname>themis::memory::get_huge_page_size</qualifiedname>
+        <briefdescription>
+<para>Get the huge page size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Size of huge pages, or 0 if not available </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/huge_pages.h" line="89" column="15" bodyfile="include/performance/huge_pages.h" bodystart="89" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a861a8e09933aa274a820bb978ea47640" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::memory::allocate_huge_pages</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>allocate_huge_pages</name>
+        <qualifiedname>themis::memory::allocate_huge_pages</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Allocate memory using huge pages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempts to allocate memory using huge pages for improved TLB performance. Falls back to regular allocation if huge pages are not available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate (should be multiple of huge page size) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to allocated memory, or nullptr on failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/huge_pages.h" line="114" column="13" bodyfile="include/performance/huge_pages.h" bodystart="114" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1aabf135e0f8c0c8d29b50117c4c1e4527" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::memory::deallocate_huge_pages</definition>
+        <argsstring>(void *ptr, size_t size)</argsstring>
+        <name>deallocate_huge_pages</name>
+        <qualifiedname>themis::memory::deallocate_huge_pages</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Free memory allocated with <ref refid="namespacethemis_1_1memory_1a861a8e09933aa274a820bb978ea47640" kindref="member">allocate_huge_pages()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to memory to free </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the allocation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/huge_pages.h" line="176" column="13" bodyfile="include/performance/huge_pages.h" bodystart="176" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1ae5899bc12ca5ceba233533341812e0ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::memory::is_huge_pages_enabled</definition>
+        <argsstring>()</argsstring>
+        <name>is_huge_pages_enabled</name>
+        <qualifiedname>themis::memory::is_huge_pages_enabled</qualifiedname>
+        <briefdescription>
+<para>Check if huge pages are enabled at compile time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/huge_pages.h" line="197" column="13" bodyfile="include/performance/huge_pages.h" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1ac25f94c93a33b2b4a8e4549d2f8d3476" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::memory::huge_pages_status</definition>
+        <argsstring>()</argsstring>
+        <name>huge_pages_status</name>
+        <qualifiedname>themis::memory::huge_pages_status</qualifiedname>
+        <briefdescription>
+<para>Get status string for huge pages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/huge_pages.h" line="208" column="20" bodyfile="include/performance/huge_pages.h" bodystart="208" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1a64de11f0dd41527ade5a1f849219b29b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::memory::get_huge_pages_setup_instructions</definition>
+        <argsstring>(int num_pages=1024)</argsstring>
+        <name>get_huge_pages_setup_instructions</name>
+        <qualifiedname>themis::memory::get_huge_pages_setup_instructions</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_pages</declname>
+          <defval>1024</defval>
+        </param>
+        <briefdescription>
+<para>Configure system for huge pages (Linux only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function provides guidance on configuring the system to support huge pages. Must be run with appropriate privileges.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num_pages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of 2MB huge pages to reserve </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Instructions string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/huge_pages.h" line="236" column="20" bodyfile="include/performance/huge_pages.h" bodystart="236" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/allocator.h" line="36" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_importer_plugin_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::ImporterPluginLoader</compoundname>
+    <includes refid="importer__plugin__api_8h" local="no">importer_plugin_api.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a80413728c3c56f04d4a3bc2ea81956cf" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::importers::ImporterPluginLoader::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::handle_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="790" column="38" bodyfile="include/importers/importer_plugin_api.h" bodystart="790" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_importer_plugin_loader_1ab04b624affd5239c4f3088c34360c7da" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImporterPluginLoader::loaded_name_</definition>
+        <argsstring></argsstring>
+        <name>loaded_name_</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::loaded_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="791" column="39" bodyfile="include/importers/importer_plugin_api.h" bodystart="791" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_importer_plugin_loader_1aa752edd93492191de2ff14bf5f9416eb" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImporterPluginLoader::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="792" column="39" bodyfile="include/importers/importer_plugin_api.h" bodystart="792" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a37b88cfeb5fd3e6ad89edd3652b60923" prot="private" static="no" mutable="no">
+        <type>void(*</type>
+        <definition>void(* themis::importers::ImporterPluginLoader::destroy_fn_) (plugins::IThemisPlugin *)</definition>
+        <argsstring>)(plugins::IThemisPlugin *)</argsstring>
+        <name>destroy_fn_</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::destroy_fn_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="793" column="5" bodyfile="include/importers/importer_plugin_api.h" bodystart="793" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a3ab8b8663fda3d3bf28f6375617554a8" prot="private" static="no" mutable="no">
+        <type>plugins::IThemisPlugin *</type>
+        <definition>plugins::IThemisPlugin* themis::importers::ImporterPluginLoader::raw_plugin_</definition>
+        <argsstring></argsstring>
+        <name>raw_plugin_</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::raw_plugin_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="794" column="38" bodyfile="include/importers/importer_plugin_api.h" bodystart="794" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a011184e495cfe5699d020fc78017afc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImporterPluginLoader::ImporterPluginLoader</definition>
+        <argsstring>()=default</argsstring>
+        <name>ImporterPluginLoader</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::ImporterPluginLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="604" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1af145b8b602857cd813f38e1f53d7c090" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImporterPluginLoader::~ImporterPluginLoader</definition>
+        <argsstring>()</argsstring>
+        <name>~ImporterPluginLoader</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::~ImporterPluginLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="606" column="5" bodyfile="include/importers/importer_plugin_api.h" bodystart="606" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1ab7d7247923f3a598119e366b38c0c800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImporterPluginLoader::ImporterPluginLoader</definition>
+        <argsstring>(const ImporterPluginLoader &amp;)=delete</argsstring>
+        <name>ImporterPluginLoader</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::ImporterPluginLoader</qualifiedname>
+        <param>
+          <type>const ImporterPluginLoader &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="611" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a65d26a794c639274f7fa432f037f1261" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a011184e495cfe5699d020fc78017afc2" kindref="member">ImporterPluginLoader</ref> &amp;</type>
+        <definition>ImporterPluginLoader &amp; themis::importers::ImporterPluginLoader::operator=</definition>
+        <argsstring>(const ImporterPluginLoader &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a011184e495cfe5699d020fc78017afc2" kindref="member">ImporterPluginLoader</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="612" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1af7a680985cb2a8ca66ed11a207dc36f4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImporterPluginLoader::ImporterPluginLoader</definition>
+        <argsstring>(ImporterPluginLoader &amp;&amp;other) noexcept</argsstring>
+        <name>ImporterPluginLoader</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::ImporterPluginLoader</qualifiedname>
+        <param>
+          <type>ImporterPluginLoader &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="614" column="5" bodyfile="include/importers/importer_plugin_api.h" bodystart="614" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1aee95ece19b03f6fe3d0ad61576f16e5d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a011184e495cfe5699d020fc78017afc2" kindref="member">ImporterPluginLoader</ref> &amp;</type>
+        <definition>ImporterPluginLoader &amp; themis::importers::ImporterPluginLoader::operator=</definition>
+        <argsstring>(ImporterPluginLoader &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a011184e495cfe5699d020fc78017afc2" kindref="member">ImporterPluginLoader</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="626" column="26" bodyfile="include/importers/importer_plugin_api.h" bodystart="626" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1aae1a27d8098861ff72bc1ed7bdc709d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::ImporterPluginLoader::load</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::load</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a0ada146393ad91d7f9b5da8ce7346595" kindref="member">unload()</ref>, clear(), void(), defined(), LoadLibraryA(), c_str(), GetProcAddress(), dlopen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="647" column="10" bodyfile="include/importers/importer_plugin_api.h" bodystart="647" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a0ada146393ad91d7f9b5da8ce7346595" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImporterPluginLoader::unload</definition>
+        <argsstring>()</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::unload</qualifiedname>
+        <briefdescription>
+<para>Unload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), <ref refid="classthemis_1_1importers_1_1_importer_plugin_registry_1a2fa9b343af8d13f1aa76a1525e91176e" kindref="member">ImporterPluginRegistry::instance()</ref>, unregisterFactory(), clear(), destroy_fn_(), closeHandle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="746" column="10" bodyfile="include/importers/importer_plugin_api.h" bodystart="746" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1ae77500d32625dc5d3c0393d2a4a0b6d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::ImporterPluginLoader::isLoaded</definition>
+        <argsstring>() const</argsstring>
+        <name>isLoaded</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::isLoaded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="767" column="10" bodyfile="include/importers/importer_plugin_api.h" bodystart="767" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a254b16813bf68010738542fff46f17b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::importers::ImporterPluginLoader::loadedName</definition>
+        <argsstring>() const</argsstring>
+        <name>loadedName</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::loadedName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="769" column="23" bodyfile="include/importers/importer_plugin_api.h" bodystart="769" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a5b244b8e844e199d1054ac061306a5ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::importers::ImporterPluginLoader::lastError</definition>
+        <argsstring>() const</argsstring>
+        <name>lastError</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::lastError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="771" column="23" bodyfile="include/importers/importer_plugin_api.h" bodystart="771" bodyend="771"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_plugin_loader_1a5d285881dd040aa0fa91fdff869fca9f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImporterPluginLoader::closeHandle</definition>
+        <argsstring>()</argsstring>
+        <name>closeHandle</name>
+        <qualifiedname>themis::importers::ImporterPluginLoader::closeHandle</qualifiedname>
+        <briefdescription>
+<para>Close Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: defined(), FreeLibrary(), dlclose(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="778" column="10" bodyfile="include/importers/importer_plugin_api.h" bodystart="778" bodyend="788"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_plugin_api.h" line="602" column="1" bodyfile="include/importers/importer_plugin_api.h" bodystart="602" bodyend="795"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a5d285881dd040aa0fa91fdff869fca9f" prot="private" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>closeHandle</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a37b88cfeb5fd3e6ad89edd3652b60923" prot="private" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>destroy_fn_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a80413728c3c56f04d4a3bc2ea81956cf" prot="private" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>handle_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a011184e495cfe5699d020fc78017afc2" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>ImporterPluginLoader</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1ab7d7247923f3a598119e366b38c0c800" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>ImporterPluginLoader</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1af7a680985cb2a8ca66ed11a207dc36f4" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>ImporterPluginLoader</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1ae77500d32625dc5d3c0393d2a4a0b6d7" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>isLoaded</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1aa752edd93492191de2ff14bf5f9416eb" prot="private" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a5b244b8e844e199d1054ac061306a5ca" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>lastError</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1aae1a27d8098861ff72bc1ed7bdc709d9" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>load</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1ab04b624affd5239c4f3088c34360c7da" prot="private" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>loaded_name_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a254b16813bf68010738542fff46f17b3" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>loadedName</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a65d26a794c639274f7fa432f037f1261" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1aee95ece19b03f6fe3d0ad61576f16e5d" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a3ab8b8663fda3d3bf28f6375617554a8" prot="private" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>raw_plugin_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1a0ada146393ad91d7f9b5da8ce7346595" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>unload</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_plugin_loader_1af145b8b602857cd813f38e1f53d7c090" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginLoader</scope><name>~ImporterPluginLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

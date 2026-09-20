@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_prometheus_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::PrometheusExporter</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_prometheus_exporter_1a9af7db9d7f2688cd3dc0fe989a275776" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::performance::PrometheusExporter::exportMetrics</definition>
+        <argsstring>(const std::vector&lt; MetricsEntry &gt; &amp;metrics_list)</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::performance::PrometheusExporter::exportMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref> &gt; &amp;</type>
+          <declname>metrics_list</declname>
+        </param>
+        <briefdescription>
+<para>Export Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: good(), push_back(), empty(), size(), std::setprecision(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/prometheus_exporter.cpp" line="32" column="24" bodyfile="src/performance/prometheus_exporter.cpp" bodystart="32" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/prometheus_exporter.cpp" line="24" column="1" bodyfile="src/performance/prometheus_exporter.cpp" bodystart="24" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_prometheus_exporter_1a9af7db9d7f2688cd3dc0fe989a275776" prot="public" virt="non-virtual"><scope>themis::performance::PrometheusExporter</scope><name>exportMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,846 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_mvcc_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::MvccApiHandler</compoundname>
+    <includes refid="mvcc__api__handler_8h" local="no">mvcc_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mvcc_api_handler_1afa3187d66ac8ffedddf7c00f3fb0dde8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; MVCCStore &gt;</type>
+        <definition>std::shared_ptr&lt;MVCCStore&gt; themis::server::MvccApiHandler::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::server::MvccApiHandler::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="93" column="38" bodyfile="include/server/mvcc_api_handler.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mvcc_api_handler_1a16055640a0e7dc0677d6393f98363b9d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::PrometheusMetrics &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::PrometheusMetrics&gt; themis::server::MvccApiHandler::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::server::MvccApiHandler::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="94" column="21" bodyfile="include/server/mvcc_api_handler.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mvcc_api_handler_1a6844227693b810d9660bed434f0d1aef" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::MvccApiHandler::writes_total_</definition>
+        <argsstring></argsstring>
+        <name>writes_total_</name>
+        <qualifiedname>themis::server::MvccApiHandler::writes_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="97" column="17" bodyfile="include/server/mvcc_api_handler.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mvcc_api_handler_1abe6929d337fc2a4d523c02d98c1fe1f4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::MvccApiHandler::reads_latest_total_</definition>
+        <argsstring></argsstring>
+        <name>reads_latest_total_</name>
+        <qualifiedname>themis::server::MvccApiHandler::reads_latest_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="98" column="17" bodyfile="include/server/mvcc_api_handler.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mvcc_api_handler_1adcb28b37c72a35dcd93838ade9637feb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::MvccApiHandler::reads_snapshot_total_</definition>
+        <argsstring></argsstring>
+        <name>reads_snapshot_total_</name>
+        <qualifiedname>themis::server::MvccApiHandler::reads_snapshot_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="99" column="17" bodyfile="include/server/mvcc_api_handler.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mvcc_api_handler_1a6169ddcb0be4af35ce532eb298e9d30b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::MvccApiHandler::gc_runs_total_</definition>
+        <argsstring></argsstring>
+        <name>gc_runs_total_</name>
+        <qualifiedname>themis::server::MvccApiHandler::gc_runs_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="100" column="17" bodyfile="include/server/mvcc_api_handler.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mvcc_api_handler_1a6b7fa59375aee5e5df2692317b6ee29e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::MvccApiHandler::gc_versions_deleted_total_</definition>
+        <argsstring></argsstring>
+        <name>gc_versions_deleted_total_</name>
+        <qualifiedname>themis::server::MvccApiHandler::gc_versions_deleted_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="101" column="17" bodyfile="include/server/mvcc_api_handler.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MvccApiHandler::MvccApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; MVCCStore &gt; store, std::shared_ptr&lt; sharding::PrometheusMetrics &gt; metrics=nullptr)</argsstring>
+        <name>MvccApiHandler</name>
+        <qualifiedname>themis::server::MvccApiHandler::MvccApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; MVCCStore &gt;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::PrometheusMetrics &gt;</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="31" column="14" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="51" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1ae2736aff398aace5e1f6b0727d232914" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MvccApiHandler::~MvccApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MvccApiHandler</name>
+        <qualifiedname>themis::server::MvccApiHandler::~MvccApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1aace96f8b3209cb9797290e8f758514fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MvccApiHandler::MvccApiHandler</definition>
+        <argsstring>(const MvccApiHandler &amp;)=delete</argsstring>
+        <name>MvccApiHandler</name>
+        <qualifiedname>themis::server::MvccApiHandler::MvccApiHandler</qualifiedname>
+        <param>
+          <type>const MvccApiHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1acfbfde50aab6133b56db3a7a62518826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref> &amp;</type>
+        <definition>MvccApiHandler &amp; themis::server::MvccApiHandler::operator=</definition>
+        <argsstring>(const MvccApiHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::MvccApiHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="39" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1a9c62cf247202bb38a60f49cdd3c2c5e6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MvccApiHandler::MvccApiHandler</definition>
+        <argsstring>(MvccApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>MvccApiHandler</name>
+        <qualifiedname>themis::server::MvccApiHandler::MvccApiHandler</qualifiedname>
+        <param>
+          <type>MvccApiHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1ab6d59abdeca1b3bd111432b9a3fb3cfe" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref> &amp;</type>
+        <definition>MvccApiHandler &amp; themis::server::MvccApiHandler::operator=</definition>
+        <argsstring>(MvccApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::MvccApiHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="41" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1ab1e4faf3a3a2addb73c675f95386714e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::registerRoutes</definition>
+        <argsstring>(httplib::Server &amp;server)</argsstring>
+        <name>registerRoutes</name>
+        <qualifiedname>themis::server::MvccApiHandler::registerRoutes</qualifiedname>
+        <param>
+          <type>httplib::Server &amp;</type>
+          <declname>server</declname>
+        </param>
+        <briefdescription>
+<para>Register Routes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Get(), <ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a246d6a7bcb913763a83b4c64aa6062d0" kindref="member">handleGetClock()</ref>, <ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1ac2d30575c0a8724e9057445026631f42" kindref="member">handleGetStats()</ref>, <ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a3f4d69a174aaa15a38763bc881404d11" kindref="member">handleListVersions()</ref>, Delete(), <ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1ae993d3a01ab1dd49071359b6e8a6b604" kindref="member">handleGcVersions()</ref>, <ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a42b81b0447e0486a80532a56599f07e9" kindref="member">handleGetKey()</ref>, Post(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="47" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="72" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1a42b81b0447e0486a80532a56599f07e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::handleGetKey</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleGetKey</name>
+        <qualifiedname>themis::server::MvccApiHandler::handleGetKey</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── GET /api/v1/mvcc/keys/{key}[?</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+timestamp={ts}] ───────────────────────────────────────────────────────────────────────────── Calls: Tracer::startSpan(), extractKey(), empty(), sendError(), std::chrono::steady_clock::now(), has_param(), std::stoull(), get_param_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="55" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="119" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1ab9ec3a2e3d2eff1d146f098009b1807a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::handlePutKey</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handlePutKey</name>
+        <qualifiedname>themis::server::MvccApiHandler::handlePutKey</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Put Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── POST /api/v1/mvcc/keys/{key} ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), extractKey(), empty(), sendError(), std::chrono::steady_clock::now(), json::parse(), contains(), stringToValue(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="62" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="195" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1a3f4d69a174aaa15a38763bc881404d11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::handleListVersions</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleListVersions</name>
+        <qualifiedname>themis::server::MvccApiHandler::handleListVersions</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── GET /api/v1/mvcc/keys/{key}/versions ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), extractKey(), empty(), sendError(), json::array(), scanVersions(), valueToString(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="69" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="245" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1ae993d3a01ab1dd49071359b6e8a6b604" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::handleGcVersions</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleGcVersions</name>
+        <qualifiedname>themis::server::MvccApiHandler::handleGcVersions</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Gc Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── DELETE /api/v1/mvcc/keys/{key}/versions ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), extractKey(), empty(), sendError(), json::parse(), contains(), gcVersionsBefore(), recordMvccGc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="76" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="281" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1a246d6a7bcb913763a83b4c64aa6062d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::handleGetClock</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleGetClock</name>
+        <qualifiedname>themis::server::MvccApiHandler::handleGetClock</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Clock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── GET /api/v1/mvcc/clock ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), currentTimestamp(), physical(), logical(), sendJson(), sendError(), fmt::format(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="83" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="341" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1ac2d30575c0a8724e9057445026631f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::handleGetStats</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleGetStats</name>
+        <qualifiedname>themis::server::MvccApiHandler::handleGetStats</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── GET /api/v1/mvcc/stats ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), currentTimestamp(), load(), physical(), logical(), sendJson(), sendError(), fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="90" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="365" bodyend="385"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1a5ee46a795934f1d429d650118c5252c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::sendError</definition>
+        <argsstring>(httplib::Response &amp;res, int status_code, const std::string &amp;message) const</argsstring>
+        <name>sendError</name>
+        <qualifiedname>themis::server::MvccApiHandler::sendError</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Send Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="109" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="426" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1a81a6206f912d35570bbad4b31f1b6892" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MvccApiHandler::sendJson</definition>
+        <argsstring>(httplib::Response &amp;res, const json &amp;data, int status_code=200) const</argsstring>
+        <name>sendJson</name>
+        <qualifiedname>themis::server::MvccApiHandler::sendJson</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="111" column="10" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="437" bodyend="442"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1ad94f2abeb25c5820b32b60652dac4041" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::MvccApiHandler::extractKey</definition>
+        <argsstring>(const httplib::Request &amp;req)</argsstring>
+        <name>extractKey</name>
+        <qualifiedname>themis::server::MvccApiHandler::extractKey</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Extract Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), isValidMvccKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="119" column="24" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="397" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1ae2f2c5bab9a126018b5367bd831016b7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::MvccApiHandler::valueToString</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;v)</argsstring>
+        <name>valueToString</name>
+        <qualifiedname>themis::server::MvccApiHandler::valueToString</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Value To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="126" column="24" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="412" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mvcc_api_handler_1a380714149736946663909d81614068a7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::MvccApiHandler::stringToValue</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>stringToValue</name>
+        <qualifiedname>themis::server::MvccApiHandler::stringToValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>String To Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mvcc_api_handler.h" line="133" column="24" bodyfile="src/server/mvcc_api_handler.cpp" bodystart="422" bodyend="424"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/mvcc_api_handler.h" line="29" column="1" bodyfile="include/server/mvcc_api_handler.h" bodystart="29" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1ad94f2abeb25c5820b32b60652dac4041" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>extractKey</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a6169ddcb0be4af35ce532eb298e9d30b" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>gc_runs_total_</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a6b7fa59375aee5e5df2692317b6ee29e" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>gc_versions_deleted_total_</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1ae993d3a01ab1dd49071359b6e8a6b604" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>handleGcVersions</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a246d6a7bcb913763a83b4c64aa6062d0" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>handleGetClock</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a42b81b0447e0486a80532a56599f07e9" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>handleGetKey</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1ac2d30575c0a8724e9057445026631f42" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>handleGetStats</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a3f4d69a174aaa15a38763bc881404d11" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>handleListVersions</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1ab9ec3a2e3d2eff1d146f098009b1807a" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>handlePutKey</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a16055640a0e7dc0677d6393f98363b9d" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>MvccApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1aace96f8b3209cb9797290e8f758514fe" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>MvccApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a9c62cf247202bb38a60f49cdd3c2c5e6" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>MvccApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1acfbfde50aab6133b56db3a7a62518826" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1ab6d59abdeca1b3bd111432b9a3fb3cfe" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1abe6929d337fc2a4d523c02d98c1fe1f4" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>reads_latest_total_</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1adcb28b37c72a35dcd93838ade9637feb" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>reads_snapshot_total_</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1ab1e4faf3a3a2addb73c675f95386714e" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>registerRoutes</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a5ee46a795934f1d429d650118c5252c9" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>sendError</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a81a6206f912d35570bbad4b31f1b6892" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>sendJson</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1afa3187d66ac8ffedddf7c00f3fb0dde8" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>store_</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a380714149736946663909d81614068a7" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>stringToValue</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1ae2f2c5bab9a126018b5367bd831016b7" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>valueToString</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1a6844227693b810d9660bed434f0d1aef" prot="private" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>writes_total_</name></member>
+      <member refid="classthemis_1_1server_1_1_mvcc_api_handler_1ae2736aff398aace5e1f6b0727d232914" prot="public" virt="non-virtual"><scope>themis::server::MvccApiHandler</scope><name>~MvccApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

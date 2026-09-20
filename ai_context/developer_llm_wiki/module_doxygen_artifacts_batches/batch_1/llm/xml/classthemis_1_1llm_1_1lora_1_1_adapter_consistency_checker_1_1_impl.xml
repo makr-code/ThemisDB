@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdapterConsistencyChecker::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a6e11807f37d195efca918c54872f7a7f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::lora::AdapterConsistencyChecker::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="204" column="12" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a4177001897a95332adffa1dabaa3e94a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AdapterConsistencyChecker::Impl::Impl</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="30" column="14" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1ae195ba6787a641e5f84e2c8ce7e3c02f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterConsistencyChecker::Impl::calculateChecksum</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data) const</argsstring>
+        <name>calculateChecksum</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::calculateChecksum</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="37" column="17" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="37" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a5709fb9493879282ef72ef9b3310768e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterConsistencyChecker::Impl::verifyChecksum</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;expected) const</argsstring>
+        <name>verifyChecksum</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::verifyChecksum</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="52" column="10" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="52" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a6c3e53213c86491065172b8cab8ae364" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterConsistencyChecker::Impl::generateSignature</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;) const</argsstring>
+        <name>generateSignature</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::generateSignature</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="61" column="17" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1aa98ab4a632857ea0f5e41ca3c497b437" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterConsistencyChecker::Impl::verifySignature</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;signature, const std::string &amp;public_key) const</argsstring>
+        <name>verifySignature</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::verifySignature</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>public_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="71" column="10" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="71" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a9e7e7cd1566d8f13a52e176b3ff4c4e3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result" kindref="compound">ConsistencyCheckResult</ref></type>
+        <definition>ConsistencyCheckResult themis::llm::lora::AdapterConsistencyChecker::Impl::checkAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::vector&lt; uint8_t &gt; &amp;data, const AdapterMetadata &amp;metadata) const</argsstring>
+        <name>checkAdapter</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::checkAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="117" column="28" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="117" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a5fb16998b2e595ca022124f851fdece9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdapterConsistencyChecker::Impl::compareVersions</definition>
+        <argsstring>(const ConsistencyCheckResult &amp;local, const ConsistencyCheckResult &amp;remote) const</argsstring>
+        <name>compareVersions</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::compareVersions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result" kindref="compound">ConsistencyCheckResult</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result" kindref="compound">ConsistencyCheckResult</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="165" column="9" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="165" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a4406aae78a465e77a8cf76925b7265df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result" kindref="compound">ConsistencyCheckResult</ref></type>
+        <definition>ConsistencyCheckResult themis::llm::lora::AdapterConsistencyChecker::Impl::resolveConflict</definition>
+        <argsstring>(const ConsistencyCheckResult &amp;local, const ConsistencyCheckResult &amp;remote) const</argsstring>
+        <name>resolveConflict</name>
+        <qualifiedname>themis::llm::lora::AdapterConsistencyChecker::Impl::resolveConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result" kindref="compound">ConsistencyCheckResult</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result" kindref="compound">ConsistencyCheckResult</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="186" column="28" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="186" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Implementation class. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/adapter_consistency_checker.cpp" line="28" column="1" bodyfile="src/llm/lora_framework/adapter_consistency_checker.cpp" bodystart="28" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1ae195ba6787a641e5f84e2c8ce7e3c02f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>calculateChecksum</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a9e7e7cd1566d8f13a52e176b3ff4c4e3" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>checkAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a5fb16998b2e595ca022124f851fdece9" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>compareVersions</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a6e11807f37d195efca918c54872f7a7f" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a6c3e53213c86491065172b8cab8ae364" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>generateSignature</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a4177001897a95332adffa1dabaa3e94a" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a4406aae78a465e77a8cf76925b7265df" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>resolveConflict</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1a5709fb9493879282ef72ef9b3310768e" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>verifyChecksum</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker_1_1_impl_1aa98ab4a632857ea0f5e41ca3c497b437" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterConsistencyChecker::Impl</scope><name>verifySignature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

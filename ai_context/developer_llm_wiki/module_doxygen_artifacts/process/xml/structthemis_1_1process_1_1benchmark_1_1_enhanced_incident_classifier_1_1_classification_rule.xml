@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1_1_classification_rule" kind="struct" language="C++" prot="private">
+    <compoundname>themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1_1_classification_rule_1aef471b76b78b6ef600e955646907dc13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule::pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="98" column="21" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1_1_classification_rule_1a0ff2a31c92f0e160a6cabe45e4dbc2fb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bd" kindref="member">IncidentType</ref></type>
+        <definition>IncidentType themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule::incident_type</definition>
+        <argsstring></argsstring>
+        <name>incident_type</name>
+        <qualifiedname>themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule::incident_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="99" column="22" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1_1_classification_rule_1addfe8be32319598620ed28ed44231a32" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule::priority</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="100" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="97" column="5" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="97" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1_1_classification_rule_1a0ff2a31c92f0e160a6cabe45e4dbc2fb" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule</scope><name>incident_type</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1_1_classification_rule_1aef471b76b78b6ef600e955646907dc13" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1_1_classification_rule_1addfe8be32319598620ed28ed44231a32" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

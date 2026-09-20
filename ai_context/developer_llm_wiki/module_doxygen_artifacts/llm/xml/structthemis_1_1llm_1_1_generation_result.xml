@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_generation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GenerationResult</compoundname>
+    <includes refid="llm__client_8h" local="no">llm_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_result_1af43ba2eb7093aa85990964ffb7ee8d16" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GenerationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::GenerationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="35" column="10" bodyfile="include/llm/llm_client.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_result_1a13dc7d6e0777a0de4c49ffae257b35bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GenerationResult::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::llm::GenerationResult::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="37" column="17" bodyfile="include/llm/llm_client.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_result_1a6650d22ba8726db6638a9e5dc2ed65c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GenerationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::GenerationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="39" column="17" bodyfile="include/llm/llm_client.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_result_1ae85e3f938d681d38fe0f90c346d0c4d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GenerationResult::prompt_tokens</definition>
+        <argsstring></argsstring>
+        <name>prompt_tokens</name>
+        <qualifiedname>themis::llm::GenerationResult::prompt_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="41" column="12" bodyfile="include/llm/llm_client.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_result_1ae7f13db4351cfa119efcabc36a0a7b56" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GenerationResult::completion_tokens</definition>
+        <argsstring></argsstring>
+        <name>completion_tokens</name>
+        <qualifiedname>themis::llm::GenerationResult::completion_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="43" column="12" bodyfile="include/llm/llm_client.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_result_1a62b4366b256c3f7ee2aef3bc26bfd5d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GenerationResult::finish_reason</definition>
+        <argsstring></argsstring>
+        <name>finish_reason</name>
+        <qualifiedname>themis::llm::GenerationResult::finish_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="45" column="17" bodyfile="include/llm/llm_client.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_client.h" line="34" column="1" bodyfile="include/llm/llm_client.h" bodystart="34" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_generation_result_1ae7f13db4351cfa119efcabc36a0a7b56" prot="public" virt="non-virtual"><scope>themis::llm::GenerationResult</scope><name>completion_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_result_1a6650d22ba8726db6638a9e5dc2ed65c1" prot="public" virt="non-virtual"><scope>themis::llm::GenerationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_result_1a62b4366b256c3f7ee2aef3bc26bfd5d2" prot="public" virt="non-virtual"><scope>themis::llm::GenerationResult</scope><name>finish_reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_result_1ae85e3f938d681d38fe0f90c346d0c4d7" prot="public" virt="non-virtual"><scope>themis::llm::GenerationResult</scope><name>prompt_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_result_1af43ba2eb7093aa85990964ffb7ee8d16" prot="public" virt="non-virtual"><scope>themis::llm::GenerationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_result_1a13dc7d6e0777a0de4c49ffae257b35bb" prot="public" virt="non-virtual"><scope>themis::llm::GenerationResult</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_fake_alpha_impl" kind="struct" language="C++" prot="public">
+    <compoundname>FakeAlphaImpl</compoundname>
+    <basecompoundref refid="struct_i_fake_alpha" prot="public" virt="non-virtual">IFakeAlpha</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_fake_alpha_impl_1a02daab4ecb14baff2e9203b430da7883" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int FakeAlphaImpl::v_</definition>
+        <argsstring></argsstring>
+        <name>v_</name>
+        <qualifiedname>FakeAlphaImpl::v_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="29" column="9" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_fake_alpha_impl_1a9af9b08a0883010a23d73f88f55b1daf" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FakeAlphaImpl::FakeAlphaImpl</definition>
+        <argsstring>(int v)</argsstring>
+        <name>FakeAlphaImpl</name>
+        <qualifiedname>FakeAlphaImpl::FakeAlphaImpl</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="27" column="14" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_fake_alpha_impl_1ad1cb3a9b036631c2ac66f33eb8eb4c9a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int</type>
+        <definition>int FakeAlphaImpl::value</definition>
+        <argsstring>() const override</argsstring>
+        <name>value</name>
+        <qualifiedname>FakeAlphaImpl::value</qualifiedname>
+        <reimplements refid="struct_i_fake_alpha_1a134dc0c266275ad03ebf69e326a0bac1">value</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="28" column="9" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FakeAlphaImpl</label>
+        <link refid="struct_fake_alpha_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IFakeAlpha</label>
+        <link refid="struct_i_fake_alpha"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FakeAlphaImpl</label>
+        <link refid="struct_fake_alpha_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IFakeAlpha</label>
+        <link refid="struct_i_fake_alpha"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/core/test_adapter_registry_focused.cpp" line="26" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="26" bodyend="30"/>
+    <listofallmembers>
+      <member refid="struct_fake_alpha_impl_1a9af9b08a0883010a23d73f88f55b1daf" prot="public" virt="non-virtual"><scope>FakeAlphaImpl</scope><name>FakeAlphaImpl</name></member>
+      <member refid="struct_fake_alpha_impl_1a02daab4ecb14baff2e9203b430da7883" prot="public" virt="non-virtual"><scope>FakeAlphaImpl</scope><name>v_</name></member>
+      <member refid="struct_fake_alpha_impl_1ad1cb3a9b036631c2ac66f33eb8eb4c9a" prot="public" virt="virtual"><scope>FakeAlphaImpl</scope><name>value</name></member>
+      <member refid="struct_i_fake_alpha_1a961f5c06861962e00e41024c91d49863" prot="public" virt="virtual"><scope>FakeAlphaImpl</scope><name>~IFakeAlpha</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

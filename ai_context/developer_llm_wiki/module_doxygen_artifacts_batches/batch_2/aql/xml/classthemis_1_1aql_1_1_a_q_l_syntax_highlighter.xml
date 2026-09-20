@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLSyntaxHighlighter</compoundname>
+    <includes refid="aql__syntax__highlighter_8h" local="no">aql_syntax_highlighter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a76dda1acd808e8f03493ff086f61feda" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLSyntaxHighlighter::use_ansi_</definition>
+        <argsstring></argsstring>
+        <name>use_ansi_</name>
+        <qualifiedname>themis::aql::AQLSyntaxHighlighter::use_ansi_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="85" column="10" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1aaf48cb5db87951ff7e28169bfdb7274b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLSyntaxHighlighter::AQLSyntaxHighlighter</definition>
+        <argsstring>(bool use_ansi=true)</argsstring>
+        <name>AQLSyntaxHighlighter</name>
+        <qualifiedname>themis::aql::AQLSyntaxHighlighter::AQLSyntaxHighlighter</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>use_ansi</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="54" column="14" bodyfile="src/aql/aql_syntax_highlighter.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a4d4bcc67f5e2fc8eacabd0c4b1312438" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_token" kindref="compound">AQLToken</ref> &gt;</type>
+        <definition>std::vector&lt; AQLToken &gt; themis::aql::AQLSyntaxHighlighter::tokenize</definition>
+        <argsstring>(const std::string &amp;aql_code) const</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::aql::AQLSyntaxHighlighter::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_code</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="61" column="17" bodyfile="src/aql/aql_syntax_highlighter.cpp" bodystart="100" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a0b50e6fc840c58ea72ecb59cb0f2d294" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLSyntaxHighlighter::highlightBlock</definition>
+        <argsstring>(const std::string &amp;aql_code) const</argsstring>
+        <name>highlightBlock</name>
+        <qualifiedname>themis::aql::AQLSyntaxHighlighter::highlightBlock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_code</declname>
+        </param>
+        <briefdescription>
+<para>Highlight Block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="68" column="17" bodyfile="src/aql/aql_syntax_highlighter.cpp" bodystart="305" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1affeea2c06875152db46d485f1acff803" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_annotation" kindref="compound">AQLAnnotation</ref> &gt;</type>
+        <definition>std::vector&lt; AQLAnnotation &gt; themis::aql::AQLSyntaxHighlighter::annotateErrors</definition>
+        <argsstring>(const std::string &amp;aql_code) const</argsstring>
+        <name>annotateErrors</name>
+        <qualifiedname>themis::aql::AQLSyntaxHighlighter::annotateErrors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_code</declname>
+        </param>
+        <briefdescription>
+<para>Annotate Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="75" column="17" bodyfile="src/aql/aql_syntax_highlighter.cpp" bodystart="319" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1aacc25782a4c6e3c509d3db29226a0812" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_highlighted_response" kindref="compound">HighlightedResponse</ref></type>
+        <definition>HighlightedResponse themis::aql::AQLSyntaxHighlighter::formatLLMResponse</definition>
+        <argsstring>(const std::string &amp;llm_response) const</argsstring>
+        <name>formatLLMResponse</name>
+        <qualifiedname>themis::aql::AQLSyntaxHighlighter::formatLLMResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>llm_response</declname>
+        </param>
+        <briefdescription>
+<para>Format LLMResponse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">llm_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="82" column="25" bodyfile="src/aql/aql_syntax_highlighter.cpp" bodystart="417" bodyend="495"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1ad0ddb5b65e2918aa140e0140cd67b2fd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLSyntaxHighlighter::colorize</definition>
+        <argsstring>(const AQLToken &amp;tok) const</argsstring>
+        <name>colorize</name>
+        <qualifiedname>themis::aql::AQLSyntaxHighlighter::colorize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_token" kindref="compound">AQLToken</ref> &amp;</type>
+          <declname>tok</declname>
+        </param>
+        <briefdescription>
+<para>Colorize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tok</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="92" column="17" bodyfile="src/aql/aql_syntax_highlighter.cpp" bodystart="278" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a3fec182eb3a61b7acf4a506f5179324a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLSyntaxHighlighter::ansiReset</definition>
+        <argsstring>() const</argsstring>
+        <name>ansiReset</name>
+        <qualifiedname>themis::aql::AQLSyntaxHighlighter::ansiReset</qualifiedname>
+        <briefdescription>
+<para>Ansi Reset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="97" column="17" bodyfile="src/aql/aql_syntax_highlighter.cpp" bodystart="274" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_syntax_highlighter.h" line="52" column="1" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="52" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1affeea2c06875152db46d485f1acff803" prot="public" virt="non-virtual"><scope>themis::aql::AQLSyntaxHighlighter</scope><name>annotateErrors</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a3fec182eb3a61b7acf4a506f5179324a" prot="private" virt="non-virtual"><scope>themis::aql::AQLSyntaxHighlighter</scope><name>ansiReset</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1aaf48cb5db87951ff7e28169bfdb7274b" prot="public" virt="non-virtual"><scope>themis::aql::AQLSyntaxHighlighter</scope><name>AQLSyntaxHighlighter</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1ad0ddb5b65e2918aa140e0140cd67b2fd" prot="private" virt="non-virtual"><scope>themis::aql::AQLSyntaxHighlighter</scope><name>colorize</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1aacc25782a4c6e3c509d3db29226a0812" prot="public" virt="non-virtual"><scope>themis::aql::AQLSyntaxHighlighter</scope><name>formatLLMResponse</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a0b50e6fc840c58ea72ecb59cb0f2d294" prot="public" virt="non-virtual"><scope>themis::aql::AQLSyntaxHighlighter</scope><name>highlightBlock</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a4d4bcc67f5e2fc8eacabd0c4b1312438" prot="public" virt="non-virtual"><scope>themis::aql::AQLSyntaxHighlighter</scope><name>tokenize</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a76dda1acd808e8f03493ff086f61feda" prot="private" virt="non-virtual"><scope>themis::aql::AQLSyntaxHighlighter</scope><name>use_ansi_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

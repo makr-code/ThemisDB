@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="health__probe_8h" kind="file" language="C++">
+    <compoundname>health_probe.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/health_probe.h</label>
+        <link refid="health__probe_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1core_1_1_health_check_result" prot="public">themis::core::HealthCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1_aggregate_health_report" prot="public">themis::core::AggregateHealthReport</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1_i_health_probe" prot="public">themis::core::IHealthProbe</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1_i_health_probe_registry" prot="public">themis::core::IHealthProbeRegistry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HealthStatus<sp/>—<sp/>health<sp/>state<sp/>enum<sp/>aligned<sp/>with<sp/>Kubernetes<sp/>probe<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2e" kindref="member">HealthStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2eaf068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2eaf068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea7438a7e4e4f36f04fda32fa100121e47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea7438a7e4e4f36f04fda32fa100121e47" kindref="member">UNHEALTHY</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HealthCheckResult<sp/>—<sp/>result<sp/>from<sp/>a<sp/>single<sp/>probe<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1core_1_1_health_check_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1core_1_1_health_check_result_1ac6b54c94e7171fb4ca2d2b43253a29cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1core_1_1_health_check_result_1ac6b54c94e7171fb4ca2d2b43253a29cd" kindref="member">component_name</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1core_1_1_health_check_result_1acd3af23e097c3ae42d4263b4fff559e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2e" kindref="member">HealthStatus</ref><sp/><ref refid="structthemis_1_1core_1_1_health_check_result_1acd3af23e097c3ae42d4263b4fff559e4" kindref="member">status</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">HealthStatus::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1core_1_1_health_check_result_1ac39b908870728266976925d76a460c13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1core_1_1_health_check_result_1ac39b908870728266976925d76a460c13" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1core_1_1_health_check_result_1a681734919f1ee4506b4c0c8a8f1949f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1_health_check_result_1a681734919f1ee4506b4c0c8a8f1949f2" kindref="member">latency_ms</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1core_1_1_health_check_result_1a9b58c54058b88db0d3fd25357bf29102" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1core_1_1_health_check_result_1a9b58c54058b88db0d3fd25357bf29102" kindref="member">checked_at</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1core_1_1_health_check_result_1a262c0e7955f8245f1992e503e216ea0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1core_1_1_health_check_result_1a262c0e7955f8245f1992e503e216ea0e" kindref="member">details</ref>;<sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AggregateHealthReport<sp/>—<sp/>rolled-up<sp/>view<sp/>of<sp/>all<sp/>registered<sp/>probes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1core_1_1_aggregate_health_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1_aggregate_health_report" kindref="compound">AggregateHealthReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1core_1_1_aggregate_health_report_1a0ddfc77cb67464ed3dda63f9e44ae02f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2e" kindref="member">HealthStatus</ref><sp/><ref refid="structthemis_1_1core_1_1_aggregate_health_report_1a0ddfc77cb67464ed3dda63f9e44ae02f" kindref="member">overall_status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">HealthStatus::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1core_1_1_aggregate_health_report_1a1ab70c0eb14cd4079e00c2c65f2faba8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HealthCheckResult&gt;<sp/><ref refid="structthemis_1_1core_1_1_aggregate_health_report_1a1ab70c0eb14cd4079e00c2c65f2faba8" kindref="member">components</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1core_1_1_aggregate_health_report_1ac5512aef4b63139648746d433c1fc257" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1core_1_1_aggregate_health_report_1ac5512aef4b63139648746d433c1fc257" kindref="member">generated_at</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1core_1_1_aggregate_health_report_1aea93d2b2b9a9894c1ece61da8949d448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_aggregate_health_report_1aea93d2b2b9a9894c1ece61da8949d448" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_aggregate_health_report_1a0ddfc77cb67464ed3dda63f9e44ae02f" kindref="member">overall_status</ref><sp/>==<sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2eaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1core_1_1_aggregate_health_report_1a25dc7c3fdfb7edb229bd4585435f87e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_aggregate_health_report_1a25dc7c3fdfb7edb229bd4585435f87e2" kindref="member">isReady</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_aggregate_health_report_1a0ddfc77cb67464ed3dda63f9e44ae02f" kindref="member">overall_status</ref><sp/>!=<sp/><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea7438a7e4e4f36f04fda32fa100121e47" kindref="member">HealthStatus::UNHEALTHY</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IHealthProbe<sp/>—<sp/>single-component<sp/>health<sp/>probe<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1core_1_1_i_health_probe" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1_i_health_probe" kindref="compound">IHealthProbe</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1core_1_1_i_health_probe_1a0f138a78f7be7a60fd3841594aefe169" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_1a0f138a78f7be7a60fd3841594aefe169" kindref="member">~IHealthProbe</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1core_1_1_i_health_probe_1a03bac1803047397390d8042e329db6cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_1a03bac1803047397390d8042e329db6cb" kindref="member">checkLiveness</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1core_1_1_i_health_probe_1a26ab1f3c773378f496ea0828c6dffb47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_1a26ab1f3c773378f496ea0828c6dffb47" kindref="member">checkReadiness</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1core_1_1_i_health_probe_1a8c79375ced653b3a457fdac66af5981e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_1a8c79375ced653b3a457fdac66af5981e" kindref="member">checkStartup</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1core_1_1_i_health_probe_1aa50940c56bb6f2bc0514427b3429ae82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_1aa50940c56bb6f2bc0514427b3429ae82" kindref="member">componentName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IHealthProbeRegistry<sp/>—<sp/>registry<sp/>for<sp/>multi-component<sp/>health<sp/>aggregation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1core_1_1_i_health_probe_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1_i_health_probe_registry" kindref="compound">IHealthProbeRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1core_1_1_i_health_probe_registry_1a6e029fa8af0192408dd8da50a0153141" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_registry_1a6e029fa8af0192408dd8da50a0153141" kindref="member">~IHealthProbeRegistry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1core_1_1_i_health_probe_registry_1a91701ff418eaab1caf2e37c47a1182dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_registry_1a91701ff418eaab1caf2e37c47a1182dc" kindref="member">registerProbe</ref>(std::shared_ptr&lt;IHealthProbe&gt;<sp/>probe)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1core_1_1_i_health_probe_registry_1ac94e4beccf075f000423a243703af3d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_registry_1ac94e4beccf075f000423a243703af3d4" kindref="member">unregisterProbe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1core_1_1_i_health_probe_registry_1a442a558ee826fc65de0915b9f7d7601b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_aggregate_health_report" kindref="compound">AggregateHealthReport</ref><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_registry_1a442a558ee826fc65de0915b9f7d7601b" kindref="member">checkAll</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1core_1_1_i_health_probe_registry_1a15629ee78aa76c7c62b1cb249af82c62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/><ref refid="classthemis_1_1core_1_1_i_health_probe_registry_1a15629ee78aa76c7c62b1cb249af82c62" kindref="member">checkComponent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/health_probe.h"/>
+  </compounddef>
+</doxygen>

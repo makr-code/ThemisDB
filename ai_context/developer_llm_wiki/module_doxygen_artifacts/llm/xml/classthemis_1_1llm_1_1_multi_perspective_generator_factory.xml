@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_multi_perspective_generator_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MultiPerspectiveGeneratorFactory</compoundname>
+    <includes refid="multi__perspective__generator_8h" local="no">multi_perspective_generator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1a679bc59deb2001c846027af62fb0d492" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_multi_perspective_generator" kindref="compound">MultiPerspectiveGenerator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiPerspectiveGenerator &gt; themis::llm::MultiPerspectiveGeneratorFactory::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGeneratorFactory::createDefault</qualifiedname>
+        <briefdescription>
+<para>Create Default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Factory methods ═══════════════════════════════════════════════════════════</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefault without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="325" column="28" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="1017" bodyend="1019"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1ad036739c830704938d342fdd2830fc05" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_multi_perspective_generator" kindref="compound">MultiPerspectiveGenerator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiPerspectiveGenerator &gt; themis::llm::MultiPerspectiveGeneratorFactory::createHighDiversity</definition>
+        <argsstring>()</argsstring>
+        <name>createHighDiversity</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGeneratorFactory::createHighDiversity</qualifiedname>
+        <briefdescription>
+<para>Create High Diversity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createHighDiversity without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="331" column="28" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="1026" bodyend="1034"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1a132f12f8fbcee4dbf0b3715c9ad489c9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_multi_perspective_generator" kindref="compound">MultiPerspectiveGenerator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiPerspectiveGenerator &gt; themis::llm::MultiPerspectiveGeneratorFactory::createWithPerspectives</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;required_perspectives)</argsstring>
+        <name>createWithPerspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGeneratorFactory::createWithPerspectives</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>required_perspectives</declname>
+        </param>
+        <briefdescription>
+<para>Create With Perspectives. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">required_perspectives</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">required_perspectives</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clampSizeToInt(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="338" column="28" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="1042" bodyend="1051"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1aff214f98bc2041210bdb735e313eb5a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_multi_perspective_generator" kindref="compound">MultiPerspectiveGenerator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiPerspectiveGenerator &gt; themis::llm::MultiPerspectiveGeneratorFactory::create</definition>
+        <argsstring>(const MultiPerspectiveConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGeneratorFactory::create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_multi_perspective_config" kindref="compound">MultiPerspectiveConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="347" column="28" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="1059" bodyend="1063"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_perspective_generator.h" line="319" column="1" bodyfile="include/llm/multi_perspective_generator.h" bodystart="319" bodyend="350"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1aff214f98bc2041210bdb735e313eb5a3" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGeneratorFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1a679bc59deb2001c846027af62fb0d492" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGeneratorFactory</scope><name>createDefault</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1ad036739c830704938d342fdd2830fc05" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGeneratorFactory</scope><name>createHighDiversity</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1a132f12f8fbcee4dbf0b3715c9ad489c9" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGeneratorFactory</scope><name>createWithPerspectives</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

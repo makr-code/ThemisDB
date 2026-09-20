@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_thread_pinner" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::ThreadPinner</compoundname>
+    <includes refid="numa__topology_8h" local="no">numa_topology.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_pinner_1a205875662ba46dcc540f73dd6296ce7f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::ThreadPinner::pin_to_cpu</definition>
+        <argsstring>(int cpu_id) noexcept</argsstring>
+        <name>pin_to_cpu</name>
+        <qualifiedname>themis::performance::ThreadPinner::pin_to_cpu</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>cpu_id</declname>
+        </param>
+        <briefdescription>
+<para>Pin the calling thread to a single CPU core. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cpu_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical CPU id (0-based). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="98" column="17" bodyfile="src/performance/numa_topology.cpp" bodystart="514" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_pinner_1a9ea6f84029a31d310c5ea3b82227a861" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::ThreadPinner::pin_to_node</definition>
+        <argsstring>(int node_id) noexcept</argsstring>
+        <name>pin_to_node</name>
+        <qualifiedname>themis::performance::ThreadPinner::pin_to_node</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Pin the calling thread to all CPUs of a NUMA node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>NUMA node id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="105" column="17" bodyfile="src/performance/numa_topology.cpp" bodystart="515" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_pinner_1a73ed05b98916d83ab12b417869f2c756" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::ThreadPinner::pin_to_cpus</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;cpu_ids) noexcept</argsstring>
+        <name>pin_to_cpus</name>
+        <qualifiedname>themis::performance::ThreadPinner::pin_to_cpus</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>cpu_ids</declname>
+        </param>
+        <briefdescription>
+<para>Pin the calling thread to an explicit set of CPU ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cpu_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty list of logical CPU ids. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="112" column="17" bodyfile="src/performance/numa_topology.cpp" bodystart="516" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_pinner_1a15121af03496aacc09448637768c99a6" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::ThreadPinner::unpin</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>unpin</name>
+        <qualifiedname>themis::performance::ThreadPinner::unpin</qualifiedname>
+        <briefdescription>
+<para>Remove any CPU affinity restriction from the calling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="118" column="17" bodyfile="src/performance/numa_topology.cpp" bodystart="517" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_pinner_1a9b587094027dec3985d807d623e7525b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::performance::ThreadPinner::current_affinity</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>current_affinity</name>
+        <qualifiedname>themis::performance::ThreadPinner::current_affinity</qualifiedname>
+        <briefdescription>
+<para>Query the current CPU affinity set of the calling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>List of CPU ids the thread may run on; empty on error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="124" column="24" bodyfile="src/performance/numa_topology.cpp" bodystart="519" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_pinner_1ac28bc21e5831851e464745b5fce91d99" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::performance::ThreadPinner::current_node</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>current_node</name>
+        <qualifiedname>themis::performance::ThreadPinner::current_node</qualifiedname>
+        <briefdescription>
+<para>Get the NUMA node of the CPU the calling thread is currently running on. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>NUMA node id, or -1 if unavailable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="130" column="16" bodyfile="src/performance/numa_topology.cpp" bodystart="533" bodyend="533"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pins the calling thread to a specific CPU core or NUMA node. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides portable wrappers around:<itemizedlist>
+<listitem><para>pthread_setaffinity_np (Linux/glibc)</para>
+</listitem><listitem><para>SetThreadAffinityMask / SetThreadGroupAffinity (Windows)</para>
+</listitem></itemizedlist>
+</para>
+<para>All methods are best-effort: they return false and leave the thread unpinned when the OS call fails (e.g. permission denied, invalid cpu). </para>
+    </detaileddescription>
+    <location file="include/performance/numa_topology.h" line="91" column="1" bodyfile="include/performance/numa_topology.h" bodystart="91" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_thread_pinner_1a9b587094027dec3985d807d623e7525b" prot="public" virt="non-virtual"><scope>themis::performance::ThreadPinner</scope><name>current_affinity</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_pinner_1ac28bc21e5831851e464745b5fce91d99" prot="public" virt="non-virtual"><scope>themis::performance::ThreadPinner</scope><name>current_node</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_pinner_1a205875662ba46dcc540f73dd6296ce7f" prot="public" virt="non-virtual"><scope>themis::performance::ThreadPinner</scope><name>pin_to_cpu</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_pinner_1a73ed05b98916d83ab12b417869f2c756" prot="public" virt="non-virtual"><scope>themis::performance::ThreadPinner</scope><name>pin_to_cpus</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_pinner_1a9ea6f84029a31d310c5ea3b82227a861" prot="public" virt="non-virtual"><scope>themis::performance::ThreadPinner</scope><name>pin_to_node</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_pinner_1a15121af03496aacc09448637768c99a6" prot="public" virt="non-virtual"><scope>themis::performance::ThreadPinner</scope><name>unpin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_multi_model_training_data_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MultiModelTrainingDataFactory</compoundname>
+    <includes refid="multi__model__training__data_8h" local="no">multi_model_training_data.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_factory_1aba90cf7eeeab4cecc626e9cfbe2a6bab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_multi_model_training_data" kindref="compound">MultiModelTrainingData</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; MultiModelTrainingData &gt; themis::llm::MultiModelTrainingDataFactory::create</definition>
+        <argsstring>(std::shared_ptr&lt; TrainingDataIterator &gt; base_iterator)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::llm::MultiModelTrainingDataFactory::create</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_training_data_iterator" kindref="compound">TrainingDataIterator</ref> &gt;</type>
+          <declname>base_iterator</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_iterator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="332" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_factory_1a015c4ebc6d348d19170a0de5e0badbed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_multi_model_training_data" kindref="compound">MultiModelTrainingData</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; MultiModelTrainingData &gt; themis::llm::MultiModelTrainingDataFactory::create</definition>
+        <argsstring>(std::shared_ptr&lt; TrainingDataIterator &gt; base_iterator, const MultiModelEnrichmentConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::llm::MultiModelTrainingDataFactory::create</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_training_data_iterator" kindref="compound">TrainingDataIterator</ref> &gt;</type>
+          <declname>base_iterator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config" kindref="compound">MultiModelEnrichmentConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_iterator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="342" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_model_training_data.h" line="325" column="1" bodyfile="include/llm/multi_model_training_data.h" bodystart="325" bodyend="346"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_factory_1aba90cf7eeeab4cecc626e9cfbe2a6bab" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingDataFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_factory_1a015c4ebc6d348d19170a0de5e0badbed" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingDataFactory</scope><name>create</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

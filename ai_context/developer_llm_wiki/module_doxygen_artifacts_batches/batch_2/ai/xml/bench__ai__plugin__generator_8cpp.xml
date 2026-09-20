@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__ai__plugin__generator_8cpp" kind="file" language="C++">
+    <compoundname>bench_ai_plugin_generator.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="ai__plugin__generator_8h" local="yes">ai/ai_plugin_generator.h</includes>
+    <includes local="yes">plugins/plugin_interface.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/ai/bench_ai_plugin_generator.cpp</label>
+        <link refid="bench__ai__plugin__generator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ai/ai_plugin_generator.h</label>
+        <link refid="ai__plugin__generator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_i_plugin_generator" prot="public">AIPluginGenerator</innerclass>
+    <innerclass refid="struct_generated_plugin" prot="public">GeneratedPlugin</innerclass>
+    <innerclass refid="struct_plugin_generation_prompt" prot="public">PluginGenerationPrompt</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ai__plugin__generator_8h" kindref="compound">ai/ai_plugin_generator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;plugins/plugin_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">themis::plugins::PluginType;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator" kindref="compound">themis::plugins::ai::AIPluginGenerator</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin" kindref="compound">themis::plugins::ai::GeneratedPlugin</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" kindref="compound">themis::plugins::ai::PluginGenerationPrompt</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">themis::Result;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref><sp/>makePrompt()<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref><sp/>prompt;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>prompt.<ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a1b1fee4bfd4c33a64d5c86a1b2a302ef" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Generate<sp/>a<sp/>lightweight<sp/>importer<sp/>plugin<sp/>with<sp/>metrics<sp/>support.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>prompt.<ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1aba9e5d919cf5c611f0279ae68ec4b616" kindref="member">type</ref><sp/>=<sp/>PluginType::IMPORTER;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>prompt.<ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1af13139acda458870c696e04cf921b4ac" kindref="member">required_capabilities</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;streaming&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;metrics&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>prompt.<ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ac39b78263d7e1a8a2ea235daa006ec25" kindref="member">dependencies</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;nlohmann_json&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;spdlog&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>prompt.<ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ac98a0b8a743ae369718070c68281f15f" kindref="member">generate_tests</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>prompt.<ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ae221e9c377de0aad1bd3824906c4d722" kindref="member">generate_docs</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>prompt;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="struct_a_i_plugin_generator_1_1_config" kindref="compound">AIPluginGenerator::Config</ref><sp/>makeConfig()<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_a_i_plugin_generator_1_1_config" kindref="compound">AIPluginGenerator::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_a_i_plugin_generator_1_1_config_1a36824354b7b3608cdda155dcc083db60" kindref="member">llm_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://benchmark-llm.local/generate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_a_i_plugin_generator_1_1_config_1ab66f13a9a5683c6943ad8d0242323657" kindref="member">timeout_ms</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_a_i_plugin_generator_1_1_config_1ac478a8bc6ab1cfbcee39b85211243ade" kindref="member">endpoint_invoke_fn</ref><sp/>=<sp/>[](</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>long)<sp/>-&gt;<sp/>Result&lt;std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;generated_plugin&quot;:{&quot;name&quot;:&quot;bench_plugin&quot;,&quot;implementation_code&quot;:&quot;int<sp/>generated(){return<sp/>42;}&quot;,&quot;header_code&quot;:&quot;int<sp/>generated();&quot;,&quot;test_code&quot;:&quot;TEST(GeneratedPlugin,<sp/>Smoke)<sp/>{}&quot;,&quot;cmake_code&quot;:&quot;add_library(bench_plugin<sp/>SHARED<sp/>bench.cpp)&quot;,&quot;build_dependencies&quot;:[&quot;spdlog&quot;]}})&quot;};</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AIPluginGeneratorValidatePrompt(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref><sp/>prompt<sp/>=<sp/>makePrompt();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator" kindref="compound">AIPluginGenerator</ref><sp/>generator(makeConfig());</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>generator.validatePrompt(prompt);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.has_value());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">BENCHMARK(BM_AIPluginGeneratorValidatePrompt);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AIPluginGeneratorGeneratePlugin(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref><sp/>prompt<sp/>=<sp/>makePrompt();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator" kindref="compound">AIPluginGenerator</ref><sp/>generator(makeConfig());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>generator.generatePlugin(prompt);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.has_value());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result-&gt;implementation_code.size());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result-&gt;build_dependencies.size());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">BENCHMARK(BM_AIPluginGeneratorGeneratePlugin);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AIPluginGeneratorErrorPathMalformedJson(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_a_i_plugin_generator_1_1_config" kindref="compound">AIPluginGenerator::Config</ref><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_a_i_plugin_generator_1_1_config_1ac478a8bc6ab1cfbcee39b85211243ade" kindref="member">endpoint_invoke_fn</ref><sp/>=<sp/>[](</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>long)<sp/>-&gt;<sp/>Result&lt;std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string{</highlight><highlight class="stringliteral">&quot;{\&quot;generated_plugin\&quot;:{\&quot;implementation_code\&quot;:&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator" kindref="compound">AIPluginGenerator</ref><sp/>generator(cfg);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref><sp/>prompt<sp/>=<sp/>makePrompt();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>generator.generatePlugin(prompt);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.has_value());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">BENCHMARK(BM_AIPluginGeneratorErrorPathMalformedJson);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/ai/bench_ai_plugin_generator.cpp"/>
+  </compounddef>
+</doxygen>

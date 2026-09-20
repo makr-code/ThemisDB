@@ -1,0 +1,1073 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_distributed_trace_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::DistributedTraceSpan</compoundname>
+    <includes refid="distributed__trace__span_8h" local="no">distributed_trace_span.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a1752b4ba075fe292cbfd551f3ddab431" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceSpan::span_id_</definition>
+        <argsstring></argsstring>
+        <name>span_id_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::span_id_</qualifiedname>
+        <briefdescription>
+<para>Unique span ID (16-hex). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="313" column="17" bodyfile="include/observability/distributed_trace_span.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1adbe6440e41eb38b08da3b20d01c51244" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceSpan::trace_id_</definition>
+        <argsstring></argsstring>
+        <name>trace_id_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::trace_id_</qualifiedname>
+        <briefdescription>
+<para>Trace ID (32-hex, shared across spans). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="314" column="17" bodyfile="include/observability/distributed_trace_span.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a1b3fe13a928e346968af9b52ca67fcfa" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceSpan::operation_name_</definition>
+        <argsstring></argsstring>
+        <name>operation_name_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::operation_name_</qualifiedname>
+        <briefdescription>
+<para>Operation name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="315" column="17" bodyfile="include/observability/distributed_trace_span.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1afbf05254764a715eb02821bbe9805dd0" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::DistributedTraceSpan::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::start_time_</qualifiedname>
+        <briefdescription>
+<para>Span start time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="316" column="43" bodyfile="include/observability/distributed_trace_span.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a3bc7c4047374eefd664e9a8ddaaf117b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DistributedTraceContext&gt; themis::observability::DistributedTraceSpan::parent_context_</definition>
+        <argsstring></argsstring>
+        <name>parent_context_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::parent_context_</qualifiedname>
+        <briefdescription>
+<para>Parent trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="317" column="21" bodyfile="include/observability/distributed_trace_span.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a60eec5c42876bc6d8819f064ca408c1a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref> &gt;</type>
+        <definition>std::atomic&lt;SpanStatus&gt; themis::observability::DistributedTraceSpan::status_</definition>
+        <argsstring></argsstring>
+        <name>status_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::status_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198ac9f88e098f6fe4e4e112eeb05ccb9671" kindref="member">SpanStatus::Unset</ref>}</initializer>
+        <briefdescription>
+<para>Span status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="319" column="17" bodyfile="include/observability/distributed_trace_span.h" bodystart="319" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1aec7ffe3b34160dde58fbf6bdcf662a87" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::DistributedTraceSpan::status_mutex_</definition>
+        <argsstring></argsstring>
+        <name>status_mutex_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::status_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="320" column="31" bodyfile="include/observability/distributed_trace_span.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a1761592aafbf16da4b940962d2db12dd" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceSpan::status_message_</definition>
+        <argsstring></argsstring>
+        <name>status_message_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::status_message_</qualifiedname>
+        <briefdescription>
+<para>Error message (if status == Error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="321" column="17" bodyfile="include/observability/distributed_trace_span.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a71fe4f04ccf9dfb0a220213082558b8a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_span_event" kindref="compound">SpanEvent</ref> &gt;</type>
+        <definition>std::vector&lt;SpanEvent&gt; themis::observability::DistributedTraceSpan::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::events_</qualifiedname>
+        <briefdescription>
+<para>Recorded events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="323" column="17" bodyfile="include/observability/distributed_trace_span.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a5f3e68e1a9f1856bbf44863d91ee6b33" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::DistributedTraceSpan::events_mutex_</definition>
+        <argsstring></argsstring>
+        <name>events_mutex_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::events_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="324" column="31" bodyfile="include/observability/distributed_trace_span.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a9b1e59cdd7edf4834537bd9047a9ea99" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::DistributedTraceSpan::baggage_</definition>
+        <argsstring></argsstring>
+        <name>baggage_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::baggage_</qualifiedname>
+        <briefdescription>
+<para>Baggage items. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="326" column="14" bodyfile="include/observability/distributed_trace_span.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a64c6e33ab2ebb7a512e8a14994e3cb91" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::DistributedTraceSpan::baggage_mutex_</definition>
+        <argsstring></argsstring>
+        <name>baggage_mutex_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::baggage_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="327" column="31" bodyfile="include/observability/distributed_trace_span.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1a65687549bef8c53388d53b2389ed7bc5" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::DistributedTraceSpan::attributes_</definition>
+        <argsstring></argsstring>
+        <name>attributes_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::attributes_</qualifiedname>
+        <briefdescription>
+<para>Span attributes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="329" column="14" bodyfile="include/observability/distributed_trace_span.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1af7ae46b8b094db06db108565c3d7b4a8" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::DistributedTraceSpan::attributes_mutex_</definition>
+        <argsstring></argsstring>
+        <name>attributes_mutex_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::attributes_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="330" column="31" bodyfile="include/observability/distributed_trace_span.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_span_1ac80b592b5cedab4eb82974ebfdb11664" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::observability::DistributedTraceSpan::flushed_</definition>
+        <argsstring></argsstring>
+        <name>flushed_</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::flushed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether span has been flushed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="332" column="17" bodyfile="include/observability/distributed_trace_span.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::DistributedTraceSpan::DistributedTraceSpan</definition>
+        <argsstring>(std::string operation_name, std::shared_ptr&lt; DistributedTraceContext &gt; parent_context=nullptr)</argsstring>
+        <name>DistributedTraceSpan</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::DistributedTraceSpan</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> &gt;</type>
+          <declname>parent_context</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a distributed trace span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable operation name (e.g., &quot;database_query&quot;, &quot;shard_router&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parent trace context (for propagation). If nullptr, creates root span. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tracer_ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to a <ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k" kindref="compound">DistributedTracingSDK</ref> instance for context management.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>The span acquires no locks at construction time and is safe to create in latency-critical paths. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="137" column="5" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="40" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a961c1a85dc817527b8ecf01fc2ce6047" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>themis::observability::DistributedTraceSpan::~DistributedTraceSpan</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedTraceSpan</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::~DistributedTraceSpan</qualifiedname>
+        <briefdescription>
+<para>Virtual destructor (RAII cleanup). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Automatically flushes any pending events/baggage to the tracer backend when the span is destroyed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="147" column="13" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a68a845a43133d4837be5a65fbd1b14f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::DistributedTraceSpan::DistributedTraceSpan</definition>
+        <argsstring>(const DistributedTraceSpan &amp;)=delete</argsstring>
+        <name>DistributedTraceSpan</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::DistributedTraceSpan</qualifiedname>
+        <param>
+          <type>const DistributedTraceSpan &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="150" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a0f02d76cf77249624df290cf71f08404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref> &amp;</type>
+        <definition>DistributedTraceSpan &amp; themis::observability::DistributedTraceSpan::operator=</definition>
+        <argsstring>(const DistributedTraceSpan &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="151" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1aacdc81b94d2bf20bc1786f41610e4d86" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::DistributedTraceSpan::DistributedTraceSpan</definition>
+        <argsstring>(DistributedTraceSpan &amp;&amp;) noexcept=default</argsstring>
+        <name>DistributedTraceSpan</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::DistributedTraceSpan</qualifiedname>
+        <param>
+          <type>DistributedTraceSpan &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="154" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1ab78bae7295cc7cb58fdca4970f2bd326" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref> &amp;</type>
+        <definition>DistributedTraceSpan &amp; themis::observability::DistributedTraceSpan::operator=</definition>
+        <argsstring>(DistributedTraceSpan &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="155" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a76b4ca634c98c68a61bb8c4b3ca96942" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::DistributedTraceSpan::spanId</definition>
+        <argsstring>() const</argsstring>
+        <name>spanId</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::spanId</qualifiedname>
+        <briefdescription>
+<para>Get the span ID (unique within the trace). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>16-character hex string (64-bit span ID). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="161" column="23" bodyfile="include/observability/distributed_trace_span.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1acbcd0185ef8f0cf2ebf71432618849bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::DistributedTraceSpan::traceId</definition>
+        <argsstring>() const</argsstring>
+        <name>traceId</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::traceId</qualifiedname>
+        <briefdescription>
+<para>Get the trace ID (shared across all spans in the trace). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>32-character hex string (128-bit trace ID). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="167" column="23" bodyfile="include/observability/distributed_trace_span.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a02021c0e621826d63814ff6d3f7cda6d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::DistributedTraceSpan::operationName</definition>
+        <argsstring>() const</argsstring>
+        <name>operationName</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::operationName</qualifiedname>
+        <briefdescription>
+<para>Get the operation name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable operation name passed at construction. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="173" column="23" bodyfile="include/observability/distributed_trace_span.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a342938877516d5847bf1cdd494e5246c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::DistributedTraceSpan::startTime</definition>
+        <argsstring>() const</argsstring>
+        <name>startTime</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::startTime</qualifiedname>
+        <briefdescription>
+<para>Get the start time of the span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Wall-clock timestamp of span creation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="179" column="43" bodyfile="include/observability/distributed_trace_span.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a495893d898bd736473a86cfa103f55cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedTraceSpan::addBaggage</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>addBaggage</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::addBaggage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add a baggage item to this span (inherited by child spans). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Baggage.</para>
+<para>Baggage items are lightweight key-value pairs that propagate to child spans. Useful for passing context like user_id, tenant_id, or request priority without creating explicit span attributes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Baggage key (required, non-empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Baggage value (can be empty).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe; multiple threads may add baggage concurrently. </para>
+</simplesect>
+<simplesect kind="note"><para>Maximum 128 baggage items per span (oldest inherited items are dropped). </para>
+</simplesect>
+<simplesect kind="note"><para>Baggage propagates automatically to child contexts created via <ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1ada84bce62fef52c7955dc1c17e41441a" kindref="member">childContext()</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="195" column="10" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="78" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1aa9dd33c511eb415f19a3b9df6ffac6d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedTraceSpan::addEvent</definition>
+        <argsstring>(const std::string &amp;event_name, const std::map&lt; std::string, std::string &gt; &amp;attributes={})</argsstring>
+        <name>addEvent</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::addEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record an event within the span&apos;s lifetime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Events are lightweight markers (e.g., &quot;cache_hit&quot;, &quot;retry&quot;) with optional attributes and an automatic timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the event (e.g., &quot;cache_hit&quot;, &quot;timeout_recovered&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attributes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key-value pairs describing the event (e.g., {{&quot;retry_count&quot;, &quot;3&quot;}}).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe; multiple threads may record events concurrently. </para>
+</simplesect>
+<simplesect kind="note"><para>Events are stored inline; maximum 100 events per span.</para>
+</simplesect>
+</para>
+<sect1 id="classthemis_1_1observability_1_1_distributed_trace_span_1autotoc_md2_1s1"><sect2 id="classthemis_1_1observability_1_1_distributed_trace_span_1autotoc_md2">
+<title>Example</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;query_start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;cache_hit&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;hit_rate&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0.85&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal">span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;query_end&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;duration_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;rows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10000&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Event. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="217" column="10" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="95" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a46dd25a8f2f1a6a951cff57e5a0df3ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedTraceSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Record span attributes (simple key-value metadata). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Attribute.</para>
+<para>Attributes are optional metadata describing the operation (e.g., user_id, query type). Unlike baggage, attributes are NOT propagated to child spans.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute value (string representation).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe. </para>
+</simplesect>
+<simplesect kind="note"><para>Maximum 100 attributes per span.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), size(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="231" column="10" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="131" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1ae7831d2b5b4f6cebe1c56edf4593abcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedTraceSpan::setStatus</definition>
+        <argsstring>(SpanStatus status, const std::string &amp;message=&quot;&quot;)</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::setStatus</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Set the span&apos;s status (success or error). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Status.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref> enum value (Ok, Error, or Unset). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional error message (only used if status == Error).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe; multiple calls update the status (last-write-wins).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="241" column="10" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1ad57564fe09e165e8412d249394b62caa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref></type>
+        <definition>SpanStatus themis::observability::DistributedTraceSpan::status</definition>
+        <argsstring>() const</argsstring>
+        <name>status</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::status</qualifiedname>
+        <briefdescription>
+<para>Get the current span status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current <ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref> value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="247" column="16" bodyfile="include/observability/distributed_trace_span.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1ad4a37120450167fc1047dada05c226c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceSpan::statusMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>statusMessage</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::statusMessage</qualifiedname>
+        <briefdescription>
+<para>Get the status message (if status == Error). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Error message, empty if status != Error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="253" column="17" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="161" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1ada84bce62fef52c7955dc1c17e41441a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DistributedTraceContext &gt; themis::observability::DistributedTraceSpan::childContext</definition>
+        <argsstring>(const std::string &amp;child_operation_name)</argsstring>
+        <name>childContext</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::childContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>child_operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Create a child trace context for a downstream operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Child Context.</para>
+<para>Returns a new <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> with the same trace ID but a new span ID, ready for propagation to a child operation. The child context automatically inherits baggage from this span.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>child_operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the child operation (e.g., &quot;shard_router&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> with inherited baggage.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe; can be called from multiple threads concurrently.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">child_operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the child operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a5a2d114140f975bc578abbadfba11eaf" kindref="member">DistributedTraceContext::fromHttpHeaders()</ref>, lock(), withBaggage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="267" column="21" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="177" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a970b2d6059d9c04c69374e521608852d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_span_event" kindref="compound">SpanEvent</ref> &gt;</type>
+        <definition>std::vector&lt; SpanEvent &gt; themis::observability::DistributedTraceSpan::events</definition>
+        <argsstring>() const</argsstring>
+        <name>events</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::events</qualifiedname>
+        <briefdescription>
+<para>Get all recorded events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Immutable vector of <ref refid="structthemis_1_1observability_1_1_span_event" kindref="compound">SpanEvent</ref> (timeline order).</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="275" column="17" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="208" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1adabbc29c9388669c02b1b769f8b1db7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::observability::DistributedTraceSpan::baggage</definition>
+        <argsstring>() const</argsstring>
+        <name>baggage</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::baggage</qualifiedname>
+        <briefdescription>
+<para>Get all baggage items. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of {key, value} pairs currently in this span&apos;s baggage.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">baggage_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="283" column="17" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="218" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a3e7ed8ee179a48c08042e14ee9dcba5a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::observability::DistributedTraceSpan::attributes</definition>
+        <argsstring>() const</argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::attributes</qualifiedname>
+        <briefdescription>
+<para>Get all attributes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of {key, value} pairs currently set as attributes.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">attributes_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="291" column="14" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="232" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1acb1a86132d6766db21efb92172d3322d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedTraceSpan::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::flush</qualifiedname>
+        <briefdescription>
+<para>Flush span to backend (async, non-blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Enqueues the span for export to the configured OTel backend. This is called automatically by the destructor, but can be called explicitly for checkpoint operations.</para>
+<para><simplesect kind="note"><para>Non-blocking; flush happens asynchronously. </para>
+</simplesect>
+<simplesect kind="note"><para>Multiple flushes are safe; span is only exported once. </para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe.</para>
+</simplesect>
+Calls: compare_exchange_strong(), flushInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="304" column="10" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="246" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a5203a6bc98ff6c34931bf7e141e34f07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::DistributedTraceSpan::durationMicros</definition>
+        <argsstring>() const</argsstring>
+        <name>durationMicros</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::durationMicros</qualifiedname>
+        <briefdescription>
+<para>Get the span&apos;s duration (from start to current time). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Duration in microseconds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="310" column="14" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="256" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1ab22c2ab1fab798a622645906170ac266" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceSpan::generateSpanId</definition>
+        <argsstring>()</argsstring>
+        <name>generateSpanId</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::generateSpanId</qualifiedname>
+        <briefdescription>
+<para>Generate Span Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateSpanIdInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="335" column="17" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="267" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_span_1a4668de116ec1526982ca528cbd5a9689" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedTraceSpan::flushInternal</definition>
+        <argsstring>()</argsstring>
+        <name>flushInternal</name>
+        <qualifiedname>themis::observability::DistributedTraceSpan::flushInternal</qualifiedname>
+        <briefdescription>
+<para>Flush Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements flushInternal without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="336" column="10" bodyfile="src/observability/distributed_trace_span.cpp" bodystart="275" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>W3C Trace Context-compliant span for distributed tracing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1observability_1_1_distributed_trace_span" kindref="compound">DistributedTraceSpan</ref> captures operation-level telemetry across service boundaries. It supports:<itemizedlist>
+<listitem><para>W3C trace context propagation (parent-child relationships)</para>
+</listitem><listitem><para>Baggage items for cross-service metadata</para>
+</listitem><listitem><para>Event recording (lightweight lifecycle markers)</para>
+</listitem><listitem><para>Low-overhead instrumentation (RAII lifetime management)</para>
+</listitem><listitem><para>Thread-safe operations (all methods callable from any thread)</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="classthemis_1_1observability_1_1_distributed_trace_span_1autotoc_md0_1s1"><sect2 id="classthemis_1_1observability_1_1_distributed_trace_span_1autotoc_md0">
+<title>Usage Pattern</title><para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Phase<sp/>2A:<sp/>Create<sp/>a<sp/>root<sp/>span<sp/>for<sp/>a<sp/>database<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tracer<sp/>=<sp/>DistributedTracingSDK(config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;database_query&quot;</highlight><highlight class="normal">,<sp/>root_ctx,<sp/>tracer);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Add<sp/>baggage<sp/>(e.g.,<sp/>user_id,<sp/>tenant<sp/>context)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_12345&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tenant_abc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Record<sp/>events<sp/>during<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;query_start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>execute<sp/>query<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;query_end&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;result_rows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Propagate<sp/>context<sp/>to<sp/>downstream<sp/>service</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>child_ctx<sp/>=<sp/>span-&gt;childContext(</highlight><highlight class="stringliteral">&quot;shard_router&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>downstream_headers<sp/>=<sp/>child_ctx-&gt;toHttpHeaders(<ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5daae8ff6eda9aad5462befff3fab67b29b" kindref="member">TraceContextFormat::W3C_TRACE_CONTEXT</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Set<sp/>operation<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(error_occurred)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198a902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">SpanStatus::Error</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Query<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Span<sp/>automatically<sp/>flushed<sp/>when<sp/>destroyed<sp/>(RAII)</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1observability_1_1_distributed_trace_span_1autotoc_md1_1s1"><sect2 id="classthemis_1_1observability_1_1_distributed_trace_span_1autotoc_md1">
+<title>Performance (Wave D Phase 2A Gate)</title><para><itemizedlist>
+<listitem><para>Span creation: &lt; 1 µs</para>
+</listitem><listitem><para>Event recording: &lt; 100 ns</para>
+</listitem><listitem><para>Baggage insertion: &lt; 500 ns</para>
+</listitem><listitem><para>Context extraction/propagation: &lt; 2 µs</para>
+</listitem><listitem><para><bold>Overhead target: ≤ 2% vs Wave 7 baseline</bold> (gate W4A-TRACE-01)</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety All public methods are thread-safe. Multiple threads may call event-recording methods concurrently. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/observability/distributed_trace_span.h" line="125" column="1" bodyfile="include/observability/distributed_trace_span.h" bodystart="125" bodyend="337"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a495893d898bd736473a86cfa103f55cf" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>addBaggage</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1aa9dd33c511eb415f19a3b9df6ffac6d5" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>addEvent</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3e7ed8ee179a48c08042e14ee9dcba5a" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>attributes</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a65687549bef8c53388d53b2389ed7bc5" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>attributes_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1af7ae46b8b094db06db108565c3d7b4a8" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>attributes_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1adabbc29c9388669c02b1b769f8b1db7e" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>baggage</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a9b1e59cdd7edf4834537bd9047a9ea99" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>baggage_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a64c6e33ab2ebb7a512e8a14994e3cb91" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>baggage_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1ada84bce62fef52c7955dc1c17e41441a" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>childContext</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>DistributedTraceSpan</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a68a845a43133d4837be5a65fbd1b14f3" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>DistributedTraceSpan</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1aacdc81b94d2bf20bc1786f41610e4d86" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>DistributedTraceSpan</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a5203a6bc98ff6c34931bf7e141e34f07" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>durationMicros</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a970b2d6059d9c04c69374e521608852d" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>events</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a71fe4f04ccf9dfb0a220213082558b8a" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>events_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a5f3e68e1a9f1856bbf44863d91ee6b33" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>events_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1acb1a86132d6766db21efb92172d3322d" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>flush</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1ac80b592b5cedab4eb82974ebfdb11664" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>flushed_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a4668de116ec1526982ca528cbd5a9689" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>flushInternal</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1ab22c2ab1fab798a622645906170ac266" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>generateSpanId</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a1b3fe13a928e346968af9b52ca67fcfa" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>operation_name_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a02021c0e621826d63814ff6d3f7cda6d" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>operationName</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a0f02d76cf77249624df290cf71f08404" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1ab78bae7295cc7cb58fdca4970f2bd326" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3bc7c4047374eefd664e9a8ddaaf117b" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>parent_context_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a46dd25a8f2f1a6a951cff57e5a0df3ee" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1ae7831d2b5b4f6cebe1c56edf4593abcd" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>setStatus</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a1752b4ba075fe292cbfd551f3ddab431" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>span_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a76b4ca634c98c68a61bb8c4b3ca96942" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>spanId</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1afbf05254764a715eb02821bbe9805dd0" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a342938877516d5847bf1cdd494e5246c" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>startTime</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1ad57564fe09e165e8412d249394b62caa" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>status</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a60eec5c42876bc6d8819f064ca408c1a" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>status_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a1761592aafbf16da4b940962d2db12dd" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>status_message_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1aec7ffe3b34160dde58fbf6bdcf662a87" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>status_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1ad4a37120450167fc1047dada05c226c5" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>statusMessage</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1adbe6440e41eb38b08da3b20d01c51244" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>trace_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1acbcd0185ef8f0cf2ebf71432618849bb" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>traceId</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_span_1a961c1a85dc817527b8ecf01fc2ce6047" prot="public" virt="virtual"><scope>themis::observability::DistributedTraceSpan</scope><name>~DistributedTraceSpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

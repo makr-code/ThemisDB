@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::KVCacheBufferPool</compoundname>
+    <includes refid="kv__cache__buffer_8h" local="no">kv_cache_buffer.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" prot="public">themis::llm::KVCacheBufferPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats" prot="public">themis::llm::KVCacheBufferPool::PoolStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a20a491e0ce50227e97c6b547e34374a9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::KVCacheBufferPool::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="182" column="12" bodyfile="include/llm/kv_cache_buffer.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a912826368138891004b6ee9987ee8f62" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer" kindref="compound">KVCacheBuffer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;KVCacheBuffer&gt; &gt; themis::llm::KVCacheBufferPool::buffers_</definition>
+        <argsstring></argsstring>
+        <name>buffers_</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="183" column="17" bodyfile="include/llm/kv_cache_buffer.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1af7736b706d1e46117bfacb83d69bff1e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::llm::KVCacheBufferPool::buffer_available_</definition>
+        <argsstring></argsstring>
+        <name>buffer_available_</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::buffer_available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="184" column="17" bodyfile="include/llm/kv_cache_buffer.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1af93c795588e6060d60fb3904746eef40" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::KVCacheBufferPool::pool_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pool_mutex_</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::pool_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="185" column="24" bodyfile="include/llm/kv_cache_buffer.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a91db1871cd5e2a325d2d7980490525f8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::KVCacheBufferPool::KVCacheBufferPool</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>KVCacheBufferPool</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::KVCacheBufferPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>KVCache Buffer Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="154" column="14" bodyfile="src/llm/kv_cache_buffer.cpp" bodystart="265" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a70dbb9f6e9360f3e612eb3f505580288" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::KVCacheBufferPool::~KVCacheBufferPool</definition>
+        <argsstring>()</argsstring>
+        <name>~KVCacheBufferPool</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::~KVCacheBufferPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="155" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a98667e2df3d8311d8ddb0a0c7f3e9869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer" kindref="compound">KVCacheBuffer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; KVCacheBuffer &gt; themis::llm::KVCacheBufferPool::acquireBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>acquireBuffer</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::acquireBuffer</qualifiedname>
+        <briefdescription>
+<para>Acquire buffer for thread (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire Buffer.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="161" column="21" bodyfile="src/llm/kv_cache_buffer.cpp" bodystart="284" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a4d6d5026b8e47e53945b3932a49a4154" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::KVCacheBufferPool::releaseBuffer</definition>
+        <argsstring>(std::shared_ptr&lt; KVCacheBuffer &gt; buffer)</argsstring>
+        <name>releaseBuffer</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::releaseBuffer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_k_v_cache_buffer" kindref="compound">KVCacheBuffer</ref> &gt;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Release buffer back to pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release Buffer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="167" column="10" bodyfile="src/llm/kv_cache_buffer.cpp" bodystart="304" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a2777f187a8155fc2c547a71d910dda31" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats" kindref="compound">PoolStats</ref></type>
+        <definition>KVCacheBufferPool::PoolStats themis::llm::KVCacheBufferPool::getPoolStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getPoolStats</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::getPoolStats</qualifiedname>
+        <briefdescription>
+<para>Get Pool Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="179" column="15" bodyfile="src/llm/kv_cache_buffer.cpp" bodystart="319" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kv_cache_buffer.h" line="142" column="1" bodyfile="include/llm/kv_cache_buffer.h" bodystart="142" bodyend="186"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a98667e2df3d8311d8ddb0a0c7f3e9869" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>acquireBuffer</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1af7736b706d1e46117bfacb83d69bff1e" prot="private" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>buffer_available_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a912826368138891004b6ee9987ee8f62" prot="private" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>buffers_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a20a491e0ce50227e97c6b547e34374a9" prot="private" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a2777f187a8155fc2c547a71d910dda31" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>getPoolStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a91db1871cd5e2a325d2d7980490525f8" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>KVCacheBufferPool</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1af93c795588e6060d60fb3904746eef40" prot="private" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>pool_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a4d6d5026b8e47e53945b3932a49a4154" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>releaseBuffer</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_cache_buffer_pool_1a70dbb9f6e9360f3e612eb3f505580288" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool</scope><name>~KVCacheBufferPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

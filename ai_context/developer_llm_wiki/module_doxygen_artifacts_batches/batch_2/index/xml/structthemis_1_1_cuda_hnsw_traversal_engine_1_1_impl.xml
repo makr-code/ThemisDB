@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CudaHnswTraversalEngine::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1ad7af6de39047925926071b6baa9d1b09" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::CudaHnswTraversalEngine::Impl::cuda_available</definition>
+        <argsstring></argsstring>
+        <name>cuda_available</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::Impl::cuda_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/cuda_hnsw_graph_traversal.cpp" line="274" column="10" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1a47c10c1b645c48d6816579ca413a2e88" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::CudaHnswTraversalEngine::Impl::index_built</definition>
+        <argsstring></argsstring>
+        <name>index_built</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::Impl::index_built</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/cuda_hnsw_graph_traversal.cpp" line="275" column="17" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="275" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1a31230f4e193591bdb0ae0fc607c2c340" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hnsw_layer_graph" kindref="compound">HnswLayerGraph</ref> &gt;</type>
+        <definition>std::vector&lt;HnswLayerGraph&gt; themis::CudaHnswTraversalEngine::Impl::layers</definition>
+        <argsstring></argsstring>
+        <name>layers</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::Impl::layers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/cuda_hnsw_graph_traversal.cpp" line="278" column="17" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1acdb9b8083d2954e7bdfc03e045d4a0a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::CudaHnswTraversalEngine::Impl::flat_vectors</definition>
+        <argsstring></argsstring>
+        <name>flat_vectors</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::Impl::flat_vectors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/cuda_hnsw_graph_traversal.cpp" line="279" column="26" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1aaeb9dd63deb86b3adbc48b36329911ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::CudaHnswTraversalEngine::Impl::num_vectors</definition>
+        <argsstring></argsstring>
+        <name>num_vectors</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::Impl::num_vectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/cuda_hnsw_graph_traversal.cpp" line="280" column="33" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1aecd12a55a2ad3cce92903a2c253eec0c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::CudaHnswTraversalEngine::Impl::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::Impl::max_batch_size</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/cuda_hnsw_graph_traversal.cpp" line="284" column="12" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="284" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1ac09f67a5a2cbf3240f1412b9285bcb13" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::CudaHnswTraversalEngine::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/cuda_hnsw_graph_traversal.cpp" line="343" column="5" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="343" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/index/cuda_hnsw_graph_traversal.cpp" line="273" column="1" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="273" bodyend="348"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1ad7af6de39047925926071b6baa9d1b09" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine::Impl</scope><name>cuda_available</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1acdb9b8083d2954e7bdfc03e045d4a0a7" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine::Impl</scope><name>flat_vectors</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1a47c10c1b645c48d6816579ca413a2e88" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine::Impl</scope><name>index_built</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1a31230f4e193591bdb0ae0fc607c2c340" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine::Impl</scope><name>layers</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1aecd12a55a2ad3cce92903a2c253eec0c" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine::Impl</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1aaeb9dd63deb86b3adbc48b36329911ac" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine::Impl</scope><name>num_vectors</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl_1ac09f67a5a2cbf3240f1412b9285bcb13" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

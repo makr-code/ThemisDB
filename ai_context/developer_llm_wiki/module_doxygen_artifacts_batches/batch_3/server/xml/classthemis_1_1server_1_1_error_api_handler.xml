@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_error_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ErrorApiHandler</compoundname>
+    <includes refid="error__api__handler_8h" local="no">error_api_handler.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_error_api_handler_1aea663e70d3068240846bbd12bc6f0e0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ErrorApiHandler::ErrorApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>ErrorApiHandler</name>
+        <qualifiedname>themis::server::ErrorApiHandler::ErrorApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_error_api_handler_1acb5d5797bd726945d30dc9dabb0e3658" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ErrorApiHandler::handleGetErrors</definition>
+        <argsstring>(const Request &amp;req, Response &amp;res)</argsstring>
+        <name>handleGetErrors</name>
+        <qualifiedname>themis::server::ErrorApiHandler::handleGetErrors</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref> &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: errors::ErrorRegistry::getInstance(), contains(), Tracer::startSpan(), empty(), getErrorsByCategory(), json::array(), push_back(), toJSON(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="61" column="10" bodyfile="src/server/error_api_handler.cpp" bodystart="28" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_error_api_handler_1abc1578112764377b59c416c17b3a87d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ErrorApiHandler::handleGetError</definition>
+        <argsstring>(const Request &amp;req, Response &amp;res)</argsstring>
+        <name>handleGetError</name>
+        <qualifiedname>themis::server::ErrorApiHandler::handleGetError</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref> &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: errors::ErrorRegistry::getInstance(), contains(), Tracer::startSpan(), setJSON(), std::stoi(), getError(), toJSON(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="67" column="10" bodyfile="src/server/error_api_handler.cpp" bodystart="69" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_error_api_handler_1a0b12c4599b12aaaa92ae7c4da8ede700" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ErrorApiHandler::handleGetCategories</definition>
+        <argsstring>(const Request &amp;req, Response &amp;res)</argsstring>
+        <name>handleGetCategories</name>
+        <qualifiedname>themis::server::ErrorApiHandler::handleGetCategories</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref> &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Categories. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), errors::ErrorRegistry::getInstance(), getAllCategories(), size(), setJSON(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="73" column="10" bodyfile="src/server/error_api_handler.cpp" bodystart="119" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_error_api_handler_1a44fa9039d6b260fab948dfc00418b3e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ErrorApiHandler::handleSearchErrors</definition>
+        <argsstring>(const Request &amp;req, Response &amp;res)</argsstring>
+        <name>handleSearchErrors</name>
+        <qualifiedname>themis::server::ErrorApiHandler::handleSearchErrors</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref> &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Search Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), errors::ErrorRegistry::getInstance(), contains(), empty(), setJSON(), searchErrors(), json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="79" column="10" bodyfile="src/server/error_api_handler.cpp" bodystart="140" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/error_api_handler.h" line="51" column="1" bodyfile="include/server/error_api_handler.h" bodystart="51" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_error_api_handler_1aea663e70d3068240846bbd12bc6f0e0a" prot="public" virt="non-virtual"><scope>themis::server::ErrorApiHandler</scope><name>ErrorApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_error_api_handler_1a0b12c4599b12aaaa92ae7c4da8ede700" prot="public" virt="non-virtual"><scope>themis::server::ErrorApiHandler</scope><name>handleGetCategories</name></member>
+      <member refid="classthemis_1_1server_1_1_error_api_handler_1abc1578112764377b59c416c17b3a87d9" prot="public" virt="non-virtual"><scope>themis::server::ErrorApiHandler</scope><name>handleGetError</name></member>
+      <member refid="classthemis_1_1server_1_1_error_api_handler_1acb5d5797bd726945d30dc9dabb0e3658" prot="public" virt="non-virtual"><scope>themis::server::ErrorApiHandler</scope><name>handleGetErrors</name></member>
+      <member refid="classthemis_1_1server_1_1_error_api_handler_1a44fa9039d6b260fab948dfc00418b3e0" prot="public" virt="non-virtual"><scope>themis::server::ErrorApiHandler</scope><name>handleSearchErrors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

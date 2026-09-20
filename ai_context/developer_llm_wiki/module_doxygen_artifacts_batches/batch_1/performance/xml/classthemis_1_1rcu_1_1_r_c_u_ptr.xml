@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rcu_1_1_r_c_u_ptr" kind="class" language="C++" prot="public">
+    <compoundname>themis::rcu::RCUPtr</compoundname>
+    <includes refid="rcu_8h" local="no">rcu.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_r_c_u_ptr_1abe9e6ea9e69be1791905bfc215728483" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rcu_1_1_read_lock" kindref="compound">ReadLock</ref></type>
+        <definition>ReadLock themis::rcu::RCUPtr&lt; T &gt;::lock_</definition>
+        <argsstring></argsstring>
+        <name>lock_</name>
+        <qualifiedname>themis::rcu::RCUPtr::lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="150" column="14" bodyfile="include/performance/rcu.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_r_c_u_ptr_1aa092b5110ea38161040d507312e3b231" prot="private" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* themis::rcu::RCUPtr&lt; T &gt;::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::rcu::RCUPtr::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="151" column="7" bodyfile="include/performance/rcu.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_ptr_1a7547349e1026cade3ee246d78d544c7c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::RCUPtr&lt; T &gt;::RCUPtr</definition>
+        <argsstring>(std::atomic&lt; T * &gt; &amp;ptr)</argsstring>
+        <name>RCUPtr</name>
+        <qualifiedname>themis::rcu::RCUPtr::RCUPtr</qualifiedname>
+        <param>
+          <type>std::atomic&lt; T * &gt; &amp;</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="140" column="14" bodyfile="include/performance/rcu.h" bodystart="140" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_ptr_1af331b7fcb408f7260e92c40f5ec24c18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::rcu::RCUPtr&lt; T &gt;::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::rcu::RCUPtr::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="143" column="7" bodyfile="include/performance/rcu.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_ptr_1ae5e5b7f2b8a6ea84347de8a48bc7ee1d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::rcu::RCUPtr&lt; T &gt;::operator-&gt;</definition>
+        <argsstring>() const</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::rcu::RCUPtr::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="144" column="7" bodyfile="include/performance/rcu.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_ptr_1a77aa28176481cfe96f0fda59b1aa4920" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::rcu::RCUPtr&lt; T &gt;::operator*</definition>
+        <argsstring>() const</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::rcu::RCUPtr::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="145" column="7" bodyfile="include/performance/rcu.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_ptr_1aa47ec0a657a2f09f3c78a3c29bb24a15" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::RCUPtr&lt; T &gt;::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::rcu::RCUPtr::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="147" column="14" bodyfile="include/performance/rcu.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for RCU-protected pointers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides automatic read-locking and safe pointer access. </para>
+    </detaileddescription>
+    <location file="include/performance/rcu.h" line="138" column="1" bodyfile="include/performance/rcu.h" bodystart="138" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_ptr_1af331b7fcb408f7260e92c40f5ec24c18" prot="public" virt="non-virtual"><scope>themis::rcu::RCUPtr</scope><name>get</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_ptr_1abe9e6ea9e69be1791905bfc215728483" prot="private" virt="non-virtual"><scope>themis::rcu::RCUPtr</scope><name>lock_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_ptr_1aa47ec0a657a2f09f3c78a3c29bb24a15" prot="public" virt="non-virtual"><scope>themis::rcu::RCUPtr</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_ptr_1a77aa28176481cfe96f0fda59b1aa4920" prot="public" virt="non-virtual"><scope>themis::rcu::RCUPtr</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_ptr_1ae5e5b7f2b8a6ea84347de8a48bc7ee1d" prot="public" virt="non-virtual"><scope>themis::rcu::RCUPtr</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_ptr_1aa092b5110ea38161040d507312e3b231" prot="private" virt="non-virtual"><scope>themis::rcu::RCUPtr</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_ptr_1a7547349e1026cade3ee246d78d544c7c" prot="public" virt="non-virtual"><scope>themis::rcu::RCUPtr</scope><name>RCUPtr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1sharding_1_1_0d210233235214102123051015052045226261073176337245" kind="namespace" language="C++">
+    <compoundname>themis::sharding::@210233235214102123051015052045226261073176337245</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/pki_shard_certificate.cpp" line="31" column="1"/>
+  </compounddef>
+</doxygen>

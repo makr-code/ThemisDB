@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_l_l_m_generation_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::LLMGenerationOptions</compoundname>
+    <includes refid="llm__integration_8h" local="no">llm_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_generation_options_1a7d90223d1f8b8180dd0b2e683bc8b098" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::LLMGenerationOptions::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::rag::LLMGenerationOptions::temperature</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="44" column="12" bodyfile="include/rag/llm_integration.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_generation_options_1aa01f682267cb7cb65e46fc0a6a24bcb3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::LLMGenerationOptions::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::rag::LLMGenerationOptions::max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="45" column="12" bodyfile="include/rag/llm_integration.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_generation_options_1a4ff93bb5f20812b9c2eda99ba47e86c8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::LLMGenerationOptions::stream</definition>
+        <argsstring></argsstring>
+        <name>stream</name>
+        <qualifiedname>themis::rag::LLMGenerationOptions::stream</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="46" column="10" bodyfile="include/rag/llm_integration.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_generation_options_1a50c7c0166005fe8016d8136c359ae0ab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::LLMGenerationOptions::include_token_probabilities</definition>
+        <argsstring></argsstring>
+        <name>include_token_probabilities</name>
+        <qualifiedname>themis::rag::LLMGenerationOptions::include_token_probabilities</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="47" column="10" bodyfile="include/rag/llm_integration.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_generation_options_1ab521d3945c5a6338c399271fa3718f25" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1a3482bde2a5f950484e019b17edbf1ccd" kindref="member">TokenProbabilityCallback</ref></type>
+        <definition>TokenProbabilityCallback themis::rag::LLMGenerationOptions::token_callback</definition>
+        <argsstring></argsstring>
+        <name>token_callback</name>
+        <qualifiedname>themis::rag::LLMGenerationOptions::token_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="48" column="30" bodyfile="include/rag/llm_integration.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_generation_options_1a3d44ff7953a4b622b6e4430f4f554be9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::LLMGenerationOptions::num_samples</definition>
+        <argsstring></argsstring>
+        <name>num_samples</name>
+        <qualifiedname>themis::rag::LLMGenerationOptions::num_samples</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="51" column="12" bodyfile="include/rag/llm_integration.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_generation_options_1ae366d132866639a58f15512712bc895e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned int &gt;</type>
+        <definition>std::vector&lt;unsigned int&gt; themis::rag::LLMGenerationOptions::seeds</definition>
+        <argsstring></argsstring>
+        <name>seeds</name>
+        <qualifiedname>themis::rag::LLMGenerationOptions::seeds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="52" column="17" bodyfile="include/rag/llm_integration.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LLM generation options for RAG components. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/llm_integration.h" line="43" column="1" bodyfile="include/rag/llm_integration.h" bodystart="43" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1a50c7c0166005fe8016d8136c359ae0ab" prot="public" virt="non-virtual"><scope>themis::rag::LLMGenerationOptions</scope><name>include_token_probabilities</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1aa01f682267cb7cb65e46fc0a6a24bcb3" prot="public" virt="non-virtual"><scope>themis::rag::LLMGenerationOptions</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1a3d44ff7953a4b622b6e4430f4f554be9" prot="public" virt="non-virtual"><scope>themis::rag::LLMGenerationOptions</scope><name>num_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1ae366d132866639a58f15512712bc895e" prot="public" virt="non-virtual"><scope>themis::rag::LLMGenerationOptions</scope><name>seeds</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1a4ff93bb5f20812b9c2eda99ba47e86c8" prot="public" virt="non-virtual"><scope>themis::rag::LLMGenerationOptions</scope><name>stream</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1a7d90223d1f8b8180dd0b2e683bc8b098" prot="public" virt="non-virtual"><scope>themis::rag::LLMGenerationOptions</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1ab521d3945c5a6338c399271fa3718f25" prot="public" virt="non-virtual"><scope>themis::rag::LLMGenerationOptions</scope><name>token_callback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

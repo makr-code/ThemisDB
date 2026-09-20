@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_updates_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdatesConfig</compoundname>
+    <includes refid="updates__config_8h" local="no">updates_config.h</includes>
+    <innerclass refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config" prot="public">themis::updates::UpdatesConfig::CheckerConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_updates_config_1_1_auto_update_config" prot="public">themis::updates::UpdatesConfig::AutoUpdateConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config" prot="public">themis::updates::UpdatesConfig::HotReloadConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_updates_config_1_1_notification_config" prot="public">themis::updates::UpdatesConfig::NotificationConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_updates_config_1_1_canary_config" prot="public">themis::updates::UpdatesConfig::CanaryConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config" prot="public">themis::updates::UpdatesConfig::TelemetryConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1a70e41885849451efe917167ec7769457" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config" kindref="compound">themis::updates::UpdatesConfig::CheckerConfig</ref></type>
+        <definition>struct themis::updates::UpdatesConfig::CheckerConfig themis::updates::UpdatesConfig::checker</definition>
+        <argsstring></argsstring>
+        <name>checker</name>
+        <qualifiedname>themis::updates::UpdatesConfig::checker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="42" column="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1a848e135fbede0d78892bf89d419a723d" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1updates_1_1_updates_config_1_1_auto_update_config" kindref="compound">themis::updates::UpdatesConfig::AutoUpdateConfig</ref></type>
+        <definition>struct themis::updates::UpdatesConfig::AutoUpdateConfig themis::updates::UpdatesConfig::auto_update</definition>
+        <argsstring></argsstring>
+        <name>auto_update</name>
+        <qualifiedname>themis::updates::UpdatesConfig::auto_update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="55" column="17"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1a532cf4051661d836b76b68e434edd8e6" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config" kindref="compound">themis::updates::UpdatesConfig::HotReloadConfig</ref></type>
+        <definition>struct themis::updates::UpdatesConfig::HotReloadConfig themis::updates::UpdatesConfig::hot_reload</definition>
+        <argsstring></argsstring>
+        <name>hot_reload</name>
+        <qualifiedname>themis::updates::UpdatesConfig::hot_reload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="71" column="16"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1aade5f2ffbf3019ec82d1c411ea0c554f" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1updates_1_1_updates_config_1_1_notification_config" kindref="compound">themis::updates::UpdatesConfig::NotificationConfig</ref></type>
+        <definition>struct themis::updates::UpdatesConfig::NotificationConfig themis::updates::UpdatesConfig::notifications</definition>
+        <argsstring></argsstring>
+        <name>notifications</name>
+        <qualifiedname>themis::updates::UpdatesConfig::notifications</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="85" column="19"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1a7949e3e42494b8f020d10d809fc17374" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1updates_1_1_updates_config_1_1_canary_config" kindref="compound">themis::updates::UpdatesConfig::CanaryConfig</ref></type>
+        <definition>struct themis::updates::UpdatesConfig::CanaryConfig themis::updates::UpdatesConfig::canary</definition>
+        <argsstring></argsstring>
+        <name>canary</name>
+        <qualifiedname>themis::updates::UpdatesConfig::canary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="120" column="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1a490af7a11e8049fb24e5f17c63c54cbb" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config" kindref="compound">themis::updates::UpdatesConfig::TelemetryConfig</ref></type>
+        <definition>struct themis::updates::UpdatesConfig::TelemetryConfig themis::updates::UpdatesConfig::telemetry</definition>
+        <argsstring></argsstring>
+        <name>telemetry</name>
+        <qualifiedname>themis::updates::UpdatesConfig::telemetry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="146" column="15"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_updates_config_1a94833af359dd9a9078456fafff3e7514" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_updates_config" kindref="compound">UpdatesConfig</ref></type>
+        <definition>UpdatesConfig themis::updates::UpdatesConfig::loadFromYaml</definition>
+        <argsstring>(const std::string &amp;yaml_path)</argsstring>
+        <name>loadFromYaml</name>
+        <qualifiedname>themis::updates::UpdatesConfig::loadFromYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load configuration from YAML file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From Yaml.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: YAML::LoadFile(), std::chrono::seconds(), clear(), push_back(), std::max(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="151" column="26" bodyfile="src/updates/updates_config.cpp" bodystart="53" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_updates_config_1ad438e013ed723dbddf40e85a71d40375" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_updates_config" kindref="compound">UpdatesConfig</ref></type>
+        <definition>UpdatesConfig themis::updates::UpdatesConfig::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::updates::UpdatesConfig::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Load configuration from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), value(), std::chrono::seconds(), clear(), push_back(), std::string(), std::max(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="156" column="26" bodyfile="src/updates/updates_config.cpp" bodystart="190" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_updates_config_1a1dcdcdb2941ccd615813c8f4acd4f783" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::UpdatesConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::UpdatesConfig::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="161" column="10" bodyfile="src/updates/updates_config.cpp" bodystart="303" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_updates_config_1a92e8b56c0a1dbe32e00b2b4337854568" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::UpdatesConfig::saveToYaml</definition>
+        <argsstring>(const std::string &amp;yaml_path) const</argsstring>
+        <name>saveToYaml</name>
+        <qualifiedname>themis::updates::UpdatesConfig::saveToYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Save configuration to YAML file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Fout. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="166" column="10" bodyfile="src/updates/updates_config.cpp" bodystart="380" bodyend="490"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for update checker and hot-reload system. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::updates::UpdatesConfig</label>
+        <link refid="structthemis_1_1updates_1_1_updates_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>checker</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>auto_update</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>hot_reload</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>notifications</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>canary</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>telemetry</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::updates::UpdatesConfig::AutoUpdateConfig</label>
+        <link refid="structthemis_1_1updates_1_1_updates_config_1_1_auto_update_config"/>
+      </node>
+      <node id="6">
+        <label>themis::updates::UpdatesConfig::CanaryConfig</label>
+        <link refid="structthemis_1_1updates_1_1_updates_config_1_1_canary_config"/>
+      </node>
+      <node id="2">
+        <label>themis::updates::UpdatesConfig::CheckerConfig</label>
+        <link refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config"/>
+      </node>
+      <node id="4">
+        <label>themis::updates::UpdatesConfig::HotReloadConfig</label>
+        <link refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config"/>
+      </node>
+      <node id="5">
+        <label>themis::updates::UpdatesConfig::NotificationConfig</label>
+        <link refid="structthemis_1_1updates_1_1_updates_config_1_1_notification_config"/>
+      </node>
+      <node id="7">
+        <label>themis::updates::UpdatesConfig::TelemetryConfig</label>
+        <link refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/updates_config.h" line="32" column="1" bodyfile="include/updates/updates_config.h" bodystart="32" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1a848e135fbede0d78892bf89d419a723d" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>auto_update</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1a7949e3e42494b8f020d10d809fc17374" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>canary</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1a70e41885849451efe917167ec7769457" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>checker</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1ad438e013ed723dbddf40e85a71d40375" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1a532cf4051661d836b76b68e434edd8e6" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>hot_reload</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1a94833af359dd9a9078456fafff3e7514" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>loadFromYaml</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1aade5f2ffbf3019ec82d1c411ea0c554f" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>notifications</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1a92e8b56c0a1dbe32e00b2b4337854568" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>saveToYaml</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1a490af7a11e8049fb24e5f17c63c54cbb" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>telemetry</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1a1dcdcdb2941ccd615813c8f4acd4f783" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

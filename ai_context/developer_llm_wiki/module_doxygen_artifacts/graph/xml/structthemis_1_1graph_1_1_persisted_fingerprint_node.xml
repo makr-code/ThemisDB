@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_persisted_fingerprint_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::PersistedFingerprintNode</compoundname>
+    <includes refid="tensor__fingerprint__graph_8h" local="no">tensor_fingerprint_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_persisted_fingerprint_node_1ae7c68720483a1113e69e4d7ff7374c59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PersistedFingerprintNode::tensor_id</definition>
+        <argsstring></argsstring>
+        <name>tensor_id</name>
+        <qualifiedname>themis::graph::PersistedFingerprintNode::tensor_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="65" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a1602258d9327c3cc7d739e9063f93397" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint" kindref="compound">TensorFingerprint</ref></type>
+        <definition>TensorFingerprint themis::graph::PersistedFingerprintNode::fingerprint</definition>
+        <argsstring></argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::graph::PersistedFingerprintNode::fingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="66" column="23" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_persisted_fingerprint_node_1ade9d534dc9f789dde186f07d7d5e8b3f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PersistedFingerprintNode::tenant</definition>
+        <argsstring></argsstring>
+        <name>tenant</name>
+        <qualifiedname>themis::graph::PersistedFingerprintNode::tenant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="67" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a03ace28654969f7fbab9fba8befcacb1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PersistedFingerprintNode::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::graph::PersistedFingerprintNode::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="68" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a874607054e7a65ddae80785731ad718f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PersistedFingerprintNode::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::graph::PersistedFingerprintNode::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="69" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::graph::PersistedFingerprintNode</label>
+        <link refid="structthemis_1_1graph_1_1_persisted_fingerprint_node"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>fingerprint</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::TensorFingerprint</label>
+        <link refid="structthemis_1_1graph_1_1_tensor_fingerprint"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/tensor_fingerprint_graph.h" line="64" column="1" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="64" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a03ace28654969f7fbab9fba8befcacb1" prot="public" virt="non-virtual"><scope>themis::graph::PersistedFingerprintNode</scope><name>collection</name></member>
+      <member refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a874607054e7a65ddae80785731ad718f" prot="public" virt="non-virtual"><scope>themis::graph::PersistedFingerprintNode</scope><name>field</name></member>
+      <member refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a1602258d9327c3cc7d739e9063f93397" prot="public" virt="non-virtual"><scope>themis::graph::PersistedFingerprintNode</scope><name>fingerprint</name></member>
+      <member refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1ade9d534dc9f789dde186f07d7d5e8b3f" prot="public" virt="non-virtual"><scope>themis::graph::PersistedFingerprintNode</scope><name>tenant</name></member>
+      <member refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1ae7c68720483a1113e69e4d7ff7374c59" prot="public" virt="non-virtual"><scope>themis::graph::PersistedFingerprintNode</scope><name>tensor_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

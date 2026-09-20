@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_analytics_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphAnalyticsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_analytics_test_1abb12af116eec21aacb9adc56c7b0cefe" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path GraphAnalyticsTest::testDbPath_</definition>
+        <argsstring></argsstring>
+        <name>testDbPath_</name>
+        <qualifiedname>GraphAnalyticsTest::testDbPath_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="105" column="27" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_analytics_test_1addbb96468f08b1be641384fa91afcc52" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; GraphAnalyticsTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphAnalyticsTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="106" column="21" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_analytics_test_1a9ae3991b68ccd1472dc0e9e6f656fb01" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; GraphAnalyticsTest::graphMgr_</definition>
+        <argsstring></argsstring>
+        <name>graphMgr_</name>
+        <qualifiedname>GraphAnalyticsTest::graphMgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="107" column="21" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_analytics_test_1aad11b18ec57c69f6566826f0b1ef187f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphAnalytics &gt;</type>
+        <definition>std::unique_ptr&lt;GraphAnalytics&gt; GraphAnalyticsTest::analytics_</definition>
+        <argsstring></argsstring>
+        <name>analytics_</name>
+        <qualifiedname>GraphAnalyticsTest::analytics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="108" column="21" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_analytics_test_1a6b891fb9e92ff7d9f33c840133687779" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; GraphAnalyticsTest::nodes_</definition>
+        <argsstring></argsstring>
+        <name>nodes_</name>
+        <qualifiedname>GraphAnalyticsTest::nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="109" column="17" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_analytics_test_1aa27904f5df7c42db656bb4f38d1eb297" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphAnalyticsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphAnalyticsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="13" column="10" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="13" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_analytics_test_1a79bd9f07d596a47366c04452c9e29b5f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphAnalyticsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphAnalyticsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="32" column="10" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="32" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_analytics_test_1a552ec6faf6a27fd66a21617e5ea11da0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity GraphAnalyticsTest::createEdge</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;from, const std::string &amp;to)</argsstring>
+        <name>createEdge</name>
+        <qualifiedname>GraphAnalyticsTest::createEdge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="40" column="16" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="40" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_analytics_test_1a56b12baf0787f078992162b75f6af2d0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphAnalyticsTest::buildSimpleGraph</definition>
+        <argsstring>()</argsstring>
+        <name>buildSimpleGraph</name>
+        <qualifiedname>GraphAnalyticsTest::buildSimpleGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="50" column="10" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="50" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_analytics_test_1a66d98b04fac64b857d98f72c9c5bd67d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphAnalyticsTest::buildHubGraph</definition>
+        <argsstring>()</argsstring>
+        <name>buildHubGraph</name>
+        <qualifiedname>GraphAnalyticsTest::buildHubGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_analytics.cpp" line="76" column="10" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="76" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphAnalyticsTest</label>
+        <link refid="class_graph_analytics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphAnalyticsTest</label>
+        <link refid="class_graph_analytics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_analytics.cpp" line="11" column="1" bodyfile="tests/graph/test_graph_analytics.cpp" bodystart="11" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_graph_analytics_test_1aad11b18ec57c69f6566826f0b1ef187f" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>analytics_</name></member>
+      <member refid="class_graph_analytics_test_1a66d98b04fac64b857d98f72c9c5bd67d" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>buildHubGraph</name></member>
+      <member refid="class_graph_analytics_test_1a56b12baf0787f078992162b75f6af2d0" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>buildSimpleGraph</name></member>
+      <member refid="class_graph_analytics_test_1a552ec6faf6a27fd66a21617e5ea11da0" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>createEdge</name></member>
+      <member refid="class_graph_analytics_test_1addbb96468f08b1be641384fa91afcc52" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>db_</name></member>
+      <member refid="class_graph_analytics_test_1a9ae3991b68ccd1472dc0e9e6f656fb01" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>graphMgr_</name></member>
+      <member refid="class_graph_analytics_test_1a6b891fb9e92ff7d9f33c840133687779" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>nodes_</name></member>
+      <member refid="class_graph_analytics_test_1aa27904f5df7c42db656bb4f38d1eb297" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>SetUp</name></member>
+      <member refid="class_graph_analytics_test_1a79bd9f07d596a47366c04452c9e29b5f" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>TearDown</name></member>
+      <member refid="class_graph_analytics_test_1abb12af116eec21aacb9adc56c7b0cefe" prot="protected" virt="non-virtual"><scope>GraphAnalyticsTest</scope><name>testDbPath_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

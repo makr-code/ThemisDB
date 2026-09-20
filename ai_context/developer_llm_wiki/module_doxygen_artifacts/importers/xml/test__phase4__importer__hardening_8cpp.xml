@@ -1,0 +1,1789 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__phase4__importer__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_phase4_importer_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cctype</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/importers/test_phase4_importer_hardening.cpp</label>
+        <link refid="test__phase4__importer__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>cctype</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_import_error" prot="public">ImportError</innerclass>
+    <innerclass refid="struct_import_stats" prot="public">ImportStats</innerclass>
+    <innerclass refid="struct_import_options" prot="public">ImportOptions</innerclass>
+    <innerclass refid="struct_audit_capture" prot="public">AuditCapture</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fb" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>ImportErrorCode</name>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbafb170ffea05221be6d4e256c6a5b0266" prot="public">
+          <name>FILE_OPEN_FAILED</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbaa2ad53799b6678410eab18f554e548fc" prot="public">
+          <name>FILE_READ_FAILED</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbae06152d8f10e762baa4fb8fc492c943b" prot="public">
+          <name>NOT_A_PG_DUMP</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbacba421a68ff08e144118852019c326a5" prot="public">
+          <name>PARSE_CREATE_TABLE</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbabd5e5ae165d17501579e901dcca7ab91" prot="public">
+          <name>PARSE_COPY_HEADER</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba52695571d1d4d733f390ee3bf9760a1b" prot="public">
+          <name>PARSE_COPY_ROW</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba867816865c206b73fd3ddfb03c5d8b0f" prot="public">
+          <name>STATEMENT_TOO_LARGE</name>
+          <initializer>= 204</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba3cec6cb5c721992a5b68b9611ed0eb1f" prot="public">
+          <name>ROW_TOO_LARGE</name>
+          <initializer>= 205</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba9ec04ab1a3195d54c6066ae331e0d787" prot="public">
+          <name>COLUMN_COUNT_MISMATCH</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 900</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbadb045f05c46a2f7d7ca1dceb1252e291" prot="public">
+          <name>CONFLICT_ERROR</name>
+          <initializer>= 600</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 900</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbafb170ffea05221be6d4e256c6a5b0266" prot="public">
+          <name>FILE_OPEN_FAILED</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbaa2ad53799b6678410eab18f554e548fc" prot="public">
+          <name>FILE_READ_FAILED</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbae06152d8f10e762baa4fb8fc492c943b" prot="public">
+          <name>NOT_A_PG_DUMP</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbacba421a68ff08e144118852019c326a5" prot="public">
+          <name>PARSE_CREATE_TABLE</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbac309fc3ad2b0adf7ce53450e5e645d3f" prot="public">
+          <name>PARSE_INSERT</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba867816865c206b73fd3ddfb03c5d8b0f" prot="public">
+          <name>STATEMENT_TOO_LARGE</name>
+          <initializer>= 204</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbae7ab0baaeef2c10221ca8e7224e3b616" prot="public">
+          <name>UNKNOWN_TABLE</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba9ec04ab1a3195d54c6066ae331e0d787" prot="public">
+          <name>COLUMN_COUNT_MISMATCH</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbab2c6c5272c32652ebdddbba2a5db9687" prot="public">
+          <name>DEADLINE_EXCEEDED</name>
+          <initializer>= 110</initializer>
+          <briefdescription>
+<para>I1: new timeout error code. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba255df50c140519133f1489ab44a389d9" prot="public">
+          <name>PERMISSION_DENIED</name>
+          <initializer>= 503</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 900</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="41" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="41" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ImportErrorSeverity</name>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9eabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9eabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9eabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="56" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__phase4__importer__hardening_8cpp_1a0be5c5d73549c81c80f99da2430e5bee" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t kMaxIdentifierLength</definition>
+        <argsstring></argsstring>
+        <name>kMaxIdentifierLength</name>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="97" column="25" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__phase4__importer__hardening_8cpp_1a071eaf3f6e7d4729df15eab7df2aa400" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t kMaxTableCount</definition>
+        <argsstring></argsstring>
+        <name>kMaxTableCount</name>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="98" column="25" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__phase4__importer__hardening_8cpp_1a211c50723e94e08985f95659618ad8ab" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t kMaxColumnCount</definition>
+        <argsstring></argsstring>
+        <name>kMaxColumnCount</name>
+        <initializer>= 1600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="99" column="25" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a0debbad1f414fa503e3dbe4155377735" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool isValidIdentifier</definition>
+        <argsstring>(const std::string &amp;identifier)</argsstring>
+        <name>isValidIdentifier</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>identifier</declname>
+        </param>
+        <briefdescription>
+<para>Validate a SQL identifier for safe use in query strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mirrors SchemaInferenceEngine::isValidIdentifier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="106" column="13" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="106" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a9750167a478e4eabb9988ed7df7250bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; parseInsertValues</definition>
+        <argsstring>(const std::string &amp;values_clause)</argsstring>
+        <name>parseInsertValues</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>values_clause</declname>
+        </param>
+        <briefdescription>
+<para>Parse a VALUES clause (PostgreSQL / MySQL style). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simplified version that mirrors the production parseInsertValues(). Includes the I3 pre-allocation fix: result.reserve(32). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="128" column="20" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="128" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a402c5e1b2ae3863f17f141df08d53825" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; parseCopyRow</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>parseCopyRow</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Parse a PostgreSQL COPY text-format row (tab-delimited). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mirrors parseCopyRow() with I3 pre-allocation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="179" column="20" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="179" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a1ff185af976bd37871e41266d375d4ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool simulateTimeoutCheck</definition>
+        <argsstring>(uint32_t import_timeout_ms, size_t line_number, std::chrono::steady_clock::time_point deadline, ImportStats &amp;stats, AuditCapture &amp;audit, const std::string &amp;source)</argsstring>
+        <name>simulateTimeoutCheck</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>import_timeout_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>line_number</declname>
+        </param>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>deadline</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref> &amp;</type>
+          <declname>audit</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+<para>Simulate the timeout-check logic from parseDumpFile() so it can be tested without a full import stack. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true if the timeout was triggered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="244" column="13" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="244" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, EmptyStringRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>EmptyStringRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="286" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="286" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a91f9dba45493c764f561aefa3912cf7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, SimpleAlphanumericAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>SimpleAlphanumericAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="290" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="290" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a4985f12a1d7df183290a94d8d03ff074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, UnderscoreAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>UnderscoreAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="296" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="296" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1ac8671a3ed4c3b8162d7925dd560cef23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, SemicolonRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>SemicolonRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="301" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="301" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a4a7b9a67c3f4564af3b96fcdc8db3570" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, SingleQuoteRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>SingleQuoteRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="306" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="306" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1aa8f786c8f51fe024089a9fd74bb72605" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, DashRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>DashRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="311" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="311" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1aaf7c884796cf822200fd3c5a6efc1a58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, DotRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>DotRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="316" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="316" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a794e28acf6dcff06f587242ab8ff62b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, SpacesRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>SpacesRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="321" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="321" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a2631d4498058b7ad7c125b9f52f90954" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, TooLongIdentifierRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>TooLongIdentifierRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="327" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="327" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a7217632b4c8365299ed740ed6ce77b0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_IsValidIdentifier, SqlMetacharactersRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_IsValidIdentifier</type>
+        </param>
+        <param>
+          <type>SqlMetacharactersRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="335" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="335" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a91848022e1e6151be4d120a0efe1d0db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_BoundsCheck, MaxTableCountConstantSane)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_BoundsCheck</type>
+        </param>
+        <param>
+          <type>MaxTableCountConstantSane</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="357" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="357" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1aea450763bd82b2d7ce4a25ed8cadfd14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_BoundsCheck, MaxColumnCountConstantSane)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_BoundsCheck</type>
+        </param>
+        <param>
+          <type>MaxColumnCountConstantSane</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="362" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="362" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a50f27e471559bcf17fd0537611f9b265" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I3_VectorPrealloc, ParseInsertValuesSimple)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I3_VectorPrealloc</type>
+        </param>
+        <param>
+          <type>ParseInsertValuesSimple</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="371" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="371" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1ab6ff7b253df2e51c25a1b865b99adce0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I3_VectorPrealloc, ParseInsertValuesQuotedWithEscape)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I3_VectorPrealloc</type>
+        </param>
+        <param>
+          <type>ParseInsertValuesQuotedWithEscape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="379" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="379" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a6dfc3344cfe78a623de11bff687b92e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I3_VectorPrealloc, ParseInsertValuesEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I3_VectorPrealloc</type>
+        </param>
+        <param>
+          <type>ParseInsertValuesEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="386" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="386" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1ae7c0aeab6a6bbd11431d4a0e5d0144ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I3_VectorPrealloc, ParseCopyRowTabDelimited)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I3_VectorPrealloc</type>
+        </param>
+        <param>
+          <type>ParseCopyRowTabDelimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="391" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="391" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a88c475d54a3ca7970201c26e2c8266e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I3_VectorPrealloc, ParseCopyRowSingleField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I3_VectorPrealloc</type>
+        </param>
+        <param>
+          <type>ParseCopyRowSingleField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="399" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="399" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1ae21f7223b86ea3c901f571fb562d47eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I3_VectorPrealloc, ParseInsertValuesNumericTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I3_VectorPrealloc</type>
+        </param>
+        <param>
+          <type>ParseInsertValuesNumericTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="405" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="405" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a0ee34cea273589768caeec322d9b29ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I1_Timeout, DefaultTimeoutIsZeroDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I1_Timeout</type>
+        </param>
+        <param>
+          <type>DefaultTimeoutIsZeroDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="417" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="417" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a819a04736a06167852a0cdc62acb87d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I1_Timeout, TimeoutCheckSkippedWhenDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I1_Timeout</type>
+        </param>
+        <param>
+          <type>TimeoutCheckSkippedWhenDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="423" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="423" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a22baec04fec47dd94338d401ca4523ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I1_Timeout, TimeoutNotTriggeredBeforeDeadline)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I1_Timeout</type>
+        </param>
+        <param>
+          <type>TimeoutNotTriggeredBeforeDeadline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="435" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="435" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a1cb349b359870e520f2e923b474c52f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I1_Timeout, TimeoutTriggeredAfterDeadline)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I1_Timeout</type>
+        </param>
+        <param>
+          <type>TimeoutTriggeredAfterDeadline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="445" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="445" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1aba72ffd3ffc6b14c52d98f5ffa26ba05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I1_Timeout, TimeoutAddsDeadlineExceededError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I1_Timeout</type>
+        </param>
+        <param>
+          <type>TimeoutAddsDeadlineExceededError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="461" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="461" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a623f1ed78fb5417eb7542c7150e4ab47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I1_Timeout, TimeoutCheckOnlyFiresEvery500Lines)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I1_Timeout</type>
+        </param>
+        <param>
+          <type>TimeoutCheckOnlyFiresEvery500Lines</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="477" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="477" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1ad059d05b782a787c7f964c5b0d59a157" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I4_Audit, ImportStartEventHasRequiredFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I4_Audit</type>
+        </param>
+        <param>
+          <type>ImportStartEventHasRequiredFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="496" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="496" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a6de20f36a7a0d607ff43d7ef89c407c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I4_Audit, ImportFailureEventHasPartialImportFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I4_Audit</type>
+        </param>
+        <param>
+          <type>ImportFailureEventHasPartialImportFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="515" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="515" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1ae1594b82e172e4cbc8255e10010937f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I4_Audit, AuthFailureEventAnonymisesUser)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I4_Audit</type>
+        </param>
+        <param>
+          <type>AuthFailureEventAnonymisesUser</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="531" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="531" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1ac6e9216488f0b8b11516a49df9bda68f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I4_Audit, SchemaChangeDetectionEventHasTableName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I4_Audit</type>
+        </param>
+        <param>
+          <type>SchemaChangeDetectionEventHasTableName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="547" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="547" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a384a538d61a671acf5863fd9f05df658" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I4_Audit, TimeoutAuditEventHasTimeoutTriggeredFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I4_Audit</type>
+        </param>
+        <param>
+          <type>TimeoutAuditEventHasTimeoutTriggeredFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="562" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="562" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a7713141520811bd67487254a0e22076e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I1_Integration, ImportOptionsTimeoutDefaultZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I1_Integration</type>
+        </param>
+        <param>
+          <type>ImportOptionsTimeoutDefaultZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="583" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="583" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1ab7d6ece52b4c0fb423a06237cffaab7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I1_Integration, ImportOptionsTimeoutFieldAssignable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I1_Integration</type>
+        </param>
+        <param>
+          <type>ImportOptionsTimeoutFieldAssignable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="588" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="588" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1afda8d831b1925ccb62697291d6eea0a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I2_EdgeCases, SingleCharIdentifierAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I2_EdgeCases</type>
+        </param>
+        <param>
+          <type>SingleCharIdentifierAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="601" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="601" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a99effdbdf9b81715437552d1f234ae0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I3_EdgeCases, ParseInsertValuesWideColumns)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I3_EdgeCases</type>
+        </param>
+        <param>
+          <type>ParseInsertValuesWideColumns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="607" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="607" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="test__phase4__importer__hardening_8cpp_1a82ca0ec8611e2a06bc8236cd74f799ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(I4_EdgeCases, MultipleAuditEventsDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>I4_EdgeCases</type>
+        </param>
+        <param>
+          <type>MultipleAuditEventsDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="617" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="617" bodyend="626"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 Block 2 – Security &amp; Performance Hardening tests for the Importers module (Issue #5184 remediation). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coverage: I1 – Connection timeout enforcement (import_timeout_ms, DEADLINE_EXCEEDED) I2 – Input validation &amp; SQL injection prevention (isValidIdentifier) I3 – Result vector pre-allocation (functional correctness of parse helpers) I4 – Audit logging (structured JSON events on start/failure/auth/schema)</para>
+<para>The file is intentionally self-contained: all relevant types are duplicated or simplified so the test binary requires only GoogleTest, Threads, and nlohmann/json — no other ThemisDB shared library.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cctype&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>types<sp/>mirroring<sp/>importer_interface.h<sp/>/<sp/>schema_inference.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="test__importer__async__api_8cpp_1a7193e726dbb79a5d60479d6b5689d5fb" kindref="member">ImportErrorCode</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbafb170ffea05221be6d4e256c6a5b0266" kindref="member">FILE_OPEN_FAILED</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>101,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbaa2ad53799b6678410eab18f554e548fc" kindref="member">FILE_READ_FAILED</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>102,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbae06152d8f10e762baa4fb8fc492c943b" kindref="member">NOT_A_PG_DUMP</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>103,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbacba421a68ff08e144118852019c326a5" kindref="member">PARSE_CREATE_TABLE</ref><sp/><sp/><sp/>=<sp/>200,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbac309fc3ad2b0adf7ce53450e5e645d3f" kindref="member">PARSE_INSERT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>201,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba867816865c206b73fd3ddfb03c5d8b0f" kindref="member">STATEMENT_TOO_LARGE</ref><sp/><sp/>=<sp/>204,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbae7ab0baaeef2c10221ca8e7224e3b616" kindref="member">UNKNOWN_TABLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba9ec04ab1a3195d54c6066ae331e0d787" kindref="member">COLUMN_COUNT_MISMATCH</ref><sp/>=<sp/>301,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbab2c6c5272c32652ebdddbba2a5db9687" kindref="member">DEADLINE_EXCEEDED</ref><sp/><sp/><sp/><sp/>=<sp/>110,<sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba255df50c140519133f1489ab44a389d9" kindref="member">PERMISSION_DENIED</ref><sp/><sp/><sp/><sp/>=<sp/>503,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>900</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="test__importer__async__api_8cpp_1a94c16938e96783489dad35c9a1e84a9e" kindref="member">ImportErrorSeverity</ref><sp/>{<sp/><ref refid="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea551b723eafd6a31d444fcb2f5920fbd3" kindref="member">INFO</ref>,<sp/><ref refid="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea059e9861e0400dfbe05c98a841f3f96b" kindref="member">WARNING</ref>,<sp/><ref refid="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9eabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref>,<sp/><ref refid="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9ea99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_import_error" kindref="compound">ImportError</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fb" kindref="member">ImportErrorCode</ref><sp/><sp/><sp/><sp/><sp/><ref refid="struct_import_error_1a5015ca64d76c3c773f2193c56b91e70c" kindref="member">code</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="test__importer__async__api_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ImportErrorCode::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9e" kindref="member">ImportErrorSeverity</ref><sp/><ref refid="struct_import_error_1a47311f670418833a25240cf6a4381f85" kindref="member">severity</ref><sp/>=<sp/><ref refid="test__importer__async__api_8cpp_1a94c16938e96783489dad35c9a1e84a9eabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ImportErrorSeverity::ERROR</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_import_error_1a4af6aef6c58e47008259bc23e45d4a99" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_import_error_1a1923bec85117deb81ab6128e1bfa956d" kindref="member">location</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_import_stats" kindref="compound">ImportStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_import_stats_1a3528d82c2030930cd59eff273aab42a2" kindref="member">total_records</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_import_stats_1a215f2e1e9f110e933227343704d0e0d0" kindref="member">imported_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_import_stats_1a708c8ec8134fdb0e1512c87d0826a665" kindref="member">failed_records</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_import_stats_1a9e9a8694de27e30317fdbdef3a2228f9" kindref="member">skipped_records</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_import_stats_1a397874a003b2d5d14ccb721ded29832b" kindref="member">tables_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_import_stats_1afb23ee71e0f8957b4b4d5b51efcddee7" kindref="member">elapsed_seconds</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_import_stats_1acd014098fe540dcefdf0a48436af5595" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_import_stats_1a37fe8ce990ec4a433718a261687c43d4" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ImportError&gt;<sp/><ref refid="struct_import_stats_1a5761361314dec0276682bf321364292e" kindref="member">structured_errors</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_import_options" kindref="compound">ImportOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="struct_import_options_1a698deab4f3b3dc396d31cff435a278af" kindref="member">dry_run</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="struct_import_options_1a9aa8aa3c5500e45741e8341fd6a340af" kindref="member">continue_on_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="struct_import_options_1a1c577c7ae3e702edbfe38a21a0071c3a" kindref="member">batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_import_options_1a72a02dfd6656418e56cecadeb408d735" kindref="member">default_namespace</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;imported&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_import_options_1a734a8f54f38325fadef81570be853d22" kindref="member">include_tables</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_import_options_1a765c13a9f232ccb99c71f946831e26b0" kindref="member">exclude_tables</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="struct_import_options_1a5aeff00e6e2cbcbc058fa4c706e8f360" kindref="member">type_overrides</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="struct_import_options_1ad60df8a58a7cfd313e28fa176d8531f9" kindref="member">max_row_size_bytes</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="struct_import_options_1a0c394e4b2a8c825a67fdb64590e8fd42" kindref="member">max_statement_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/><ref refid="struct_import_options_1ac68e7d1a81a9b111f287230dca46506e" kindref="member">permission_check</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;)&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_import_options_1a18ca7a9ec9f42ee98db654af71b35a0e" kindref="member">streaming_row_callback</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,std::string&gt;&amp;,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)&gt;<sp/><ref refid="struct_import_options_1a53640e2aff5bb07a0c3f6c7d4db19cb4" kindref="member">metrics_callback</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" kindref="member">import_timeout_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>re-implementation<sp/>of<sp/>isValidIdentifier<sp/>(mirrors<sp/>schema_inference.cpp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxIdentifierLength<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxTableCount<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxColumnCount<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1600;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isValidIdentifier(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>identifier)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(identifier.empty()<sp/>||<sp/>identifier.size()<sp/>&gt;<sp/>kMaxIdentifierLength)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>identifier)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::isalnum(c)<sp/>&amp;&amp;<sp/>c<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>re-implementation<sp/>of<sp/>parseInsertValues<sp/>(mirrors<sp/>postgres/mysql<sp/>.cpp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>parseInsertValues(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>values_clause)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>result.reserve(32);<sp/><sp/></highlight><highlight class="comment">//<sp/>I3:<sp/>pre-allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>values_clause.size();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(i<sp/>&lt;<sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>((i<sp/>&lt;<sp/>n<sp/>&amp;&amp;<sp/>(values_clause[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;<sp/>&apos;</highlight><highlight class="normal"><sp/>||<sp/>values_clause[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">)))<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;=<sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(values_clause[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>val<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(i<sp/>&lt;<sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(values_clause[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>i<sp/>+<sp/>1<sp/>&lt;<sp/>n<sp/>&amp;&amp;<sp/>values_clause[i<sp/>+<sp/>1]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val<sp/>+=<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal">;<sp/>i<sp/>+=<sp/>2;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(values_clause[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val<sp/>+=<sp/>values_clause[i++];</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(val);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(i<sp/>&lt;<sp/>n<sp/>&amp;&amp;<sp/>values_clause[i]<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>values_clause[i]<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;)&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>values_clause.substr(start,<sp/>i<sp/>-<sp/>start);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>last<sp/>=<sp/>token.find_last_not_of(</highlight><highlight class="stringliteral">&quot;<sp/>\t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(last<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>token<sp/>=<sp/>token.substr(0,<sp/>last<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(token);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>((i<sp/>&lt;<sp/>n<sp/>&amp;&amp;<sp/>(values_clause[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;<sp/>&apos;</highlight><highlight class="normal"><sp/>||<sp/>values_clause[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>values_clause[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">)))<sp/>++i;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>parseCopyRow(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>result.reserve(32);<sp/><sp/></highlight><highlight class="comment">//<sp/>I3:<sp/>pre-allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;=<sp/>line.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>==<sp/>line.size()<sp/>||<sp/>line[i]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(line.substr(start,<sp/>i<sp/>-<sp/>start));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start<sp/>=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>audit<sp/>event<sp/>capture<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="struct_audit_capture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><ref refid="struct_audit_capture_1a1e6dd3a454133e72f2cc29d84ec47aa5" kindref="member">events</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_type,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::initializer_list&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>fields)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json<sp/>audit;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit[</highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">]<sp/>=<sp/>event_type;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit[</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[k,<sp/>v]<sp/>:<sp/>fields)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit[k]<sp/>=<sp/>v;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture_1a1e6dd3a454133e72f2cc29d84ec47aa5" kindref="member">events</ref>.push_back(std::move(audit));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_type)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(<ref refid="struct_audit_capture_1a1e6dd3a454133e72f2cc29d84ec47aa5" kindref="member">events</ref>.begin(),<sp/><ref refid="struct_audit_capture_1a1e6dd3a454133e72f2cc29d84ec47aa5" kindref="member">events</ref>.end(),</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;<sp/>e)<sp/>{<sp/>return<sp/>e.value(</highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>==<sp/>event_type;<sp/>});</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json*<sp/><ref refid="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" kindref="member">findEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_type)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/><ref refid="struct_audit_capture_1a1e6dd3a454133e72f2cc29d84ec47aa5" kindref="member">events</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.value(</highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>==<sp/>event_type)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;e;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timeout<sp/>simulation<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>simulateTimeoutCheck(</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>import_timeout_ms,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>line_number,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>deadline,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_stats" kindref="compound">ImportStats</ref>&amp;<sp/>stats,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref>&amp;<sp/>audit,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source)</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(import_timeout_ms<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(line_number<sp/>%<sp/>500<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>&lt;<sp/>deadline)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="stringliteral">&quot;importer_timeout&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source},</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;import_timeout_ms<sp/>exceeded&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timeout_triggered&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;records_processed&quot;</highlight><highlight class="normal">,<sp/>std::to_string(stats.<ref refid="struct_import_stats_1a215f2e1e9f110e933227343704d0e0d0" kindref="member">imported_records</ref>)},</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timeout_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(import_timeout_ms)}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_error" kindref="compound">ImportError</ref><sp/>err;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>err.<ref refid="struct_import_error_1a5015ca64d76c3c773f2193c56b91e70c" kindref="member">code</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="test__importer__async__api_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbab2c6c5272c32652ebdddbba2a5db9687" kindref="member">ImportErrorCode::DEADLINE_EXCEEDED</ref>;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>err.<ref refid="struct_import_error_1a47311f670418833a25240cf6a4381f85" kindref="member">severity</ref><sp/>=<sp/><ref refid="test__importer__async__api_8cpp_1a94c16938e96783489dad35c9a1e84a9ea99cd1c61610c76a57cb8d10d6df6b870" kindref="member">ImportErrorSeverity::CRITICAL</ref>;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>err.<ref refid="struct_import_error_1a4af6aef6c58e47008259bc23e45d4a99" kindref="member">message</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Import<sp/>timed<sp/>out<sp/>after<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(import_timeout_ms)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="struct_import_stats_1a5761361314dec0276682bf321364292e" kindref="member">structured_errors</ref>.push_back(err);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>suite</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>I2<sp/>–<sp/>isValidIdentifier<sp/>tests<sp/>(10<sp/>cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>EmptyStringRejected)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>SimpleAlphanumericAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;Users123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>UnderscoreAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;_private&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;col_a_b_c&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>SemicolonRejected)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;users;DROP<sp/>TABLE<sp/>users--&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;t;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>SingleQuoteRejected)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;user&apos;s_table&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;&apos;injected&apos;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>DashRejected)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;my-table&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;-leading&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>DotRejected)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;schema.table&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;.hidden&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>SpacesRejected)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;table<sp/>name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;<sp/>leading&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;trailing<sp/>&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>TooLongIdentifierRejected)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>too_long(kMaxIdentifierLength<sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(too_long));</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>exact(kMaxIdentifierLength,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(exact));</highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_IsValidIdentifier,<sp/>SqlMetacharactersRejected)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>common<sp/>SQL<sp/>injection<sp/>characters<sp/>must<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>bad_inputs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>OR<sp/>1=1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;col--comment&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;t/*comment*/&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;x<sp/>UNION<sp/>SELECT&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;a\tb&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tab</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;a\nb&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>newline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;a%b&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>like<sp/>wildcard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;a@b&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>at-sign</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>input<sp/>:<sp/>bad_inputs)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(isValidIdentifier(input))</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>rejection<sp/>for:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>input;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>I2<sp/>–<sp/>Bounds<sp/>checking<sp/>(2<sp/>cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_BoundsCheck,<sp/>MaxTableCountConstantSane)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(kMaxTableCount,<sp/>0u);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(kMaxTableCount,<sp/>100000u);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_BoundsCheck,<sp/>MaxColumnCountConstantSane)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(kMaxColumnCount,<sp/>0u);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(kMaxColumnCount,<sp/>10000u);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>I3<sp/>–<sp/>Result<sp/>vector<sp/>pre-allocation<sp/>/<sp/>functional<sp/>correctness<sp/>(5<sp/>cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I3_VectorPrealloc,<sp/>ParseInsertValuesSimple)<sp/>{</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vals<sp/>=<sp/>parseInsertValues(</highlight><highlight class="stringliteral">&quot;1,<sp/>&apos;hello&apos;,<sp/>NULL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(3u,<sp/>vals.size());</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>vals[0]);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">,<sp/>vals[1]);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;NULL&quot;</highlight><highlight class="normal">,<sp/><sp/>vals[2]);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I3_VectorPrealloc,<sp/>ParseInsertValuesQuotedWithEscape)<sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vals<sp/>=<sp/>parseInsertValues(</highlight><highlight class="stringliteral">&quot;&apos;it&apos;&apos;s&apos;,<sp/>&apos;done&apos;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(2u,<sp/>vals.size());</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;it&apos;s&quot;</highlight><highlight class="normal">,<sp/>vals[0]);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;done&quot;</highlight><highlight class="normal">,<sp/>vals[1]);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I3_VectorPrealloc,<sp/>ParseInsertValuesEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vals<sp/>=<sp/>parseInsertValues(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vals.empty());</highlight></codeline>
+<codeline lineno="389"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I3_VectorPrealloc,<sp/>ParseCopyRowTabDelimited)<sp/>{</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vals<sp/>=<sp/>parseCopyRow(</highlight><highlight class="stringliteral">&quot;alice\t42\tNYC&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(3u,<sp/>vals.size());</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>vals[0]);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>vals[1]);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;NYC&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>vals[2]);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I3_VectorPrealloc,<sp/>ParseCopyRowSingleField)<sp/>{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vals<sp/>=<sp/>parseCopyRow(</highlight><highlight class="stringliteral">&quot;onlyfield&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(1u,<sp/>vals.size());</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;onlyfield&quot;</highlight><highlight class="normal">,<sp/>vals[0]);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I3_VectorPrealloc,<sp/>ParseInsertValuesNumericTypes)<sp/>{</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vals<sp/>=<sp/>parseInsertValues(</highlight><highlight class="stringliteral">&quot;42,<sp/>3.14,<sp/>-7&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(3u,<sp/>vals.size());</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>vals[0]);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;3.14&quot;</highlight><highlight class="normal">,<sp/>vals[1]);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;-7&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>vals[2]);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight><highlight class="comment">//<sp/>I1<sp/>–<sp/>Connection<sp/>timeout<sp/>enforcement<sp/>(5<sp/>cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I1_Timeout,<sp/>DefaultTimeoutIsZeroDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_options" kindref="compound">ImportOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>opts.<ref refid="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" kindref="member">import_timeout_ms</ref>)</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Default<sp/>import_timeout_ms<sp/>must<sp/>be<sp/>0<sp/>(disabled)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I1_Timeout,<sp/>TimeoutCheckSkippedWhenDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_stats" kindref="compound">ImportStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>far_future<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>+<sp/>std::chrono::hours(1);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>if<sp/>line_number<sp/>is<sp/>a<sp/>multiple<sp/>of<sp/>500,<sp/>no<sp/>trigger<sp/>when<sp/>timeout_ms<sp/>==<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>triggered<sp/>=<sp/>simulateTimeoutCheck(0,<sp/>500,<sp/>far_future,<sp/>stats,<sp/>audit,<sp/></highlight><highlight class="stringliteral">&quot;test.sql&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(triggered);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(audit.<ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="stringliteral">&quot;importer_timeout&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.<ref refid="struct_import_stats_1a5761361314dec0276682bf321364292e" kindref="member">structured_errors</ref>.empty());</highlight></codeline>
+<codeline lineno="433"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I1_Timeout,<sp/>TimeoutNotTriggeredBeforeDeadline)<sp/>{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_stats" kindref="compound">ImportStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>far_future<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>+<sp/>std::chrono::hours(1);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>triggered<sp/>=<sp/>simulateTimeoutCheck(30000,<sp/>500,<sp/>far_future,<sp/>stats,<sp/>audit,<sp/></highlight><highlight class="stringliteral">&quot;test.sql&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(triggered);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(audit.<ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="stringliteral">&quot;importer_timeout&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="443"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I1_Timeout,<sp/>TimeoutTriggeredAfterDeadline)<sp/>{</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_stats" kindref="compound">ImportStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deadline<sp/>in<sp/>the<sp/>past<sp/>→<sp/>timeout<sp/>fires<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>past<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>std::chrono::milliseconds(1);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>triggered<sp/>=<sp/>simulateTimeoutCheck(1,<sp/>500,<sp/>past,<sp/>stats,<sp/>audit,<sp/></highlight><highlight class="stringliteral">&quot;/data/dump.sql&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(triggered);</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(audit.<ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="stringliteral">&quot;importer_timeout&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>*<sp/>ev<sp/>=<sp/>audit.<ref refid="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" kindref="member">findEvent</ref>(</highlight><highlight class="stringliteral">&quot;importer_timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ev);</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;timeout_triggered&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;/data/dump.sql&quot;</highlight><highlight class="normal">,<sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="459"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I1_Timeout,<sp/>TimeoutAddsDeadlineExceededError)<sp/>{</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_stats" kindref="compound">ImportStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>past<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>std::chrono::milliseconds(1);</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>simulateTimeoutCheck(5000,<sp/>500,<sp/>past,<sp/>stats,<sp/>audit,<sp/></highlight><highlight class="stringliteral">&quot;src.sql&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(stats.<ref refid="struct_import_stats_1a5761361314dec0276682bf321364292e" kindref="member">structured_errors</ref>.empty());</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="test__importer__async__api_8cpp_1a7193e726dbb79a5d60479d6b5689d5fbab2c6c5272c32652ebdddbba2a5db9687" kindref="member">ImportErrorCode::DEADLINE_EXCEEDED</ref>,</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats.<ref refid="struct_import_stats_1a5761361314dec0276682bf321364292e" kindref="member">structured_errors</ref>.back().code);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="test__importer__async__api_8cpp_1a94c16938e96783489dad35c9a1e84a9ea99cd1c61610c76a57cb8d10d6df6b870" kindref="member">ImportErrorSeverity::CRITICAL</ref>,</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats.<ref refid="struct_import_stats_1a5761361314dec0276682bf321364292e" kindref="member">structured_errors</ref>.back().severity);</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats.<ref refid="struct_import_stats_1a5761361314dec0276682bf321364292e" kindref="member">structured_errors</ref>.back().message.find(</highlight><highlight class="stringliteral">&quot;5000<sp/>ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="475"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I1_Timeout,<sp/>TimeoutCheckOnlyFiresEvery500Lines)<sp/>{</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_stats" kindref="compound">ImportStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>past<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>std::chrono::milliseconds(1);</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Line<sp/>numbers<sp/>NOT<sp/>a<sp/>multiple<sp/>of<sp/>500<sp/>→<sp/>no<sp/>check<sp/>→<sp/>no<sp/>trigger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ln<sp/>:<sp/>{1u,<sp/>99u,<sp/>499u,<sp/>501u,<sp/>1000u})<sp/>{</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ln<sp/>%<sp/>500<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>triggered<sp/>=<sp/>simulateTimeoutCheck(1,<sp/>ln,<sp/>past,<sp/>stats,<sp/>audit,<sp/></highlight><highlight class="stringliteral">&quot;src.sql&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(triggered)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>trigger<sp/>at<sp/>line<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ln;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(audit.<ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="stringliteral">&quot;importer_timeout&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="490"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight><highlight class="comment">//<sp/>I4<sp/>–<sp/>Audit<sp/>event<sp/>structure<sp/>tests<sp/>(5<sp/>cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I4_Audit,<sp/>ImportStartEventHasRequiredFields)<sp/>{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="stringliteral">&quot;import_start&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/data/pg_dump.sql&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;schema_name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;imported&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dry_run&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timeout_ms&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(audit.<ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="stringliteral">&quot;import_start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>*<sp/>ev<sp/>=<sp/>audit.<ref refid="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" kindref="member">findEvent</ref>(</highlight><highlight class="stringliteral">&quot;import_start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ev);</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;import_start&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;/data/pg_dump.sql&quot;</highlight><highlight class="normal">,<sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;imported&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;schema_name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;dry_run&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev-&gt;contains(</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="513"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I4_Audit,<sp/>ImportFailureEventHasPartialImportFlag)<sp/>{</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="stringliteral">&quot;import_failure&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/data/dump.sql&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;parse_failed&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;records_processed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;150&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;partial_import&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>*<sp/>ev<sp/>=<sp/>audit.<ref refid="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" kindref="member">findEvent</ref>(</highlight><highlight class="stringliteral">&quot;import_failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ev);</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;parse_failed&quot;</highlight><highlight class="normal">,<sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;150&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;records_processed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;partial_import&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="529"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I4_Audit,<sp/>AuthFailureEventAnonymisesUser)<sp/>{</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="stringliteral">&quot;auth_failure&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;db.sql&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;caller&gt;&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;permission_check<sp/>denied<sp/>import:write&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>*<sp/>ev<sp/>=<sp/>audit.<ref refid="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" kindref="member">findEvent</ref>(</highlight><highlight class="stringliteral">&quot;auth_failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ev);</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>field<sp/>must<sp/>never<sp/>contain<sp/>raw<sp/>credentials;<sp/>only<sp/>the<sp/>placeholder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;&lt;caller&gt;&quot;</highlight><highlight class="normal">,<sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">).find(</highlight><highlight class="stringliteral">&quot;permission_check&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="545"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I4_Audit,<sp/>SchemaChangeDetectionEventHasTableName)<sp/>{</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="stringliteral">&quot;schema_change_detection&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;change_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CREATE_TABLE&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;detected_at&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;line:42&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>*<sp/>ev<sp/>=<sp/>audit.<ref refid="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" kindref="member">findEvent</ref>(</highlight><highlight class="stringliteral">&quot;schema_change_detection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ev);</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;CREATE_TABLE&quot;</highlight><highlight class="normal">,<sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;change_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;line:42&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;detected_at&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="560"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I4_Audit,<sp/>TimeoutAuditEventHasTimeoutTriggeredFlag)<sp/>{</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="stringliteral">&quot;importer_timeout&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/data/large.sql&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;import_timeout_ms<sp/>exceeded&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timeout_triggered&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;records_processed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1024&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timeout_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;30000&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"></highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>*<sp/>ev<sp/>=<sp/>audit.<ref refid="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" kindref="member">findEvent</ref>(</highlight><highlight class="stringliteral">&quot;importer_timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ev);</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;timeout_triggered&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;30000&quot;</highlight><highlight class="normal">,<sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;timeout_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;1024&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>ev-&gt;value(</highlight><highlight class="stringliteral">&quot;records_processed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="577"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration-level:<sp/>import_timeout_ms<sp/>field<sp/>in<sp/>ImportOptions<sp/>(2<sp/>cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="581"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="582"><highlight class="normal"></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I1_Integration,<sp/>ImportOptionsTimeoutDefaultZero)<sp/>{</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_options" kindref="compound">ImportOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>opts.<ref refid="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" kindref="member">import_timeout_ms</ref>);</highlight></codeline>
+<codeline lineno="586"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I1_Integration,<sp/>ImportOptionsTimeoutFieldAssignable)<sp/>{</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_import_options" kindref="compound">ImportOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" kindref="member">import_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(5000u,<sp/>opts.<ref refid="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" kindref="member">import_timeout_ms</ref>);</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" kindref="member">import_timeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(30000u,<sp/>opts.<ref refid="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" kindref="member">import_timeout_ms</ref>);</highlight></codeline>
+<codeline lineno="595"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="598"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge-case<sp/>/<sp/>regression<sp/>tests<sp/>(3<sp/>additional<sp/>cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I2_EdgeCases,<sp/>SingleCharIdentifierAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;Z&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isValidIdentifier(</highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="605"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"></highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I3_EdgeCases,<sp/>ParseInsertValuesWideColumns)<sp/>{</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>correct<sp/>parsing<sp/>of<sp/>a<sp/>10-column<sp/>tuple<sp/>(exceeds<sp/>naive<sp/>reserve(8))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>clause<sp/>=</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;a&apos;,<sp/>&apos;b&apos;,<sp/>&apos;c&apos;,<sp/>&apos;d&apos;,<sp/>&apos;e&apos;,<sp/>&apos;f&apos;,<sp/>&apos;g&apos;,<sp/>&apos;h&apos;,<sp/>&apos;i&apos;,<sp/>&apos;j&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vals<sp/>=<sp/>parseInsertValues(clause);</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(10u,<sp/>vals.size());</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>vals[0]);</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;j&quot;</highlight><highlight class="normal">,<sp/>vals[9]);</highlight></codeline>
+<codeline lineno="615"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"></highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><ref refid="test__phase4__importer__hardening_8cpp_1adba7d75b43b1e58356c4094bbd242063" kindref="member">TEST</ref>(I4_EdgeCases,<sp/>MultipleAuditEventsDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_audit_capture" kindref="compound">AuditCapture</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="stringliteral">&quot;import_start&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a.sql&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" kindref="member">emit</ref>(</highlight><highlight class="stringliteral">&quot;import_failure&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a.sql&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;io_error&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"></highlight></codeline>
+<codeline lineno="622"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>audit.<ref refid="struct_audit_capture_1a1e6dd3a454133e72f2cc29d84ec47aa5" kindref="member">events</ref>.size());</highlight></codeline>
+<codeline lineno="623"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(audit.<ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="stringliteral">&quot;import_start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(audit.<ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="stringliteral">&quot;import_failure&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(audit.<ref refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" kindref="member">hasEvent</ref>(</highlight><highlight class="stringliteral">&quot;auth_failure&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="626"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/importers/test_phase4_importer_hardening.cpp"/>
+  </compounddef>
+</doxygen>

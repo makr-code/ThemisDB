@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_replication_request" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ReplicationRequest</compoundname>
+    <includes refid="consensus__module_8h" local="no">consensus_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_request_1ad9db268cf156775be1510e6c4ad0ccc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ReplicationRequest::leader_id</definition>
+        <argsstring></argsstring>
+        <name>leader_id</name>
+        <qualifiedname>themisdb::sharding::ReplicationRequest::leader_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="96" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_request_1a0bce91b76aaa8c06b5f071099ef52d47" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicationRequest::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::ReplicationRequest::term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="97" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_request_1ad86f73fa0af63930ccce8a4846558d98" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicationRequest::prev_log_index</definition>
+        <argsstring></argsstring>
+        <name>prev_log_index</name>
+        <qualifiedname>themisdb::sharding::ReplicationRequest::prev_log_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="98" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_request_1a4bf05e37f78f1b3ce36436ded83b9961" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicationRequest::prev_log_term</definition>
+        <argsstring></argsstring>
+        <name>prev_log_term</name>
+        <qualifiedname>themisdb::sharding::ReplicationRequest::prev_log_term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="99" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_request_1a0a7a0c692a35d69de6afb1fdf7dc7d07" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ConsensusLogEntry&gt; themisdb::sharding::ReplicationRequest::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themisdb::sharding::ReplicationRequest::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="100" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_request_1ad0908555109542862389cbbd35004830" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicationRequest::leader_commit</definition>
+        <argsstring></argsstring>
+        <name>leader_commit</name>
+        <qualifiedname>themisdb::sharding::ReplicationRequest::leader_commit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="101" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replication request. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/consensus_module.h" line="95" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="95" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_request_1a0a7a0c692a35d69de6afb1fdf7dc7d07" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationRequest</scope><name>entries</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_request_1ad0908555109542862389cbbd35004830" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationRequest</scope><name>leader_commit</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_request_1ad9db268cf156775be1510e6c4ad0ccc0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationRequest</scope><name>leader_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_request_1ad86f73fa0af63930ccce8a4846558d98" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationRequest</scope><name>prev_log_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_request_1a4bf05e37f78f1b3ce36436ded83b9961" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationRequest</scope><name>prev_log_term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_request_1a0bce91b76aaa8c06b5f071099ef52d47" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationRequest</scope><name>term</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_federated_distillation_coordinator_test" kind="class" language="C++" prot="public">
+    <compoundname>FederatedDistillationCoordinatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kindref="compound">DistillationConfig</ref></type>
+        <definition>DistillationConfig FederatedDistillationCoordinatorTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>FederatedDistillationCoordinatorTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="45" column="24" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_federated_distillation_coordinator_test_1afaa487e227c2b6193757f1e80f360090" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FederatedDistillationCoordinatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FederatedDistillationCoordinatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="34" column="10" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="34" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_federated_distillation_coordinator_test_1ae27361448366b1d2dceea22a7cf02f1d" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> &gt;</type>
+        <definition>static std::vector&lt; SoftLabel &gt; FederatedDistillationCoordinatorTest::makeLabels</definition>
+        <argsstring>(size_t n, const std::string &amp;teacher_id=&quot;t1&quot;)</argsstring>
+        <name>makeLabels</name>
+        <qualifiedname>FederatedDistillationCoordinatorTest::makeLabels</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>teacher_id</declname>
+          <defval>&quot;t1&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a minimal set of SoftLabels for testing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="48" column="24" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="48" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FederatedDistillationCoordinatorTest</label>
+        <link refid="class_federated_distillation_coordinator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FederatedDistillationCoordinatorTest</label>
+        <link refid="class_federated_distillation_coordinator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::distributed_knowledge::DistillationConfig</label>
+        <link refid="structthemis_1_1distributed__knowledge_1_1_distillation_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="32" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="32" bodyend="61"/>
+    <listofallmembers>
+      <member refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" prot="protected" virt="non-virtual"><scope>FederatedDistillationCoordinatorTest</scope><name>cfg_</name></member>
+      <member refid="class_federated_distillation_coordinator_test_1ae27361448366b1d2dceea22a7cf02f1d" prot="protected" virt="non-virtual"><scope>FederatedDistillationCoordinatorTest</scope><name>makeLabels</name></member>
+      <member refid="class_federated_distillation_coordinator_test_1afaa487e227c2b6193757f1e80f360090" prot="protected" virt="non-virtual"><scope>FederatedDistillationCoordinatorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

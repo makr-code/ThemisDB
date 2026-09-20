@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_batch_config" kind="struct" language="C++" prot="public">
+    <compoundname>chimera::BatchConfig</compoundname>
+    <includes refid="batch__executor_8hpp" local="no">batch_executor.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_batch_config_1ac0391b0bd49b4b3829134ebcb001d3fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::BatchConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>chimera::BatchConfig::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="22" column="12" bodyfile="include/chimera/batch_executor.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_config_1a8cf2c6700faa1d678ea3ca45aaf652a3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::BatchConfig::pipeline_depth</definition>
+        <argsstring></argsstring>
+        <name>pipeline_depth</name>
+        <qualifiedname>chimera::BatchConfig::pipeline_depth</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="24" column="12" bodyfile="include/chimera/batch_executor.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_config_1a9121041890eeef3f1475944b073358c9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t chimera::BatchConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>chimera::BatchConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="26" column="14" bodyfile="include/chimera/batch_executor.hpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_config_1aa54a86f030c0215d8b20d208a97d651b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::BatchConfig::auto_commit</definition>
+        <argsstring></argsstring>
+        <name>auto_commit</name>
+        <qualifiedname>chimera::BatchConfig::auto_commit</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="28" column="10" bodyfile="include/chimera/batch_executor.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_config_1a98cb413c96e6a22c1776cc8ad62d8001" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::BatchConfig::fail_fast</definition>
+        <argsstring></argsstring>
+        <name>fail_fast</name>
+        <qualifiedname>chimera::BatchConfig::fail_fast</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="30" column="10" bodyfile="include/chimera/batch_executor.hpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/batch_executor.hpp" line="21" column="1" bodyfile="include/chimera/batch_executor.hpp" bodystart="21" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_batch_config_1aa54a86f030c0215d8b20d208a97d651b" prot="public" virt="non-virtual"><scope>chimera::BatchConfig</scope><name>auto_commit</name></member>
+      <member refid="structchimera_1_1_batch_config_1ac0391b0bd49b4b3829134ebcb001d3fc" prot="public" virt="non-virtual"><scope>chimera::BatchConfig</scope><name>batch_size</name></member>
+      <member refid="structchimera_1_1_batch_config_1a98cb413c96e6a22c1776cc8ad62d8001" prot="public" virt="non-virtual"><scope>chimera::BatchConfig</scope><name>fail_fast</name></member>
+      <member refid="structchimera_1_1_batch_config_1a8cf2c6700faa1d678ea3ca45aaf652a3" prot="public" virt="non-virtual"><scope>chimera::BatchConfig</scope><name>pipeline_depth</name></member>
+      <member refid="structchimera_1_1_batch_config_1a9121041890eeef3f1475944b073358c9" prot="public" virt="non-virtual"><scope>chimera::BatchConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

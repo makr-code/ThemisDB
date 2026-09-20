@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_dot_parity_param" kind="struct" language="C++" prot="public">
+    <compoundname>DotParityParam</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_dot_parity_param_1aa6975a9fd5fb0bcd6689a3e2336bca1d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t DotParityParam::n</definition>
+        <argsstring></argsstring>
+        <name>n</name>
+        <qualifiedname>DotParityParam::n</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_query_accelerator_parity.cpp" line="373" column="19" bodyfile="tests/gpu/test_gpu_query_accelerator_parity.cpp" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_dot_parity_param_1ae42219f42836d20e2c72da190eacd7c0" prot="public" static="no" mutable="no">
+        <type><ref refid="test__gpu__query__accelerator__error__injection_8cpp_1aa6843c58d18aa6ed949bc7e4bc478100" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode DotParityParam::prec</definition>
+        <argsstring></argsstring>
+        <name>prec</name>
+        <qualifiedname>DotParityParam::prec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_query_accelerator_parity.cpp" line="374" column="19" bodyfile="tests/gpu/test_gpu_query_accelerator_parity.cpp" bodystart="374" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_query_accelerator_parity.cpp" line="372" column="1" bodyfile="tests/gpu/test_gpu_query_accelerator_parity.cpp" bodystart="372" bodyend="375"/>
+    <listofallmembers>
+      <member refid="struct_dot_parity_param_1aa6975a9fd5fb0bcd6689a3e2336bca1d" prot="public" virt="non-virtual"><scope>DotParityParam</scope><name>n</name></member>
+      <member refid="struct_dot_parity_param_1ae42219f42836d20e2c72da190eacd7c0" prot="public" virt="non-virtual"><scope>DotParityParam</scope><name>prec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

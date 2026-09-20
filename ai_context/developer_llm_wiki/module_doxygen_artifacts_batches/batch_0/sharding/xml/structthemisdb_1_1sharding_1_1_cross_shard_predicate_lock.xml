@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardPredicateLock</compoundname>
+    <includes refid="cross__shard__ssi__manager_8h" local="no">cross_shard_ssi_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock_1a9d1e98f3e6b6070e5afd33b85d11f84b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardPredicateLock::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardPredicateLock::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard that observed this read range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="47" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock_1a70c0aa65a886782b273c6b063dadd450" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardPredicateLock::start_key</definition>
+        <argsstring></argsstring>
+        <name>start_key</name>
+        <qualifiedname>themisdb::sharding::CrossShardPredicateLock::start_key</qualifiedname>
+        <briefdescription>
+<para>Inclusive lower bound of the scanned range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="48" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock_1add818ca6b3afcb24396bc2074ad1f6da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardPredicateLock::end_key</definition>
+        <argsstring></argsstring>
+        <name>end_key</name>
+        <qualifiedname>themisdb::sharding::CrossShardPredicateLock::end_key</qualifiedname>
+        <briefdescription>
+<para>Inclusive upper bound; empty == single-key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="49" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A predicate (range) lock held by a cross-shard transaction on one shard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents the range [<computeroutput>start_key</computeroutput>, <computeroutput>end_key</computeroutput>] inclusive on both ends. When <computeroutput>end_key</computeroutput> is empty the lock covers only the single key <computeroutput>start_key</computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_ssi_manager.h" line="46" column="1" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="46" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock_1add818ca6b3afcb24396bc2074ad1f6da" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardPredicateLock</scope><name>end_key</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock_1a9d1e98f3e6b6070e5afd33b85d11f84b" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardPredicateLock</scope><name>shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock_1a70c0aa65a886782b273c6b063dadd450" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardPredicateLock</scope><name>start_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

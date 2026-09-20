@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::CmmnParsingDeterminismSpec</compoundname>
+    <includes refid="process__determinism__spec_8h" local="no">process_determinism_spec.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1a2005ff67a87617214ab54bab41a8b465" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref></type>
+        <definition>DeterminismClass themis::process::CmmnParsingDeterminismSpec::determinism</definition>
+        <argsstring></argsstring>
+        <name>determinism</name>
+        <qualifiedname>themis::process::CmmnParsingDeterminismSpec::determinism</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445aa96d65db20752636785d8fc9bf721e92" kindref="member">DeterminismClass::FULLY_DETERMINISTIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="159" column="39" bodyfile="include/process/process_determinism_spec.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1aca0ef05b5bc6392c3389cf0ee5281d93" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref></type>
+        <definition>ConflictScope themis::process::CmmnParsingDeterminismSpec::conflict_scope</definition>
+        <argsstring></argsstring>
+        <name>conflict_scope</name>
+        <qualifiedname>themis::process::CmmnParsingDeterminismSpec::conflict_scope</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictScope::NO_CONFLICTS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="160" column="36" bodyfile="include/process/process_determinism_spec.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1a451a882fa5f6d1aadf0c7d9e0a6d1157" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::CmmnParsingDeterminismSpec::uuid_namespace</definition>
+        <argsstring>()</argsstring>
+        <name>uuid_namespace</name>
+        <qualifiedname>themis::process::CmmnParsingDeterminismSpec::uuid_namespace</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="162" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1ae4b49fee03c4b3ab764d5385e079c718" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::CmmnParsingDeterminismSpec::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::CmmnParsingDeterminismSpec::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="166" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="166" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guarantees for CMMN model parsing and import. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Determinism:</bold> FULLY_DETERMINISTIC <linebreak/>
+ <bold>Condition:</bold> UUID generation uses RFC 4122 v5 with stable namespace <linebreak/>
+</para>
+<para>Same guarantees as BPMN parsing. </para>
+    </detaileddescription>
+    <location file="include/process/process_determinism_spec.h" line="158" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="158" bodyend="170"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1aca0ef05b5bc6392c3389cf0ee5281d93" prot="public" virt="non-virtual"><scope>themis::process::CmmnParsingDeterminismSpec</scope><name>conflict_scope</name></member>
+      <member refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1ae4b49fee03c4b3ab764d5385e079c718" prot="public" virt="non-virtual"><scope>themis::process::CmmnParsingDeterminismSpec</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1a2005ff67a87617214ab54bab41a8b465" prot="public" virt="non-virtual"><scope>themis::process::CmmnParsingDeterminismSpec</scope><name>determinism</name></member>
+      <member refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1a451a882fa5f6d1aadf0c7d9e0a6d1157" prot="public" virt="non-virtual"><scope>themis::process::CmmnParsingDeterminismSpec</scope><name>uuid_namespace</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_field_encryption" kind="class" language="C++" prot="public">
+    <compoundname>MockFieldEncryption</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IFieldEncryption</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_field_encryption_1af2b9337aca5f5b7ee30dadafe22ceb0b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockFieldEncryption::encrypt_field</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; uint8_t &gt; &amp;plaintext) override</argsstring>
+        <name>encrypt_field</name>
+        <qualifiedname>MockFieldEncryption::encrypt_field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="140" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="140" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_field_encryption_1a31305b07344a053f9cbc575d580e9d2d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockFieldEncryption::decrypt_field</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; uint8_t &gt; &amp;ciphertext) override</argsstring>
+        <name>decrypt_field</name>
+        <qualifiedname>MockFieldEncryption::decrypt_field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="151" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_field_encryption_1a9f8041b3a109012a70f70bd5519f4c88" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockFieldEncryption::should_encrypt</definition>
+        <argsstring>(const std::string &amp;field_name) const override</argsstring>
+        <name>should_encrypt</name>
+        <qualifiedname>MockFieldEncryption::should_encrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="157" column="10" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IFieldEncryption</label>
+      </node>
+      <node id="1">
+        <label>MockFieldEncryption</label>
+        <link refid="class_mock_field_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IFieldEncryption</label>
+      </node>
+      <node id="1">
+        <label>MockFieldEncryption</label>
+        <link refid="class_mock_field_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_interfaces.cpp" line="138" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="138" bodyend="160"/>
+    <listofallmembers>
+      <member refid="class_mock_field_encryption_1a31305b07344a053f9cbc575d580e9d2d" prot="public" virt="non-virtual"><scope>MockFieldEncryption</scope><name>decrypt_field</name></member>
+      <member refid="class_mock_field_encryption_1af2b9337aca5f5b7ee30dadafe22ceb0b" prot="public" virt="non-virtual"><scope>MockFieldEncryption</scope><name>encrypt_field</name></member>
+      <member refid="class_mock_field_encryption_1a9f8041b3a109012a70f70bd5519f4c88" prot="public" virt="non-virtual"><scope>MockFieldEncryption</scope><name>should_encrypt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

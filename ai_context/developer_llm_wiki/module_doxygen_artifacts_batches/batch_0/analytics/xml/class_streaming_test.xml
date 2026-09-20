@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_streaming_test" kind="class" language="C++" prot="public">
+    <compoundname>StreamingTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_streaming_test_1ad9743051cab43112eff34f91bac84556" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config" kindref="compound">StreamingAnomalyDetector::Config</ref></type>
+        <definition>StreamingAnomalyDetector::Config StreamingTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>StreamingTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_anomaly_detection.cpp" line="646" column="38" bodyfile="tests/analytics/test_anomaly_detection.cpp" bodystart="646" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_streaming_test_1aa71134010930436b0d31a6dfcaac7d19" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StreamingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StreamingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_anomaly_detection.cpp" line="647" column="10" bodyfile="tests/analytics/test_anomaly_detection.cpp" bodystart="647" bodyend="654"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StreamingTest</label>
+        <link refid="class_streaming_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StreamingTest</label>
+        <link refid="class_streaming_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::StreamingAnomalyDetector::Config</label>
+        <link refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_anomaly_detection.cpp" line="644" column="1" bodyfile="tests/analytics/test_anomaly_detection.cpp" bodystart="644" bodyend="655"/>
+    <listofallmembers>
+      <member refid="class_streaming_test_1ad9743051cab43112eff34f91bac84556" prot="protected" virt="non-virtual"><scope>StreamingTest</scope><name>cfg_</name></member>
+      <member refid="class_streaming_test_1aa71134010930436b0d31a6dfcaac7d19" prot="protected" virt="non-virtual"><scope>StreamingTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>StreamingTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

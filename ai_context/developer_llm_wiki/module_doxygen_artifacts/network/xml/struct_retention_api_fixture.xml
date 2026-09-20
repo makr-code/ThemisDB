@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_retention_api_fixture" kind="struct" language="C++" prot="public">
+    <compoundname>RetentionApiFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_retention_api_fixture_1ac3256bcf833aadf3a6eb43fc49e22e2e" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; vcc::RetentionManager &gt;</type>
+        <definition>std::shared_ptr&lt;vcc::RetentionManager&gt; RetentionApiFixture::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>RetentionApiFixture::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="39" column="21" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retention_api_fixture_1ac7e691c198a1c7c1dbc57ad225bfad78" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RetentionApiHandler &gt;</type>
+        <definition>std::unique_ptr&lt;RetentionApiHandler&gt; RetentionApiFixture::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>RetentionApiFixture::handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="40" column="21" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_retention_api_fixture_1ae1c17f1798665da254f912656158e77d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RetentionApiFixture::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RetentionApiFixture::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="42" column="10" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RetentionApiFixture</label>
+        <link refid="struct_retention_api_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RetentionApiFixture</label>
+        <link refid="struct_retention_api_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_retention_api.cpp" line="38" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="38" bodyend="46"/>
+    <listofallmembers>
+      <member refid="struct_retention_api_fixture_1ac7e691c198a1c7c1dbc57ad225bfad78" prot="public" virt="non-virtual"><scope>RetentionApiFixture</scope><name>handler</name></member>
+      <member refid="struct_retention_api_fixture_1ac3256bcf833aadf3a6eb43fc49e22e2e" prot="public" virt="non-virtual"><scope>RetentionApiFixture</scope><name>mgr</name></member>
+      <member refid="struct_retention_api_fixture_1ae1c17f1798665da254f912656158e77d" prot="public" virt="non-virtual"><scope>RetentionApiFixture</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

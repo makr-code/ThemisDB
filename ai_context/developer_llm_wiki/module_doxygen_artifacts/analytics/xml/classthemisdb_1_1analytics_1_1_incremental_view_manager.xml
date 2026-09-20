@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_incremental_view_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::IncrementalViewManager</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a24b6f03087ae21e635e0fac3ba2e70c4" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::analytics::IncrementalViewManager::views_mutex_</definition>
+        <argsstring></argsstring>
+        <name>views_mutex_</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::views_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="358" column="31" bodyfile="include/analytics/incremental_view.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a9196c3c7bd35a4e465a199a9a3efb57e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_incremental_view" kindref="compound">IncrementalView</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;IncrementalView&gt; &gt; themisdb::analytics::IncrementalViewManager::views_</definition>
+        <argsstring></argsstring>
+        <name>views_</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::views_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="359" column="24" bodyfile="include/analytics/incremental_view.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ae3b703257a712209c02cae39a20a941b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::IncrementalViewManager::total_changes_</definition>
+        <argsstring></argsstring>
+        <name>total_changes_</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::total_changes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="360" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="360" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a4070dd6487410c893a830a978727b105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::IncrementalViewManager::IncrementalViewManager</definition>
+        <argsstring>()</argsstring>
+        <name>IncrementalViewManager</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::IncrementalViewManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="299" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1aad747097c4bf4b474947da4087c78ce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::IncrementalViewManager::~IncrementalViewManager</definition>
+        <argsstring>()</argsstring>
+        <name>~IncrementalViewManager</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::~IncrementalViewManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="300" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a460a6b3a91d1ae84b0b2f48bee0fc74e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::IncrementalViewManager::createView</definition>
+        <argsstring>(const ViewDefinition &amp;def)</argsstring>
+        <name>createView</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::createView</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_view_definition" kindref="compound">ViewDefinition</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>Create View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), count(), THEMIS_WARN(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="307" column="10" bodyfile="src/analytics/incremental_view.cpp" bodystart="648" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a0df106762f20b98840d2c21da1bc7499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::IncrementalViewManager::dropView</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>dropView</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::dropView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), count(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="314" column="10" bodyfile="src/analytics/incremental_view.cpp" bodystart="665" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ad91382cc3256f65b63371b1a707a9ca6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::IncrementalViewManager::hasView</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasView</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::hasView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">views_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="321" column="10" bodyfile="src/analytics/incremental_view.cpp" bodystart="675" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1acccc4ed480cd2d9f27c2d095de88f2e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_incremental_view" kindref="compound">IncrementalView</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IncrementalView &gt; themisdb::analytics::IncrementalViewManager::getView</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getView</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::getView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">views_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="328" column="21" bodyfile="src/analytics/incremental_view.cpp" bodystart="685" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a73ee44fb33a6356ff0838926babb1d3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::analytics::IncrementalViewManager::listViews</definition>
+        <argsstring>() const</argsstring>
+        <name>listViews</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::listViews</qualifiedname>
+        <briefdescription>
+<para>List Views. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">views_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="334" column="17" bodyfile="src/analytics/incremental_view.cpp" bodystart="696" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a8bf6e88459caef7ca77ca69b7fb90467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::IncrementalViewManager::applyChange</definition>
+        <argsstring>(const ChangeRecord &amp;change)</argsstring>
+        <name>applyChange</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::applyChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_change_record" kindref="compound">ChangeRecord</ref> &amp;</type>
+          <declname>change</declname>
+        </param>
+        <briefdescription>
+<para>Apply Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="340" column="10" bodyfile="src/analytics/incremental_view.cpp" bodystart="717" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a2e2ea79e2bdecbcbdde447ac17eb8669" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::IncrementalViewManager::applyChanges</definition>
+        <argsstring>(const std::vector&lt; ChangeRecord &gt; &amp;changes)</argsstring>
+        <name>applyChanges</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::applyChanges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_change_record" kindref="compound">ChangeRecord</ref> &gt; &amp;</type>
+          <declname>changes</declname>
+        </param>
+        <briefdescription>
+<para>Apply Changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="346" column="10" bodyfile="src/analytics/incremental_view.cpp" bodystart="733" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1aac2e06172430ab9cc93ea6cecda62988" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_view_query_result" kindref="compound">ViewQueryResult</ref></type>
+        <definition>ViewQueryResult themisdb::analytics::IncrementalViewManager::query</definition>
+        <argsstring>(const std::string &amp;view_name, const std::vector&lt; ViewFilter &gt; &amp;filters={}, int64_t limit=0, int64_t offset=0) const</argsstring>
+        <name>query</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>view_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_view_filter" kindref="compound">ViewFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">views_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="348" column="21" bodyfile="src/analytics/incremental_view.cpp" bodystart="742" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ae0214f0936905aad239a50ed60b418f4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::IncrementalViewManager::totalChanges</definition>
+        <argsstring>() const</argsstring>
+        <name>totalChanges</name>
+        <qualifiedname>themisdb::analytics::IncrementalViewManager::totalChanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="355" column="14" bodyfile="include/analytics/incremental_view.h" bodystart="355" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/incremental_view.h" line="297" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="297" bodyend="361"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a8bf6e88459caef7ca77ca69b7fb90467" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>applyChange</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a2e2ea79e2bdecbcbdde447ac17eb8669" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>applyChanges</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a460a6b3a91d1ae84b0b2f48bee0fc74e" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>createView</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a0df106762f20b98840d2c21da1bc7499" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>dropView</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1acccc4ed480cd2d9f27c2d095de88f2e9" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>getView</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ad91382cc3256f65b63371b1a707a9ca6" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>hasView</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a4070dd6487410c893a830a978727b105" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>IncrementalViewManager</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a73ee44fb33a6356ff0838926babb1d3d" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>listViews</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1aac2e06172430ab9cc93ea6cecda62988" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>query</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ae3b703257a712209c02cae39a20a941b" prot="private" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>total_changes_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ae0214f0936905aad239a50ed60b418f4" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>totalChanges</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a9196c3c7bd35a4e465a199a9a3efb57e" prot="private" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>views_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a24b6f03087ae21e635e0fac3ba2e70c4" prot="private" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>views_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1aad747097c4bf4b474947da4087c78ce2" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalViewManager</scope><name>~IncrementalViewManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

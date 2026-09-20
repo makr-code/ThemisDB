@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::ErrorContext</compoundname>
+    <includes refid="voice__error__handler_8h" local="no">voice_error_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1a4e77d895e801f952a717042dee526419" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref></type>
+        <definition>VoiceErrorCode themis::voice::ErrorContext::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::voice::ErrorContext::error_code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0ab50339a10e1de285ac99d4c3990b8693" kindref="member">VoiceErrorCode::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="198" column="20" bodyfile="include/voice/voice_error_handler.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1ad6f4d662c7c96737564889aa69df9dd7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::ErrorContext::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::ErrorContext::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="199" column="13" bodyfile="include/voice/voice_error_handler.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1a47256d1b7fbb82720f692ec026b51ba6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ErrorContext::cause</definition>
+        <argsstring></argsstring>
+        <name>cause</name>
+        <qualifiedname>themis::voice::ErrorContext::cause</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="200" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1adc6de3eb1abf893c4634d24740618e6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ErrorContext::recovery_action</definition>
+        <argsstring></argsstring>
+        <name>recovery_action</name>
+        <qualifiedname>themis::voice::ErrorContext::recovery_action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="201" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1a844f257a851ef1708401dc5f7bba99b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ErrorContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::ErrorContext::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="202" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1a098075b621c55d81bb748f08c7081484" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ErrorContext::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::ErrorContext::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="203" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1af8940bc7b4f37939d6d7a95ab61bcad1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ErrorContext::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::voice::ErrorContext::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="204" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1a36252109f06eec9cc092e599d895f8d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ErrorContext::auth_token_masked</definition>
+        <argsstring></argsstring>
+        <name>auth_token_masked</name>
+        <qualifiedname>themis::voice::ErrorContext::auth_token_masked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="205" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_error_context_1aa211fab1ae31d05b265efd9e73620d92" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::ErrorContext::audit_context</definition>
+        <argsstring></argsstring>
+        <name>audit_context</name>
+        <qualifiedname>themis::voice::ErrorContext::audit_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="206" column="10" bodyfile="include/voice/voice_error_handler.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1voice_1_1_error_context_1a384ff7758f5ac6970ee1fd513fd1c959" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::ErrorContext::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::voice::ErrorContext::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="209" column="10" bodyfile="include/voice/voice_error_handler.h" bodystart="209" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_error_handler.h" line="197" column="1" bodyfile="include/voice/voice_error_handler.h" bodystart="197" bodyend="222"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_error_context_1af8940bc7b4f37939d6d7a95ab61bcad1" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>action</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1aa211fab1ae31d05b265efd9e73620d92" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>audit_context</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1a36252109f06eec9cc092e599d895f8d1" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>auth_token_masked</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1a47256d1b7fbb82720f692ec026b51ba6" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>cause</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1a4e77d895e801f952a717042dee526419" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1adc6de3eb1abf893c4634d24740618e6b" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>recovery_action</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1a098075b621c55d81bb748f08c7081484" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1ad6f4d662c7c96737564889aa69df9dd7" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1a384ff7758f5ac6970ee1fd513fd1c959" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1voice_1_1_error_context_1a844f257a851ef1708401dc5f7bba99b9" prot="public" virt="non-virtual"><scope>themis::voice::ErrorContext</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

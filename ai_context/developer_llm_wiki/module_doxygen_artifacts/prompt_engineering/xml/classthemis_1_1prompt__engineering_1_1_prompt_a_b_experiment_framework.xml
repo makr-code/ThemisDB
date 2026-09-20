@@ -1,0 +1,813 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptABExperimentFramework</compoundname>
+    <includes refid="prompt__ab__experiment_8h" local="no">prompt_ab_experiment.h</includes>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store" prot="private">themis::prompt_engineering::PromptABExperimentFramework::ScoreStore</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a0ded3a7e6bcb94d47b5fb8904463fde0" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;experiment_id, <ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref> winner, const std::string &amp;winning_version_id)&gt;</type>
+        <definition>using themis::prompt_engineering::PromptABExperimentFramework::WinnerCallback = std::function&lt;void(const std::string&amp; experiment_id,
+                                              ExperimentVariant winner,
+                                              const std::string&amp; winning_version_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WinnerCallback</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::WinnerCallback</qualifiedname>
+        <briefdescription>
+<para>Callback fired when an experiment auto-promotes a winner. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="190" column="5" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a03df0fc0c6cd55dd18f4c23aef033741" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::PromptABExperimentFramework::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="331" column="24" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a43b3849a4c2b1648f54cd91ff1e90ec7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PromptExperiment&gt; themis::prompt_engineering::PromptABExperimentFramework::experiments_</definition>
+        <argsstring></argsstring>
+        <name>experiments_</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::experiments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="334" column="24" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1ac57dc5178bed020f69217d41f2f1fb14" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, ScoreStore &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ScoreStore&gt; themis::prompt_engineering::PromptABExperimentFramework::scores_</definition>
+        <argsstring></argsstring>
+        <name>scores_</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::scores_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="342" column="24" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a61b4d34c3896d302d1f3e8a9717eb687" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a0ded3a7e6bcb94d47b5fb8904463fde0" kindref="member">WinnerCallback</ref></type>
+        <definition>WinnerCallback themis::prompt_engineering::PromptABExperimentFramework::winner_callback_</definition>
+        <argsstring></argsstring>
+        <name>winner_callback_</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::winner_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="344" column="20" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a557bc9dfa883b1a6f19e3b7459d7d997" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptABExperimentFramework::PromptABExperimentFramework</definition>
+        <argsstring>()=default</argsstring>
+        <name>PromptABExperimentFramework</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::PromptABExperimentFramework</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="194" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a48b57a1c1c7c68a9b0fd4eac89f7ffdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptABExperimentFramework::create</definition>
+        <argsstring>(PromptExperiment exp)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::create</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref></type>
+          <declname>exp</declname>
+        </param>
+        <briefdescription>
+<para>Register a new A/B experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para>If <computeroutput>exp.experiment_id</computeroutput> is empty, a unique ID is generated.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment descriptor (split_pct, min_samples, etc.). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The assigned <computeroutput>experiment_id</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">exp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), generateId(), std::chrono::system_clock::now(), lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="208" column="17" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="323" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1aa1ddf2cf5ba6795875a3807465955b20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptABExperimentFramework::stop</definition>
+        <argsstring>(const std::string &amp;experiment_id)</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::stop</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para>Stop a running experiment without promoting a winner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Sets status to <computeroutput>INCONCLUSIVE</computeroutput> if no winner has been declared yet.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment to stop. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if the experiment existed and was stopped.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the experiment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="218" column="10" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="345" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1ab39cc494ab4192375b19b28446d3a228" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref> &gt;</type>
+        <definition>std::optional&lt; PromptExperiment &gt; themis::prompt_engineering::PromptABExperimentFramework::getExperiment</definition>
+        <argsstring>(const std::string &amp;experiment_id) const</argsstring>
+        <name>getExperiment</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::getExperiment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the experiment descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Experiment, or <computeroutput>nullopt</computeroutput> if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="224" column="19" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="356" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a38a38d577b69703f405ab814a5c35dd2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref> &gt;</type>
+        <definition>std::vector&lt; PromptExperiment &gt; themis::prompt_engineering::PromptABExperimentFramework::listExperiments</definition>
+        <argsstring>() const</argsstring>
+        <name>listExperiments</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::listExperiments</qualifiedname>
+        <briefdescription>
+<para>Return all registered experiments (running and completed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="230" column="17" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="369" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1adc4fbabdee79a0f977ffc4698550c13c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref></type>
+        <definition>ExperimentVariant themis::prompt_engineering::PromptABExperimentFramework::assignVariant</definition>
+        <argsstring>(const ExperimentContext &amp;context) const</argsstring>
+        <name>assignVariant</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::assignVariant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_experiment_context" kindref="compound">ExperimentContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically assign CONTROL or TREATMENT for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses MurmurHash3-32 of <computeroutput>context.request_id</computeroutput> (seed <computeroutput>0x9747b28c</computeroutput>). Returns <computeroutput>CONTROL</computeroutput> if the experiment is not found or no longer running.</para>
+<para>Assignment rule: murmur3_32(request_id) % 100 &lt; split_pct → TREATMENT else → CONTROL</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_context" kindref="compound">ExperimentContext</ref> with experiment_id and request_id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assigned variant. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="249" column="23" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="389" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1ac8e1a000b05c1efeaa3bf242d7b38998" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptABExperimentFramework::recordOutcome</definition>
+        <argsstring>(const std::string &amp;experiment_id, ExperimentVariant variant, double score, const std::string &amp;request_id=&quot;&quot;)</argsstring>
+        <name>recordOutcome</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::recordOutcome</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref></type>
+          <declname>variant</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a quality outcome for a variant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Outcome.</para>
+<para>Appends <computeroutput>score</computeroutput> to the variant&apos;s score vector. Automatically calls <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a74c82a965bafe02edc556fb7310cfe8a" kindref="member">checkSignificance()</ref></computeroutput> once both variants have ≥ <computeroutput>min_samples</computeroutput> observations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which side produced this outcome. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality score in [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Originating request ID (for audit). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>false</computeroutput> if the experiment is not found or not <computeroutput>RUNNING</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the experiment. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::chrono::system_clock::now(), push_back(), size(), checkSignificanceLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="268" column="10" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="422" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a74c82a965bafe02edc556fb7310cfe8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptABExperimentFramework::checkSignificance</definition>
+        <argsstring>(const std::string &amp;experiment_id)</argsstring>
+        <name>checkSignificance</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::checkSignificance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para>Explicitly run the significance test for an experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Significance.</para>
+<para>Welch two-sample t-test; auto-updates status to WINNER_CONTROL or WINNER_TREATMENT when significant and fires <computeroutput>winner_callback_</computeroutput> if set.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment to test. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if a winner was determined.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the experiment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), checkSignificanceLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="283" column="10" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="538" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a9aea0e2c26fe9f9a1e0ab1e1c2e196c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptABExperimentFramework::promoteWinner</definition>
+        <argsstring>(const std::string &amp;experiment_id)</argsstring>
+        <name>promoteWinner</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::promoteWinner</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para>Promote the winning variant and return its version ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Promote Winner.</para>
+<para>May only be called once the experiment status is WINNER_CONTROL or WINNER_TREATMENT. Sets status to COMPLETED.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment to finalise. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Winning version ID, or empty string on error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the experiment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="298" column="17" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="554" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a266df97ad462ae896a47b465b626105d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" kindref="member">ExperimentStatus</ref></type>
+        <definition>ExperimentStatus themis::prompt_engineering::PromptABExperimentFramework::getStatus</definition>
+        <argsstring>(const std::string &amp;experiment_id) const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::getStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the current status of an experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="303" column="22" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="571" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a6c49814e7b957ebe3f5c1529fbbe9bea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary" kindref="compound">ExperimentSummary</ref> &gt;</type>
+        <definition>std::optional&lt; ExperimentSummary &gt; themis::prompt_engineering::PromptABExperimentFramework::getSummary</definition>
+        <argsstring>(const std::string &amp;experiment_id) const</argsstring>
+        <name>getSummary</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::getSummary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para>Build a full summary for an experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Summary, or an empty optional if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="309" column="19" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="584" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a2430c37b2a5945a620cfe967379717fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome" kindref="compound">ExperimentOutcome</ref> &gt;</type>
+        <definition>std::vector&lt; ExperimentOutcome &gt; themis::prompt_engineering::PromptABExperimentFramework::getOutcomes</definition>
+        <argsstring>(const std::string &amp;experiment_id) const</argsstring>
+        <name>getOutcomes</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::getOutcomes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para>Get all recorded outcomes for an experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment to query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome" kindref="compound">ExperimentOutcome</ref> (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="317" column="17" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="645" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1aa8a668f97cf42ea9d151068363b20b57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptABExperimentFramework::setWinnerCallback</definition>
+        <argsstring>(WinnerCallback cb)</argsstring>
+        <name>setWinnerCallback</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::setWinnerCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a0ded3a7e6bcb94d47b5fb8904463fde0" kindref="member">WinnerCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Attach a callback invoked when a winner is auto-promoted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Winner Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback; pass empty <computeroutput>std::function</computeroutput> to disable.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="328" column="10" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="667" bodyend="670"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a8e33dbdc9f008ea3d5ecf48c9b0ba108" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptABExperimentFramework::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate a unique experiment ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unique ID generator (sequential suffix for determinism in tests).</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="351" column="24" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="306" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1acdb52c5d2736854f5304bf2c9b6cbe75" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::prompt_engineering::PromptABExperimentFramework::murmur3_32</definition>
+        <argsstring>(const std::string &amp;key) noexcept</argsstring>
+        <name>murmur3_32</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::murmur3_32</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>32-bit MurmurHash3 of an ASCII string. Seed: 0x9747b28c (chosen to produce a uniform bucket distribution). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="357" column="26" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="159" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1aee0de70d057f8e2ed1b7dc6c4285684a" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptABExperimentFramework::welchPValue</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;a, const std::vector&lt; double &gt; &amp;b) noexcept</argsstring>
+        <name>welchPValue</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::welchPValue</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Welch two-sample t-test; returns p-value in [0, 1]. Returns 1.0 when either sample is too small (&lt; 2 elements). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="363" column="19" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="258" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1afe3312e4d8ab5a73ceb9a04a96a7bae3" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptABExperimentFramework::tDistCdf</definition>
+        <argsstring>(double t, double df) noexcept</argsstring>
+        <name>tDistCdf</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::tDistCdf</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>df</declname>
+        </param>
+        <briefdescription>
+<para>Two-tailed p-value from t-statistic and degrees of freedom. Uses a rational approximation to the Student-t CDF. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="370" column="19" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="203" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a43cfa630f072f84bbc0c4ef9f7b6bdf1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptABExperimentFramework::checkSignificanceLocked</definition>
+        <argsstring>(const std::string &amp;experiment_id)</argsstring>
+        <name>checkSignificanceLocked</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::checkSignificanceLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a74c82a965bafe02edc556fb7310cfe8a" kindref="member">checkSignificance()</ref> body called while holding mutex_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Significance Locked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the experiment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), at(), size(), welchPValue(), std::accumulate(), begin(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="373" column="10" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="478" bodyend="530"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Public A/B experiment framework for prompt template variants. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1autotoc_md0_1s1"><sect2 id="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1autotoc_md0">
+<title>Usage</title><para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a557bc9dfa883b1a6f19e3b7459d7d997" kindref="member">PromptABExperimentFramework</ref><sp/>fw;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>an<sp/>experiment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">PromptExperiment<sp/>exp;</highlight></codeline>
+<codeline><highlight class="normal">exp.template_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;contract_summary&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">exp.control_version_id<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">exp.treatment_version_id<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">exp.split_pct<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>%<sp/>→<sp/>treatment</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">exp.min_samples<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>200;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>fw.create(exp);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>On<sp/>each<sp/>request,<sp/>assign<sp/>the<sp/>variant<sp/>deterministically.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ExperimentContext<sp/>ctx{<sp/>id,<sp/>user_id<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>variant<sp/>=<sp/>fw.assignVariant(ctx);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CONTROL<sp/>or<sp/>TREATMENT</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>version_id<sp/>=<sp/>(variant<sp/>==<sp/><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49acffcfcd0a5befb8fed6679e0d65ef07a" kindref="member">ExperimentVariant::TREATMENT</ref>)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>?<sp/>exp.treatment_version_id<sp/>:<sp/>exp.control_version_id;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Record<sp/>the<sp/>quality<sp/>outcome.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">fw.recordOutcome(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>variant,<sp/>quality_score,<sp/>user_id);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inspect.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>summary<sp/>=<sp/>fw.getSummary(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(summary.significant)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>winner<sp/>=<sp/>fw.promoteWinner(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="187" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="187" bodyend="374"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1adc4fbabdee79a0f977ffc4698550c13c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>assignVariant</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a74c82a965bafe02edc556fb7310cfe8a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>checkSignificance</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a43cfa630f072f84bbc0c4ef9f7b6bdf1" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>checkSignificanceLocked</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a48b57a1c1c7c68a9b0fd4eac89f7ffdf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>create</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a43b3849a4c2b1648f54cd91ff1e90ec7" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>experiments_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a8e33dbdc9f008ea3d5ecf48c9b0ba108" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1ab39cc494ab4192375b19b28446d3a228" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>getExperiment</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a2430c37b2a5945a620cfe967379717fe" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>getOutcomes</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a266df97ad462ae896a47b465b626105d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a6c49814e7b957ebe3f5c1529fbbe9bea" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>getSummary</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a38a38d577b69703f405ab814a5c35dd2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>listExperiments</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1acdb52c5d2736854f5304bf2c9b6cbe75" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>murmur3_32</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a03df0fc0c6cd55dd18f4c23aef033741" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a9aea0e2c26fe9f9a1e0ab1e1c2e196c0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>promoteWinner</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a557bc9dfa883b1a6f19e3b7459d7d997" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>PromptABExperimentFramework</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1ac8e1a000b05c1efeaa3bf242d7b38998" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>recordOutcome</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1ac57dc5178bed020f69217d41f2f1fb14" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>scores_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1aa8a668f97cf42ea9d151068363b20b57" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>setWinnerCallback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1aa1ddf2cf5ba6795875a3807465955b20" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>stop</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1afe3312e4d8ab5a73ceb9a04a96a7bae3" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>tDistCdf</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1aee0de70d057f8e2ed1b7dc6c4285684a" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>welchPValue</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a61b4d34c3896d302d1f3e8a9717eb687" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>winner_callback_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a0ded3a7e6bcb94d47b5fb8904463fde0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework</scope><name>WinnerCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

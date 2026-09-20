@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_attribute_type_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AttributeTypeInfo</compoundname>
+    <includes refid="llm__semantic__validator_8h" local="no">llm_semantic_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_attribute_type_info_1a0346875e7dd0acd38869bd4d44f86c1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AttributeTypeInfo::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themis::aql::AttributeTypeInfo::collection_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="57" column="17" bodyfile="include/aql/llm_semantic_validator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_attribute_type_info_1adff46098e0540204f18cec90fbe8be11" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AttributeTypeInfo::attribute_name</definition>
+        <argsstring></argsstring>
+        <name>attribute_name</name>
+        <qualifiedname>themis::aql::AttributeTypeInfo::attribute_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="58" column="17" bodyfile="include/aql/llm_semantic_validator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_attribute_type_info_1a0996c639d7be0b1497980fc85e0993c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AttributeTypeInfo::data_type</definition>
+        <argsstring></argsstring>
+        <name>data_type</name>
+        <qualifiedname>themis::aql::AttributeTypeInfo::data_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="59" column="17" bodyfile="include/aql/llm_semantic_validator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_attribute_type_info_1aa19d118e82a09bb24d1c89cd205cc835" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AttributeTypeInfo::is_nullable</definition>
+        <argsstring></argsstring>
+        <name>is_nullable</name>
+        <qualifiedname>themis::aql::AttributeTypeInfo::is_nullable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="60" column="10" bodyfile="include/aql/llm_semantic_validator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_attribute_type_info_1af4bc0625fff81ec9bbe9b3b638c582fc" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::aql::AttributeTypeInfo::cardinality</definition>
+        <argsstring></argsstring>
+        <name>cardinality</name>
+        <qualifiedname>themis::aql::AttributeTypeInfo::cardinality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="61" column="19" bodyfile="include/aql/llm_semantic_validator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_semantic_validator.h" line="56" column="1" bodyfile="include/aql/llm_semantic_validator.h" bodystart="56" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_attribute_type_info_1adff46098e0540204f18cec90fbe8be11" prot="public" virt="non-virtual"><scope>themis::aql::AttributeTypeInfo</scope><name>attribute_name</name></member>
+      <member refid="structthemis_1_1aql_1_1_attribute_type_info_1af4bc0625fff81ec9bbe9b3b638c582fc" prot="public" virt="non-virtual"><scope>themis::aql::AttributeTypeInfo</scope><name>cardinality</name></member>
+      <member refid="structthemis_1_1aql_1_1_attribute_type_info_1a0346875e7dd0acd38869bd4d44f86c1b" prot="public" virt="non-virtual"><scope>themis::aql::AttributeTypeInfo</scope><name>collection_name</name></member>
+      <member refid="structthemis_1_1aql_1_1_attribute_type_info_1a0996c639d7be0b1497980fc85e0993c4" prot="public" virt="non-virtual"><scope>themis::aql::AttributeTypeInfo</scope><name>data_type</name></member>
+      <member refid="structthemis_1_1aql_1_1_attribute_type_info_1aa19d118e82a09bb24d1c89cd205cc835" prot="public" virt="non-virtual"><scope>themis::aql::AttributeTypeInfo</scope><name>is_nullable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

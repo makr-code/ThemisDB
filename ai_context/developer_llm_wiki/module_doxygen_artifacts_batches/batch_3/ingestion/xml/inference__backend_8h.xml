@@ -1,0 +1,1017 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="inference__backend_8h" kind="file" language="C++">
+    <compoundname>inference_backend.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="bench__ingestion__quality__judge_8cpp" local="yes">benchmarks/ingestion/bench_ingestion_quality_judge.cpp</includedby>
+    <includedby refid="builtin__step__factories_8h" local="yes">include/ingestion/builtin_step_factories.h</includedby>
+    <includedby refid="extraction__context_8h" local="yes">include/ingestion/extraction_context.h</includedby>
+    <includedby refid="ingestion__manager_8h" local="yes">include/ingestion/ingestion_manager.h</includedby>
+    <includedby refid="ingestion__quality__judge_8h" local="yes">include/ingestion/ingestion_quality_judge.h</includedby>
+    <includedby refid="llm__adapter_8h" local="yes">include/ingestion/llm_adapter.h</includedby>
+    <includedby refid="chunk__embed__step_8cpp" local="yes">src/ingestion/steps/chunk_embed_step.cpp</includedby>
+    <includedby refid="chunk__tt__decompose__step_8cpp" local="yes">src/ingestion/steps/chunk_tt_decompose_step.cpp</includedby>
+    <includedby refid="deontic__step_8cpp" local="yes">src/ingestion/steps/deontic_step.cpp</includedby>
+    <includedby refid="llm__extract__step_8cpp" local="yes">src/ingestion/steps/llm_extract_step.cpp</includedby>
+    <includedby refid="ner__step_8cpp" local="yes">src/ingestion/steps/ner_step.cpp</includedby>
+    <includedby refid="test__ingestion__builtin__steps__v14_8cpp" local="yes">tests/ingestion/test_ingestion_builtin_steps_v14.cpp</includedby>
+    <includedby refid="test__ingestion__inference__backend_8cpp" local="yes">tests/ingestion/test_ingestion_inference_backend.cpp</includedby>
+    <includedby refid="test__ingestion__ner__llm_8cpp" local="yes">tests/ingestion/test_ingestion_ner_llm.cpp</includedby>
+    <includedby refid="test__ingestion__quality__judge_8cpp" local="yes">tests/ingestion/test_ingestion_quality_judge.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="20">
+        <label>benchmarks/ingestion/bench_ingestion_extraction.cpp</label>
+        <link refid="bench__ingestion__extraction_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/ingestion/bench_ingestion_quality_judge.cpp</label>
+        <link refid="bench__ingestion__quality__judge_8cpp"/>
+      </node>
+      <node id="21">
+        <label>include/ingestion/api_connector.h</label>
+        <link refid="api__connector_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/ingestion/builtin_step_factories.h</label>
+        <link refid="builtin__step__factories_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/ingestion/cdc_connector.h</label>
+        <link refid="cdc__connector_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/ingestion/database_connector.h</label>
+        <link refid="database__connector_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/ingestion/entity_assembler.h</label>
+        <link refid="entity__assembler_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/ingestion/filesystem_ingester.h</label>
+        <link refid="filesystem__ingester_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>include/ingestion/huggingface_connector.h</label>
+        <link refid="huggingface__connector_8h"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>include/ingestion/ingestion_coordinator.h</label>
+        <link refid="ingestion__coordinator_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/ingestion/ingestion_manager.h</label>
+        <link refid="ingestion__manager_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/ingestion/ingestion_quality_judge.h</label>
+        <link refid="ingestion__quality__judge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>include/ingestion/ingestion_sinks.h</label>
+        <link refid="ingestion__sinks_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>include/ingestion/ingestion_step.h</label>
+        <link refid="ingestion__step_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>include/ingestion/kafka_connector.h</label>
+        <link refid="kafka__connector_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>include/ingestion/legal_domain.h</label>
+        <link refid="legal__domain_8h"/>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>include/ingestion/llm_adapter.h</label>
+        <link refid="llm__adapter_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>include/ingestion/oauth_token_manager.h</label>
+        <link refid="oauth__token__manager_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>include/ingestion/object_storage_connector.h</label>
+        <link refid="object__storage__connector_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>include/ingestion/s3_connector.h</label>
+        <link refid="s3__connector_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>include/ingestion/web_crawler_connector.h</label>
+        <link refid="web__crawler__connector_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>include/ingestion/workflow_engine.h</label>
+        <link refid="workflow__engine_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>src/ingestion/api_connector.cpp</label>
+        <link refid="api__connector_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/ingestion/cdc_connector.cpp</label>
+        <link refid="cdc__connector_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/ingestion/database_connector.cpp</label>
+        <link refid="database__connector_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/ingestion/entity_assembler.cpp</label>
+        <link refid="entity__assembler_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/ingestion/filesystem_ingester.cpp</label>
+        <link refid="filesystem__ingester_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/ingestion/huggingface_connector.cpp</label>
+        <link refid="huggingface__connector_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/ingestion/ingestion_coordinator.cpp</label>
+        <link refid="ingestion__coordinator_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/ingestion/ingestion_manager.cpp</label>
+        <link refid="ingestion__manager_8cpp"/>
+      </node>
+      <node id="64">
+        <label>src/ingestion/ingestion_quality_judge.cpp</label>
+        <link refid="ingestion__quality__judge_8cpp"/>
+      </node>
+      <node id="66">
+        <label>src/ingestion/ingestion_sinks.cpp</label>
+        <link refid="ingestion__sinks_8cpp"/>
+      </node>
+      <node id="48">
+        <label>src/ingestion/kafka_connector.cpp</label>
+        <link refid="kafka__connector_8cpp"/>
+      </node>
+      <node id="77">
+        <label>src/ingestion/legal_domain.cpp</label>
+        <link refid="legal__domain_8cpp"/>
+      </node>
+      <node id="80">
+        <label>src/ingestion/llm_adapter.cpp</label>
+        <link refid="llm__adapter_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/ingestion/oauth_token_manager.cpp</label>
+        <link refid="oauth__token__manager_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/ingestion/object_storage_connector.cpp</label>
+        <link refid="object__storage__connector_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/ingestion/s3_connector.cpp</label>
+        <link refid="s3__connector_8cpp"/>
+      </node>
+      <node id="70">
+        <label>src/ingestion/steps/base_entity_assembler_step.cpp</label>
+        <link refid="base__entity__assembler__step_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/ingestion/steps/chunk_embed_step.cpp</label>
+        <link refid="chunk__embed__step_8cpp"/>
+      </node>
+      <node id="71">
+        <label>src/ingestion/steps/chunk_text_step.cpp</label>
+        <link refid="chunk__text__step_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/ingestion/steps/chunk_tt_decompose_step.cpp</label>
+        <link refid="chunk__tt__decompose__step_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/ingestion/steps/decompress_step.cpp</label>
+        <link refid="decompress__step_8cpp"/>
+      </node>
+      <node id="72">
+        <label>src/ingestion/steps/deontic_step.cpp</label>
+        <link refid="deontic__step_8cpp"/>
+      </node>
+      <node id="73">
+        <label>src/ingestion/steps/format_parse_step.cpp</label>
+        <link refid="format__parse__step_8cpp"/>
+      </node>
+      <node id="74">
+        <label>src/ingestion/steps/legal_metadata_step.cpp</label>
+        <link refid="legal__metadata__step_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/ingestion/steps/legal_reference_step.cpp</label>
+        <link refid="legal__reference__step_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/ingestion/steps/llm_extract_step.cpp</label>
+        <link refid="llm__extract__step_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/ingestion/steps/ner_step.cpp</label>
+        <link refid="ner__step_8cpp"/>
+      </node>
+      <node id="75">
+        <label>src/ingestion/steps/parse_text_step.cpp</label>
+        <link refid="parse__text__step_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/ingestion/steps/tensor_core_bridge_step.cpp</label>
+        <link refid="tensor__core__bridge__step_8cpp"/>
+      </node>
+      <node id="57">
+        <label>src/ingestion/web_crawler_connector.cpp</label>
+        <link refid="web__crawler__connector_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/ingestion/workflow_engine.cpp</label>
+        <link refid="workflow__engine_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/ingestion/test_ingestion_assembler_sinks.cpp</label>
+        <link refid="test__ingestion__assembler__sinks_8cpp"/>
+      </node>
+      <node id="78">
+        <label>tests/ingestion/test_ingestion_base_entity.cpp</label>
+        <link refid="test__ingestion__base__entity_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/ingestion/test_ingestion_builder.cpp</label>
+        <link refid="test__ingestion__builder_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/ingestion/test_ingestion_builtin_steps_v14.cpp</label>
+        <link refid="test__ingestion__builtin__steps__v14_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/ingestion/test_ingestion_cdc.cpp</label>
+        <link refid="test__ingestion__cdc_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/ingestion/test_ingestion_checkpoint.cpp</label>
+        <link refid="test__ingestion__checkpoint_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/ingestion/test_ingestion_coordinator.cpp</label>
+        <link refid="test__ingestion__coordinator_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/ingestion/test_ingestion_database.cpp</label>
+        <link refid="test__ingestion__database_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/ingestion/test_ingestion_errors.cpp</label>
+        <link refid="test__ingestion__errors_8cpp"/>
+      </node>
+      <node id="39">
+        <label>tests/ingestion/test_ingestion_features.cpp</label>
+        <link refid="test__ingestion__features_8cpp"/>
+      </node>
+      <node id="59">
+        <label>tests/ingestion/test_ingestion_inference_backend.cpp</label>
+        <link refid="test__ingestion__inference__backend_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/ingestion/test_ingestion_integration.cpp</label>
+        <link refid="test__ingestion__integration_8cpp"/>
+      </node>
+      <node id="49">
+        <label>tests/ingestion/test_ingestion_kafka.cpp</label>
+        <link refid="test__ingestion__kafka_8cpp"/>
+      </node>
+      <node id="67">
+        <label>tests/ingestion/test_ingestion_legal_domain.cpp</label>
+        <link refid="test__ingestion__legal__domain_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/ingestion/test_ingestion_lineage.cpp</label>
+        <link refid="test__ingestion__lineage_8cpp"/>
+      </node>
+      <node id="81">
+        <label>tests/ingestion/test_ingestion_llm_adapter.cpp</label>
+        <link refid="test__ingestion__llm__adapter_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/ingestion/test_ingestion_ner_llm.cpp</label>
+        <link refid="test__ingestion__ner__llm_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/ingestion/test_ingestion_oauth.cpp</label>
+        <link refid="test__ingestion__oauth_8cpp"/>
+      </node>
+      <node id="54">
+        <label>tests/ingestion/test_ingestion_object_storage.cpp</label>
+        <link refid="test__ingestion__object__storage_8cpp"/>
+      </node>
+      <node id="61">
+        <label>tests/ingestion/test_ingestion_plugin_api.cpp</label>
+        <link refid="test__ingestion__plugin__api_8cpp"/>
+      </node>
+      <node id="62">
+        <label>tests/ingestion/test_ingestion_quality_judge.cpp</label>
+        <link refid="test__ingestion__quality__judge_8cpp"/>
+      </node>
+      <node id="63">
+        <label>tests/ingestion/test_ingestion_reconfig.cpp</label>
+        <link refid="test__ingestion__reconfig_8cpp"/>
+      </node>
+      <node id="40">
+        <label>tests/ingestion/test_ingestion_resilience.cpp</label>
+        <link refid="test__ingestion__resilience_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/ingestion/test_ingestion_schema_validation.cpp</label>
+        <link refid="test__ingestion__schema__validation_8cpp"/>
+      </node>
+      <node id="41">
+        <label>tests/ingestion/test_ingestion_security.cpp</label>
+        <link refid="test__ingestion__security_8cpp"/>
+      </node>
+      <node id="58">
+        <label>tests/ingestion/test_ingestion_web_crawler.cpp</label>
+        <link refid="test__ingestion__web__crawler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" prot="public">themis::ingestion::ITextGenerationBackend</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" prot="public">themis::ingestion::NullTextGenerationBackend</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_embedding_backend" prot="public">themis::ingestion::IEmbeddingBackend</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_null_embedding_backend" prot="public">themis::ingestion::NullEmbeddingBackend</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_tensor_core_record" prot="public">themis::ingestion::TensorCoreRecord</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" prot="public">themis::ingestion::ITensorDecompositionBackend</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend" prot="public">themis::ingestion::NullTensorDecompositionBackend</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.2 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITextGenerationBackend<sp/>—<sp/>pure<sp/>abstraction<sp/>for<sp/>text<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a79f5d95e68a8300ac610d45b26fce9bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a79f5d95e68a8300ac610d45b26fce9bd" kindref="member">~ITextGenerationBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a01b400d97ed57231d367aa2b6ed6f9f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a01b400d97ed57231d367aa2b6ed6f9f5" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_tokens<sp/><sp/><sp/><sp/>=<sp/>512,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temperature<sp/><sp/><sp/>=<sp/>0.1,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>lora_adapter<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1adfb52bcdcfe752d7580e884926c74046" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1adfb52bcdcfe752d7580e884926c74046" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1abcb7e4ed1be01bc9debb32afebde93ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1abcb7e4ed1be01bc9debb32afebde93ae" kindref="member">description</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NullTextGenerationBackend<sp/>—<sp/>always-unavailable<sp/>fallback<sp/>/<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Safe<sp/>default<sp/>when<sp/>no<sp/>real<sp/>LLM<sp/>plugin<sp/>is<sp/>configured;<sp/>keeps<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>dependants<sp/>(LegalLlmAdapter,<sp/>NerDeStep,<sp/>LlmExtractStep,<sp/>DeonticStep,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>IngestionQualityJudge)<sp/>compilable<sp/>and<sp/>runnable<sp/>without<sp/>a<sp/>live<sp/>LLM.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Always<sp/>instantiated<sp/>as<sp/>the<sp/>default<sp/>in<sp/>LegalLlmAdapter,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>NerDeStep,<sp/>LlmExtractStep,<sp/>DeonticStep,<sp/>and<sp/>IngestionManager<sp/>when<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>caller<sp/>does<sp/>not<sp/>inject<sp/>a<sp/>concrete<sp/>ITextGenerationBackend.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>isAvailable()<sp/>returns<sp/>false<sp/>→<sp/>all<sp/>LLM-dependent<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>fall<sp/>back<sp/>to<sp/>deterministic<sp/>regex/rule-based<sp/>extraction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>No<sp/>actual<sp/>text<sp/>is<sp/>generated;<sp/>generate()<sp/>returns<sp/>an<sp/>empty<sp/>string.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Not<sp/>removed<sp/>—<sp/>remains<sp/>the<sp/>compile-time<sp/>/<sp/>no-config<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>real<sp/>backend<sp/>(e.g.<sp/>LlmIngestionBridge)<sp/>must<sp/>be<sp/>injected<sp/>explicitly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" kindref="compound">NullTextGenerationBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" kindref="member">GenerateFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_tokens,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>temperature,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>lora_adapter)&gt;;</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" kindref="member">AvailabilityFn</ref><sp/>=<sp/>std::function&lt;bool()&gt;;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1aa8e122d701133ad8fae8da6a6f29985f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1aa8e122d701133ad8fae8da6a6f29985f" kindref="member">setGenerateFn</ref>(<ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" kindref="member">GenerateFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(generateFnMutex());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>generateFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acd9f81e33c2556a675907808519499e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acd9f81e33c2556a675907808519499e7" kindref="member">setAvailabilityFn</ref>(<ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" kindref="member">AvailabilityFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(availabilityFnMutex());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>availabilityFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acdee13e466782194980363e3c4ada458" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acdee13e466782194980363e3c4ada458" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/>max_tokens,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>temperature,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>lora_adapter)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" kindref="member">GenerateFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(generateFnMutex());</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>generateFnStorage();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(prompt,<sp/>max_tokens,<sp/>temperature,<sp/>lora_adapter);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1afd75067549ed57907ec24c17451e7ae8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1afd75067549ed57907ec24c17451e7ae8" kindref="member">isAvailable</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" kindref="member">AvailabilityFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(availabilityFnMutex());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>availabilityFnStorage();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1ae9d0d97a6c398c20d58c2f94eeb7308d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1ae9d0d97a6c398c20d58c2f94eeb7308d" kindref="member">description</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;NullTextGenerationBackend<sp/>(no-op)&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>generateFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" kindref="member">GenerateFn</ref>&amp;<sp/>generateFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" kindref="member">GenerateFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>availabilityFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" kindref="member">AvailabilityFn</ref>&amp;<sp/>availabilityFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" kindref="member">AvailabilityFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IEmbeddingBackend<sp/>—<sp/>pure<sp/>abstraction<sp/>for<sp/>dense<sp/>text<sp/>embedding<sp/>(v1.4.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1ingestion_1_1_i_embedding_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend" kindref="compound">IEmbeddingBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a4c03a603c5e4add5c45fa3cacdc5eaad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a4c03a603c5e4add5c45fa3cacdc5eaad" kindref="member">~IEmbeddingBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a95f1d0489a60aba4155f01dfacaf6dd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a95f1d0489a60aba4155f01dfacaf6dd3" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a09cd2b75ab5d9d5554b1c55116ef4ce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a09cd2b75ab5d9d5554b1c55116ef4ce7" kindref="member">dimensions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a9f4676d5dd4acbc5d2b15d7e16496dfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a9f4676d5dd4acbc5d2b15d7e16496dfe" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1aae20992657e8f1a600ae5ec38a1e194a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1aae20992657e8f1a600ae5ec38a1e194a" kindref="member">description</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NullEmbeddingBackend<sp/>—<sp/>zero-vector<sp/>stub<sp/>for<sp/>testing<sp/>/<sp/>disabled<sp/>configs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Safe<sp/>default<sp/>when<sp/>no<sp/>real<sp/>embedding<sp/>model<sp/>is<sp/>configured;<sp/>keeps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ChunkEmbedStep<sp/>compilable<sp/>without<sp/>a<sp/>live<sp/>ONNX/llama<sp/>model.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Default<sp/>in<sp/>ChunkEmbedStep<sp/>when<sp/>no<sp/>IEmbeddingBackend<sp/>is<sp/>injected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Returns<sp/>zero-filled<sp/>vector;<sp/>isAvailable()<sp/>returns<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Not<sp/>removed<sp/>—<sp/>remains<sp/>the<sp/>no-config<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Inject<sp/>a<sp/>real<sp/>backend<sp/>(ONNX-CLIP,<sp/>multilingual-E5)<sp/>for<sp/>production<sp/>use.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1ingestion_1_1_null_embedding_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a969293fa4ec1ec731730afaa44e22c4f" kindref="member">NullEmbeddingBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend" kindref="compound">IEmbeddingBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1aae72977fdf9ff360bfc0ef2173f4794e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1aae72977fdf9ff360bfc0ef2173f4794e" kindref="member">EmbedFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;float&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dims)&gt;;</highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a0c01405e3fb4f4a9bccec68c02f4fb5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a0c01405e3fb4f4a9bccec68c02f4fb5f" kindref="member">AvailabilityFn</ref><sp/>=<sp/>std::function&lt;bool()&gt;;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a44a1226e3e435d0b08684dc81ce2c35e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a44a1226e3e435d0b08684dc81ce2c35e" kindref="member">setEmbedFn</ref>(<ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1aae72977fdf9ff360bfc0ef2173f4794e" kindref="member">EmbedFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(embedFnMutex());</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>embedFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1abc539715365eee907be2d82af50cee75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1abc539715365eee907be2d82af50cee75" kindref="member">setAvailabilityFn</ref>(<ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a0c01405e3fb4f4a9bccec68c02f4fb5f" kindref="member">AvailabilityFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(availabilityFnMutex());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>availabilityFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a969293fa4ec1ec731730afaa44e22c4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a969293fa4ec1ec731730afaa44e22c4f" kindref="member">NullEmbeddingBackend</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dims<sp/>=<sp/>768)<sp/>:<sp/>dims_(dims)<sp/>{}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a02f81f046d595e6b654c5c5d20d458f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a02f81f046d595e6b654c5c5d20d458f3" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1aae72977fdf9ff360bfc0ef2173f4794e" kindref="member">EmbedFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(embedFnMutex());</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>embedFnStorage();</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(text,<sp/>dims_);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dims_),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dims_),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a12decbd7efd90a2d4762b1109e170127" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a12decbd7efd90a2d4762b1109e170127" kindref="member">dimensions</ref>()</highlight><highlight class="keyword"><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dims_;<sp/>}</highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a7fc0dadd7a81d6733a451b9290126267" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a7fc0dadd7a81d6733a451b9290126267" kindref="member">isAvailable</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a0c01405e3fb4f4a9bccec68c02f4fb5f" kindref="member">AvailabilityFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(availabilityFnMutex());</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>availabilityFnStorage();</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305" refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1acd001917a5487938b9f104c338563697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1acd001917a5487938b9f104c338563697" kindref="member">description</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;NullEmbeddingBackend<sp/>(zero-vector,<sp/>dims=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(dims_)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>embedFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1aae72977fdf9ff360bfc0ef2173f4794e" kindref="member">EmbedFn</ref>&amp;<sp/>embedFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1aae72977fdf9ff360bfc0ef2173f4794e" kindref="member">EmbedFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>availabilityFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a0c01405e3fb4f4a9bccec68c02f4fb5f" kindref="member">AvailabilityFn</ref>&amp;<sp/>availabilityFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a0c01405e3fb4f4a9bccec68c02f4fb5f" kindref="member">AvailabilityFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dims_;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITensorDecompositionBackend<sp/>—<sp/>pure<sp/>abstraction<sp/>for<sp/>Tensor-Train<sp/>decomposition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375" refid="namespacethemis_1_1ingestion_1a04c885ce9b95dea972ca54311754eb8a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a04c885ce9b95dea972ca54311754eb8a" kindref="member">SerializedTTTrain</ref><sp/>=<sp/>std::vector&lt;uint8_t&gt;;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383" refid="structthemis_1_1ingestion_1_1_tensor_core_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="384" refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a862252c8ba9bbc89cb05ce6b8f18329f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a862252c8ba9bbc89cb05ce6b8f18329f" kindref="member">chunk_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="385" refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a899d1c909ffa0ab18cb086bd774d9edf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a899d1c909ffa0ab18cb086bd774d9edf" kindref="member">source_file_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="386" refid="structthemis_1_1ingestion_1_1_tensor_core_record_1ad9d318d150e9150ff33ec17ca4a33288" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1ad9d318d150e9150ff33ec17ca4a33288" kindref="member">order</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="387" refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a0e69124e750b7e91936dd52e0221d949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a0e69124e750b7e91936dd52e0221d949" kindref="member">max_rank</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388" refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a461c287d4c83283cdff180aba3b030c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a461c287d4c83283cdff180aba3b030c3" kindref="member">compression_ratio</ref>{0.0};<sp/></highlight></codeline>
+<codeline lineno="389" refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a9b31f179ea16e0ac5c507dfad42fa55e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a9b31f179ea16e0ac5c507dfad42fa55e" kindref="member">achieved_eps</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="390" refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a482fc76aa32529a2a8266f14c5a39fe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a04c885ce9b95dea972ca54311754eb8a" kindref="member">SerializedTTTrain</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a482fc76aa32529a2a8266f14c5a39fe3" kindref="member">serialized_train</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="391" refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a78e9b6c7c2e8e9b16a5113da24484cf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a78e9b6c7c2e8e9b16a5113da24484cf0" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396" refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" kindref="compound">ITensorDecompositionBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="398" refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a00644dd8352d50e338b6fd70c6f9fa3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a00644dd8352d50e338b6fd70c6f9fa3e" kindref="member">~ITensorDecompositionBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412" refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a0d6f20002b6d7cca1053d1eaa68f2283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a0d6f20002b6d7cca1053d1eaa68f2283" kindref="member">decompose</ref>(</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding,</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunk_id,</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source_file_id,</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>epsilon<sp/><sp/>=<sp/>0.01,</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_rank<sp/>=<sp/>0)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429" refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a3fe3e3af0971a731765fef429e0b0b39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a3fe3e3af0971a731765fef429e0b0b39" kindref="member">shouldDecompose</ref>(</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding,</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_kappa<sp/>=<sp/>1.3)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436" refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1abbc416bf5adf31ad6047f8f78da803ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1abbc416bf5adf31ad6047f8f78da803ad" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443" refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a5e5aea009e4457047ca7677ec40f1bc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a5e5aea009e4457047ca7677ec40f1bc6" kindref="member">description</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="444"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NullTensorDecompositionBackend<sp/>—<sp/>always-unavailable<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Safe<sp/>default<sp/>when<sp/>no<sp/>real<sp/>tensor<sp/>decomposer<sp/>is<sp/>configured;<sp/>keeps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ChunkTtDecomposeStep<sp/>compilable<sp/>without<sp/>a<sp/>live<sp/>TensorTrainDecomposer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Default<sp/>in<sp/>ChunkTtDecomposeStep<sp/>when<sp/>no</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ITensorDecompositionBackend<sp/>is<sp/>injected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>isAvailable()<sp/>returns<sp/>false;<sp/>decompose()<sp/>returns<sp/>an<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TensorCoreRecord;<sp/>shouldDecompose()<sp/>always<sp/>returns<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Not<sp/>removed<sp/>—<sp/>remains<sp/>the<sp/>no-config<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Inject<sp/>a<sp/>real<sp/>TensorIngestionBridge<sp/>for<sp/>production<sp/>use.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465" refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend" kindref="compound">NullTensorDecompositionBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" kindref="compound">ITensorDecompositionBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="467" refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1ab63b8e2ab34df07a13b3f832c24229e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1ab63b8e2ab34df07a13b3f832c24229e2" kindref="member">decompose</ref>(</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/></highlight><highlight class="comment">/*embedding*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunk_id,</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source_file_id,</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">/*epsilon*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/></highlight><highlight class="comment">/*max_rank*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override</highlight></codeline>
+<codeline lineno="473"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a862252c8ba9bbc89cb05ce6b8f18329f" kindref="member">chunk_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>chunk_id;</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a899d1c909ffa0ab18cb086bd774d9edf" kindref="member">source_file_id</ref><sp/>=<sp/>source_file_id;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rec;</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480" refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1a2295cd1d54ee6528aa28c9638322239d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1a2295cd1d54ee6528aa28c9638322239d" kindref="member">shouldDecompose</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/></highlight><highlight class="comment">/*embedding*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*min_kappa*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight></codeline>
+<codeline lineno="485" refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1af9968e5d580b3968f51fff22f2ef3709" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1af9968e5d580b3968f51fff22f2ef3709" kindref="member">isAvailable</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="486" refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1afe8d3afe532ded7d19f398b23830f40e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1afe8d3afe532ded7d19f398b23830f40e" kindref="member">description</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;NullTensorDecompositionBackend<sp/>(no-op)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="489"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/inference_backend.h"/>
+  </compounddef>
+</doxygen>

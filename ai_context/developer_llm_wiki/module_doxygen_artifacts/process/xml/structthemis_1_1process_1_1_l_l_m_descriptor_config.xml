@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_l_l_m_descriptor_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LLMDescriptorConfig</compoundname>
+    <includes refid="llm__process__adapter_8h" local="no">llm_process_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_l_l_m_descriptor_config_1ac3b5c4a45d00ae4d382944f53322ad03" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198" kindref="member">LLMDescriptorBackend</ref></type>
+        <definition>LLMDescriptorBackend themis::process::LLMDescriptorConfig::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::process::LLMDescriptorConfig::backend</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198a5d748776618fab1f16277452ce32edae" kindref="member">LLMDescriptorBackend::THEMIS_NATIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="23" column="26" bodyfile="include/process/llm_process_adapter.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_l_l_m_descriptor_config_1ac32465162b863eab6dc1ad70565322d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LLMDescriptorConfig::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::LLMDescriptorConfig::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="24" column="17" bodyfile="include/process/llm_process_adapter.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_l_l_m_descriptor_config_1a431b1200a223ac63338ae2a314cc2428" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LLMDescriptorConfig::api_endpoint</definition>
+        <argsstring></argsstring>
+        <name>api_endpoint</name>
+        <qualifiedname>themis::process::LLMDescriptorConfig::api_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="25" column="17" bodyfile="include/process/llm_process_adapter.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_l_l_m_descriptor_config_1a46b10fbebd656b8323ebaf1c6ab75855" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LLMDescriptorConfig::api_key_env_var</definition>
+        <argsstring></argsstring>
+        <name>api_key_env_var</name>
+        <qualifiedname>themis::process::LLMDescriptorConfig::api_key_env_var</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="26" column="17" bodyfile="include/process/llm_process_adapter.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_l_l_m_descriptor_config_1ad41acee7ebcf33b6c6912d9c45da42f8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::LLMDescriptorConfig::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::process::LLMDescriptorConfig::max_tokens</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="27" column="9" bodyfile="include/process/llm_process_adapter.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_l_l_m_descriptor_config_1a5eb2a3a1d08930d3d51276b990bd3186" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::process::LLMDescriptorConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::process::LLMDescriptorConfig::temperature</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="28" column="11" bodyfile="include/process/llm_process_adapter.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_l_l_m_descriptor_config_1a629ab6e3beb79ec68d0cadc821f2915a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LLMDescriptorConfig::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::process::LLMDescriptorConfig::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="29" column="17" bodyfile="include/process/llm_process_adapter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/llm_process_adapter.h" line="22" column="1" bodyfile="include/process/llm_process_adapter.h" bodystart="22" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_l_l_m_descriptor_config_1a431b1200a223ac63338ae2a314cc2428" prot="public" virt="non-virtual"><scope>themis::process::LLMDescriptorConfig</scope><name>api_endpoint</name></member>
+      <member refid="structthemis_1_1process_1_1_l_l_m_descriptor_config_1a46b10fbebd656b8323ebaf1c6ab75855" prot="public" virt="non-virtual"><scope>themis::process::LLMDescriptorConfig</scope><name>api_key_env_var</name></member>
+      <member refid="structthemis_1_1process_1_1_l_l_m_descriptor_config_1ac3b5c4a45d00ae4d382944f53322ad03" prot="public" virt="non-virtual"><scope>themis::process::LLMDescriptorConfig</scope><name>backend</name></member>
+      <member refid="structthemis_1_1process_1_1_l_l_m_descriptor_config_1a629ab6e3beb79ec68d0cadc821f2915a" prot="public" virt="non-virtual"><scope>themis::process::LLMDescriptorConfig</scope><name>language</name></member>
+      <member refid="structthemis_1_1process_1_1_l_l_m_descriptor_config_1ad41acee7ebcf33b6c6912d9c45da42f8" prot="public" virt="non-virtual"><scope>themis::process::LLMDescriptorConfig</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1process_1_1_l_l_m_descriptor_config_1ac32465162b863eab6dc1ad70565322d6" prot="public" virt="non-virtual"><scope>themis::process::LLMDescriptorConfig</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_l_l_m_descriptor_config_1a5eb2a3a1d08930d3d51276b990bd3186" prot="public" virt="non-virtual"><scope>themis::process::LLMDescriptorConfig</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

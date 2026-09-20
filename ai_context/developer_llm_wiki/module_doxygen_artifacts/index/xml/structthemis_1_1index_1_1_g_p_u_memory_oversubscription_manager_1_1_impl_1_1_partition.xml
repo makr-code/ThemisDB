@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a787add7aeb4397cd56be6b2c26df47ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="44" column="16" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a803e71c24f487594e081198b652fdbad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::num_vectors</definition>
+        <argsstring></argsstring>
+        <name>num_vectors</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::num_vectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="45" column="16" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a9e4ebab357875277d166e684b1590354" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="46" column="16" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a161f780c67df5c386d3a250155ddd00f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="47" column="21" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1ab270deffd41a28599c19f0e943ec8ec7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::host_data</definition>
+        <argsstring></argsstring>
+        <name>host_data</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::host_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="50" column="21" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1aec64d0ec79fe722a982b74abd6b1fc07" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::vram_ptr</definition>
+        <argsstring></argsstring>
+        <name>vram_ptr</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::vram_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="54" column="14" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a93c93fb919fd718308b8f95a70125941" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::in_vram</definition>
+        <argsstring></argsstring>
+        <name>in_vram</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::in_vram</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="55" column="15" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a57c3c63980c4d2aeb20b14a9c76c90c1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::last_access_ns</definition>
+        <argsstring></argsstring>
+        <name>last_access_ns</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::last_access_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="58" column="18" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1afb10e99f16466e5cdc5373dd9b3935f7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_memory_oversubscription.cpp" line="59" column="18" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/index/gpu_memory_oversubscription.cpp" line="43" column="5" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="43" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1afb10e99f16466e5cdc5373dd9b3935f7" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a9e4ebab357875277d166e684b1590354" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1ab270deffd41a28599c19f0e943ec8ec7" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>host_data</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a787add7aeb4397cd56be6b2c26df47ae" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>id</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a93c93fb919fd718308b8f95a70125941" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>in_vram</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a57c3c63980c4d2aeb20b14a9c76c90c1" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>last_access_ns</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a803e71c24f487594e081198b652fdbad" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>num_vectors</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1a161f780c67df5c386d3a250155ddd00f" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>tag</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1_1_partition_1aec64d0ec79fe722a982b74abd6b1fc07" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Impl::Partition</scope><name>vram_ptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

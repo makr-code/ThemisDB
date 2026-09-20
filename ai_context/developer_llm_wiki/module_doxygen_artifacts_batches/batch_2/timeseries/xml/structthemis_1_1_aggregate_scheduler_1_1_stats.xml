@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_aggregate_scheduler_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AggregateScheduler::Stats</compoundname>
+    <includes refid="aggregate__scheduler_8h" local="no">aggregate_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_stats_1afc2b79ca71ab351efda0b0ab56fa2a54" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AggregateScheduler::Stats::registered_aggregates</definition>
+        <argsstring></argsstring>
+        <name>registered_aggregates</name>
+        <qualifiedname>themis::AggregateScheduler::Stats::registered_aggregates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="148" column="16" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_stats_1a927c660240a0320330750fc0ce387831" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AggregateScheduler::Stats::active_aggregates</definition>
+        <argsstring></argsstring>
+        <name>active_aggregates</name>
+        <qualifiedname>themis::AggregateScheduler::Stats::active_aggregates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="149" column="16" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_stats_1a1e063c0756c03c82635a88942feba152" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AggregateScheduler::Stats::total_refreshes</definition>
+        <argsstring></argsstring>
+        <name>total_refreshes</name>
+        <qualifiedname>themis::AggregateScheduler::Stats::total_refreshes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="150" column="16" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_stats_1a2075523e17ac61bc66a725aeaa3935b7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AggregateScheduler::Stats::failed_refreshes</definition>
+        <argsstring></argsstring>
+        <name>failed_refreshes</name>
+        <qualifiedname>themis::AggregateScheduler::Stats::failed_refreshes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="151" column="16" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_stats_1a602e490cae9bd136d13d49b6ae6ec4d8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::AggregateScheduler::Stats::last_run</definition>
+        <argsstring></argsstring>
+        <name>last_run</name>
+        <qualifiedname>themis::AggregateScheduler::Stats::last_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="152" column="47" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_stats_1a7e6b04cadf5bcb89f18402ea5917efd0" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::AggregateScheduler::Stats::next_run</definition>
+        <argsstring></argsstring>
+        <name>next_run</name>
+        <qualifiedname>themis::AggregateScheduler::Stats::next_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="153" column="47" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/aggregate_scheduler.h" line="147" column="5" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="147" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a927c660240a0320330750fc0ce387831" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Stats</scope><name>active_aggregates</name></member>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a2075523e17ac61bc66a725aeaa3935b7" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Stats</scope><name>failed_refreshes</name></member>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a602e490cae9bd136d13d49b6ae6ec4d8" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Stats</scope><name>last_run</name></member>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a7e6b04cadf5bcb89f18402ea5917efd0" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Stats</scope><name>next_run</name></member>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1afc2b79ca71ab351efda0b0ab56fa2a54" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Stats</scope><name>registered_aggregates</name></member>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a1e063c0756c03c82635a88942feba152" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Stats</scope><name>total_refreshes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

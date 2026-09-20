@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm__wiki" kind="namespace" language="C++">
+    <compoundname>themis::llm_wiki</compoundname>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_knob_bounds" prot="public">themis::llm_wiki::KnobBounds</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" prot="public">themis::llm_wiki::LLMWikiProcessPolicy</innerclass>
+    <innerclass refid="classthemis_1_1llm__wiki_1_1_process_policy_manager" prot="public">themis::llm_wiki::ProcessPolicyManager</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_process_policy_status" prot="public">themis::llm_wiki::ProcessPolicyStatus</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_stage_policy" prot="public">themis::llm_wiki::StagePolicy</innerclass>
+    <innerclass refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails" prot="public">themis::llm_wiki::WikiGuardrails</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_workspace_state" prot="public">themis::llm_wiki::WorkspaceState</innerclass>
+    <innerclass refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" prot="public">themis::llm_wiki::WorkspaceStateManager</innerclass>
+    <innerclass refid="structthemis_1_1llm__wiki_1_1_workspace_status" prot="public">themis::llm_wiki::WorkspaceStatus</innerclass>
+    <innernamespace refid="namespacethemis_1_1llm__wiki_1_1guardrail__patterns">themis::llm_wiki::guardrail_patterns</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProcessSchedule</name>
+        <qualifiedname>themis::llm_wiki::ProcessSchedule</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a24b9b8c0634a40138e76b2fb86894698" prot="public">
+          <name>Interactive</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a680f20394e5d431b948f71b9243cfd90" prot="public">
+          <name>NearRealtime</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a51ffe9dd1b1e143c1b9f1144d040e454" prot="public">
+          <name>Batch</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Runtime schedule class for pipeline stages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="58" column="1" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Edition</name>
+        <qualifiedname>themis::llm_wiki::Edition</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d61983c34edc2a8cabbea71c4732f62" prot="public">
+          <name>Community</name>
+          <briefdescription>
+<para>Open-source community edition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da30fc6bbba82125243ecf4ddb27fee645" prot="public">
+          <name>Minimal</name>
+          <briefdescription>
+<para>Minimal stripped-down edition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64daa0f27638260642afb474516cc918407e" prot="public">
+          <name>Enterprise</name>
+          <briefdescription>
+<para>Enterprise edition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64dac1b47471a575ac0bf20392ca17ecd880" prot="public">
+          <name>Hyperscaler</name>
+          <briefdescription>
+<para>Hyperscaler edition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d2957dfd3b888fc4087f60c3c650953" prot="public">
+          <name>Military</name>
+          <briefdescription>
+<para>Military-grade edition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>ThemisDB edition level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.h" line="50" column="1" bodyfile="src/llm_wiki/edition_gate.h" bodystart="50" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1llm__wiki_1a3125d162c4ec0a67de0f1889b3aa2576" prot="public" static="no">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">themis::plugins::llm_wiki::Status</ref></type>
+        <definition>using themis::llm_wiki::PluginStatus = themis::plugins::llm_wiki::Status</definition>
+        <argsstring></argsstring>
+        <name>PluginStatus</name>
+        <qualifiedname>themis::llm_wiki::PluginStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.h" line="41" column="1" bodyfile="src/llm_wiki/edition_gate.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm__wiki_1a69c4b9eaa54fc62034584823d077b510" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::llm_wiki::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::llm_wiki::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/workspace_state_manager.cpp" line="40" column="1" bodyfile="src/llm_wiki/workspace_state_manager.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1llm__wiki_1a55f56e5bf2ad4e95c85e1c896839860b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::kLLMWikiCompileTimeEnabled</definition>
+        <argsstring></argsstring>
+        <name>kLLMWikiCompileTimeEnabled</name>
+        <qualifiedname>themis::llm_wiki::kLLMWikiCompileTimeEnabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Compile-time check: is LLM Wiki enabled? </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluates to true only if THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED is defined. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.h" line="131" column="20" bodyfile="src/llm_wiki/edition_gate.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1llm__wiki_1a4caa2dcae58c1590947e13082b1f0070" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::kLLMWikiWikipediaCompileTimeEnabled</definition>
+        <argsstring></argsstring>
+        <name>kLLMWikiWikipediaCompileTimeEnabled</name>
+        <qualifiedname>themis::llm_wiki::kLLMWikiWikipediaCompileTimeEnabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Compile-time check: is Wikipedia sub-feature enabled? </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluates to true only if THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED is defined. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.h" line="142" column="20" bodyfile="src/llm_wiki/edition_gate.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1a84b93b352b5764a01ad2a1d37b5e5b83" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64d" kindref="member">Edition</ref></type>
+        <definition>Edition themis::llm_wiki::getCurrentEdition</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>getCurrentEdition</name>
+        <qualifiedname>themis::llm_wiki::getCurrentEdition</qualifiedname>
+        <briefdescription>
+<para>Detect the current ThemisDB edition at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks compile-time defines and runtime configuration to determine which edition is active.</para>
+<para><simplesect kind="return"><para>Current edition. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.cpp" line="23" column="9" bodyfile="src/llm_wiki/edition_gate.cpp" bodystart="23" bodyend="32" declfile="src/llm_wiki/edition_gate.h" declline="70" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1a1d17818ab76f202de7ad5a7378fe0673" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::isLLMWikiEnabled</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isLLMWikiEnabled</name>
+        <qualifiedname>themis::llm_wiki::isLLMWikiEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if the LLM Wiki plugin is enabled in the current edition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The plugin is available in enterprise, hyperscaler, and military editions. Returns false for community and minimal.</para>
+<para><simplesect kind="return"><para>True if plugin is available; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.cpp" line="34" column="6" bodyfile="src/llm_wiki/edition_gate.cpp" bodystart="34" bodyend="39" declfile="src/llm_wiki/edition_gate.h" declline="80" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1a126ba246a3641f59aa5b75679239598e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::isLLMWikiFeatureEnabled</definition>
+        <argsstring>(const char *feature_name) noexcept</argsstring>
+        <name>isLLMWikiFeatureEnabled</name>
+        <qualifiedname>themis::llm_wiki::isLLMWikiFeatureEnabled</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if a specific LLM Wiki sub-feature is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sub-features include:<itemizedlist>
+<listitem><para>&quot;llm_wiki_wikipedia&quot; — Wikipedia dump ingestion (enterprise+ only)</para>
+</listitem><listitem><para>&quot;llm_wiki_workspace&quot; — Persistent workspace (enterprise+ only)</para>
+</listitem><listitem><para>(Future) multi-tenant, RBAC, quality evaluation</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the sub-feature (case-sensitive). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if available; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.cpp" line="41" column="6" bodyfile="src/llm_wiki/edition_gate.cpp" bodystart="41" bodyend="61" declfile="src/llm_wiki/edition_gate.h" declline="93" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1aaddee830161f5670ca4230f9f9e83cf9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm__wiki_1a3125d162c4ec0a67de0f1889b3aa2576" kindref="member">PluginStatus</ref></type>
+        <definition>PluginStatus themis::llm_wiki::enforcePluginGate</definition>
+        <argsstring>(const char *operation_name) noexcept</argsstring>
+        <name>enforcePluginGate</name>
+        <qualifiedname>themis::llm_wiki::enforcePluginGate</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Enforce edition gate for a plugin operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If the plugin is not enabled in the current edition, returns <computeroutput>Status::PermissionDenied()</computeroutput>. Otherwise, returns <computeroutput>Status::Ok()</computeroutput>.</para>
+<para>Use this in all public API entry points.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation (for error message). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status indicating whether access is allowed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.cpp" line="63" column="14" bodyfile="src/llm_wiki/edition_gate.cpp" bodystart="63" bodyend="76" declfile="src/llm_wiki/edition_gate.h" declline="106" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1a7a236b00e5231cb39111ee7d71bd12e7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm__wiki_1a3125d162c4ec0a67de0f1889b3aa2576" kindref="member">PluginStatus</ref></type>
+        <definition>PluginStatus themis::llm_wiki::enforceFeatureGate</definition>
+        <argsstring>(const char *feature_name) noexcept</argsstring>
+        <name>enforceFeatureGate</name>
+        <qualifiedname>themis::llm_wiki::enforceFeatureGate</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Enforce edition gate for a specific LLM Wiki sub-feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If the sub-feature is not available in the current edition, returns <computeroutput>Status::PermissionDenied()</computeroutput>. Otherwise, returns <computeroutput>Status::Ok()</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the sub-feature (e.g., &quot;llm_wiki_wikipedia&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status indicating whether access is allowed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/edition_gate.cpp" line="78" column="14" bodyfile="src/llm_wiki/edition_gate.cpp" bodystart="78" bodyend="91" declfile="src/llm_wiki/edition_gate.h" declline="117" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1a37c161c5e7212c74dff8a431fc3d09c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::normalizeForGuardrailCheck</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>normalizeForGuardrailCheck</name>
+        <qualifiedname>themis::llm_wiki::normalizeForGuardrailCheck</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Normalize For Guardrail Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::isspace(), push_back(), std::tolower(), empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="101" column="20" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="101" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1ae87eb34c4b42108ad8dfb1ab71f3f7b7" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::llm_wiki::computeSHA256</definition>
+        <argsstring>(const std::string &amp;data) noexcept</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::llm_wiki::computeSHA256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/workspace_state_manager.cpp" line="46" column="20" bodyfile="src/llm_wiki/workspace_state_manager.cpp" bodystart="46" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1ac617dd0daeb15bf0b638600416993e6c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm__wiki_1a69c4b9eaa54fc62034584823d077b510" kindref="member">json</ref></type>
+        <definition>static json themis::llm_wiki::serializeStateToJson</definition>
+        <argsstring>(const WorkspaceState &amp;state) noexcept</argsstring>
+        <name>serializeStateToJson</name>
+        <qualifiedname>themis::llm_wiki::serializeStateToJson</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/workspace_state_manager.cpp" line="70" column="13" bodyfile="src/llm_wiki/workspace_state_manager.cpp" bodystart="70" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm__wiki_1a5819bb9f14204f6e8ae7399a18c1332f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>static WorkspaceStatus themis::llm_wiki::deserializeJsonToState</definition>
+        <argsstring>(const json &amp;j, WorkspaceState &amp;out_state) noexcept</argsstring>
+        <name>deserializeJsonToState</name>
+        <qualifiedname>themis::llm_wiki::deserializeJsonToState</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm__wiki_1a69c4b9eaa54fc62034584823d077b510" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref> &amp;</type>
+          <declname>out_state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/workspace_state_manager.cpp" line="95" column="24" bodyfile="src/llm_wiki/workspace_state_manager.cpp" bodystart="95" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/process_policy_manager.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

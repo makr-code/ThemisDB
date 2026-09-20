@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_a_p_i_deprecation_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::APIDeprecationInfo</compoundname>
+    <includes refid="api__version_8h" local="no">api_version.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_deprecation_info_1adec6838e64a93f2548f8677b5b86563b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIDeprecationInfo::deprecated_in</definition>
+        <argsstring></argsstring>
+        <name>deprecated_in</name>
+        <qualifiedname>themis::server::APIDeprecationInfo::deprecated_in</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="50" column="16" bodyfile="include/server/api_version.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a38cf5e37c14af4b61ad993657df7a1f6" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIDeprecationInfo::removed_in</definition>
+        <argsstring></argsstring>
+        <name>removed_in</name>
+        <qualifiedname>themis::server::APIDeprecationInfo::removed_in</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="51" column="16" bodyfile="include/server/api_version.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a6f54e952dd5be2f5fa65aa120646aa24" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::server::APIDeprecationInfo::deprecation_date</definition>
+        <argsstring></argsstring>
+        <name>deprecation_date</name>
+        <qualifiedname>themis::server::APIDeprecationInfo::deprecation_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="52" column="43" bodyfile="include/server/api_version.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a16cf574653047cf0075df853d5eb793c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::server::APIDeprecationInfo::removal_date</definition>
+        <argsstring></argsstring>
+        <name>removal_date</name>
+        <qualifiedname>themis::server::APIDeprecationInfo::removal_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="53" column="43" bodyfile="include/server/api_version.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a1300787bccf2683720f0c39182c955cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIDeprecationInfo::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::server::APIDeprecationInfo::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="54" column="17" bodyfile="include/server/api_version.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_deprecation_info_1af6dae69b6cda2291dfd13cf61de36bae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIDeprecationInfo::migration_guide_url</definition>
+        <argsstring></argsstring>
+        <name>migration_guide_url</name>
+        <qualifiedname>themis::server::APIDeprecationInfo::migration_guide_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="55" column="17" bodyfile="include/server/api_version.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a067667ef3facfdfba65e80896382ae3c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIDeprecationInfo::alternative</definition>
+        <argsstring></argsstring>
+        <name>alternative</name>
+        <qualifiedname>themis::server::APIDeprecationInfo::alternative</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="56" column="17" bodyfile="include/server/api_version.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::server::APIDeprecationInfo</label>
+        <link refid="structthemis_1_1server_1_1_a_p_i_deprecation_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>deprecated_in</edgelabel>
+          <edgelabel>removed_in</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::server::APIVersion</label>
+        <link refid="structthemis_1_1server_1_1_a_p_i_version"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/api_version.h" line="49" column="1" bodyfile="include/server/api_version.h" bodystart="49" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a067667ef3facfdfba65e80896382ae3c" prot="public" virt="non-virtual"><scope>themis::server::APIDeprecationInfo</scope><name>alternative</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1adec6838e64a93f2548f8677b5b86563b" prot="public" virt="non-virtual"><scope>themis::server::APIDeprecationInfo</scope><name>deprecated_in</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a6f54e952dd5be2f5fa65aa120646aa24" prot="public" virt="non-virtual"><scope>themis::server::APIDeprecationInfo</scope><name>deprecation_date</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1af6dae69b6cda2291dfd13cf61de36bae" prot="public" virt="non-virtual"><scope>themis::server::APIDeprecationInfo</scope><name>migration_guide_url</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a1300787bccf2683720f0c39182c955cc" prot="public" virt="non-virtual"><scope>themis::server::APIDeprecationInfo</scope><name>reason</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a16cf574653047cf0075df853d5eb793c" prot="public" virt="non-virtual"><scope>themis::server::APIDeprecationInfo</scope><name>removal_date</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a38cf5e37c14af4b61ad993657df7a1f6" prot="public" virt="non-virtual"><scope>themis::server::APIDeprecationInfo</scope><name>removed_in</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

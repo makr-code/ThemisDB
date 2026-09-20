@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a8586041de1ea7f4ac81b40ddab46cd4b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa9a1bea900442d00b636878514cf9f44" kindref="member">IncrementalQueryHandle</ref></type>
+        <definition>IncrementalQueryHandle themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::handle</definition>
+        <argsstring></argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="922" column="32" bodyfile="include/graph/graph_query_optimizer.h" bodystart="922" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a63c6432ff1de59da9bac4ad71b7dfd13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::start_vertex</definition>
+        <argsstring></argsstring>
+        <name>start_vertex</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::start_vertex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="923" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="923" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a784df7067582f188cdd40cce10b77cf3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::max_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="924" column="13" bodyfile="include/graph/graph_query_optimizer.h" bodystart="924" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a69736bb1606c4d140d3ad217a1fbc41b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref></type>
+        <definition>QueryConstraints themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::constraints</definition>
+        <argsstring></argsstring>
+        <name>constraints</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::constraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="925" column="26" bodyfile="include/graph/graph_query_optimizer.h" bodystart="925" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a922a5b01b50439c29b2a9ff4d2b3831d" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa7f086ff20ba623f93dbb36b14e2ace8" kindref="member">IncrementalQueryCallback</ref></type>
+        <definition>IncrementalQueryCallback themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="926" column="34" bodyfile="include/graph/graph_query_optimizer.h" bodystart="926" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a0b2fe8d712790476a90ac9da97b3aff8" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::last_result</definition>
+        <argsstring></argsstring>
+        <name>last_result</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry::last_result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="927" column="28" bodyfile="include/graph/graph_query_optimizer.h" bodystart="927" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>constraints</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::GraphQueryOptimizer::QueryConstraints</label>
+        <link refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/graph_query_optimizer.h" line="921" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="921" bodyend="928"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a922a5b01b50439c29b2a9ff4d2b3831d" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</scope><name>callback</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a69736bb1606c4d140d3ad217a1fbc41b" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</scope><name>constraints</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a8586041de1ea7f4ac81b40ddab46cd4b" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</scope><name>handle</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a0b2fe8d712790476a90ac9da97b3aff8" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</scope><name>last_result</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a784df7067582f188cdd40cce10b77cf3" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry_1a63c6432ff1de59da9bac4ad71b7dfd13" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</scope><name>start_vertex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

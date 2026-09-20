@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__infrastructure_8h" kind="file" language="C++">
+    <compoundname>tensor_infrastructure.h</compoundname>
+    <includes refid="include_2distributed__tensor_2artifact__manifest_8h" local="yes">distributed_tensor/artifact_manifest.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="tensor__infrastructure_8cc" local="yes">src/distributed_tensor/tensor_infrastructure.cc</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>distributed_tensor/artifact_manifest.h</label>
+        <link refid="include_2distributed__tensor_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>distributed_tensor/tensor_artifact_classes.h</label>
+        <link refid="include_2distributed__tensor_2tensor__artifact__classes_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/distributed_tensor/tensor_infrastructure.h</label>
+        <link refid="tensor__infrastructure_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/distributed_tensor/tensor_infrastructure.h</label>
+        <link refid="tensor__infrastructure_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/tensor_infrastructure.cc</label>
+        <link refid="tensor__infrastructure_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_cluster_node" prot="public">themis::distributed_tensor::ClusterNode</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" prot="public">themis::distributed_tensor::StripeTransport</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager" prot="public">themis::distributed_tensor::TensorInfrastructureManager</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager" prot="public">themis::distributed_tensor::DefaultTensorInfrastructureManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Low-level infrastructure for distributed tensor communication. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Abstractions for inter-node transport, serialisation, and collective operations used by the distributed tensor subsystem. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>Team</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="include_2distributed__tensor_2artifact__manifest_8h" kindref="compound">distributed_tensor/artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64d" kindref="member">NodeStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64daf068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64daf068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da084f4ca2c0fe703e46514a144b4d6ead" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da084f4ca2c0fe703e46514a144b4d6ead" kindref="member">UNAVAILABLE</ref>,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da7ed929f45ba34eff59d81d74d4f80a58" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da7ed929f45ba34eff59d81d74d4f80a58" kindref="member">OFFLINE</ref>,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56" kindref="member">HardwareCapability</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a9393911bc06bdfb0c3663d541246e15a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a9393911bc06bdfb0c3663d541246e15a" kindref="member">CPU_ONLY</ref>,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a14cd2d97733fb4f7a2a6c98d97c628ef" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a14cd2d97733fb4f7a2a6c98d97c628ef" kindref="member">NVIDIA_CUDA</ref>,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a6c663ad0a747839a0b20d4a302c0f2bd" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a6c663ad0a747839a0b20d4a302c0f2bd" kindref="member">AMD_HIP</ref>,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a091481c311139a3fbfa425f837801881" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a091481c311139a3fbfa425f837801881" kindref="member">GOOGLE_TPU</ref>,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56abc213e7b9081b7345daac6183d9cd024" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56abc213e7b9081b7345daac6183d9cd024" kindref="member">INTEL_HABANA</ref>,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref>,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1distributed__tensor_1_1_cluster_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a42f618098ad4663be075ba8aa63975dc" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a42f618098ad4663be075ba8aa63975dc" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a4616fdef44318c27098e361cc7d5d2cb" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a4616fdef44318c27098e361cc7d5d2cb" kindref="member">endpoint</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ad5b185c664a1fa0d9b2956cd36c177dc" refkind="member"><highlight class="normal"><sp/><sp/>uint16_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ad5b185c664a1fa0d9b2956cd36c177dc" kindref="member">rpc_port</ref><sp/>=<sp/>50051;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ac453517a3da678c33f87d09bc9b9e204" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64d" kindref="member">NodeStatus</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ac453517a3da678c33f87d09bc9b9e204" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da696b031073e74bf2cb98e5ef201d4aa3" kindref="member">NodeStatus::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a8e60c6f5326fe500ffc19dd4e6dbddc1" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56" kindref="member">HardwareCapability</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a8e60c6f5326fe500ffc19dd4e6dbddc1" kindref="member">hardware</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a9393911bc06bdfb0c3663d541246e15a" kindref="member">HardwareCapability::CPU_ONLY</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1aae1fcbdf90c6fa1c7b86c1e0120880d6" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1aae1fcbdf90c6fa1c7b86c1e0120880d6" kindref="member">total_storage_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a6cf209f85732929336a1bdf62a066b29" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a6cf209f85732929336a1bdf62a066b29" kindref="member">used_storage_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a1097c13ba83eb31a0ace58409e0e9cf9" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a1097c13ba83eb31a0ace58409e0e9cf9" kindref="member">available_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a970d6c2292a6ec46d4c9731c50ecc304" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a970d6c2292a6ec46d4c9731c50ecc304" kindref="member">network_bandwidth_mbps</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a93fadf79bc4e6ba9f69e9babb1fbea39" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a93fadf79bc4e6ba9f69e9babb1fbea39" kindref="member">network_utilization</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a3e9419933b62d3be823cf589a5f9a99d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a3e9419933b62d3be823cf589a5f9a99d" kindref="member">cpu_utilization</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a2826799990e77392292f27bdf19e2e5e" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a2826799990e77392292f27bdf19e2e5e" kindref="member">last_heartbeat_at</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1adda60e42b8c6f41a37db5116009ebca6" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1adda60e42b8c6f41a37db5116009ebca6" kindref="member">region</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1aa8a9496e64ba235b9cda8a39c05a485b" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1aa8a9496e64ba235b9cda8a39c05a485b" kindref="member">rack_id</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ae7e34dacd05afd29c43194ff3e772c3f" refkind="member"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ae7e34dacd05afd29c43194ff3e772c3f" kindref="member">custom_metadata</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" kindref="compound">StripeTransport</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a8f44cc9e7252642e2a3ed88a65cb9b45" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a8f44cc9e7252642e2a3ed88a65cb9b45" kindref="member">protocol</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;grpc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1ac5307e8d3040d937d6ffeaa6f8846561" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1ac5307e8d3040d937d6ffeaa6f8846561" kindref="member">compression_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a5c0a2d0a7adbf91ebd60ceb2c2e70422" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a5c0a2d0a7adbf91ebd60ceb2c2e70422" kindref="member">compression_algorithm</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a8b97f43a3366f4dcfc22339b2bd8e6a3" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a8b97f43a3366f4dcfc22339b2bd8e6a3" kindref="member">encryption_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a52797075347a907391a0808f9ba83402" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a52797075347a907391a0808f9ba83402" kindref="member">encryption_algorithm</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AES256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1aab33929ada4bfa3bf954b92487d2b0b4" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1aab33929ada4bfa3bf954b92487d2b0b4" kindref="member">parallel_streams</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a4dfba0d27af3571e574fa61b0def5ffe" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a4dfba0d27af3571e574fa61b0def5ffe" kindref="member">timeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a861a8c7a7fbbc85581f1933a82915dc8" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a861a8c7a7fbbc85581f1933a82915dc8" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a53152c5044688f67e771cf4c8e948176" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a53152c5044688f67e771cf4c8e948176" kindref="member">backoff_strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;exponential&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a89bcced7fca4f673eaf08e373d0245ca" refkind="member"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a89bcced7fca4f673eaf08e373d0245ca" kindref="member">custom_metadata</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1acdbd4a9495367b0bfb3fb0aff8046db9" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1acdbd4a9495367b0bfb3fb0aff8046db9" kindref="member">TensorInfrastructureManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1afb651f911fd4238a82d99b630a496025" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1afb651f911fd4238a82d99b630a496025" kindref="member">TensorInfrastructureManager</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a94f1761a66620d75a06057831ba677cb" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref>&amp;)<sp/>=</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>delete;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a94b0d60f22f4d7e3263f60aa87303627" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref>&amp;<sp/>operator=(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a62f8f0bae58480a302b54c7024f24c29" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a9481b72b4a1c37cfc7eff6009140b70c" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a9481b72b4a1c37cfc7eff6009140b70c" kindref="member">register_node</ref>(const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&amp;<sp/>node)<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a47cad7a5d30912b5a7ebe013c2f115d9" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a47cad7a5d30912b5a7ebe013c2f115d9" kindref="member">unregister_node</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>node_id)<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1acd64fe4db635609604870a25bd55fa0e" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>std::optional&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1acd64fe4db635609604870a25bd55fa0e" kindref="member">get_node</ref>(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>node_id)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a8999a6debd18660c7e462ad501a9e4ad" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a8999a6debd18660c7e462ad501a9e4ad" kindref="member">list_nodes</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a12900ef4d2d4a3adb7dea950af5f745f" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a12900ef4d2d4a3adb7dea950af5f745f" kindref="member">get_healthy_nodes</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a9c624eb62cc5f3cb47d4d3175e7f0899" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a9c624eb62cc5f3cb47d4d3175e7f0899" kindref="member">update_node_status</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64d" kindref="member">NodeStatus</ref><sp/>status)<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1ae4d02e7b7616d3e389768591f502d816" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" kindref="compound">StripeTransport</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1ae4d02e7b7616d3e389768591f502d816" kindref="member">get_stripe_transport</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1aa1c3055e39f6b727958d429d2c2e2992" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1aa1c3055e39f6b727958d429d2c2e2992" kindref="member">set_stripe_transport</ref>(<ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" kindref="compound">StripeTransport</ref><sp/>transport)<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a42dafd1c812e6d22655b40d930e4d24c" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a42dafd1c812e6d22655b40d930e4d24c" kindref="member">is_node_available</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>required_capacity)<sp/>const</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1af62318b0eaf36994701192f0c56e038a" kindref="member">DefaultTensorInfrastructureManager</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1af62318b0eaf36994701192f0c56e038a" kindref="member">DefaultTensorInfrastructureManager</ref>();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1ae2520871a4e9c99bc045789a8eeb4af4" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1ae2520871a4e9c99bc045789a8eeb4af4" kindref="member">DefaultTensorInfrastructureManager</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1af62318b0eaf36994701192f0c56e038a" kindref="member">DefaultTensorInfrastructureManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1abf4e4041a7ae146216fbe9b18c5d1676" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1af62318b0eaf36994701192f0c56e038a" kindref="member">DefaultTensorInfrastructureManager</ref>&amp;<sp/>operator=(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1af62318b0eaf36994701192f0c56e038a" kindref="member">DefaultTensorInfrastructureManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1ae85efa57ad15521929f67e3c0b93cd49" refkind="member"><highlight class="normal"><sp/><sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1af62318b0eaf36994701192f0c56e038a" kindref="member">DefaultTensorInfrastructureManager</ref>()<sp/>override<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a294ff5c84cab33edbee0c469ad0852b6" kindref="member">register_node</ref>(const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&amp;<sp/>node)<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a72f48684ac05d23f4842386cf69b4d2c" kindref="member">unregister_node</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>node_id)<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a9198184b1e4ef9fa12ee6b926dbd313b" kindref="member">get_node</ref>(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>node_id)<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1aae10bca5bbf518070532ca6f5263e655" kindref="member">list_nodes</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a981f3c5c05b3245e502c8d43ffaaa3df" kindref="member">get_healthy_nodes</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a9d1d6431831abe5030a8ec44d32ee647" kindref="member">update_node_status</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64d" kindref="member">NodeStatus</ref><sp/>status)<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/>const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" kindref="compound">StripeTransport</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a932ac9130d3e2ba224e720f34c3e0155" kindref="member">get_stripe_transport</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a5b3ed737bbbea976d39aed2b3936e8c5" kindref="member">set_stripe_transport</ref>(<ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" kindref="compound">StripeTransport</ref><sp/>transport)<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a3a49d8ca0e46a102f563484f7ca55eb6" kindref="member">is_node_available</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>required_capacity)<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/>private:</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref>&gt;<sp/>nodes_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" kindref="compound">StripeTransport</ref><sp/>stripe_transport_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/distributed_tensor/tensor_infrastructure.h"/>
+  </compounddef>
+</doxygen>

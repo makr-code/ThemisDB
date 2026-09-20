@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_index_manager_1_1_path_constraints" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GraphIndexManager::PathConstraints</compoundname>
+    <includes refid="graph__index_8h" local="no">graph_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a5fd2a1b2d29528c3e95db957016c2534" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GraphIndexManager::PathConstraints::unique_vertices</definition>
+        <argsstring></argsstring>
+        <name>unique_vertices</name>
+        <qualifiedname>themis::GraphIndexManager::PathConstraints::unique_vertices</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="138" column="14" bodyfile="include/index/graph_index.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a03815761ba7a5d1301586a42a266bdb4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GraphIndexManager::PathConstraints::unique_edges</definition>
+        <argsstring></argsstring>
+        <name>unique_edges</name>
+        <qualifiedname>themis::GraphIndexManager::PathConstraints::unique_edges</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="139" column="14" bodyfile="include/index/graph_index.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_path_constraints_1ac2b6664acf68ea337b076f176f70c51d" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::GraphIndexManager::PathConstraints::forbidden_vertices</definition>
+        <argsstring></argsstring>
+        <name>forbidden_vertices</name>
+        <qualifiedname>themis::GraphIndexManager::PathConstraints::forbidden_vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="140" column="28" bodyfile="include/index/graph_index.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_path_constraints_1aa7005af1565abdf996ded1ad3f3dc485" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::GraphIndexManager::PathConstraints::forbidden_edges</definition>
+        <argsstring></argsstring>
+        <name>forbidden_edges</name>
+        <qualifiedname>themis::GraphIndexManager::PathConstraints::forbidden_edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="141" column="28" bodyfile="include/index/graph_index.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a05f8c374d92e470fac6919733ce04756" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::GraphIndexManager::PathConstraints::required_vertices</definition>
+        <argsstring></argsstring>
+        <name>required_vertices</name>
+        <qualifiedname>themis::GraphIndexManager::PathConstraints::required_vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="142" column="28" bodyfile="include/index/graph_index.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_path_constraints_1abb2d002c8667dfadd2c2b1035763735f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::GraphIndexManager::PathConstraints::max_edge_count</definition>
+        <argsstring></argsstring>
+        <name>max_edge_count</name>
+        <qualifiedname>themis::GraphIndexManager::PathConstraints::max_edge_count</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="143" column="13" bodyfile="include/index/graph_index.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a6af4691a0fb4c3edc602fc90fb34ee31" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::GraphIndexManager::PathConstraints::min_edge_count</definition>
+        <argsstring></argsstring>
+        <name>min_edge_count</name>
+        <qualifiedname>themis::GraphIndexManager::PathConstraints::min_edge_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="144" column="13" bodyfile="include/index/graph_index.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/graph_index.h" line="137" column="5" bodyfile="include/index/graph_index.h" bodystart="137" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1aa7005af1565abdf996ded1ad3f3dc485" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::PathConstraints</scope><name>forbidden_edges</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1ac2b6664acf68ea337b076f176f70c51d" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::PathConstraints</scope><name>forbidden_vertices</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1abb2d002c8667dfadd2c2b1035763735f" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::PathConstraints</scope><name>max_edge_count</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a6af4691a0fb4c3edc602fc90fb34ee31" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::PathConstraints</scope><name>min_edge_count</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a05f8c374d92e470fac6919733ce04756" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::PathConstraints</scope><name>required_vertices</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a03815761ba7a5d1301586a42a266bdb4" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::PathConstraints</scope><name>unique_edges</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a5fd2a1b2d29528c3e95db957016c2534" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::PathConstraints</scope><name>unique_vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

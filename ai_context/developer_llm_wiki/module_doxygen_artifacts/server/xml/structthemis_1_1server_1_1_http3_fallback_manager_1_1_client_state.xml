@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::Http3FallbackManager::ClientState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state_1a59f0e6d62405daddc01ea3ca68a71532" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::Http3FallbackManager::ClientState::failure_count</definition>
+        <argsstring></argsstring>
+        <name>failure_count</name>
+        <qualifiedname>themis::server::Http3FallbackManager::ClientState::failure_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="176" column="18" bodyfile="include/server/http3_production_config.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state_1ab8a45a9dc25c672be434d6e130125cdc" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::Http3FallbackManager::ClientState::fallback_until</definition>
+        <argsstring></argsstring>
+        <name>fallback_until</name>
+        <qualifiedname>themis::server::Http3FallbackManager::ClientState::fallback_until</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="177" column="47" bodyfile="include/server/http3_production_config.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state_1a5b014c554c6b978c43861091dd90c8c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::Http3FallbackManager::ClientState::in_fallback</definition>
+        <argsstring></argsstring>
+        <name>in_fallback</name>
+        <qualifiedname>themis::server::Http3FallbackManager::ClientState::in_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="178" column="14" bodyfile="include/server/http3_production_config.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/http3_production_config.h" line="175" column="5" bodyfile="include/server/http3_production_config.h" bodystart="175" bodyend="179"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state_1a59f0e6d62405daddc01ea3ca68a71532" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager::ClientState</scope><name>failure_count</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state_1ab8a45a9dc25c672be434d6e130125cdc" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager::ClientState</scope><name>fallback_until</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state_1a5b014c554c6b978c43861091dd90c8c9" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager::ClientState</scope><name>in_fallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

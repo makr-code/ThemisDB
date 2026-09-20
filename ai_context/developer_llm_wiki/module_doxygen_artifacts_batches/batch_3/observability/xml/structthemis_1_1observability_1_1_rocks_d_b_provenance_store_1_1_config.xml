@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::RocksDBProvenanceStore::Config</compoundname>
+    <includes refid="provenance__store_8h" local="no">provenance_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a742626ec96595bf680849b93ee3a1673" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RocksDBProvenanceStore::Config::db_path</definition>
+        <argsstring></argsstring>
+        <name>db_path</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Config::db_path</qualifiedname>
+        <briefdescription>
+<para>Path to the RocksDB data directory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="138" column="21" bodyfile="include/observability/provenance_store.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a53ae19f6ef287e2f40bb70aabede9532" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RocksDBProvenanceStore::Config::batch_flush_threshold</definition>
+        <argsstring></argsstring>
+        <name>batch_flush_threshold</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Config::batch_flush_threshold</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum number of records to keep in memory cache before flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="141" column="16" bodyfile="include/observability/provenance_store.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a27e48ae6d1797d15bfc2cc292e900e72" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::RocksDBProvenanceStore::Config::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Config::enable_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable compression (default: true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="144" column="14" bodyfile="include/observability/provenance_store.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a1448ff4d1c0ba9119abb1f27ffc70d7d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::RocksDBProvenanceStore::Config::retention_max_records</definition>
+        <argsstring></argsstring>
+        <name>retention_max_records</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Config::retention_max_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of persisted provenance records. 0 means unlimited. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="148" column="21" bodyfile="include/observability/provenance_store.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1ab14e7edd84a1924ce2cbdca03c1d6cd0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::RocksDBProvenanceStore::Config::retention_max_age_ms</definition>
+        <argsstring></argsstring>
+        <name>retention_max_age_ms</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Config::retention_max_age_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum age of persisted provenance records in milliseconds. Records older than now - retention_max_age_ms are removed on writes. 0 means unlimited. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="153" column="17" bodyfile="include/observability/provenance_store.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/provenance_store.h" line="136" column="5" bodyfile="include/observability/provenance_store.h" bodystart="136" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a53ae19f6ef287e2f40bb70aabede9532" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Config</scope><name>batch_flush_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a742626ec96595bf680849b93ee3a1673" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Config</scope><name>db_path</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a27e48ae6d1797d15bfc2cc292e900e72" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Config</scope><name>enable_compression</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1ab14e7edd84a1924ce2cbdca03c1d6cd0" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Config</scope><name>retention_max_age_ms</name></member>
+      <member refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a1448ff4d1c0ba9119abb1f27ffc70d7d" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Config</scope><name>retention_max_records</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

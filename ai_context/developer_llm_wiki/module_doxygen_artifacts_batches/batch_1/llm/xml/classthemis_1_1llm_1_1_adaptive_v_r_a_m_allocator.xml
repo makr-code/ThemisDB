@@ -1,0 +1,427 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::AdaptiveVRAMAllocator</compoundname>
+    <includes refid="adaptive__vram__allocator_8h" local="no">adaptive_vram_allocator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_model_config" prot="public">themis::llm::AdaptiveVRAMAllocator::ModelConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info" prot="public">themis::llm::AdaptiveVRAMAllocator::HardwareInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config" prot="public">themis::llm::AdaptiveVRAMAllocator::InferenceConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan" prot="public">themis::llm::AdaptiveVRAMAllocator::AllocationPlan</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan" prot="public">themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl" prot="public">themis::llm::AdaptiveVRAMAllocator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a984499d6bc9fcb916c875680dbcc1aab" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::AdaptiveVRAMAllocator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="155" column="21" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a35e06018b8816062c373147cfbcfbd1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdaptiveVRAMAllocator::AdaptiveVRAMAllocator</definition>
+        <argsstring>()</argsstring>
+        <name>AdaptiveVRAMAllocator</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AdaptiveVRAMAllocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="70" column="5" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="62" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1adf636b69a5c0d87b9183ed699ba6684e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdaptiveVRAMAllocator::~AdaptiveVRAMAllocator</definition>
+        <argsstring>()</argsstring>
+        <name>~AdaptiveVRAMAllocator</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::~AdaptiveVRAMAllocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="71" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a6e769cd7745523db698c5c49bc2ad44f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan" kindref="compound">AllocationPlan</ref></type>
+        <definition>AdaptiveVRAMAllocator::AllocationPlan themis::llm::AdaptiveVRAMAllocator::calculateOptimalAllocation</definition>
+        <argsstring>(const ModelConfig &amp;model, const HardwareInfo &amp;hw, const InferenceConfig &amp;config)</argsstring>
+        <name>calculateOptimalAllocation</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::calculateOptimalAllocation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_model_config" kindref="compound">ModelConfig</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info" kindref="compound">HardwareInfo</ref> &amp;</type>
+          <declname>hw</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config" kindref="compound">InferenceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Optimal Allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::isfinite(), checked_mul(), checked_scale(), <ref refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a95b29f6b5e78bea073d4d0eb52da1590" kindref="member">estimateActivationMemory()</ref>, checked_add(), max(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="80" column="20" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="75" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1adb3833133f4ce5e12936fcb5ed00a197" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan" kindref="compound">DualModelAllocationPlan</ref></type>
+        <definition>AdaptiveVRAMAllocator::DualModelAllocationPlan themis::llm::AdaptiveVRAMAllocator::calculateDualModelAllocation</definition>
+        <argsstring>(const ModelConfig &amp;target_config, const ModelConfig &amp;draft_config, const HardwareInfo &amp;hw, const InferenceConfig &amp;config)</argsstring>
+        <name>calculateDualModelAllocation</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::calculateDualModelAllocation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_model_config" kindref="compound">ModelConfig</ref> &amp;</type>
+          <declname>target_config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_model_config" kindref="compound">ModelConfig</ref> &amp;</type>
+          <declname>draft_config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info" kindref="compound">HardwareInfo</ref> &amp;</type>
+          <declname>hw</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config" kindref="compound">InferenceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Dual Model Allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="99" column="29" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="310" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1ac5d01e5eda4f81d70d765b60da23bca3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdaptiveVRAMAllocator::allocateWithFragmentation</definition>
+        <argsstring>(size_t bytes, void **ptr) noexcept</argsstring>
+        <name>allocateWithFragmentation</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::allocateWithFragmentation</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>void **</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Allocate With Fragmentation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="113" column="10" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="204" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1aa01b87ce881f9855cc076816b7b3d6de" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdaptiveVRAMAllocator::handleOutOfMemory</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>handleOutOfMemory</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::handleOutOfMemory</qualifiedname>
+        <briefdescription>
+<para>Handle Out Of Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="120" column="10" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="228" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1ac3e12172a351e1cc739a268c4f7d97af" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::calculateKVCacheSizePerToken</definition>
+        <argsstring>(const ModelConfig &amp;model) noexcept</argsstring>
+        <name>calculateKVCacheSizePerToken</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::calculateKVCacheSizePerToken</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_model_config" kindref="compound">ModelConfig</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Calculate KVCache Size Per Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="128" column="19" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="240" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1af527416597c21cc175a7bf7ba6b11402" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::calculateModelSize</definition>
+        <argsstring>(size_t num_parameters, float precision_bytes) noexcept</argsstring>
+        <name>calculateModelSize</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::calculateModelSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_parameters</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>precision_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Model Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">precision_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="137" column="19" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="257" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a95b29f6b5e78bea073d4d0eb52da1590" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::estimateActivationMemory</definition>
+        <argsstring>(const ModelConfig &amp;model, size_t batch_size, size_t seq_length) noexcept</argsstring>
+        <name>estimateActivationMemory</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::estimateActivationMemory</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_model_config" kindref="compound">ModelConfig</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>seq_length</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Activation Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="147" column="19" bodyfile="src/llm/adaptive_vram_allocator.cpp" bodystart="269" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adaptive_vram_allocator.h" line="22" column="1" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="22" bodyend="156"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a35e06018b8816062c373147cfbcfbd1c" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>AdaptiveVRAMAllocator</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1ac5d01e5eda4f81d70d765b60da23bca3" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>allocateWithFragmentation</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1adb3833133f4ce5e12936fcb5ed00a197" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>calculateDualModelAllocation</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1ac3e12172a351e1cc739a268c4f7d97af" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>calculateKVCacheSizePerToken</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1af527416597c21cc175a7bf7ba6b11402" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>calculateModelSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a6e769cd7745523db698c5c49bc2ad44f" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>calculateOptimalAllocation</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a95b29f6b5e78bea073d4d0eb52da1590" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>estimateActivationMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1aa01b87ce881f9855cc076816b7b3d6de" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>handleOutOfMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1a984499d6bc9fcb916c875680dbcc1aab" prot="private" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1adf636b69a5c0d87b9183ed699ba6684e" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator</scope><name>~AdaptiveVRAMAllocator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

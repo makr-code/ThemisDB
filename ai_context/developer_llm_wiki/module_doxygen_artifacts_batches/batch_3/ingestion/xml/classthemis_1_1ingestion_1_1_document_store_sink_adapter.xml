@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_document_store_sink_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::DocumentStoreSinkAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_doc_writer" prot="public" virt="non-virtual">themis::ingestion::IDocWriter</basecompoundref>
+    <includes refid="ingestion__sinks_8h" local="no">ingestion_sinks.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1ad6f6bd58bd8da34355ab6f7fa9f4cc22" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::document::IDocumentStore &gt;</type>
+        <definition>std::shared_ptr&lt;themis::document::IDocumentStore&gt; themis::ingestion::DocumentStoreSinkAdapter::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::ingestion::DocumentStoreSinkAdapter::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="336" column="21" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1ab649194bcd5be411c5382cc5722eb8a6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::DocumentStoreSinkAdapter::mtx_</definition>
+        <argsstring></argsstring>
+        <name>mtx_</name>
+        <qualifiedname>themis::ingestion::DocumentStoreSinkAdapter::mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="337" column="56" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1ab52d632eb9c71104ba5ef3ad5e3b2ca0" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::DocumentStoreSinkAdapter::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>themis::ingestion::DocumentStoreSinkAdapter::count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="338" column="56" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="338" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a1b3e8feb2a0d449df325468b94cf4438" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DocumentStoreSinkAdapter::DocumentStoreSinkAdapter</definition>
+        <argsstring>(std::shared_ptr&lt; themis::document::IDocumentStore &gt; store)</argsstring>
+        <name>DocumentStoreSinkAdapter</name>
+        <qualifiedname>themis::ingestion::DocumentStoreSinkAdapter::DocumentStoreSinkAdapter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::document::IDocumentStore &gt;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Construct adapter around an existing <computeroutput>IDocumentStore</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backing store (must not be nullptr). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when store is nullptr. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="325" column="14" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="379" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a2e5a9cded508cad2a753dbc22c154d41" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::ingestion::DocumentStoreSinkAdapter::writeDocument</definition>
+        <argsstring>(const BaseEntitySet &amp;entity_set, const std::string &amp;collection) override</argsstring>
+        <name>writeDocument</name>
+        <qualifiedname>themis::ingestion::DocumentStoreSinkAdapter::writeDocument</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a416afd3de63f544163f7c83dfee7141c">writeDocument</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> &amp;</type>
+          <declname>entity_set</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Write Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="328" column="12" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="466" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a63343767da39f012c7d64c4c29028e43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::DocumentStoreSinkAdapter::documentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>documentCount</name>
+        <qualifiedname>themis::ingestion::DocumentStoreSinkAdapter::documentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a430cc204a7b983824c97feb9aa06238e">documentCount</reimplements>
+        <briefdescription>
+<para>Returns the number of documents written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="330" column="17" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="504" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1af96ef008bae4c20942db4475f7eafe2d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const themis::document::IDocumentStore &amp;</type>
+        <definition>const themis::document::IDocumentStore &amp; themis::ingestion::DocumentStoreSinkAdapter::store</definition>
+        <argsstring>() const</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::ingestion::DocumentStoreSinkAdapter::store</qualifiedname>
+        <briefdescription>
+<para>Access the underlying store for inspection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="333" column="44" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="333" bodyend="333"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1ac816be7c0e0f5d1cf9c3289bc6ec1b5f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ingestion::DocumentStoreSinkAdapter::serialise</definition>
+        <argsstring>(const BaseEntitySet &amp;es)</argsstring>
+        <name>serialise</name>
+        <qualifiedname>themis::ingestion::DocumentStoreSinkAdapter::serialise</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> &amp;</type>
+          <declname>es</declname>
+        </param>
+        <briefdescription>
+<para>Serialise a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> to a JSON body for the document store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Serialise.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">es</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::array(), std::move(), push_back(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="341" column="27" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="394" bodyend="458"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Production <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_doc_writer" kindref="compound">IDocWriter</ref></computeroutput> that persists <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> records to a real <computeroutput>IDocumentStore</computeroutput> backend (ThemisDB document module). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each <computeroutput><ref refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a2e5a9cded508cad2a753dbc22c154d41" kindref="member">writeDocument()</ref></computeroutput> call serialises the <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> to JSON and calls <computeroutput>IDocumentStore::put()</computeroutput>. The document ID is taken from <computeroutput>BaseEntitySet::source_doc_id</computeroutput> when non-empty, or auto-generated as <computeroutput>"ingested-&lt;uuid4&gt;"</computeroutput> otherwise.</para>
+<para>Thread-safety: all methods are thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::DocumentStoreSinkAdapter</label>
+        <link refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::IDocWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_doc_writer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::DocumentStoreSinkAdapter</label>
+        <link refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::IDocWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_doc_writer"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/ingestion_sinks.h" line="317" column="1" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="317" bodyend="342"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1ab52d632eb9c71104ba5ef3ad5e3b2ca0" prot="private" virt="non-virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>count_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a63343767da39f012c7d64c4c29028e43" prot="public" virt="virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>documentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a1b3e8feb2a0d449df325468b94cf4438" prot="public" virt="non-virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>DocumentStoreSinkAdapter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1ab649194bcd5be411c5382cc5722eb8a6" prot="private" virt="non-virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>mtx_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1ac816be7c0e0f5d1cf9c3289bc6ec1b5f" prot="private" virt="non-virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>serialise</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1af96ef008bae4c20942db4475f7eafe2d" prot="public" virt="non-virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>store</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1ad6f6bd58bd8da34355ab6f7fa9f4cc22" prot="private" virt="non-virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>store_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a2e5a9cded508cad2a753dbc22c154d41" prot="public" virt="virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>writeDocument</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a1b32aa16b450fd4fabb6f0fbc965dbce" prot="public" virt="virtual"><scope>themis::ingestion::DocumentStoreSinkAdapter</scope><name>~IDocWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

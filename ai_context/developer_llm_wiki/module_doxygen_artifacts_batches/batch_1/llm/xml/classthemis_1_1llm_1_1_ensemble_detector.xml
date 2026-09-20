@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_ensemble_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::EnsembleDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_byzantine_detector" prot="public" virt="non-virtual">themis::llm::ByzantineDetector</basecompoundref>
+    <includes refid="byzantine__detector_8h" local="no">byzantine_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ensemble_detector_1ac0b7362de9c77d5d54460511a854e6c7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_median_detector" kindref="compound">MedianDetector</ref></type>
+        <definition>MedianDetector themis::llm::EnsembleDetector::median_detector_</definition>
+        <argsstring></argsstring>
+        <name>median_detector_</name>
+        <qualifiedname>themis::llm::EnsembleDetector::median_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="305" column="20" bodyfile="include/llm/byzantine_detector.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ensemble_detector_1a7953326ba0be4bc74abff60da50d53a2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_krum_detector" kindref="compound">KrumDetector</ref></type>
+        <definition>KrumDetector themis::llm::EnsembleDetector::krum_detector_</definition>
+        <argsstring></argsstring>
+        <name>krum_detector_</name>
+        <qualifiedname>themis::llm::EnsembleDetector::krum_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="306" column="18" bodyfile="include/llm/byzantine_detector.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ensemble_detector_1a9cfd086635e9afc82deab1cf44b9af8c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EnsembleDetector::EnsembleDetector</definition>
+        <argsstring>(float median_threshold=3.0f, int max_byzantine_shards=1)</argsstring>
+        <name>EnsembleDetector</name>
+        <qualifiedname>themis::llm::EnsembleDetector::EnsembleDetector</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>median_threshold</declname>
+          <defval>3.0f</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_byzantine_shards</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="288" column="14" bodyfile="src/llm/byzantine_detector.cpp" bodystart="539" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ensemble_detector_1a6cb5a34ec99826553388e6cb7ebececb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EnsembleDetector::~EnsembleDetector</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~EnsembleDetector</name>
+        <qualifiedname>themis::llm::EnsembleDetector::~EnsembleDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="292" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ensemble_detector_1a62eaaefa258b0f2cec657701680cad85" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::llm::EnsembleDetector::detectByzantineShards</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients) override</argsstring>
+        <name>detectByzantineShards</name>
+        <qualifiedname>themis::llm::EnsembleDetector::detectByzantineShards</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_byzantine_detector_1ac1f15db263cd4bbcab509b329551918c">detectByzantineShards</reimplements>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="294" column="21" bodyfile="src/llm/byzantine_detector.cpp" bodystart="584" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ensemble_detector_1a5b2b650b5ceea87409fc22008a82eac3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref></type>
+        <definition>GradientStatistics themis::llm::EnsembleDetector::computeStatistics</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients) override</argsstring>
+        <name>computeStatistics</name>
+        <qualifiedname>themis::llm::EnsembleDetector::computeStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_byzantine_detector_1a6a8bc0a1f7052f77f9cd5840c927e830">computeStatistics</reimplements>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="298" column="24" bodyfile="src/llm/byzantine_detector.cpp" bodystart="578" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ensemble_detector_1a46afbd56a0f1525c64c7013ef9c623b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EnsembleDetector::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::EnsembleDetector::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_byzantine_detector_1a530eac2670dbff83051ce034e092037d">getName</reimplements>
+        <briefdescription>
+<para>Get Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="302" column="17" bodyfile="include/llm/byzantine_detector.h" bodystart="302" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ensemble_detector_1a0f30e3f8d23857c0cbe0774986df72e0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::llm::EnsembleDetector::combineResults</definition>
+        <argsstring>(const DetectionResult &amp;median_result, const DetectionResult &amp;krum_result) const</argsstring>
+        <name>combineResults</name>
+        <qualifiedname>themis::llm::EnsembleDetector::combineResults</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;</type>
+          <declname>median_result</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;</type>
+          <declname>krum_result</declname>
+        </param>
+        <briefdescription>
+<para>Combine results from multiple detectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">median_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">krum_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="314" column="21" bodyfile="src/llm/byzantine_detector.cpp" bodystart="544" bodyend="576"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::ByzantineDetector</label>
+        <link refid="classthemis_1_1llm_1_1_byzantine_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::EnsembleDetector</label>
+        <link refid="classthemis_1_1llm_1_1_ensemble_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::ByzantineDetector</label>
+        <link refid="classthemis_1_1llm_1_1_byzantine_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::EnsembleDetector</label>
+        <link refid="classthemis_1_1llm_1_1_ensemble_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/byzantine_detector.h" line="286" column="1" bodyfile="include/llm/byzantine_detector.h" bodystart="286" bodyend="318"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_ensemble_detector_1a0f30e3f8d23857c0cbe0774986df72e0" prot="private" virt="non-virtual"><scope>themis::llm::EnsembleDetector</scope><name>combineResults</name></member>
+      <member refid="classthemis_1_1llm_1_1_ensemble_detector_1a5b2b650b5ceea87409fc22008a82eac3" prot="public" virt="virtual"><scope>themis::llm::EnsembleDetector</scope><name>computeStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_ensemble_detector_1a62eaaefa258b0f2cec657701680cad85" prot="public" virt="virtual"><scope>themis::llm::EnsembleDetector</scope><name>detectByzantineShards</name></member>
+      <member refid="classthemis_1_1llm_1_1_ensemble_detector_1a9cfd086635e9afc82deab1cf44b9af8c" prot="public" virt="non-virtual"><scope>themis::llm::EnsembleDetector</scope><name>EnsembleDetector</name></member>
+      <member refid="classthemis_1_1llm_1_1_ensemble_detector_1a46afbd56a0f1525c64c7013ef9c623b2" prot="public" virt="virtual"><scope>themis::llm::EnsembleDetector</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1_ensemble_detector_1a7953326ba0be4bc74abff60da50d53a2" prot="private" virt="non-virtual"><scope>themis::llm::EnsembleDetector</scope><name>krum_detector_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ensemble_detector_1ac0b7362de9c77d5d54460511a854e6c7" prot="private" virt="non-virtual"><scope>themis::llm::EnsembleDetector</scope><name>median_detector_</name></member>
+      <member refid="classthemis_1_1llm_1_1_byzantine_detector_1a4cc09740318777bbda9c4e689de03ad8" prot="public" virt="virtual"><scope>themis::llm::EnsembleDetector</scope><name>~ByzantineDetector</name></member>
+      <member refid="classthemis_1_1llm_1_1_ensemble_detector_1a6cb5a34ec99826553388e6cb7ebececb" prot="public" virt="non-virtual"><scope>themis::llm::EnsembleDetector</scope><name>~EnsembleDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

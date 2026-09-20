@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_format_extract_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::FormatExtractResult</compoundname>
+    <includes refid="format__extractor_8h" local="no">format_extractor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_format_extract_result_1a34bcb3ffccae5900079ac1511d627f04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FormatExtractResult::raw_text</definition>
+        <argsstring></argsstring>
+        <name>raw_text</name>
+        <qualifiedname>themis::ingestion::FormatExtractResult::raw_text</qualifiedname>
+        <briefdescription>
+<para>Extracted plain text (UTF-8). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="45" column="17" bodyfile="include/ingestion/format_extractor.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_format_extract_result_1af6d686274c02f04c5b2550f696c0e260" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FormatExtractResult::detected_lang</definition>
+        <argsstring></argsstring>
+        <name>detected_lang</name>
+        <qualifiedname>themis::ingestion::FormatExtractResult::detected_lang</qualifiedname>
+        <briefdescription>
+<para>BCP-47 language code (&quot;de&quot;, &quot;en&quot;, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="46" column="17" bodyfile="include/ingestion/format_extractor.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_format_extract_result_1afdb1665d00c08dd0b60116be421195ac" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ingestion::FormatExtractResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::ingestion::FormatExtractResult::metadata</qualifiedname>
+        <briefdescription>
+<para>Structured key/value metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="47" column="20" bodyfile="include/ingestion/format_extractor.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_format_extract_result_1a5e10b8db233e0d87c3d119ddfa7a6d71" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::FormatExtractResult::child_paths</definition>
+        <argsstring></argsstring>
+        <name>child_paths</name>
+        <qualifiedname>themis::ingestion::FormatExtractResult::child_paths</qualifiedname>
+        <briefdescription>
+<para>Unpacked archive members (absolute paths). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="48" column="17" bodyfile="include/ingestion/format_extractor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_format_extract_result_1aafd99267b5ea7c8a085c45c1c4670183" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FormatExtractResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::ingestion::FormatExtractResult::ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="49" column="10" bodyfile="include/ingestion/format_extractor.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_format_extract_result_1abfd05d78d9ea0b8aafeb29f449dfc6d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FormatExtractResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::ingestion::FormatExtractResult::error</qualifiedname>
+        <briefdescription>
+<para>Error description when ok == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="50" column="17" bodyfile="include/ingestion/format_extractor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result produced by an <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref></computeroutput> for a single binary blob. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The result carries everything the ingestion pipeline needs to proceed with chunking, NER, embedding, and graph construction:</para>
+<para><itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1a34bcb3ffccae5900079ac1511d627f04" kindref="member">raw_text</ref></computeroutput> — full UTF-8 plain text (may be empty for binary-only types)</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1af6d686274c02f04c5b2550f696c0e260" kindref="member">detected_lang</ref></computeroutput> — BCP-47 language code detected during extraction, e.g. &quot;de&quot;, &quot;en&quot; (empty when unknown)</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1afdb1665d00c08dd0b60116be421195ac" kindref="member">metadata</ref></computeroutput> — structured metadata (EXIF fields, PDF document properties, audio duration, page count, …) as a flat JSON object</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1a5e10b8db233e0d87c3d119ddfa7a6d71" kindref="member">child_paths</ref></computeroutput> — for archive types (ZIP, TAR): absolute paths of the files extracted to a temporary directory so the engine can recursively ingest them</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1aafd99267b5ea7c8a085c45c1c4670183" kindref="member">ok</ref></computeroutput> — true when extraction succeeded (even if <computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1a34bcb3ffccae5900079ac1511d627f04" kindref="member">raw_text</ref></computeroutput> is empty)</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1abfd05d78d9ea0b8aafeb29f449dfc6d3" kindref="member">error</ref></computeroutput> — human-readable error description when <computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1aafd99267b5ea7c8a085c45c1c4670183" kindref="member">ok</ref> == false</computeroutput> </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/ingestion/format_extractor.h" line="44" column="1" bodyfile="include/ingestion/format_extractor.h" bodystart="44" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_format_extract_result_1a5e10b8db233e0d87c3d119ddfa7a6d71" prot="public" virt="non-virtual"><scope>themis::ingestion::FormatExtractResult</scope><name>child_paths</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_format_extract_result_1af6d686274c02f04c5b2550f696c0e260" prot="public" virt="non-virtual"><scope>themis::ingestion::FormatExtractResult</scope><name>detected_lang</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_format_extract_result_1abfd05d78d9ea0b8aafeb29f449dfc6d3" prot="public" virt="non-virtual"><scope>themis::ingestion::FormatExtractResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_format_extract_result_1afdb1665d00c08dd0b60116be421195ac" prot="public" virt="non-virtual"><scope>themis::ingestion::FormatExtractResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_format_extract_result_1aafd99267b5ea7c8a085c45c1c4670183" prot="public" virt="non-virtual"><scope>themis::ingestion::FormatExtractResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_format_extract_result_1a34bcb3ffccae5900079ac1511d627f04" prot="public" virt="non-virtual"><scope>themis::ingestion::FormatExtractResult</scope><name>raw_text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

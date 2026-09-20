@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_pkcs11_session_test" kind="class" language="C++" prot="public">
+    <compoundname>Pkcs11SessionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_pkcs11_session_test_1a16cb950b13b6dc1bae51127f09b22fea" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref></type>
+        <definition>CK_FUNCTION_LIST Pkcs11SessionTest::funcs_</definition>
+        <argsstring></argsstring>
+        <name>funcs_</name>
+        <qualifiedname>Pkcs11SessionTest::funcs_</qualifiedname>
+        <initializer>= makeStubFunctions()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="329" column="22" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="329" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Pkcs11SessionTest</label>
+        <link refid="class_pkcs11_session_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>CK_FUNCTION_LIST</label>
+        <link refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t"/>
+      </node>
+      <node id="1">
+        <label>Pkcs11SessionTest</label>
+        <link refid="class_pkcs11_session_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>funcs_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_pkcs11_wrapper.cpp" line="327" column="1" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="327" bodyend="330"/>
+    <listofallmembers>
+      <member refid="class_pkcs11_session_test_1a16cb950b13b6dc1bae51127f09b22fea" prot="protected" virt="non-virtual"><scope>Pkcs11SessionTest</scope><name>funcs_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

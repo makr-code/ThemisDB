@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_in_memory_cache_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>InMemoryCacheBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_in_memory_cache_bench_fixture_1a5fe64877d9183eaaa42dc406ade1ec62" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; InMemoryCacheImpl &gt;</type>
+        <definition>std::unique_ptr&lt;InMemoryCacheImpl&gt; InMemoryCacheBenchFixture::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>InMemoryCacheBenchFixture::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_di_logging.cpp" line="280" column="21" bodyfile="benchmarks/observability/bench_di_logging.cpp" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_in_memory_cache_bench_fixture_1af8bb5277b7793a403e992a9b32bdcdac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void InMemoryCacheBenchFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>InMemoryCacheBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_di_logging.cpp" line="268" column="10" bodyfile="benchmarks/observability/bench_di_logging.cpp" bodystart="268" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="class_in_memory_cache_bench_fixture_1ac93f8529046cb4311afea35147a9f9b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void InMemoryCacheBenchFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>InMemoryCacheBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_di_logging.cpp" line="276" column="10" bodyfile="benchmarks/observability/bench_di_logging.cpp" bodystart="276" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>InMemoryCacheBenchFixture</label>
+        <link refid="class_in_memory_cache_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>InMemoryCacheBenchFixture</label>
+        <link refid="class_in_memory_cache_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/observability/bench_di_logging.cpp" line="266" column="1" bodyfile="benchmarks/observability/bench_di_logging.cpp" bodystart="266" bodyend="281"/>
+    <listofallmembers>
+      <member refid="class_in_memory_cache_bench_fixture_1a5fe64877d9183eaaa42dc406ade1ec62" prot="protected" virt="non-virtual"><scope>InMemoryCacheBenchFixture</scope><name>cache_</name></member>
+      <member refid="class_in_memory_cache_bench_fixture_1af8bb5277b7793a403e992a9b32bdcdac" prot="public" virt="non-virtual"><scope>InMemoryCacheBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_in_memory_cache_bench_fixture_1ac93f8529046cb4311afea35147a9f9b3" prot="public" virt="non-virtual"><scope>InMemoryCacheBenchFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

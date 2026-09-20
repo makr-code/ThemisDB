@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_continuous_query_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ContinuousQueryApiHandler</compoundname>
+    <includes refid="continuous__query__api__handler_8h" local="no">continuous_query_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a5bbcd9aea3dd25206a97c295c3ee038c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::query::ContinuousQueryEngine &gt;</type>
+        <definition>std::shared_ptr&lt;themis::query::ContinuousQueryEngine&gt; themis::server::ContinuousQueryApiHandler::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="61" column="21" bodyfile="include/server/continuous_query_api_handler.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a534523ff769d805a9d6ce8a097e8992d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ContinuousQueryApiHandler::ContinuousQueryApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::query::ContinuousQueryEngine &gt; engine)</argsstring>
+        <name>ContinuousQueryApiHandler</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::ContinuousQueryApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::query::ContinuousQueryEngine &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Continuous Query Api Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="35" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1aea1c83f6de8c60e97a304b5b1508221b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ContinuousQueryApiHandler::~ContinuousQueryApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ContinuousQueryApiHandler</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::~ContinuousQueryApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a5aa52be8ef0f36d1404554f61cd85a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ContinuousQueryApiHandler::ContinuousQueryApiHandler</definition>
+        <argsstring>(const ContinuousQueryApiHandler &amp;)=delete</argsstring>
+        <name>ContinuousQueryApiHandler</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::ContinuousQueryApiHandler</qualifiedname>
+        <param>
+          <type>const ContinuousQueryApiHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1af5015e7b06c81e9f82476828ff3ce99f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a534523ff769d805a9d6ce8a097e8992d" kindref="member">ContinuousQueryApiHandler</ref> &amp;</type>
+        <definition>ContinuousQueryApiHandler &amp; themis::server::ContinuousQueryApiHandler::operator=</definition>
+        <argsstring>(const ContinuousQueryApiHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a534523ff769d805a9d6ce8a097e8992d" kindref="member">ContinuousQueryApiHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="42" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a1a216ee499f78980222929bc8cde8346" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ContinuousQueryApiHandler::ContinuousQueryApiHandler</definition>
+        <argsstring>(ContinuousQueryApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>ContinuousQueryApiHandler</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::ContinuousQueryApiHandler</qualifiedname>
+        <param>
+          <type>ContinuousQueryApiHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="43" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1ac30c930de4e9d9957beba2dd8cc47280" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a534523ff769d805a9d6ce8a097e8992d" kindref="member">ContinuousQueryApiHandler</ref> &amp;</type>
+        <definition>ContinuousQueryApiHandler &amp; themis::server::ContinuousQueryApiHandler::operator=</definition>
+        <argsstring>(ContinuousQueryApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a534523ff769d805a9d6ce8a097e8992d" kindref="member">ContinuousQueryApiHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="44" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1aa6d77bff27a5291dad475473cea0972d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContinuousQueryApiHandler::handleRegister</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRegister</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::handleRegister</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── POST /v1/queries/continuous — register ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="46" column="21" bodyfile="src/server/continuous_query_api_handler.cpp" bodystart="174" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a57a3cf7de74e1470a51bf6bbe30c6c1d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContinuousQueryApiHandler::handleDrop</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;name)</argsstring>
+        <name>handleDrop</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::handleDrop</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── DELETE /v1/queries/continuous/:name — drop ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="49" column="21" bodyfile="src/server/continuous_query_api_handler.cpp" bodystart="252" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a54247cf51c08f914ff6685786fb33e0c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContinuousQueryApiHandler::handleList</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleList</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::handleList</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── GET /v1/queries/continuous — list ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="53" column="21" bodyfile="src/server/continuous_query_api_handler.cpp" bodystart="278" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a62df83171a682750236bee8654ee63f6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContinuousQueryApiHandler::handleStreamSse</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;name)</argsstring>
+        <name>handleStreamSse</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::handleStreamSse</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── GET /v1/queries/continuous/:name/results — SSE stream ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="56" column="21" bodyfile="src/server/continuous_query_api_handler.cpp" bodystart="298" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a576835dacf8f2e00467002005556b01a" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContinuousQueryApiHandler::makeError</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeError</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::makeError</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="63" column="28" bodyfile="src/server/continuous_query_api_handler.cpp" bodystart="59" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1a85f81afae25efd9fa9d823c4a1b76eef" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContinuousQueryApiHandler::makeJson</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeJson</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::makeJson</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="67" column="28" bodyfile="src/server/continuous_query_api_handler.cpp" bodystart="79" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1abd4b8d98f1f357c00b3253450c34f6b9" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::query::WindowSpec</type>
+        <definition>WindowSpec themis::server::ContinuousQueryApiHandler::windowFromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>windowFromJson</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::windowFromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Window From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="71" column="39" bodyfile="src/server/continuous_query_api_handler.cpp" bodystart="97" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_continuous_query_api_handler_1ae8be070dd281c818566f4d02f908306f" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::ContinuousQueryApiHandler::infoToJson</definition>
+        <argsstring>(const themis::query::ContinuousQueryInfo &amp;info)</argsstring>
+        <name>infoToJson</name>
+        <qualifiedname>themis::server::ContinuousQueryApiHandler::infoToJson</qualifiedname>
+        <param>
+          <type>const themis::query::ContinuousQueryInfo &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Info To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: time_since_epoch(), count(), win_type(), mode_str(), tp_to_ms(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/continuous_query_api_handler.h" line="74" column="28" bodyfile="src/server/continuous_query_api_handler.cpp" bodystart="123" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/continuous_query_api_handler.h" line="28" column="1" bodyfile="include/server/continuous_query_api_handler.h" bodystart="28" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a534523ff769d805a9d6ce8a097e8992d" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>ContinuousQueryApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a5aa52be8ef0f36d1404554f61cd85a40" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>ContinuousQueryApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a1a216ee499f78980222929bc8cde8346" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>ContinuousQueryApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a5bbcd9aea3dd25206a97c295c3ee038c" prot="private" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a57a3cf7de74e1470a51bf6bbe30c6c1d" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>handleDrop</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a54247cf51c08f914ff6685786fb33e0c" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>handleList</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1aa6d77bff27a5291dad475473cea0972d" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>handleRegister</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a62df83171a682750236bee8654ee63f6" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>handleStreamSse</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1ae8be070dd281c818566f4d02f908306f" prot="private" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>infoToJson</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a576835dacf8f2e00467002005556b01a" prot="private" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>makeError</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1a85f81afae25efd9fa9d823c4a1b76eef" prot="private" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>makeJson</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1af5015e7b06c81e9f82476828ff3ce99f" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1ac30c930de4e9d9957beba2dd8cc47280" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1abd4b8d98f1f357c00b3253450c34f6b9" prot="private" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>windowFromJson</name></member>
+      <member refid="classthemis_1_1server_1_1_continuous_query_api_handler_1aea1c83f6de8c60e97a304b5b1508221b" prot="public" virt="non-virtual"><scope>themis::server::ContinuousQueryApiHandler</scope><name>~ContinuousQueryApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

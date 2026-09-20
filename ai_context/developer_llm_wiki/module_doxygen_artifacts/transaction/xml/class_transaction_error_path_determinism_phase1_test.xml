@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transaction_error_path_determinism_phase1_test" kind="class" language="C++" prot="public">
+    <compoundname>TransactionErrorPathDeterminismPhase1Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transaction_error_path_determinism_phase1_test_1a543d16628bbffa199876f2eac469f7e9" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TransactionErrorPathDeterminismPhase1Test::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>TransactionErrorPathDeterminismPhase1Test::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="61" column="17" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_error_path_determinism_phase1_test_1aab60cb6f33a76adee0460f62aa214d54" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; TransactionErrorPathDeterminismPhase1Test::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>TransactionErrorPathDeterminismPhase1Test::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="62" column="21" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_error_path_determinism_phase1_test_1a1e0e158fdc385f136c1cfe87f1a13dad" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; TransactionErrorPathDeterminismPhase1Test::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>TransactionErrorPathDeterminismPhase1Test::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="63" column="21" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_error_path_determinism_phase1_test_1a609bfed497b109abe440e31524aa8528" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; TransactionErrorPathDeterminismPhase1Test::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>TransactionErrorPathDeterminismPhase1Test::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="64" column="21" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_error_path_determinism_phase1_test_1a42bd2a3211dcac52f0840ae76f5dafac" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; TransactionErrorPathDeterminismPhase1Test::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>TransactionErrorPathDeterminismPhase1Test::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="65" column="21" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_error_path_determinism_phase1_test_1a0a4f28b416e1f254a4bfe8ae0afdfd3a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; TransactionErrorPathDeterminismPhase1Test::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>TransactionErrorPathDeterminismPhase1Test::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="66" column="21" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_transaction_error_path_determinism_phase1_test_1a22ad506372a44016bb8d1fef8717dfbc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionErrorPathDeterminismPhase1Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransactionErrorPathDeterminismPhase1Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="23" column="10" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="23" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_error_path_determinism_phase1_test_1a2cea67689cf7415453e5ab9b9d078d48" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionErrorPathDeterminismPhase1Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransactionErrorPathDeterminismPhase1Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="46" column="10" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="46" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransactionErrorPathDeterminismPhase1Test</label>
+        <link refid="class_transaction_error_path_determinism_phase1_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransactionErrorPathDeterminismPhase1Test</label>
+        <link refid="class_transaction_error_path_determinism_phase1_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" line="21" column="1" bodyfile="tests/transaction/test_transaction_error_path_determinism_phase1.cpp" bodystart="21" bodyend="67"/>
+    <listofallmembers>
+      <member refid="class_transaction_error_path_determinism_phase1_test_1aab60cb6f33a76adee0460f62aa214d54" prot="protected" virt="non-virtual"><scope>TransactionErrorPathDeterminismPhase1Test</scope><name>db_</name></member>
+      <member refid="class_transaction_error_path_determinism_phase1_test_1a609bfed497b109abe440e31524aa8528" prot="protected" virt="non-virtual"><scope>TransactionErrorPathDeterminismPhase1Test</scope><name>graph_index_</name></member>
+      <member refid="class_transaction_error_path_determinism_phase1_test_1a1e0e158fdc385f136c1cfe87f1a13dad" prot="protected" virt="non-virtual"><scope>TransactionErrorPathDeterminismPhase1Test</scope><name>secondary_index_</name></member>
+      <member refid="class_transaction_error_path_determinism_phase1_test_1a22ad506372a44016bb8d1fef8717dfbc" prot="protected" virt="non-virtual"><scope>TransactionErrorPathDeterminismPhase1Test</scope><name>SetUp</name></member>
+      <member refid="class_transaction_error_path_determinism_phase1_test_1a2cea67689cf7415453e5ab9b9d078d48" prot="protected" virt="non-virtual"><scope>TransactionErrorPathDeterminismPhase1Test</scope><name>TearDown</name></member>
+      <member refid="class_transaction_error_path_determinism_phase1_test_1a543d16628bbffa199876f2eac469f7e9" prot="protected" virt="non-virtual"><scope>TransactionErrorPathDeterminismPhase1Test</scope><name>test_db_path_</name></member>
+      <member refid="class_transaction_error_path_determinism_phase1_test_1a0a4f28b416e1f254a4bfe8ae0afdfd3a" prot="protected" virt="non-virtual"><scope>TransactionErrorPathDeterminismPhase1Test</scope><name>tx_manager_</name></member>
+      <member refid="class_transaction_error_path_determinism_phase1_test_1a42bd2a3211dcac52f0840ae76f5dafac" prot="protected" virt="non-virtual"><scope>TransactionErrorPathDeterminismPhase1Test</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

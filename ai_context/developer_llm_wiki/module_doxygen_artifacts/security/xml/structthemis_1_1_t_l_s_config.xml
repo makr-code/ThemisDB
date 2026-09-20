@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_l_s_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TLSConfig</compoundname>
+    <includes refid="vcc__pki__client_8h" local="no">vcc_pki_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_l_s_config_1a2aaa962e155693f1831745a6b3e5af4a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TLSConfig::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::TLSConfig::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="95" column="13" bodyfile="include/security/vcc_pki_client.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_l_s_config_1a9ce96873118cbc0fcca944d28b6de3cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TLSConfig::client_cert_path</definition>
+        <argsstring></argsstring>
+        <name>client_cert_path</name>
+        <qualifiedname>themis::TLSConfig::client_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="96" column="13" bodyfile="include/security/vcc_pki_client.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_l_s_config_1ae81a4cc8df385a02d95164d75c811ed0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TLSConfig::client_key_path</definition>
+        <argsstring></argsstring>
+        <name>client_key_path</name>
+        <qualifiedname>themis::TLSConfig::client_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="97" column="13" bodyfile="include/security/vcc_pki_client.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_l_s_config_1afb61d2bd3d104554c3a5813e9aca3f68" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TLSConfig::verify_server</definition>
+        <argsstring></argsstring>
+        <name>verify_server</name>
+        <qualifiedname>themis::TLSConfig::verify_server</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="98" column="6" bodyfile="include/security/vcc_pki_client.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_l_s_config_1a53c4c897a189f3680e91f485d03be9ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TLSConfig::use_mtls</definition>
+        <argsstring></argsstring>
+        <name>use_mtls</name>
+        <qualifiedname>themis::TLSConfig::use_mtls</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="99" column="6" bodyfile="include/security/vcc_pki_client.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/vcc_pki_client.h" line="94" column="1" bodyfile="include/security/vcc_pki_client.h" bodystart="94" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_l_s_config_1a2aaa962e155693f1831745a6b3e5af4a" prot="public" virt="non-virtual"><scope>themis::TLSConfig</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1_t_l_s_config_1a9ce96873118cbc0fcca944d28b6de3cd" prot="public" virt="non-virtual"><scope>themis::TLSConfig</scope><name>client_cert_path</name></member>
+      <member refid="structthemis_1_1_t_l_s_config_1ae81a4cc8df385a02d95164d75c811ed0" prot="public" virt="non-virtual"><scope>themis::TLSConfig</scope><name>client_key_path</name></member>
+      <member refid="structthemis_1_1_t_l_s_config_1a53c4c897a189f3680e91f485d03be9ee" prot="public" virt="non-virtual"><scope>themis::TLSConfig</scope><name>use_mtls</name></member>
+      <member refid="structthemis_1_1_t_l_s_config_1afb61d2bd3d104554c3a5813e9aca3f68" prot="public" virt="non-virtual"><scope>themis::TLSConfig</scope><name>verify_server</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

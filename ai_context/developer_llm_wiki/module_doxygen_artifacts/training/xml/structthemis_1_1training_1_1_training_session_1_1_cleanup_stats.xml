@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::TrainingSession::CleanupStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats_1a7cf06efe0c6a782ce590fc65e775b9bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::TrainingSession::CleanupStats::resources_freed</definition>
+        <argsstring></argsstring>
+        <name>resources_freed</name>
+        <qualifiedname>themis::training::TrainingSession::CleanupStats::resources_freed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="103" column="14" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats_1a67bc8d69fea152533f9c6b07d3abf92f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::training::TrainingSession::CleanupStats::epoch_at_cancellation</definition>
+        <argsstring></argsstring>
+        <name>epoch_at_cancellation</name>
+        <qualifiedname>themis::training::TrainingSession::CleanupStats::epoch_at_cancellation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="104" column="13" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats_1abb79d935b8e687dd5dccfddfc78bda82" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::TrainingSession::CleanupStats::checkpoint_preserved</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_preserved</name>
+        <qualifiedname>themis::training::TrainingSession::CleanupStats::checkpoint_preserved</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="105" column="14" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats_1ad3e82de7cba5d929c057413a6d0b98d1" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::training::TrainingSession::CleanupStats::cleanup_duration</definition>
+        <argsstring></argsstring>
+        <name>cleanup_duration</name>
+        <qualifiedname>themis::training::TrainingSession::CleanupStats::cleanup_duration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="106" column="35" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/training/test_training_cancellation.cpp" line="102" column="5" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="102" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats_1abb79d935b8e687dd5dccfddfc78bda82" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession::CleanupStats</scope><name>checkpoint_preserved</name></member>
+      <member refid="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats_1ad3e82de7cba5d929c057413a6d0b98d1" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession::CleanupStats</scope><name>cleanup_duration</name></member>
+      <member refid="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats_1a67bc8d69fea152533f9c6b07d3abf92f" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession::CleanupStats</scope><name>epoch_at_cancellation</name></member>
+      <member refid="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats_1a7cf06efe0c6a782ce590fc65e775b9bd" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession::CleanupStats</scope><name>resources_freed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

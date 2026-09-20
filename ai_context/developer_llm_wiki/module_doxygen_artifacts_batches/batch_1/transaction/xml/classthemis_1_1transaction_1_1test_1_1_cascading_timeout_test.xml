@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::CascadingTimeoutTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test_1acb43a287d7e84e79f9327aa20cefd810" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; themis::transaction::test::CascadingTimeoutTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>themis::transaction::test::CascadingTimeoutTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="309" column="19" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="309" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test_1a82c6482bbfeef4b919125c54f7711b05" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::CascadingTimeoutTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::transaction::test::CascadingTimeoutTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="301" column="8" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="301" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test_1a0f81f6e71bebda0518db4ad85264fed0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::CascadingTimeoutTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::transaction::test::CascadingTimeoutTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="305" column="8" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="305" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::CascadingTimeoutTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::CascadingTimeoutTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="299" column="1" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="299" bodyend="310"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test_1a82c6482bbfeef4b919125c54f7711b05" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CascadingTimeoutTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test_1a0f81f6e71bebda0518db4ad85264fed0" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CascadingTimeoutTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_cascading_timeout_test_1acb43a287d7e84e79f9327aa20cefd810" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CascadingTimeoutTest</scope><name>tx_manager_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_knn_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoKnnResult</compoundname>
+    <includes refid="geo__faiss__knn_8h" local="no">geo_faiss_knn.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_knn_result_1a7c7880b875897ea41f0d71f54bb76869" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::GeoKnnResult::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::geo::GeoKnnResult::index</qualifiedname>
+        <briefdescription>
+<para>Index into the dataset passed to build(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="24" column="17" bodyfile="include/geo/geo_faiss_knn.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_knn_result_1a62cfdfb422508b74ec64014a9b915465" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoKnnResult::dist_m</definition>
+        <argsstring></argsstring>
+        <name>dist_m</name>
+        <qualifiedname>themis::geo::GeoKnnResult::dist_m</qualifiedname>
+        <briefdescription>
+<para>Approximate geodesic distance in metres. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="25" column="17" bodyfile="include/geo/geo_faiss_knn.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_faiss_knn.h" line="23" column="1" bodyfile="include/geo/geo_faiss_knn.h" bodystart="23" bodyend="26"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_knn_result_1a62cfdfb422508b74ec64014a9b915465" prot="public" virt="non-virtual"><scope>themis::geo::GeoKnnResult</scope><name>dist_m</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_knn_result_1a7c7880b875897ea41f0d71f54bb76869" prot="public" virt="non-virtual"><scope>themis::geo::GeoKnnResult</scope><name>index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

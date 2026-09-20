@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TrainingDataIterator::TrainingBatch</compoundname>
+    <includes refid="training__data__iterator_8h" local="no">training_data_iterator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1a1ea236dbe8943b4b9f9bee462d247ef2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt;TrainingSample&gt; themis::llm::TrainingDataIterator::TrainingBatch::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::TrainingBatch::samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="81" column="21" bodyfile="include/llm/training_data_iterator.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1a3e18d2504702b55dd5f1df1b21ec713d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::TrainingBatch::batch_id</definition>
+        <argsstring></argsstring>
+        <name>batch_id</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::TrainingBatch::batch_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="82" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1a5f6101afe443c7ae85b5e844a19e12d1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::TrainingBatch::total_batches</definition>
+        <argsstring></argsstring>
+        <name>total_batches</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::TrainingBatch::total_batches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="83" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1a646499006571ffbe590b9893528457ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::TrainingBatch::getTotalTokens</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalTokens</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::TrainingBatch::getTotalTokens</qualifiedname>
+        <briefdescription>
+<para>Get Total Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="89" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1ab255afad20f6e95bb63d38e355995140" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::TrainingDataIterator::TrainingBatch::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::TrainingBatch::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="94" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/training_data_iterator.h" line="80" column="5" bodyfile="include/llm/training_data_iterator.h" bodystart="80" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1a3e18d2504702b55dd5f1df1b21ec713d" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::TrainingBatch</scope><name>batch_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1a646499006571ffbe590b9893528457ce" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::TrainingBatch</scope><name>getTotalTokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1a1ea236dbe8943b4b9f9bee462d247ef2" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::TrainingBatch</scope><name>samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1ab255afad20f6e95bb63d38e355995140" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::TrainingBatch</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_batch_1a5f6101afe443c7ae85b5e844a19e12d1" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::TrainingBatch</scope><name>total_batches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

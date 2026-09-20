@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_last_write_wins_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::LastWriteWinsResolver</compoundname>
+    <basecompoundref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" prot="public" virt="non-virtual">themis::process::ProcessConflictResolverCallback</basecompoundref>
+    <includes refid="process__conflict__resolution__callback_8h" local="no">process_conflict_resolution_callback.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_last_write_wins_resolver_1a5923e46ab0ddd5084d75317dabd9e1f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::LastWriteWinsResolver::Resolve</definition>
+        <argsstring>(const ConflictMetadata &amp;metadata) override</argsstring>
+        <name>Resolve</name>
+        <qualifiedname>themis::process::LastWriteWinsResolver::Resolve</qualifiedname>
+        <reimplements refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1acbc8febffe9ea691290ab46b084cf96f">Resolve</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Resolve conflict between two model versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conflict metadata (versions, timestamps, senders, etc.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ID of winning version (must be either metadata.v1_id or metadata.v2_id)</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If resolution fails; caught by consensus layer (LWW fallback) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Must complete within 5 seconds; timeout triggers LWW fallback </para>
+</simplesect>
+<simplesect kind="note"><para>Result must be deterministic (same metadata → same result) </para>
+</simplesect>
+<simplesect kind="invariant"><para>Returned ID must equal either metadata.v1_id or metadata.v2_id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="263" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_last_write_wins_resolver_1a2e290f018c4a852f5173b43ffa48221c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::LastWriteWinsResolver::GetName</definition>
+        <argsstring>() const override</argsstring>
+        <name>GetName</name>
+        <qualifiedname>themis::process::LastWriteWinsResolver::GetName</qualifiedname>
+        <reimplements refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1a07e336560760d5d8fe372cb54558cb0e">GetName</reimplements>
+        <briefdescription>
+<para>Optional: Get resolver name for logging/diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Resolver name (e.g., &quot;MyApplicationResolver&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="264" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Last-Write-Wins resolver (default). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Selects version with later timestamp; tie-breaking by node ID (lexicographic). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::process::LastWriteWinsResolver</label>
+        <link refid="classthemis_1_1process_1_1_last_write_wins_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::ProcessConflictResolverCallback</label>
+        <link refid="classthemis_1_1process_1_1_process_conflict_resolver_callback"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::process::LastWriteWinsResolver</label>
+        <link refid="classthemis_1_1process_1_1_last_write_wins_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::ProcessConflictResolverCallback</label>
+        <link refid="classthemis_1_1process_1_1_process_conflict_resolver_callback"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/process_conflict_resolution_callback.h" line="261" column="1" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="261" bodyend="265"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_last_write_wins_resolver_1a2e290f018c4a852f5173b43ffa48221c" prot="public" virt="virtual"><scope>themis::process::LastWriteWinsResolver</scope><name>GetName</name></member>
+      <member refid="classthemis_1_1process_1_1_last_write_wins_resolver_1a5923e46ab0ddd5084d75317dabd9e1f6" prot="public" virt="virtual"><scope>themis::process::LastWriteWinsResolver</scope><name>Resolve</name></member>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1acd15cbf8fbde690043cc5b692f9e98c1" prot="public" virt="virtual"><scope>themis::process::LastWriteWinsResolver</scope><name>~ProcessConflictResolverCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

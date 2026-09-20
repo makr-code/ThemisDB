@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_transcription_segment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::TranscriptionSegment</compoundname>
+    <includes refid="stt__processor_8h" local="no">stt_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_transcription_segment_1a1476dc16cce40e74fdf3b4655f678bba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TranscriptionSegment::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::content::TranscriptionSegment::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="23" column="17" bodyfile="include/content/stt_processor.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_transcription_segment_1aaa8047f865cbaf83b768fd4c9fd5fd63" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::TranscriptionSegment::start_ms</definition>
+        <argsstring></argsstring>
+        <name>start_ms</name>
+        <qualifiedname>themis::content::TranscriptionSegment::start_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="24" column="13" bodyfile="include/content/stt_processor.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_transcription_segment_1a79e65b110fb93cf54db0603382ee5e07" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::TranscriptionSegment::end_ms</definition>
+        <argsstring></argsstring>
+        <name>end_ms</name>
+        <qualifiedname>themis::content::TranscriptionSegment::end_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="25" column="13" bodyfile="include/content/stt_processor.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_transcription_segment_1a6b1bb8e99335c3d33b4026d06dc37c93" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::TranscriptionSegment::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::content::TranscriptionSegment::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="26" column="11" bodyfile="include/content/stt_processor.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_transcription_segment_1adef7615644089e546e96d8be5f47938f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::TranscriptionSegment::speaker_id</definition>
+        <argsstring></argsstring>
+        <name>speaker_id</name>
+        <qualifiedname>themis::content::TranscriptionSegment::speaker_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="27" column="9" bodyfile="include/content/stt_processor.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_transcription_segment_1a5e14a2fd50cbe7e0c0cf4146d53aebf7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::TranscriptionSegment::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::content::TranscriptionSegment::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="28" column="10" bodyfile="include/content/stt_processor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/stt_processor.h" line="22" column="1" bodyfile="include/content/stt_processor.h" bodystart="22" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_transcription_segment_1a6b1bb8e99335c3d33b4026d06dc37c93" prot="public" virt="non-virtual"><scope>themis::content::TranscriptionSegment</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1content_1_1_transcription_segment_1a79e65b110fb93cf54db0603382ee5e07" prot="public" virt="non-virtual"><scope>themis::content::TranscriptionSegment</scope><name>end_ms</name></member>
+      <member refid="structthemis_1_1content_1_1_transcription_segment_1a5e14a2fd50cbe7e0c0cf4146d53aebf7" prot="public" virt="non-virtual"><scope>themis::content::TranscriptionSegment</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_transcription_segment_1adef7615644089e546e96d8be5f47938f" prot="public" virt="non-virtual"><scope>themis::content::TranscriptionSegment</scope><name>speaker_id</name></member>
+      <member refid="structthemis_1_1content_1_1_transcription_segment_1aaa8047f865cbaf83b768fd4c9fd5fd63" prot="public" virt="non-virtual"><scope>themis::content::TranscriptionSegment</scope><name>start_ms</name></member>
+      <member refid="structthemis_1_1content_1_1_transcription_segment_1a1476dc16cce40e74fdf3b4655f678bba" prot="public" virt="non-virtual"><scope>themis::content::TranscriptionSegment</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

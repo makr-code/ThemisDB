@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_i_remediation_hint_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::observability::IRemediationHintListener</compoundname>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_phase_three_test_listener" prot="public" virt="non-virtual">themis::observability::PhaseThreeTestListener</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_test_remediation_listener" prot="public" virt="non-virtual">themis::observability::TestRemediationListener</derivedcompoundref>
+    <includes refid="operator__remediation__engine_8h" local="no">operator_remediation_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a1e7664dfc660d09faee35862099a9cbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::observability::IRemediationHintListener::onNewHint</definition>
+        <argsstring>(const std::shared_ptr&lt; RemediationHint &gt; &amp;hint)=0</argsstring>
+        <name>onNewHint</name>
+        <qualifiedname>themis::observability::IRemediationHintListener::onNewHint</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_phase_three_test_listener_1ae69c982fbb24e98a7879ca804dd1c34c">onNewHint</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_test_remediation_listener_1aeb47994c7dd5a2bb4b95f2ffdbce8ea8">onNewHint</reimplementedby>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Called when a new remediation hint is generated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The generated hint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="272" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a9544f536f3992d9d20835af017e49ffd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::observability::IRemediationHintListener::onHintResolved</definition>
+        <argsstring>(const std::string &amp;hint_id)=0</argsstring>
+        <name>onHintResolved</name>
+        <qualifiedname>themis::observability::IRemediationHintListener::onHintResolved</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_phase_three_test_listener_1afc670c009f723e00f35d47094873aad0">onHintResolved</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_test_remediation_listener_1afd0e3ac22d998afe0205b7fd338ff634">onHintResolved</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hint_id</declname>
+        </param>
+        <briefdescription>
+<para>Called when a previously-issued hint is resolved. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ID of the resolved hint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="278" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a335101d74a632de770f83cef9bf15130" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::IRemediationHintListener::~IRemediationHintListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRemediationHintListener</name>
+        <qualifiedname>themis::observability::IRemediationHintListener::~IRemediationHintListener</qualifiedname>
+        <briefdescription>
+<para>Virtual destructor for safe polymorphic deletion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="283" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Listener interface for remediation hint events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations receive notifications when the <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine" kindref="compound">OperatorRemediationEngine</ref> generates new hints or closes existing ones. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::observability::IRemediationHintListener</label>
+        <link refid="classthemis_1_1observability_1_1_i_remediation_hint_listener"/>
+      </node>
+      <node id="2">
+        <label>themis::observability::PhaseThreeTestListener</label>
+        <link refid="classthemis_1_1observability_1_1_phase_three_test_listener"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::observability::TestRemediationListener</label>
+        <link refid="classthemis_1_1observability_1_1_test_remediation_listener"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/observability/operator_remediation_engine.h" line="266" column="1" bodyfile="include/observability/operator_remediation_engine.h" bodystart="266" bodyend="284"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a9544f536f3992d9d20835af017e49ffd" prot="public" virt="pure-virtual"><scope>themis::observability::IRemediationHintListener</scope><name>onHintResolved</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a1e7664dfc660d09faee35862099a9cbe" prot="public" virt="pure-virtual"><scope>themis::observability::IRemediationHintListener</scope><name>onNewHint</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a335101d74a632de770f83cef9bf15130" prot="public" virt="virtual"><scope>themis::observability::IRemediationHintListener</scope><name>~IRemediationHintListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

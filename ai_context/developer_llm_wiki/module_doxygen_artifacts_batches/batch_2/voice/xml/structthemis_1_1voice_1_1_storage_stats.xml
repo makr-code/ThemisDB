@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_storage_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::StorageStats</compoundname>
+    <includes refid="voice__audio__storage_8h" local="no">voice_audio_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_stats_1a9682d4ea6d141b9a35b338c8fed4387a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageStats::total_records</definition>
+        <argsstring></argsstring>
+        <name>total_records</name>
+        <qualifiedname>themis::voice::StorageStats::total_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="91" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_stats_1a87bcd8c24cd05f3ebb23b9e7f88a1e44" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageStats::hot_records</definition>
+        <argsstring></argsstring>
+        <name>hot_records</name>
+        <qualifiedname>themis::voice::StorageStats::hot_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="92" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_stats_1a6422212c42a3fb17cbd9e7b9bf739014" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageStats::warm_records</definition>
+        <argsstring></argsstring>
+        <name>warm_records</name>
+        <qualifiedname>themis::voice::StorageStats::warm_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="93" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_stats_1af49501149f4510fbdde171f04e726174" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageStats::cold_records</definition>
+        <argsstring></argsstring>
+        <name>cold_records</name>
+        <qualifiedname>themis::voice::StorageStats::cold_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="94" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_stats_1a377938fa8a7c6220ba3f98543bdaf4b1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageStats::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::voice::StorageStats::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="95" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_stats_1a12489b269d2a72994131fb7c3c588258" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageStats::deduplicated_bytes</definition>
+        <argsstring></argsstring>
+        <name>deduplicated_bytes</name>
+        <qualifiedname>themis::voice::StorageStats::deduplicated_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="96" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_stats_1a0757739db91ad8e07f471d5c36d71572" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageStats::deduplication_hits</definition>
+        <argsstring></argsstring>
+        <name>deduplication_hits</name>
+        <qualifiedname>themis::voice::StorageStats::deduplication_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="97" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_stats_1aed8f30e203a6e7a6e3e3aa868b4ed763" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageStats::encryption_enabled_records</definition>
+        <argsstring></argsstring>
+        <name>encryption_enabled_records</name>
+        <qualifiedname>themis::voice::StorageStats::encryption_enabled_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="98" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_audio_storage.h" line="90" column="1" bodyfile="include/voice/voice_audio_storage.h" bodystart="90" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_storage_stats_1af49501149f4510fbdde171f04e726174" prot="public" virt="non-virtual"><scope>themis::voice::StorageStats</scope><name>cold_records</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_stats_1a12489b269d2a72994131fb7c3c588258" prot="public" virt="non-virtual"><scope>themis::voice::StorageStats</scope><name>deduplicated_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_stats_1a0757739db91ad8e07f471d5c36d71572" prot="public" virt="non-virtual"><scope>themis::voice::StorageStats</scope><name>deduplication_hits</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_stats_1aed8f30e203a6e7a6e3e3aa868b4ed763" prot="public" virt="non-virtual"><scope>themis::voice::StorageStats</scope><name>encryption_enabled_records</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_stats_1a87bcd8c24cd05f3ebb23b9e7f88a1e44" prot="public" virt="non-virtual"><scope>themis::voice::StorageStats</scope><name>hot_records</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_stats_1a377938fa8a7c6220ba3f98543bdaf4b1" prot="public" virt="non-virtual"><scope>themis::voice::StorageStats</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_stats_1a9682d4ea6d141b9a35b338c8fed4387a" prot="public" virt="non-virtual"><scope>themis::voice::StorageStats</scope><name>total_records</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_stats_1a6422212c42a3fb17cbd9e7b9bf739014" prot="public" virt="non-virtual"><scope>themis::voice::StorageStats</scope><name>warm_records</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

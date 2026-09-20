@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_api_error_taxonomy" kind="class" language="C++" prot="public">
+    <compoundname>themis::api::ApiErrorTaxonomy</compoundname>
+    <includes refid="api__error__taxonomy_8h" local="no">api_error_taxonomy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_api_error_taxonomy_1a7edd316ac2f37fc139f69b814a529353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::ApiErrorTaxonomy::ApiErrorTaxonomy</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ApiErrorTaxonomy</name>
+        <qualifiedname>themis::api::ApiErrorTaxonomy::ApiErrorTaxonomy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_error_taxonomy.h" line="41" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>themis::errors::ErrorCode</type>
+        <definition>static themis::errors::ErrorCode themis::api::ApiErrorTaxonomy::toErrorCode</definition>
+        <argsstring>(TransportFailureClass fc) noexcept</argsstring>
+        <name>toErrorCode</name>
+        <qualifiedname>themis::api::ApiErrorTaxonomy::toErrorCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_error_taxonomy.h" line="43" column="39" bodyfile="include/api/api_error_taxonomy.h" bodystart="43" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_api_error_taxonomy_1a0afb2086489342df90c7c794317515d5" prot="public" static="yes" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static constexpr int themis::api::ApiErrorTaxonomy::toHttpStatus</definition>
+        <argsstring>(TransportFailureClass fc) noexcept</argsstring>
+        <name>toHttpStatus</name>
+        <qualifiedname>themis::api::ApiErrorTaxonomy::toHttpStatus</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_error_taxonomy.h" line="65" column="27" bodyfile="include/api/api_error_taxonomy.h" bodystart="65" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_api_error_taxonomy_1a611cc652d122d129671d7e55993898f2" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::api::ApiErrorTaxonomy::toMessage</definition>
+        <argsstring>(TransportFailureClass fc, std::string_view adapter_name)</argsstring>
+        <name>toMessage</name>
+        <qualifiedname>themis::api::ApiErrorTaxonomy::toMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>adapter_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Prefix. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/api_error_taxonomy.h" line="90" column="25" bodyfile="include/api/api_error_taxonomy.h" bodystart="90" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_api_error_taxonomy_1a1415a611b14847a2b66c9179250fbc33" prot="public" static="yes" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static constexpr bool themis::api::ApiErrorTaxonomy::isClientError</definition>
+        <argsstring>(TransportFailureClass fc) noexcept</argsstring>
+        <name>isClientError</name>
+        <qualifiedname>themis::api::ApiErrorTaxonomy::isClientError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_error_taxonomy.h" line="124" column="28" bodyfile="include/api/api_error_taxonomy.h" bodystart="124" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_error_taxonomy.h" line="38" column="1" bodyfile="include/api/api_error_taxonomy.h" bodystart="38" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a7edd316ac2f37fc139f69b814a529353" prot="public" virt="non-virtual"><scope>themis::api::ApiErrorTaxonomy</scope><name>ApiErrorTaxonomy</name></member>
+      <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a1415a611b14847a2b66c9179250fbc33" prot="public" virt="non-virtual"><scope>themis::api::ApiErrorTaxonomy</scope><name>isClientError</name></member>
+      <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" prot="public" virt="non-virtual"><scope>themis::api::ApiErrorTaxonomy</scope><name>toErrorCode</name></member>
+      <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a0afb2086489342df90c7c794317515d5" prot="public" virt="non-virtual"><scope>themis::api::ApiErrorTaxonomy</scope><name>toHttpStatus</name></member>
+      <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a611cc652d122d129671d7e55993898f2" prot="public" virt="non-virtual"><scope>themis::api::ApiErrorTaxonomy</scope><name>toMessage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

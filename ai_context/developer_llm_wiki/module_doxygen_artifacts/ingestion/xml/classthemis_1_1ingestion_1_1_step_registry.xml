@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_step_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::StepRegistry</compoundname>
+    <includes refid="workflow__engine_8h" local="no">workflow_engine.h</includes>
+    <innerclass refid="classthemis_1_1ingestion_1_1_step_registry_1_1_impl" prot="public">themis::ingestion::StepRegistry::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_step_registry_1a56285e57625666af3ba5c3e2a09c51a9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_step_registry_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::StepRegistry::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::StepRegistry::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="192" column="21" bodyfile="include/ingestion/workflow_engine.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1ade51755badc900a3b80e9493c35a6498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::StepRegistry::StepRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>StepRegistry</name>
+        <qualifiedname>themis::ingestion::StepRegistry::StepRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="130" column="5" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1a95e21ddc5e0a3551476960beadf89b24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::StepRegistry::~StepRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>~StepRegistry</name>
+        <qualifiedname>themis::ingestion::StepRegistry::~StepRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="131" column="5" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="227" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1ab4beeec528ee1dc9c87db051b831eced" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::StepRegistry::StepRegistry</definition>
+        <argsstring>(const StepRegistry &amp;)=delete</argsstring>
+        <name>StepRegistry</name>
+        <qualifiedname>themis::ingestion::StepRegistry::StepRegistry</qualifiedname>
+        <param>
+          <type>const StepRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1ab227008aa2ea144eb1d7c6cc2b6fc47a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_step_registry_1ade51755badc900a3b80e9493c35a6498" kindref="member">StepRegistry</ref> &amp;</type>
+        <definition>StepRegistry &amp; themis::ingestion::StepRegistry::operator=</definition>
+        <argsstring>(const StepRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::StepRegistry::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_step_registry_1ade51755badc900a3b80e9493c35a6498" kindref="member">StepRegistry</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="135" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1a678c25a7b1466d04f98a99861c8c79df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::StepRegistry::registerStep</definition>
+        <argsstring>(const std::string &amp;plugin_name, std::shared_ptr&lt; IIngestionStep &gt; step)</argsstring>
+        <name>registerStep</name>
+        <qualifiedname>themis::ingestion::StepRegistry::registerStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Register a pre-built step instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Step.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully qualified name (e.g. &quot;builtin.parse_text&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the step implementation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error if a step with that name is already registered.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), tl::make_unexpected(), lock(), count(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="144" column="12" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="251" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1ad76d421bb748f93cd4f4ba3fab66f95d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::StepRegistry::loadStepPlugin</definition>
+        <argsstring>(const std::string &amp;plugin_name, const std::string &amp;library_path, const StepPluginManifest &amp;manifest={})</argsstring>
+        <name>loadStepPlugin</name>
+        <qualifiedname>themis::ingestion::StepRegistry::loadStepPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>library_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_step_plugin_manifest" kindref="compound">StepPluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Load a dynamic step plugin from a shared library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Step Plugin.</para>
+<para>Calls <computeroutput>themis_create_step()</computeroutput> from the .so/.dll. If <computeroutput>manifest</computeroutput> is provided, the library path and MIME type are validated before dlopen() (§Phase 3 DLL sandbox).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical name to register the plugin under. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>library_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute filesystem path to the shared library. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional sandbox constraints. Empty manifest (default) permits any path and MIME type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error when the library cannot be loaded, the entry point is missing, or sandbox validation fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">library_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the library. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), fs::weakly_canonical(), string(), rfind(), tl::make_unexpected(), sf(), is_open(), json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="161" column="12" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="276" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1ae4759ff3973e9e9f2522f9958be42f71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" kindref="compound">IIngestionStep</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IIngestionStep &gt; themis::ingestion::StepRegistry::getStep</definition>
+        <argsstring>(const std::string &amp;plugin_name) const</argsstring>
+        <name>getStep</name>
+        <qualifiedname>themis::ingestion::StepRegistry::getStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a registered step by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer or nullptr when not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="170" column="21" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="379" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1a679c2c31742223d77a5f71462d3d93fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::StepRegistry::hasStep</definition>
+        <argsstring>(const std::string &amp;plugin_name) const</argsstring>
+        <name>hasStep</name>
+        <qualifiedname>themis::ingestion::StepRegistry::hasStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when a step with the given name is registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="175" column="10" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="385" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1a55730f22c6dcf26ec9d837d320bc8ad3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::StepRegistry::listSteps</definition>
+        <argsstring>() const</argsstring>
+        <name>listSteps</name>
+        <qualifiedname>themis::ingestion::StepRegistry::listSteps</qualifiedname>
+        <briefdescription>
+<para>List all registered step names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="180" column="17" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="390" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_step_registry_1a6f9a6c636be29fe91b07ebd5ea73db11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::StepRegistry::unloadStep</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>unloadStep</name>
+        <qualifiedname>themis::ingestion::StepRegistry::unloadStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Unload and remove a step from the registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload Step.</para>
+<para>For dynamically loaded plugins this also calls <computeroutput>themis_destroy_step()</computeroutput> and closes the library handle.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), tl::make_unexpected(), closeDynamicLibrary(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="188" column="12" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="407" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe registry that maps step plugin names to instances. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Built-in steps are registered at startup by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref></computeroutput>. Dynamic steps (<computeroutput>.so</computeroutput> / <computeroutput>.dll</computeroutput>) are loaded on demand via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_step_registry_1ad76d421bb748f93cd4f4ba3fab66f95d" kindref="member">loadStepPlugin()</ref></computeroutput>.</para>
+<para>Naming convention: <computeroutput><ref refid="namespacethemis_1_1ingestion_1_1builtin" kindref="compound">builtin</ref>.&lt;name&gt;</computeroutput> for bundled steps, <computeroutput>&lt;vendor&gt;.&lt;name&gt;</computeroutput> for third-party plugins. </para>
+    </detaileddescription>
+    <location file="include/ingestion/workflow_engine.h" line="128" column="1" bodyfile="include/ingestion/workflow_engine.h" bodystart="128" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1ae4759ff3973e9e9f2522f9958be42f71" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>getStep</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1a679c2c31742223d77a5f71462d3d93fd" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>hasStep</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1a56285e57625666af3ba5c3e2a09c51a9" prot="private" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1a55730f22c6dcf26ec9d837d320bc8ad3" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>listSteps</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1ad76d421bb748f93cd4f4ba3fab66f95d" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>loadStepPlugin</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1ab227008aa2ea144eb1d7c6cc2b6fc47a" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1a678c25a7b1466d04f98a99861c8c79df" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>registerStep</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1ade51755badc900a3b80e9493c35a6498" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>StepRegistry</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1ab4beeec528ee1dc9c87db051b831eced" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>StepRegistry</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1a6f9a6c636be29fe91b07ebd5ea73db11" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>unloadStep</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_step_registry_1a95e21ddc5e0a3551476960beadf89b24" prot="public" virt="non-virtual"><scope>themis::ingestion::StepRegistry</scope><name>~StepRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

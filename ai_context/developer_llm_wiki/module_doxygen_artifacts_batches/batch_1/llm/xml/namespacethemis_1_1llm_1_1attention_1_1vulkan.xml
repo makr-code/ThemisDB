@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1attention_1_1vulkan" kind="namespace" language="C++">
+    <compoundname>themis::llm::attention::vulkan</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan" prot="public">themis::llm::attention::vulkan::FlashAttentionVulkan</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan" prot="public">themis::llm::attention::vulkan::InfiniAttentionVulkan</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1vulkan_1adeea36bc4acdd6445ee37c6f88f6e1fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::llm::attention::vulkan::hasDeviceExtension</definition>
+        <argsstring>(VkPhysicalDevice phys_dev, const char *ext_name)</argsstring>
+        <name>hasDeviceExtension</name>
+        <qualifiedname>themis::llm::attention::vulkan::hasDeviceExtension</qualifiedname>
+        <param>
+          <type>VkPhysicalDevice</type>
+          <declname>phys_dev</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>ext_name</declname>
+        </param>
+        <briefdescription>
+<para>Has Device Extension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phys_dev</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ext_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the ext. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: vkEnumerateDeviceExtensionProperties(), extensions(), data(), std::strcmp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/vulkan/infini_attention_vulkan.cpp" line="37" column="13" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="37" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

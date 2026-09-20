@@ -1,0 +1,525 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_i_plugin_generator" kind="class" language="C++" prot="public">
+    <compoundname>AIPluginGenerator</compoundname>
+    <includes refid="ai__plugin__generator_8h" local="no">ai_plugin_generator.h</includes>
+    <innerclass refid="struct_a_i_plugin_generator_1_1_config" prot="public">AIPluginGenerator::Config</innerclass>
+    <innerclass refid="struct_a_i_plugin_generator_1_1_stats" prot="public">AIPluginGenerator::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_i_plugin_generator_1aac040bbc41ca6a78b61b984934438e14" prot="public" static="no">
+        <type>std::function&lt; Result&lt; double &gt;(const std::string &amp;generated_response, const std::string &amp;original_query)&gt;</type>
+        <definition>using themis::plugins::ai::AIPluginGenerator::CAISafetyEvalFn = std::function&lt;Result&lt;double&gt;(
+       const std::string&amp; generated_response,
+       const std::string&amp; original_query)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CAISafetyEvalFn</name>
+        <qualifiedname>AIPluginGenerator::CAISafetyEvalFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="70" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_i_plugin_generator_1aa7f60f64174b7a674663b6f6607b909e" prot="public" static="no">
+        <type>std::function&lt; Result&lt; void &gt;(const json &amp;local_metrics)&gt;</type>
+        <definition>using themis::plugins::ai::AIPluginGenerator::FederatedTelemetryFn = std::function&lt;Result&lt;void&gt;(const json&amp; local_metrics)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FederatedTelemetryFn</name>
+        <qualifiedname>AIPluginGenerator::FederatedTelemetryFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="74" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_i_plugin_generator_1ae462adef446904d2e73132ea7fa8c9d0" prot="public" static="no">
+        <type>std::function&lt; Result&lt; std::string &gt;(const std::string &amp;endpoint, const std::string &amp;request_body, long timeout_ms)&gt;</type>
+        <definition>using themis::plugins::ai::AIPluginGenerator::EndpointInvokeFn = std::function&lt;Result&lt;std::string&gt;(
+       const std::string&amp; endpoint,
+       const std::string&amp; request_body,
+       long timeout_ms)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EndpointInvokeFn</name>
+        <qualifiedname>AIPluginGenerator::EndpointInvokeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="76" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_i_plugin_generator_1a9526cde32d4525bb2a67362eec866690" prot="public" static="no">
+        <type>std::function&lt; Result&lt; void &gt;(const <ref refid="struct_generated_plugin" kindref="compound">GeneratedPlugin</ref> &amp;generated)&gt;</type>
+        <definition>using themis::plugins::ai::AIPluginGenerator::SandboxVerifyFn = std::function&lt;Result&lt;void&gt;(const GeneratedPlugin&amp; generated)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SandboxVerifyFn</name>
+        <qualifiedname>AIPluginGenerator::SandboxVerifyFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="81" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_i_plugin_generator_1a9c4353b15f87d85b30c6b9353eb0019d" prot="public" static="no">
+        <type>std::function&lt; Result&lt; <ref refid="struct_generated_plugin" kindref="compound">GeneratedPlugin</ref> &gt;(const <ref refid="struct_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref> &amp;)&gt;</type>
+        <definition>using themis::plugins::ai::AIPluginGenerator::LLMGenerateFn = std::function&lt;Result&lt;GeneratedPlugin&gt;(const PluginGenerationPrompt&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LLMGenerateFn</name>
+        <qualifiedname>AIPluginGenerator::LLMGenerateFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="117" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_i_plugin_generator_1a1f8d754b357d53c609746463b7387ac7" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;endpoint, const std::string &amp;body)&gt;</type>
+        <definition>using themis::plugins::ai::AIPluginGenerator::LlmHttpPostFn = std::function&lt;std::string(
+       const std::string&amp; endpoint,
+       const std::string&amp; body
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmHttpPostFn</name>
+        <qualifiedname>AIPluginGenerator::LlmHttpPostFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="133" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_i_plugin_generator_1ab119c51f3f2e8df2b5f32fd514498ed9" prot="public" static="no">
+        <type>std::function&lt; Result&lt; <ref refid="struct_generated_plugin" kindref="compound">GeneratedPlugin</ref> &gt;(const std::string &amp;endpoint, const <ref refid="struct_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref> &amp;prompt)&gt;</type>
+        <definition>using themis::plugins::ai::AIPluginGenerator::HttpPostFn = std::function&lt;Result&lt;GeneratedPlugin&gt;(
+       const std::string&amp;            endpoint,
+       const PluginGenerationPrompt&amp; prompt)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HttpPostFn</name>
+        <qualifiedname>AIPluginGenerator::HttpPostFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="159" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1a21f6c105a64d3ec6fb234611c4914e95" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_i_plugin_generator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::plugins::ai::AIPluginGenerator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>AIPluginGenerator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="175" column="12" bodyfile="include/ai/ai_plugin_generator.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1a7401a6df8d0a4de167fea89e6bbc015a" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_i_plugin_generator_1a1f8d754b357d53c609746463b7387ac7" kindref="member">LlmHttpPostFn</ref> &gt;</type>
+        <definition>std::optional&lt;LlmHttpPostFn&gt; themis::plugins::ai::AIPluginGenerator::llm_http_post_fn_</definition>
+        <argsstring></argsstring>
+        <name>llm_http_post_fn_</name>
+        <qualifiedname>AIPluginGenerator::llm_http_post_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="176" column="19" bodyfile="include/ai/ai_plugin_generator.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1a326c1bf4d78d3761d9e51df78930f56c" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::stat_validation_errors_</definition>
+        <argsstring></argsstring>
+        <name>stat_validation_errors_</name>
+        <qualifiedname>AIPluginGenerator::stat_validation_errors_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="177" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1ad2da5c7cf76a3622d95118d0d92d7470" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::stat_transport_errors_</definition>
+        <argsstring></argsstring>
+        <name>stat_transport_errors_</name>
+        <qualifiedname>AIPluginGenerator::stat_transport_errors_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="178" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1ab855ce5565529ab284ee50e4626b9a0c" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::stat_http_errors_</definition>
+        <argsstring></argsstring>
+        <name>stat_http_errors_</name>
+        <qualifiedname>AIPluginGenerator::stat_http_errors_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="179" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1ad6b8f81ad6e6c93d8ad6db9618c8cdba" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::stat_parse_errors_</definition>
+        <argsstring></argsstring>
+        <name>stat_parse_errors_</name>
+        <qualifiedname>AIPluginGenerator::stat_parse_errors_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="180" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1a3978d588ff4bfe92d0d055e2e3082a97" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::stat_safety_rejections_</definition>
+        <argsstring></argsstring>
+        <name>stat_safety_rejections_</name>
+        <qualifiedname>AIPluginGenerator::stat_safety_rejections_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="181" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1a6731469981061fca94acb15922aeb3ca" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::stat_sandbox_rejections_</definition>
+        <argsstring></argsstring>
+        <name>stat_sandbox_rejections_</name>
+        <qualifiedname>AIPluginGenerator::stat_sandbox_rejections_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="182" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_plugin_generator_1af58de6f70234700377a720cab7f6a2f6" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::stat_successes_</definition>
+        <argsstring></argsstring>
+        <name>stat_successes_</name>
+        <qualifiedname>AIPluginGenerator::stat_successes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="183" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_i_plugin_generator_1a8283af0a9f1018a79c0a099108adc0f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_i_plugin_generator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>AIPluginGenerator::Stats themis::plugins::ai::AIPluginGenerator::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>AIPluginGenerator::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="struct_a_i_plugin_generator_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="115" column="11" bodyfile="src/ai/ai_plugin_generator.cpp" bodystart="446" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_plugin_generator_1aa51556448e7eaa2c1d33fc16b4d6e000" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ai::AIPluginGenerator::setLLMGenerateFn</definition>
+        <argsstring>(LLMGenerateFn fn)</argsstring>
+        <name>setLLMGenerateFn</name>
+        <qualifiedname>AIPluginGenerator::setLLMGenerateFn</qualifiedname>
+        <param>
+          <type><ref refid="class_a_i_plugin_generator_1a9c4353b15f87d85b30c6b9353eb0019d" kindref="member">LLMGenerateFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set LLMGenerate Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="123" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_plugin_generator_1adac1c3317dc373e36797de860f67f7dc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ai::AIPluginGenerator::AIPluginGenerator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>AIPluginGenerator</name>
+        <qualifiedname>AIPluginGenerator::AIPluginGenerator</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_i_plugin_generator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>AIPlugin Generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="130" column="14" bodyfile="src/ai/ai_plugin_generator.cpp" bodystart="431" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_plugin_generator_1ae927c03a7fc87514113c06571ad60614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ai::AIPluginGenerator::~AIPluginGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>~AIPluginGenerator</name>
+        <qualifiedname>AIPluginGenerator::~AIPluginGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="131" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_plugin_generator_1ae31d129ea056773cf6af6bdefaa5fdb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ai::AIPluginGenerator::setLlmHttpPostFn</definition>
+        <argsstring>(LlmHttpPostFn fn)</argsstring>
+        <name>setLlmHttpPostFn</name>
+        <qualifiedname>AIPluginGenerator::setLlmHttpPostFn</qualifiedname>
+        <param>
+          <type><ref refid="class_a_i_plugin_generator_1a1f8d754b357d53c609746463b7387ac7" kindref="member">LlmHttpPostFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Llm Http Post Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="142" column="10" bodyfile="src/ai/ai_plugin_generator.cpp" bodystart="442" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_plugin_generator_1ac27133d28d0b179ce622986bef8f8270" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="struct_generated_plugin" kindref="compound">GeneratedPlugin</ref> &gt;</type>
+        <definition>Result&lt; GeneratedPlugin &gt; themis::plugins::ai::AIPluginGenerator::generatePlugin</definition>
+        <argsstring>(const PluginGenerationPrompt &amp;prompt)</argsstring>
+        <name>generatePlugin</name>
+        <qualifiedname>AIPluginGenerator::generatePlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref> &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="149" column="12" bodyfile="src/ai/ai_plugin_generator.cpp" bodystart="543" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_plugin_generator_1a37a8500a5133aba17053a5c85552a084" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::ai::AIPluginGenerator::validatePrompt</definition>
+        <argsstring>(const PluginGenerationPrompt &amp;prompt)</argsstring>
+        <name>validatePrompt</name>
+        <qualifiedname>AIPluginGenerator::validatePrompt</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_plugin_generation_prompt" kindref="compound">PluginGenerationPrompt</ref> &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Validate Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="155" column="12" bodyfile="src/ai/ai_plugin_generator.cpp" bodystart="463" bodyend="536"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_i_plugin_generator_1a772f93e31c68bd67a7940036cde2123b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::plugins::ai::AIPluginGenerator::setHttpPostFn</definition>
+        <argsstring>(HttpPostFn fn)</argsstring>
+        <name>setHttpPostFn</name>
+        <qualifiedname>AIPluginGenerator::setHttpPostFn</qualifiedname>
+        <param>
+          <type><ref refid="class_a_i_plugin_generator_1ab119c51f3f2e8df2b5f32fd514498ed9" kindref="member">HttpPostFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Http Post Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="167" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_plugin_generator_1a92c975920c88f6e751399edf71a96b22" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::plugins::ai::AIPluginGenerator::clearHttpPostFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearHttpPostFn</name>
+        <qualifiedname>AIPluginGenerator::clearHttpPostFn</qualifiedname>
+        <briefdescription>
+<para>Clear Http Post Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="172" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/ai_plugin_generator.h" line="68" column="1" bodyfile="include/ai/ai_plugin_generator.h" bodystart="68" bodyend="184"/>
+    <listofallmembers>
+      <member refid="class_a_i_plugin_generator_1adac1c3317dc373e36797de860f67f7dc" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>AIPluginGenerator</name></member>
+      <member refid="class_a_i_plugin_generator_1aac040bbc41ca6a78b61b984934438e14" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>CAISafetyEvalFn</name></member>
+      <member refid="class_a_i_plugin_generator_1a92c975920c88f6e751399edf71a96b22" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>clearHttpPostFn</name></member>
+      <member refid="class_a_i_plugin_generator_1a21f6c105a64d3ec6fb234611c4914e95" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>config_</name></member>
+      <member refid="class_a_i_plugin_generator_1ae462adef446904d2e73132ea7fa8c9d0" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>EndpointInvokeFn</name></member>
+      <member refid="class_a_i_plugin_generator_1aa7f60f64174b7a674663b6f6607b909e" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>FederatedTelemetryFn</name></member>
+      <member refid="class_a_i_plugin_generator_1ac27133d28d0b179ce622986bef8f8270" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>generatePlugin</name></member>
+      <member refid="class_a_i_plugin_generator_1a8283af0a9f1018a79c0a099108adc0f3" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>getStats</name></member>
+      <member refid="class_a_i_plugin_generator_1ab119c51f3f2e8df2b5f32fd514498ed9" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>HttpPostFn</name></member>
+      <member refid="class_a_i_plugin_generator_1a7401a6df8d0a4de167fea89e6bbc015a" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>llm_http_post_fn_</name></member>
+      <member refid="class_a_i_plugin_generator_1a9c4353b15f87d85b30c6b9353eb0019d" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>LLMGenerateFn</name></member>
+      <member refid="class_a_i_plugin_generator_1a1f8d754b357d53c609746463b7387ac7" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>LlmHttpPostFn</name></member>
+      <member refid="class_a_i_plugin_generator_1a9526cde32d4525bb2a67362eec866690" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>SandboxVerifyFn</name></member>
+      <member refid="class_a_i_plugin_generator_1a772f93e31c68bd67a7940036cde2123b" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>setHttpPostFn</name></member>
+      <member refid="class_a_i_plugin_generator_1aa51556448e7eaa2c1d33fc16b4d6e000" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>setLLMGenerateFn</name></member>
+      <member refid="class_a_i_plugin_generator_1ae31d129ea056773cf6af6bdefaa5fdb6" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>setLlmHttpPostFn</name></member>
+      <member refid="class_a_i_plugin_generator_1ab855ce5565529ab284ee50e4626b9a0c" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>stat_http_errors_</name></member>
+      <member refid="class_a_i_plugin_generator_1ad6b8f81ad6e6c93d8ad6db9618c8cdba" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>stat_parse_errors_</name></member>
+      <member refid="class_a_i_plugin_generator_1a3978d588ff4bfe92d0d055e2e3082a97" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>stat_safety_rejections_</name></member>
+      <member refid="class_a_i_plugin_generator_1a6731469981061fca94acb15922aeb3ca" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>stat_sandbox_rejections_</name></member>
+      <member refid="class_a_i_plugin_generator_1af58de6f70234700377a720cab7f6a2f6" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>stat_successes_</name></member>
+      <member refid="class_a_i_plugin_generator_1ad2da5c7cf76a3622d95118d0d92d7470" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>stat_transport_errors_</name></member>
+      <member refid="class_a_i_plugin_generator_1a326c1bf4d78d3761d9e51df78930f56c" prot="private" virt="non-virtual"><scope>AIPluginGenerator</scope><name>stat_validation_errors_</name></member>
+      <member refid="class_a_i_plugin_generator_1a37a8500a5133aba17053a5c85552a084" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>validatePrompt</name></member>
+      <member refid="class_a_i_plugin_generator_1ae927c03a7fc87514113c06571ad60614" prot="public" virt="non-virtual"><scope>AIPluginGenerator</scope><name>~AIPluginGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

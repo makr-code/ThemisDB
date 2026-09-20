@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_nagle_controller" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::NagleController</compoundname>
+    <includes refid="wire__protocol__batch_8h" local="no">wire_protocol_batch.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Mode</name>
+        <qualifiedname>themis::network::NagleController::Mode</qualifiedname>
+        <enumvalue id="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a5b39c8b553c821e7cddc6da64b5bd2ee" prot="public">
+          <name>DEFAULT</name>
+          <briefdescription>
+<para>Kernel Nagle algorithm (default TCP behaviour). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a848e59d362e59bdfe813135806b216c9" prot="public">
+          <name>NODELAY</name>
+          <briefdescription>
+<para>TCP_NODELAY=1: disable Nagle, send immediately. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082ab730dab701f2d5cf386202cd57384eec" prot="public">
+          <name>CORK</name>
+          <briefdescription>
+<para>TCP_CORK=1: hold segments until MTU or <ref refid="classthemis_1_1network_1_1_nagle_controller_1a0f24ee342d42cded32e616aeaa9501d9" kindref="member">uncork()</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="92" column="5" bodyfile="include/network/wire_protocol_batch.h" bodystart="92" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_nagle_controller_1a6b6276a5bf9709443ecade65725187ef" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::NagleController::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::network::NagleController::fd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="136" column="10" bodyfile="include/network/wire_protocol_batch.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_nagle_controller_1a6da38ba8ad88b7bec03587ad7af666bd" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" kindref="member">Mode</ref></type>
+        <definition>Mode themis::network::NagleController::mode_</definition>
+        <argsstring></argsstring>
+        <name>mode_</name>
+        <qualifiedname>themis::network::NagleController::mode_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a5b39c8b553c821e7cddc6da64b5bd2ee" kindref="member">Mode::DEFAULT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="137" column="10" bodyfile="include/network/wire_protocol_batch.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_nagle_controller_1a9380216703dce854f70d940442a79d1f" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NagleController::NagleController</definition>
+        <argsstring>(int fd) noexcept</argsstring>
+        <name>NagleController</name>
+        <qualifiedname>themis::network::NagleController::NagleController</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Attach the controller to an open TCP socket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File descriptor for the socket. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="102" column="14" bodyfile="src/network/wire_protocol_batch.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_nagle_controller_1a25831d287c512bdb8037c20ff166a495" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::NagleController::setMode</definition>
+        <argsstring>(Mode mode) noexcept</argsstring>
+        <name>setMode</name>
+        <qualifiedname>themis::network::NagleController::setMode</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" kindref="member">Mode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Apply <computeroutput>mode</computeroutput> to the socket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true on success; false if setsockopt(2) failed (errno set). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="109" column="10" bodyfile="src/network/wire_protocol_batch.cpp" bodystart="57" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_nagle_controller_1a3c08e7f4d8e901b29553c150e5b10480" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::NagleController::setNodelay</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>setNodelay</name>
+        <qualifiedname>themis::network::NagleController::setNodelay</qualifiedname>
+        <briefdescription>
+<para>Enable TCP_NODELAY (disable Nagle&apos;s algorithm). Equivalent to setMode(Mode::NODELAY). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="115" column="10" bodyfile="include/network/wire_protocol_batch.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_nagle_controller_1abb8bf8defacfd96d8231d3c1866cc254" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::NagleController::cork</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cork</name>
+        <qualifiedname>themis::network::NagleController::cork</qualifiedname>
+        <briefdescription>
+<para>Enable TCP_CORK to hold sends until <ref refid="classthemis_1_1network_1_1_nagle_controller_1a0f24ee342d42cded32e616aeaa9501d9" kindref="member">uncork()</ref> or MTU fill. Equivalent to setMode(Mode::CORK). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="121" column="10" bodyfile="include/network/wire_protocol_batch.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_nagle_controller_1a0f24ee342d42cded32e616aeaa9501d9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::NagleController::uncork</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>uncork</name>
+        <qualifiedname>themis::network::NagleController::uncork</qualifiedname>
+        <briefdescription>
+<para>Release TCP_CORK, flushing any buffered data immediately. Equivalent to setMode(Mode::DEFAULT). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="127" column="10" bodyfile="src/network/wire_protocol_batch.cpp" bodystart="116" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_nagle_controller_1ad2eb1fb48c3b8296e13e74a3c2682e8f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" kindref="member">Mode</ref></type>
+        <definition>Mode themis::network::NagleController::currentMode</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>currentMode</name>
+        <qualifiedname>themis::network::NagleController::currentMode</qualifiedname>
+        <briefdescription>
+<para>Current active mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="130" column="10" bodyfile="include/network/wire_protocol_batch.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_nagle_controller_1a7f9d19868c7ab47af6b22a47a92b6544" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::network::NagleController::fd</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>fd</name>
+        <qualifiedname>themis::network::NagleController::fd</qualifiedname>
+        <briefdescription>
+<para>File descriptor this controller is attached to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="133" column="9" bodyfile="include/network/wire_protocol_batch.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Controls Nagle&apos;s algorithm and TCP_CORK on a single socket. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Three modes are supported:<itemizedlist>
+<listitem><para>NODELAY : TCP_NODELAY=1, TCP_CORK=0. Every write is sent immediately. Best for request-response workloads where latency matters.</para>
+</listitem><listitem><para>CORK : TCP_CORK=1, TCP_NODELAY=0. Segments are held until the MTU is filled or cork is released. Best for bulk streaming.</para>
+</listitem><listitem><para>DEFAULT : Neither flag is set. The kernel&apos;s Nagle algorithm applies (200 ms coalescing window).</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage with batch writes: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_nagle_controller_1a9380216703dce854f70d940442a79d1f" kindref="member">NagleController</ref><sp/>nagle(<ref refid="classthemis_1_1network_1_1_nagle_controller_1a7f9d19868c7ab47af6b22a47a92b6544" kindref="member">fd</ref>);</highlight></codeline>
+<codeline><highlight class="normal">nagle.cork();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>hold<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>schedule<sp/>multiple<sp/>writes<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">nagle.uncork();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>flush<sp/>all<sp/>at<sp/>once</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_batch.h" line="90" column="1" bodyfile="include/network/wire_protocol_batch.h" bodystart="90" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1abb8bf8defacfd96d8231d3c1866cc254" prot="public" virt="non-virtual"><scope>themis::network::NagleController</scope><name>cork</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1ad2eb1fb48c3b8296e13e74a3c2682e8f" prot="public" virt="non-virtual"><scope>themis::network::NagleController</scope><name>currentMode</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1a7f9d19868c7ab47af6b22a47a92b6544" prot="public" virt="non-virtual"><scope>themis::network::NagleController</scope><name>fd</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1a6b6276a5bf9709443ecade65725187ef" prot="private" virt="non-virtual"><scope>themis::network::NagleController</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" prot="public" virt="non-virtual"><scope>themis::network::NagleController</scope><name>Mode</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1a6da38ba8ad88b7bec03587ad7af666bd" prot="private" virt="non-virtual"><scope>themis::network::NagleController</scope><name>mode_</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1a9380216703dce854f70d940442a79d1f" prot="public" virt="non-virtual"><scope>themis::network::NagleController</scope><name>NagleController</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1a25831d287c512bdb8037c20ff166a495" prot="public" virt="non-virtual"><scope>themis::network::NagleController</scope><name>setMode</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1a3c08e7f4d8e901b29553c150e5b10480" prot="public" virt="non-virtual"><scope>themis::network::NagleController</scope><name>setNodelay</name></member>
+      <member refid="classthemis_1_1network_1_1_nagle_controller_1a0f24ee342d42cded32e616aeaa9501d9" prot="public" virt="non-virtual"><scope>themis::network::NagleController</scope><name>uncork</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

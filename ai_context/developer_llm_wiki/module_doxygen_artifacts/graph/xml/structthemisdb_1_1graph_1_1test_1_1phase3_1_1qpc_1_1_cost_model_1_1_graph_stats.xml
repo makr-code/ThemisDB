@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::qpc::CostModel::GraphStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1aa00aacb04feefbc9fdc677ecd316bb31" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::qpc::CostModel::GraphStats::vertex_count</definition>
+        <argsstring></argsstring>
+        <name>vertex_count</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::GraphStats::vertex_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="181" column="16" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1a15c8b58145c3a5cf4c16cd8fd911819c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::qpc::CostModel::GraphStats::edge_count</definition>
+        <argsstring></argsstring>
+        <name>edge_count</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::GraphStats::edge_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="182" column="16" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1ac00b02f02c9a2eca8d9186242f136e04" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::qpc::CostModel::GraphStats::avg_degree</definition>
+        <argsstring></argsstring>
+        <name>avg_degree</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::GraphStats::avg_degree</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="183" column="16" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1ad7c6acb3e2ad6b82197fcdd75a9783de" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::qpc::CostModel::GraphStats::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::GraphStats::max_depth</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="184" column="16" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="184" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1a8a7f1438bff030e54ee503183329e14f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::qpc::CostModel::GraphStats::edge_density</definition>
+        <argsstring></argsstring>
+        <name>edge_density</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::GraphStats::edge_density</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="185" column="16" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="180" column="5" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="180" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1ac00b02f02c9a2eca8d9186242f136e04" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel::GraphStats</scope><name>avg_degree</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1a15c8b58145c3a5cf4c16cd8fd911819c" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel::GraphStats</scope><name>edge_count</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1a8a7f1438bff030e54ee503183329e14f" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel::GraphStats</scope><name>edge_density</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1ad7c6acb3e2ad6b82197fcdd75a9783de" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel::GraphStats</scope><name>max_depth</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats_1aa00aacb04feefbc9fdc677ecd316bb31" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel::GraphStats</scope><name>vertex_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

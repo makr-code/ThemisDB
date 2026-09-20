@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_archive_processor_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ArchiveProcessorConfig</compoundname>
+    <includes refid="archive__processor_8h" local="no">archive_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1aa9bb06696584d5b4517918de542e74a2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a3036ea534ae06b12a3d5d6db521c1cb9" kindref="member">ArchiveStrategy</ref></type>
+        <definition>ArchiveStrategy themis::content::ArchiveProcessorConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1content_1a3036ea534ae06b12a3d5d6db521c1cb9a5b6de5b8f257deef45ce85b70b22d1fd" kindref="member">ArchiveStrategy::EXTRACT_AND_INGEST</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="82" column="21" bodyfile="include/content/archive_processor.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1a113cbf08179154f351a82cf6c9a4c822" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1af1dbde32d5da90ce053d28fc2cd13a64" kindref="member">EncryptedArchivePolicy</ref></type>
+        <definition>EncryptedArchivePolicy themis::content::ArchiveProcessorConfig::encrypted_policy</definition>
+        <argsstring></argsstring>
+        <name>encrypted_policy</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::encrypted_policy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1content_1af1dbde32d5da90ce053d28fc2cd13a64a59b228d9fec9b88833bfe5d812ed8ad4" kindref="member">EncryptedArchivePolicy::REJECT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="83" column="28" bodyfile="include/content/archive_processor.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1a55e9d9ebfa0e7f3882b8a5d588b98e5c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ArchiveProcessorConfig::max_total_size</definition>
+        <argsstring></argsstring>
+        <name>max_total_size</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::max_total_size</qualifiedname>
+        <initializer>= 1024ULL * 1024 * 1024 * 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="86" column="14" bodyfile="include/content/archive_processor.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1aea60ff71d5700fc14f10a8c287f3e641" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ArchiveProcessorConfig::max_file_size</definition>
+        <argsstring></argsstring>
+        <name>max_file_size</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::max_file_size</qualifiedname>
+        <initializer>= 1024ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="87" column="14" bodyfile="include/content/archive_processor.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1a9a669144f4d70612319c9a69aa066c84" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ArchiveProcessorConfig::max_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>max_compression_ratio</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::max_compression_ratio</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="88" column="14" bodyfile="include/content/archive_processor.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1a21280c3662591dcbe0f4342ed4cec0b3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::ArchiveProcessorConfig::max_file_count</definition>
+        <argsstring></argsstring>
+        <name>max_file_count</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::max_file_count</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="89" column="12" bodyfile="include/content/archive_processor.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1adfb66e7d5b518875db4c061844f8f30f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::ArchiveProcessorConfig::max_path_depth</definition>
+        <argsstring></argsstring>
+        <name>max_path_depth</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::max_path_depth</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="90" column="12" bodyfile="include/content/archive_processor.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1a067c1635af73933e7120d507e04afacf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::ArchiveProcessorConfig::max_path_length</definition>
+        <argsstring></argsstring>
+        <name>max_path_length</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::max_path_length</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="91" column="12" bodyfile="include/content/archive_processor.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1afa2a9a2c891349347897e7c61ec16568" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveProcessorConfig::password</definition>
+        <argsstring></argsstring>
+        <name>password</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="94" column="17" bodyfile="include/content/archive_processor.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_config_1a9066e3f9154cc033a2ff05f424061d74" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveProcessorConfig::verbose</definition>
+        <argsstring></argsstring>
+        <name>verbose</name>
+        <qualifiedname>themis::content::ArchiveProcessorConfig::verbose</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="97" column="10" bodyfile="include/content/archive_processor.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/archive_processor.h" line="81" column="1" bodyfile="include/content/archive_processor.h" bodystart="81" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1a113cbf08179154f351a82cf6c9a4c822" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>encrypted_policy</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1a9a669144f4d70612319c9a69aa066c84" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>max_compression_ratio</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1a21280c3662591dcbe0f4342ed4cec0b3" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>max_file_count</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1aea60ff71d5700fc14f10a8c287f3e641" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>max_file_size</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1adfb66e7d5b518875db4c061844f8f30f" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>max_path_depth</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1a067c1635af73933e7120d507e04afacf" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>max_path_length</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1a55e9d9ebfa0e7f3882b8a5d588b98e5c" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>max_total_size</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1afa2a9a2c891349347897e7c61ec16568" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>password</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1aa9bb06696584d5b4517918de542e74a2" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_config_1a9066e3f9154cc033a2ff05f424061d74" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorConfig</scope><name>verbose</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_provenance_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::ProvenanceRecord</compoundname>
+    <includes refid="provenance__tracker_8h" local="no">provenance_tracker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_record_1ac85c2a1c0176d2bc58a6340ce6d30a1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ProvenanceRecord::source_doc_urn</definition>
+        <argsstring></argsstring>
+        <name>source_doc_urn</name>
+        <qualifiedname>themis::training::ProvenanceRecord::source_doc_urn</qualifiedname>
+        <briefdescription>
+<para>URN of the originating source document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="44" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_record_1a53fc0b4308fe221bf2c3f8c958f012e8" prot="public" static="no" mutable="no">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::training::ProvenanceRecord::extraction_timestamp</definition>
+        <argsstring></argsstring>
+        <name>extraction_timestamp</name>
+        <qualifiedname>themis::training::ProvenanceRecord::extraction_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp of extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="45" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_record_1a9d87b26694ba18c16e7b80f4339ff4a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ProvenanceRecord::labeler_version</definition>
+        <argsstring></argsstring>
+        <name>labeler_version</name>
+        <qualifiedname>themis::training::ProvenanceRecord::labeler_version</qualifiedname>
+        <briefdescription>
+<para>auto_labeler build hash / version string </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="46" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_record_1a4b41262fe05f2c5d4a7ca9793d853c17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ProvenanceRecord::modality</definition>
+        <argsstring></argsstring>
+        <name>modality</name>
+        <qualifiedname>themis::training::ProvenanceRecord::modality</qualifiedname>
+        <briefdescription>
+<para>Content modality (&quot;text&quot;, &quot;table&quot;, &quot;citation&quot;, &quot;ocr&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="47" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_record_1a8af81ecbbabede72371d0d7c21d1ad59" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::training::ProvenanceRecord::enrichment_query_fingerprints</definition>
+        <argsstring></argsstring>
+        <name>enrichment_query_fingerprints</name>
+        <qualifiedname>themis::training::ProvenanceRecord::enrichment_query_fingerprints</qualifiedname>
+        <briefdescription>
+<para>Hashes of AQL queries used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="48" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_record_1a606ea0d49f4d9f2256d6bf9ad4a1e009" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ProvenanceRecord::sample_id</definition>
+        <argsstring></argsstring>
+        <name>sample_id</name>
+        <qualifiedname>themis::training::ProvenanceRecord::sample_id</qualifiedname>
+        <briefdescription>
+<para>Stable ID of the <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> this record belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="49" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_provenance_record_1af6218d231243166d4ddcb6e757976e6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ProvenanceRecord::ProvenanceRecord</definition>
+        <argsstring>()=default</argsstring>
+        <name>ProvenanceRecord</name>
+        <qualifiedname>themis::training::ProvenanceRecord::ProvenanceRecord</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="51" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full provenance record attached to every accepted training sample. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries the traceability chain required for compliance and audit: which source document the sample came from, when it was extracted, which labeler version produced it, its content modality, and fingerprints of the enrichment AQL queries that added graph context. </para>
+    </detaileddescription>
+    <location file="include/training/provenance_tracker.h" line="43" column="1" bodyfile="include/training/provenance_tracker.h" bodystart="43" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_provenance_record_1a8af81ecbbabede72371d0d7c21d1ad59" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceRecord</scope><name>enrichment_query_fingerprints</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_record_1a53fc0b4308fe221bf2c3f8c958f012e8" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceRecord</scope><name>extraction_timestamp</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_record_1a9d87b26694ba18c16e7b80f4339ff4a5" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceRecord</scope><name>labeler_version</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_record_1a4b41262fe05f2c5d4a7ca9793d853c17" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceRecord</scope><name>modality</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_record_1af6218d231243166d4ddcb6e757976e6f" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceRecord</scope><name>ProvenanceRecord</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_record_1a606ea0d49f4d9f2256d6bf9ad4a1e009" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceRecord</scope><name>sample_id</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_record_1ac85c2a1c0176d2bc58a6340ce6d30a1b" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceRecord</scope><name>source_doc_urn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

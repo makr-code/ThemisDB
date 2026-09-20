@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_debate_round" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DebateRound</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a64697ca219c7ce7871cb24dfc42a6b2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DebateRound::debate_id</definition>
+        <argsstring></argsstring>
+        <name>debate_id</name>
+        <qualifiedname>themis::plugins::ethics::DebateRound::debate_id</qualifiedname>
+        <briefdescription>
+<para>Parent debate identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="129" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1af6870ccda727104a4d17ad53d02e32ac" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::DebateRound::round_number</definition>
+        <argsstring></argsstring>
+        <name>round_number</name>
+        <qualifiedname>themis::plugins::ethics::DebateRound::round_number</qualifiedname>
+        <briefdescription>
+<para>Round index (1-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="130" column="9" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a4f07e49999b923b21d4084d45f9cf290" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt;</type>
+        <definition>std::vector&lt;EthicalArgument&gt; themis::plugins::ethics::DebateRound::arguments</definition>
+        <argsstring></argsstring>
+        <name>arguments</name>
+        <qualifiedname>themis::plugins::ethics::DebateRound::arguments</qualifiedname>
+        <briefdescription>
+<para>Arguments produced in this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="131" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a4c4f6c93a9cd260b3556f64ed4250742" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::ethics::DebateRound::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::plugins::ethics::DebateRound::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="132" column="43" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a8cd21276f78d5659dd8c61c50ce7a10a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DebateRound::DebateRound</definition>
+        <argsstring>()</argsstring>
+        <name>DebateRound</name>
+        <qualifiedname>themis::plugins::ethics::DebateRound::DebateRound</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="134" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="134" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="128" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="128" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a4f07e49999b923b21d4084d45f9cf290" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateRound</scope><name>arguments</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a4c4f6c93a9cd260b3556f64ed4250742" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateRound</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a64697ca219c7ce7871cb24dfc42a6b2d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateRound</scope><name>debate_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a8cd21276f78d5659dd8c61c50ce7a10a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateRound</scope><name>DebateRound</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1af6870ccda727104a4d17ad53d02e32ac" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateRound</scope><name>round_number</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

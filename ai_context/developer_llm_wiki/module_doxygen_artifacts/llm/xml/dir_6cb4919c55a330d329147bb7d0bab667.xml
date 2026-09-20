@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6cb4919c55a330d329147bb7d0bab667" kind="dir">
+    <compoundname>include/llm/attention/hip</compoundname>
+    <innerfile refid="flash__attention__hip_8h">flash_attention_hip.h</innerfile>
+    <innerfile refid="infini__attention__hip_8h">infini_attention_hip.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/hip/"/>
+  </compounddef>
+</doxygen>

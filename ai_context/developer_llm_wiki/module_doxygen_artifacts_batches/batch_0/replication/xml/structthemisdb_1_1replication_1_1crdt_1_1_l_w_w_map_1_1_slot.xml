@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::replication::crdt::LWWMap::Slot</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot_1a318e15dde0c282c16da3aa579187e79b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt;V&gt; themisdb::replication::crdt::LWWMap&lt; K, V &gt;::Slot::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::Slot::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="484" column="23" bodyfile="include/replication/crdt_types.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot_1ac1f66432367326228a16b18e5aee46db" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::LWWMap&lt; K, V &gt;::Slot::ts</definition>
+        <argsstring></argsstring>
+        <name>ts</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::Slot::ts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="485" column="26" bodyfile="include/replication/crdt_types.h" bodystart="485" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot_1a80d14e5a7316c96d1bfccc4a0fdd18af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::crdt::LWWMap&lt; K, V &gt;::Slot::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::Slot::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="486" column="26" bodyfile="include/replication/crdt_types.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot_1ab0afcaef23479da0def50093dd7e0ec3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::crdt::LWWMap&lt; K, V &gt;::Slot::removed</definition>
+        <argsstring></argsstring>
+        <name>removed</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::Slot::removed</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="487" column="26" bodyfile="include/replication/crdt_types.h" bodystart="487" bodyend="487"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="483" column="5" bodyfile="include/replication/crdt_types.h" bodystart="483" bodyend="488"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot_1a80d14e5a7316c96d1bfccc4a0fdd18af" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap::Slot</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot_1ab0afcaef23479da0def50093dd7e0ec3" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap::Slot</scope><name>removed</name></member>
+      <member refid="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot_1ac1f66432367326228a16b18e5aee46db" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap::Slot</scope><name>ts</name></member>
+      <member refid="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot_1a318e15dde0c282c16da3aa579187e79b" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap::Slot</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

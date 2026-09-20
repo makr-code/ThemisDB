@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_04e5728355339871f7d5da3e425b9163" kind="dir">
+    <compoundname>tests/metadata</compoundname>
+    <innerfile refid="test__catalog__exporter_8cpp">test_catalog_exporter.cpp</innerfile>
+    <innerfile refid="test__catalog__exporter__failure__paths__focused_8cpp">test_catalog_exporter_failure_paths_focused.cpp</innerfile>
+    <innerfile refid="test__column__lineage_8cpp">test_column_lineage.cpp</innerfile>
+    <innerfile refid="test__column__lineage__traversal__edge__focused_8cpp">test_column_lineage_traversal_edge_focused.cpp</innerfile>
+    <innerfile refid="test__distributed__catalog_8cpp">test_distributed_catalog.cpp</innerfile>
+    <innerfile refid="test__distributed__catalog__diagnostics__focused_8cpp">test_distributed_catalog_diagnostics_focused.cpp</innerfile>
+    <innerfile refid="test__index__recommender_8cpp">test_index_recommender.cpp</innerfile>
+    <innerfile refid="test__metadata__change__listener_8cpp">test_metadata_change_listener.cpp</innerfile>
+    <innerfile refid="test__metadata__contract__hardening__focused_8cpp">test_metadata_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__metadata__encryption__provider_8cpp">test_metadata_encryption_provider.cpp</innerfile>
+    <innerfile refid="test__metadata__export__policy_8cpp">test_metadata_export_policy.cpp</innerfile>
+    <innerfile refid="test__metadata__hardening__phase23__focused_8cpp">test_metadata_hardening_phase23_focused.cpp</innerfile>
+    <innerfile refid="test__metadata__highcardinality__stress_8cpp">test_metadata_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__metadata__schema__churn__stress__focused_8cpp">test_metadata_schema_churn_stress_focused.cpp</innerfile>
+    <innerfile refid="test__metadata__schema__llm__focused_8cpp">test_metadata_schema_llm_focused.cpp</innerfile>
+    <innerfile refid="test__metadata__security__provider_8cpp">test_metadata_security_provider.cpp</innerfile>
+    <innerfile refid="test__metadata__security__rbac__diagnostics__focused_8cpp">test_metadata_security_rbac_diagnostics_focused.cpp</innerfile>
+    <innerfile refid="test__metadata__shard_8cpp">test_metadata_shard.cpp</innerfile>
+    <innerfile refid="test__metadata__snapshot_8cpp">test_metadata_snapshot.cpp</innerfile>
+    <innerfile refid="test__metadata__wal__recovery_8cpp">test_metadata_wal_recovery.cpp</innerfile>
+    <innerfile refid="test__schema__audit__log_8cpp">test_schema_audit_log.cpp</innerfile>
+    <innerfile refid="test__schema__consistency__checker_8cpp">test_schema_consistency_checker.cpp</innerfile>
+    <innerfile refid="test__schema__consistency__edge__cases__focused_8cpp">test_schema_consistency_edge_cases_focused.cpp</innerfile>
+    <innerfile refid="test__schema__constraints_8cpp">test_schema_constraints.cpp</innerfile>
+    <innerfile refid="test__schema__constraints__persistence_8cpp">test_schema_constraints_persistence.cpp</innerfile>
+    <innerfile refid="test__schema__diff_8cpp">test_schema_diff.cpp</innerfile>
+    <innerfile refid="test__schema__manager_8cpp">test_schema_manager.cpp</innerfile>
+    <innerfile refid="test__schema__migration__regression_8cpp">test_schema_migration_regression.cpp</innerfile>
+    <innerfile refid="test__schema__migration__script_8cpp">test_schema_migration_script.cpp</innerfile>
+    <innerfile refid="test__schema__version__dryrun_8cpp">test_schema_version_dryrun.cpp</innerfile>
+    <innerfile refid="test__schema__version__manager_8cpp">test_schema_version_manager.cpp</innerfile>
+    <innerfile refid="test__schema__version__manager__lock__contract__focused_8cpp">test_schema_version_manager_lock_contract_focused.cpp</innerfile>
+    <innerfile refid="test__statistics__auto__refresh_8cpp">test_statistics_auto_refresh.cpp</innerfile>
+    <innerfile refid="test__statistics__collector_8cpp">test_statistics_collector.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/metadata/"/>
+  </compounddef>
+</doxygen>

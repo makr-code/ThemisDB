@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaCheckpointStore</compoundname>
+    <includes refid="wikipedia__checkpoint_8hpp" local="no">wikipedia_checkpoint.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1abcc5578f8490b364bd68d5e623d5d03c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaCheckpointStore::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="75" column="17" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a3ce389090b9e8782a0864c0c1d097cd1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::WikipediaCheckpointStore::WikipediaCheckpointStore</definition>
+        <argsstring>(std::string path={})</argsstring>
+        <name>WikipediaCheckpointStore</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::WikipediaCheckpointStore</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="60" column="14" bodyfile="src/importers/wikipedia_checkpoint.cpp" bodystart="16" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1acc482c8c76be87f42b6ab11074444539" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaCheckpointStore::setPath</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>setPath</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::setPath</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Set Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="66" column="10" bodyfile="src/importers/wikipedia_checkpoint.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a7f534d14ef1e548c936af4ec5b328961" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::importers::WikipediaCheckpointStore::path</definition>
+        <argsstring>() const</argsstring>
+        <name>path</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="67" column="24" bodyfile="src/importers/wikipedia_checkpoint.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a715547b6a9bf1bfe6769a73935a38bae" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaCheckpointStore::hasPath</definition>
+        <argsstring>() const</argsstring>
+        <name>hasPath</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::hasPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="68" column="11" bodyfile="src/importers/wikipedia_checkpoint.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a6b9e70bf60d8224db4133e6a36b952e9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaCheckpointStore::exists</definition>
+        <argsstring>() const</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::exists</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="69" column="11" bodyfile="src/importers/wikipedia_checkpoint.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a7c9373c3350c41fe019814f34bf727bf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref></type>
+        <definition>WikipediaCheckpointState themis::importers::WikipediaCheckpointStore::load</definition>
+        <argsstring>() const</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::load</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Input. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="70" column="31" bodyfile="src/importers/wikipedia_checkpoint.cpp" bodystart="40" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a83943829e5cc6d50a35103d2b9d0ca71" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaCheckpointStore::save</definition>
+        <argsstring>(const WikipediaCheckpointState &amp;state) const</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::save</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Output. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="71" column="11" bodyfile="src/importers/wikipedia_checkpoint.cpp" bodystart="60" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a07c9a9e4bbcf7f6ca64370259ed759d7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaCheckpointStore::clear</definition>
+        <argsstring>() const</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointStore::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="72" column="11" bodyfile="src/importers/wikipedia_checkpoint.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_checkpoint.hpp" line="58" column="1" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="58" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a07c9a9e4bbcf7f6ca64370259ed759d7" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a6b9e70bf60d8224db4133e6a36b952e9" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>exists</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a715547b6a9bf1bfe6769a73935a38bae" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>hasPath</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a7c9373c3350c41fe019814f34bf727bf" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>load</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a7f534d14ef1e548c936af4ec5b328961" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>path</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1abcc5578f8490b364bd68d5e623d5d03c" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>path_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a83943829e5cc6d50a35103d2b9d0ca71" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>save</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1acc482c8c76be87f42b6ab11074444539" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>setPath</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store_1a3ce389090b9e8782a0864c0c1d097cd1" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointStore</scope><name>WikipediaCheckpointStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

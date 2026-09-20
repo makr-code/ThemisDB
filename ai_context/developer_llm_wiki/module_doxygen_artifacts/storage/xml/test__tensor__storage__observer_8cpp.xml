@@ -1,0 +1,474 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__tensor__storage__observer_8cpp" kind="file" language="C++">
+    <compoundname>test_tensor_storage_observer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="tensor__network__storage__engine_8h" local="yes">storage/tensor_network_storage_engine.h</includes>
+    <includes refid="tensor__train__decomposer_8h" local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes local="yes">graph/tensor_fingerprint_graph.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>storage/tensor_network_storage_engine.h</label>
+        <link refid="tensor__network__storage__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>storage/tensor_train_decomposer.h</label>
+        <link refid="tensor__train__decomposer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>storage/tt_quantizer.h</label>
+        <link refid="tt__quantizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_tensor_storage_observer.cpp</label>
+        <link refid="test__tensor__storage__observer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>graph/tensor_fingerprint_graph.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>random</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__tensor__storage__observer_8cpp_1acba16105c09baf4a492afc92ea15fb34" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; randVec</definition>
+        <argsstring>(std::size_t n, unsigned seed)</argsstring>
+        <name>randVec</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_storage_observer.cpp" line="31" column="20" bodyfile="tests/storage/test_tensor_storage_observer.cpp" bodystart="31" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__storage__observer_8cpp_1acdfe4ee8615310263186f2341973c7d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; TensorNetworkStorageEngine &gt; makeEngine</definition>
+        <argsstring>()</argsstring>
+        <name>makeEngine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_storage_observer.cpp" line="41" column="24" bodyfile="tests/storage/test_tensor_storage_observer.cpp" bodystart="41" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__storage__observer_8cpp_1ad6f4d0d27273f3827d24cbf23525fcf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TensorStorageObserverTest, TNSE_OBS_01_WriteObserverCalledAfterPut)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TensorStorageObserverTest</type>
+        </param>
+        <param>
+          <type>TNSE_OBS_01_WriteObserverCalledAfterPut</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_storage_observer.cpp" line="53" column="1" bodyfile="tests/storage/test_tensor_storage_observer.cpp" bodystart="53" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__storage__observer_8cpp_1a0613a48b6da93563f49252c83cd043c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TensorStorageObserverTest, TNSE_OBS_02_DeleteObserverCalledAfterRemove)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TensorStorageObserverTest</type>
+        </param>
+        <param>
+          <type>TNSE_OBS_02_DeleteObserverCalledAfterRemove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_storage_observer.cpp" line="81" column="1" bodyfile="tests/storage/test_tensor_storage_observer.cpp" bodystart="81" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__storage__observer_8cpp_1a98dca498ddbcc4f0d8559ede549f468c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TensorStorageObserverTest, TNSE_OBS_03_GraphStaysInSyncViaObservers)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TensorStorageObserverTest</type>
+        </param>
+        <param>
+          <type>TNSE_OBS_03_GraphStaysInSyncViaObservers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_storage_observer.cpp" line="107" column="1" bodyfile="tests/storage/test_tensor_storage_observer.cpp" bodystart="107" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__storage__observer_8cpp_1a4520ba6638cb27735f4d4bada995f927" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TensorStorageObserverTest, TNSE_OBS_NoObserverSetDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TensorStorageObserverTest</type>
+        </param>
+        <param>
+          <type>TNSE_OBS_NoObserverSetDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_storage_observer.cpp" line="145" column="1" bodyfile="tests/storage/test_tensor_storage_observer.cpp" bodystart="145" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__storage__observer_8cpp_1a7e8a76bef317646c2a41807f9d2091d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TensorStorageObserverTest, TNSE_OBS_ThrowingObserverDoesNotPropagateException)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TensorStorageObserverTest</type>
+        </param>
+        <param>
+          <type>TNSE_OBS_ThrowingObserverDoesNotPropagateException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_storage_observer.cpp" line="158" column="1" bodyfile="tests/storage/test_tensor_storage_observer.cpp" bodystart="158" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__storage__observer_8cpp_1af851304bad5d2526fb5e3738852a61a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TensorStorageObserverTest, TNSE_OBS_ThrowingDeleteObserverDoesNotPropagateException)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TensorStorageObserverTest</type>
+        </param>
+        <param>
+          <type>TNSE_OBS_ThrowingDeleteObserverDoesNotPropagateException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_storage_observer.cpp" line="172" column="1" bodyfile="tests/storage/test_tensor_storage_observer.cpp" bodystart="172" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref> CDC observer hooks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: TNSE-OBS-01 write observer called after successful put() TNSE-OBS-02 delete observer called after successful remove() TNSE-OBS-03 graph stays in sync with storage when observers wired to fp-graph</para>
+<para>SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__network__storage__engine_8h" kindref="compound">storage/tensor_network_storage_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__train__decomposer_8h" kindref="compound">storage/tensor_train_decomposer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/tensor_fingerprint_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">themis::storage</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::graph;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>randVec(std::size_t<sp/>n,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>std::normal_distribution&lt;float&gt;<sp/>d(0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(n);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>d(rng);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;TensorNetworkStorageEngine&gt;<sp/>makeEngine()<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;InMemoryTensorBackend&gt;();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_storage_config" kindref="compound">TensorStorageConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_storage_config_1af0b6b221318a0c9b76b4a2776f384688" kindref="member">tt_config</ref>.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_storage_config_1aa6de8d043c6843bc348b0fa425341532" kindref="member">min_compression_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;TensorNetworkStorageEngine&gt;(backend,<sp/>cfg);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNSE-OBS-01:<sp/>write<sp/>observer<sp/>invoked<sp/>after<sp/>put()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__tensor__storage__observer_8cpp_1ad6f4d0d27273f3827d24cbf23525fcf5" kindref="member">TEST</ref>(TensorStorageObserverTest,<sp/>TNSE_OBS_01_WriteObserverCalledAfterPut)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>makeEngine();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>call_count{0};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref><sp/>observed_key;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>observed_core_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;setWriteObserverFn([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref>&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>&amp;<sp/>train)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>observed_key<sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>observed_core_count<sp/>=<sp/>train.<ref refid="structthemis_1_1storage_1_1_t_t_train_1a2b3bf030f724054e1c77713f7847af13" kindref="member">cores</ref>.size();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randVec(8,<sp/>42);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref><sp/>key{</highlight><highlight class="stringliteral">&quot;tenant1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;field1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;put(key,<sp/>data,<sp/>{8,<sp/>1}));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(call_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(observed_key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a01bb3187dca202083a995a322860e1aa" kindref="member">tenant</ref>,<sp/></highlight><highlight class="stringliteral">&quot;tenant1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(observed_key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a47c1de9a61b71f584d6594c2dbd0b6ba" kindref="member">collection</ref>,<sp/></highlight><highlight class="stringliteral">&quot;col1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(observed_key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a33b020a4333ba928d7b61b58d5edb94e" kindref="member">field</ref>,<sp/></highlight><highlight class="stringliteral">&quot;field1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(observed_core_count,<sp/>0u);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNSE-OBS-02:<sp/>delete<sp/>observer<sp/>invoked<sp/>after<sp/>remove()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__tensor__storage__observer_8cpp_1ad6f4d0d27273f3827d24cbf23525fcf5" kindref="member">TEST</ref>(TensorStorageObserverTest,<sp/>TNSE_OBS_02_DeleteObserverCalledAfterRemove)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>makeEngine();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>delete_calls{0};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref><sp/>deleted_key;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;setDeleteObserverFn([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref>&amp;<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++delete_calls;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>deleted_key<sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref><sp/>key{</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f_del&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randVec(8,<sp/>43);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;put(key,<sp/>data,<sp/>{8,<sp/>1}));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine-&gt;remove(key));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(delete_calls.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(deleted_key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a33b020a4333ba928d7b61b58d5edb94e" kindref="member">field</ref>,<sp/></highlight><highlight class="stringliteral">&quot;f_del&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNSE-OBS-03:<sp/>graph<sp/>stays<sp/>in<sp/>sync<sp/>when<sp/>observers<sp/>are<sp/>wired<sp/>to<sp/>fp-graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Uses<sp/>key.field<sp/>as<sp/>tensor_id<sp/>(deterministic<sp/>from<sp/>storage<sp/>key).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__tensor__storage__observer_8cpp_1ad6f4d0d27273f3827d24cbf23525fcf5" kindref="member">TEST</ref>(TensorStorageObserverTest,<sp/>TNSE_OBS_03_GraphStaysInSyncViaObservers)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>makeEngine();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>FingerprintGraphConfig<sp/>fp_cfg;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>fp_cfg.similarity_threshold<sp/>=<sp/>0.90;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>fp_cfg.num_hash_funcs<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>fp_cfg.num_bands<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>graph<sp/>=<sp/>std::make_shared&lt;TensorFingerprintGraph&gt;(fp_cfg);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wire<sp/>write<sp/>observer:<sp/>use<sp/>key.field<sp/>as<sp/>tensor_id.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;setWriteObserverFn(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[graph](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref>&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>&amp;<sp/>train)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>graph-&gt;insert(key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a33b020a4333ba928d7b61b58d5edb94e" kindref="member">field</ref>,<sp/>train,<sp/>key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a01bb3187dca202083a995a322860e1aa" kindref="member">tenant</ref>,<sp/>key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a47c1de9a61b71f584d6594c2dbd0b6ba" kindref="member">collection</ref>,<sp/>key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a33b020a4333ba928d7b61b58d5edb94e" kindref="member">field</ref>);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wire<sp/>delete<sp/>observer:<sp/>remove<sp/>by<sp/>key.field.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;setDeleteObserverFn(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[graph](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref>&amp;<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>graph-&gt;remove(key.<ref refid="structthemis_1_1storage_1_1_tensor_field_key_1a33b020a4333ba928d7b61b58d5edb94e" kindref="member">field</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Put<sp/>two<sp/>tensors<sp/>—<sp/>graph<sp/>should<sp/>gain<sp/>2<sp/>nodes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data_a<sp/>=<sp/>randVec(8,<sp/>700);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data_b<sp/>=<sp/>randVec(8,<sp/>701);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;put({</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fa&quot;</highlight><highlight class="normal">},<sp/>data_a,<sp/>{8,<sp/>1}));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;put({</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fb&quot;</highlight><highlight class="normal">},<sp/>data_b,<sp/>{8,<sp/>1}));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(graph-&gt;nodeCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>one<sp/>—<sp/>graph<sp/>should<sp/>shrink<sp/>to<sp/>1<sp/>node.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;remove({</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fa&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(graph-&gt;nodeCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>case:<sp/>observer<sp/>NOT<sp/>set<sp/>—<sp/>put/remove<sp/>still<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__tensor__storage__observer_8cpp_1ad6f4d0d27273f3827d24cbf23525fcf5" kindref="member">TEST</ref>(TensorStorageObserverTest,<sp/>TNSE_OBS_NoObserverSetDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>makeEngine();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref><sp/>key{</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randVec(8,<sp/>800);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine-&gt;put(key,<sp/>data,<sp/>{8,<sp/>1}));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine-&gt;remove(key));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>case:<sp/>throwing<sp/>observer<sp/>—<sp/>exception<sp/>swallowed;<sp/>put()<sp/>still<sp/>returns<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__tensor__storage__observer_8cpp_1ad6f4d0d27273f3827d24cbf23525fcf5" kindref="member">TEST</ref>(TensorStorageObserverTest,<sp/>TNSE_OBS_ThrowingObserverDoesNotPropagateException)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>makeEngine();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;setWriteObserverFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;deliberate<sp/>observer<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randVec(8,<sp/>801);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>engine-&gt;put({</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fthrow&quot;</highlight><highlight class="normal">},<sp/>data,<sp/>{8,<sp/>1});</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__tensor__storage__observer_8cpp_1ad6f4d0d27273f3827d24cbf23525fcf5" kindref="member">TEST</ref>(TensorStorageObserverTest,<sp/>TNSE_OBS_ThrowingDeleteObserverDoesNotPropagateException)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>makeEngine();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;setDeleteObserverFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;deliberate<sp/>delete<sp/>observer<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randVec(8,<sp/>802);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;put({</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fdelete_throw&quot;</highlight><highlight class="normal">},<sp/>data,<sp/>{8,<sp/>1}));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>engine-&gt;remove({</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fdelete_throw&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_tensor_storage_observer.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1inrg_1_1_mock_wal" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::inrg::MockWal</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1inrg_1_1_mock_wal_1adf61bc0155ed99b08cb3343c4ab52b04" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1inrg_1_1_ingest_row" kindref="compound">IngestRow</ref></type>
+        <definition>IngestRow themis::bench::inrg::MockWal::slots[kWalSize]</definition>
+        <argsstring>[kWalSize]</argsstring>
+        <name>slots</name>
+        <qualifiedname>themis::bench::inrg::MockWal::slots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="99" column="15" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1inrg_1_1_mock_wal_1a706011d834a708e87eb92f6c91395b28" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::bench::inrg::MockWal::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>themis::bench::inrg::MockWal::head</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="100" column="17" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1inrg_1_1_mock_wal_1aacb84e76a5268af01df0c98cb24a030b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::inrg::MockWal::write</definition>
+        <argsstring>(const IngestRow &amp;row) noexcept</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::bench::inrg::MockWal::write</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1inrg_1_1_ingest_row" kindref="compound">IngestRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="102" column="10" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="102" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::bench::inrg::IngestRow</label>
+        <link refid="structthemis_1_1bench_1_1inrg_1_1_ingest_row"/>
+      </node>
+      <node id="1">
+        <label>themis::bench::inrg::MockWal</label>
+        <link refid="structthemis_1_1bench_1_1inrg_1_1_mock_wal"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>slots</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="98" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="98" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_mock_wal_1a706011d834a708e87eb92f6c91395b28" prot="public" virt="non-virtual"><scope>themis::bench::inrg::MockWal</scope><name>head</name></member>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_mock_wal_1adf61bc0155ed99b08cb3343c4ab52b04" prot="public" virt="non-virtual"><scope>themis::bench::inrg::MockWal</scope><name>slots</name></member>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_mock_wal_1aacb84e76a5268af01df0c98cb24a030b" prot="public" virt="non-virtual"><scope>themis::bench::inrg::MockWal</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

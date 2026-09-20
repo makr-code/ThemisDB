@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_adaptive_cache_c4_test" kind="class" language="C++" prot="public">
+    <compoundname>AdaptiveCacheC4Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_adaptive_cache_c4_test_1aead4ab4ba93580f3f19c3718938b4a4f" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref></type>
+        <definition>AdaptiveQueryCache AdaptiveCacheC4Test::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>AdaptiveCacheC4Test::cache_</qualifiedname>
+        <initializer>{makeConfig()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_phase4_cache_hardening.cpp" line="61" column="24" bodyfile="tests/cache/test_phase4_cache_hardening.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdaptiveCacheC4Test</label>
+        <link refid="class_adaptive_cache_c4_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdaptiveCacheC4Test</label>
+        <link refid="class_adaptive_cache_c4_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cache_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::AdaptiveQueryCache</label>
+        <link refid="classthemis_1_1_adaptive_query_cache"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::cache::ICacheBackend&lt; std::string, nlohmann::json &gt;</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_phase4_cache_hardening.cpp" line="59" column="1" bodyfile="tests/cache/test_phase4_cache_hardening.cpp" bodystart="59" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_adaptive_cache_c4_test_1aead4ab4ba93580f3f19c3718938b4a4f" prot="protected" virt="non-virtual"><scope>AdaptiveCacheC4Test</scope><name>cache_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

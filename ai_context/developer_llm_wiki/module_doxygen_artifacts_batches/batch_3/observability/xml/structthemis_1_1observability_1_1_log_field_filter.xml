@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_log_field_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::LogFieldFilter</compoundname>
+    <includes refid="log__search__engine_8h" local="no">log_search_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_field_filter_1ab6930d109e027d7f4e04c35b33909979" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LogFieldFilter::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::observability::LogFieldFilter::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="47" column="17" bodyfile="include/observability/log_search_engine.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_field_filter_1a67a2fc4a65dcb289787d5ba13743bc46" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LogFieldFilter::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::LogFieldFilter::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="48" column="17" bodyfile="include/observability/log_search_engine.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_field_filter_1a9df9029f82816b28cae91afc871c0d99" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701" kindref="member">FieldMatchOp</ref></type>
+        <definition>FieldMatchOp themis::observability::LogFieldFilter::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::observability::LogFieldFilter::op</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701a6837aeca94b8f55801166eb031e26a5a" kindref="member">FieldMatchOp::EQUALS</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="49" column="18" bodyfile="include/observability/log_search_engine.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_log_field_filter_1a474764b5dca5e5b7ff7cd75015a4ae67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::LogFieldFilter::matches</definition>
+        <argsstring>(const LogEntry &amp;entry) const</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::observability::LogFieldFilter::matches</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate this filter against the given <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when the entry satisfies the filter. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="55" column="10" bodyfile="src/observability/log_search_engine.cpp" bodystart="42" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single field-based filter predicate. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Matches a <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> when the entry&apos;s fields map contains key and the value satisfies the given op comparison against value. </para>
+    </detaileddescription>
+    <location file="include/observability/log_search_engine.h" line="46" column="1" bodyfile="include/observability/log_search_engine.h" bodystart="46" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_log_field_filter_1ab6930d109e027d7f4e04c35b33909979" prot="public" virt="non-virtual"><scope>themis::observability::LogFieldFilter</scope><name>key</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_field_filter_1a474764b5dca5e5b7ff7cd75015a4ae67" prot="public" virt="non-virtual"><scope>themis::observability::LogFieldFilter</scope><name>matches</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_field_filter_1a9df9029f82816b28cae91afc871c0d99" prot="public" virt="non-virtual"><scope>themis::observability::LogFieldFilter</scope><name>op</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_field_filter_1a67a2fc4a65dcb289787d5ba13743bc46" prot="public" virt="non-virtual"><scope>themis::observability::LogFieldFilter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

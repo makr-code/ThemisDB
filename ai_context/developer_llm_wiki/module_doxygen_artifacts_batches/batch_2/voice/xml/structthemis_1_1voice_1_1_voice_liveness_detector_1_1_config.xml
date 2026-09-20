@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceLivenessDetector::Config</compoundname>
+    <includes refid="voice__liveness__detector_8h" local="no">voice_liveness_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8110765b582548571f5ab50df8e5d3e9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceLivenessDetector::Config::challenge_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>challenge_timeout_ms</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::Config::challenge_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Time window for response (default: 5 sec). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="79" column="17" bodyfile="include/voice/voice_liveness_detector.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8bbad2b0038a5cbdacd8f380a4d3ffde" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceLivenessDetector::Config::replay_memory_ms</definition>
+        <argsstring></argsstring>
+        <name>replay_memory_ms</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::Config::replay_memory_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+<para>How long to remember verified challenges (default: 60 sec). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="80" column="17" bodyfile="include/voice/voice_liveness_detector.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a02e42b3c52c789942ef0e8b363af737b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceLivenessDetector::Config::enable_replay_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_replay_detection</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::Config::enable_replay_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Track verified challenges to prevent replay. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="81" column="14" bodyfile="include/voice/voice_liveness_detector.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a2259919d67a194e354ebb47add8ebd00" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceLivenessDetector::Config::max_response_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_response_bytes</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::Config::max_response_bytes</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+<para>Reject oversized response payloads fail-closed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="82" column="16" bodyfile="include/voice/voice_liveness_detector.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for liveness detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_liveness_detector.h" line="78" column="5" bodyfile="include/voice/voice_liveness_detector.h" bodystart="78" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8110765b582548571f5ab50df8e5d3e9" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector::Config</scope><name>challenge_timeout_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a02e42b3c52c789942ef0e8b363af737b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector::Config</scope><name>enable_replay_detection</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a2259919d67a194e354ebb47add8ebd00" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector::Config</scope><name>max_response_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8bbad2b0038a5cbdacd8f380a4d3ffde" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector::Config</scope><name>replay_memory_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

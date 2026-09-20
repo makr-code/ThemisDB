@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_grouping_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::GroupingSet</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_grouping_set_1a8cd450623261c845290921baaa6f2f78" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::analytics::GroupingSet::dimensions</definition>
+        <argsstring></argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themis::analytics::GroupingSet::dimensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="123" column="17" bodyfile="include/analytics/olap.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="122" column="1" bodyfile="include/analytics/olap.h" bodystart="122" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_grouping_set_1a8cd450623261c845290921baaa6f2f78" prot="public" virt="non-virtual"><scope>themis::analytics::GroupingSet</scope><name>dimensions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

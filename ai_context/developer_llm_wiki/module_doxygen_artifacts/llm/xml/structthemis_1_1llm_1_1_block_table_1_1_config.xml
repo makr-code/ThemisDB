@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_block_table_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::BlockTable::Config</compoundname>
+    <includes refid="block__table_8h" local="no">block_table.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_block_table_1_1_config_1af196ce818e91bf90857fb31ffd164bf6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::BlockTable::Config::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::llm::BlockTable::Config::block_size</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="26" column="16" bodyfile="include/llm/block_table.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_block_table_1_1_config_1a7491dca51698b470e04c6db56d974cc7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::BlockTable::Config::enable_cow</definition>
+        <argsstring></argsstring>
+        <name>enable_cow</name>
+        <qualifiedname>themis::llm::BlockTable::Config::enable_cow</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="27" column="14" bodyfile="include/llm/block_table.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/block_table.h" line="25" column="5" bodyfile="include/llm/block_table.h" bodystart="25" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_block_table_1_1_config_1af196ce818e91bf90857fb31ffd164bf6" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable::Config</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_block_table_1_1_config_1a7491dca51698b470e04c6db56d974cc7" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable::Config</scope><name>enable_cow</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

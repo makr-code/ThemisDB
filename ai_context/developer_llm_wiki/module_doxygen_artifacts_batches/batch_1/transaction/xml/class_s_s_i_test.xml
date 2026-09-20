@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_s_s_i_test" kind="class" language="C++" prot="public">
+    <compoundname>SSITest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_s_s_i_test_1a91c271bad3c06ff73177504908398740" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* SSITest::DB_PATH</definition>
+        <argsstring></argsstring>
+        <name>DB_PATH</name>
+        <qualifiedname>SSITest::DB_PATH</qualifiedname>
+        <initializer>= &quot;/tmp/themis_ssi_test_db&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="48" column="33" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_s_s_i_test_1a41f16ec72b9cf5331520f77f6809fd1b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; SSITest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>SSITest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="81" column="29" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_s_s_i_test_1a90ae5c1040c285fa3d68e65aa47e6c17" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; SSITest::sec_idx_</definition>
+        <argsstring></argsstring>
+        <name>sec_idx_</name>
+        <qualifiedname>SSITest::sec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="82" column="22" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_s_s_i_test_1a3799638806426e6810927397f44c643d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; SSITest::graph_idx_</definition>
+        <argsstring></argsstring>
+        <name>graph_idx_</name>
+        <qualifiedname>SSITest::graph_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="83" column="26" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_s_s_i_test_1a736454b7a345ba515073e76e9a3ef878" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; SSITest::vec_idx_</definition>
+        <argsstring></argsstring>
+        <name>vec_idx_</name>
+        <qualifiedname>SSITest::vec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="84" column="25" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_s_s_i_test_1a21af249483949462fb7787f9db13a8eb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; SSITest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>SSITest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="85" column="25" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_s_s_i_test_1ae1e2734fd66f5b4e88b0cc9a15bfb4fc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SSITest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SSITest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="50" column="10" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="50" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_s_s_i_test_1ac09cfbe644f92b91272d06ec4fe3d0ab" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SSITest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SSITest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="64" column="10" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="64" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_s_s_i_test_1a7dc575eb244c47b75334cc584fdc5702" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>static BaseEntity SSITest::makeEntity</definition>
+        <argsstring>(const std::string &amp;pk, const std::string &amp;value=&quot;&quot;)</argsstring>
+        <name>makeEntity</name>
+        <qualifiedname>SSITest::makeEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_ssi.cpp" line="73" column="23" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="73" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SSITest</label>
+        <link refid="class_s_s_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SSITest</label>
+        <link refid="class_s_s_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_ssi.cpp" line="46" column="1" bodyfile="tests/transaction/test_transaction_ssi.cpp" bodystart="46" bodyend="86"/>
+    <listofallmembers>
+      <member refid="class_s_s_i_test_1a41f16ec72b9cf5331520f77f6809fd1b" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>db_</name></member>
+      <member refid="class_s_s_i_test_1a91c271bad3c06ff73177504908398740" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>DB_PATH</name></member>
+      <member refid="class_s_s_i_test_1a3799638806426e6810927397f44c643d" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>graph_idx_</name></member>
+      <member refid="class_s_s_i_test_1a7dc575eb244c47b75334cc584fdc5702" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>makeEntity</name></member>
+      <member refid="class_s_s_i_test_1a21af249483949462fb7787f9db13a8eb" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>mgr_</name></member>
+      <member refid="class_s_s_i_test_1a90ae5c1040c285fa3d68e65aa47e6c17" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>sec_idx_</name></member>
+      <member refid="class_s_s_i_test_1ae1e2734fd66f5b4e88b0cc9a15bfb4fc" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>SetUp</name></member>
+      <member refid="class_s_s_i_test_1ac09cfbe644f92b91272d06ec4fe3d0ab" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>TearDown</name></member>
+      <member refid="class_s_s_i_test_1a736454b7a345ba515073e76e9a3ef878" prot="protected" virt="non-virtual"><scope>SSITest</scope><name>vec_idx_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

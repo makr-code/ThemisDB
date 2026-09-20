@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_hash" kind="struct" language="C++" prot="private">
+    <compoundname>themis::distributed_tensor::ManifestStore::KeyHash</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_hash_1a9afb319bab8a8ca2a69a2bda8ab022ef" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::ManifestStore::KeyHash::operator()</definition>
+        <argsstring>(const Key &amp;k) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::KeyHash::operator()</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="108" column="21" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="108" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/manifest_store.h" line="107" column="5" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="107" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_hash_1a9afb319bab8a8ca2a69a2bda8ab022ef" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore::KeyHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

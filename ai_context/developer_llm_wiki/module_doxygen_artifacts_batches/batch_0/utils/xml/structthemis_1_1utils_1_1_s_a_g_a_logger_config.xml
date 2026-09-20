@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SAGALoggerConfig</compoundname>
+    <includes refid="saga__logger_8h" local="no">saga_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a4c3706fdd8b161ad6c254634c296aefe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::SAGALoggerConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::utils::SAGALoggerConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="34" column="10" bodyfile="include/utils/saga_logger.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a63efffea8cc0b543c5869d83833d7459" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::SAGALoggerConfig::encrypt_then_sign</definition>
+        <argsstring></argsstring>
+        <name>encrypt_then_sign</name>
+        <qualifiedname>themis::utils::SAGALoggerConfig::encrypt_then_sign</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="35" column="10" bodyfile="include/utils/saga_logger.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a251036a26073dabbce8b84c77f5bea3e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::SAGALoggerConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::utils::SAGALoggerConfig::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="36" column="12" bodyfile="include/utils/saga_logger.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a09aeefa5f901de99e88388c4ad28ff8a" prot="public" static="no" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::utils::SAGALoggerConfig::batch_interval</definition>
+        <argsstring></argsstring>
+        <name>batch_interval</name>
+        <qualifiedname>themis::utils::SAGALoggerConfig::batch_interval</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="37" column="26" bodyfile="include/utils/saga_logger.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1ae9a5fb113c06a29a7592109650493d5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALoggerConfig::log_path</definition>
+        <argsstring></argsstring>
+        <name>log_path</name>
+        <qualifiedname>themis::utils::SAGALoggerConfig::log_path</qualifiedname>
+        <initializer>= &quot;data/logs/saga.jsonl&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="38" column="17" bodyfile="include/utils/saga_logger.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a30b83d1155555f154a8f5156488bded4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALoggerConfig::signature_path</definition>
+        <argsstring></argsstring>
+        <name>signature_path</name>
+        <qualifiedname>themis::utils::SAGALoggerConfig::signature_path</qualifiedname>
+        <initializer>= &quot;data/logs/saga_signatures.jsonl&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="39" column="17" bodyfile="include/utils/saga_logger.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a580efc7fb500cd5ffe966b27fcba8600" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALoggerConfig::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::utils::SAGALoggerConfig::key_id</qualifiedname>
+        <initializer>= &quot;saga_lek&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="40" column="17" bodyfile="include/utils/saga_logger.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for SAGA logging with batch signing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/saga_logger.h" line="33" column="1" bodyfile="include/utils/saga_logger.h" bodystart="33" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a09aeefa5f901de99e88388c4ad28ff8a" prot="public" virt="non-virtual"><scope>themis::utils::SAGALoggerConfig</scope><name>batch_interval</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a251036a26073dabbce8b84c77f5bea3e" prot="public" virt="non-virtual"><scope>themis::utils::SAGALoggerConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a4c3706fdd8b161ad6c254634c296aefe" prot="public" virt="non-virtual"><scope>themis::utils::SAGALoggerConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a63efffea8cc0b543c5869d83833d7459" prot="public" virt="non-virtual"><scope>themis::utils::SAGALoggerConfig</scope><name>encrypt_then_sign</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a580efc7fb500cd5ffe966b27fcba8600" prot="public" virt="non-virtual"><scope>themis::utils::SAGALoggerConfig</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1ae9a5fb113c06a29a7592109650493d5f" prot="public" virt="non-virtual"><scope>themis::utils::SAGALoggerConfig</scope><name>log_path</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a30b83d1155555f154a8f5156488bded4" prot="public" virt="non-virtual"><scope>themis::utils::SAGALoggerConfig</scope><name>signature_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1technological__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::technological_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technological__controls_1a4a42199cb9219dbeee74e0ef1a666e57" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technological_controls::kUserEndpointDevices</definition>
+        <argsstring></argsstring>
+        <name>kUserEndpointDevices</name>
+        <qualifiedname>themis::governance::iso27001::technological_controls::kUserEndpointDevices</qualifiedname>
+        <initializer>= &quot;A.8.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="135" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technological__controls_1a83db6edd77fc4731fdc55f5dfa7aa888" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technological_controls::kServerRoom</definition>
+        <argsstring></argsstring>
+        <name>kServerRoom</name>
+        <qualifiedname>themis::governance::iso27001::technological_controls::kServerRoom</qualifiedname>
+        <initializer>= &quot;A.8.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="136" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technological__controls_1aa17a49a2ffc386ed04a72d5b090e8171" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technological_controls::kNetworking</definition>
+        <argsstring></argsstring>
+        <name>kNetworking</name>
+        <qualifiedname>themis::governance::iso27001::technological_controls::kNetworking</qualifiedname>
+        <initializer>= &quot;A.8.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="137" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technological__controls_1a24ed541140e9a5d23e098bb2413420f8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technological_controls::kCryptography</definition>
+        <argsstring></argsstring>
+        <name>kCryptography</name>
+        <qualifiedname>themis::governance::iso27001::technological_controls::kCryptography</qualifiedname>
+        <initializer>= &quot;A.8.4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="138" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1technological__controls_1a2cc017f26b6fbf381e147dfb71825785" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::technological_controls::kPhysicalCryptographicMedia</definition>
+        <argsstring></argsstring>
+        <name>kPhysicalCryptographicMedia</name>
+        <qualifiedname>themis::governance::iso27001::technological_controls::kPhysicalCryptographicMedia</qualifiedname>
+        <initializer>= &quot;A.8.5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="139" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="134" column="1"/>
+  </compounddef>
+</doxygen>

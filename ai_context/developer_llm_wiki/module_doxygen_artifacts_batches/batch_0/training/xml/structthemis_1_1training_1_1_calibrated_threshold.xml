@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_calibrated_threshold" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CalibratedThreshold</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrated_threshold_1a892b2398c82b45b75a6bce718d24fae2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CalibratedThreshold::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::training::CalibratedThreshold::category</qualifiedname>
+        <briefdescription>
+<para>Legal category (e.g., &quot;obligation&quot;, &quot;permission&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="106" column="17" bodyfile="include/training/training_pipeline.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrated_threshold_1a268afa26a1670e1bcfab497933c77331" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::CalibratedThreshold::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::training::CalibratedThreshold::threshold</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>Calibrated threshold in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="107" column="17" bodyfile="include/training/training_pipeline.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrated_threshold_1a8e962765614ec0dffb67200f9e33cf18" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CalibratedThreshold::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::training::CalibratedThreshold::sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of samples used for calibration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="108" column="17" bodyfile="include/training/training_pipeline.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrated_threshold_1aaea3e8a9b431ec294fa03bf69d301f7a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::CalibratedThreshold::f1_improvement</definition>
+        <argsstring></argsstring>
+        <name>f1_improvement</name>
+        <qualifiedname>themis::training::CalibratedThreshold::f1_improvement</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Estimated F1 improvement vs. static baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="109" column="17" bodyfile="include/training/training_pipeline.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_calibrated_threshold_1a62392b87014bc36277ef39966435f566" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CalibratedThreshold::CalibratedThreshold</definition>
+        <argsstring>()=default</argsstring>
+        <name>CalibratedThreshold</name>
+        <qualifiedname>themis::training::CalibratedThreshold::CalibratedThreshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="111" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-category calibrated confidence threshold result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="105" column="1" bodyfile="include/training/training_pipeline.h" bodystart="105" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_calibrated_threshold_1a62392b87014bc36277ef39966435f566" prot="public" virt="non-virtual"><scope>themis::training::CalibratedThreshold</scope><name>CalibratedThreshold</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrated_threshold_1a892b2398c82b45b75a6bce718d24fae2" prot="public" virt="non-virtual"><scope>themis::training::CalibratedThreshold</scope><name>category</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrated_threshold_1aaea3e8a9b431ec294fa03bf69d301f7a" prot="public" virt="non-virtual"><scope>themis::training::CalibratedThreshold</scope><name>f1_improvement</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrated_threshold_1a8e962765614ec0dffb67200f9e33cf18" prot="public" virt="non-virtual"><scope>themis::training::CalibratedThreshold</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrated_threshold_1a268afa26a1670e1bcfab497933c77331" prot="public" virt="non-virtual"><scope>themis::training::CalibratedThreshold</scope><name>threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__exporters__phase23__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_exporters_phase23_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="exporter__errors_8h" local="yes">exporters/exporter_errors.h</includes>
+    <includes refid="exporter__metrics_8h" local="yes">exporters/exporter_metrics.h</includes>
+    <includes refid="exporters__api__contract_8h" local="yes">exporters/exporters_api_contract.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>exporters/exporter_errors.h</label>
+        <link refid="exporter__errors_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>exporters/exporter_metrics.h</label>
+        <link refid="exporter__metrics_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>exporters/exporters_api_contract.h</label>
+        <link refid="exporters__api__contract_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/exporters/test_exporters_phase23_hardening_focused.cpp</label>
+        <link refid="test__exporters__phase23__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>utils/error_registry.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Phase 2/3 — Exporters hardening focused tests (EXCH-17..EXCH-24). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests are fully self-contained: no network I/O, no filesystem I/O. The canonical PRNG seed is kExportersPhase23Seed = 42.</para>
+<sect1 id="test__exporters__phase23__hardening__focused_8cpp_1autotoc_md6_1s1"><sect2 id="test__exporters__phase23__hardening__focused_8cpp_1autotoc_md6">
+<title>Test families</title><para><heading level="3">EXCH-17..18 — <ref refid="classthemis_1_1exporters_1_1_policy_denied_exception" kindref="compound">PolicyDeniedException</ref> contract</heading>
+</para>
+<para>EXCH-17 <ref refid="classthemis_1_1exporters_1_1_policy_denied_exception" kindref="compound">PolicyDeniedException</ref> is-a <ref refid="classthemis_1_1exporters_1_1_exporter_exception" kindref="compound">ExporterException</ref> with ERR_EXPORT_POLICY_DENIED EXCH-18 isResumableError(EXPORT_ABORTED) returns false (fail-closed contract)</para>
+<para><heading level="3">EXCH-19..22 — <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> policy-denial + hub-upload-failure counters</heading>
+</para>
+<para>EXCH-19 recordPolicyDenial() increments getPolicyDenials() and &quot;policy_denied&quot; error type EXCH-20 recordHubUploadFailure(reason) increments getHubUploadFailures() and error type EXCH-21 toJson() includes &quot;exporter_policy_denials_total&quot; and &quot;exporter_hub_upload_failures_total&quot; EXCH-22 toString() includes &quot;Policy Denials&quot; and &quot;Hub Upload Failures&quot; lines</para>
+<para><heading level="3">EXCH-23..24 — <ref refid="classthemis_1_1exporters_1_1_policy_denied_exception" kindref="compound">PolicyDeniedException</ref> field round-trip + reset</heading>
+</para>
+<para>EXCH-23 <ref refid="classthemis_1_1exporters_1_1_policy_denied_exception" kindref="compound">PolicyDeniedException</ref> denial_reason and requesting_user are preserved EXCH-24 <ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a6d524dad901b276c5ad07aad3b802a9b" kindref="member">ExporterMetrics::reset()</ref> zeros policy_denials_ and hub_upload_failures_</para>
+<para><simplesect kind="see"><para><ref refid="exporter__errors_8h" kindref="compound">include/exporters/exporter_errors.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="exporter__metrics_8h" kindref="compound">include/exporters/exporter_metrics.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="exporters__api__contract_8h" kindref="compound">include/exporters/exporters_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/exporters/ROADMAP.md — Phase 2/3 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="exporter__errors_8h" kindref="compound">exporters/exporter_errors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="exporter__metrics_8h" kindref="compound">exporters/exporter_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="exporters__api__contract_8h" kindref="compound">exporters/exporters_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">themis::exporters</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kExportersPhase23Seed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-17<sp/>—<sp/>PolicyDeniedException<sp/>is-a<sp/>ExporterException<sp/>with<sp/>correct<sp/>error<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH17_PolicyDeniedException,<sp/>IsAExporterException)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)kExportersPhase23Seed;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_policy_denied_exception" kindref="compound">PolicyDeniedException</ref><sp/>ex(</highlight><highlight class="stringliteral">&quot;access<sp/>not<sp/>allowed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;my_collection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>catchable<sp/>as<sp/>ExporterException</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>caught_as_exporter<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ex;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_exception" kindref="compound">ExporterException</ref><sp/>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_as_exporter<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caught_as_exporter)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;PolicyDeniedException<sp/>must<sp/>be<sp/>catchable<sp/>as<sp/>ExporterException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>also<sp/>be<sp/>catchable<sp/>as<sp/>std::runtime_error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>caught_as_runtime<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ex;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_as_runtime<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caught_as_runtime)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;PolicyDeniedException<sp/>must<sp/>be<sp/>catchable<sp/>as<sp/>std::runtime_error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>code<sp/>must<sp/>be<sp/>ERR_EXPORT_POLICY_DENIED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getErrorCode(),<sp/>themis::errors::ErrorCode::ERR_EXPORT_POLICY_DENIED);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-18<sp/>—<sp/>isResumableError(EXPORT_ABORTED)<sp/>==<sp/>false<sp/>(fail-closed<sp/>contract)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH18_ResumableError,<sp/>ExportAbortedIsNotResumable)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" kindref="member">isResumableError</ref>(<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaba5d1c4b0fed8d2e53cf8d494f0f161e" kindref="member">ExporterErrorCode::EXPORT_ABORTED</ref>))</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;EXPORT_ABORTED<sp/>must<sp/>be<sp/>fail-closed:<sp/>isResumableError<sp/>must<sp/>return<sp/>false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH18_ResumableError,<sp/>StreamInterruptedIsResumable)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Positive<sp/>check:<sp/>ensure<sp/>the<sp/>resumable<sp/>contract<sp/>still<sp/>works<sp/>for<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>code<sp/>that<sp/>IS<sp/>supposed<sp/>to<sp/>be<sp/>resumable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" kindref="member">isResumableError</ref>(<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaefca99629ce65cbe657a380c887f1152" kindref="member">ExporterErrorCode::STREAM_INTERRUPTED</ref>));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-19<sp/>—<sp/>recordPolicyDenial()<sp/>increments<sp/>counter<sp/>and<sp/>error<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH19_PolicyDenialMetric,<sp/>IncrementsPolicyDenialsAndErrorType)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7a9e759dd95e0810e6ca00bdc698490c" kindref="member">getPolicyDenials</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" kindref="member">recordPolicyDenial</ref>(</highlight><highlight class="stringliteral">&quot;col_A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7a9e759dd95e0810e6ca00bdc698490c" kindref="member">getPolicyDenials</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" kindref="member">recordPolicyDenial</ref>(</highlight><highlight class="stringliteral">&quot;col_B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_carol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7a9e759dd95e0810e6ca00bdc698490c" kindref="member">getPolicyDenials</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>also<sp/>register<sp/>in<sp/>unified<sp/>error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>by_type<sp/>=<sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ae717346cd1fce836a754d74282a1afb2" kindref="member">getErrorsByType</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>by_type.find(</highlight><highlight class="stringliteral">&quot;policy_denied&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(it,<sp/>by_type.end())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;policy_denied&apos;<sp/>must<sp/>appear<sp/>in<sp/>getErrorsByType()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(it-&gt;second,<sp/>2u);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>total_errors<sp/>must<sp/>count<sp/>them</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64272a04a980cbe94d725c0e984a0f74" kindref="member">getTotalErrors</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-20<sp/>—<sp/>recordHubUploadFailure()<sp/>increments<sp/>counter<sp/>and<sp/>error<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH20_HubUploadFailureMetric,<sp/>IncrementsCounterAndErrorType)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f0f2952ccd4793b28a95087ec19eb3e" kindref="member">getHubUploadFailures</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a59c2a99d7876fd41ae4a59259bf62b81" kindref="member">recordHubUploadFailure</ref>(</highlight><highlight class="stringliteral">&quot;HTTP_401&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f0f2952ccd4793b28a95087ec19eb3e" kindref="member">getHubUploadFailures</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a59c2a99d7876fd41ae4a59259bf62b81" kindref="member">recordHubUploadFailure</ref>(</highlight><highlight class="stringliteral">&quot;retry_exhausted:shard0.parquet&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f0f2952ccd4793b28a95087ec19eb3e" kindref="member">getHubUploadFailures</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>by_type<sp/>=<sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ae717346cd1fce836a754d74282a1afb2" kindref="member">getErrorsByType</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>by_type.find(</highlight><highlight class="stringliteral">&quot;hub_upload_failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(it,<sp/>by_type.end())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;hub_upload_failure&apos;<sp/>must<sp/>appear<sp/>in<sp/>getErrorsByType()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(it-&gt;second,<sp/>2u);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-21<sp/>—<sp/>toJson()<sp/>includes<sp/>the<sp/>canonical<sp/>metric<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH21_ToJson,<sp/>IncludesPolicyAndHubKeys)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" kindref="member">recordPolicyDenial</ref>(</highlight><highlight class="stringliteral">&quot;col_X&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a59c2a99d7876fd41ae4a59259bf62b81" kindref="member">recordHubUploadFailure</ref>(</highlight><highlight class="stringliteral">&quot;HTTP_503&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a09c24da4476c85d4933c7dc6ccbac03a" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;exporter_policy_denials_total&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;toJson()<sp/>must<sp/>include<sp/>&apos;exporter_policy_denials_total&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;exporter_policy_denials_total&quot;</highlight><highlight class="normal">].get&lt;std::size_t&gt;(),<sp/>1u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;exporter_hub_upload_failures_total&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;toJson()<sp/>must<sp/>include<sp/>&apos;exporter_hub_upload_failures_total&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;exporter_hub_upload_failures_total&quot;</highlight><highlight class="normal">].get&lt;std::size_t&gt;(),<sp/>1u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-22<sp/>—<sp/>toString()<sp/>includes<sp/>human-readable<sp/>lines<sp/>for<sp/>both<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH22_ToString,<sp/>IncludesPolicyAndHubLines)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" kindref="member">recordPolicyDenial</ref>(</highlight><highlight class="stringliteral">&quot;col_Y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_eve&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a59c2a99d7876fd41ae4a59259bf62b81" kindref="member">recordHubUploadFailure</ref>(</highlight><highlight class="stringliteral">&quot;connection_reset&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s<sp/>=<sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ab2383acfdd33bbfb12015ab85df616ce" kindref="member">toString</ref>();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(s.find(</highlight><highlight class="stringliteral">&quot;Policy<sp/>Denials&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;toString()<sp/>must<sp/>include<sp/>&apos;Policy<sp/>Denials&apos;<sp/>line&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(s.find(</highlight><highlight class="stringliteral">&quot;Hub<sp/>Upload<sp/>Failures&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;toString()<sp/>must<sp/>include<sp/>&apos;Hub<sp/>Upload<sp/>Failures&apos;<sp/>line&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-23<sp/>—<sp/>PolicyDeniedException<sp/>field<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH23_PolicyDeniedException,<sp/>FieldsArePreserved)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>reason<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;IP<sp/>not<sp/>in<sp/>allowlist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>user<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_frank&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sensitive_collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_policy_denied_exception" kindref="compound">PolicyDeniedException</ref><sp/>ex(reason,<sp/>user,<sp/>collection);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getDenialReason(),<sp/>reason);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getRequestingUser(),<sp/>user);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getCollection(),<sp/>collection);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>what()<sp/>must<sp/>mention<sp/>the<sp/>reason</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>what_msg<sp/>=<sp/>ex.what();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(what_msg.find(reason),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;what()<sp/>must<sp/>include<sp/>the<sp/>denial<sp/>reason&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH23_PolicyDeniedException,<sp/>DefaultFieldsAreEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_policy_denied_exception" kindref="compound">PolicyDeniedException</ref><sp/>ex(</highlight><highlight class="stringliteral">&quot;minimal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getDenialReason(),<sp/></highlight><highlight class="stringliteral">&quot;minimal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getRequestingUser(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getCollection(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-24<sp/>—<sp/>reset()<sp/>zeros<sp/>policy_denials_<sp/>and<sp/>hub_upload_failures_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(EXCH24_Reset,<sp/>ZerosBothNewCounters)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" kindref="member">recordPolicyDenial</ref>(</highlight><highlight class="stringliteral">&quot;col_Z&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_grace&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" kindref="member">recordPolicyDenial</ref>(</highlight><highlight class="stringliteral">&quot;col_Z&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_grace&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a59c2a99d7876fd41ae4a59259bf62b81" kindref="member">recordHubUploadFailure</ref>(</highlight><highlight class="stringliteral">&quot;HTTP_502&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7a9e759dd95e0810e6ca00bdc698490c" kindref="member">getPolicyDenials</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f0f2952ccd4793b28a95087ec19eb3e" kindref="member">getHubUploadFailures</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a6d524dad901b276c5ad07aad3b802a9b" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7a9e759dd95e0810e6ca00bdc698490c" kindref="member">getPolicyDenials</ref>(),<sp/>0u)<sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;reset()<sp/>must<sp/>zero<sp/>policy_denials_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f0f2952ccd4793b28a95087ec19eb3e" kindref="member">getHubUploadFailures</ref>(),<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;reset()<sp/>must<sp/>zero<sp/>hub_upload_failures_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64272a04a980cbe94d725c0e984a0f74" kindref="member">getTotalErrors</ref>(),<sp/>0u)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;reset()<sp/>must<sp/>zero<sp/>total_errors_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/exporters/test_exporters_phase23_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

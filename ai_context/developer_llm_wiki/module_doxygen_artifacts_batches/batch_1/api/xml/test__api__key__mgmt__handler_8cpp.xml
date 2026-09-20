@@ -1,0 +1,728 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__api__key__mgmt__handler_8cpp" kind="file" language="C++">
+    <compoundname>test_api_key_mgmt_handler.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">server/api_key_mgmt_handler.h</includes>
+    <includes local="yes">server/auth_middleware.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/api/test_api_key_mgmt_handler.cpp</label>
+        <link refid="test__api__key__mgmt__handler_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>server/api_key_mgmt_handler.h</label>
+      </node>
+      <node id="4">
+        <label>server/auth_middleware.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_api_key_mgmt_handler_test" prot="public">ApiKeyMgmtHandlerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, CreateKey_TokenFormat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>CreateKey_TokenFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="42" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1ab48a18fc708635121c5303d0a98b83fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, CreateKey_Success)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>CreateKey_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="60" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="60" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a85ed1e9d55f01db6ba46f1e4b4f05fb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, CreateKey_NoExpiry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>CreateKey_NoExpiry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="81" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1aa8b5617599395131a41ab9d73e0a5f9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, CreateKey_MissingName_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>CreateKey_MissingName_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="89" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="89" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1ab6918a381c0345af95224acb845a9c1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, CreateKey_EmptyName_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>CreateKey_EmptyName_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="97" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="97" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a8be9eede90d8ce754992f199595abf02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, CreateKey_ActivatesInAuthMiddleware)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>CreateKey_ActivatesInAuthMiddleware</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="105" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="105" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1acf961e14972c545634921dee7c891c4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, ListKeys_EmptyInitially)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>ListKeys_EmptyInitially</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="120" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="120" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1abf96a3b09dc84dae87ae9fb5ab87cabb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, ListKeys_ReflectsCreatedKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>ListKeys_ReflectsCreatedKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="128" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="128" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a7e856558132c69772e512ef44cfd0006" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, GetKey_Success)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>GetKey_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="146" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="146" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a7db549ced6e372c52fd7765fa7dc6ca2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, GetKey_NotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>GetKey_NotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="158" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="158" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a7c2284c7a230beabf6138caaaa2446a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, UpdateKey_ChangeName)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateKey_ChangeName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="168" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="168" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1aa2a772fae8848193515a6990d124b345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, UpdateKey_ChangePermissions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateKey_ChangePermissions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="177" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="177" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a58108a6d809bd09a37b2077d5e59f7bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, UpdateKey_NotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateKey_NotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="199" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="199" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1ae2b0654aa9b6075a9847093b34ad8da7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, DeleteKey_Success)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>DeleteKey_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="209" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="209" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a07a8b4b8ff9c89e8cbfa31bf63705042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, DeleteKey_NotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>DeleteKey_NotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="229" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="229" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1ae5145a853cd9a33dae0749642080d633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, MultipleKeys_HaveUniqueIds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleKeys_HaveUniqueIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="239" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="239" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a69b23bdabcef2afe2151df68dd4f5069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, NullAuthMiddleware_CreateKeyStillWorks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>NullAuthMiddleware_CreateKeyStillWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="253" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="253" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1a17f9578846a0517fe4805d5b9408d146" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, CreateKey_ImmediatelyVisibleInList)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>CreateKey_ImmediatelyVisibleInList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="265" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="265" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__mgmt__handler_8cpp_1ae9dbc8a46c4feb2a9fc1f668f4411a95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ApiKeyMgmtHandlerTest, DeleteKey_RemovedFromListAndAuth)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>DeleteKey_RemovedFromListAndAuth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="287" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="287" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 87/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/api_key_mgmt_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/auth_middleware.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::server;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="class_api_key_mgmt_handler_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AuthMiddleware&gt;<sp/><ref refid="class_api_key_mgmt_handler_test_1ae0091893e3a43d8f513c3c0a04c37678" kindref="member">auth_</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ApiKeyMgmtHandler&gt;<sp/><ref refid="class_api_key_mgmt_handler_test_1a1bbe5361bff698de8eb64636a40a075a" kindref="member">handler_</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_api_key_mgmt_handler_test_1a03fa989d1b498036f6f7a65c4d9cc050" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_api_key_mgmt_handler_test_1ae0091893e3a43d8f513c3c0a04c37678" kindref="member">auth_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;AuthMiddleware&gt;();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_api_key_mgmt_handler_test_1a1bbe5361bff698de8eb64636a40a075a" kindref="member">handler_</ref><sp/>=<sp/>std::make_unique&lt;ApiKeyMgmtHandler&gt;(<ref refid="class_api_key_mgmt_handler_test_1ae0091893e3a43d8f513c3c0a04c37678" kindref="member">auth_</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Token<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>CreateKey_TokenFormat)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/>body<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;permissions&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight><highlight class="stringliteral">&quot;api:read&quot;</highlight><highlight class="normal">})}};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;createKey(body);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>success,<sp/>got:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.dump();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>secret<sp/>=<sp/>result[</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefix<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(secret.substr(0,<sp/>7),<sp/></highlight><highlight class="stringliteral">&quot;themis_&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Token<sp/>should<sp/>start<sp/>with<sp/>&apos;themis_&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Length<sp/>check:<sp/>&quot;themis_&quot;<sp/>(7)<sp/>+<sp/>64<sp/>hex<sp/>chars<sp/>=<sp/>71</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(secret.size(),<sp/>71u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Token<sp/>length<sp/>should<sp/>be<sp/>71&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>CreateKey_Success)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>body<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;my-service-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;permissions&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight><highlight class="stringliteral">&quot;api:read&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;api:write&quot;</highlight><highlight class="normal">})},</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;expires_in_days&quot;</highlight><highlight class="normal">,<sp/>30}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;createKey(body);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>result.dump();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;my-service-key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;expires_at&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().empty());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>id<sp/>should<sp/>start<sp/>with<sp/>&quot;key_&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>kid<sp/>=<sp/>result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kid.substr(0,<sp/>4),<sp/></highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>CreateKey_NoExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>body<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;no-expiry-key&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;createKey(body);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>result.dump();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;expires_at&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>CreateKey_MissingName_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>body<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;permissions&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight><highlight class="stringliteral">&quot;api:read&quot;</highlight><highlight class="normal">})}};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;createKey(body);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>400);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>CreateKey_EmptyName_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>body<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;createKey(body);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>400);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>CreateKey_ActivatesInAuthMiddleware)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>body<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;auth-test-key&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;permissions&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight><highlight class="stringliteral">&quot;api:read&quot;</highlight><highlight class="normal">})}};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;createKey(body);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>secret<sp/>=<sp/>result[</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>newly<sp/>created<sp/>key<sp/>should<sp/>be<sp/>recognised<sp/>by<sp/>AuthMiddleware</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>auth_result<sp/>=<sp/>auth_-&gt;validateToken(secret);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(auth_result.authorized);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>List</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>ListKeys_EmptyInitially)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;listKeys();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>ListKeys_ReflectsCreatedKeys)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;key-a&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;key-b&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;listKeys();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>2);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Secrets<sp/>must<sp/>NOT<sp/>appear<sp/>in<sp/>the<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>:<sp/>result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(item.contains(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>GetKey_Success)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>create_result<sp/>=<sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fetch-me&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(create_result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>kid<sp/>=<sp/>create_result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>get_result<sp/>=<sp/>handler_-&gt;getKey(kid);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(get_result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>get_result.dump();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(get_result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/>kid);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(get_result[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;fetch-me&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(get_result.contains(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>GetKey_NotFound)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;getKey(</highlight><highlight class="stringliteral">&quot;key_doesnotexist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>404);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Update</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>UpdateKey_ChangeName)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>create_result<sp/>=<sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;old-name&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>kid<sp/>=<sp/>create_result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>update_result<sp/>=<sp/>handler_-&gt;updateKey(kid,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;new-name&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(update_result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>update_result.dump();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(update_result[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;new-name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>UpdateKey_ChangePermissions)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>create_result<sp/>=<sp/>handler_-&gt;createKey({</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;perm-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;permissions&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight><highlight class="stringliteral">&quot;api:read&quot;</highlight><highlight class="normal">})}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>kid<sp/><sp/><sp/><sp/>=<sp/>create_result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>secret<sp/>=<sp/>create_result[</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>old<sp/>scope<sp/>is<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(auth_-&gt;authorize(secret,<sp/></highlight><highlight class="stringliteral">&quot;api:read&quot;</highlight><highlight class="normal">).authorized);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>permissions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>update_body<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;permissions&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight><highlight class="stringliteral">&quot;api:write&quot;</highlight><highlight class="normal">})}};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>update_result<sp/>=<sp/>handler_-&gt;updateKey(kid,<sp/>update_body);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(update_result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>update_result.dump();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Old<sp/>scope<sp/>should<sp/>no<sp/>longer<sp/>be<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(auth_-&gt;authorize(secret,<sp/></highlight><highlight class="stringliteral">&quot;api:read&quot;</highlight><highlight class="normal">).authorized);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>New<sp/>scope<sp/>should<sp/>be<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(auth_-&gt;authorize(secret,<sp/></highlight><highlight class="stringliteral">&quot;api:write&quot;</highlight><highlight class="normal">).authorized);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>UpdateKey_NotFound)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;updateKey(</highlight><highlight class="stringliteral">&quot;key_missing&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>404);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Delete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>DeleteKey_Success)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>create_result<sp/>=<sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete-me&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>kid<sp/><sp/><sp/><sp/>=<sp/>create_result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>secret<sp/>=<sp/>create_result[</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>should<sp/>be<sp/>active<sp/>before<sp/>delete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(auth_-&gt;validateToken(secret).authorized);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>del_result<sp/>=<sp/>handler_-&gt;deleteKey(kid);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(del_result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>del_result.dump();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(del_result[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>should<sp/>no<sp/>longer<sp/>appear<sp/>in<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>list_result<sp/>=<sp/>handler_-&gt;listKeys();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(list_result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>should<sp/>no<sp/>longer<sp/>be<sp/>active<sp/>in<sp/>AuthMiddleware</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(auth_-&gt;validateToken(secret).authorized);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>DeleteKey_NotFound)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>handler_-&gt;deleteKey(</highlight><highlight class="stringliteral">&quot;key_ghost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>404);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Uniqueness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>MultipleKeys_HaveUniqueIds)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>r1<sp/>=<sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>r2<sp/>=<sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(r1.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(r2.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(r1[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/>r2[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;());</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(r1[</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/>r2[</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Null<sp/>auth<sp/>middleware</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>NullAuthMiddleware_CreateKeyStillWorks)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handler<sp/>with<sp/>no<sp/>auth<sp/>middleware<sp/>should<sp/>not<sp/>crash<sp/>–<sp/>just<sp/>skips<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyMgmtHandler<sp/>no_auth_handler(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>result<sp/>=<sp/>no_auth_handler.createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;standalone-key&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Consistency:<sp/>key<sp/>must<sp/>appear<sp/>in<sp/>list<sp/>immediately<sp/>after<sp/>creation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>CreateKey_ImmediatelyVisibleInList)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>create_result<sp/>=<sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;visible-key&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(create_result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>kid<sp/>=<sp/>create_result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>visible<sp/>via<sp/>listKeys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>list_result<sp/>=<sp/>handler_-&gt;listKeys();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>:<sp/>list_result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(item[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;()<sp/>==<sp/>kid)<sp/>{<sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Newly<sp/>created<sp/>key<sp/>must<sp/>be<sp/>immediately<sp/>visible<sp/>in<sp/>list&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>also<sp/>be<sp/>retrievable<sp/>by<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>get_result<sp/>=<sp/>handler_-&gt;getKey(kid);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(get_result.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>After<sp/>delete:<sp/>key<sp/>is<sp/>gone<sp/>from<sp/>both<sp/>list<sp/>and<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kindref="member">TEST_F</ref>(<ref refid="class_api_key_mgmt_handler_test" kindref="compound">ApiKeyMgmtHandlerTest</ref>,<sp/>DeleteKey_RemovedFromListAndAuth)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>r1<sp/>=<sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stay&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>r2<sp/>=<sp/>handler_-&gt;createKey({{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;go&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>kid_go<sp/>=<sp/>r2[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>secret_go<sp/>=<sp/>r2[</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>handler_-&gt;deleteKey(kid_go);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>should<sp/>have<sp/>exactly<sp/>1<sp/>item<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>list_result<sp/>=<sp/>handler_-&gt;listKeys();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(list_result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>getKey<sp/>must<sp/>return<sp/>404</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref><sp/>get_result<sp/>=<sp/>handler_-&gt;getKey(kid_go);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(get_result.value(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">,<sp/>0),<sp/>404);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auth<sp/>should<sp/>reject<sp/>the<sp/>deleted<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(auth_-&gt;validateToken(secret_go).authorized);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/api/test_api_key_mgmt_handler.cpp"/>
+  </compounddef>
+</doxygen>

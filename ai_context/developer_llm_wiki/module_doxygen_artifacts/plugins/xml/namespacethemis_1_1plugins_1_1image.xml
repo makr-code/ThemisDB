@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1image" kind="namespace" language="C++">
+    <compoundname>themis::plugins::image</compoundname>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_caption_result" prot="public">themis::plugins::image::CaptionResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_detection_result" prot="public">themis::plugins::image::DetectionResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_embedding_result" prot="public">themis::plugins::image::EmbeddingResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_generation_params" prot="public">themis::plugins::image::GenerationParams</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_generation_result" prot="public">themis::plugins::image::GenerationResult</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" prot="public">themis::plugins::image::IImageAnalysisBackend</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1image_1_1_image_analysis_manager" prot="public">themis::plugins::image::ImageAnalysisManager</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" prot="public">themis::plugins::image::ImageMetadata</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_ocr_result" prot="public">themis::plugins::image::OcrResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_ocr_word" prot="public">themis::plugins::image::OcrWord</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities" prot="public">themis::plugins::image::PluginCapabilities</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" prot="public">themis::plugins::image::PluginConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_plugin_handle" prot="public">themis::plugins::image::PluginHandle</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_plugin_info" prot="public">themis::plugins::image::PluginInfo</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader" prot="public">themis::plugins::image::ScopedPluginLoader</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_segmentation_result" prot="public">themis::plugins::image::SegmentationResult</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin" prot="public">themis::plugins::image::TesseractOCRPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin" prot="public">themis::plugins::image::YOLOv8OnnxPlugin</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ImageFormat</name>
+        <qualifiedname>themis::plugins::image::ImageFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1a907e06a16862d82ca6907a28a68d0ad6" prot="public">
+          <name>JPEG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1a55505ba281b015ec31f03ccb151b2a34" prot="public">
+          <name>PNG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1aa5d5ca1447586e23dc011f8c0cc0a6db" prot="public">
+          <name>BMP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1ace0dbe5045edda1a0e9686ce899798ea" prot="public">
+          <name>TIFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1ab8dbf614b2c3a603c8c8c723a3f6eb7a" prot="public">
+          <name>WEBP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1a95a66bab4c0c0fd8387e680daeff99a8" prot="public">
+          <name>GIF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1acd15a75c26008696647b31a3f0de43b3" prot="public">
+          <name>SVG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1a57ef00d83fbcc5faf79b3d2f50327af1a633d6abff0a3fc22404347728d195059" prot="public">
+          <name>RAW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Image Format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="47" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="47" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackendType</name>
+        <qualifiedname>themis::plugins::image::BackendType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3ea2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eaa33b7755e5f9b504d2d038eaca4ff28d" prot="public">
+          <name>CUDA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3ea8fee9298632f93641cec7b4cce9e7afe" prot="public">
+          <name>DIRECTML</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3ea542f952490e2db695a1d544338a70cda" prot="public">
+          <name>OPENCL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eac60cacb57b9e78f018a9d973bee2f801" prot="public">
+          <name>VULKAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eaa068bc4c46ed0030f5dfa3a4d4c92179" prot="public">
+          <name>TENSORRT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eaf58f1d3f678271da8c6fb1c5ab38b2ed" prot="public">
+          <name>OPENVINO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3ea74108a89672c573afee1fae6de8e4e0b" prot="public">
+          <name>METAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3ea4577407264c219de8c96e39f0e4cae2a" prot="public">
+          <name>ROCM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Backend Type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="62" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="62" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1image_1a839b0379ce6c20247f2227d0f3c8474c" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::plugins::image::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::plugins::image::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="38" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1image_1a8a1869feb538b1750843efbbb1123c3b" prot="public" static="no">
+        <type><ref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" kindref="compound">IImageAnalysisBackend</ref> *(*)()</type>
+        <definition>using themis::plugins::image::CreateImagePluginFunc = IImageAnalysisBackend* (*)()</definition>
+        <argsstring></argsstring>
+        <name>CreateImagePluginFunc</name>
+        <qualifiedname>themis::plugins::image::CreateImagePluginFunc</qualifiedname>
+        <briefdescription>
+<para>Plugin creation function type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="545" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1image_1a24178ae0d37f95cb616fd07dd6979fab" prot="public" static="no">
+        <type>void(*)(<ref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" kindref="compound">IImageAnalysisBackend</ref> *)</type>
+        <definition>using themis::plugins::image::DestroyImagePluginFunc = void (*)(IImageAnalysisBackend*)</definition>
+        <argsstring></argsstring>
+        <name>DestroyImagePluginFunc</name>
+        <qualifiedname>themis::plugins::image::DestroyImagePluginFunc</qualifiedname>
+        <briefdescription>
+<para>Plugin destruction function type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="550" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1image_1aa07c649d1db4c482c885070454d04146" prot="public" static="no">
+        <type>const char *(*)()</type>
+        <definition>using themis::plugins::image::GetImagePluginVersionFunc = const char* (*)()</definition>
+        <argsstring></argsstring>
+        <name>GetImagePluginVersionFunc</name>
+        <qualifiedname>themis::plugins::image::GetImagePluginVersionFunc</qualifiedname>
+        <briefdescription>
+<para>Plugin version function type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="555" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="555" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_interface.h" line="36" column="1"/>
+  </compounddef>
+</doxygen>

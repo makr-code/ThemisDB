@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ExtractionResult::CADData</compoundname>
+    <includes refid="content__processor_8h" local="no">content_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data_1a3e568930356e6042f83e3dc4c459a491" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ExtractionResult::CADData::part_ids</definition>
+        <argsstring></argsstring>
+        <name>part_ids</name>
+        <qualifiedname>themis::content::ExtractionResult::CADData::part_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="57" column="21" bodyfile="include/content/content_processor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data_1ac8f6e141270f8d90ad8117cd1e61a431" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ExtractionResult::CADData::bom</definition>
+        <argsstring></argsstring>
+        <name>bom</name>
+        <qualifiedname>themis::content::ExtractionResult::CADData::bom</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="58" column="14" bodyfile="include/content/content_processor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data_1a8ecddec1e7e6c72ba14b41fa4ebb6cd0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ExtractionResult::CADData::dimensions</definition>
+        <argsstring></argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themis::content::ExtractionResult::CADData::dimensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="59" column="14" bodyfile="include/content/content_processor.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_processor.h" line="56" column="5" bodyfile="include/content/content_processor.h" bodystart="56" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data_1ac8f6e141270f8d90ad8117cd1e61a431" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::CADData</scope><name>bom</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data_1a8ecddec1e7e6c72ba14b41fa4ebb6cd0" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::CADData</scope><name>dimensions</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data_1a3e568930356e6042f83e3dc4c459a491" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::CADData</scope><name>part_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

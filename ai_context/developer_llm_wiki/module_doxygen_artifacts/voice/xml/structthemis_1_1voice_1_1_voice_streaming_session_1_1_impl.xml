@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceStreamingSession::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1aab9f0acfd6182c69a62faeef045149c7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::voice::VoiceStreamingSession::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="49" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ad35b45ea4cdebd0268b82ae320758a4d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref></type>
+        <definition>StreamID themis::voice::VoiceStreamingSession::Impl::stream_id</definition>
+        <argsstring></argsstring>
+        <name>stream_id</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::stream_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="50" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ace44a4868a5f303fa6f9e4d5ebd790d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::Impl::active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="51" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1aa2b4c9be46e60861c0afce89fa766b95" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a4dfd17d6bc0a231dc2b402607d9edb3f" kindref="member">StreamState</ref></type>
+        <definition>StreamState themis::voice::VoiceStreamingSession::Impl::stream_state</definition>
+        <argsstring></argsstring>
+        <name>stream_state</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::stream_state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1a4dfd17d6bc0a231dc2b402607d9edb3fa9a14f95e151eec641316e7c784ce832d" kindref="member">StreamState::CONNECTING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="52" column="17" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ae7efb905cd3ce005e89d830f4e86f12b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceStreamingSession::Impl::started_at_ms</definition>
+        <argsstring></argsstring>
+        <name>started_at_ms</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::started_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="53" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1aed0d1afad211c225b9d3952738929350" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceStreamingSession::Impl::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::bytes_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="54" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a13a7c15f1083a08b30c509ff25a14162" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceStreamingSession::Impl::buffer_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>buffer_size_bytes</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::buffer_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="55" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ac5289ba11093c202b00bedb412d951c5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceStreamingSession::Impl::last_activity_ms</definition>
+        <argsstring></argsstring>
+        <name>last_activity_ms</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::last_activity_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="56" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ae7d3c65585102b4ee05dee3811e4dd73" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceStreamingSession::Impl::last_heartbeat_ms</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_ms</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::last_heartbeat_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="57" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ab657f177fa70f55cb307ff988cbe0288" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::Impl::connection_alive</definition>
+        <argsstring></argsstring>
+        <name>connection_alive</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::connection_alive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="58" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a2835c2af1dadaf9155cb05d86e49efc2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::Impl::buffer_pressure_paused</definition>
+        <argsstring></argsstring>
+        <name>buffer_pressure_paused</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::buffer_pressure_paused</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="59" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1aa5c6391bf223de49bb18acb90f2eec0c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::Impl::sequence_gap_detected</definition>
+        <argsstring></argsstring>
+        <name>sequence_gap_detected</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::sequence_gap_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="60" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ac0d1cb32e691eef776e86deb0dffa794" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::voice::VoiceStreamingSession::Impl::audio_buffer</definition>
+        <argsstring></argsstring>
+        <name>audio_buffer</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::audio_buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="64" column="17" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ae5d22221fc56b4fea21818c890063962" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceStreamingSession::Impl::last_chunk_seq</definition>
+        <argsstring></argsstring>
+        <name>last_chunk_seq</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::last_chunk_seq</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="65" column="14" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a38de49b186d8cb7a0a5d1ad266a89b75" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; uint32_t &gt;</type>
+        <definition>std::deque&lt;uint32_t&gt; themis::voice::VoiceStreamingSession::Impl::pending_chunk_sequences</definition>
+        <argsstring></argsstring>
+        <name>pending_chunk_sequences</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::pending_chunk_sequences</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="66" column="16" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a2da8e6af6885cf848120ef614354ad55" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceStreamingSession::Impl::partial_text</definition>
+        <argsstring></argsstring>
+        <name>partial_text</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::partial_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="69" column="17" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a050fc2371e487940df3a9403b9655c19" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceStreamingSession::Impl::partial_seq</definition>
+        <argsstring></argsstring>
+        <name>partial_seq</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::partial_seq</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="70" column="17" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a56c6e8ddecc52ab40c12326e3a2a6613" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a9d90e45195968ce49958debb7e3994fd" kindref="member">TranscribeFn</ref></type>
+        <definition>TranscribeFn themis::voice::VoiceStreamingSession::Impl::transcribe_fn</definition>
+        <argsstring></argsstring>
+        <name>transcribe_fn</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::transcribe_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="73" column="18" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ad8274ccaad732eda044828b988ba2712" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a22daca811b0efcd6c076474de4fb5fea" kindref="member">PartialTranscriptCb</ref></type>
+        <definition>PartialTranscriptCb themis::voice::VoiceStreamingSession::Impl::on_partial</definition>
+        <argsstring></argsstring>
+        <name>on_partial</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::on_partial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="76" column="25" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a1f3ecad1e9b069a816f7c8099ae6b50e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5e1abff510ae6812b996c610458a727d" kindref="member">FinalTranscriptCb</ref></type>
+        <definition>FinalTranscriptCb themis::voice::VoiceStreamingSession::Impl::on_final</definition>
+        <argsstring></argsstring>
+        <name>on_final</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::on_final</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="77" column="25" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a41eff6b27d86c13d4f925304d8c8c473" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5bed5aca00a7009edb75a43e69a9ca03" kindref="member">TtsChunkCb</ref></type>
+        <definition>TtsChunkCb themis::voice::VoiceStreamingSession::Impl::on_tts</definition>
+        <argsstring></argsstring>
+        <name>on_tts</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::on_tts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="78" column="25" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ac9fc1555193ab8f995fef2803167e8f8" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a0c6fd536bdcff76cef36f1dca5c2127f" kindref="member">ErrorCb</ref></type>
+        <definition>ErrorCb themis::voice::VoiceStreamingSession::Impl::on_error</definition>
+        <argsstring></argsstring>
+        <name>on_error</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::on_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="79" column="25" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a18e4a06d780f83ca2c2b99a0c0403f69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceStreamingSession::Impl::Impl</definition>
+        <argsstring>(Config c)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref></type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_browser_streaming.cpp" line="81" column="5" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::voice::StreamAudioFormat</label>
+        <link refid="structthemis_1_1voice_1_1_stream_audio_format"/>
+      </node>
+      <node id="2">
+        <label>themis::voice::VoiceStreamingSession::Config</label>
+        <link refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>audio_format</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::voice::VoiceStreamingSession::Impl</label>
+        <link refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/voice/voice_browser_streaming.cpp" line="48" column="1" bodyfile="src/voice/voice_browser_streaming.cpp" bodystart="48" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ace44a4868a5f303fa6f9e4d5ebd790d6" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>active</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ac0d1cb32e691eef776e86deb0dffa794" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>audio_buffer</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a2835c2af1dadaf9155cb05d86e49efc2" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>buffer_pressure_paused</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a13a7c15f1083a08b30c509ff25a14162" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>buffer_size_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1aed0d1afad211c225b9d3952738929350" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1aab9f0acfd6182c69a62faeef045149c7" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ab657f177fa70f55cb307ff988cbe0288" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>connection_alive</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a18e4a06d780f83ca2c2b99a0c0403f69" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ac5289ba11093c202b00bedb412d951c5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>last_activity_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ae5d22221fc56b4fea21818c890063962" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>last_chunk_seq</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ae7d3c65585102b4ee05dee3811e4dd73" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>last_heartbeat_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ac9fc1555193ab8f995fef2803167e8f8" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>on_error</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a1f3ecad1e9b069a816f7c8099ae6b50e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>on_final</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ad8274ccaad732eda044828b988ba2712" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>on_partial</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a41eff6b27d86c13d4f925304d8c8c473" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>on_tts</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a050fc2371e487940df3a9403b9655c19" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>partial_seq</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a2da8e6af6885cf848120ef614354ad55" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>partial_text</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a38de49b186d8cb7a0a5d1ad266a89b75" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>pending_chunk_sequences</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1aa5c6391bf223de49bb18acb90f2eec0c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>sequence_gap_detected</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ae7efb905cd3ce005e89d830f4e86f12b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>started_at_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1ad35b45ea4cdebd0268b82ae320758a4d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>stream_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1aa2b4c9be46e60861c0afce89fa766b95" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>stream_state</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl_1a56c6e8ddecc52ab40c12326e3a2a6613" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Impl</scope><name>transcribe_fn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

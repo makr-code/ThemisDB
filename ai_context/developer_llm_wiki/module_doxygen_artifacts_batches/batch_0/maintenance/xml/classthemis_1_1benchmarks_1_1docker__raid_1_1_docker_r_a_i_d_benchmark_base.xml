@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base" kind="class" language="C++" prot="public">
+    <compoundname>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1ac9a0f0ca3b474d75e31e67e5f335aa27" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::num_containers_</definition>
+        <argsstring></argsstring>
+        <name>num_containers_</name>
+        <qualifiedname>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::num_containers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="530" column="9" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a5410891856423405498d1806b2a7bcd6" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4" kindref="member">RAIDLevel</ref></type>
+        <definition>RAIDLevel themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::raid_level_</definition>
+        <argsstring></argsstring>
+        <name>raid_level_</name>
+        <qualifiedname>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::raid_level_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="531" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a263f0ee26a4c63bdaed886ec4debffa4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller" kindref="compound">DockerRAIDController</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DockerRAIDController&gt; themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::controller_</definition>
+        <argsstring></argsstring>
+        <name>controller_</name>
+        <qualifiedname>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::controller_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="532" column="21" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="532" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a6efad0a1d2d399d552d935dd87b74d99" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::SetUp</definition>
+        <argsstring>(::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::SetUp</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="507" column="10" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="507" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1af1aee91f24d662c403997a5ceb15b3c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::TearDown</definition>
+        <argsstring>(::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase::TearDown</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="522" column="10" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="522" bodyend="527"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</label>
+        <link refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</label>
+        <link refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="505" column="1" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="505" bodyend="533"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a263f0ee26a4c63bdaed886ec4debffa4" prot="protected" virt="non-virtual"><scope>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</scope><name>controller_</name></member>
+      <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1ac9a0f0ca3b474d75e31e67e5f335aa27" prot="protected" virt="non-virtual"><scope>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</scope><name>num_containers_</name></member>
+      <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a5410891856423405498d1806b2a7bcd6" prot="protected" virt="non-virtual"><scope>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</scope><name>raid_level_</name></member>
+      <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1a6efad0a1d2d399d552d935dd87b74d99" prot="public" virt="non-virtual"><scope>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base_1af1aee91f24d662c403997a5ceb15b3c0" prot="public" virt="non-virtual"><scope>themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

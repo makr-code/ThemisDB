@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::AuditLogger::ComplianceReport</compoundname>
+    <includes refid="audit__logger_8h" local="no">audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a13b17acca5f1fa0f7bbfa645142aa5d2" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::AuditLogger::ComplianceReport::from</definition>
+        <argsstring></argsstring>
+        <name>from</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::from</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="446" column="47" bodyfile="include/utils/audit_logger.h" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a99680bbd6f9a3ba07e99600822f34c49" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::AuditLogger::ComplianceReport::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::to</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="447" column="47" bodyfile="include/utils/audit_logger.h" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a099f3917c2292d79154ffeb5f6289fbc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLogger::ComplianceReport::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="448" column="18" bodyfile="include/utils/audit_logger.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a032986234cfc57a751d4a953263c2a07" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLogger::ComplianceReport::security_events</definition>
+        <argsstring></argsstring>
+        <name>security_events</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::security_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="449" column="18" bodyfile="include/utils/audit_logger.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a5b57c295ae4acdee7015bfc251bd39da" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLogger::ComplianceReport::data_access_events</definition>
+        <argsstring></argsstring>
+        <name>data_access_events</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::data_access_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="450" column="18" bodyfile="include/utils/audit_logger.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1adba944b255fec80c0bed01234194bd66" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLogger::ComplianceReport::authentication_events</definition>
+        <argsstring></argsstring>
+        <name>authentication_events</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::authentication_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="451" column="18" bodyfile="include/utils/audit_logger.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a2b203f322ae3d13efbdedc4a8c36b45b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLogger::ComplianceReport::key_management_events</definition>
+        <argsstring></argsstring>
+        <name>key_management_events</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::key_management_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="452" column="18" bodyfile="include/utils/audit_logger.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a1767a6471c4d66cce0264b4011bc49f6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLogger::ComplianceReport::pii_events</definition>
+        <argsstring></argsstring>
+        <name>pii_events</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::pii_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="453" column="18" bodyfile="include/utils/audit_logger.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1aa2fb9527b2d32dccb496b4c6b933e77a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLogger::ComplianceReport::chain_intact</definition>
+        <argsstring></argsstring>
+        <name>chain_intact</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::chain_intact</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="454" column="14" bodyfile="include/utils/audit_logger.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1aeff2b244c48fd6d1f02c9fe4966f3d9c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::AuditLogger::ComplianceReport::event_counts_by_type</definition>
+        <argsstring></argsstring>
+        <name>event_counts_by_type</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::event_counts_by_type</qualifiedname>
+        <briefdescription>
+<para>map&lt;string, int&gt; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="455" column="24" bodyfile="include/utils/audit_logger.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a0f33cd14acc36eea4db5b481641e3b4c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::AuditLogger::ComplianceReport::top_users</definition>
+        <argsstring></argsstring>
+        <name>top_users</name>
+        <qualifiedname>themis::utils::AuditLogger::ComplianceReport::top_users</qualifiedname>
+        <briefdescription>
+<para>map&lt;user_id, count&gt; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="456" column="24" bodyfile="include/utils/audit_logger.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compliance report for a given time window. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="445" column="5" bodyfile="include/utils/audit_logger.h" bodystart="445" bodyend="457"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1adba944b255fec80c0bed01234194bd66" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>authentication_events</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1aa2fb9527b2d32dccb496b4c6b933e77a" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>chain_intact</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a5b57c295ae4acdee7015bfc251bd39da" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>data_access_events</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1aeff2b244c48fd6d1f02c9fe4966f3d9c" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>event_counts_by_type</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a13b17acca5f1fa0f7bbfa645142aa5d2" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>from</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a2b203f322ae3d13efbdedc4a8c36b45b" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>key_management_events</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a1767a6471c4d66cce0264b4011bc49f6" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>pii_events</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a032986234cfc57a751d4a953263c2a07" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>security_events</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a99680bbd6f9a3ba07e99600822f34c49" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>to</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a0f33cd14acc36eea4db5b481641e3b4c" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>top_users</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report_1a099f3917c2292d79154ffeb5f6289fbc" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::ComplianceReport</scope><name>total_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

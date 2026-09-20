@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_neighbor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator::AnnNeighbor</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_neighbor_1a51b79f1a78d428c853e7107130ce56c0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::AnnNeighbor::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::AnnNeighbor::index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index into the database vector set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="152" column="16" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_neighbor_1ac744a5103c0aa86a59c7edec139e8784" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUQueryAccelerator::AnnNeighbor::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::AnnNeighbor::distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Distance to the query vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="153" column="16" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="151" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="151" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_neighbor_1ac744a5103c0aa86a59c7edec139e8784" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::AnnNeighbor</scope><name>distance</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_neighbor_1a51b79f1a78d428c853e7107130ce56c0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::AnnNeighbor</scope><name>index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

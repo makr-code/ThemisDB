@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_audit_logger_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::AuditLoggerStats</compoundname>
+    <includes refid="process__audit__logger_8h" local="no">process_audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_logger_stats_1aa6acf3db1d48b13e24658f1554da12d6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::AuditLoggerStats::entries_appended</definition>
+        <argsstring></argsstring>
+        <name>entries_appended</name>
+        <qualifiedname>themis::process::AuditLoggerStats::entries_appended</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_audit_logger.h" line="48" column="12" bodyfile="include/process/process_audit_logger.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_logger_stats_1a329b21c36f4952cef4d8014b8141d27e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::AuditLoggerStats::snapshots_created</definition>
+        <argsstring></argsstring>
+        <name>snapshots_created</name>
+        <qualifiedname>themis::process::AuditLoggerStats::snapshots_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_audit_logger.h" line="49" column="12" bodyfile="include/process/process_audit_logger.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_logger_stats_1a761279571fea1b9a835e8a329c3f8625" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::AuditLoggerStats::storage_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>storage_size_bytes</name>
+        <qualifiedname>themis::process::AuditLoggerStats::storage_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_audit_logger.h" line="50" column="12" bodyfile="include/process/process_audit_logger.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_logger_stats_1a6140ebb70b6fecd542ad9dedc8c38c99" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::AuditLoggerStats::last_entry_id</definition>
+        <argsstring></argsstring>
+        <name>last_entry_id</name>
+        <qualifiedname>themis::process::AuditLoggerStats::last_entry_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_audit_logger.h" line="51" column="12" bodyfile="include/process/process_audit_logger.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Audit logger statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_audit_logger.h" line="47" column="1" bodyfile="include/process/process_audit_logger.h" bodystart="47" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_audit_logger_stats_1aa6acf3db1d48b13e24658f1554da12d6" prot="public" virt="non-virtual"><scope>themis::process::AuditLoggerStats</scope><name>entries_appended</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_logger_stats_1a6140ebb70b6fecd542ad9dedc8c38c99" prot="public" virt="non-virtual"><scope>themis::process::AuditLoggerStats</scope><name>last_entry_id</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_logger_stats_1a329b21c36f4952cef4d8014b8141d27e" prot="public" virt="non-virtual"><scope>themis::process::AuditLoggerStats</scope><name>snapshots_created</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_logger_stats_1a761279571fea1b9a835e8a329c3f8625" prot="public" virt="non-virtual"><scope>themis::process::AuditLoggerStats</scope><name>storage_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_sharding_e2_e_test" kind="class" language="C++" prot="public">
+    <compoundname>ShardingE2ETest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_sharding_e2_e_test_1a94a06a0d77d8fd61ec160af735e236d2" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; ShardingE2ETest::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>ShardingE2ETest::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="140" column="21" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sharding_e2_e_test_1a92d325437d54659df00818252d8ba8fa" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsistentHashRing&gt; ShardingE2ETest::hash_ring_</definition>
+        <argsstring></argsstring>
+        <name>hash_ring_</name>
+        <qualifiedname>ShardingE2ETest::hash_ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="141" column="21" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sharding_e2_e_test_1a78851abee4f2b9f2c272a08a11ffed74" prot="protected" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, nlohmann::json &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, nlohmann::json&gt; &gt; ShardingE2ETest::simulated_data_</definition>
+        <argsstring></argsstring>
+        <name>simulated_data_</name>
+        <qualifiedname>ShardingE2ETest::simulated_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="142" column="14" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sharding_e2_e_test_1aff8cb873a6cd2655a6a2b8463268f91a" prot="protected" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex ShardingE2ETest::data_mutex_</definition>
+        <argsstring></argsstring>
+        <name>data_mutex_</name>
+        <qualifiedname>ShardingE2ETest::data_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="143" column="16" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_sharding_e2_e_test_1aee60ba96bd982933315586acd3c7dafb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShardingE2ETest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ShardingE2ETest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="37" column="10" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sharding_e2_e_test_1a312a2d06819474f778c43ef431d89a81" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShardingE2ETest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ShardingE2ETest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="41" column="10" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sharding_e2_e_test_1a888b3830694c44786299ca54379d0457" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShardingE2ETest::setupCluster</definition>
+        <argsstring>(size_t shard_count)</argsstring>
+        <name>setupCluster</name>
+        <qualifiedname>ShardingE2ETest::setupCluster</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>shard_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="47" column="10" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="47" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sharding_e2_e_test_1a386695f373af8303eb81cd4f491cd6d5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ShardingE2ETest::simulateWrite</definition>
+        <argsstring>(const URN &amp;urn, const nlohmann::json &amp;data)</argsstring>
+        <name>simulateWrite</name>
+        <qualifiedname>ShardingE2ETest::simulateWrite</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="75" column="10" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="75" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sharding_e2_e_test_1ad333f8ac50d38331359016c96d84d3b0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; ShardingE2ETest::simulateRead</definition>
+        <argsstring>(const URN &amp;urn)</argsstring>
+        <name>simulateRead</name>
+        <qualifiedname>ShardingE2ETest::simulateRead</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="87" column="19" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="87" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sharding_e2_e_test_1a8ac5f36f1ed1765a8d25064d22b09e0c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt; nlohmann::json &gt; ShardingE2ETest::simulateScatterGather</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>simulateScatterGather</name>
+        <qualifiedname>ShardingE2ETest::simulateScatterGather</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="108" column="17" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="108" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sharding_e2_e_test_1ab1948331d9e27f57366ec29ce573472a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ShardingE2ETest::simulateMigration</definition>
+        <argsstring>(const std::string &amp;from_shard, const std::string &amp;to_shard, const std::vector&lt; std::string &gt; &amp;urn_strings)</argsstring>
+        <name>simulateMigration</name>
+        <qualifiedname>ShardingE2ETest::simulateMigration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_shard</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_shard</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>urn_strings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_e2e.cpp" line="125" column="10" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="125" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ShardingE2ETest</label>
+        <link refid="class_sharding_e2_e_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ShardingE2ETest</label>
+        <link refid="class_sharding_e2_e_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_e2e.cpp" line="35" column="1" bodyfile="tests/sharding/test_sharding_e2e.cpp" bodystart="35" bodyend="144"/>
+    <listofallmembers>
+      <member refid="class_sharding_e2_e_test_1aff8cb873a6cd2655a6a2b8463268f91a" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>data_mutex_</name></member>
+      <member refid="class_sharding_e2_e_test_1a92d325437d54659df00818252d8ba8fa" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>hash_ring_</name></member>
+      <member refid="class_sharding_e2_e_test_1aee60ba96bd982933315586acd3c7dafb" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>SetUp</name></member>
+      <member refid="class_sharding_e2_e_test_1a888b3830694c44786299ca54379d0457" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>setupCluster</name></member>
+      <member refid="class_sharding_e2_e_test_1a78851abee4f2b9f2c272a08a11ffed74" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>simulated_data_</name></member>
+      <member refid="class_sharding_e2_e_test_1ab1948331d9e27f57366ec29ce573472a" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>simulateMigration</name></member>
+      <member refid="class_sharding_e2_e_test_1ad333f8ac50d38331359016c96d84d3b0" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>simulateRead</name></member>
+      <member refid="class_sharding_e2_e_test_1a8ac5f36f1ed1765a8d25064d22b09e0c" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>simulateScatterGather</name></member>
+      <member refid="class_sharding_e2_e_test_1a386695f373af8303eb81cd4f491cd6d5" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>simulateWrite</name></member>
+      <member refid="class_sharding_e2_e_test_1a312a2d06819474f778c43ef431d89a81" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>TearDown</name></member>
+      <member refid="class_sharding_e2_e_test_1a94a06a0d77d8fd61ec160af735e236d2" prot="protected" virt="non-virtual"><scope>ShardingE2ETest</scope><name>topology_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

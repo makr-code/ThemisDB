@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__adalora__edge__regressions_8cpp" kind="file" language="C++">
+    <compoundname>test_adalora_edge_regressions.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ada__lora__adapter_8h" local="yes">training/ada_lora_adapter.h</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>training/ada_lora_adapter.h</label>
+        <link refid="ada__lora__adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/training/test_adalora_edge_regressions.cpp</label>
+        <link refid="test__adalora__edge__regressions_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__adalora__edge__regressions_8cpp_1a29edab9501466b1255ada1b5d194169f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingAdaLoRAEdgeRegressions, AddLayerDeterministicInitializationByName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingAdaLoRAEdgeRegressions</type>
+        </param>
+        <param>
+          <type>AddLayerDeterministicInitializationByName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_adalora_edge_regressions.cpp" line="12" column="1" bodyfile="tests/training/test_adalora_edge_regressions.cpp" bodystart="12" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adalora__edge__regressions_8cpp_1a7a169fa2045643834cfb4dea2d72fa81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingAdaLoRAEdgeRegressions, ReallocateRanksBudgetBelowLayerCountThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingAdaLoRAEdgeRegressions</type>
+        </param>
+        <param>
+          <type>ReallocateRanksBudgetBelowLayerCountThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_adalora_edge_regressions.cpp" line="32" column="1" bodyfile="tests/training/test_adalora_edge_regressions.cpp" bodystart="32" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adalora__edge__regressions_8cpp_1a5211286216c06b912880646a7c2b54a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingAdaLoRAEdgeRegressions, ReallocateRanksZeroImportanceDeterministicDistribution)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingAdaLoRAEdgeRegressions</type>
+        </param>
+        <param>
+          <type>ReallocateRanksZeroImportanceDeterministicDistribution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_adalora_edge_regressions.cpp" line="41" column="1" bodyfile="tests/training/test_adalora_edge_regressions.cpp" bodystart="41" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ada__lora__adapter_8h" kindref="compound">training/ada_lora_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">themis::training</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="test__adalora__edge__regressions_8cpp_1a29edab9501466b1255ada1b5d194169f" kindref="member">TEST</ref>(TrainingAdaLoRAEdgeRegressions,<sp/>AddLayerDeterministicInitializationByName)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter" kindref="compound">AdaLoRAAdapter</ref><sp/>first(4,<sp/>8.0f,<sp/>16);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter" kindref="compound">AdaLoRAAdapter</ref><sp/>second(4,<sp/>8.0f,<sp/>16);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>first.addLayer(</highlight><highlight class="stringliteral">&quot;stable_layer&quot;</highlight><highlight class="normal">,<sp/>16,<sp/>16,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>second.addLayer(</highlight><highlight class="stringliteral">&quot;stable_layer&quot;</highlight><highlight class="normal">,<sp/>16,<sp/>16,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[b1,<sp/>a1]<sp/>=<sp/>first.getWeights(</highlight><highlight class="stringliteral">&quot;stable_layer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[b2,<sp/>a2]<sp/>=<sp/>second.getWeights(</highlight><highlight class="stringliteral">&quot;stable_layer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(b1.size(),<sp/>b2.size());</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(a1.size(),<sp/>a2.size());</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>b1.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(b1[i],<sp/>b2[i]);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>a1.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(a1[i],<sp/>a2[i]);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__adalora__edge__regressions_8cpp_1a29edab9501466b1255ada1b5d194169f" kindref="member">TEST</ref>(TrainingAdaLoRAEdgeRegressions,<sp/>ReallocateRanksBudgetBelowLayerCountThrows)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter" kindref="compound">AdaLoRAAdapter</ref><sp/>adapter(4,<sp/>8.0f,<sp/>16);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;layer_1&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;layer_2&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;layer_3&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(adapter.reallocateRanks(2),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__adalora__edge__regressions_8cpp_1a29edab9501466b1255ada1b5d194169f" kindref="member">TEST</ref>(TrainingAdaLoRAEdgeRegressions,<sp/>ReallocateRanksZeroImportanceDeterministicDistribution)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter" kindref="compound">AdaLoRAAdapter</ref><sp/>adapter(4,<sp/>8.0f,<sp/>16);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;layer_a&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;layer_b&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;layer_c&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter.reallocateRanks(5);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_active_rank,<sp/>5u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.getActiveRank(</highlight><highlight class="stringliteral">&quot;layer_a&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.getActiveRank(</highlight><highlight class="stringliteral">&quot;layer_b&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.getActiveRank(</highlight><highlight class="stringliteral">&quot;layer_c&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/training/test_adalora_edge_regressions.cpp"/>
+  </compounddef>
+</doxygen>

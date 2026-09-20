@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="include_2distributed__tensor_2artifact__manifest_8h" kind="file" language="C++">
+    <compoundname>artifact_manifest.h</compoundname>
+    <includes refid="include_2distributed__tensor_2tensor__artifact__classes_8h" local="yes">distributed_tensor/tensor_artifact_classes.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="include_2distributed__tensor_2distributed__planner_8h" local="yes">include/distributed_tensor/distributed_planner.h</includedby>
+    <includedby refid="include_2distributed__tensor_2integrity__verification_8h" local="yes">include/distributed_tensor/integrity_verification.h</includedby>
+    <includedby refid="recovery__manager_8h" local="yes">include/distributed_tensor/recovery_manager.h</includedby>
+    <includedby refid="shard__placement_8h" local="yes">include/distributed_tensor/shard_placement.h</includedby>
+    <includedby refid="tensor__infrastructure_8h" local="yes">include/distributed_tensor/tensor_infrastructure.h</includedby>
+    <includedby refid="artifact__manifest_8cc" local="yes">src/distributed_tensor/artifact_manifest.cc</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/distributed_tensor/artifact_manifest.h</label>
+        <link refid="include_2distributed__tensor_2artifact__manifest_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>distributed_tensor/tensor_artifact_classes.h</label>
+        <link refid="include_2distributed__tensor_2tensor__artifact__classes_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/distributed_tensor/artifact_manifest.h</label>
+        <link refid="include_2distributed__tensor_2artifact__manifest_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/distributed_tensor/distributed_planner.h</label>
+        <link refid="include_2distributed__tensor_2distributed__planner_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/distributed_tensor/integrity_verification.h</label>
+        <link refid="include_2distributed__tensor_2integrity__verification_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/distributed_tensor/recovery_manager.h</label>
+        <link refid="recovery__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/distributed_tensor/shard_placement.h</label>
+        <link refid="shard__placement_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/distributed_tensor/tensor_infrastructure.h</label>
+        <link refid="tensor__infrastructure_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>src/distributed_tensor/artifact_manifest.cc</label>
+        <link refid="artifact__manifest_8cc"/>
+      </node>
+      <node id="3">
+        <label>src/distributed_tensor/distributed_planner.cc</label>
+        <link refid="distributed__planner_8cc"/>
+      </node>
+      <node id="5">
+        <label>src/distributed_tensor/integrity_verification.cc</label>
+        <link refid="integrity__verification_8cc"/>
+      </node>
+      <node id="7">
+        <label>src/distributed_tensor/recovery_manager.cc</label>
+        <link refid="recovery__manager_8cc"/>
+      </node>
+      <node id="9">
+        <label>src/distributed_tensor/shard_placement.cc</label>
+        <link refid="shard__placement_8cc"/>
+      </node>
+      <node id="11">
+        <label>src/distributed_tensor/tensor_infrastructure.cc</label>
+        <link refid="tensor__infrastructure_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_shard_placement" prot="public">themis::distributed_tensor::ShardPlacement</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction" prot="public">themis::distributed_tensor::ReconstructionInstruction</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt" prot="public">themis::distributed_tensor::IntegrityReceipt</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" prot="public">themis::distributed_tensor::ArtifactManifest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Artifact manifest for distributed tensor checkpoints. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the ArtifactManifest data model: shard descriptors, content hashes, placement hints, and format versioning for distributed tensor artifacts. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>Team</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="include_2distributed__tensor_2tensor__artifact__classes_8h" kindref="compound">distributed_tensor/tensor_artifact_classes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1distributed__tensor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1distributed__tensor_1_1_shard_placement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement" kindref="compound">ShardPlacement</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a854492a65b6ad1a918f3e2872774eb9f" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a854492a65b6ad1a918f3e2872774eb9f" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1aa1d55a9565eea61198b00b4cd3c25f31" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1aa1d55a9565eea61198b00b4cd3c25f31" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a84c3d57eed618b6c4ef92c09d04609a4" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a84c3d57eed618b6c4ef92c09d04609a4" kindref="member">tier_level</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;warm&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a908af3c62c0866b70ab1cd0bd7988eb7" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a908af3c62c0866b70ab1cd0bd7988eb7" kindref="member">shard_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a1b11073b91c4bdf8e77e081704ff8857" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a1b11073b91c4bdf8e77e081704ff8857" kindref="member">shard_content_hash</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1ac418c48ec8dd43c9e9cbe956cf45343d" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1ac418c48ec8dd43c9e9cbe956cf45343d" kindref="member">replication_factor</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a72bdc09b96fc0029a9e68a1d717f9112" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a72bdc09b96fc0029a9e68a1d717f9112" kindref="member">erasure_coding_scheme</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1aee8e2f7e3644ea457ae2ce2b07027e55" refkind="member"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1aee8e2f7e3644ea457ae2ce2b07027e55" kindref="member">custom_metadata</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction" kindref="compound">ReconstructionInstruction</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a31dd90144b7cfd1f5319b58fa08a46d8" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a31dd90144b7cfd1f5319b58fa08a46d8" kindref="member">reconstruction_type</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a0f204cc8503994c8eb5e554ff1bf7b4c" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a0f204cc8503994c8eb5e554ff1bf7b4c" kindref="member">parent_artifact_ids</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1abcfac186ffa0d988bf8bff5f30c51865" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1abcfac186ffa0d988bf8bff5f30c51865" kindref="member">required_shard_ids</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a29bb8cda067f7d7a1e5a6616396a86df" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a29bb8cda067f7d7a1e5a6616396a86df" kindref="member">reconstruction_parameters</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a0cd9bfa490a399d8d6d7604a5570d8d4" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a0cd9bfa490a399d8d6d7604a5570d8d4" kindref="member">estimated_reconstruction_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt" kindref="compound">IntegrityReceipt</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1a4fd9b91b891a7ee3f54c0674357e77f3" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1a4fd9b91b891a7ee3f54c0674357e77f3" kindref="member">merkle_root_hash</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1aa336ad2446296699922ab3f03d14f2d9" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1aa336ad2446296699922ab3f03d14f2d9" kindref="member">verification_method</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1a5881feb6ef18784fb0ecb1c79d14b60a" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1a5881feb6ef18784fb0ecb1c79d14b60a" kindref="member">verified_at</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1aee8a98267d105e4a375016dc4896de0b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1aee8a98267d105e4a375016dc4896de0b" kindref="member">is_valid</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1a06a728dd46a2f0b5a50b2d3da256e318" refkind="member"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt_1a06a728dd46a2f0b5a50b2d3da256e318" kindref="member">shard_hashes</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8f58e769a7c59f24577ca83ea16a5e2c" kindref="member">artifact_id</ref>,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1adeb860935e32db4694e4f5f63d5c17cd" kindref="member">artifact_class</ref>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a82ca2f6ea210ef49ef5c1924cdc6af31" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a82ca2f6ea210ef49ef5c1924cdc6af31" kindref="member">ArtifactManifest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a990d91bd9ef29ed60aeb97f4e25bc648" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a990d91bd9ef29ed60aeb97f4e25bc648" kindref="member">ArtifactManifest</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af7f419bc27d3528495550d10c05274b8" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1aabbcc15fa60874ccdd7ab74371f5666a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5e7af37f39635dcf358bdb716749b91e" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afa441b5311603d312e62e914b024e132" kindref="member">ArtifactManifest</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors<sp/>for<sp/>core<sp/>metadata.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5890d1dd32118b84aac510ab381eb340" refkind="member"><highlight class="normal"><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8f58e769a7c59f24577ca83ea16a5e2c" kindref="member">artifact_id</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a98781d8a9fe5d3f00721840cedf76a77" kindref="member">artifact_id_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a3812f9bc6ea3d7aa25e817f9d9f4cb4c" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a3812f9bc6ea3d7aa25e817f9d9f4cb4c" kindref="member">artifact_class</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ae7670c5bd60590a6df1062610de4dd4e" kindref="member">artifact_class_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a749b1f4ca77f4066277a06bf3c8e5389" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a749b1f4ca77f4066277a06bf3c8e5389" kindref="member">version</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a128eea9c775aef0251594af9766e53bf" kindref="member">version_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a617d8d62bd8bf1bec17614e4098c75cf" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a617d8d62bd8bf1bec17614e4098c75cf" kindref="member">set_version</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1acf394a03024ebc1d71c9e4d3e0250dba" kindref="member">version</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a128eea9c775aef0251594af9766e53bf" kindref="member">version_</ref><sp/>=<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1acf394a03024ebc1d71c9e4d3e0250dba" kindref="member">version</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1abe16f079b38b1eb9d37e3c1a51f037d8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1abe16f079b38b1eb9d37e3c1a51f037d8" kindref="member">content_hash</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4518d0b8e50e7db4f585cffe58af511d" kindref="member">content_hash_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af15c12b5905fd8f0b98ccf91d64febb4" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af15c12b5905fd8f0b98ccf91d64febb4" kindref="member">set_content_hash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hash)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4518d0b8e50e7db4f585cffe58af511d" kindref="member">content_hash_</ref><sp/>=<sp/>hash;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a7bbf5ad260b54257fffb689ccba24a6a" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a7bbf5ad260b54257fffb689ccba24a6a" kindref="member">manifest_hash</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5826c676076f90c140c610e1402b8738" kindref="member">manifest_hash_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af5287ec72a9c8a6b887a65d1fb2e2bb4" kindref="member">compute_manifest_hash</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af8d2f068845279e9c1ce9c63a7c10d3b" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af8d2f068845279e9c1ce9c63a7c10d3b" kindref="member">total_size_bytes</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a2662fd8ab37b67a89e2e5da723faaccf" kindref="member">total_size_bytes_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ae69b5f886f782773c841910bbdfb4db8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ae69b5f886f782773c841910bbdfb4db8" kindref="member">set_total_size_bytes</ref>(uint64_t<sp/>size)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a2662fd8ab37b67a89e2e5da723faaccf" kindref="member">total_size_bytes_</ref><sp/>=<sp/>size;<sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a764d3532d414e808260ea5430fe7aa3a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a764d3532d414e808260ea5430fe7aa3a" kindref="member">lifecycle_stage</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a04f3cb0149c7d3e3c47d77fd0522617a" kindref="member">lifecycle_stage_</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5693d8e4583c3887bac2541514822585" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5693d8e4583c3887bac2541514822585" kindref="member">set_lifecycle_stage</ref>(<ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref><sp/>stage)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a04f3cb0149c7d3e3c47d77fd0522617a" kindref="member">lifecycle_stage_</ref><sp/>=<sp/>stage;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a3c2a55e699ce670e740b7579eaf2f8f4" kindref="member">add_shard_placement</ref>(<ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement" kindref="compound">ShardPlacement</ref><sp/>placement)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4223f210d605f68cb4b73fccf3f05937" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardPlacement&gt;&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4223f210d605f68cb4b73fccf3f05937" kindref="member">shard_placements</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a869872aa1c74fe35b7fcc722cf7a0a27" kindref="member">shard_placements_</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/>std::optional&lt;ShardPlacement&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a49e1518735a986b43eb6f6aea32225cc" kindref="member">get_shard_placement</ref>(</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a3c71ed7fae727f0636427c2ad4263cce" kindref="member">shard_id</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a9560de6396091accb041db4603c9413f" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a9560de6396091accb041db4603c9413f" kindref="member">num_shards</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a869872aa1c74fe35b7fcc722cf7a0a27" kindref="member">shard_placements_</ref>.size();<sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Reconstruction<sp/>and<sp/>recovery<sp/>management.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ad904496bd79a190c8a4d7b4744e8c52d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ad904496bd79a190c8a4d7b4744e8c52d" kindref="member">set_reconstruction_instruction</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction" kindref="compound">ReconstructionInstruction</ref><sp/>instruction)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1abcd29ef98dd24f4575eef9d9660584bf" kindref="member">reconstruction_instruction_</ref><sp/>=<sp/>std::move(instruction);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;ReconstructionInstruction&gt;&amp;</highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a9415434ba8cfb8faa63364464a43a986" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a9415434ba8cfb8faa63364464a43a986" kindref="member">reconstruction_instruction</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1abcd29ef98dd24f4575eef9d9660584bf" kindref="member">reconstruction_instruction_</ref>;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a49e36d28ce5c371e99332ae30f6ec4eb" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a49e36d28ce5c371e99332ae30f6ec4eb" kindref="member">recovery_strategy</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a6e2de3464dafc9d9aef89ad74b967ed5" kindref="member">recovery_strategy_</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5cd95984b7aac9ec2b49fd06dc47038e" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5cd95984b7aac9ec2b49fd06dc47038e" kindref="member">set_recovery_strategy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>strategy)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a6e2de3464dafc9d9aef89ad74b967ed5" kindref="member">recovery_strategy_</ref><sp/>=<sp/>strategy;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Integrity<sp/>and<sp/>freshness<sp/>metadata.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a42e4b97c8a11a311722311fee96c4af9" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a42e4b97c8a11a311722311fee96c4af9" kindref="member">set_integrity_receipt</ref>(<ref refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt" kindref="compound">IntegrityReceipt</ref><sp/>receipt)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a2dc200c6ceb07dabb7c7917a584a5b7a" kindref="member">integrity_receipt_</ref><sp/>=<sp/>std::move(receipt);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a21ca50534b7ca7bd9e569ff128d398a7" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;IntegrityReceipt&gt;&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a21ca50534b7ca7bd9e569ff128d398a7" kindref="member">integrity_receipt</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a2dc200c6ceb07dabb7c7917a584a5b7a" kindref="member">integrity_receipt_</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a3af525f3fbdf3beef14d4924bd6aa280" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a3af525f3fbdf3beef14d4924bd6aa280" kindref="member">freshness_timestamp</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1acf500384f55b5607bcb4c8c93a112579" kindref="member">freshness_timestamp_</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af1d1ad2ab7724bc988a73231a47af751" kindref="member">update_freshness</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Provenance<sp/>and<sp/>lineage.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a3155aaa13a81341dafb50d87982c2632" refkind="member"><highlight class="normal"><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a3155aaa13a81341dafb50d87982c2632" kindref="member">provenance_origin</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a80bd1b3b123bf629db2f93ad753a79ff" kindref="member">provenance_origin_</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4ad190d6aa96228c7e1b4924cd4e9bd6" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4ad190d6aa96228c7e1b4924cd4e9bd6" kindref="member">set_provenance_origin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>origin)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a80bd1b3b123bf629db2f93ad753a79ff" kindref="member">provenance_origin_</ref><sp/>=<sp/>origin;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a43aa6eef6bc09b959dd12b2075bdb5f7" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a43aa6eef6bc09b959dd12b2075bdb5f7" kindref="member">package_lineage_id</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ab753ac04d6e1babdd86d35021bca31f3" kindref="member">package_lineage_id_</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4489a2c79785c271e9c07da64c9b4e77" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4489a2c79785c271e9c07da64c9b4e77" kindref="member">set_package_lineage_id</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>lineage_id)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ab753ac04d6e1babdd86d35021bca31f3" kindref="member">package_lineage_id_</ref><sp/>=<sp/>lineage_id;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afb42fc2f202c44ba89c626eb5d5e2643" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1afb42fc2f202c44ba89c626eb5d5e2643" kindref="member">parent_artifact_id</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a708ae3dd8d8bfd5e3510e08e3e6776eb" kindref="member">parent_artifact_id_</ref>;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1aad2b29cad9c24e074e3672191eb7f220" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1aad2b29cad9c24e074e3672191eb7f220" kindref="member">set_parent_artifact_id</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>parent_id)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a708ae3dd8d8bfd5e3510e08e3e6776eb" kindref="member">parent_artifact_id_</ref><sp/>=<sp/>parent_id;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>metadata.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af1cce750d79d3b183988b9fc75277df4" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af1cce750d79d3b183988b9fc75277df4" kindref="member">set_custom_metadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8be18ee4c6441afda56e1d123dee9248" kindref="member">custom_metadata_</ref>[key]<sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a68f5ac382a02090e36c0b16dea5ef035" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a68f5ac382a02090e36c0b16dea5ef035" kindref="member">custom_metadata</ref>()</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8be18ee4c6441afda56e1d123dee9248" kindref="member">custom_metadata_</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1af1804b32c1a2a2c389e621485a6f1133" kindref="member">is_complete</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1aa769e5a77b40b265910284dd67770ca7" kindref="member">validate</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/>protected:</highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a98781d8a9fe5d3f00721840cedf76a77" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a98781d8a9fe5d3f00721840cedf76a77" kindref="member">artifact_id_</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ae7670c5bd60590a6df1062610de4dd4e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ae7670c5bd60590a6df1062610de4dd4e" kindref="member">artifact_class_</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a128eea9c775aef0251594af9766e53bf" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a128eea9c775aef0251594af9766e53bf" kindref="member">version_</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4518d0b8e50e7db4f585cffe58af511d" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a4518d0b8e50e7db4f585cffe58af511d" kindref="member">content_hash_</ref>;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5826c676076f90c140c610e1402b8738" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a5826c676076f90c140c610e1402b8738" kindref="member">manifest_hash_</ref>;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a2662fd8ab37b67a89e2e5da723faaccf" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a2662fd8ab37b67a89e2e5da723faaccf" kindref="member">total_size_bytes_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a04f3cb0149c7d3e3c47d77fd0522617a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a04f3cb0149c7d3e3c47d77fd0522617a" kindref="member">lifecycle_stage_</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref>::<ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397ab8a1431064f351dbef92871d02bab8cf" kindref="member">STAGING</ref>;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a869872aa1c74fe35b7fcc722cf7a0a27" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement" kindref="compound">ShardPlacement</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a869872aa1c74fe35b7fcc722cf7a0a27" kindref="member">shard_placements_</ref>;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1abcd29ef98dd24f4575eef9d9660584bf" refkind="member"><highlight class="normal"><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction" kindref="compound">ReconstructionInstruction</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1abcd29ef98dd24f4575eef9d9660584bf" kindref="member">reconstruction_instruction_</ref>;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a6e2de3464dafc9d9aef89ad74b967ed5" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a6e2de3464dafc9d9aef89ad74b967ed5" kindref="member">recovery_strategy_</ref>;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a2dc200c6ceb07dabb7c7917a584a5b7a" refkind="member"><highlight class="normal"><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt" kindref="compound">IntegrityReceipt</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a2dc200c6ceb07dabb7c7917a584a5b7a" kindref="member">integrity_receipt_</ref>;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1acf500384f55b5607bcb4c8c93a112579" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1acf500384f55b5607bcb4c8c93a112579" kindref="member">freshness_timestamp_</ref>;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a80bd1b3b123bf629db2f93ad753a79ff" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a80bd1b3b123bf629db2f93ad753a79ff" kindref="member">provenance_origin_</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ab753ac04d6e1babdd86d35021bca31f3" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1ab753ac04d6e1babdd86d35021bca31f3" kindref="member">package_lineage_id_</ref>;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a708ae3dd8d8bfd5e3510e08e3e6776eb" refkind="member"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a708ae3dd8d8bfd5e3510e08e3e6776eb" kindref="member">parent_artifact_id_</ref>;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8be18ee4c6441afda56e1d123dee9248" refkind="member"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8be18ee4c6441afda56e1d123dee9248" kindref="member">custom_metadata_</ref>;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/distributed_tensor/artifact_manifest.h"/>
+  </compounddef>
+</doxygen>

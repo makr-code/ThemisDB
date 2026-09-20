@@ -1,0 +1,960 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_vulkan_vector_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::VulkanVectorBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_vector_backend" prot="public" virt="non-virtual">themis::acceleration::IVectorBackend</basecompoundref>
+    <includes refid="graphics__backends_8h" local="no">graphics_backends.h</includes>
+    <innerclass refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1_1_vulkan_vector_backend_impl" prot="public">themis::acceleration::VulkanVectorBackend::VulkanVectorBackendImpl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a5a84cb60858ab301f893fed3531a4602" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::acceleration::VulkanVectorBackend::AvailabilityFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>AvailabilityFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::AvailabilityFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="195" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a8f6d0ca24adb2cbef09a7ea49dd7b56e" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::acceleration::VulkanVectorBackend::InitializeFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>InitializeFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::InitializeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="196" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aca112c2e1273282b23f3122355a738ba" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;( const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2)&gt;</type>
+        <definition>using themis::acceleration::VulkanVectorBackend::ComputeDistancesFn = std::function&lt;std::vector&lt;float&gt;(
+       const float* queries,
+       size_t numQueries,
+       size_t dim,
+       const float* vectors,
+       size_t numVectors,
+       bool useL2)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::ComputeDistancesFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="197" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aba3c78996a93d09a5612b496f5194fe0" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;( const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2)&gt;</type>
+        <definition>using themis::acceleration::VulkanVectorBackend::BatchKnnSearchFn = std::function&lt;std::vector&lt;std::vector&lt;std::pair&lt;uint32_t, float&gt;&gt;&gt;(
+       const float* queries,
+       size_t numQueries,
+       size_t dim,
+       const float* vectors,
+       size_t numVectors,
+       size_t k,
+       bool useL2)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BatchKnnSearchFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::BatchKnnSearchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="204" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a9819726214760ecbf4e180face9efad2" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint32_t &gt;(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themis::acceleration::VulkanVectorBackend::CompileGLSLFn = std::function&lt;
+       std::vector&lt;uint32_t&gt;(const std::string&amp; ,
+                             const std::string&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>CompileGLSLFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::CompileGLSLFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="316" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a945fbe79a876640f46a01aa2a9eff5c6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanVectorBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="399" column="10" bodyfile="include/acceleration/graphics_backends.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aa3c51bf47d2e653db27587e7b5432d97" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1_1_vulkan_vector_backend_impl" kindref="compound">VulkanVectorBackendImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VulkanVectorBackendImpl&gt; themis::acceleration::VulkanVectorBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="401" column="21" bodyfile="include/acceleration/graphics_backends.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a8a587f3291ad2790e368f1ae389098e8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics" kindref="compound">metrics::BackendMetrics</ref></type>
+        <definition>metrics::BackendMetrics themis::acceleration::VulkanVectorBackend::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::metrics_</qualifiedname>
+        <initializer>{&quot;vulkan&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="402" column="29" bodyfile="include/acceleration/graphics_backends.h" bodystart="402" bodyend="402"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aca148a562ee576c6693c48886d6414e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::VulkanVectorBackend::VulkanVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>VulkanVectorBackend</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::VulkanVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="213" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1166" bodyend="1167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aad9849e2ac8c973d54f17fd8bef5a105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::VulkanVectorBackend::~VulkanVectorBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~VulkanVectorBackend</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::~VulkanVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="214" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1169" bodyend="1171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a2d4b836ca228004b9d98b784a53d5310" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::VulkanVectorBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="216" column="16" bodyfile="include/acceleration/graphics_backends.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a6c2dc2c983fc67f0749eda48a0a012fc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::VulkanVectorBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="217" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ad9f6773ddde308fea019f3f030b457f5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanVectorBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="218" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1238" bodyend="1309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a4e5789b66c349a07607e61cc83280c3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::VulkanVectorBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="220" column="25" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1311" bodyend="1342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a6415e36dcb119b856f9071c5f5ffa788" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanVectorBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), createInstance(), recordInitFailure(), recordError(), selectPhysicalDevice(), cleanup(), createLogicalDevice(), createComputePipelines(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="221" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1349" bodyend="1453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a4e413ab405fa82e8ce36eefc3d7942f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VulkanVectorBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cleanup(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="222" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1459" bodyend="1466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a176e54ce3d5c0a564253d333ded78f84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_health_status" kindref="compound">BackendHealthStatus</ref></type>
+        <definition>BackendHealthStatus themis::acceleration::VulkanVectorBackend::getHealthStatus</definition>
+        <argsstring>() const override</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::getHealthStatus</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064">getHealthStatus</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="223" column="25" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1468" bodyend="1530"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aa19ce7bf66ec79694e69443c4e9b77b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::VulkanVectorBackend::computeDistances</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2=true) override</argsstring>
+        <name>computeDistances</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::computeDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a56cc8ea7f1d8a7f2c8bb77025403f8e2">computeDistances</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Compute Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">useL2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, ErrorContext(), recordError(), <ref refid="namespacethemis_1_1acceleration_1_1_error_context_helpers_1ac05131265745a900204e8ff30b64744b" kindref="member">ErrorContextHelpers::createValidationError()</ref>, std::chrono::steady_clock::now(), dispatch(), count(), recordL2DistanceOperation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="225" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1543" bodyend="1630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ac32bbf610d9509953467dfded67b8cb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt; themis::acceleration::VulkanVectorBackend::batchKnnSearch</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2=true) override</argsstring>
+        <name>batchKnnSearch</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::batchKnnSearch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a7f0c7e6ce9e71f79406f2de2fa627008">batchKnnSearch</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="234" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1632" bodyend="1743"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1af173c0c2bdb2d027b955eafbe0e7b042" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref></type>
+        <definition>ANNKernelDispatch themis::acceleration::VulkanVectorBackend::populateANNDispatch</definition>
+        <argsstring>() const override</argsstring>
+        <name>populateANNDispatch</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::populateANNDispatch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1afe7b6b9c94e550943146ae6dd2633573">populateANNDispatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="245" column="23" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4941" bodyend="4952"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a2a88f5f13fb733a687823d48adf61077" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanVectorBackend::hasBufferDeviceAddress</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasBufferDeviceAddress</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::hasBufferDeviceAddress</qualifiedname>
+        <briefdescription>
+<para>-<mdash/> Vulkan-specific introspection -----------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="253" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1173" bodyend="1180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1acdc914b9b441ff65a789147d8f563a3e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VulkanVectorBackend::setWorkgroupSizeL2</definition>
+        <argsstring>(uint32_t wgX, uint32_t wgY) noexcept</argsstring>
+        <name>setWorkgroupSizeL2</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::setWorkgroupSizeL2</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>wgX</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>wgY</declname>
+        </param>
+        <briefdescription>
+<para>Set Workgroup Size L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wgX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wgY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="261" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1182" bodyend="1201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a3bd4675b5d2f564d9688213adc455509" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VulkanVectorBackend::setWorkgroupSizeBatchSearch</definition>
+        <argsstring>(uint32_t wgX) noexcept</argsstring>
+        <name>setWorkgroupSizeBatchSearch</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::setWorkgroupSizeBatchSearch</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>wgX</declname>
+        </param>
+        <briefdescription>
+<para>Set Workgroup Size Batch Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wgX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="267" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1203" bodyend="1220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a75fbfcbba16209b75ca0e84c341a483e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::pair&lt; uint32_t, uint32_t &gt;</type>
+        <definition>std::pair&lt; uint32_t, uint32_t &gt; themis::acceleration::VulkanVectorBackend::getWorkgroupSizeL2</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getWorkgroupSizeL2</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::getWorkgroupSizeL2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="271" column="15" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1222" bodyend="1227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a689ad0c4592fdf91a37f939913157987" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VulkanVectorBackend::getWorkgroupSizeBatchSearch</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getWorkgroupSizeBatchSearch</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::getWorkgroupSizeBatchSearch</qualifiedname>
+        <briefdescription>
+<para>Get Workgroup Size Batch Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="277" column="14" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1229" bodyend="1236"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1abacaf53cd491441d6dff386e789c835d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::VulkanVectorBackend::setAvailabilityFn</definition>
+        <argsstring>(AvailabilityFn fn)</argsstring>
+        <name>setAvailabilityFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::setAvailabilityFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a5a84cb60858ab301f893fed3531a4602" kindref="member">AvailabilityFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Availability Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="284" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="284" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ab289bee1cda4e54a23208fcc37459fe8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::VulkanVectorBackend::setInitializeFn</definition>
+        <argsstring>(InitializeFn fn)</argsstring>
+        <name>setInitializeFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::setInitializeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a8f6d0ca24adb2cbef09a7ea49dd7b56e" kindref="member">InitializeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Initialize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="293" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="293" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1af06ca6f34d80d9799944bb2f15746a10" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::VulkanVectorBackend::setComputeDistancesFn</definition>
+        <argsstring>(ComputeDistancesFn fn)</argsstring>
+        <name>setComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::setComputeDistancesFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aca112c2e1273282b23f3122355a738ba" kindref="member">ComputeDistancesFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Compute Distances Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), computeDistancesFnMutex(), computeDistancesFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="302" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="302" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1abcbc6669f1d32c1b10107a0e9f883393" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::VulkanVectorBackend::setBatchKnnSearchFn</definition>
+        <argsstring>(BatchKnnSearchFn fn)</argsstring>
+        <name>setBatchKnnSearchFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::setBatchKnnSearchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aba3c78996a93d09a5612b496f5194fe0" kindref="member">BatchKnnSearchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Batch Knn Search Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), batchKnnSearchFnMutex(), batchKnnSearchFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="311" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="311" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aaaa9e33fa7f7439b41dcf91d711b856c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VulkanVectorBackend::setCompileGLSLFn</definition>
+        <argsstring>(CompileGLSLFn fn)</argsstring>
+        <name>setCompileGLSLFn</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::setCompileGLSLFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a9819726214760ecbf4e180face9efad2" kindref="member">CompileGLSLFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Compile GLSLFn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="324" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1161" bodyend="1164"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a7c78c2fa69e0d47c87dec83999db9b9b" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::VulkanVectorBackend::availabilityFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>availabilityFnMutex</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::availabilityFnMutex</qualifiedname>
+        <briefdescription>
+<para>Availability Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements availabilityFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="332" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="332" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a222651bc52532271c2e42424789278b7" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a5a84cb60858ab301f893fed3531a4602" kindref="member">AvailabilityFn</ref> &amp;</type>
+        <definition>static AvailabilityFn &amp; themis::acceleration::VulkanVectorBackend::availabilityFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>availabilityFnStorage</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::availabilityFnStorage</qualifiedname>
+        <briefdescription>
+<para>Availability Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements availabilityFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="341" column="27" bodyfile="include/acceleration/graphics_backends.h" bodystart="341" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ae066695efcb9b84fe65aab1afa8ccad4" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::VulkanVectorBackend::initializeFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnMutex</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::initializeFnMutex</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initializeFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="350" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="350" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aeb14c15012df667cd75c4e20ce409362" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a8f6d0ca24adb2cbef09a7ea49dd7b56e" kindref="member">InitializeFn</ref> &amp;</type>
+        <definition>static InitializeFn &amp; themis::acceleration::VulkanVectorBackend::initializeFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnStorage</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::initializeFnStorage</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initializeFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="359" column="25" bodyfile="include/acceleration/graphics_backends.h" bodystart="359" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a98419be8231c87cf8d4cb14caad3e134" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::VulkanVectorBackend::computeDistancesFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>computeDistancesFnMutex</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::computeDistancesFnMutex</qualifiedname>
+        <briefdescription>
+<para>Compute Distances Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDistancesFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="368" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="368" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aab1a99e628d67869f109498490462006" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aca112c2e1273282b23f3122355a738ba" kindref="member">ComputeDistancesFn</ref> &amp;</type>
+        <definition>static ComputeDistancesFn &amp; themis::acceleration::VulkanVectorBackend::computeDistancesFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>computeDistancesFnStorage</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::computeDistancesFnStorage</qualifiedname>
+        <briefdescription>
+<para>Compute Distances Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDistancesFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="377" column="31" bodyfile="include/acceleration/graphics_backends.h" bodystart="377" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a79adb19de455bd777fcb56f97260c8d8" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::VulkanVectorBackend::batchKnnSearchFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>batchKnnSearchFnMutex</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::batchKnnSearchFnMutex</qualifiedname>
+        <briefdescription>
+<para>Batch Knn Search Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements batchKnnSearchFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="386" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="386" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aa5da30147122ec42b3537288d2325031" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aba3c78996a93d09a5612b496f5194fe0" kindref="member">BatchKnnSearchFn</ref> &amp;</type>
+        <definition>static BatchKnnSearchFn &amp; themis::acceleration::VulkanVectorBackend::batchKnnSearchFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>batchKnnSearchFnStorage</name>
+        <qualifiedname>themis::acceleration::VulkanVectorBackend::batchKnnSearchFnStorage</qualifiedname>
+        <briefdescription>
+<para>Batch Knn Search Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements batchKnnSearchFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="395" column="29" bodyfile="include/acceleration/graphics_backends.h" bodystart="395" bodyend="398"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::VulkanVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::VulkanVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/graphics_backends.h" line="193" column="1" bodyfile="include/acceleration/graphics_backends.h" bodystart="193" bodyend="403"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a5a84cb60858ab301f893fed3531a4602" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>AvailabilityFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a7c78c2fa69e0d47c87dec83999db9b9b" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>availabilityFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a222651bc52532271c2e42424789278b7" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>availabilityFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ac32bbf610d9509953467dfded67b8cb0" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>batchKnnSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aba3c78996a93d09a5612b496f5194fe0" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>BatchKnnSearchFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a79adb19de455bd777fcb56f97260c8d8" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>batchKnnSearchFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aa5da30147122ec42b3537288d2325031" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>batchKnnSearchFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a2143e8e963e3190e8bc602b329abeb82" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>batchKnnSearchSafe</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a9819726214760ecbf4e180face9efad2" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>CompileGLSLFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aa19ce7bf66ec79694e69443c4e9b77b1" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>computeDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aca112c2e1273282b23f3122355a738ba" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>ComputeDistancesFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a98419be8231c87cf8d4cb14caad3e134" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>computeDistancesFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aab1a99e628d67869f109498490462006" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>computeDistancesFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a4e5789b66c349a07607e61cc83280c3c" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a176e54ce3d5c0a564253d333ded78f84" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a689ad0c4592fdf91a37f939913157987" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>getWorkgroupSizeBatchSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a75fbfcbba16209b75ca0e84c341a483e" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>getWorkgroupSizeL2</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a2a88f5f13fb733a687823d48adf61077" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>hasBufferDeviceAddress</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aa3c51bf47d2e653db27587e7b5432d97" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a6415e36dcb119b856f9071c5f5ffa788" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a945fbe79a876640f46a01aa2a9eff5c6" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a8f6d0ca24adb2cbef09a7ea49dd7b56e" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>InitializeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ae066695efcb9b84fe65aab1afa8ccad4" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>initializeFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aeb14c15012df667cd75c4e20ce409362" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>initializeFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ad9f6773ddde308fea019f3f030b457f5" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a8a587f3291ad2790e368f1ae389098e8" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a2d4b836ca228004b9d98b784a53d5310" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1af173c0c2bdb2d027b955eafbe0e7b042" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>populateANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1abacaf53cd491441d6dff386e789c835d" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>setAvailabilityFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1abcbc6669f1d32c1b10107a0e9f883393" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>setBatchKnnSearchFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aaaa9e33fa7f7439b41dcf91d711b856c" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>setCompileGLSLFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1af06ca6f34d80d9799944bb2f15746a10" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>setComputeDistancesFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ab289bee1cda4e54a23208fcc37459fe8" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>setInitializeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a3bd4675b5d2f564d9688213adc455509" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>setWorkgroupSizeBatchSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1acdc914b9b441ff65a789147d8f563a3e" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>setWorkgroupSizeL2</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a4e413ab405fa82e8ce36eefc3d7942f7" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a6c2dc2c983fc67f0749eda48a0a012fc" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aca148a562ee576c6693c48886d6414e0" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>VulkanVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a80795a79f28f4f5dab65de8acd2af35f" prot="public" virt="virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>~IVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1aad9849e2ac8c973d54f17fd8bef5a105" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanVectorBackend</scope><name>~VulkanVectorBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

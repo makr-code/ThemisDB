@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMConfig</compoundname>
+    <includes refid="llm__process__analyzer_8h" local="no">llm_process_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1a17a5829c1b35dd95edd9a35424b9165a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a1ac1aab254203ce2d5e649004dfa9014" kindref="member">LLMProvider</ref></type>
+        <definition>LLMProvider themis::LLMConfig::provider</definition>
+        <argsstring></argsstring>
+        <name>provider</name>
+        <qualifiedname>themis::LLMConfig::provider</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1a1ac1aab254203ce2d5e649004dfa9014a0ff10a09c8ab71e6e63db5b7c2d41463" kindref="member">LLMProvider::OPENAI</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="50" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1aff4e2be5f4029102dddda74b3d83abf9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMConfig::api_key</definition>
+        <argsstring></argsstring>
+        <name>api_key</name>
+        <qualifiedname>themis::LLMConfig::api_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="51" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1a21e4293833f92ab49194c2aba7937e1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMConfig::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::LLMConfig::model_name</qualifiedname>
+        <initializer>= &quot;gpt-4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="52" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1a53432a20db6c5398097fe0b7aaffe3e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMConfig::base_url</definition>
+        <argsstring></argsstring>
+        <name>base_url</name>
+        <qualifiedname>themis::LLMConfig::base_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="53" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1ac79186ecd021a95de3d59c7741e1db4a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LLMConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::LLMConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="56" column="9" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1a21f604cd5f18fff1feb55df6cbd18f59" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LLMConfig::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themis::LLMConfig::retry_delay_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="57" column="9" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1aedbe6c2eab08b0cf2aee57d7a4c496c8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMConfig::enable_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_caching</name>
+        <qualifiedname>themis::LLMConfig::enable_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="60" column="10" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1ac46c222495ce8ba4afe0cf1275b298d9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LLMConfig::cache_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl_seconds</name>
+        <qualifiedname>themis::LLMConfig::cache_ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="61" column="9" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1ade4c26a60f6df0efd0b264d7984c0ce6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LLMConfig::max_cache_entries</definition>
+        <argsstring></argsstring>
+        <name>max_cache_entries</name>
+        <qualifiedname>themis::LLMConfig::max_cache_entries</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="62" column="9" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1a6f10195f0e048e9daa270cc65c95847a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LLMConfig::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::LLMConfig::max_tokens</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="65" column="9" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1a33ea7d250b8cf93f3819375439c8cc37" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LLMConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::LLMConfig::temperature</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="66" column="12" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_config_1af3f597c1e56a7a4d8e86b6608c530103" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMConfig::injection_prefix_config_path</definition>
+        <argsstring></argsstring>
+        <name>injection_prefix_config_path</name>
+        <qualifiedname>themis::LLMConfig::injection_prefix_config_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="68" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/llm_process_analyzer.h" line="49" column="1" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="49" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_config_1aff4e2be5f4029102dddda74b3d83abf9" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>api_key</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1a53432a20db6c5398097fe0b7aaffe3e3" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>base_url</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1ac46c222495ce8ba4afe0cf1275b298d9" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>cache_ttl_seconds</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1aedbe6c2eab08b0cf2aee57d7a4c496c8" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>enable_caching</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1af3f597c1e56a7a4d8e86b6608c530103" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>injection_prefix_config_path</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1ade4c26a60f6df0efd0b264d7984c0ce6" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>max_cache_entries</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1ac79186ecd021a95de3d59c7741e1db4a" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1a6f10195f0e048e9daa270cc65c95847a" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1a21e4293833f92ab49194c2aba7937e1e" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1a17a5829c1b35dd95edd9a35424b9165a" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>provider</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1a21f604cd5f18fff1feb55df6cbd18f59" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>retry_delay_ms</name></member>
+      <member refid="structthemis_1_1_l_l_m_config_1a33ea7d250b8cf93f3819375439c8cc37" prot="public" virt="non-virtual"><scope>themis::LLMConfig</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

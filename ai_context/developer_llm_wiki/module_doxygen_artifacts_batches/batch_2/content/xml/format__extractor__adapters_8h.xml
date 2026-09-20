@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="format__extractor__adapters_8h" kind="file" language="C++">
+    <compoundname>format_extractor_adapters.h</compoundname>
+    <includes local="yes">ingestion/format_extractor.h</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="archive__extractor__adapter_8cpp" local="yes">src/content/adapters/archive_extractor_adapter.cpp</includedby>
+    <includedby refid="audio__extractor__adapter_8cpp" local="yes">src/content/adapters/audio_extractor_adapter.cpp</includedby>
+    <includedby refid="format__extractor__factory_8cpp" local="yes">src/content/adapters/format_extractor_factory.cpp</includedby>
+    <includedby refid="image__extractor__adapter_8cpp" local="yes">src/content/adapters/image_extractor_adapter.cpp</includedby>
+    <includedby refid="office__extractor__adapter_8cpp" local="yes">src/content/adapters/office_extractor_adapter.cpp</includedby>
+    <includedby refid="pdf__extractor__adapter_8cpp" local="yes">src/content/adapters/pdf_extractor_adapter.cpp</includedby>
+    <includedby refid="text__extractor__adapter_8cpp" local="yes">src/content/adapters/text_extractor_adapter.cpp</includedby>
+    <includedby refid="test__adapter__scope__validation_8cpp" local="yes">tests/content/test_adapter_scope_validation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/adapters/format_extractor_adapters.h</label>
+        <link refid="format__extractor__adapters_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ingestion/format_extractor.h</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/content/adapters/format_extractor_adapters.h</label>
+        <link refid="format__extractor__adapters_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/content/adapters/archive_extractor_adapter.cpp</label>
+        <link refid="archive__extractor__adapter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/content/adapters/audio_extractor_adapter.cpp</label>
+        <link refid="audio__extractor__adapter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/content/adapters/format_extractor_factory.cpp</label>
+        <link refid="format__extractor__factory_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/content/adapters/image_extractor_adapter.cpp</label>
+        <link refid="image__extractor__adapter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/content/adapters/office_extractor_adapter.cpp</label>
+        <link refid="office__extractor__adapter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/content/adapters/pdf_extractor_adapter.cpp</label>
+        <link refid="pdf__extractor__adapter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/content/adapters/text_extractor_adapter.cpp</label>
+        <link refid="text__extractor__adapter_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/content/test_adapter_scope_validation.cpp</label>
+        <link refid="test__adapter__scope__validation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory" prot="public">themis::content::adapters::FormatExtractorFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content_1_1adapters">themis::content::adapters</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 82/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>header<sp/>is<sp/>ONLY<sp/>to<sp/>be<sp/>included<sp/>from<sp/>content/<sp/>or<sp/>from<sp/>build<sp/>wiring<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>It<sp/>MUST<sp/>NOT<sp/>be<sp/>included<sp/>from<sp/>ingestion/<sp/>or<sp/>toolbox/<sp/>to<sp/>preserve<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>dependency<sp/>direction:<sp/>ingestion/<sp/>and<sp/>toolbox/<sp/>only<sp/>know<sp/>IFormatExtractor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/format_extractor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1content_1_1adapters" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1adapters" kindref="compound">adapters</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/><ref refid="namespacethemis_1_1content_1_1adapters_1a3cc697ca308268a4c7aa8bd4a63b35de" kindref="member">createPdfExtractorAdapter</ref>();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/><ref refid="namespacethemis_1_1content_1_1adapters_1a4a53c2bd57e186387850d4c991a8949e" kindref="member">createOfficeExtractorAdapter</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/><ref refid="namespacethemis_1_1content_1_1adapters_1a8bcaf6c68211adf36163b94cbecec9e5" kindref="member">createImageExtractorAdapter</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/><ref refid="namespacethemis_1_1content_1_1adapters_1af9f7bafa4bfb7a63b28c56c396109b65" kindref="member">createArchiveExtractorAdapter</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/><ref refid="namespacethemis_1_1content_1_1adapters_1ac8db5e5f807b97adf4e47e21521330d4" kindref="member">createAudioExtractorAdapter</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/><ref refid="namespacethemis_1_1content_1_1adapters_1a7438be469c45897db6118ae84ec0e06b" kindref="member">createTextExtractorAdapter</ref>();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FormatExtractorFactory<sp/>—<sp/>concrete<sp/>IFormatExtractorFactory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1adb84eff9711c44c7ffbead5b1242fcc3" kindref="member">FormatExtractorFactory</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>ingestion::IFormatExtractorFactory<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1adb84eff9711c44c7ffbead5b1242fcc3" kindref="member">FormatExtractorFactory</ref>();</highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a08dd69fd083ce0f82084f2ef7971253a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a08dd69fd083ce0f82084f2ef7971253a" kindref="member">~FormatExtractorFactory</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/><ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a5e967c3b441031dc655c77f3f7f2e818" kindref="member">extractorFor</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a3c8f08c7305be3ce2738186ce8eb6c40" kindref="member">registerExtractor</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/>extractor)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a366ff0144c8f9c5fa9df984e671e13e9" kindref="member">registeredMimeTypes</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal">std::shared_ptr&lt;FormatExtractorFactory&gt;<sp/><ref refid="namespacethemis_1_1content_1_1adapters_1a85db9f0893e8021c216150846d930cd0" kindref="member">createDefaultFormatExtractorFactory</ref>();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>adapters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/adapters/format_extractor_adapters.h"/>
+  </compounddef>
+</doxygen>

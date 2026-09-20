@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hkdf_cache_api" kind="page">
+    <compoundname>hkdf_cache_api</compoundname>
+    <title>HKDF Cache API</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="hkdf_cache_api_1autotoc_md0_1s1"><sect2 id="hkdf_cache_api_1autotoc_md0">
+<title>Purpose</title><para>The HKDFCache provides deterministic, reproducible key derivation using HMAC-based Key Derivation Function (HKDF) per RFC 5869. Keys are cached with TTL-based eviction and LRU replacement across sharded thread-safe buckets to reduce repeated cryptographic operations.</para>
+</sect2></sect1>
+<sect1 id="hkdf_cache_api_1autotoc_md1_1s1"><sect2 id="hkdf_cache_api_1autotoc_md1">
+<title>Key Lifecycle</title><para><itemizedlist>
+<listitem><para><bold>Generation</bold>: Derive from input key material (IKM) using salt + info context</para>
+</listitem><listitem><para><bold>Caching</bold>: Store derived keys with configurable TTL and capacity limits</para>
+</listitem><listitem><para><bold>Versioning</bold>: Track key version via key_id to support rotation policies</para>
+</listitem><listitem><para><bold>Expiry</bold>: Automatic cleanup of expired keys via TTL mechanism</para>
+</listitem><listitem><para><bold>Memory Safety</bold>: All key material is zero-wiped via OPENSSL_cleanse on eviction</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="hkdf_cache_api_1autotoc_md2_1s1"><sect2 id="hkdf_cache_api_1autotoc_md2">
+<title>Thread Safety</title><para><itemizedlist>
+<listitem><para>All public methods are thread-safe</para>
+</listitem><listitem><para>Internal locking via sharded std::mutex for cache shards</para>
+</listitem><listitem><para>Stats are atomic across threads</para>
+</listitem><listitem><para>Thread-local instances available via threadLocal()</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="hkdf_cache_api_1autotoc_md3_1s1"><sect2 id="hkdf_cache_api_1autotoc_md3">
+<title>Memory Management</title><para><itemizedlist>
+<listitem><para>RAII-based resource cleanup (automatic destruction)</para>
+</listitem><listitem><para>Key material is always zero-wiped after eviction to prevent memory attacks</para>
+</listitem><listitem><para>Thread-local storage supported to reduce contention in high-concurrency scenarios</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="hkdf_cache_api_1autotoc_md4_1s1"><sect2 id="hkdf_cache_api_1autotoc_md4">
+<title>Compliance</title><para><itemizedlist>
+<listitem><para>Compliant with RFC 5869 (HKDF specification)</para>
+</listitem><listitem><para>Compatible with OpenSSL 3.0+ and OpenSSL 1.1.1+</para>
+</listitem><listitem><para>Constant-time operations where possible</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>LEKManager for key rotation policies </para>
+</simplesect>
+<simplesect kind="see"><para>KeyHandle for RAII-based key lifecycle management </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/utils/hkdf_cache.h"/>
+  </compounddef>
+</doxygen>

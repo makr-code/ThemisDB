@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__critical__batch1__fixes_8cpp" kind="file" language="C++">
+    <compoundname>test_critical_batch1_fixes.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes refid="dmn__evaluator_8h" local="yes">process/dmn_evaluator.h</includes>
+    <includes refid="vcc__vpb__importer_8h" local="yes">process/vcc_vpb_importer.h</includes>
+    <includes local="yes">rag/knowledge_graph_retriever.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>process/dmn_evaluator.h</label>
+        <link refid="dmn__evaluator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>process/process_model_manager.h</label>
+        <link refid="process__model__manager_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>process/vcc_vpb_importer.h</label>
+        <link refid="vcc__vpb__importer_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/process/test_critical_batch1_fixes.cpp</label>
+        <link refid="test__critical__batch1__fixes_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="16">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="21">
+        <label>rag/knowledge_graph_retriever.h</label>
+      </node>
+      <node id="19">
+        <label>shared_mutex</label>
+      </node>
+      <node id="17">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>string_view</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" prot="public">themis::process::DmnEvaluatorThreadSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" prot="public">themis::process::VccVpbImporterResourceTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Focused test cases for CRITICAL findings fixes (Batch 1). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test Coverage:<itemizedlist>
+<listitem><para>P23-01, P23-02: Iterator invalidation fix in <ref refid="process__graph__rag_8cpp" kindref="compound">process_graph_rag.cpp</ref></para>
+</listitem><listitem><para>P23-03: Pointer bounds validation in <ref refid="process__graph__rag_8cpp" kindref="compound">process_graph_rag.cpp</ref></para>
+</listitem><listitem><para>P23-04, P23-05: Thread-safety (data race) fix in <ref refid="dmn__evaluator_8cpp" kindref="compound">dmn_evaluator.cpp</ref></para>
+</listitem><listitem><para>P23-06: Resource lifecycle in <ref refid="vcc__vpb__importer_8cpp" kindref="compound">vcc_vpb_importer.cpp</ref> </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="dmn__evaluator_8h" kindref="compound">process/dmn_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vcc__vpb__importer_8h" kindref="compound">process/vcc_vpb_importer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/knowledge_graph_retriever.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-03:<sp/>Pointer<sp/>Bounds<sp/>Validation<sp/>Test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">TEST</ref>(ProcessGraphRagBoundsTest,<sp/>P23_03_PropertiesMapAccess)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>that<sp/>the<sp/>properties<sp/>map<sp/>can<sp/>be<sp/>safely<sp/>accessed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>without<sp/>bounds<sp/>checking<sp/>issues.<sp/>The<sp/>fix<sp/>ensures<sp/>att_node.properties</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is<sp/>an<sp/>unordered_map<sp/>which<sp/>auto-creates<sp/>keys.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::rag::kg::KGNode<sp/>test_node;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>test_node.id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>test_node.canonical_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;TestNode&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>test_node.type<sp/>=<sp/>themis::rag::kg::EntityType::PRODUCT;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>should<sp/>not<sp/>cause<sp/>bounds<sp/>violations<sp/>-<sp/>maps<sp/>auto-create<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>test_node.properties[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>test_node.properties[</highlight><highlight class="stringliteral">&quot;link_type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;references&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>test_node.properties[</highlight><highlight class="stringliteral">&quot;doc_type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;pdf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(test_node.properties[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(test_node.properties[</highlight><highlight class="stringliteral">&quot;link_type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;references&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(test_node.properties[</highlight><highlight class="stringliteral">&quot;doc_type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;pdf&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>accessing<sp/>non-existent<sp/>keys<sp/>doesn&apos;t<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>val<sp/>=<sp/>test_node.properties[</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>non-existent<sp/>keys<sp/>in<sp/>unordered_map,<sp/>accessing<sp/>with<sp/>[]<sp/>creates<sp/>an<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(test_node.properties.count(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-04,<sp/>P23-05:<sp/>Thread-Safety<sp/>(Data<sp/>Race)<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" kindref="compound">DmnEvaluatorThreadSafetyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test_1ab1f3f0c428f81b35eab2e172cb330895" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>a<sp/>simple<sp/>decision<sp/>table<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>dmn_json<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_decision&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Decision&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;hit_policy&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UNIQUE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;input_columns&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;output_columns&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;risk_level&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>rule1<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule1[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;r1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule1[</highlight><highlight class="stringliteral">&quot;inputs&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;&gt;1000&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\&quot;credit\&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule1[</highlight><highlight class="stringliteral">&quot;outputs&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;risk_level&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HIGH&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;manual_review&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>rule2<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule2[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;r2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule2[</highlight><highlight class="stringliteral">&quot;inputs&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;[100..1000]&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule2[</highlight><highlight class="stringliteral">&quot;outputs&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;risk_level&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MEDIUM&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;auto_approve&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;rules&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::array({rule1,<sp/>rule2});</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test_1a1b64af1a95193e47bd562a7835def71d" kindref="member">evaluator</ref><sp/>=<sp/>std::make_unique&lt;DmnEvaluator&gt;();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test_1a1b64af1a95193e47bd562a7835def71d" kindref="member">evaluator</ref>-&gt;loadFromJson(dmn_json);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DmnEvaluator&gt;<sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test_1a1b64af1a95193e47bd562a7835def71d" kindref="member">evaluator</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="namespacethemis_1_1process_1aa850d7ac6ab21898a59b430160ca0bb7" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" kindref="compound">DmnEvaluatorThreadSafetyTest</ref>,<sp/>P23_04_ConcurrentLoadsSafe)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>multiple<sp/>threads<sp/>that<sp/>load<sp/>decision<sp/>tables<sp/>concurrently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>4;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>dmn_json<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;decision_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Decision<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;hit_policy&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UNIQUE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;input_columns&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;output_columns&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>rule<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;r1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule[</highlight><highlight class="stringliteral">&quot;inputs&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;&gt;100&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule[</highlight><highlight class="stringliteral">&quot;outputs&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;rules&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::array({rule});</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>should<sp/>be<sp/>thread-safe<sp/>with<sp/>mutex<sp/>protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evaluator-&gt;loadFromJson(dmn_json);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>all<sp/>threads<sp/>to<sp/>complete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>all<sp/>decision<sp/>tables<sp/>were<sp/>loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decisions<sp/>=<sp/>evaluator-&gt;listDecisions();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(decisions.size(),<sp/>4);<sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>from<sp/>each<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="namespacethemis_1_1process_1aa850d7ac6ab21898a59b430160ca0bb7" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" kindref="compound">DmnEvaluatorThreadSafetyTest</ref>,<sp/>P23_05_ConcurrentEvaluateLoadSafe)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::exception_ptr&gt;<sp/>exceptions;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>exception_mutex<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>0-1:<sp/>Load<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>2;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>t,<sp/>&amp;exceptions,<sp/>&amp;exception_mutex]()<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>dmn_json<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;loaded_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Loaded<sp/>Decision&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;hit_policy&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UNIQUE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;input_columns&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;output_columns&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>rule<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule[</highlight><highlight class="stringliteral">&quot;inputs&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;[1..10]&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule[</highlight><highlight class="stringliteral">&quot;outputs&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;in_range&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dmn_json[</highlight><highlight class="stringliteral">&quot;rules&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::array({rule});</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evaluator-&gt;loadFromJson(dmn_json);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(exception_mutex);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exceptions.push_back(std::current_exception());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>2-3:<sp/>Evaluate<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>2;<sp/>t<sp/>&lt;<sp/>4;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>&amp;exceptions,<sp/>&amp;exception_mutex]()<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>context<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>500},<sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;credit&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator-&gt;evaluate(</highlight><highlight class="stringliteral">&quot;test_decision&quot;</highlight><highlight class="normal">,<sp/>context);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>get<sp/>some<sp/>result<sp/>without<sp/>crashing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_object()<sp/>||<sp/>result.is_array());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(exception_mutex);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exceptions.push_back(std::current_exception());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>all<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>no<sp/>exceptions<sp/>occurred</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(exceptions.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Thread<sp/>safety<sp/>violations<sp/>detected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-06:<sp/>Resource<sp/>Lifecycle<sp/>Test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" kindref="compound">VccVpbImporterResourceTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_vcc_vpb_importer" kindref="compound">VccVpbImporter</ref><sp/><ref refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test_1abe854db8a1cac80c39595cac1229665a" kindref="member">importer</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="namespacethemis_1_1process_1aa850d7ac6ab21898a59b430160ca0bb7" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" kindref="compound">VccVpbImporterResourceTest</ref>,<sp/>P23_06_YamlImportResourceSafety)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>yaml_text<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral">models:</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>model_1</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>name:<sp/>Process<sp/>Model<sp/>1</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>domain:<sp/>bpmn</highlight></codeline>
+<codeline lineno="224"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>model_2</highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>name:<sp/>Process<sp/>Model<sp/>2</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>domain:<sp/>dmn</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>model_3</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>name:<sp/>Process<sp/>Model<sp/>3</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>domain:<sp/>cmmn</highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref><sp/>defaults;</highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>defaults.<ref refid="structthemis_1_1process_1_1_process_model_record_1a1883ba67ff9524cc10141f35b3d71a2b" kindref="member">domain</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a124f71327e0b6686ec9acf8336784424" kindref="member">ProcessDomain::BUSINESS</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>defaults.<ref refid="structthemis_1_1process_1_1_process_model_record_1aed560335643b9c4248ecc89d5ba77f97" kindref="member">created_by</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>should<sp/>not<sp/>leak<sp/>resources<sp/>even<sp/>with<sp/>standard<sp/>YAML</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>importer.importYamlList(yaml_text,<sp/></highlight><highlight class="stringliteral">&quot;models&quot;</highlight><highlight class="normal">,<sp/>defaults);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>results<sp/>were<sp/>produced<sp/>(at<sp/>minimum,<sp/>no<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="namespacethemis_1_1process_1aa850d7ac6ab21898a59b430160ca0bb7" kindref="member">TEST_F</ref>(VccVpbImporterResourceTest,<sp/>P23_06_YamlImportExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Malformed<sp/>YAML<sp/>with<sp/>unusual<sp/>characters<sp/>and<sp/>edge<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>malformed_yaml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="254"><highlight class="stringliteral">models:</highlight></codeline>
+<codeline lineno="255"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>model_1</highlight></codeline>
+<codeline lineno="256"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>name:<sp/>&quot;Name<sp/>with<sp/>\&quot;quotes\&quot;&quot;</highlight></codeline>
+<codeline lineno="257"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>data:<sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>value1</highlight></codeline>
+<codeline lineno="259"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>value2</highlight></codeline>
+<codeline lineno="260"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>model_2</highlight></codeline>
+<codeline lineno="262"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>#<sp/>Comment<sp/>line</highlight></codeline>
+<codeline lineno="263"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>name:<sp/>Model<sp/>Two</highlight></codeline>
+<codeline lineno="264"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="stringliteral"><sp/><sp/>-<sp/>id:<sp/>model_3</highlight></codeline>
+<codeline lineno="266"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="267"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ProcessModelRecord<sp/>defaults;</highlight></codeline>
+<codeline lineno="269"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>defaults.<ref refid="structthemis_1_1process_1_1_process_model_record_1a1883ba67ff9524cc10141f35b3d71a2b" kindref="member">domain</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a124f71327e0b6686ec9acf8336784424" kindref="member">ProcessDomain::BUSINESS</ref>;</highlight></codeline>
+<codeline lineno="270"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>defaults.created_by<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>handle<sp/>malformed<sp/>YAML<sp/>gracefully<sp/>without<sp/>resource<sp/>leaks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>importer.importYamlList(malformed_yaml,<sp/></highlight><highlight class="stringliteral">&quot;models&quot;</highlight><highlight class="normal">,<sp/>defaults);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>minimum,<sp/>should<sp/>not<sp/>crash<sp/>and<sp/>should<sp/>return<sp/>some<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/process/test_critical_batch1_fixes.cpp"/>
+  </compounddef>
+</doxygen>

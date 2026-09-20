@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_t_t_quantizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::TTQuantizer</compoundname>
+    <includes refid="tt__quantizer_8h" local="no">tt_quantizer.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_t_t_quantizer_1afe781d1359a9bd0e09ce5f57fd34a3c2" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::TTQuantizer::kNF4Table[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>kNF4Table</name>
+        <qualifiedname>themis::storage::TTQuantizer::kNF4Table</qualifiedname>
+        <initializer>                                 = {
+    -1.0f,       -0.6961928f, -0.5250730f, -0.3949342f,
+    -0.2844073f, -0.1848549f, -0.0919652f,  0.0f,
+     0.0796474f,  0.1609302f,  0.2461564f,  0.3379999f,
+     0.4407302f,  0.5626170f,  0.7229568f,  1.0f
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="150" column="28" bodyfile="include/storage/tt_quantizer.h" bodystart="150" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a3266e828672b3b9320aa49f7420e733b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TTQuantizer::TTQuantizer</definition>
+        <argsstring>()=default</argsstring>
+        <name>TTQuantizer</name>
+        <qualifiedname>themis::storage::TTQuantizer::TTQuantizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="118" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a15ee3d4dd0af93d853b37035d44cb1ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TTQuantizer::~TTQuantizer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TTQuantizer</name>
+        <qualifiedname>themis::storage::TTQuantizer::~TTQuantizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="119" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a6f5be3238a81f7852105e41c7cca54e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref></type>
+        <definition>QuantizedTrain themis::storage::TTQuantizer::quantize</definition>
+        <argsstring>(const TTTrain &amp;train, QuantizationType type=QuantizationType::INT8) const</argsstring>
+        <name>quantize</name>
+        <qualifiedname>themis::storage::TTQuantizer::quantize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref></type>
+          <declname>type</declname>
+          <defval><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationType::INT8</ref></defval>
+        </param>
+        <briefdescription>
+<para>Quantise every core of a <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source TT-train (float32 cores). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target quantisation type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref>. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if train.cores is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="131" column="20" bodyfile="src/storage/tt_quantizer.cpp" bodystart="374" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1aa77a61960666c6aa08ccef971323f531" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref></type>
+        <definition>TTTrain themis::storage::TTQuantizer::dequantize</definition>
+        <argsstring>(const QuantizedTrain &amp;qtrain) const</argsstring>
+        <name>dequantize</name>
+        <qualifiedname>themis::storage::TTQuantizer::dequantize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref> &amp;</type>
+          <declname>qtrain</declname>
+        </param>
+        <briefdescription>
+<para>Dequantise back to a (lossy) <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> with float32 cores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="137" column="13" bodyfile="src/storage/tt_quantizer.cpp" bodystart="417" bodyend="452"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a8b5cad1c9b2f517dff38477048890f21" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TTQuantizer::typeName</definition>
+        <argsstring>(QuantizationType t) noexcept</argsstring>
+        <name>typeName</name>
+        <qualifiedname>themis::storage::TTQuantizer::typeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable name of a <ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="142" column="24" bodyfile="src/storage/tt_quantizer.cpp" bodystart="354" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a228912f571793ac8b19bcb19769511c2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::TTQuantizer::bytesPerElement</definition>
+        <argsstring>(QuantizationType t) noexcept</argsstring>
+        <name>bytesPerElement</name>
+        <qualifiedname>themis::storage::TTQuantizer::bytesPerElement</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Bytes per element for a given type (fractional for NF4 → use 0.5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="145" column="19" bodyfile="src/storage/tt_quantizer.cpp" bodystart="364" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a23d56af281caf9660154d22f76c23185" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref></type>
+        <definition>QuantizedCore themis::storage::TTQuantizer::quantizeINT8</definition>
+        <argsstring>(const TTCore &amp;core) const</argsstring>
+        <name>quantizeINT8</name>
+        <qualifiedname>themis::storage::TTQuantizer::quantizeINT8</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_core" kindref="compound">TTCore</ref> &amp;</type>
+          <declname>core</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="157" column="19" bodyfile="src/storage/tt_quantizer.cpp" bodystart="239" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a3d84d8cdf77e52728cb35679a95b9408" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref></type>
+        <definition>QuantizedCore themis::storage::TTQuantizer::quantizeNF4</definition>
+        <argsstring>(const TTCore &amp;core) const</argsstring>
+        <name>quantizeNF4</name>
+        <qualifiedname>themis::storage::TTQuantizer::quantizeNF4</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_core" kindref="compound">TTCore</ref> &amp;</type>
+          <declname>core</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="158" column="19" bodyfile="src/storage/tt_quantizer.cpp" bodystart="275" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a38fe531dcb71a63e348aad7cb7b63c61" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_t_t_core" kindref="compound">TTCore</ref></type>
+        <definition>TTCore themis::storage::TTQuantizer::dequantizeINT8</definition>
+        <argsstring>(const QuantizedCore &amp;qcore) const</argsstring>
+        <name>dequantizeINT8</name>
+        <qualifiedname>themis::storage::TTQuantizer::dequantizeINT8</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref> &amp;</type>
+          <declname>qcore</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="160" column="12" bodyfile="src/storage/tt_quantizer.cpp" bodystart="320" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a7ec2aa77aef3b2e3ab3082e5b25c28e6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_t_t_core" kindref="compound">TTCore</ref></type>
+        <definition>TTCore themis::storage::TTQuantizer::dequantizeNF4</definition>
+        <argsstring>(const QuantizedCore &amp;qcore) const</argsstring>
+        <name>dequantizeNF4</name>
+        <qualifiedname>themis::storage::TTQuantizer::dequantizeNF4</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref> &amp;</type>
+          <declname>qcore</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="161" column="12" bodyfile="src/storage/tt_quantizer.cpp" bodystart="334" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_t_t_quantizer_1a29ca499f7f10c3fa81e82e46819461a3" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::storage::TTQuantizer::findNF4Index</definition>
+        <argsstring>(float v) noexcept</argsstring>
+        <name>findNF4Index</name>
+        <qualifiedname>themis::storage::TTQuantizer::findNF4Index</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Find nearest index in kNF4Table for a normalised value v ∈ [-1,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="164" column="20" bodyfile="src/storage/tt_quantizer.cpp" bodystart="226" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Applies post-decomposition quantisation to TT-cores. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a3266e828672b3b9320aa49f7420e733b" kindref="member">TTQuantizer</ref><sp/>quant;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>qtrain<sp/>=<sp/>quant.quantize(train,<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dba167c795dd4cb725ea2c7da144e1f8e54" kindref="member">QuantizationType::NF4</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dequant<sp/>=<sp/>quant.dequantize(qtrain);<sp/><sp/></highlight><highlight class="comment">//<sp/>back<sp/>to<sp/>TTTrain</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/storage/tt_quantizer.h" line="116" column="1" bodyfile="include/storage/tt_quantizer.h" bodystart="116" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a228912f571793ac8b19bcb19769511c2" prot="public" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>bytesPerElement</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1aa77a61960666c6aa08ccef971323f531" prot="public" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>dequantize</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a38fe531dcb71a63e348aad7cb7b63c61" prot="private" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>dequantizeINT8</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a7ec2aa77aef3b2e3ab3082e5b25c28e6" prot="private" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>dequantizeNF4</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a29ca499f7f10c3fa81e82e46819461a3" prot="private" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>findNF4Index</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1afe781d1359a9bd0e09ce5f57fd34a3c2" prot="private" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>kNF4Table</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a6f5be3238a81f7852105e41c7cca54e2" prot="public" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>quantize</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a23d56af281caf9660154d22f76c23185" prot="private" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>quantizeINT8</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a3d84d8cdf77e52728cb35679a95b9408" prot="private" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>quantizeNF4</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a3266e828672b3b9320aa49f7420e733b" prot="public" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>TTQuantizer</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a8b5cad1c9b2f517dff38477048890f21" prot="public" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>typeName</name></member>
+      <member refid="classthemis_1_1storage_1_1_t_t_quantizer_1a15ee3d4dd0af93d853b37035d44cb1ab" prot="public" virt="non-virtual"><scope>themis::storage::TTQuantizer</scope><name>~TTQuantizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

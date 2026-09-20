@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::JWTFailureClassificationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test_1adae9180f8704d609f1dde4084d8ba808" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref></type>
+        <definition>JWTValidatorConfig themis::auth::tests::JWTFailureClassificationTest::getBaseConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getBaseConfig</name>
+        <qualifiedname>themis::auth::tests::JWTFailureClassificationTest::getBaseConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_jwt_validator_focused.cpp" line="216" column="24" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="216" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::JWTFailureClassificationTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::JWTFailureClassificationTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_jwt_validator_focused.cpp" line="214" column="1" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="214" bodyend="220"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test_1adae9180f8704d609f1dde4084d8ba808" prot="protected" virt="non-virtual"><scope>themis::auth::tests::JWTFailureClassificationTest</scope><name>getBaseConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_stonith_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IStonithProvider</compoundname>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_null_stonith_provider" prot="public" virt="non-virtual">themis::sharding::NullStonithProvider</derivedcompoundref>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_stonith_provider_1a8c46b743735629aa49dabe15488bc8f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IStonithProvider::~IStonithProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStonithProvider</name>
+        <qualifiedname>themis::sharding::IStonithProvider::~IStonithProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="173" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_stonith_provider_1a4e7ca09a41755f3ae44cb8938167faa6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::IStonithProvider::fence</definition>
+        <argsstring>(const NodeId &amp;node_id, const std::string &amp;reason, std::chrono::steady_clock::time_point deadline)=0</argsstring>
+        <name>fence</name>
+        <qualifiedname>themis::sharding::IStonithProvider::fence</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_null_stonith_provider_1ada498985fdadc9e06f48c45bd30eaece">fence</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+<para>Issue a fencing command against <computeroutput>node_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The implementation should ensure the target node can no longer write to the cluster before returning. If it cannot guarantee this within the given <computeroutput>deadline</computeroutput>, it should return false.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node to fence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable reason (for audit log). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latest point at which fencing must be confirmed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the node was successfully fenced, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="187" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_stonith_provider_1a5f9e0d4ca215c1f2d42b389f79b20b7e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::IStonithProvider::isFenced</definition>
+        <argsstring>(const NodeId &amp;node_id) const =0</argsstring>
+        <name>isFenced</name>
+        <qualifiedname>themis::sharding::IStonithProvider::isFenced</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_null_stonith_provider_1a31ea93c0ada07149e38dbcaa237ce56a">isFenced</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a previously fenced node has been confirmed offline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the node is known to be offline / fenced. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="195" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_stonith_provider_1a4cddc11dd8e5d75302fc214db2ab8dd7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::sharding::IStonithProvider::providerName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>providerName</name>
+        <qualifiedname>themis::sharding::IStonithProvider::providerName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_null_stonith_provider_1ad38db55c76cf83eed5000276d9ff6b24">providerName</reimplementedby>
+        <briefdescription>
+<para>Symbolic name of this provider (for logging / metrics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="198" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for STONITH (power-cycle / evict) backends. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Concrete implementations:<itemizedlist>
+<listitem><para><bold><ref refid="classthemis_1_1sharding_1_1_null_stonith_provider" kindref="compound">NullStonithProvider</ref></bold> — no-op; used in tests and single-node setups.</para>
+</listitem><listitem><para><bold>IpmiStonithProvider</bold> — sends <computeroutput>ipmitool chassis power off</computeroutput> to the BMC.</para>
+</listitem><listitem><para><bold>MtlsRevocationProvider</bold> — revokes the node&apos;s mTLS certificate so it can no longer issue authenticated RPCs. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::sharding::IStonithProvider</label>
+        <link refid="classthemis_1_1sharding_1_1_i_stonith_provider"/>
+      </node>
+      <node id="2">
+        <label>themis::sharding::NullStonithProvider</label>
+        <link refid="classthemis_1_1sharding_1_1_null_stonith_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/epoch_fencing.h" line="171" column="1" bodyfile="include/sharding/epoch_fencing.h" bodystart="171" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_stonith_provider_1a4e7ca09a41755f3ae44cb8938167faa6" prot="public" virt="pure-virtual"><scope>themis::sharding::IStonithProvider</scope><name>fence</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_stonith_provider_1a5f9e0d4ca215c1f2d42b389f79b20b7e" prot="public" virt="pure-virtual"><scope>themis::sharding::IStonithProvider</scope><name>isFenced</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_stonith_provider_1a4cddc11dd8e5d75302fc214db2ab8dd7" prot="public" virt="pure-virtual"><scope>themis::sharding::IStonithProvider</scope><name>providerName</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_stonith_provider_1a8c46b743735629aa49dabe15488bc8f9" prot="public" virt="virtual"><scope>themis::sharding::IStonithProvider</scope><name>~IStonithProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

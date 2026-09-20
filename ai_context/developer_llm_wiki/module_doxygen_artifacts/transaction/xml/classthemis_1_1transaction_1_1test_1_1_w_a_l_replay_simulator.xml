@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::WALReplaySimulator</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a323dd6c5f8fa870ce4f4b9324f2bcc42" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::transaction::test::WALReplaySimulator::in_flight_count_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_count_</name>
+        <qualifiedname>themis::transaction::test::WALReplaySimulator::in_flight_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="121" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1abf0ca7953b2ee6004b6b5358cb12fa2b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1test_1_1_txn_record" kindref="compound">TxnRecord</ref> &gt;</type>
+        <definition>std::vector&lt;TxnRecord&gt; themis::transaction::test::WALReplaySimulator::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themis::transaction::test::WALReplaySimulator::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="122" column="17" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1adb03d2e431b7c477cfa700c0fbbfa7a1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::test::WALReplaySimulator::WALReplaySimulator</definition>
+        <argsstring>(int in_flight_count)</argsstring>
+        <name>WALReplaySimulator</name>
+        <qualifiedname>themis::transaction::test::WALReplaySimulator::WALReplaySimulator</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>in_flight_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="72" column="14" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a121a258e8be3dd2e66aa3f8b07c8f865" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::transaction::test::WALReplaySimulator::replayAndResolve</definition>
+        <argsstring>()</argsstring>
+        <name>replayAndResolve</name>
+        <qualifiedname>themis::transaction::test::WALReplaySimulator::replayAndResolve</qualifiedname>
+        <briefdescription>
+<para>Replay the WAL and resolve all in-doubt transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of transactions resolved (committed or aborted). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="87" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="87" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a85d2d7c278edd0ddf0611e4a2d486402" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::WALReplaySimulator::markPreparedPrefix</definition>
+        <argsstring>(int count)</argsstring>
+        <name>markPreparedPrefix</name>
+        <qualifiedname>themis::transaction::test::WALReplaySimulator::markPreparedPrefix</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="100" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="100" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a21e97b003f7a35f81fa5a80ffe5b4604" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::test::WALReplaySimulator::anyInDoubt</definition>
+        <argsstring>() const</argsstring>
+        <name>anyInDoubt</name>
+        <qualifiedname>themis::transaction::test::WALReplaySimulator::anyInDoubt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="108" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="108" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1ae3d62d6e3e3deeacec4da4c69bf73a8c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1transaction_1_1test_1_1_txn_record" kindref="compound">TxnRecord</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; TxnRecord &gt; &amp; themis::transaction::test::WALReplaySimulator::wal</definition>
+        <argsstring>() const</argsstring>
+        <name>wal</name>
+        <qualifiedname>themis::transaction::test::WALReplaySimulator::wal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="117" column="23" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a686b7400bc504ab28e3824bad4786757" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::transaction::test::WALReplaySimulator::inFlightCount</definition>
+        <argsstring>() const</argsstring>
+        <name>inFlightCount</name>
+        <qualifiedname>themis::transaction::test::WALReplaySimulator::inFlightCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="118" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="118" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulates a WAL with in-flight transactions and verifies that a coordinator restart resolves all entries within the SLA (5 s → mocked). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="70" column="1" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="70" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a21e97b003f7a35f81fa5a80ffe5b4604" prot="public" virt="non-virtual"><scope>themis::transaction::test::WALReplaySimulator</scope><name>anyInDoubt</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a323dd6c5f8fa870ce4f4b9324f2bcc42" prot="private" virt="non-virtual"><scope>themis::transaction::test::WALReplaySimulator</scope><name>in_flight_count_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a686b7400bc504ab28e3824bad4786757" prot="public" virt="non-virtual"><scope>themis::transaction::test::WALReplaySimulator</scope><name>inFlightCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a85d2d7c278edd0ddf0611e4a2d486402" prot="public" virt="non-virtual"><scope>themis::transaction::test::WALReplaySimulator</scope><name>markPreparedPrefix</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1a121a258e8be3dd2e66aa3f8b07c8f865" prot="public" virt="non-virtual"><scope>themis::transaction::test::WALReplaySimulator</scope><name>replayAndResolve</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1ae3d62d6e3e3deeacec4da4c69bf73a8c" prot="public" virt="non-virtual"><scope>themis::transaction::test::WALReplaySimulator</scope><name>wal</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1abf0ca7953b2ee6004b6b5358cb12fa2b" prot="private" virt="non-virtual"><scope>themis::transaction::test::WALReplaySimulator</scope><name>wal_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_w_a_l_replay_simulator_1adb03d2e431b7c477cfa700c0fbbfa7a1" prot="public" virt="non-virtual"><scope>themis::transaction::test::WALReplaySimulator</scope><name>WALReplaySimulator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

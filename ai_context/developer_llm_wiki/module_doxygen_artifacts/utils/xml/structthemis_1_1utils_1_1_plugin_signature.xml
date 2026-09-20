@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_plugin_signature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PluginSignature</compoundname>
+    <includes refid="pii__detection__engine_8h" local="no">pii_detection_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_plugin_signature_1ac24f5f0e7f0ae3be153fe86e32361d8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::engine_type</definition>
+        <argsstring></argsstring>
+        <name>engine_type</name>
+        <qualifiedname>themis::utils::PluginSignature::engine_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="59" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_plugin_signature_1a580bb889456452726b18dcba64244b16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::utils::PluginSignature::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="60" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_plugin_signature_1a26466465cdfb07238db7ce51417efcb9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::config_hash</definition>
+        <argsstring></argsstring>
+        <name>config_hash</name>
+        <qualifiedname>themis::utils::PluginSignature::config_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="61" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_plugin_signature_1a25125810dbec8b561917885bff47b384" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::utils::PluginSignature::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="62" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_plugin_signature_1ac9d4dc2121d6f77580d4030019cc75ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::signature_id</definition>
+        <argsstring></argsstring>
+        <name>signature_id</name>
+        <qualifiedname>themis::utils::PluginSignature::signature_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="63" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_plugin_signature_1ac95a1177cd33404d4aa23352010403dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::cert_serial</definition>
+        <argsstring></argsstring>
+        <name>cert_serial</name>
+        <qualifiedname>themis::utils::PluginSignature::cert_serial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="64" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_plugin_signature_1a37a47b33b217ae4099b435329fe4a5ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::signed_at</definition>
+        <argsstring></argsstring>
+        <name>signed_at</name>
+        <qualifiedname>themis::utils::PluginSignature::signed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="65" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_plugin_signature_1a752c139105c3f1002f1eeaab2b33eb5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::signer</definition>
+        <argsstring></argsstring>
+        <name>signer</name>
+        <qualifiedname>themis::utils::PluginSignature::signer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="66" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_plugin_signature_1a74c5970b2b4bf2a2ee317885c0280311" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::PluginSignature::verify</definition>
+        <argsstring>(const VCCPKIClient &amp;pki_client, const nlohmann::json &amp;config) const</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::utils::PluginSignature::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &amp;</type>
+          <declname>pki_client</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Verify signature against configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pki_client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKI client for verification </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration to verify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if signature is valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="74" column="10" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="65" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_plugin_signature_1ab1b915c185b9697c399c9f9d6bb56b48" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PluginSignature::computeConfigHash</definition>
+        <argsstring>(const nlohmann::json &amp;config)</argsstring>
+        <name>computeConfigHash</name>
+        <qualifiedname>themis::utils::PluginSignature::computeConfigHash</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compute hash of configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Config Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SHA-256 hash (hex string)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), erase(), dump(), SHA256(), c_str(), length(), std::setw(), std::setfill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="81" column="24" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="40" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin signature metadata for verification. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/pii_detection_engine.h" line="58" column="1" bodyfile="include/utils/pii_detection_engine.h" bodystart="58" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1ac95a1177cd33404d4aa23352010403dd" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>cert_serial</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1ab1b915c185b9697c399c9f9d6bb56b48" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>computeConfigHash</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1a26466465cdfb07238db7ce51417efcb9" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>config_hash</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1ac24f5f0e7f0ae3be153fe86e32361d8e" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>engine_type</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1a25125810dbec8b561917885bff47b384" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>signature</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1ac9d4dc2121d6f77580d4030019cc75ab" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>signature_id</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1a37a47b33b217ae4099b435329fe4a5ee" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>signed_at</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1a752c139105c3f1002f1eeaab2b33eb5f" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>signer</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1a74c5970b2b4bf2a2ee317885c0280311" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>verify</name></member>
+      <member refid="structthemis_1_1utils_1_1_plugin_signature_1a580bb889456452726b18dcba64244b16" prot="public" virt="non-virtual"><scope>themis::utils::PluginSignature</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

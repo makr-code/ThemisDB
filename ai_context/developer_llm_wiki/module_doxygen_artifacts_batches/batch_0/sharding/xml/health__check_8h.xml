@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="health__check_8h" kind="file" language="C++">
+    <compoundname>health_check.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includedby refid="admin__operations_8h" local="yes">include/sharding/admin_operations.h</includedby>
+    <includedby refid="health__check_8cpp" local="yes">src/sharding/health_check.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/health_check.h</label>
+        <link refid="health__check_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/sharding/admin_operations.h</label>
+        <link refid="admin__operations_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/health_check.h</label>
+        <link refid="health__check_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/admin_operations.cpp</label>
+        <link refid="admin__operations_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/health_check.cpp</label>
+        <link refid="health__check_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_health_info" prot="public">themis::sharding::ShardHealthInfo</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_cluster_health_info" prot="public">themis::sharding::ClusterHealthInfo</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_health_check_system" prot="public">themis::sharding::HealthCheckSystem</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config" prot="public">themis::sharding::HealthCheckSystem::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" kindref="member">HealthStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7af068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7af068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a7438a7e4e4f36f04fda32fa100121e47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a7438a7e4e4f36f04fda32fa100121e47" kindref="member">UNHEALTHY</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1sharding_1_1_shard_health_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_shard_health_info" kindref="compound">ShardHealthInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1sharding_1_1_shard_health_info_1a1ba37b065add44b6179105e09df02296" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1a1ba37b065add44b6179105e09df02296" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1sharding_1_1_shard_health_info_1a164e217ce6eaf30449a237428cbfa96c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" kindref="member">HealthStatus</ref><sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1a164e217ce6eaf30449a237428cbfa96c" kindref="member">status</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1sharding_1_1_shard_health_info_1ad8a50258d1022d8f8bebdfa5bd773ac7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1ad8a50258d1022d8f8bebdfa5bd773ac7" kindref="member">cert_valid</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1sharding_1_1_shard_health_info_1a6f21ec06d13ca7023dafcbd8cbda493f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1a6f21ec06d13ca7023dafcbd8cbda493f" kindref="member">cert_expiry_seconds</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_shard_health_info_1a12ef955f4dbd079afe34db183f20e510" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1a12ef955f4dbd079afe34db183f20e510" kindref="member">storage_ok</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_shard_health_info_1ab503a1fd9fbf8745e8e52159d7cb07ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1ab503a1fd9fbf8745e8e52159d7cb07ba" kindref="member">storage_usage_percent</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1sharding_1_1_shard_health_info_1a8686140957b2044cc4e022d0ef4eefa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1a8686140957b2044cc4e022d0ef4eefa2" kindref="member">network_ok</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_shard_health_info_1ae8c6f8c94e860ae7dab40642d6d687eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1ae8c6f8c94e860ae7dab40642d6d687eb" kindref="member">response_time_ms</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1sharding_1_1_shard_health_info_1a3e2485649ce15ef997da3f81fa3de26b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1a3e2485649ce15ef997da3f81fa3de26b" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1sharding_1_1_shard_health_info_1a00913f9c8908171af2fd7ffeddb71b2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info_1a00913f9c8908171af2fd7ffeddb71b2b" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1sharding_1_1_cluster_health_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_cluster_health_info_1a9de709b133fcb549d165a02b646a649b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" kindref="member">HealthStatus</ref><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1a9de709b133fcb549d165a02b646a649b" kindref="member">cluster_status</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_cluster_health_info_1a1277507a73a420d69c09bf5a4ede2b83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1a1277507a73a420d69c09bf5a4ede2b83" kindref="member">total_shards</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1sharding_1_1_cluster_health_info_1a0e20a118d629aac2a0b4c8ff89edd4e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1a0e20a118d629aac2a0b4c8ff89edd4e4" kindref="member">healthy_shards</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1sharding_1_1_cluster_health_info_1a8025bc0336c8d022d3c5436ca4c930be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1a8025bc0336c8d022d3c5436ca4c930be" kindref="member">degraded_shards</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1sharding_1_1_cluster_health_info_1a945d09379a606e0521c88138eff8ed15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1a945d09379a606e0521c88138eff8ed15" kindref="member">unhealthy_shards</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1sharding_1_1_cluster_health_info_1a2d557c1c97a06bbcb32a3acdfa4d71e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1a2d557c1c97a06bbcb32a3acdfa4d71e7" kindref="member">critical_shards</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1sharding_1_1_cluster_health_info_1ac7d5d5c88f90bf7a5059bfba6a91487a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1ac7d5d5c88f90bf7a5059bfba6a91487a" kindref="member">has_quorum</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1sharding_1_1_cluster_health_info_1aa11865a91febb8782919fdd8cc5d81fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ShardHealthInfo&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1aa11865a91febb8782919fdd8cc5d81fa" kindref="member">shard_health</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1sharding_1_1_cluster_health_info_1aa757325707d7bec26237350e00775871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info_1aa757325707d7bec26237350e00775871" kindref="member">cluster_warnings</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1sharding_1_1_health_check_system" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_health_check_system_1a0d0f44227d51f61f211e875ea3877590" kindref="member">HealthCheckSystem</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a7ca348ca2474e0afaf7969d516a276fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a7ca348ca2474e0afaf7969d516a276fe" kindref="member">check_interval_ms</ref><sp/>=<sp/>30000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a6fa98905911040a3dfa226874c98ade1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a6fa98905911040a3dfa226874c98ade1" kindref="member">cert_expiry_warning_days</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a1b8bfb023b3b43e9c6f6355f354b85ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a1b8bfb023b3b43e9c6f6355f354b85ce" kindref="member">storage_warning_percent</ref><sp/>=<sp/>90;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a61c5343b9016d09027dcddf5858b647a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a61c5343b9016d09027dcddf5858b647a" kindref="member">storage_critical_percent</ref><sp/>=<sp/>95;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a17532ea7dd868b2427465f5bcdcba95e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a17532ea7dd868b2427465f5bcdcba95e" kindref="member">response_time_degraded_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a9a70e1e22bf74b4b46191a6ab2f9a0a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a9a70e1e22bf74b4b46191a6ab2f9a0a5" kindref="member">response_time_unhealthy_ms</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1aec1f29ec3857fc352412a5a5b284b0fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1aec1f29ec3857fc352412a5a5b284b0fb" kindref="member">enable_auto_remediation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1ad64b656a8b15b2d53021a14b6e17b496" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1ad64b656a8b15b2d53021a14b6e17b496" kindref="member">ca_cert_path</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1sharding_1_1_health_check_system_1ad28507e03ba8e93aa9d7eb9f126d8866" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_health_check_system_1ad28507e03ba8e93aa9d7eb9f126d8866" kindref="member">HealthCheckCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1a0d0f44227d51f61f211e875ea3877590" kindref="member">HealthCheckSystem</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1acfd3acb65d6fcb973f66a1a2cdc85467" kindref="member">~HealthCheckSystem</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_health_info" kindref="compound">ShardHealthInfo</ref><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1acd5ff595e8b5e99359105c5f60f9d4c3" kindref="member">checkShardHealth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_path);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1a8322f9a1d7eb283a39fa7ce67a0b00d2" kindref="member">checkClusterHealth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>shard_endpoints);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1a88197d9139db4bbeca3447c77e4db819" kindref="member">registerCallback</ref>(<ref refid="classthemis_1_1sharding_1_1_health_check_system_1ad28507e03ba8e93aa9d7eb9f126d8866" kindref="member">HealthCheckCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1ad2635d4ea169bdd471d74863f5b67ff2" kindref="member">startPeriodicChecks</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>shard_endpoints);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1ab129248596937791c7ebfb68e7f16bcf" kindref="member">stopPeriodicChecks</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1aadd53402c8c0641afea37711cd6a4c9f" kindref="member">getCurrentHealth</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>state_mutex_;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_health_check_system_1ad28507e03ba8e93aa9d7eb9f126d8866" kindref="member">HealthCheckCallback</ref><sp/>callback_;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref><sp/>current_health_;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>lifecycle_mutex_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>periodic_thread_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cv_mutex_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkCertificateValidity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_path,<sp/>int64_t&amp;<sp/>seconds_until_expiry);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkStorageCapacity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>usage_percent);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkNetworkConnectivity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>response_time_ms);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" kindref="member">HealthStatus</ref><sp/>aggregateHealth(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardHealthInfo&gt;&amp;<sp/>shard_health);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasQuorum(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>healthy_shards,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_shards);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/health_check.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,846 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_c_a_d_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::CADProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor_plugin" prot="public" virt="non-virtual">themis::content::IContentProcessorPlugin</basecompoundref>
+    <includes refid="cad__processor_8h" local="no">cad_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1ad2f7a1beb6394ac45d16b87c9a4b6fe9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::CADProcessor::thumbnail_width_</definition>
+        <argsstring></argsstring>
+        <name>thumbnail_width_</name>
+        <qualifiedname>themis::content::CADProcessor::thumbnail_width_</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="48" column="9" bodyfile="include/content/cad_processor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1a2890ce2b77276c30f0b86fb995f840f0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::CADProcessor::thumbnail_height_</definition>
+        <argsstring></argsstring>
+        <name>thumbnail_height_</name>
+        <qualifiedname>themis::content::CADProcessor::thumbnail_height_</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="49" column="9" bodyfile="include/content/cad_processor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1afba1e075cdae1b28efc3d85cc475a2d5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::CADProcessor::extract_bom_</definition>
+        <argsstring></argsstring>
+        <name>extract_bom_</name>
+        <qualifiedname>themis::content::CADProcessor::extract_bom_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="50" column="10" bodyfile="include/content/cad_processor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1a090b03ebf20c4718cab9dd8b3bece890" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::CADProcessor::calculate_volume_</definition>
+        <argsstring></argsstring>
+        <name>calculate_volume_</name>
+        <qualifiedname>themis::content::CADProcessor::calculate_volume_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="51" column="10" bodyfile="include/content/cad_processor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1a333086bb6cc8a2eb2510bd31cf6cd7f6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::CADProcessor::calculate_surface_area_</definition>
+        <argsstring></argsstring>
+        <name>calculate_surface_area_</name>
+        <qualifiedname>themis::content::CADProcessor::calculate_surface_area_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="52" column="10" bodyfile="include/content/cad_processor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1aec96e3c24a2cef8725c934ae2ea164b2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::CADProcessor::default_units_</definition>
+        <argsstring></argsstring>
+        <name>default_units_</name>
+        <qualifiedname>themis::content::CADProcessor::default_units_</qualifiedname>
+        <initializer>= &quot;mm&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="53" column="17" bodyfile="include/content/cad_processor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1a5ff0e3cf242310178275c9aeaf9669c9" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::CADProcessor::mesh_deflection_</definition>
+        <argsstring></argsstring>
+        <name>mesh_deflection_</name>
+        <qualifiedname>themis::content::CADProcessor::mesh_deflection_</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="54" column="12" bodyfile="include/content/cad_processor.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1a47dcbc650006cdfacf7ceb764c9b61dc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::CADProcessor::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::content::CADProcessor::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="57" column="24" bodyfile="include/content/cad_processor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1acf0c0335da1710382957a5c0a0299170" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::CADProcessor::files_processed_</definition>
+        <argsstring></argsstring>
+        <name>files_processed_</name>
+        <qualifiedname>themis::content::CADProcessor::files_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="58" column="17" bodyfile="include/content/cad_processor.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1a0802c7611c3070202a0499959e021545" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::CADProcessor::total_parts_</definition>
+        <argsstring></argsstring>
+        <name>total_parts_</name>
+        <qualifiedname>themis::content::CADProcessor::total_parts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="59" column="17" bodyfile="include/content/cad_processor.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1a5ca111b9fdf4f4eeec291d2bb45e63ea" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::CADProcessor::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::content::CADProcessor::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="60" column="17" bodyfile="include/content/cad_processor.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_c_a_d_processor_1a2c20482bea2f460ac501c8137db1c1f5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::CADProcessor::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::content::CADProcessor::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="62" column="10" bodyfile="include/content/cad_processor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a4624b3569b7e5401a78bd99a11437b8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::CADProcessor::CADProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>CADProcessor</name>
+        <qualifiedname>themis::content::CADProcessor::CADProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="22" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1ad84acb98208073d051fca5a8409628b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::CADProcessor::~CADProcessor</definition>
+        <argsstring>() override</argsstring>
+        <name>~CADProcessor</name>
+        <qualifiedname>themis::content::CADProcessor::~CADProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="23" column="5" bodyfile="src/content/cad_processor.cpp" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a73c9aa27a70ef9a44402397c9df99945" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::content::CADProcessor::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::content::CADProcessor::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4">getInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="26" column="16" bodyfile="src/content/cad_processor.cpp" bodystart="32" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1af285b2732e27c08da5f5ea7dec35a309" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::CADProcessor::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::content::CADProcessor::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="27" column="10" bodyfile="src/content/cad_processor.cpp" bodystart="61" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a2775805f709d3cb3ad6c06383460436f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::content::CADProcessor::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::content::CADProcessor::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="28" column="10" bodyfile="src/content/cad_processor.cpp" bodystart="86" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1afe4227cd6e5b6f2507d65b15d6cb0000" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::CADProcessor::canProcess</definition>
+        <argsstring>(const std::string &amp;mime_type) const override</argsstring>
+        <name>canProcess</name>
+        <qualifiedname>themis::content::CADProcessor::canProcess</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099">canProcess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="29" column="10" bodyfile="src/content/cad_processor.cpp" bodystart="94" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a3b532f1c95971df204e8eab6caaabae2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref></type>
+        <definition>ContentExtractionResult themis::content::CADProcessor::extract</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, const ExtractionOptions &amp;options={}) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::CADProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d">extract</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), size(), empty(), header(), begin(), std::min(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="31" column="29" bodyfile="src/content/cad_processor.cpp" bodystart="110" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1abbeaf00ff8d28862273c50abd938e25d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_chunk" kindref="compound">ContentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunk &gt; themis::content::CADProcessor::chunk</definition>
+        <argsstring>(const ContentExtractionResult &amp;result, int max_tokens, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::CADProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(), value(), size(), empty(), contains(), str(), <ref refid="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" kindref="member">countTokens()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="37" column="17" bodyfile="src/content/cad_processor.cpp" bodystart="235" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a04a9537f5ec49c9ac8c4418485384428" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::CADProcessor::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::content::CADProcessor::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529">healthCheck</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="43" column="10" bodyfile="src/content/cad_processor.cpp" bodystart="276" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a81e126b9de1299dded9e045cd1e57abd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::CADProcessor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::CADProcessor::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46">getStatistics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="44" column="10" bodyfile="src/content/cad_processor.cpp" bodystart="280" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1ac8ddcfcc1e2243832c0f513bf6aa629d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_c_a_d_extraction_data" kindref="compound">CADExtractionData</ref></type>
+        <definition>CADExtractionData themis::content::CADProcessor::parseSTEP</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseSTEP</name>
+        <qualifiedname>themis::content::CADProcessor::parseSTEP</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse STEP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1content" kindref="compound">content()</ref>, begin(), end(), find(), std::max(), push_back(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="70" column="23" bodyfile="src/content/cad_processor.cpp" bodystart="296" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a1ff2b91b1d084175386b41680fb21e2a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_c_a_d_extraction_data" kindref="compound">CADExtractionData</ref></type>
+        <definition>CADExtractionData themis::content::CADProcessor::parseIGES</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseIGES</name>
+        <qualifiedname>themis::content::CADProcessor::parseIGES</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse IGES. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements parseIGES without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="76" column="23" bodyfile="src/content/cad_processor.cpp" bodystart="340" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1aad7383ba155b47a9467dc2f17b5abfdd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_c_a_d_extraction_data" kindref="compound">CADExtractionData</ref></type>
+        <definition>CADExtractionData themis::content::CADProcessor::parseDXF</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseDXF</name>
+        <qualifiedname>themis::content::CADProcessor::parseDXF</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse DXF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements parseDXF without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="82" column="23" bodyfile="src/content/cad_processor.cpp" bodystart="358" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1ae66d8f220a5512775d3923f0856704ed" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_c_a_d_extraction_data" kindref="compound">CADExtractionData</ref></type>
+        <definition>CADExtractionData themis::content::CADProcessor::parseSTL</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseSTL</name>
+        <qualifiedname>themis::content::CADProcessor::parseSTL</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse STL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::memcpy(), data(), push_back(), std::to_string(), max(), lowest(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="88" column="23" bodyfile="src/content/cad_processor.cpp" bodystart="377" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1aca64832e020f5101a0db716e138f98c9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_c_a_d_extraction_data" kindref="compound">CADExtractionData</ref></type>
+        <definition>CADExtractionData themis::content::CADProcessor::parseOBJ</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseOBJ</name>
+        <qualifiedname>themis::content::CADProcessor::parseOBJ</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse OBJ. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1content" kindref="compound">content()</ref>, begin(), end(), stream(), max(), lowest(), std::getline(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="94" column="23" bodyfile="src/content/cad_processor.cpp" bodystart="442" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a8e84bff3788bfb7484aa7fce5565986c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::CADProcessor::render3DPreview</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>render3DPreview</name>
+        <qualifiedname>themis::content::CADProcessor::render3DPreview</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Render3 DPreview. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements render3DPreview without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="101" column="17" bodyfile="src/content/cad_processor.cpp" bodystart="497" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a24f35a27791aeb9af2fdc5b5f43375b4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::CADProcessor::extractAssemblyTree</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractAssemblyTree</name>
+        <qualifiedname>themis::content::CADProcessor::extractAssemblyTree</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Assembly Tree. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements extractAssemblyTree without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="107" column="10" bodyfile="src/content/cad_processor.cpp" bodystart="514" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_c_a_d_processor_1a3fb811b56d45d5e10cb2bb007d1e5f3e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::CADProcessor::extractBillOfMaterials</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractBillOfMaterials</name>
+        <qualifiedname>themis::content::CADProcessor::extractBillOfMaterials</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Bill Of Materials. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements extractBillOfMaterials without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/cad_processor.h" line="113" column="10" bodyfile="src/content/cad_processor.cpp" bodystart="528" bodyend="537"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::content::CADProcessor</label>
+        <link refid="classthemis_1_1content_1_1_c_a_d_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::content::CADProcessor</label>
+        <link refid="classthemis_1_1content_1_1_c_a_d_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/cad_processor.h" line="20" column="1" bodyfile="include/content/cad_processor.h" bodystart="20" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a4624b3569b7e5401a78bd99a11437b8c" prot="public" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>CADProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a333086bb6cc8a2eb2510bd31cf6cd7f6" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>calculate_surface_area_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a090b03ebf20c4718cab9dd8b3bece890" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>calculate_volume_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1afe4227cd6e5b6f2507d65b15d6cb0000" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>canProcess</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1abbeaf00ff8d28862273c50abd938e25d" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1aec96e3c24a2cef8725c934ae2ea164b2" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>default_units_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a5ca111b9fdf4f4eeec291d2bb45e63ea" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a3b532f1c95971df204e8eab6caaabae2" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1afba1e075cdae1b28efc3d85cc475a2d5" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>extract_bom_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a24f35a27791aeb9af2fdc5b5f43375b4" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>extractAssemblyTree</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a3fb811b56d45d5e10cb2bb007d1e5f3e" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>extractBillOfMaterials</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1acf0c0335da1710382957a5c0a0299170" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>files_processed_</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a73c9aa27a70ef9a44402397c9df99945" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a81e126b9de1299dded9e045cd1e57abd" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a04a9537f5ec49c9ac8c4418485384428" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1af285b2732e27c08da5f5ea7dec35a309" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a2c20482bea2f460ac501c8137db1c1f5" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a5ff0e3cf242310178275c9aeaf9669c9" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>mesh_deflection_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1aad7383ba155b47a9467dc2f17b5abfdd" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>parseDXF</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a1ff2b91b1d084175386b41680fb21e2a" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>parseIGES</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1aca64832e020f5101a0db716e138f98c9" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>parseOBJ</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1ac8ddcfcc1e2243832c0f513bf6aa629d" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>parseSTEP</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1ae66d8f220a5512775d3923f0856704ed" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>parseSTL</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a8e84bff3788bfb7484aa7fce5565986c" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>render3DPreview</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a2775805f709d3cb3ad6c06383460436f" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a47dcbc650006cdfacf7ceb764c9b61dc" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a2890ce2b77276c30f0b86fb995f840f0" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>thumbnail_height_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1ad2f7a1beb6394ac45d16b87c9a4b6fe9" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>thumbnail_width_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1a0802c7611c3070202a0499959e021545" prot="private" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>total_parts_</name></member>
+      <member refid="classthemis_1_1content_1_1_c_a_d_processor_1ad84acb98208073d051fca5a8409628b6" prot="public" virt="non-virtual"><scope>themis::content::CADProcessor</scope><name>~CADProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" virt="virtual"><scope>themis::content::CADProcessor</scope><name>~IContentProcessorPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

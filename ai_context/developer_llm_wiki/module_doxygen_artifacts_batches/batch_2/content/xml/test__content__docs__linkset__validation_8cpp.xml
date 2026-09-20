@@ -1,0 +1,454 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__docs__linkset__validation_8cpp" kind="file" language="C++">
+    <compoundname>test_content_docs_linkset_validation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">regex</includes>
+    <includes local="no">set</includes>
+    <includes local="no">filesystem</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/content/test_content_docs_linkset_validation.cpp</label>
+        <link refid="test__content__docs__linkset__validation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="3">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>regex</label>
+      </node>
+      <node id="8">
+        <label>set</label>
+      </node>
+      <node id="4">
+        <label>sstream</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" prot="public">themis::content::test::CMT_FIN_41_DocumentationPresence</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" prot="public">themis::content::test::CMT_FIN_42_CrossReferenceConsistency</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation" prot="public">themis::content::test::CMT_FIN_43_LinkFormatValidation</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage" prot="public">themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" prot="public">themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness" prot="public">themis::content::test::CMT_FIN_46_DocSyncFreshness</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content_1_1test">themis::content::test</innernamespace>
+    <briefdescription>
+<para>CMT-FIN-41..50: Content module documentation cross-reference validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Test Suite: CMT-FIN-41..50 (Documentation Linkset Validation) </para>
+</simplesect>
+<simplesect kind="note"><para>Authority: src/content/MODULE_GAPS_BATCH5.md §CMT-7504 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Automated link validation for content documentation consistency </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-15 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMT-FIN-41:<sp/>Documentation<sp/>File<sp/>Presence<sp/>Check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" kindref="compound">CMT_FIN_41_DocumentationPresence</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence_1a63fba77a0e1955619adad79263836998" kindref="member">content_module_path</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence_1ab438fa7394013804e3c800c72d954a80" kindref="member">root_path</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence_1a146559ffd0f4ea78e2733028f9b1585c" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>repository<sp/>root<sp/>-<sp/>typically<sp/>THEMIS_ROOT<sp/>env<sp/>or<sp/>current<sp/>working<sp/>dir</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>root_env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ROOT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence_1ab438fa7394013804e3c800c72d954a80" kindref="member">root_path</ref><sp/>=<sp/>root_env<sp/>?<sp/>fs::path(root_env)<sp/>:<sp/>fs::current_path();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence_1a63fba77a0e1955619adad79263836998" kindref="member">content_module_path</ref><sp/>=<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence_1ab438fa7394013804e3c800c72d954a80" kindref="member">root_path</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;src&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" kindref="compound">CMT_FIN_41_DocumentationPresence</ref>,<sp/>ContentModuleReadmeExists)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-41-01:<sp/>Verify<sp/>README.md<sp/>exists<sp/>in<sp/>content<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;src/content/README.md<sp/>is<sp/>missing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_41_DocumentationPresence,<sp/>ContentModuleRoadmapExists)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-41-02:<sp/>Verify<sp/>ROADMAP.md<sp/>exists<sp/>in<sp/>content<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;src/content/ROADMAP.md<sp/>is<sp/>missing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_41_DocumentationPresence,<sp/>ContentModuleFutureEnhancementsExists)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-41-03:<sp/>Verify<sp/>FUTURE_ENHANCEMENTS.md<sp/>exists<sp/>in<sp/>content<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;FUTURE_ENHANCEMENTS.md&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;src/content/FUTURE_ENHANCEMENTS.md<sp/>is<sp/>missing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_41_DocumentationPresence,<sp/>ContentModuleArchitectureExists)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-41-04:<sp/>Verify<sp/>ARCHITECTURE.md<sp/>exists<sp/>in<sp/>content<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ARCHITECTURE.md&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;src/content/ARCHITECTURE.md<sp/>is<sp/>missing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" kindref="compound">CMT_FIN_41_DocumentationPresence</ref>,<sp/>RootRoadmapExists)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-41-05:<sp/>Verify<sp/>root<sp/>ROADMAP.md<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(root_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md<sp/>is<sp/>missing<sp/>from<sp/>repository<sp/>root&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMT-FIN-42:<sp/>Cross-Reference<sp/>Internal<sp/>Consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kindref="compound">CMT_FIN_42_CrossReferenceConsistency</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1a0476e0d9e5215529c2d49c86ddd76b16" kindref="member">content_module_path</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1acdc4bab2bb56a6543371639f83dbc274" kindref="member">root_path</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1ae62bae82fa1242a86451b87444da6fd2" kindref="member">readFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(path);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!file.is_open())<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>buffer.str();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1a5bfe67310b501cd21d84f2f921d14afc" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>root_env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ROOT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1acdc4bab2bb56a6543371639f83dbc274" kindref="member">root_path</ref><sp/>=<sp/>root_env<sp/>?<sp/>fs::path(root_env)<sp/>:<sp/>fs::current_path();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1a0476e0d9e5215529c2d49c86ddd76b16" kindref="member">content_module_path</ref><sp/>=<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1acdc4bab2bb56a6543371639f83dbc274" kindref="member">root_path</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;src&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kindref="compound">CMT_FIN_42_CrossReferenceConsistency</ref>,<sp/>ReadmeReferencesRoadmap)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-42-01:<sp/>Verify<sp/>README.md<sp/>references<sp/>ROADMAP.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>readme<sp/>=<sp/>readFile(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(readme.find(</highlight><highlight class="stringliteral">&quot;ROADMAP&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README.md<sp/>should<sp/>reference<sp/>ROADMAP.md&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_42_CrossReferenceConsistency,<sp/>ReadmeReferencesFutureEnhancements)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-42-02:<sp/>Verify<sp/>README.md<sp/>references<sp/>FUTURE_ENHANCEMENTS.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>readme<sp/>=<sp/>readFile(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(readme.find(</highlight><highlight class="stringliteral">&quot;FUTURE_ENHANCEMENTS&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README.md<sp/>should<sp/>reference<sp/>FUTURE_ENHANCEMENTS.md&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_42_CrossReferenceConsistency,<sp/>RoadmapReferencesReadme)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-42-03:<sp/>Verify<sp/>ROADMAP.md<sp/>references<sp/>README.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roadmap<sp/>=<sp/>readFile(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(roadmap.find(</highlight><highlight class="stringliteral">&quot;README&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md<sp/>should<sp/>reference<sp/>README.md&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_42_CrossReferenceConsistency,<sp/>ContentPhaseStatusInRoadmap)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-42-04:<sp/>Verify<sp/>content<sp/>module<sp/>ROADMAP<sp/>has<sp/>phase<sp/>status<sp/>markers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roadmap<sp/>=<sp/>readFile(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(roadmap.find(</highlight><highlight class="stringliteral">&quot;Phase&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md<sp/>should<sp/>contain<sp/>phase<sp/>status<sp/>markers&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kindref="compound">CMT_FIN_42_CrossReferenceConsistency</ref>,<sp/>ProcessorInventoryInReadme)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-42-05:<sp/>Verify<sp/>README<sp/>lists<sp/>processors<sp/>or<sp/>links<sp/>to<sp/>inventory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>readme<sp/>=<sp/>readFile(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(readme.find(</highlight><highlight class="stringliteral">&quot;processor&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README.md<sp/>should<sp/>reference<sp/>content<sp/>processors&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMT-FIN-43:<sp/>Link<sp/>Format<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation" kindref="compound">CMT_FIN_43_LinkFormatValidation</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1acaa1463b9b41a1638414ba2506817a9b" kindref="member">content_module_path</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1afda63eb63383bdf7de4500b14fac848e" kindref="member">root_path</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1a46f676a73a5bce82c1d2e7696b77ed9f" kindref="member">extractMarkdownLinks</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extract<sp/>markdown-style<sp/>links:<sp/>[text](path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>links;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::regex<sp/>link_regex(R</highlight><highlight class="stringliteral">&quot;(\[([^\]]+)\]\(([^)]+)\))&quot;);</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::smatch<sp/>match<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::const_iterator<sp/>search_start(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>.cbegin());</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::regex_search(search_start,<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref>.cend(),<sp/>match,<sp/>link_regex))<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>links.push_back(match[2]);<sp/><sp/></highlight><highlight class="comment">//<sp/>Capture<sp/>the<sp/>URL/path<sp/>part</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>search_start<sp/>=<sp/>match.suffix().first;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>links;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1a82839a389e0b74aa23e97e8425898b78" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>root_env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ROOT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1afda63eb63383bdf7de4500b14fac848e" kindref="member">root_path</ref><sp/>=<sp/>root_env<sp/>?<sp/>fs::path(root_env)<sp/>:<sp/>fs::current_path();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1acaa1463b9b41a1638414ba2506817a9b" kindref="member">content_module_path</ref><sp/>=<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1afda63eb63383bdf7de4500b14fac848e" kindref="member">root_path</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;src&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation" kindref="compound">CMT_FIN_43_LinkFormatValidation</ref>,<sp/>ReadmeLinksWellFormed)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-43-01:<sp/>Verify<sp/>README.md<sp/>contains<sp/>well-formed<sp/>markdown<sp/>links</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(file.is_open());</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>=<sp/>buffer.str();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>links<sp/>=<sp/>extractMarkdownLinks(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>at<sp/>least<sp/>some<sp/>links<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(links.size(),<sp/>0)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README.md<sp/>should<sp/>contain<sp/>at<sp/>least<sp/>one<sp/>markdown<sp/>link&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>links<sp/>should<sp/>not<sp/>be<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>link<sp/>:<sp/>links)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(link.empty())</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Markdown<sp/>link<sp/>should<sp/>not<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_43_LinkFormatValidation,<sp/>RoadmapLinksWellFormed)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-43-02:<sp/>Verify<sp/>ROADMAP.md<sp/>contains<sp/>well-formed<sp/>markdown<sp/>links</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(file.is_open());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>content<sp/>=<sp/>buffer.str();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>links<sp/>=<sp/>extractMarkdownLinks(content);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>at<sp/>least<sp/>some<sp/>links<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(links.size(),<sp/>0)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md<sp/>should<sp/>contain<sp/>at<sp/>least<sp/>one<sp/>markdown<sp/>link&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>links<sp/>should<sp/>not<sp/>be<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>link<sp/>:<sp/>links)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(link.empty())</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Markdown<sp/>link<sp/>should<sp/>not<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMT-FIN-44:<sp/>Processor<sp/>Inventory<sp/>Coverage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage" kindref="compound">CMT_FIN_44_ProcessorInventoryCoverage</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1af578412b7b414f7f3a6fe5eaf0ec6777" kindref="member">content_module_path</ref>;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1ae1260369a9c2975297541ff972a6368c" kindref="member">root_path</ref>;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1ac052c917bc7760b5aa46fee29963c2fb" kindref="member">extractProcessorNames</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>processors<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Look<sp/>for<sp/>common<sp/>processor<sp/>class<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>patterns<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ImageProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PDFProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OfficeProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HtmlProcessor&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;MarkdownProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TextProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ArchiveProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OCRProcessor&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;AudioProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;STTProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TTSProcessor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;VideoProcessor&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ContentManager&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ContentValidator&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ContentPolicy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ContentSecurity&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;MimeDetector&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DeduplicationChecker&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;EmbeddingPipeline&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>pattern<sp/>:<sp/>patterns)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>.find(pattern)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>processors.insert(pattern);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>processors;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1a3d192e64566f9942ec72af6951e4cca6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>root_env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ROOT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1ae1260369a9c2975297541ff972a6368c" kindref="member">root_path</ref><sp/>=<sp/>root_env<sp/>?<sp/>fs::path(root_env)<sp/>:<sp/>fs::current_path();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1af578412b7b414f7f3a6fe5eaf0ec6777" kindref="member">content_module_path</ref><sp/>=<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1ae1260369a9c2975297541ff972a6368c" kindref="member">root_path</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;src&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage" kindref="compound">CMT_FIN_44_ProcessorInventoryCoverage</ref>,<sp/>ReadmeListsMultipleProcessors)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-44-01:<sp/>Verify<sp/>README.md<sp/>mentions<sp/>multiple<sp/>content<sp/>processors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(file.is_open());</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>=<sp/>buffer.str();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>processors<sp/>=<sp/>extractProcessorNames(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>README<sp/>should<sp/>mention<sp/>at<sp/>least<sp/>10<sp/>processor<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(processors.size(),<sp/>10)</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README.md<sp/>should<sp/>mention<sp/>multiple<sp/>processor<sp/>components&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_44_ProcessorInventoryCoverage,<sp/>CoreProcessorsDocumented)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-44-02:<sp/>Verify<sp/>README<sp/>mentions<sp/>core<sp/>processor<sp/>families</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(file.is_open());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>content<sp/>=<sp/>buffer.str();</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>processors<sp/>=<sp/>extractProcessorNames(content);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>at<sp/>least<sp/>some<sp/>major<sp/>processor<sp/>families<sp/>are<sp/>mentioned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(processors.count(</highlight><highlight class="stringliteral">&quot;PDFProcessor&quot;</highlight><highlight class="normal">),<sp/>0)</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README<sp/>should<sp/>mention<sp/>PDF<sp/>processor&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(processors.count(</highlight><highlight class="stringliteral">&quot;ImageProcessor&quot;</highlight><highlight class="normal">),<sp/>0)</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README<sp/>should<sp/>mention<sp/>image<sp/>processor&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(processors.count(</highlight><highlight class="stringliteral">&quot;ContentManager&quot;</highlight><highlight class="normal">),<sp/>0)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README<sp/>should<sp/>mention<sp/>content<sp/>manager&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMT-FIN-45:<sp/>Batch<sp/>5<sp/>Tracking<sp/>Completeness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kindref="compound">CMT_FIN_45_Batch5TrackingCompleteness</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1aed93a8ad5e1a72245684639fb5f2183e" kindref="member">content_module_path</ref>;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1a663eeadf44cc9482ad8c93ac1ade0aaa" kindref="member">root_path</ref>;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1a184047156da6e0407869f1e9ceea058e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>root_env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ROOT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1a663eeadf44cc9482ad8c93ac1ade0aaa" kindref="member">root_path</ref><sp/>=<sp/>root_env<sp/>?<sp/>fs::path(root_env)<sp/>:<sp/>fs::current_path();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1aed93a8ad5e1a72245684639fb5f2183e" kindref="member">content_module_path</ref><sp/>=<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1a663eeadf44cc9482ad8c93ac1ade0aaa" kindref="member">root_path</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;src&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kindref="compound">CMT_FIN_45_Batch5TrackingCompleteness</ref>,<sp/>RoadmapContainsBatch5References)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-45-01:<sp/>Verify<sp/>ROADMAP.md<sp/>references<sp/>Batch<sp/>5<sp/>work<sp/>items</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(file.is_open());</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>=<sp/>buffer.str();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>.find(</highlight><highlight class="stringliteral">&quot;Batch<sp/>5&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md<sp/>should<sp/>reference<sp/>Batch<sp/>5<sp/>finalization<sp/>items&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(CMT_FIN_45_Batch5TrackingCompleteness,<sp/>RoadmapContainsCMT7504Reference)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-45-02:<sp/>Verify<sp/>ROADMAP.md<sp/>references<sp/>CMT-7504<sp/>(documentation<sp/>sync)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(file.is_open());</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>content<sp/>=<sp/>buffer.str();</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(content.find(</highlight><highlight class="stringliteral">&quot;CMT-7504&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md<sp/>should<sp/>reference<sp/>CMT-7504<sp/>documentation<sp/>synchronization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kindref="compound">CMT_FIN_45_Batch5TrackingCompleteness</ref>,<sp/>RoadmapContainsCMT7505Reference)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-45-03:<sp/>Verify<sp/>ROADMAP.md<sp/>references<sp/>CMT-7505<sp/>(test<sp/>coverage)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(file.is_open());</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>content<sp/>=<sp/>buffer.str();</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(content.find(</highlight><highlight class="stringliteral">&quot;CMT-7505&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md<sp/>should<sp/>reference<sp/>CMT-7505<sp/>test<sp/>coverage<sp/>validation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kindref="compound">CMT_FIN_45_Batch5TrackingCompleteness</ref>,<sp/>RoadmapContainsCMT7506Reference)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-45-04:<sp/>Verify<sp/>ROADMAP.md<sp/>references<sp/>CMT-7506<sp/>(GA<sp/>sign-off)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>file(content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(file.is_open());</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer<sp/>&lt;&lt;<sp/>file.rdbuf();</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>content<sp/>=<sp/>buffer.str();</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(content.find(</highlight><highlight class="stringliteral">&quot;CMT-7506&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROADMAP.md<sp/>should<sp/>reference<sp/>CMT-7506<sp/>GA<sp/>promotion<sp/>sign-off&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMT-FIN-46:<sp/>Documentation<sp/>Sync<sp/>Freshness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348" refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness" kindref="compound">CMT_FIN_46_DocSyncFreshness</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness_1a5743372e8c6ee1cab1f66f520818f484" kindref="member">content_module_path</ref>;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness_1a0d45e855803dbbf8d421551c86663981" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>root_env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ROOT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_path<sp/>=<sp/>root_env<sp/>?<sp/>fs::path(root_env)<sp/>:<sp/>fs::current_path();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness_1a5743372e8c6ee1cab1f66f520818f484" kindref="member">content_module_path</ref><sp/>=<sp/>root_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;src&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness" kindref="compound">CMT_FIN_46_DocSyncFreshness</ref>,<sp/>DocumentationUpdatedRecently)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMT-FIN-46-01:<sp/>Verify<sp/>documentation<sp/>files<sp/>have<sp/>recent<sp/>modification<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(This<sp/>is<sp/>a<sp/>soft<sp/>check<sp/>-<sp/>files<sp/>updated<sp/>within<sp/>last<sp/>30<sp/>days)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>readme_path<sp/>=<sp/>content_module_path<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(readme_path))<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>last_write_time<sp/>=<sp/>fs::last_write_time(readme_path);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>This<sp/>is<sp/>a<sp/>best-effort<sp/>check;<sp/>exact<sp/>date<sp/>verification<sp/>requires<sp/>C++20</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(readme_path))</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;README.md<sp/>should<sp/>exist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_docs_linkset_validation.cpp"/>
+  </compounddef>
+</doxygen>

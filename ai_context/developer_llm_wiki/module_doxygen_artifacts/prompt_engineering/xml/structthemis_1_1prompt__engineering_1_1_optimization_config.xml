@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_optimization_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::OptimizationConfig</compoundname>
+    <includes refid="prompt__optimizer_8h" local="no">prompt_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_config_1afbaedc091beb8a50b02e7c2d330881ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::OptimizationConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationConfig::max_iterations</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum optimization rounds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="26" column="12" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_config_1ae39637f8536e79a9859fc7bcaac7d120" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::OptimizationConfig::min_improvement</definition>
+        <argsstring></argsstring>
+        <name>min_improvement</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationConfig::min_improvement</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>Minimum score improvement to continue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="27" column="12" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_config_1a2dd0526c9dc76353f0f1bfeb6e2d47c0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::OptimizationConfig::target_score</definition>
+        <argsstring></argsstring>
+        <name>target_score</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationConfig::target_score</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+<para>Target quality score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="28" column="12" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_config_1a80496d1e9f6b85cd2b2c48bbb5718b31" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::OptimizationConfig::enable_version_control</definition>
+        <argsstring></argsstring>
+        <name>enable_version_control</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationConfig::enable_version_control</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Track optimization history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="29" column="10" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_config_1afae780f3932590f3f614b589651dd222" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::OptimizationConfig::num_test_cases</definition>
+        <argsstring></argsstring>
+        <name>num_test_cases</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationConfig::num_test_cases</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Number of test cases for evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="30" column="12" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for prompt optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_optimizer.h" line="25" column="1" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="25" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_config_1a80496d1e9f6b85cd2b2c48bbb5718b31" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationConfig</scope><name>enable_version_control</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_config_1afbaedc091beb8a50b02e7c2d330881ed" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_config_1ae39637f8536e79a9859fc7bcaac7d120" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationConfig</scope><name>min_improvement</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_config_1afae780f3932590f3f614b589651dd222" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationConfig</scope><name>num_test_cases</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_config_1a2dd0526c9dc76353f0f1bfeb6e2d47c0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationConfig</scope><name>target_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1search" kind="namespace" language="C++">
+    <compoundname>themis::search</compoundname>
+    <innerclass refid="structthemis_1_1search_1_1_ann_layer_candidate" prot="public">themis::search::AnnLayerCandidate</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_layer_decision_record" prot="public">themis::search::LayerDecisionRecord</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_layered_retrieval_config" prot="public">themis::search::LayeredRetrievalConfig</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_layered_retrieval_context" prot="public">themis::search::LayeredRetrievalContext</innerclass>
+    <innerclass refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator" prot="public">themis::search::LayeredRetrievalOrchestrator</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_layered_retrieval_result" prot="public">themis::search::LayeredRetrievalResult</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails" prot="public">themis::search::PerQueryRetrievalGuardrails</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_provenance_entry" prot="public">themis::search::ProvenanceEntry</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_tensor_layer_candidate" prot="public">themis::search::TensorLayerCandidate</innerclass>
+    <innernamespace refid="namespacethemis_1_1search_1_1testing">themis::search::testing</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5de" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>LayerRoutingDecision</name>
+        <qualifiedname>themis::search::LayerRoutingDecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deaca966251f856595642d61bfa4026b086" prot="public">
+          <name>EXECUTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deaf35b388d8d4adeab05bce916c73d7a72" prot="public">
+          <name>FALLBACK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deab623c91c0df090278c43eb244d2772f1" prot="public">
+          <name>TIMEOUT_SKIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea610226906a8f2ac886012fa86f45325c" prot="public">
+          <name>GUARDRAIL_SKIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea055c1a591abb0e8cd86dc969727bcc0b" prot="public">
+          <name>DISABLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Decision taken for an individual retrieval layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="48" column="1" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="48" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1search_1a0c234cd3b0c0002008532e6772d66320" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; ILlmReranker &gt;(const ILlmReranker::Config &amp;)&gt;</type>
+        <definition>using themis::search::LlmRerankerFactory = std::function&lt;std::unique_ptr&lt;ILlmReranker&gt;(const ILlmReranker::Config&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmRerankerFactory</name>
+        <qualifiedname>themis::search::LlmRerankerFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/search/llm_reranker_factory_stub.cpp" line="7" column="1" bodyfile="src/search/llm_reranker_factory_stub.cpp" bodystart="7" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1search_1a6040b72391f38a5be5b61354bef984a8" prot="public" static="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1search_1a0c234cd3b0c0002008532e6772d66320" kindref="member">LlmRerankerFactory</ref></type>
+        <definition>LlmRerankerFactory themis::search::g_reranker_factory</definition>
+        <argsstring></argsstring>
+        <name>g_reranker_factory</name>
+        <qualifiedname>themis::search::g_reranker_factory</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/search/llm_reranker_factory_stub.cpp" line="9" column="27" bodyfile="src/search/llm_reranker_factory_stub.cpp" bodystart="9" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1search_1ae45adc05962993830182f8807c53f642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::registerLlmRerankerFactory</definition>
+        <argsstring>(LlmRerankerFactory f)</argsstring>
+        <name>registerLlmRerankerFactory</name>
+        <qualifiedname>themis::search::registerLlmRerankerFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1search_1a0c234cd3b0c0002008532e6772d66320" kindref="member">LlmRerankerFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Register Llm Reranker Factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/search/llm_reranker_factory_stub.cpp" line="16" column="6" bodyfile="src/search/llm_reranker_factory_stub.cpp" bodystart="16" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1a04040bd946c965f7444aaad5ff87e4b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; ILlmReranker &gt;</type>
+        <definition>std::unique_ptr&lt; ILlmReranker &gt; themis::search::createLlmReranker</definition>
+        <argsstring>(const ILlmReranker::Config &amp;cfg)</argsstring>
+        <name>createLlmReranker</name>
+        <qualifiedname>themis::search::createLlmReranker</qualifiedname>
+        <param>
+          <type>const ILlmReranker::Config &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Create Llm Reranker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: g_reranker_factory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/search/llm_reranker_factory_stub.cpp" line="24" column="17" bodyfile="src/search/llm_reranker_factory_stub.cpp" bodystart="24" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/layered_retrieval_orchestrator.h" line="43" column="1"/>
+  </compounddef>
+</doxygen>

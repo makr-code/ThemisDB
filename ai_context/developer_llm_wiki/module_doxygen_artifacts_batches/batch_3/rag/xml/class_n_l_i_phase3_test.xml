@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_n_l_i_phase3_test" kind="class" language="C++" prot="public">
+    <compoundname>NLIPhase3Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_n_l_i_phase3_test_1a8717b7c05f325d016614c84d889560d4" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config" kindref="compound">NLIFaithfulnessVerifier::Config</ref></type>
+        <definition>NLIFaithfulnessVerifier::Config NLIPhase3Test::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>NLIPhase3Test::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="142" column="37" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_n_l_i_phase3_test_1a7efbdd1930d009eab5d4781e509fcb2f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void NLIPhase3Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>NLIPhase3Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="143" column="10" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="143" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>NLIPhase3Test</label>
+        <link refid="class_n_l_i_phase3_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>NLIPhase3Test</label>
+        <link refid="class_n_l_i_phase3_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::NLIFaithfulnessVerifier::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_judge_phase3.cpp" line="140" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="140" bodyend="147"/>
+    <listofallmembers>
+      <member refid="class_n_l_i_phase3_test_1a8717b7c05f325d016614c84d889560d4" prot="protected" virt="non-virtual"><scope>NLIPhase3Test</scope><name>config_</name></member>
+      <member refid="class_n_l_i_phase3_test_1a7efbdd1930d009eab5d4781e509fcb2f" prot="protected" virt="non-virtual"><scope>NLIPhase3Test</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

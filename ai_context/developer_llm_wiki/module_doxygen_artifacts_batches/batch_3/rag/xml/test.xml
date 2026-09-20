@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__rag__highcardinality__stress_8cpp_1a77fa8fd1d0e2a8a853d558dfd3c44050" kindref="member">TEST</ref>  (RAGHighCardinalityStress, HighCardinalityChunkIndex)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>HighCardinalityChunkIndex </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__rag__highcardinality__stress_8cpp_1ae226d99a50bd3d2ef161c8d095af40df" kindref="member">TEST</ref>  (RAGHighCardinalityStress, ConcurrentQueryStress)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>ConcurrentQueryStress </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__rag__highcardinality__stress_8cpp_1a395cecdb20661ebf46e668a7fd906cbf" kindref="member">TEST</ref>  (RAGHighCardinalityStress, LLMJudgeCachePressure)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>LLMJudgeCachePressure</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

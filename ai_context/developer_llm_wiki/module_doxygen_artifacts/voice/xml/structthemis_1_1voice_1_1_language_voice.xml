@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_language_voice" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::LanguageVoice</compoundname>
+    <includes refid="voice__tts__customizer_8h" local="no">voice_tts_customizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_language_voice_1a1c83da3c2e4d55c3a68eb3c941224c6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::LanguageVoice::language_code</definition>
+        <argsstring></argsstring>
+        <name>language_code</name>
+        <qualifiedname>themis::voice::LanguageVoice::language_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="74" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_language_voice_1ad1c67ea96b3f635babb234b48fd18942" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::LanguageVoice::language_name</definition>
+        <argsstring></argsstring>
+        <name>language_name</name>
+        <qualifiedname>themis::voice::LanguageVoice::language_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="75" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_language_voice_1a09e3f3e2f8e70e78cea5a78d1a881d4e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::LanguageVoice::voice_ids</definition>
+        <argsstring></argsstring>
+        <name>voice_ids</name>
+        <qualifiedname>themis::voice::LanguageVoice::voice_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="76" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_language_voice_1aea3e514fd5af0aa813952e1b8485d2fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::LanguageVoice::default_voice_id</definition>
+        <argsstring></argsstring>
+        <name>default_voice_id</name>
+        <qualifiedname>themis::voice::LanguageVoice::default_voice_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="77" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_tts_customizer.h" line="73" column="1" bodyfile="include/voice/voice_tts_customizer.h" bodystart="73" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_language_voice_1aea3e514fd5af0aa813952e1b8485d2fc" prot="public" virt="non-virtual"><scope>themis::voice::LanguageVoice</scope><name>default_voice_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_language_voice_1a1c83da3c2e4d55c3a68eb3c941224c6e" prot="public" virt="non-virtual"><scope>themis::voice::LanguageVoice</scope><name>language_code</name></member>
+      <member refid="structthemis_1_1voice_1_1_language_voice_1ad1c67ea96b3f635babb234b48fd18942" prot="public" virt="non-virtual"><scope>themis::voice::LanguageVoice</scope><name>language_name</name></member>
+      <member refid="structthemis_1_1voice_1_1_language_voice_1a09e3f3e2f8e70e78cea5a78d1a881d4e" prot="public" virt="non-virtual"><scope>themis::voice::LanguageVoice</scope><name>voice_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

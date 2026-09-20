@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_agg_shard_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AggShardResult</compoundname>
+    <includes refid="continuous__agg_8h" local="no">continuous_agg.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1aa866b328744818533246332626f4f229" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AggShardResult::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::AggShardResult::metric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="67" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1ad2a6ed9afd7bbae167435e9ec2713ab3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AggShardResult::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::AggShardResult::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="68" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1a26c7cdb9ec2030032ef114d119e95383" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::AggShardResult::from_ms</definition>
+        <argsstring></argsstring>
+        <name>from_ms</name>
+        <qualifiedname>themis::AggShardResult::from_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="69" column="13" bodyfile="include/timeseries/continuous_agg.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1a6a3e4adf5e04845420d4c2d7fee623c7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::AggShardResult::to_ms</definition>
+        <argsstring></argsstring>
+        <name>to_ms</name>
+        <qualifiedname>themis::AggShardResult::to_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="70" column="13" bodyfile="include/timeseries/continuous_agg.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1a10b4fbc965891b5aa3eec547fdfdecc9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AggShardResult::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::AggShardResult::sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="71" column="12" bodyfile="include/timeseries/continuous_agg.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1ac3c5425812a9b687c7b89520b39ba65c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AggShardResult::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::AggShardResult::min</qualifiedname>
+        <initializer>{std::numeric_limits&lt;double&gt;<ref refid="structthemis_1_1_agg_shard_result_1a3208cf50de6b579e3b5bd04974794dae" kindref="member">::max</ref>()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="72" column="12" bodyfile="include/timeseries/continuous_agg.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1a3208cf50de6b579e3b5bd04974794dae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AggShardResult::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::AggShardResult::max</qualifiedname>
+        <initializer>{std::numeric_limits&lt;double&gt;::lowest()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="73" column="12" bodyfile="include/timeseries/continuous_agg.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1acaa6b84261f68da1119cc667e9178ad3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AggShardResult::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::AggShardResult::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="74" column="12" bodyfile="include/timeseries/continuous_agg.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_shard_result_1a5bc233496001af086cfc19f4f03e6b3b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AggShardResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::AggShardResult::valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>false = shard had no data or returned an error </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="75" column="10" bodyfile="include/timeseries/continuous_agg.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_agg_shard_result_1a989902db42c7a5623e071fa3d45a32a4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::AggShardResult::avg</definition>
+        <argsstring>() const</argsstring>
+        <name>avg</name>
+        <qualifiedname>themis::AggShardResult::avg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="77" column="12" bodyfile="include/timeseries/continuous_agg.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result from one shard&apos;s aggregate computation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When aggregating across multiple shards/nodes, each shard computes a partial <ref refid="structthemis_1_1_agg_shard_result" kindref="compound">AggShardResult</ref>; the coordinator merges all partial results with <ref refid="namespacethemis_1ab1579bde7c5ba25f63305de45085a60f" kindref="member">mergeShardResults()</ref>. </para>
+    </detaileddescription>
+    <location file="include/timeseries/continuous_agg.h" line="66" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="66" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_agg_shard_result_1a989902db42c7a5623e071fa3d45a32a4" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>avg</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1acaa6b84261f68da1119cc667e9178ad3" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>count</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1ad2a6ed9afd7bbae167435e9ec2713ab3" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>entity</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1a26c7cdb9ec2030032ef114d119e95383" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>from_ms</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1a3208cf50de6b579e3b5bd04974794dae" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>max</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1aa866b328744818533246332626f4f229" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>metric</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1ac3c5425812a9b687c7b89520b39ba65c" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>min</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1a10b4fbc965891b5aa3eec547fdfdecc9" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>sum</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1a6a3e4adf5e04845420d4c2d7fee623c7" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>to_ms</name></member>
+      <member refid="structthemis_1_1_agg_shard_result_1a5bc233496001af086cfc19f4f03e6b3b" prot="public" virt="non-virtual"><scope>themis::AggShardResult</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

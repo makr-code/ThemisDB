@@ -1,0 +1,718 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1storage_1_1_transaction_retry_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::storage::TransactionRetryManager</compoundname>
+    <includes refid="transaction__retry__manager_8h" local="no">transaction_retry_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a2d89d207185089b4b98380d5021b387e" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36f" kindref="member">CircuitState</ref>, const std::string &amp;)&gt;</type>
+        <definition>using themisdb::storage::TransactionRetryManager::AlertCallback = std::function&lt;void(CircuitState, const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AlertCallback</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::AlertCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="185" column="5" bodyfile="include/storage/transaction_retry_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a7fa3cd36af5f226b679bfeee7e12ebfb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1storage_1_1_transaction_retry_config" kindref="compound">TransactionRetryConfig</ref></type>
+        <definition>TransactionRetryConfig themisdb::storage::TransactionRetryManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="376" column="28" bodyfile="include/storage/transaction_retry_manager.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a3caef0b44bc0364403f669d09f79d5d1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1storage_1_1_retry_statistics" kindref="compound">RetryStatistics</ref></type>
+        <definition>RetryStatistics themisdb::storage::TransactionRetryManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="377" column="21" bodyfile="include/storage/transaction_retry_manager.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a4857c8d441bcc12ee8e5789867089414" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::storage::TransactionRetryManager::circuit_mutex_</definition>
+        <argsstring></argsstring>
+        <name>circuit_mutex_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::circuit_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="380" column="24" bodyfile="include/storage/transaction_retry_manager.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a775782cf286aeb6c73adc651818bfee3" prot="private" static="no" mutable="yes">
+        <type><ref refid="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36f" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themisdb::storage::TransactionRetryManager::circuit_state_</definition>
+        <argsstring></argsstring>
+        <name>circuit_state_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::circuit_state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36faf068ebe4133e3e6563080836268ea979" kindref="member">CircuitState::HEALTHY</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="381" column="26" bodyfile="include/storage/transaction_retry_manager.h" bodystart="381" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ab1fa6298d91f31cc3d3de0945f483d8d" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themisdb::storage::TransactionRetryManager::consecutive_failures_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::consecutive_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="382" column="20" bodyfile="include/storage/transaction_retry_manager.h" bodystart="382" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a2913d0c349e62e7fc9ed61d4dcfa0d63" prot="private" static="no" mutable="yes">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::storage::TransactionRetryManager::circuit_opened_time_</definition>
+        <argsstring></argsstring>
+        <name>circuit_opened_time_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::circuit_opened_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="383" column="51" bodyfile="include/storage/transaction_retry_manager.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1af83aef4b807ea805520d04fd8bd35fba" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::storage::TransactionRetryManager::rng_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rng_mutex_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::rng_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="386" column="24" bodyfile="include/storage/transaction_retry_manager.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ab78fbf48232acd42b7fc3effc455feda" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themisdb::storage::TransactionRetryManager::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="387" column="18" bodyfile="include/storage/transaction_retry_manager.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1aecee2a835cccdf420cb9187447856170" prot="private" static="no" mutable="no">
+        <type>std::uniform_real_distribution&lt; double &gt;</type>
+        <definition>std::uniform_real_distribution&lt;double&gt; themisdb::storage::TransactionRetryManager::jitter_dist_</definition>
+        <argsstring></argsstring>
+        <name>jitter_dist_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::jitter_dist_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="388" column="36" bodyfile="include/storage/transaction_retry_manager.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1aa9a73810bdd918716f2f0fa9e609bc4f" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::storage::TransactionRetryManager::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="391" column="31" bodyfile="include/storage/transaction_retry_manager.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a3b52b380ca76f1b849f5e40a5040e195" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::storage::TransactionRetryManager::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="394" column="24" bodyfile="include/storage/transaction_retry_manager.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a6ab8f75e7a55fc47ac4155f5e99da495" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a2d89d207185089b4b98380d5021b387e" kindref="member">AlertCallback</ref></type>
+        <definition>AlertCallback themisdb::storage::TransactionRetryManager::alert_callback_</definition>
+        <argsstring></argsstring>
+        <name>alert_callback_</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::alert_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="395" column="19" bodyfile="include/storage/transaction_retry_manager.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ac6879c30b9df0b415828ec256af0848b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::storage::TransactionRetryManager::TransactionRetryManager</definition>
+        <argsstring>(const TransactionRetryConfig &amp;config)</argsstring>
+        <name>TransactionRetryManager</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::TransactionRetryManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_transaction_retry_config" kindref="compound">TransactionRetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct retry manager with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retry configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="191" column="14" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ad4a50ca497c118a13061fdeef5207eae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::storage::TransactionRetryManager::~TransactionRetryManager</definition>
+        <argsstring>()</argsstring>
+        <name>~TransactionRetryManager</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::~TransactionRetryManager</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="196" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a590bf092e6c483d184bfe3052cf00b06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>decltype(operation())</type>
+        <definition>decltype(operation()) themisdb::storage::TransactionRetryManager::executeWithRetry</definition>
+        <argsstring>(Func &amp;&amp;operation, const std::string &amp;operation_name, const RetryPolicy *policy=nullptr)</argsstring>
+        <name>executeWithRetry</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::executeWithRetry</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_retry_policy" kindref="compound">RetryPolicy</ref> *</type>
+          <declname>policy</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute operation with automatic retry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function type that returns a result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to execute </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name for logging/metrics </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional custom retry policy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result of the operation </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if max retries exceeded or circuit is open </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="208" column="10" bodyfile="include/storage/transaction_retry_manager.h" bodystart="208" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ae620344da5252aae2c7ff188da49b822" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1storage_1_1_transaction_retry_config" kindref="compound">TransactionRetryConfig</ref> &amp;</type>
+        <definition>const TransactionRetryConfig &amp; themisdb::storage::TransactionRetryManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="313" column="34" bodyfile="include/storage/transaction_retry_manager.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a0bdff7a97834d20b6753085f7d5a61b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1storage_1_1_retry_statistics" kindref="compound">RetryStatistics</ref></type>
+        <definition>RetryStatistics themisdb::storage::TransactionRetryManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get current statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="318" column="21" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="44" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a0332c5e4847269e3e6188061fa165e9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36f" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themisdb::storage::TransactionRetryManager::getCircuitState</definition>
+        <argsstring>() const</argsstring>
+        <name>getCircuitState</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::getCircuitState</qualifiedname>
+        <briefdescription>
+<para>Get current circuit breaker state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">circuit_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="323" column="18" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="54" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a0244cdb4476152b45c527e9f53f49a8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::TransactionRetryManager::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Statistics.</para>
+<para>Calls: lock(), RetryStatistics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="328" column="10" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="93" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1adf91038bc4b0e6fa78a5b311a64b0f60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::TransactionRetryManager::setAlertCallback</definition>
+        <argsstring>(AlertCallback callback)</argsstring>
+        <name>setAlertCallback</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::setAlertCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a2d89d207185089b4b98380d5021b387e" kindref="member">AlertCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set alert callback for circuit breaker state changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Alert Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="333" column="10" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="103" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a9cb78969ffb5d01f902ea1e29c4d9cdf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7e" kindref="member">ErrorType</ref></type>
+        <definition>ErrorType themisdb::storage::TransactionRetryManager::classifyError</definition>
+        <argsstring>(const std::string &amp;error_message)</argsstring>
+        <name>classifyError</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::classifyError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Classify an error by its message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Classify Error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::tolower(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="338" column="22" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="114" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1aaca908e773858a665cdbce1a54af49be" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::TransactionRetryManager::isRetryable</definition>
+        <argsstring>(ErrorType error_type)</argsstring>
+        <name>isRetryable</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::isRetryable</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7e" kindref="member">ErrorType</ref></type>
+          <declname>error_type</declname>
+        </param>
+        <briefdescription>
+<para>Check if an error type is retryable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Retryable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isRetryable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="343" column="17" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="197" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1aed0a4b3c8359c33f9204f52d0089a3c6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::TransactionRetryManager::calculateDelay</definition>
+        <argsstring>(size_t attempt, const RetryPolicy *policy)</argsstring>
+        <name>calculateDelay</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::calculateDelay</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>attempt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_retry_policy" kindref="compound">RetryPolicy</ref> *</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Calculate delay for next retry attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Delay.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">attempt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::pow(), std::isfinite(), std::min(), lock(), jitter_dist_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="349" column="14" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="236" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a37be2fe904fe4c367d941cc534a252b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::TransactionRetryManager::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::recordSuccess</qualifiedname>
+        <briefdescription>
+<para>Record successful operation (for circuit breaker). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Success.</para>
+<para>Calls: lock(), transitionCircuitState(), invokeAlertCallback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="354" column="10" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="302" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a7f373f82892214f26afde59f47601040" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::TransactionRetryManager::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::recordFailure</qualifiedname>
+        <briefdescription>
+<para>Record failed operation (for circuit breaker). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Failure.</para>
+<para>Calls: lock(), std::chrono::steady_clock::now(), transitionCircuitState(), invokeAlertCallback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="359" column="10" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="330" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a4da2d3d5bee01a23c890db5e284fcff2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::TransactionRetryManager::isCircuitOpen</definition>
+        <argsstring>() const</argsstring>
+        <name>isCircuitOpen</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::isCircuitOpen</qualifiedname>
+        <briefdescription>
+<para>Check if circuit breaker is open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">circuit_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="364" column="10" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="363" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a2afff58aca2cf2aef1321400c0e98dd0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::TransactionRetryManager::transitionCircuitState</definition>
+        <argsstring>(CircuitState new_state, std::string *alert_message) const</argsstring>
+        <name>transitionCircuitState</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::transitionCircuitState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36f" kindref="member">CircuitState</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>alert_message</declname>
+        </param>
+        <briefdescription>
+<para>Transition circuit breaker state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="369" column="10" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="401" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a6b5a1c302b89c4c21bdc6020e015559d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::TransactionRetryManager::invokeAlertCallback</definition>
+        <argsstring>(CircuitState state, const std::string &amp;message) const</argsstring>
+        <name>invokeAlertCallback</name>
+        <qualifiedname>themisdb::storage::TransactionRetryManager::invokeAlertCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36f" kindref="member">CircuitState</ref></type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Invoke alert callback, if configured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="374" column="10" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="430" bodyend="450"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Automatic transaction retry manager with exponential backoff. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements automatic retry logic for database transactions with:<itemizedlist>
+<listitem><para>Exponential backoff with jitter to prevent thundering herd</para>
+</listitem><listitem><para>Circuit breaker to prevent wasted retries</para>
+</listitem><listitem><para>Error classification (retryable vs non-retryable)</para>
+</listitem><listitem><para>Comprehensive metrics tracking</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe for concurrent use.</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ac6879c30b9df0b415828ec256af0848b" kindref="member">TransactionRetryManager</ref><sp/>manager(config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager.executeWithRetry([&amp;]()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>database.executeTransaction(tx);</highlight></codeline>
+<codeline><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;user_update&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/storage/transaction_retry_manager.h" line="183" column="1" bodyfile="include/storage/transaction_retry_manager.h" bodystart="183" bodyend="396"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a6ab8f75e7a55fc47ac4155f5e99da495" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>alert_callback_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a2d89d207185089b4b98380d5021b387e" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>AlertCallback</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1aed0a4b3c8359c33f9204f52d0089a3c6" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>calculateDelay</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a3b52b380ca76f1b849f5e40a5040e195" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>callback_mutex_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a4857c8d441bcc12ee8e5789867089414" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>circuit_mutex_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a2913d0c349e62e7fc9ed61d4dcfa0d63" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>circuit_opened_time_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a775782cf286aeb6c73adc651818bfee3" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>circuit_state_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a9cb78969ffb5d01f902ea1e29c4d9cdf" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>classifyError</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a7fa3cd36af5f226b679bfeee7e12ebfb" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ab1fa6298d91f31cc3d3de0945f483d8d" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>consecutive_failures_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a590bf092e6c483d184bfe3052cf00b06" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>executeWithRetry</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a0332c5e4847269e3e6188061fa165e9f" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>getCircuitState</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ae620344da5252aae2c7ff188da49b822" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a0bdff7a97834d20b6753085f7d5a61b0" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a6b5a1c302b89c4c21bdc6020e015559d" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>invokeAlertCallback</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a4da2d3d5bee01a23c890db5e284fcff2" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>isCircuitOpen</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1aaca908e773858a665cdbce1a54af49be" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>isRetryable</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1aecee2a835cccdf420cb9187447856170" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>jitter_dist_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a7f373f82892214f26afde59f47601040" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>recordFailure</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a37be2fe904fe4c367d941cc534a252b3" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>recordSuccess</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a0244cdb4476152b45c527e9f53f49a8c" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>resetStatistics</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ab78fbf48232acd42b7fc3effc455feda" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>rng_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1af83aef4b807ea805520d04fd8bd35fba" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>rng_mutex_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1adf91038bc4b0e6fa78a5b311a64b0f60" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>setAlertCallback</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a3caef0b44bc0364403f669d09f79d5d1" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1aa9a73810bdd918716f2f0fa9e609bc4f" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ac6879c30b9df0b415828ec256af0848b" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>TransactionRetryManager</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1a2afff58aca2cf2aef1321400c0e98dd0" prot="private" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>transitionCircuitState</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_transaction_retry_manager_1ad4a50ca497c118a13061fdeef5207eae" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryManager</scope><name>~TransactionRetryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

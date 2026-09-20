@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::MaterializedView::Definition</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1af2ea1d82d1d00bcf95bc4d4721370413" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RefreshMode</name>
+        <qualifiedname>themis::analytics::MaterializedView::Definition::RefreshMode</qualifiedname>
+        <enumvalue id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1af2ea1d82d1d00bcf95bc4d4721370413ae1ba155a9f2e8c3be94020eef32a0301" prot="public">
+          <name>Manual</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1af2ea1d82d1d00bcf95bc4d4721370413a9d18e3423f48b3956f68298a953e568f" prot="public">
+          <name>OnChange</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1af2ea1d82d1d00bcf95bc4d4721370413acdcc32a064503184053bd2018d1c0e7e" prot="public">
+          <name>Periodic</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="448" column="9" bodyfile="include/analytics/olap.h" bodystart="448" bodyend="452"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a341db181fcf2e07129f5a89974a1740f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::MaterializedView::Definition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::analytics::MaterializedView::Definition::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="441" column="21" bodyfile="include/analytics/olap.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1afad67d8a618f539622037ca6f368768b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::MaterializedView::Definition::source_collection</definition>
+        <argsstring></argsstring>
+        <name>source_collection</name>
+        <qualifiedname>themis::analytics::MaterializedView::Definition::source_collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="442" column="21" bodyfile="include/analytics/olap.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a0db20b98d3cca06984733f6d507bfcff" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref> &gt;</type>
+        <definition>std::vector&lt;Dimension&gt; themis::analytics::MaterializedView::Definition::dimensions</definition>
+        <argsstring></argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themis::analytics::MaterializedView::Definition::dimensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="443" column="21" bodyfile="include/analytics/olap.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a6c3350e38585a3f2d3505efcb2ccec51" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref> &gt;</type>
+        <definition>std::vector&lt;Measure&gt; themis::analytics::MaterializedView::Definition::measures</definition>
+        <argsstring></argsstring>
+        <name>measures</name>
+        <qualifiedname>themis::analytics::MaterializedView::Definition::measures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="444" column="21" bodyfile="include/analytics/olap.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a68e1fe00cc5e3796b04deeea2697ee0c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref> &gt;</type>
+        <definition>std::vector&lt;Filter&gt; themis::analytics::MaterializedView::Definition::base_filters</definition>
+        <argsstring></argsstring>
+        <name>base_filters</name>
+        <qualifiedname>themis::analytics::MaterializedView::Definition::base_filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="445" column="21" bodyfile="include/analytics/olap.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a96aac8a9a5da8fb55beb39a5404d2070" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1af2ea1d82d1d00bcf95bc4d4721370413" kindref="member">RefreshMode</ref></type>
+        <definition>RefreshMode themis::analytics::MaterializedView::Definition::refresh_mode</definition>
+        <argsstring></argsstring>
+        <name>refresh_mode</name>
+        <qualifiedname>themis::analytics::MaterializedView::Definition::refresh_mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1af2ea1d82d1d00bcf95bc4d4721370413ae1ba155a9f2e8c3be94020eef32a0301" kindref="member">RefreshMode::Manual</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="453" column="21" bodyfile="include/analytics/olap.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1aa414b7bad059c0c7bc56455a860aa655" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::MaterializedView::Definition::refresh_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>refresh_interval_seconds</name>
+        <qualifiedname>themis::analytics::MaterializedView::Definition::refresh_interval_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="454" column="13" bodyfile="include/analytics/olap.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="440" column="5" bodyfile="include/analytics/olap.h" bodystart="440" bodyend="455"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a68e1fe00cc5e3796b04deeea2697ee0c" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Definition</scope><name>base_filters</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a0db20b98d3cca06984733f6d507bfcff" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Definition</scope><name>dimensions</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a6c3350e38585a3f2d3505efcb2ccec51" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Definition</scope><name>measures</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a341db181fcf2e07129f5a89974a1740f" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Definition</scope><name>name</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1aa414b7bad059c0c7bc56455a860aa655" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Definition</scope><name>refresh_interval_seconds</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1a96aac8a9a5da8fb55beb39a5404d2070" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Definition</scope><name>refresh_mode</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1af2ea1d82d1d00bcf95bc4d4721370413" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Definition</scope><name>RefreshMode</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition_1afad67d8a618f539622037ca6f368768b" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Definition</scope><name>source_collection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

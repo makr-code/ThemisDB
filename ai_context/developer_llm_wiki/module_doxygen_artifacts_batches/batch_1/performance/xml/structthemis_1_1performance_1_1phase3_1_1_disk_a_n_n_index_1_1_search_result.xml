@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::DiskANNIndex::SearchResult</compoundname>
+    <includes refid="diskann_8h" local="no">diskann.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_search_result_1a0f841c3c99bdb60bcf8653ba519cc676" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1_1phase3_1ac2d555c6153e6ef21ef9c1bd089f2877" kindref="member">VectorID</ref></type>
+        <definition>VectorID themis::performance::phase3::DiskANNIndex::SearchResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::performance::phase3::DiskANNIndex::SearchResult::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="100" column="18" bodyfile="include/performance/phase3/diskann.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_search_result_1a8ac9900f2e61cea3a0a8686940644876" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::performance::phase3::DiskANNIndex::SearchResult::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::performance::phase3::DiskANNIndex::SearchResult::distance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="101" column="15" bodyfile="include/performance/phase3/diskann.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/diskann.h" line="99" column="5" bodyfile="include/performance/phase3/diskann.h" bodystart="99" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_search_result_1a8ac9900f2e61cea3a0a8686940644876" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DiskANNIndex::SearchResult</scope><name>distance</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_search_result_1a0f841c3c99bdb60bcf8653ba519cc676" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DiskANNIndex::SearchResult</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

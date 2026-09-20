@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common" kind="namespace" language="C++">
+    <compoundname>themis::governance::soc2::criteria::common</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1a2aaa540dae64a707bcedbbf758040237" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kEnvironmentAndResources</definition>
+        <argsstring></argsstring>
+        <name>kEnvironmentAndResources</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kEnvironmentAndResources</qualifiedname>
+        <initializer>= &quot;CC1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="209" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1ab3640d5f968305e88fab42d32adc692e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kGoalsAndObjectives</definition>
+        <argsstring></argsstring>
+        <name>kGoalsAndObjectives</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kGoalsAndObjectives</qualifiedname>
+        <initializer>= &quot;CC2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="210" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1afda67ca67d7b58add47d44c9bd987dc3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kResponsibility</definition>
+        <argsstring></argsstring>
+        <name>kResponsibility</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kResponsibility</qualifiedname>
+        <initializer>= &quot;CC3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="211" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1a56257a8b18eb9be1982db0fda88d1dec" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kCompetence</definition>
+        <argsstring></argsstring>
+        <name>kCompetence</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kCompetence</qualifiedname>
+        <initializer>= &quot;CC4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="212" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1a85355d19dd7edcb3b93daddea918be3e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kBehavior</definition>
+        <argsstring></argsstring>
+        <name>kBehavior</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kBehavior</qualifiedname>
+        <initializer>= &quot;CC5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="213" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1a88d9f73c041ad314bf7815d9276a0aa4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kReporting</definition>
+        <argsstring></argsstring>
+        <name>kReporting</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kReporting</qualifiedname>
+        <initializer>= &quot;CC6&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="214" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1afa0431bed3b00f89189c5277cfd1555e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kMonitoring</definition>
+        <argsstring></argsstring>
+        <name>kMonitoring</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kMonitoring</qualifiedname>
+        <initializer>= &quot;CC7&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="215" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1a0208fcd866997576207cd642a4d6f4d8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kEvaluationOfControl</definition>
+        <argsstring></argsstring>
+        <name>kEvaluationOfControl</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kEvaluationOfControl</qualifiedname>
+        <initializer>= &quot;CC8&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="216" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common_1a3e95504eebdcd004e96ef7fc04cfa7ee" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::common::kRoleOfInternalAudit</definition>
+        <argsstring></argsstring>
+        <name>kRoleOfInternalAudit</name>
+        <qualifiedname>themis::governance::soc2::criteria::common::kRoleOfInternalAudit</qualifiedname>
+        <initializer>= &quot;CC9&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="217" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="208" column="5"/>
+  </compounddef>
+</doxygen>

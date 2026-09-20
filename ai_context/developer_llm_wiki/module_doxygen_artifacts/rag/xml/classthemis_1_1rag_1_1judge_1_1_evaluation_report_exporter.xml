@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::EvaluationReportExporter</compoundname>
+    <includes refid="evaluation__report__exporter_8h" local="no">evaluation_report_exporter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a29cf9e3230837e52e93162ff6f8202ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::EvaluationReportExporter::EvaluationReportExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>EvaluationReportExporter</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::EvaluationReportExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a29874bcb5d8f0d99d425c7be1aa3dd0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::EvaluationReportExporter::~EvaluationReportExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EvaluationReportExporter</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::~EvaluationReportExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1aff8ba7b857d3cc68904e5149af2fcc3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::EvaluationReportExporter::EvaluationReportExporter</definition>
+        <argsstring>(const EvaluationReportExporter &amp;)=delete</argsstring>
+        <name>EvaluationReportExporter</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::EvaluationReportExporter</qualifiedname>
+        <param>
+          <type>const EvaluationReportExporter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1abda4891e1d73f5ae5d0a76d1969cf258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a29cf9e3230837e52e93162ff6f8202ab" kindref="member">EvaluationReportExporter</ref> &amp;</type>
+        <definition>EvaluationReportExporter &amp; themis::rag::judge::EvaluationReportExporter::operator=</definition>
+        <argsstring>(const EvaluationReportExporter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a29cf9e3230837e52e93162ff6f8202ab" kindref="member">EvaluationReportExporter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="53" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a68aef30d433b2115cc7cf6e5fc9b333d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationReportExporter::toJSON</definition>
+        <argsstring>(const PerQueryReport &amp;report) const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::toJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_per_query_report" kindref="compound">PerQueryReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Serialise <computeroutput>report</computeroutput> to a JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The output is a compact (no trailing whitespace) UTF-8 JSON document. Special characters inside string values are escaped according to RFC 8259.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation input + result to serialise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON string; never empty on success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="65" column="17" bodyfile="src/rag/evaluation_report_exporter.cpp" bodystart="137" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1adf1662e0a873b575dc048b578e59565b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationReportExporter::toHTML</definition>
+        <argsstring>(const PerQueryReport &amp;report) const</argsstring>
+        <name>toHTML</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::toHTML</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_per_query_report" kindref="compound">PerQueryReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Serialise <computeroutput>report</computeroutput> to an HTML string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The output is a self-contained HTML5 document with inline CSS and no external dependencies. Score bars are rendered as styled <computeroutput></computeroutput> elements.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation input + result to render </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>HTML string; never empty on success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="77" column="17" bodyfile="src/rag/evaluation_report_exporter.cpp" bodystart="264" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1ad955de878f95f6229c9ac080a24a6543" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::EvaluationReportExporter::exportJSON</definition>
+        <argsstring>(const PerQueryReport &amp;report, const std::string &amp;filepath) const</argsstring>
+        <name>exportJSON</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::exportJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_per_query_report" kindref="compound">PerQueryReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Write the JSON representation of <computeroutput>report</computeroutput> to a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates or overwrites the file at <computeroutput>filepath</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation to export </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination path (must be writable) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if the file could not be opened/written </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>To JSON. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="88" column="10" bodyfile="src/rag/evaluation_report_exporter.cpp" bodystart="417" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1ac7fee5cd8e88c691896b829a3dfd4960" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::EvaluationReportExporter::exportHTML</definition>
+        <argsstring>(const PerQueryReport &amp;report, const std::string &amp;filepath) const</argsstring>
+        <name>exportHTML</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::exportHTML</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_per_query_report" kindref="compound">PerQueryReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Write the HTML representation of <computeroutput>report</computeroutput> to a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates or overwrites the file at <computeroutput>filepath</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation to export </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination path (must be writable) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if the file could not be opened/written </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>To HTML. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="100" column="10" bodyfile="src/rag/evaluation_report_exporter.cpp" bodystart="435" bodyend="451"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a8a8d15123c3845680e1628e274d1b459" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationReportExporter::escapeJSON</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>escapeJSON</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::escapeJSON</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a raw string value for safe embedding inside a JSON string literal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escape JSON.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(), std::snprintf(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="105" column="24" bodyfile="src/rag/evaluation_report_exporter.cpp" bodystart="32" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a0ff756cfa43b745cf26dd0aa9c9a6ac1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationReportExporter::escapeHTML</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>escapeHTML</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::escapeHTML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a raw string for safe embedding inside HTML text / attribute values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escape HTML.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="107" column="24" bodyfile="src/rag/evaluation_report_exporter.cpp" bodystart="72" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a739746bcb833ce4a3c50612a64a8275c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationReportExporter::scoreBarHTML</definition>
+        <argsstring>(const std::string &amp;label, double score, bool is_critical=false)</argsstring>
+        <name>scoreBarHTML</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporter::scoreBarHTML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_critical</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Render a single score as an HTML progress-bar row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Score Bar HTML.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_critical</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max(), std::min(), std::round(), escapeHTML(), std::setprecision(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="109" column="24" bodyfile="src/rag/evaluation_report_exporter.cpp" bodystart="103" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exports per-query RAG evaluation reports as JSON or HTML. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe: all public methods are const and produce no shared-state side effects. The exporter instance itself holds no mutable state. </para>
+    </detaileddescription>
+    <location file="include/rag/evaluation_report_exporter.h" line="46" column="1" bodyfile="include/rag/evaluation_report_exporter.h" bodystart="46" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a0ff756cfa43b745cf26dd0aa9c9a6ac1" prot="private" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>escapeHTML</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a8a8d15123c3845680e1628e274d1b459" prot="private" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>escapeJSON</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a29cf9e3230837e52e93162ff6f8202ab" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>EvaluationReportExporter</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1aff8ba7b857d3cc68904e5149af2fcc3f" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>EvaluationReportExporter</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1ac7fee5cd8e88c691896b829a3dfd4960" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>exportHTML</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1ad955de878f95f6229c9ac080a24a6543" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>exportJSON</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1abda4891e1d73f5ae5d0a76d1969cf258" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a739746bcb833ce4a3c50612a64a8275c" prot="private" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>scoreBarHTML</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1adf1662e0a873b575dc048b578e59565b" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>toHTML</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a68aef30d433b2115cc7cf6e5fc9b333d" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>toJSON</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_1a29874bcb5d8f0d99d425c7be1aa3dd0e" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporter</scope><name>~EvaluationReportExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

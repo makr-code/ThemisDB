@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_saga_coordinator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedSagaCoordinatorConfig</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_config_1ae5287d5d958732f987b4160334ff3349" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedSagaCoordinatorConfig::enable_parallel</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel</name>
+        <qualifiedname>themis::DistributedSagaCoordinatorConfig::enable_parallel</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="222" column="10" bodyfile="include/transaction/distributed_saga.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_config_1affb73dda3b6f241f79a5e6323c88f400" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedSagaCoordinatorConfig::journal_path</definition>
+        <argsstring></argsstring>
+        <name>journal_path</name>
+        <qualifiedname>themis::DistributedSagaCoordinatorConfig::journal_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="224" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_config_1ad38c74458b9c1d96787bff823553fed3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DistributedSagaCoordinatorConfig::saga_timeout</definition>
+        <argsstring></argsstring>
+        <name>saga_timeout</name>
+        <qualifiedname>themis::DistributedSagaCoordinatorConfig::saga_timeout</qualifiedname>
+        <initializer>{std::chrono::milliseconds(0)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="226" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_config_1a641229660c1ccae4361a66eb2cc0f2d9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DistributedSagaCoordinatorConfig::default_forward_timeout</definition>
+        <argsstring></argsstring>
+        <name>default_forward_timeout</name>
+        <qualifiedname>themis::DistributedSagaCoordinatorConfig::default_forward_timeout</qualifiedname>
+        <initializer>{std::chrono::milliseconds(5000)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="228" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="228" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_config_1a64831329621c97116d00e1691b338fb8" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DistributedSagaCoordinatorConfig::default_compensate_timeout</definition>
+        <argsstring></argsstring>
+        <name>default_compensate_timeout</name>
+        <qualifiedname>themis::DistributedSagaCoordinatorConfig::default_compensate_timeout</qualifiedname>
+        <initializer>{std::chrono::milliseconds(10000)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="230" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_config_1a59f8219a7628cd2c2754c6f27ccca09d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedSagaCoordinatorConfig::enable_consensus_verification</definition>
+        <argsstring></argsstring>
+        <name>enable_consensus_verification</name>
+        <qualifiedname>themis::DistributedSagaCoordinatorConfig::enable_consensus_verification</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="232" column="10" bodyfile="include/transaction/distributed_saga.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_config_1ac7dc545b95a4d8d4baa7254cb17d5828" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1aaa66fd1a69f9fb4a31117bedf313e60a" kindref="member">ConsensusVerifier</ref></type>
+        <definition>ConsensusVerifier themis::DistributedSagaCoordinatorConfig::consensus_verifier</definition>
+        <argsstring></argsstring>
+        <name>consensus_verifier</name>
+        <qualifiedname>themis::DistributedSagaCoordinatorConfig::consensus_verifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="234" column="23" bodyfile="include/transaction/distributed_saga.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_config_1aa935d6b394f4b77eb70ca0518f24ae9b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1ae9b414355433f4198b8e49a3cdde1220" kindref="member">RemoteStepExecutor</ref></type>
+        <definition>RemoteStepExecutor themis::DistributedSagaCoordinatorConfig::remote_executor</definition>
+        <argsstring></argsstring>
+        <name>remote_executor</name>
+        <qualifiedname>themis::DistributedSagaCoordinatorConfig::remote_executor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="236" column="24" bodyfile="include/transaction/distributed_saga.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="221" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="221" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_config_1ac7dc545b95a4d8d4baa7254cb17d5828" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinatorConfig</scope><name>consensus_verifier</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_config_1a64831329621c97116d00e1691b338fb8" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinatorConfig</scope><name>default_compensate_timeout</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_config_1a641229660c1ccae4361a66eb2cc0f2d9" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinatorConfig</scope><name>default_forward_timeout</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_config_1a59f8219a7628cd2c2754c6f27ccca09d" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinatorConfig</scope><name>enable_consensus_verification</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_config_1ae5287d5d958732f987b4160334ff3349" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinatorConfig</scope><name>enable_parallel</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_config_1affb73dda3b6f241f79a5e6323c88f400" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinatorConfig</scope><name>journal_path</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_config_1aa935d6b394f4b77eb70ca0518f24ae9b" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinatorConfig</scope><name>remote_executor</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_config_1ad38c74458b9c1d96787bff823553fed3" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinatorConfig</scope><name>saga_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

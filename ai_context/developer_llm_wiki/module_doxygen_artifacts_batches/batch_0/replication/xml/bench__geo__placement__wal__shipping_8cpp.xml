@@ -1,0 +1,593 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__geo__placement__wal__shipping_8cpp" kind="file" language="C++">
+    <compoundname>bench_geo_placement_wal_shipping.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="async__wal__shipper_8h" local="yes">replication/async_wal_shipper.h</includes>
+    <includes refid="geo__placement_8h" local="yes">replication/geo_placement.h</includes>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/replication/bench_geo_placement_wal_shipping.cpp</label>
+        <link refid="bench__geo__placement__wal__shipping_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>replication/async_wal_shipper.h</label>
+        <link refid="async__wal__shipper_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>condition_variable</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="24">
+        <label>cstring</label>
+      </node>
+      <node id="19">
+        <label>deque</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>map</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>queue</label>
+      </node>
+      <node id="25">
+        <label>random</label>
+      </node>
+      <node id="21">
+        <label>set</label>
+      </node>
+      <node id="17">
+        <label>shared_mutex</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1wave__d">themis::bench::wave_d</innernamespace>
+    <briefdescription>
+<para>Wave D Phase 1 release-gate benchmarks for geographic placement and cross-region WAL shipping. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="bench__geo__placement__wal__shipping_8cpp_1autotoc_md13_1s1"><sect2 id="bench__geo__placement__wal__shipping_8cpp_1autotoc_md13">
+<title>Benchmark families</title><para><heading level="3">GEO-BENCH-01 — Leader election under placement constraints (3-DC topology)</heading>
+</para>
+<para>Gate: deterministic, ≤ 50 ms per election Workload: 100 elections in 3-DC cluster with placement constraints</para>
+<para><heading level="3">WAL-BENCH-01 — WAL segment shipping throughput</heading>
+</para>
+<para>Gate: ≥ 80 MB/s on simulated GbE link Workload: 10,000 × 1 KB segments enqueued and shipped</para>
+<para><heading level="3">WAL-BENCH-02 — Lag alert latency under backpressure</heading>
+</para>
+<para>Gate: Alert fires within 2× max_lag_ms window (default 2s) Workload: Segment delayed to exceed max_lag_ms, alert fires</para>
+<para><simplesect kind="see"><para><ref refid="geo__placement_8h" kindref="compound">include/replication/geo_placement.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="async__wal__shipper_8h" kindref="compound">include/replication/async_wal_shipper.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/replication/ROADMAP.md — §3.1 Wave D Phase 1 </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="async__wal__shipper_8h" kindref="compound">replication/async_wal_shipper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__placement_8h" kindref="compound">replication/geo_placement.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1bench_1_1wave__d" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1wave__d" kindref="compound">wave_d</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">themisdb::replication</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kWaveDCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWarmupIterations<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepetitions<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kGbEBandwidthMBps<sp/>=<sp/>125.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>Gbps<sp/>/<sp/>8<sp/>bits-per-byte</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kWalShippingThresholdMBps<sp/>=<sp/>80.0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Geo<sp/>Placement<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>makeReplica(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>datacenter,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>priority<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seq<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>health<sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref>)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>r;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>node_id;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1abd51b09233403c8eb501bfc821c42b15" kindref="member">datacenter</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>datacenter;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1ae07d1da3fd37a2e9a29a4841d49c21d4" kindref="member">priority</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>priority;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a01b9218022a2247e42f0aed097d951f9" kindref="member">last_applied_sequence</ref><sp/>=<sp/>seq;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1aaea81695c2770eab6a9ae1120f445763" kindref="member">health_status</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>health;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a1480e359db84b06334e862151d09d728" kindref="member">is_voting_member</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a7471eee8fd9adb4f78eb8529a3e95f7d" kindref="member">last_heartbeat</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">std::vector&lt;ReplicaInfo&gt;<sp/>make3DCTopology()<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeReplica(</highlight><highlight class="stringliteral">&quot;node-eu-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>1000),</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeReplica(</highlight><highlight class="stringliteral">&quot;node-eu-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">,<sp/>2,<sp/>950),</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeReplica(</highlight><highlight class="stringliteral">&quot;node-us-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>2,<sp/>900),</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeReplica(</highlight><highlight class="stringliteral">&quot;node-us-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>850),</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeReplica(</highlight><highlight class="stringliteral">&quot;node-ap-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ap-southeast-1&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>800),</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref><sp/>makeSegment(uint64_t<sp/>seq,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_size<sp/>=<sp/>1024,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_dc<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-eu&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref><sp/>s;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a8dd290d4009b2d2c4409043301b459ce" kindref="member">sequence_number</ref><sp/>=<sp/>seq;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a939571702b028842909921ab2867ad4d" kindref="member">data</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(data_size,<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>with<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" kindref="member">enqueue_time</ref><sp/><sp/><sp/><sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1afd6824264f4039d6de23c3c781df548b" kindref="member">target_dc</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>target_dc;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO-BENCH-01:<sp/>Leader<sp/>Election<sp/>Under<sp/>Placement<sp/>Constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1wave__d_1ab1bc95ea5d928fbb2eab4d26cef6ccd9" kindref="member">GEO_BENCH_01_LeaderElectionWithConstraints</ref>(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" kindref="compound">GeoReplicaPlacementManager</ref><sp/>placement_mgr;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>replicas<sp/>=<sp/>make3DCTopology();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref><sp/>constraints;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a2ec93edca91804061d257ca1e6c81058" kindref="member">preferred_datacenters</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1aafc8164ef559c231bd3f19c180e4b29f" kindref="member">require_voter</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a0559f0174cc753d77f5e9bd923a87811" kindref="member">healthy_only</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>placement_mgr.<ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1afa015959b8589efbde17cad09b099553" kindref="member">selectLeaderCandidate</ref>(replicas,<sp/>constraints));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;3-DC<sp/>topology,<sp/>preferred<sp/>DC<sp/>constraint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(<ref refid="namespacethemis_1_1bench_1_1wave__d_1ab1bc95ea5d928fbb2eab4d26cef6ccd9" kindref="member">GEO_BENCH_01_LeaderElectionWithConstraints</ref>)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100)</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;GEO-BENCH-01:<sp/>Leader<sp/>Election<sp/>(3-DC)&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO-BENCH-02:<sp/>Failover<sp/>Candidate<sp/>Selection<sp/>with<sp/>DC<sp/>Constraint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1wave__d_1af0716a70011ba912847b57f66be81694" kindref="member">GEO_BENCH_02_FailoverWithConstraint</ref>(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" kindref="compound">GeoReplicaPlacementManager</ref><sp/>placement_mgr;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>replicas<sp/>=<sp/>make3DCTopology();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref><sp/>constraints;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a2ec93edca91804061d257ca1e6c81058" kindref="member">preferred_datacenters</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">};<sp/><sp/></highlight><highlight class="comment">//<sp/>Failover<sp/>to<sp/>US<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1aafc8164ef559c231bd3f19c180e4b29f" kindref="member">require_voter</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a0559f0174cc753d77f5e9bd923a87811" kindref="member">healthy_only</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>placement_mgr.<ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a827d37182db584ef939c6ffa7d0e2d91" kindref="member">selectFailoverCandidate</ref>(replicas,<sp/>constraints,<sp/></highlight><highlight class="stringliteral">&quot;node-eu-1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Failover<sp/>selection<sp/>with<sp/>DC<sp/>preference&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(<ref refid="namespacethemis_1_1bench_1_1wave__d_1af0716a70011ba912847b57f66be81694" kindref="member">GEO_BENCH_02_FailoverWithConstraint</ref>)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;GEO-BENCH-02:<sp/>Failover<sp/>(3-DC)&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO-BENCH-03:<sp/>Placement<sp/>Validation<sp/>in<sp/>3-DC<sp/>Topology</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1wave__d_1a56cf2a3e46fc3fcdfd43afebf475c3f1" kindref="member">GEO_BENCH_03_PlacementValidation</ref>(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" kindref="compound">GeoReplicaPlacementManager</ref><sp/>placement_mgr;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>replicas<sp/>=<sp/>make3DCTopology();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref><sp/>constraints;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a583c8efa0af3566e907c367430b43323" kindref="member">required_datacenters</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ap-southeast-1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1adc39c476050a4e1ce2083bb8df6ceee1" kindref="member">min_copies_per_dc</ref><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1aafc8164ef559c231bd3f19c180e4b29f" kindref="member">require_voter</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(placement_mgr.<ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a86e45a53e9b5620515f98c4c55bd097e" kindref="member">validatePlacement</ref>(replicas,<sp/>constraints));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Validation:<sp/>3<sp/>required<sp/>DCs,<sp/>min<sp/>1<sp/>copy<sp/>each&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(<ref refid="namespacethemis_1_1bench_1_1wave__d_1a56cf2a3e46fc3fcdfd43afebf475c3f1" kindref="member">GEO_BENCH_03_PlacementValidation</ref>)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100)</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;GEO-BENCH-03:<sp/>Placement<sp/>Validation<sp/>(3-DC)&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WAL-BENCH-01:<sp/>WAL<sp/>Segment<sp/>Shipping<sp/>Throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1wave__d_1a02d820044caa162b606ec1b13259151a" kindref="member">WAL_BENCH_01_ShippingThroughput</ref>(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ab0b8a0c46398854e5182f9922002bf4a" kindref="member">local_dc_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-us-east&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a5e6ef5fc70a41a1b25399db27aa165f6" kindref="member">remote_dc_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-eu-west:9876&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" kindref="member">max_lag_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ad9fc5ecfa77ea1f915825d90172c89bd" kindref="member">max_queue_depth</ref><sp/><sp/><sp/><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref><sp/>shipper(cfg);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-allocate<sp/>a<sp/>1<sp/>KB<sp/>payload<sp/>to<sp/>avoid<sp/>allocation<sp/>overhead<sp/>in<sp/>the<sp/>loop.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload(1024,<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Track<sp/>shipped<sp/>bytes<sp/>outside<sp/>the<sp/>benchmark<sp/>loop<sp/>for<sp/>result<sp/>reporting.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_bytes_shipped<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref><sp/>seg<sp/>=<sp/>makeSegment(state.iterations(),<sp/>1024);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" kindref="member">enqueueSegment</ref>(std::move(seg));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_bytes_shipped<sp/>+=<sp/>1024;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>time<sp/>for<sp/>all<sp/>segments<sp/>to<sp/>drain<sp/>before<sp/>stopping.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(500ms);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa75eec081e0b1dbdb84476386aa2c7ef" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calculate<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a9a730d2489a5c9f56da40fa977ae131c" kindref="member">stats</ref>();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.segments_shipped<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>throughput_mbps<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s.bytes_shipped)<sp/>/<sp/>(1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;throughput_MB/s&quot;</highlight><highlight class="normal">]<sp/>=<sp/>throughput_mbps;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;segments_shipped&quot;</highlight><highlight class="normal">]<sp/>=<sp/>s.segments_shipped;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>acceptance<sp/>criteria</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(throughput_mbps<sp/>&gt;=<sp/>kWalShippingThresholdMBps)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetLabel(</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;PASS:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(throughput_mbps))<sp/>+</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>MB/s<sp/>&gt;=<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kWalShippingThresholdMBps))<sp/>+</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>MB/s<sp/>threshold&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetLabel(</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;FAIL:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(throughput_mbps))<sp/>+</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>MB/s<sp/>&lt;<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kWalShippingThresholdMBps))<sp/>+</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>MB/s<sp/>threshold&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(<ref refid="namespacethemis_1_1bench_1_1wave__d_1a02d820044caa162b606ec1b13259151a" kindref="member">WAL_BENCH_01_ShippingThroughput</ref>)</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(10000)</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;WAL-BENCH-01:<sp/>Shipping<sp/>Throughput<sp/>(1<sp/>KB<sp/>segs)&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WAL-BENCH-02:<sp/>Lag<sp/>Alert<sp/>Latency<sp/>Under<sp/>Backpressure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1wave__d_1abcb2350e925b303da3ccbcc0b664f288" kindref="member">WAL_BENCH_02_LagAlertLatency</ref>(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ab0b8a0c46398854e5182f9922002bf4a" kindref="member">local_dc_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-us-east&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a5e6ef5fc70a41a1b25399db27aa165f6" kindref="member">remote_dc_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-eu-west:9876&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" kindref="member">max_lag_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>tight<sp/>lag<sp/>limit<sp/>to<sp/>trigger<sp/>alerts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ad9fc5ecfa77ea1f915825d90172c89bd" kindref="member">max_queue_depth</ref><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref><sp/>shipper(cfg);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>alert_count{0};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>min_alert_lag_ms{UINT64_MAX};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>max_alert_lag_ms{0};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a6d782eeaabaa22440a14a08f88cef64e" kindref="member">setAlertCallback</ref>([&amp;](uint64_t<sp/>lag_ms)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++alert_count;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lag_ms<sp/>&lt;<sp/>min_alert_lag_ms.load())<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>min_alert_lag_ms.store(lag_ms);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lag_ms<sp/>&gt;<sp/>max_alert_lag_ms.load())<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_alert_lag_ms.store(lag_ms);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>segment<sp/>with<sp/>enqueue_time<sp/>in<sp/>the<sp/>past<sp/>to<sp/>trigger<sp/>lag<sp/>alerts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref><sp/>seg<sp/>=<sp/>makeSegment(state.iterations(),<sp/>512);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seg.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" kindref="member">enqueue_time</ref><sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>500ms;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" kindref="member">enqueueSegment</ref>(std::move(seg));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>time<sp/>for<sp/>all<sp/>segments<sp/>to<sp/>dispatch<sp/>and<sp/>alerts<sp/>to<sp/>fire.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(200ms);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa75eec081e0b1dbdb84476386aa2c7ef" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;alerts_fired&quot;</highlight><highlight class="normal">]<sp/>=<sp/>alert_count.load();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(min_alert_lag_ms.load()<sp/>!=<sp/>UINT64_MAX)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;min_alert_lag_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>min_alert_lag_ms.load();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;max_alert_lag_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>max_alert_lag_ms.load();</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>max_window_ms<sp/>=<sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" kindref="member">max_lag_ms</ref><sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(max_alert_lag_ms.load()<sp/>&lt;=<sp/>max_window_ms)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetLabel(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PASS:<sp/>Max<sp/>lag<sp/>alert<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(max_alert_lag_ms.load())<sp/>+</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms<sp/>&lt;=<sp/>window<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(max_window_ms)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetLabel(</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FAIL:<sp/>Max<sp/>lag<sp/>alert<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(max_alert_lag_ms.load())<sp/>+</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms<sp/>&gt;<sp/>window<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(max_window_ms)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(<ref refid="namespacethemis_1_1bench_1_1wave__d_1abcb2350e925b303da3ccbcc0b664f288" kindref="member">WAL_BENCH_02_LagAlertLatency</ref>)</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(500)</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;WAL-BENCH-02:<sp/>Lag<sp/>Alert<sp/>Latency<sp/>(backpressure)&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WAL-BENCH-03:<sp/>Stats<sp/>Accuracy<sp/>Under<sp/>Load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1wave__d_1a54b7199f6330d8d18b5b657e8cff42e0" kindref="member">WAL_BENCH_03_StatsAccuracy</ref>(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ab0b8a0c46398854e5182f9922002bf4a" kindref="member">local_dc_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-us-east&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a5e6ef5fc70a41a1b25399db27aa165f6" kindref="member">remote_dc_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-eu-west:9876&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" kindref="member">max_lag_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ad9fc5ecfa77ea1f915825d90172c89bd" kindref="member">max_queue_depth</ref><sp/><sp/><sp/><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref><sp/>shipper(cfg);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>segments_to_ship<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>payload_size<sp/><sp/><sp/><sp/><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" kindref="member">enqueueSegment</ref>(makeSegment(state.iterations(),<sp/>payload_size));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(200ms);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa75eec081e0b1dbdb84476386aa2c7ef" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a9a730d2489a5c9f56da40fa977ae131c" kindref="member">stats</ref>();</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;segments_enqueued&quot;</highlight><highlight class="normal">]<sp/>=<sp/>s.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a105a72c091dc9a1a24f7b5286b45eb35" kindref="member">segments_enqueued</ref>;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;segments_shipped&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/>s.segments_shipped;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;segments_dropped&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/>s.segments_dropped;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;bytes_enqueued&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>s.bytes_enqueued;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;bytes_shipped&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/>s.bytes_shipped;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Enqueued:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s.segments_enqueued)<sp/>+</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>|<sp/>Shipped:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s.segments_shipped)<sp/>+</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>|<sp/>Dropped:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s.segments_dropped));</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(<ref refid="namespacethemis_1_1bench_1_1wave__d_1a54b7199f6330d8d18b5b657e8cff42e0" kindref="member">WAL_BENCH_03_StatsAccuracy</ref>)</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(1000)</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;WAL-BENCH-03:<sp/>Stats<sp/>Accuracy<sp/>(load<sp/>test)&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WAL-BENCH-04:<sp/>Prometheus<sp/>Metrics<sp/>Export<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1wave__d_1a446ca31d510d6e44996829da140e86c2" kindref="member">WAL_BENCH_04_MetricsExport</ref>(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ab0b8a0c46398854e5182f9922002bf4a" kindref="member">local_dc_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-us-east&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a5e6ef5fc70a41a1b25399db27aa165f6" kindref="member">remote_dc_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-eu-west:9876&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" kindref="member">max_lag_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ad9fc5ecfa77ea1f915825d90172c89bd" kindref="member">max_queue_depth</ref><sp/><sp/><sp/><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref><sp/>shipper(cfg);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prime<sp/>the<sp/>shipper<sp/>with<sp/>some<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" kindref="member">enqueueSegment</ref>(makeSegment(i,<sp/>512));</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(100ms);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a5fc30c485fc2f611a4fdd64c067151d6" kindref="member">exportPrometheusMetrics</ref>());</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>shipper.<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa75eec081e0b1dbdb84476386aa2c7ef" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Metrics<sp/>export<sp/>under<sp/>normal<sp/>load&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(<ref refid="namespacethemis_1_1bench_1_1wave__d_1a446ca31d510d6e44996829da140e86c2" kindref="member">WAL_BENCH_04_MetricsExport</ref>)</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(1000)</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;WAL-BENCH-04:<sp/>Prometheus<sp/>Export&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>wave_d</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp"/>
+  </compounddef>
+</doxygen>

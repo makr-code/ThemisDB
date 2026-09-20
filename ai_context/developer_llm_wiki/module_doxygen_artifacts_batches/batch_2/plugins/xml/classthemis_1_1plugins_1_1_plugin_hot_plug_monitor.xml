@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginHotPlugMonitor</compoundname>
+    <includes refid="plugin__hot__plug__monitor_8h" local="no">plugin_hot_plug_monitor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1aefcadcb0b8e42c861d0db5ef51d26b95" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginHotPlugMonitor::watch_directory_</definition>
+        <argsstring></argsstring>
+        <name>watch_directory_</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::watch_directory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="58" column="17" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a78ef2f0f1930683ed833a72bc6d176a4" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::plugins::PluginHotPlugMonitor::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="59" column="17" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a81102a9f4685ec73649c40b284146340" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::plugins::PluginHotPlugMonitor::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="60" column="17" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1ae764ce237cdde25035ce351ed300a38b" prot="private" static="no" mutable="no">
+        <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> *</type>
+        <definition>PluginManager* themis::plugins::PluginHotPlugMonitor::plugin_manager_</definition>
+        <argsstring></argsstring>
+        <name>plugin_manager_</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::plugin_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="61" column="19" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1aa4cb7832187113ee4297cb62d9ce8158" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_hot_plug_config" kindref="compound">HotPlugConfig</ref></type>
+        <definition>HotPlugConfig themis::plugins::PluginHotPlugMonitor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="62" column="19" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1ad17559bb0b1a32fd099565fbfc74a91c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::PluginHotPlugMonitor::inotify_fd_</definition>
+        <argsstring></argsstring>
+        <name>inotify_fd_</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::inotify_fd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="69" column="9" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a00cf9bbb787193266272d3e6a8359fe2" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::PluginHotPlugMonitor::watch_descriptor_</definition>
+        <argsstring></argsstring>
+        <name>watch_descriptor_</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::watch_descriptor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="70" column="9" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a7a246c6b8d0b0de32e7587c589abde08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginHotPlugMonitor::PluginHotPlugMonitor</definition>
+        <argsstring>(PluginManager *manager, const std::string &amp;directory, const HotPlugConfig &amp;config=HotPlugConfig())</argsstring>
+        <name>PluginHotPlugMonitor</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::PluginHotPlugMonitor</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> *</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_hot_plug_config" kindref="compound">HotPlugConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1plugins_1_1_hot_plug_config" kindref="compound">HotPlugConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Construct a hot-plug monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to <ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory to monitor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="80" column="5" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="94" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1ad4d1c12f681299a30f00969693ea9cc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginHotPlugMonitor::~PluginHotPlugMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>~PluginHotPlugMonitor</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::~PluginHotPlugMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="86" column="5" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a6006f981a244ed49cd61eb12ab583d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginHotPlugMonitor::PluginHotPlugMonitor</definition>
+        <argsstring>(const PluginHotPlugMonitor &amp;)=delete</argsstring>
+        <name>PluginHotPlugMonitor</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::PluginHotPlugMonitor</qualifiedname>
+        <param>
+          <type>const PluginHotPlugMonitor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a1b0757ea8e9551eaf60f5afee4bb111e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a7a246c6b8d0b0de32e7587c589abde08" kindref="member">PluginHotPlugMonitor</ref> &amp;</type>
+        <definition>PluginHotPlugMonitor &amp; themis::plugins::PluginHotPlugMonitor::operator=</definition>
+        <argsstring>(const PluginHotPlugMonitor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a7a246c6b8d0b0de32e7587c589abde08" kindref="member">PluginHotPlugMonitor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="90" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a6474126bc78112adc2fdf15d23314401" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginHotPlugMonitor::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::start</qualifiedname>
+        <briefdescription>
+<para>Start monitoring the directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para><simplesect kind="return"><para>true if started successfully</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_WARN(), fs::exists(), THEMIS_ERROR(), fs::is_directory(), CreateFileA(), c_str(), std::thread(), watchDirectoryWindows(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="96" column="10" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="541" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a45254bd4e299feadea46c99a6238b9c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHotPlugMonitor::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::stop</qualifiedname>
+        <briefdescription>
+<para>Stop monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: CloseHandle(), joinable(), get_future(), joiner(), std::move(), join(), set_value(), detach(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="101" column="10" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="624" bodyend="679"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a1a1a24aa98890c0c64b1c036df95fd8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginHotPlugMonitor::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if monitor is running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if running </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="107" column="10" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1ae5ca18fecbfc69de6e71d6b9541e31c5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1plugins_1_1_hot_plug_config" kindref="compound">HotPlugConfig</ref> &amp;</type>
+        <definition>const HotPlugConfig &amp; themis::plugins::PluginHotPlugMonitor::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="113" column="25" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a16bd9ab18d7ea2aaa18ed38c1fdf8e1e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHotPlugMonitor::watchDirectoryLinux</definition>
+        <argsstring>()</argsstring>
+        <name>watchDirectoryLinux</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::watchDirectoryLinux</qualifiedname>
+        <briefdescription>
+<para>Platform-specific monitoring implementations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Watch Directory Linux.</para>
+<para>Calls: <bold>attribute</bold>(), aligned(), <bold>alignof</bold>(), poll(), THEMIS_ERROR(), strerror(), read(), handleFileEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="124" column="10" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="256" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a5bba5a914920813fcd26fb8627a83844" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHotPlugMonitor::handleFileEvent</definition>
+        <argsstring>(const std::string &amp;filename, FileEvent event)</argsstring>
+        <name>handleFileEvent</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::handleFileEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1ae88b8b7186ccfb516a9f1f81cd7d6e58" kindref="member">FileEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Handle file system event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle File Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File that changed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event type</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isPluginFile(), extractPluginName(), empty(), THEMIS_INFO(), std::this_thread::sleep_for(), std::chrono::milliseconds(), scanPluginDirectory(), loadPlugin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="132" column="10" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="167" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a129808c3f9824b9c711d4c4554699a03" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginHotPlugMonitor::isPluginFile</definition>
+        <argsstring>(const std::string &amp;filename) const</argsstring>
+        <name>isPluginFile</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::isPluginFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Check if filename is a plugin file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if it&apos;s a plugin file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="139" column="10" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="120" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1aa11ce939cf58f5fa07a10188b3f66237" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginHotPlugMonitor::extractPluginName</definition>
+        <argsstring>(const std::string &amp;filepath) const</argsstring>
+        <name>extractPluginName</name>
+        <qualifiedname>themis::plugins::PluginHotPlugMonitor::extractPluginName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Extract plugin name from file path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to plugin file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Plugin name or empty string if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>P. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="146" column="17" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="140" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hot-plug filesystem monitor for automatic plugin discovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Monitors a directory for plugin file changes using platform-native APIs:<itemizedlist>
+<listitem><para>Linux: inotify</para>
+</listitem><listitem><para>Windows: ReadDirectoryChangesW</para>
+</listitem><listitem><para>macOS: FSEvents or kqueue</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-Safety: All methods are thread-safe </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_hot_plug_monitor.h" line="56" column="1" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="56" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1aa4cb7832187113ee4297cb62d9ce8158" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1aa11ce939cf58f5fa07a10188b3f66237" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>extractPluginName</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1ae5ca18fecbfc69de6e71d6b9541e31c5" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a5bba5a914920813fcd26fb8627a83844" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>handleFileEvent</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1ad17559bb0b1a32fd099565fbfc74a91c" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>inotify_fd_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a129808c3f9824b9c711d4c4554699a03" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>isPluginFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a1a1a24aa98890c0c64b1c036df95fd8e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a78ef2f0f1930683ed833a72bc6d176a4" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a1b0757ea8e9551eaf60f5afee4bb111e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1ae764ce237cdde25035ce351ed300a38b" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>plugin_manager_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a7a246c6b8d0b0de32e7587c589abde08" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>PluginHotPlugMonitor</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a6006f981a244ed49cd61eb12ab583d6e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>PluginHotPlugMonitor</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a81102a9f4685ec73649c40b284146340" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>running_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a6474126bc78112adc2fdf15d23314401" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>start</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a45254bd4e299feadea46c99a6238b9c7" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>stop</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a00cf9bbb787193266272d3e6a8359fe2" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>watch_descriptor_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1aefcadcb0b8e42c861d0db5ef51d26b95" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>watch_directory_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1a16bd9ab18d7ea2aaa18ed38c1fdf8e1e" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>watchDirectoryLinux</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor_1ad4d1c12f681299a30f00969693ea9cc5" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHotPlugMonitor</scope><name>~PluginHotPlugMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

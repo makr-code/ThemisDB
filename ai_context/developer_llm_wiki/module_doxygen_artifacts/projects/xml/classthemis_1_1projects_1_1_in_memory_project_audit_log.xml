@@ -1,0 +1,440 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1projects_1_1_in_memory_project_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::projects::InMemoryProjectAuditLog</compoundname>
+    <basecompoundref refid="classthemis_1_1projects_1_1_i_project_audit_log" prot="public" virt="non-virtual">themis::projects::IProjectAuditLog</basecompoundref>
+    <includes refid="in__memory__project__audit__log_8h" local="no">in_memory_project_audit_log.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a850200a94e2b8b7f469a0feaa1d00747" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::projects::InMemoryProjectAuditLog::kDefaultMaxEntries</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxEntries</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::kDefaultMaxEntries</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="42" column="29" bodyfile="include/projects/in_memory_project_audit_log.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1ac1ab8ffeba5cd39272a9ac50a8c4312e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::projects::InMemoryProjectAuditLog::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="98" column="24" bodyfile="include/projects/in_memory_project_audit_log.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1af092eb2f542dd0ab8549e43725b696b6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1projects_1_1_project_audit_entry" kindref="compound">ProjectAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ProjectAuditEntry&gt; themis::projects::InMemoryProjectAuditLog::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="99" column="17" bodyfile="include/projects/in_memory_project_audit_log.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1ac37c1832de5ca8e9903235ae5cba6548" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::projects::InMemoryProjectAuditLog::max_entries_</definition>
+        <argsstring></argsstring>
+        <name>max_entries_</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::max_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="100" column="12" bodyfile="include/projects/in_memory_project_audit_log.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a8d281b05a1a4ece0184a7eba788b1d65" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::InMemoryProjectAuditLog::InMemoryProjectAuditLog</definition>
+        <argsstring>(size_t max_entries=kDefaultMaxEntries)</argsstring>
+        <name>InMemoryProjectAuditLog</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::InMemoryProjectAuditLog</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+          <defval><ref refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a850200a94e2b8b7f469a0feaa1d00747" kindref="member">kDefaultMaxEntries</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="44" column="14" bodyfile="src/projects/in_memory_project_audit_log.cpp" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1ae37a91ebc58824ef73fedc3b0852fc09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::InMemoryProjectAuditLog::~InMemoryProjectAuditLog</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~InMemoryProjectAuditLog</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::~InMemoryProjectAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a73b3ef0acec5b1104a53590549d97e57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::InMemoryProjectAuditLog::InMemoryProjectAuditLog</definition>
+        <argsstring>(const InMemoryProjectAuditLog &amp;)=delete</argsstring>
+        <name>InMemoryProjectAuditLog</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::InMemoryProjectAuditLog</qualifiedname>
+        <param>
+          <type>const InMemoryProjectAuditLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a1e988f42726de565e2bcdcc08bb51acf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a8d281b05a1a4ece0184a7eba788b1d65" kindref="member">InMemoryProjectAuditLog</ref> &amp;</type>
+        <definition>InMemoryProjectAuditLog &amp; themis::projects::InMemoryProjectAuditLog::operator=</definition>
+        <argsstring>(const InMemoryProjectAuditLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a8d281b05a1a4ece0184a7eba788b1d65" kindref="member">InMemoryProjectAuditLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="50" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1adefbb79f303764bbc4ba4a00a543e1ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::projects::InMemoryProjectAuditLog::record</definition>
+        <argsstring>(const ProjectAuditEntry &amp;entry) override</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::record</qualifiedname>
+        <reimplements refid="classthemis_1_1projects_1_1_i_project_audit_log_1a2870598eb9eceaa0732a393b6b19dc56">record</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_project_audit_entry" kindref="compound">ProjectAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append an audit entry to the log. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── record ────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="57" column="10" bodyfile="src/projects/in_memory_project_audit_log.cpp" bodystart="33" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a957e0ed43b4166b76e1a4d24c6ea803d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1projects_1_1_project_audit_entry" kindref="compound">ProjectAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; ProjectAuditEntry &gt; themis::projects::InMemoryProjectAuditLog::query</definition>
+        <argsstring>(const AuditQueryOptions &amp;opts) const override</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::query</qualifiedname>
+        <reimplements refid="classthemis_1_1projects_1_1_i_project_audit_log_1afd2fdc14cffb206f83193dc9fc9f97f9">query</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_audit_query_options" kindref="compound">AuditQueryOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Query log entries matching the given options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applies filters in this order:<orderedlist>
+<listitem><para>project_id match (required)</para>
+</listitem><listitem><para>action_filter (optional)</para>
+</listitem><listitem><para>actor_id_filter (optional, empty = all actors)</para>
+</listitem><listitem><para>time window [start_time, end_time) Result is sorted by timestamp descending (opts.sort_direction == &quot;desc&quot;) or ascending (any other value). <computeroutput>limit</computeroutput> and <computeroutput>offset</computeroutput> are applied last. </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="70" column="18" bodyfile="src/projects/in_memory_project_audit_log.cpp" bodystart="81" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a02a6cacc44f2be2252577b170b05c118" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::projects::InMemoryProjectAuditLog::count</definition>
+        <argsstring>(const AuditQueryOptions &amp;opts) const override</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::count</qualifiedname>
+        <reimplements refid="classthemis_1_1projects_1_1_i_project_audit_log_1ac9ed999a3fb5fa75b18faf90295f4754">count</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_audit_query_options" kindref="compound">AuditQueryOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Count entries matching the given options (ignores limit/offset). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="76" column="13" bodyfile="src/projects/in_memory_project_audit_log.cpp" bodystart="113" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1add790e61f2ac32f31741e0b0fe564f7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::projects::InMemoryProjectAuditLog::purge</definition>
+        <argsstring>(const std::string &amp;project_id, std::chrono::system_clock::time_point before) override</argsstring>
+        <name>purge</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::purge</qualifiedname>
+        <reimplements refid="classthemis_1_1projects_1_1_i_project_audit_log_1a26f02bf62e0cdf22d75ed02a6fd2d491">purge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>before</declname>
+        </param>
+        <briefdescription>
+<para>Remove all entries for <computeroutput>project_id</computeroutput> that are older than <computeroutput>before</computeroutput>. Returns the number of entries removed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── purge ─────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the project. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">before</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="82" column="10" bodyfile="src/projects/in_memory_project_audit_log.cpp" bodystart="131" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1ac7d621d632edda27ef27aab074d32312" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::projects::InMemoryProjectAuditLog::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::size</qualifiedname>
+        <briefdescription>
+<para>Total number of entries currently stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="90" column="13" bodyfile="src/projects/in_memory_project_audit_log.cpp" bodystart="153" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a2c019ef49b9caa34afbdccc2ff2249f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::InMemoryProjectAuditLog::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all entries. Intended for test teardown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="95" column="10" bodyfile="src/projects/in_memory_project_audit_log.cpp" bodystart="167" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a453c93885e66c991a24297a4aebc823f" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1projects_1_1_project_audit_entry" kindref="compound">ProjectAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; ProjectAuditEntry &gt; themis::projects::InMemoryProjectAuditLog::applyFilters</definition>
+        <argsstring>(const AuditQueryOptions &amp;opts) const</argsstring>
+        <name>applyFilters</name>
+        <qualifiedname>themis::projects::InMemoryProjectAuditLog::applyFilters</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_audit_query_options" kindref="compound">AuditQueryOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Apply all filters in opts; returns matching entries unsorted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/in_memory_project_audit_log.h" line="103" column="18" bodyfile="src/projects/in_memory_project_audit_log.cpp" bodystart="53" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory implementation of <ref refid="classthemis_1_1projects_1_1_i_project_audit_log" kindref="compound">IProjectAuditLog</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe append-only log intended for:<itemizedlist>
+<listitem><para>unit/integration testing without storage dependencies</para>
+</listitem><listitem><para>in-process audit trail (bounded to <computeroutput>max_entries</computeroutput>)</para>
+</listitem></itemizedlist>
+</para>
+<para>Production deployments should use a persistent sink (e.g. RocksDB or an append-only event store). This implementation is a production-quality in-process sink: bounded capacity, thread-safe, and compliant with <ref refid="classthemis_1_1projects_1_1_i_project_audit_log" kindref="compound">IProjectAuditLog</ref>.</para>
+<para>Capacity and eviction ───────────────────── When the log reaches <computeroutput>max_entries</computeroutput>, the oldest 10 % of entries are dropped to keep memory bounded. Default capacity is 100 000 entries. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::projects::IProjectAuditLog</label>
+        <link refid="classthemis_1_1projects_1_1_i_project_audit_log"/>
+      </node>
+      <node id="1">
+        <label>themis::projects::InMemoryProjectAuditLog</label>
+        <link refid="classthemis_1_1projects_1_1_in_memory_project_audit_log"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::projects::IProjectAuditLog</label>
+        <link refid="classthemis_1_1projects_1_1_i_project_audit_log"/>
+      </node>
+      <node id="1">
+        <label>themis::projects::InMemoryProjectAuditLog</label>
+        <link refid="classthemis_1_1projects_1_1_in_memory_project_audit_log"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/projects/in_memory_project_audit_log.h" line="40" column="1" bodyfile="include/projects/in_memory_project_audit_log.h" bodystart="40" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a453c93885e66c991a24297a4aebc823f" prot="private" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>applyFilters</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a2c019ef49b9caa34afbdccc2ff2249f8" prot="public" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>clear</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a02a6cacc44f2be2252577b170b05c118" prot="public" virt="virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>count</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1af092eb2f542dd0ab8549e43725b696b6" prot="private" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a8d281b05a1a4ece0184a7eba788b1d65" prot="public" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>InMemoryProjectAuditLog</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a73b3ef0acec5b1104a53590549d97e57" prot="public" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>InMemoryProjectAuditLog</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a850200a94e2b8b7f469a0feaa1d00747" prot="public" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>kDefaultMaxEntries</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1ac37c1832de5ca8e9903235ae5cba6548" prot="private" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>max_entries_</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1ac1ab8ffeba5cd39272a9ac50a8c4312e" prot="private" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a1e988f42726de565e2bcdcc08bb51acf" prot="public" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1add790e61f2ac32f31741e0b0fe564f7b" prot="public" virt="virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>purge</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a957e0ed43b4166b76e1a4d24c6ea803d" prot="public" virt="virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>query</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1adefbb79f303764bbc4ba4a00a543e1ad" prot="public" virt="virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>record</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1ac7d621d632edda27ef27aab074d32312" prot="public" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>size</name></member>
+      <member refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1ae37a91ebc58824ef73fedc3b0852fc09" prot="public" virt="non-virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>~InMemoryProjectAuditLog</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_audit_log_1a4d7b2f14c6b6cd0d783fafae7054ca29" prot="public" virt="virtual"><scope>themis::projects::InMemoryProjectAuditLog</scope><name>~IProjectAuditLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

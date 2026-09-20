@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_39ae8da7e1b5ab50bcdd43a1e52c32e0" kind="dir">
+    <compoundname>tests/query</compoundname>
+    <innerfile refid="test__aql__ddl__phase2_8cpp">test_aql_ddl_phase2.cpp</innerfile>
+    <innerfile refid="test__aql__fts__parser__focused_8cpp">test_aql_fts_parser_focused.cpp</innerfile>
+    <innerfile refid="test__aql__fts__phrase__proximity_8cpp">test_aql_fts_phrase_proximity.cpp</innerfile>
+    <innerfile refid="test__aql__llm__integration_8cpp">test_aql_llm_integration.cpp</innerfile>
+    <innerfile refid="test__aql__parser__service_8cpp">test_aql_parser_service.cpp</innerfile>
+    <innerfile refid="test__aql__validation__performance_8cpp">test_aql_validation_performance.cpp</innerfile>
+    <innerfile refid="test__continuous__query__e2e_8cpp">test_continuous_query_e2e.cpp</innerfile>
+    <innerfile refid="test__continuous__query__engine_8cpp">test_continuous_query_engine.cpp</innerfile>
+    <innerfile refid="test__continuous__query__hardening_8cpp">test_continuous_query_hardening.cpp</innerfile>
+    <innerfile refid="test__fts__bm25__scorer_8cpp">test_fts_bm25_scorer.cpp</innerfile>
+    <innerfile refid="test__fts__executor_8cpp">test_fts_executor.cpp</innerfile>
+    <innerfile refid="test__fts__index__cache_8cpp">test_fts_index_cache.cpp</innerfile>
+    <innerfile refid="test__geospatial__optimizer_8cpp">test_geospatial_optimizer.cpp</innerfile>
+    <innerfile refid="test__geospatial__phase2__integration_8cpp">test_geospatial_phase2_integration.cpp</innerfile>
+    <innerfile refid="test__materialized__view__scope__isolation_8cpp">test_materialized_view_scope_isolation.cpp</innerfile>
+    <innerfile refid="test__move__semantics__query_8cpp">test_move_semantics_query.cpp</innerfile>
+    <innerfile refid="test__pagerank_8cpp">test_pagerank.cpp</innerfile>
+    <innerfile refid="test__phase4__query__hardening_8cpp">test_phase4_query_hardening.cpp</innerfile>
+    <innerfile refid="test__query__api__handler__qw46_8cpp">test_query_api_handler_qw46.cpp</innerfile>
+    <innerfile refid="test__query__cache_8cpp">test_query_cache.cpp</innerfile>
+    <innerfile refid="test__query__cache__manager_8cpp">test_query_cache_manager.cpp</innerfile>
+    <innerfile refid="test__query__cancellation_8cpp">test_query_cancellation.cpp</innerfile>
+    <innerfile refid="test__query__cross__feature__matrix_8cpp">test_query_cross_feature_matrix.cpp</innerfile>
+    <innerfile refid="test__query__engine_8cpp">test_query_engine.cpp</innerfile>
+    <innerfile refid="test__query__engine__di_8cpp">test_query_engine_di.cpp</innerfile>
+    <innerfile refid="test__query__engine__error__handling_8cpp">test_query_engine_error_handling.cpp</innerfile>
+    <innerfile refid="test__query__engine__join_8cpp">test_query_engine_join.cpp</innerfile>
+    <innerfile refid="test__query__engine__range_8cpp">test_query_engine_range.cpp</innerfile>
+    <innerfile refid="test__query__expander_8cpp">test_query_expander.cpp</innerfile>
+    <innerfile refid="test__query__federation_8cpp">test_query_federation.cpp</innerfile>
+    <innerfile refid="test__query__federation__hardness_8cpp">test_query_federation_hardness.cpp</innerfile>
+    <innerfile refid="test__query__federation__routing_8cpp">test_query_federation_routing.cpp</innerfile>
+    <innerfile refid="test__query__federation__scope__safety_8cpp">test_query_federation_scope_safety.cpp</innerfile>
+    <innerfile refid="test__query__future__interfaces_8cpp">test_query_future_interfaces.cpp</innerfile>
+    <innerfile refid="test__query__highcardinality__stress_8cpp">test_query_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__query__jit__compilation_8cpp">test_query_jit_compilation.cpp</innerfile>
+    <innerfile refid="test__query__jit__equivalence_8cpp">test_query_jit_equivalence.cpp</innerfile>
+    <innerfile refid="test__query__masking__policy_8cpp">test_query_masking_policy.cpp</innerfile>
+    <innerfile refid="test__query__optimizer__regression_8cpp">test_query_optimizer_regression.cpp</innerfile>
+    <innerfile refid="test__query__optimizer__scope__bounds_8cpp">test_query_optimizer_scope_bounds.cpp</innerfile>
+    <innerfile refid="test__query__optimizer__statistics_8cpp">test_query_optimizer_statistics.cpp</innerfile>
+    <innerfile refid="test__query__optimizer__thread__safety_8cpp">test_query_optimizer_thread_safety.cpp</innerfile>
+    <innerfile refid="test__query__optimizer__vector__geo_8cpp">test_query_optimizer_vector_geo.cpp</innerfile>
+    <innerfile refid="test__query__or_8cpp">test_query_or.cpp</innerfile>
+    <innerfile refid="test__query__parser__edge__cases_8cpp">test_query_parser_edge_cases.cpp</innerfile>
+    <innerfile refid="test__query__parser__scope__validation_8cpp">test_query_parser_scope_validation.cpp</innerfile>
+    <innerfile refid="test__query__phase__a__gap__fixes_8cpp">test_query_phase_a_gap_fixes.cpp</innerfile>
+    <innerfile refid="test__query__plan__caching_8cpp">test_query_plan_caching.cpp</innerfile>
+    <innerfile refid="test__query__plan__visualizer_8cpp">test_query_plan_visualizer.cpp</innerfile>
+    <innerfile refid="test__query__planner__fallback_8cpp">test_query_planner_fallback.cpp</innerfile>
+    <innerfile refid="test__query__reliability__hardening_8cpp">test_query_reliability_hardening.cpp</innerfile>
+    <innerfile refid="test__query__resource__limits_8cpp">test_query_resource_limits.cpp</innerfile>
+    <innerfile refid="test__query__result__type__annotation_8cpp">test_query_result_type_annotation.cpp</innerfile>
+    <innerfile refid="test__query__safety__fixes_8cpp">test_query_safety_fixes.cpp</innerfile>
+    <innerfile refid="test__query__stream__sse_8cpp">test_query_stream_sse.cpp</innerfile>
+    <innerfile refid="test__tensor__contraction__engine_8cpp">test_tensor_contraction_engine.cpp</innerfile>
+    <innerfile refid="test__wave1__critical__gap__fixes_8cpp">test_wave1_critical_gap_fixes.cpp</innerfile>
+    <innerfile refid="test__wave3b__query__timeout__fixes_8cpp">test_wave3b_query_timeout_fixes.cpp</innerfile>
+    <innerfile refid="test__wave9__block3__fixes_8cpp">test_wave9_block3_fixes.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/"/>
+  </compounddef>
+</doxygen>

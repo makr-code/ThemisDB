@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_migration" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardMigration</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_migration_1a9655983009f35bf4411b3633d2044bb9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref></type>
+        <definition>ShardId themis::sharding::ShardMigration::source_shard_id</definition>
+        <argsstring></argsstring>
+        <name>source_shard_id</name>
+        <qualifiedname>themis::sharding::ShardMigration::source_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="82" column="13" bodyfile="include/sharding/sharding_interfaces.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_migration_1aaba9c36fe0679668eb9a60581c8775ae" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref></type>
+        <definition>ShardId themis::sharding::ShardMigration::dest_shard_id</definition>
+        <argsstring></argsstring>
+        <name>dest_shard_id</name>
+        <qualifiedname>themis::sharding::ShardMigration::dest_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="83" column="13" bodyfile="include/sharding/sharding_interfaces.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_migration_1a1c8c53a141bf07ec84e9c0560ae5c6bb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref></type>
+        <definition>ShardKey themis::sharding::ShardMigration::key_range_start</definition>
+        <argsstring></argsstring>
+        <name>key_range_start</name>
+        <qualifiedname>themis::sharding::ShardMigration::key_range_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="84" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_migration_1af88cbde3b3c1f2a99300853674ae5c9a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref></type>
+        <definition>ShardKey themis::sharding::ShardMigration::key_range_end</definition>
+        <argsstring></argsstring>
+        <name>key_range_end</name>
+        <qualifiedname>themis::sharding::ShardMigration::key_range_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="85" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_migration_1a3fd6fdef9da2698e5995925f53de068e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardMigration::estimated_bytes</definition>
+        <argsstring></argsstring>
+        <name>estimated_bytes</name>
+        <qualifiedname>themis::sharding::ShardMigration::estimated_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Estimated bytes to transfer during this step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="87" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single shard-to-shard data migration step within a <ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="81" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="81" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_migration_1aaba9c36fe0679668eb9a60581c8775ae" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMigration</scope><name>dest_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_migration_1a3fd6fdef9da2698e5995925f53de068e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMigration</scope><name>estimated_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_migration_1af88cbde3b3c1f2a99300853674ae5c9a" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMigration</scope><name>key_range_end</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_migration_1a1c8c53a141bf07ec84e9c0560ae5c6bb" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMigration</scope><name>key_range_start</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_migration_1a9655983009f35bf4411b3633d2044bb9" prot="public" virt="non-virtual"><scope>themis::sharding::ShardMigration</scope><name>source_shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

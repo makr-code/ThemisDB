@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_type_coercion_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::TypeCoercionConfig</compoundname>
+    <includes refid="schema__validator_8h" local="no">schema_validator.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_type_coercion_config_1a9f3c9bc9e7bb94971525322803aa51c9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::TypeCoercionConfig::kMaxStringFieldLength</definition>
+        <argsstring></argsstring>
+        <name>kMaxStringFieldLength</name>
+        <qualifiedname>themis::importers::TypeCoercionConfig::kMaxStringFieldLength</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Max 4KB per string field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="63" column="29" bodyfile="include/importers/schema_validator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_type_coercion_config_1a3b72ac22a848a99a6faadfbbcb0565cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::TypeCoercionConfig::numeric_min_value</definition>
+        <argsstring></argsstring>
+        <name>numeric_min_value</name>
+        <qualifiedname>themis::importers::TypeCoercionConfig::numeric_min_value</qualifiedname>
+        <initializer>{-1e308}</initializer>
+        <briefdescription>
+<para>Minimum numeric value (IEEE double). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="66" column="12" bodyfile="include/importers/schema_validator.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_type_coercion_config_1a0c246722bbda5b7cc9d392ab2f16d948" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::TypeCoercionConfig::numeric_max_value</definition>
+        <argsstring></argsstring>
+        <name>numeric_max_value</name>
+        <qualifiedname>themis::importers::TypeCoercionConfig::numeric_max_value</qualifiedname>
+        <initializer>{1e308}</initializer>
+        <briefdescription>
+<para>Maximum numeric value (IEEE double). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="67" column="12" bodyfile="include/importers/schema_validator.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_type_coercion_config_1ab875cd9cc81ca2f739da7c8fbfaeb90b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::TypeCoercionConfig::validate_iso8601</definition>
+        <argsstring></argsstring>
+        <name>validate_iso8601</name>
+        <qualifiedname>themis::importers::TypeCoercionConfig::validate_iso8601</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Enforce ISO8601 or RFC3339 for dates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="70" column="10" bodyfile="include/importers/schema_validator.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_validator.h" line="61" column="1" bodyfile="include/importers/schema_validator.h" bodystart="61" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_type_coercion_config_1a9f3c9bc9e7bb94971525322803aa51c9" prot="public" virt="non-virtual"><scope>themis::importers::TypeCoercionConfig</scope><name>kMaxStringFieldLength</name></member>
+      <member refid="structthemis_1_1importers_1_1_type_coercion_config_1a0c246722bbda5b7cc9d392ab2f16d948" prot="public" virt="non-virtual"><scope>themis::importers::TypeCoercionConfig</scope><name>numeric_max_value</name></member>
+      <member refid="structthemis_1_1importers_1_1_type_coercion_config_1a3b72ac22a848a99a6faadfbbcb0565cc" prot="public" virt="non-virtual"><scope>themis::importers::TypeCoercionConfig</scope><name>numeric_min_value</name></member>
+      <member refid="structthemis_1_1importers_1_1_type_coercion_config_1ab875cd9cc81ca2f739da7c8fbfaeb90b" prot="public" virt="non-virtual"><scope>themis::importers::TypeCoercionConfig</scope><name>validate_iso8601</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

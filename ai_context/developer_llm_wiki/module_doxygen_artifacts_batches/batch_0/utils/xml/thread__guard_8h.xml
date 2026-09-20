@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="thread__guard_8h" kind="file" language="C++">
+    <compoundname>thread_guard.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">condition_variable</includes>
+    <includedby refid="thread__guard_8cpp" local="yes">src/utils/thread_guard.cpp</includedby>
+    <includedby refid="test__phase1__resource__management_8cpp" local="yes">tests/utils/test_phase1_resource_management.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/thread_guard.h</label>
+        <link refid="thread__guard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>condition_variable</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/thread_guard.h</label>
+        <link refid="thread__guard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/thread_guard.cpp</label>
+        <link refid="thread__guard_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/utils/test_phase1_resource_management.cpp</label>
+        <link refid="test__phase1__resource__management_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1utils_1_1_thread_guard" prot="public">themis::utils::ThreadGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>RAII thread management with timeout support. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides exception-safe thread management ensuring proper cleanup on destruction. Implements timeout-aware thread joining to prevent infinite hangs.</para>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="since"><para>2026-08-07 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Optional:<sp/>spdlog<sp/>for<sp/>logging<sp/>(compile<sp/>with<sp/>-DTHEMIS_HAS_SPDLOG<sp/>if<sp/>available)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_SPDLOG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1utils_1_1_thread_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref>(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::thread<sp/>thread,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(30)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1acd0f2b18b5afd2377a41b78c6fd88aca" kindref="member">~ThreadGuard</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1a87044e8cc18b5f3fc7d917fdb89fff96" kindref="member">join_with_timeout</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1utils_1_1_thread_guard_1aba4274dc18ac76c93930703f84e774fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1aba4274dc18ac76c93930703f84e774fa" kindref="member">is_joinable</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thread_.joinable();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1utils_1_1_thread_guard_1ae6df4adcce924c7d21a4c5e402644250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread&amp;<sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1ae6df4adcce924c7d21a4c5e402644250" kindref="member">get_thread</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thread_;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1utils_1_1_thread_guard_1a2e5ae7a4c10c902c217f4d945cfdcff4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1a2e5ae7a4c10c902c217f4d945cfdcff4" kindref="member">ThreadGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1utils_1_1_thread_guard_1a8f38f7e78e26e8ee22da350f9c832fe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref>&amp;<sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1a8f38f7e78e26e8ee22da350f9c832fe7" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1utils_1_1_thread_guard_1ae500131915a7d7bc95bcceb28f87fa40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1ae500131915a7d7bc95bcceb28f87fa40" kindref="member">ThreadGuard</ref>(<ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1utils_1_1_thread_guard_1a30b167b63a42dfbddb14dd41e8c856ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>thread_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout_;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>joined_<sp/>=<sp/>false;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">template&lt;typename<sp/>Func&gt;</highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1_1utils_1acb0db9091a217cf785d0c284c044c8f6" refkind="member"><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_thread_guard" kindref="compound">ThreadGuard</ref><sp/><ref refid="namespacethemis_1_1utils_1acb0db9091a217cf785d0c284c044c8f6" kindref="member">make_thread_guard</ref>(</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>Func&amp;&amp;<sp/>func,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(30)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::thread(std::forward&lt;Func&gt;(func)),</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::utils</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/thread_guard.h"/>
+  </compounddef>
+</doxygen>

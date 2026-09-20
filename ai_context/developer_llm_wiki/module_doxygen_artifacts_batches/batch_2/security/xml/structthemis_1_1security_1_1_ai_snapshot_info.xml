@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_ai_snapshot_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AiSnapshotInfo</compoundname>
+    <includes refid="ai__snapshot__cleanup_8h" local="no">ai_snapshot_cleanup.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_snapshot_info_1ac82c416949db5443eeed7f871a8e09fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AiSnapshotInfo::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::security::AiSnapshotInfo::path</qualifiedname>
+        <briefdescription>
+<para>Absolute path to the snapshot directory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="31" column="18" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_snapshot_info_1ab7775190c73c0b9a6e6f7d9d39583427" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::security::AiSnapshotInfo::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::security::AiSnapshotInfo::size_bytes</qualifiedname>
+        <briefdescription>
+<para>Recursively summed size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="32" column="19" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_snapshot_info_1a3c9f481defae1cb51170e20297a6477c" prot="public" static="no" mutable="no">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::security::AiSnapshotInfo::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::security::AiSnapshotInfo::created_at</qualifiedname>
+        <briefdescription>
+<para>Unix timestamp (last_write_time). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="33" column="18" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata about a single pre-operation snapshot directory. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/ai_snapshot_cleanup.h" line="30" column="1" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="30" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_ai_snapshot_info_1a3c9f481defae1cb51170e20297a6477c" prot="public" virt="non-virtual"><scope>themis::security::AiSnapshotInfo</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_snapshot_info_1ac82c416949db5443eeed7f871a8e09fb" prot="public" virt="non-virtual"><scope>themis::security::AiSnapshotInfo</scope><name>path</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_snapshot_info_1ab7775190c73c0b9a6e6f7d9d39583427" prot="public" virt="non-virtual"><scope>themis::security::AiSnapshotInfo</scope><name>size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

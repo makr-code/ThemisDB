@@ -1,0 +1,1202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_system_versioned_table" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::SystemVersionedTable</compoundname>
+    <includes refid="system__versioned__table_8h" local="no">system_versioned_table.h</includes>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" prot="public">themisdb::temporal::SystemVersionedTable::Config</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1aed397a876b677436de129ff6509f1569" prot="private" static="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>using themisdb::temporal::SystemVersionedTable::VersionList = std::vector&lt;VersionedDocument&gt;</definition>
+        <argsstring></argsstring>
+        <name>VersionList</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::VersionList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="275" column="5" bodyfile="include/temporal/system_versioned_table.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a14319aa7350a4a84d13b14d4674bc481" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::SystemVersionedTable::table_name_</definition>
+        <argsstring></argsstring>
+        <name>table_name_</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::table_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="269" column="17" bodyfile="include/temporal/system_versioned_table.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a704377b5ac08ab0cccaecaa38ffeeb28" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::SystemVersionedTable::source_node_</definition>
+        <argsstring></argsstring>
+        <name>source_node_</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::source_node_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="270" column="17" bodyfile="include/temporal/system_versioned_table.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1ae42265ab7ea1672780217df0cad9ffbf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::temporal::SystemVersionedTable::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="271" column="17" bodyfile="include/temporal/system_versioned_table.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1aed106797c1c9098f5974d7714477074e" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref></type>
+        <definition>Document themisdb::temporal::SystemVersionedTable::schema_</definition>
+        <argsstring></argsstring>
+        <name>schema_</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::schema_</qualifiedname>
+        <briefdescription>
+<para>Table schema provided via <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad1ec51851f8fdd20016173cb9c66f6a2" kindref="member">createVersionedTable()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="272" column="17" bodyfile="include/temporal/system_versioned_table.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa8dc227df8642f53f0346836d723d8f0" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, VersionList &gt;</type>
+        <definition>std::map&lt;std::string, VersionList&gt; themisdb::temporal::SystemVersionedTable::rows_</definition>
+        <argsstring></argsstring>
+        <name>rows_</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::rows_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="276" column="14" bodyfile="include/temporal/system_versioned_table.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a903fb3302dd026789f77101c4c987953" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::SystemVersionedTable::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="278" column="24" bodyfile="include/temporal/system_versioned_table.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a25ea38a94caeddcee5b3cc39dbae6b2c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::SystemVersionedTable::SystemVersionedTable</definition>
+        <argsstring>(std::string table_name, std::string source_node=&quot;local&quot;)</argsstring>
+        <name>SystemVersionedTable</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::SystemVersionedTable</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>source_node</declname>
+          <defval>&quot;local&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct with explicit table name and optional source-node label. Uses default <ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref> values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="79" column="14" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a5587f6d7bf41c2a405bf568215cc1b80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::SystemVersionedTable::SystemVersionedTable</definition>
+        <argsstring>(std::string table_name, Config config, std::string source_node=&quot;local&quot;)</argsstring>
+        <name>SystemVersionedTable</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::SystemVersionedTable</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>source_node</declname>
+          <defval>&quot;local&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct with full <ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of this table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime configuration (retention, compression, …). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node/user label written to <ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1adcf8f8c6b8b22489437d6c878aa70d9c" kindref="member">VersionedDocument::modified_by</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="89" column="5" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a426393c0f04d98ef56cf2171a005ee60" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::SystemVersionedTable::SystemVersionedTable</definition>
+        <argsstring>(SystemVersionedTable &amp;&amp;other) noexcept</argsstring>
+        <name>SystemVersionedTable</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::SystemVersionedTable</qualifiedname>
+        <param>
+          <type>SystemVersionedTable &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Move constructor. Required because std::mutex is not movable; we default-construct the destination mutex (which is always correct for a newly-constructed object that nobody else holds a lock to). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="98" column="5" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::SystemVersionedTable::insert</definition>
+        <argsstring>(const std::string &amp;key, const Document &amp;doc)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert a new row. Fails (returns false) if the key already exists.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, push_back(), makeVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="129" column="10" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="107" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a7f55f529bd04be9e771588c2f5f54b6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::SystemVersionedTable::update</definition>
+        <argsstring>(const std::string &amp;key, const Document &amp;updates)</argsstring>
+        <name>update</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::update</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>updates</declname>
+        </param>
+        <briefdescription>
+<para>Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update an existing current row. The previous version is closed (sys_end set to now) and a new version is opened. Returns false if no current row exists for the key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">updates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, items(), push_back(), makeVersion(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="136" column="10" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="130" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a384a260d6808e1877fa115ffb0a3e053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::SystemVersionedTable::upsert</definition>
+        <argsstring>(const std::string &amp;key, const Document &amp;doc)</argsstring>
+        <name>upsert</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::upsert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Upsert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert a new row or update an existing one atomically. If a current version exists the row is updated (patch-merge semantics); otherwise a fresh row is inserted.</para>
+<para><simplesect kind="return"><para>true if an insert was performed, false if an update was performed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, push_back(), makeVersion(), closeCurrentVersion(), items(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="145" column="10" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="174" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac295dca38abcef86836ce6bbfd9faff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::SystemVersionedTable::deleteRow</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>deleteRow</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::deleteRow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete Row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Logically delete the current row (closes its sys_time period). Returns false if no current row exists for the key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), closeCurrentVersion(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="151" column="10" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="212" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa928d37b7f54dbd48bbd07dadc85cc6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::optional&lt; VersionedDocument &gt; themisdb::temporal::SystemVersionedTable::getCurrent</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getCurrent</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::getCurrent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the current version of a row, if it exists. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="156" column="19" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="228" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1ab1383db188e158860ee9e9d25bea1043" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::optional&lt; VersionedDocument &gt; themisdb::temporal::SystemVersionedTable::getAsOf</definition>
+        <argsstring>(const std::string &amp;key, Timestamp as_of) const</argsstring>
+        <name>getAsOf</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::getAsOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the version that was current at the given timestamp. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="159" column="19" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="249" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a3eb3492bbcee7841abcfb1a948652f07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::SystemVersionedTable::getHistory</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::getHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all historical versions of a row. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="163" column="17" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="270" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a177fdac4c5ab8b9f2df692f5af2749b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::SystemVersionedTable::getHistoryInRange</definition>
+        <argsstring>(const std::string &amp;key, const TimeRange &amp;range) const</argsstring>
+        <name>getHistoryInRange</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::getHistoryInRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all versions of a row whose sys_time overlaps the given range. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="168" column="17" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="286" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a502e33c5b75bf4e2be388c6bddeee720" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::SystemVersionedTable::scan</definition>
+        <argsstring>(Timestamp as_of=kMaxTimestamp) const</argsstring>
+        <name>scan</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::scan</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+          <defval>kMaxTimestamp</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all current rows as a snapshot at the given timestamp. When as_of == kMaxTimestamp the latest current rows are returned. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="175" column="17" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="310" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a2e88306f734ebaeea5465b5d7d34a6a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::temporal::SystemVersionedTable::getAllKeys</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllKeys</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::getAllKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all known keys (including keys whose rows have all been deleted). This allows callers (e.g. <ref refid="classthemisdb_1_1temporal_1_1_retention_manager" kindref="compound">RetentionManager</ref>) to enumerate every key that ever had data, not just keys with a currently-alive row. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="182" column="17" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="341" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1ae4ac8203c11c42a5f08abba67c25f90e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SystemVersionedTable::purgeHistoricalVersions</definition>
+        <argsstring>(const std::string &amp;key, const std::function&lt; bool(const VersionedDocument &amp;)&gt; &amp;predicate)</argsstring>
+        <name>purgeHistoricalVersions</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::purgeHistoricalVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; bool(const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;)&gt; &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Physically remove all closed (historical) versions for the given key that match the supplied predicate.</para>
+<para>The current (open-ended) version is NEVER removed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The row key to purge. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Return true for versions that should be deleted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of versions actually removed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="194" column="12" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="357" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a6f5a1160464be1fce775e6866f5a44a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SystemVersionedTable::purgeHistoricalVersionsKeepLatestN</definition>
+        <argsstring>(const std::string &amp;key, size_t keep_latest_n)</argsstring>
+        <name>purgeHistoricalVersionsKeepLatestN</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::purgeHistoricalVersionsKeepLatestN</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>keep_latest_n</declname>
+        </param>
+        <briefdescription>
+<para>Purge Historical Versions Keep Latest N. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Physically keep only the <computeroutput>keep_latest_n</computeroutput> most-recent historical (closed) versions for a key, deleting the rest.</para>
+<para>The current (open-ended) version is always kept regardless of n.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Row key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keep_latest_n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of historical versions to retain. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of versions physically removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keep_latest_n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), isCurrent(), push_back(), size(), std::sort(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="208" column="12" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="422" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a21a047c5b9063dcad7c6e3b8a1dc3732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SystemVersionedTable::purgeHistoricalVersions</definition>
+        <argsstring>(const std::function&lt; bool(const VersionedDocument &amp;)&gt; &amp;predicate)</argsstring>
+        <name>purgeHistoricalVersions</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::purgeHistoricalVersions</qualifiedname>
+        <param>
+          <type>const std::function&lt; bool(const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;)&gt; &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience overload: purge all historical versions across every known key that satisfy the predicate.</para>
+<para><simplesect kind="return"><para>Total number of versions removed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="217" column="12" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="390" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1af3e2decca474ddf076afadf5a5c82be6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::SystemVersionedTable::replaceHistoricalPayload</definition>
+        <argsstring>(const std::string &amp;key, Timestamp sys_start, const Document &amp;new_data)</argsstring>
+        <name>replaceHistoricalPayload</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::replaceHistoricalPayload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>sys_start</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>new_data</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Payload replacement (used by <ref refid="classthemisdb_1_1temporal_1_1_temporal_compressor" kindref="compound">TemporalCompressor</ref>) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replace the <computeroutput>data</computeroutput> payload of an existing historical version in-place.</para>
+<para>Identifies the version by <computeroutput>key</computeroutput> and the exact <computeroutput>sys_start</computeroutput> timestamp. Only closed (non-current) versions may be replaced; attempting to replace a current version returns false.</para>
+<para>This method is intended for use by <ref refid="classthemisdb_1_1temporal_1_1_temporal_compressor" kindref="compound">TemporalCompressor</ref> to substitute a compressed payload without altering the version&apos;s time metadata.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Row key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sys_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>sys_time.start of the target version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replacement payload (may be compressed). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the version was found and replaced.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sys_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), isCurrent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="235" column="10" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="582" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a9bf8871767a2c8732408cf04fce92f27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SystemVersionedTable::enforceRetentionPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>enforceRetentionPolicy</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::enforceRetentionPolicy</qualifiedname>
+        <briefdescription>
+<para>Enforce Retention Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply the configured retention policy to all keys.</para>
+<para>Historical versions older than <ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a9f071134273f85cc824899d8979790a6" kindref="member">Config::retention_period</ref> are physically removed. If <ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a9f071134273f85cc824899d8979790a6" kindref="member">Config::retention_period</ref> is zero the call is a no-op. The current (open-ended) version is never removed.</para>
+<para><simplesect kind="return"><para>Number of historical versions physically removed.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: count(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ae4ac8203c11c42a5f08abba67c25f90e" kindref="member">purgeHistoricalVersions()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="250" column="12" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="558" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a64ddaa94524f76632bb1cda819626e29" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::temporal::SystemVersionedTable::tableName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>tableName</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::tableName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="254" column="23" bodyfile="include/temporal/system_versioned_table.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a086e170634e4481a969d9ca688abc1de" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themisdb::temporal::SystemVersionedTable::getConfig</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the active <ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref> for this table. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="257" column="18" bodyfile="include/temporal/system_versioned_table.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a0dd3114541fb0fa001ef809350b72d52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SystemVersionedTable::keyCount</definition>
+        <argsstring>() const</argsstring>
+        <name>keyCount</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::keyCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of distinct keys (including deleted ones). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="260" column="12" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="486" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a60ef8f55a5b2ace79ae54cc4548a0aba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SystemVersionedTable::versionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>versionCount</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::versionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total number of row versions stored (current + historical). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="263" column="12" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="496" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad43eeddbc5f7025de556a24e3502a678" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::SystemVersionedTable::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>JSON statistics for monitoring. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="266" column="20" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="510" bodyend="547"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad1ec51851f8fdd20016173cb9c66f6a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a25ea38a94caeddcee5b3cc39dbae6b2c" kindref="member">SystemVersionedTable</ref></type>
+        <definition>SystemVersionedTable themisdb::temporal::SystemVersionedTable::createVersionedTable</definition>
+        <argsstring>(const std::string &amp;table_name, const Document &amp;schema, Config config, const std::string &amp;source_node=&quot;local&quot;)</argsstring>
+        <name>createVersionedTable</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::createVersionedTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_node</declname>
+          <defval>&quot;local&quot;</defval>
+        </param>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Static factory that creates a system-versioned table from a schema descriptor (arbitrary JSON) and a <ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref>.</para>
+<para>The schema is stored in the table&apos;s statistics under &quot;schema&quot; and can be retrieved via <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad43eeddbc5f7025de556a24e3502a678" kindref="member">getStatistics()</ref>. It does not affect storage behaviour but enables DDL-aware tools to inspect column definitions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical table name (used for the history_table_name default if config.history_table_name is empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object describing the table columns/types. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source-node label for DML attribution. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fully configured <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> instance.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), tbl(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="115" column="33" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="68" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a0a7ffdfd0dfca663c638f7f701e9172d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a25ea38a94caeddcee5b3cc39dbae6b2c" kindref="member">SystemVersionedTable</ref></type>
+        <definition>SystemVersionedTable themisdb::temporal::SystemVersionedTable::createVersionedTable</definition>
+        <argsstring>(const std::string &amp;table_name, const Document &amp;schema)</argsstring>
+        <name>createVersionedTable</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::createVersionedTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Overload with default <ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">Config</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createVersionedTable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="122" column="33" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="90" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1a5c83003b516c488ae3a7051da43db1b2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::SystemVersionedTable::closeCurrentVersion</definition>
+        <argsstring>(VersionList &amp;versions, Timestamp close_time)</argsstring>
+        <name>closeCurrentVersion</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::closeCurrentVersion</qualifiedname>
+        <param>
+          <type>VersionList &amp;</type>
+          <declname>versions</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>close_time</declname>
+        </param>
+        <briefdescription>
+<para>Close Current Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">versions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">close_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements closeCurrentVersion without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="281" column="10" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="615" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_system_versioned_table_1acfb901d9bf3582b1cbb40f3f82efdecf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref></type>
+        <definition>VersionedDocument themisdb::temporal::SystemVersionedTable::makeVersion</definition>
+        <argsstring>(const std::string &amp;key, Document data, Timestamp ts) const</argsstring>
+        <name>makeVersion</name>
+        <qualifiedname>themisdb::temporal::SystemVersionedTable::makeVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref></type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/system_versioned_table.h" line="284" column="23" bodyfile="src/temporal/system_versioned_table.cpp" bodystart="624" bodyend="636"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref></para>
+<para>SQL:2011-compliant system-time versioning. Every mutating operation (insert / update / delete) on the current row automatically creates a history entry. Rows are stored as a sequence of <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> entries keyed by (key, sys_start).</para>
+<para>Thread-safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/temporal/system_versioned_table.h" line="46" column="1" bodyfile="include/temporal/system_versioned_table.h" bodystart="46" bodyend="287"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a5c83003b516c488ae3a7051da43db1b2" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>closeCurrentVersion</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ae42265ab7ea1672780217df0cad9ffbf" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad1ec51851f8fdd20016173cb9c66f6a2" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>createVersionedTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a0a7ffdfd0dfca663c638f7f701e9172d" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>createVersionedTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac295dca38abcef86836ce6bbfd9faff8" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>deleteRow</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a9bf8871767a2c8732408cf04fce92f27" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>enforceRetentionPolicy</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a2e88306f734ebaeea5465b5d7d34a6a2" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>getAllKeys</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ab1383db188e158860ee9e9d25bea1043" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>getAsOf</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a086e170634e4481a969d9ca688abc1de" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa928d37b7f54dbd48bbd07dadc85cc6b" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>getCurrent</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a3eb3492bbcee7841abcfb1a948652f07" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>getHistory</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a177fdac4c5ab8b9f2df692f5af2749b5" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>getHistoryInRange</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad43eeddbc5f7025de556a24e3502a678" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>insert</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a0dd3114541fb0fa001ef809350b72d52" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>keyCount</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1acfb901d9bf3582b1cbb40f3f82efdecf" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>makeVersion</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a903fb3302dd026789f77101c4c987953" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ae4ac8203c11c42a5f08abba67c25f90e" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>purgeHistoricalVersions</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a21a047c5b9063dcad7c6e3b8a1dc3732" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>purgeHistoricalVersions</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a6f5a1160464be1fce775e6866f5a44a0" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>purgeHistoricalVersionsKeepLatestN</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1af3e2decca474ddf076afadf5a5c82be6" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>replaceHistoricalPayload</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa8dc227df8642f53f0346836d723d8f0" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>rows_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a502e33c5b75bf4e2be388c6bddeee720" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>scan</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aed106797c1c9098f5974d7714477074e" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>schema_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a704377b5ac08ab0cccaecaa38ffeeb28" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>source_node_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a25ea38a94caeddcee5b3cc39dbae6b2c" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>SystemVersionedTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a5587f6d7bf41c2a405bf568215cc1b80" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>SystemVersionedTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a426393c0f04d98ef56cf2171a005ee60" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>SystemVersionedTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a14319aa7350a4a84d13b14d4674bc481" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>table_name_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a64ddaa94524f76632bb1cda819626e29" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>tableName</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a7f55f529bd04be9e771588c2f5f54b6b" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>update</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a384a260d6808e1877fa115ffb0a3e053" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>upsert</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a60ef8f55a5b2ace79ae54cc4548a0aba" prot="public" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>versionCount</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aed397a876b677436de129ff6509f1569" prot="private" virt="non-virtual"><scope>themisdb::temporal::SystemVersionedTable</scope><name>VersionList</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

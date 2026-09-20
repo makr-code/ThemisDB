@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1org" kind="namespace" language="C++">
+    <compoundname>themis::bench::org</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1org_1_1_bench_histogram" prot="public">themis::bench::org::BenchHistogram</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1org_1_1_bench_span" prot="public">themis::bench::org::BenchSpan</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window" prot="public">themis::bench::org::BenchSloWindow</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1org_1_1_bench_metric" prot="public">themis::bench::org::BenchMetric</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1org_1a11ef6bd25d22d94462e5067c6390393d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::org::kObservabilityCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kObservabilityCanonicalSeed</name>
+        <qualifiedname>themis::bench::org::kObservabilityCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="72" column="27" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1org_1a5027752a438187c672ea2f17fddde6f3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::org::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::org::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="73" column="27" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1org_1a425633c1ba3eb09456e9285604bf48a9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::org::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::org::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="74" column="27" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1org_1a6e7444ed9cacaa4b6fd459a5b01178fd" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; std::int64_t &gt;</type>
+        <definition>std::atomic&lt;std::int64_t&gt; themis::bench::org::g_counter</definition>
+        <argsstring></argsstring>
+        <name>g_counter</name>
+        <qualifiedname>themis::bench::org::g_counter</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="80" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1org_1a3e9aa5863624c3c3c8ad7189f5f50802" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::bench::org::g_span_id_counter</definition>
+        <argsstring></argsstring>
+        <name>g_span_id_counter</name>
+        <qualifiedname>themis::bench::org::g_span_id_counter</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="119" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="119" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1aacdf347b57db9fe7c13a2266fb85d6b0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span" kindref="compound">BenchSpan</ref></type>
+        <definition>static BenchSpan themis::bench::org::createSpan</definition>
+        <argsstring>(std::uint64_t parent_id) noexcept</argsstring>
+        <name>createSpan</name>
+        <qualifiedname>themis::bench::org::createSpan</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>parent_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="121" column="18" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="121" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1a1a4bb8d933b538065f3839214ec35967" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bench::org::formatLogEntry</definition>
+        <argsstring>(const std::string &amp;level, const std::string &amp;msg, std::uint64_t req_id)</argsstring>
+        <name>formatLogEntry</name>
+        <qualifiedname>themis::bench::org::formatLogEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>req_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="136" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1a7d7a6c7889886dcd5c2ef82b14fbdac4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1org_1_1_bench_metric" kindref="compound">BenchMetric</ref> &gt;</type>
+        <definition>static std::vector&lt; BenchMetric &gt; themis::bench::org::makeMetrics</definition>
+        <argsstring>(int n)</argsstring>
+        <name>makeMetrics</name>
+        <qualifiedname>themis::bench::org::makeMetrics</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="179" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="179" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1a72aaa86aac5e451fad27582c0cc5767e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bench::org::scrapeMetrics</definition>
+        <argsstring>(const std::vector&lt; BenchMetric &gt; &amp;metrics)</argsstring>
+        <name>scrapeMetrics</name>
+        <qualifiedname>themis::bench::org::scrapeMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1org_1_1_bench_metric" kindref="compound">BenchMetric</ref> &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="187" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="187" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1a59143e3550e1608aaadd5bf1079a022e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::org::BM_ORG01_CounterIncrement</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ORG01_CounterIncrement</name>
+        <qualifiedname>themis::bench::org::BM_ORG01_CounterIncrement</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ORG-01: std::atomic counter increment — throughput ≥ 10M ops/s. GATE-ORG-01: ≥ 10M ops/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="202" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="202" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1a2851d4d57e83dc57ea13a5acb9548650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::org::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::org::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="216" column="5" declfile="benchmarks/observability/bench_observability_release_gates.cpp" declline="216" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1a7fa2421edb2cb67983276cd27ecc4ea6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::org::BM_ORG02_HistogramRecord</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ORG02_HistogramRecord</name>
+        <qualifiedname>themis::bench::org::BM_ORG02_HistogramRecord</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ORG-02: <ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a574586fadb005968d2c33bbf8b986eaa" kindref="member">BenchHistogram::record()</ref> — p99 ≤ 100 ns. GATE-ORG-02: p99 ≤ 100 ns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="227" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="227" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1ad6b00f098f136c0b986ba2b124c8b49f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::org::BM_ORG03_TraceSpanCreate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ORG03_TraceSpanCreate</name>
+        <qualifiedname>themis::bench::org::BM_ORG03_TraceSpanCreate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ORG-03: createSpan() — in-memory span allocation + ID generation. GATE-ORG-03: p99 ≤ 10 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="253" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="253" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1a08907c0421ae7cea4089c68a7587dcf8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::org::BM_ORG03B_InvalidTelemetryReject</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ORG03B_InvalidTelemetryReject</name>
+        <qualifiedname>themis::bench::org::BM_ORG03B_InvalidTelemetryReject</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ORG-03B: invalid label-set rejection remains bounded under contract. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="275" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="275" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1a95b2049896e6739fce41c6ae846ee8b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::org::BM_ORG04_LogEntryFormat</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ORG04_LogEntryFormat</name>
+        <qualifiedname>themis::bench::org::BM_ORG04_LogEntryFormat</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ORG-04: formatLogEntry() — structured JSON formatting, no I/O. GATE-ORG-04: p99 ≤ 5 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="303" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="303" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1afd99e6d556d10a0be3761df8aa4551ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::org::BM_ORG05_SloComputation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ORG05_SloComputation</name>
+        <qualifiedname>themis::bench::org::BM_ORG05_SloComputation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ORG-05: <ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a35239eac7f4af930385cc5555698b0b3" kindref="member">BenchSloWindow::sli()</ref> + isBreach() computation. GATE-ORG-05: p99 ≤ 100 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="325" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="325" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1ac346bb72b883bba89d6612444d77fb0a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::org::BM_ORG06_PrometheusScrape</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ORG06_PrometheusScrape</name>
+        <qualifiedname>themis::bench::org::BM_ORG06_PrometheusScrape</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ORG-06: scrapeMetrics() for 100 in-memory metrics. <ref refid="namespacethemis_1_1bench_1_1org_1ad31dcee7a7c5023d886f6d2e34ae203f" kindref="member">UseRealTime()</ref> because string I/O is involved. GATE-ORG-06: p99 ≤ 5 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="360" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="360" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1org_1ad31dcee7a7c5023d886f6d2e34ae203f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::org::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::org::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="372" column="5" declfile="benchmarks/observability/bench_observability_release_gates.cpp" declline="372" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="66" column="1"/>
+  </compounddef>
+</doxygen>

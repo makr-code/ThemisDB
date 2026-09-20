@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_rotation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RotationConfig</compoundname>
+    <includes refid="rotary__embeddings_8h" local="no">rotary_embeddings.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_rotation_config_1a0d67d390905eff803601cb6671afec75" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RotationConfig::hidden_dim</definition>
+        <argsstring></argsstring>
+        <name>hidden_dim</name>
+        <qualifiedname>themis::RotationConfig::hidden_dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="29" column="12" bodyfile="include/index/rotary_embeddings.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotation_config_1a34b60978677953d4f99281ba92a4a6bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RotationConfig::num_rotation_pairs</definition>
+        <argsstring></argsstring>
+        <name>num_rotation_pairs</name>
+        <qualifiedname>themis::RotationConfig::num_rotation_pairs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="30" column="12" bodyfile="include/index/rotary_embeddings.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotation_config_1ab465d6fd849ca08a878cf564d0281e93" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RotationConfig::base_theta</definition>
+        <argsstring></argsstring>
+        <name>base_theta</name>
+        <qualifiedname>themis::RotationConfig::base_theta</qualifiedname>
+        <initializer>= 10000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="31" column="12" bodyfile="include/index/rotary_embeddings.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotation_config_1a94ce1456c3e4957f048e3cdfc3ef19e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RotationConfig::normalize_after</definition>
+        <argsstring></argsstring>
+        <name>normalize_after</name>
+        <qualifiedname>themis::RotationConfig::normalize_after</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="32" column="10" bodyfile="include/index/rotary_embeddings.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotation_config_1a4140c92517f26307ea2847aa785f2018" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::RotationConfig::theta_cache</definition>
+        <argsstring></argsstring>
+        <name>theta_cache</name>
+        <qualifiedname>themis::RotationConfig::theta_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="36" column="17" bodyfile="include/index/rotary_embeddings.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_rotation_config_1a031c72d5077894b445ac116376f41bab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RotationConfig::computeThetaCache</definition>
+        <argsstring>()</argsstring>
+        <name>computeThetaCache</name>
+        <qualifiedname>themis::RotationConfig::computeThetaCache</qualifiedname>
+        <briefdescription>
+<para>Compute theta cache for all rotation pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Theta Cache.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1_rotation_config_1a52124bfd07f2d3bfd0cce5886f7aed4e" kindref="member">isValid()</ref>, clear(), reserve(), std::pow(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="39" column="10" bodyfile="src/index/rotary_embeddings.cpp" bodystart="31" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_rotation_config_1a52124bfd07f2d3bfd0cce5886f7aed4e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RotationConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::RotationConfig::isValid</qualifiedname>
+        <briefdescription>
+<para>Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="42" column="10" bodyfile="include/index/rotary_embeddings.h" bodystart="42" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for Rotary Position Embeddings (RoPE) Based on: Su, J., et al. (2021). &quot;RoFormer: Enhanced Transformer with Rotary Position Embedding&quot; arXiv preprint arXiv:2104.09864 </para>
+    </detaileddescription>
+    <location file="include/index/rotary_embeddings.h" line="28" column="1" bodyfile="include/index/rotary_embeddings.h" bodystart="28" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_rotation_config_1ab465d6fd849ca08a878cf564d0281e93" prot="public" virt="non-virtual"><scope>themis::RotationConfig</scope><name>base_theta</name></member>
+      <member refid="structthemis_1_1_rotation_config_1a031c72d5077894b445ac116376f41bab" prot="public" virt="non-virtual"><scope>themis::RotationConfig</scope><name>computeThetaCache</name></member>
+      <member refid="structthemis_1_1_rotation_config_1a0d67d390905eff803601cb6671afec75" prot="public" virt="non-virtual"><scope>themis::RotationConfig</scope><name>hidden_dim</name></member>
+      <member refid="structthemis_1_1_rotation_config_1a52124bfd07f2d3bfd0cce5886f7aed4e" prot="public" virt="non-virtual"><scope>themis::RotationConfig</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1_rotation_config_1a94ce1456c3e4957f048e3cdfc3ef19e1" prot="public" virt="non-virtual"><scope>themis::RotationConfig</scope><name>normalize_after</name></member>
+      <member refid="structthemis_1_1_rotation_config_1a34b60978677953d4f99281ba92a4a6bf" prot="public" virt="non-virtual"><scope>themis::RotationConfig</scope><name>num_rotation_pairs</name></member>
+      <member refid="structthemis_1_1_rotation_config_1a4140c92517f26307ea2847aa785f2018" prot="public" virt="non-virtual"><scope>themis::RotationConfig</scope><name>theta_cache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1076 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__citation__highlighter_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_citation_highlighter.cpp</compoundname>
+    <includes refid="citation__highlighter_8h" local="yes">rag/citation_highlighter.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>rag/citation_highlighter.h</label>
+        <link refid="citation__highlighter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_citation_highlighter.cpp</label>
+        <link refid="test__rag__citation__highlighter_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_split_sentences_test" prot="public">SplitSentencesTest</innerclass>
+    <innerclass refid="class_citation_highlight_test" prot="public">CitationHighlightTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a94f2cc59ddf37d748a53f9c2412ea7b0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_source_chunk" kindref="compound">SourceChunk</ref> &gt;</type>
+        <definition>static std::vector&lt; SourceChunk &gt; makeChunks</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;id_content)</argsstring>
+        <name>makeChunks</name>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>id_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="26" column="20" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="26" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationSimilarityTest, IdenticalStrings)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationSimilarityTest</type>
+        </param>
+        <param>
+          <type>IdenticalStrings</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="46" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1ad2f4ed8ea17713927ca3bd2d30641749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationSimilarityTest, DisjointStrings)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationSimilarityTest</type>
+        </param>
+        <param>
+          <type>DisjointStrings</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="51" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1ac1236ccae45afcde2a26b65b86b4a065" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationSimilarityTest, BothEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationSimilarityTest</type>
+        </param>
+        <param>
+          <type>BothEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="56" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1ab5e698a0b4d39c8959973f37939fa2ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationSimilarityTest, OneEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationSimilarityTest</type>
+        </param>
+        <param>
+          <type>OneEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="61" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="61" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a97b663189d11b880227cd3bb78d9ec3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationSimilarityTest, PartialOverlap)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationSimilarityTest</type>
+        </param>
+        <param>
+          <type>PartialOverlap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="66" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1ad89608e078d21a43f19235675b60e404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationSimilarityTest, InRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationSimilarityTest</type>
+        </param>
+        <param>
+          <type>InRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="73" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="73" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a37ae72a8441e078117e53d2ceccfd6cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationSimilarityTest, ShortTokensIgnored)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationSimilarityTest</type>
+        </param>
+        <param>
+          <type>ShortTokensIgnored</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="82" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SplitSentencesTest, EmptyInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="98" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a42b053f9bb5a85229ce34238f083aace" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SplitSentencesTest, SingleSentence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref></type>
+        </param>
+        <param>
+          <type>SingleSentence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="103" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="103" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a4e753482aa323ea1f0a10ed5f7934713" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SplitSentencesTest, TwoSentences)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref></type>
+        </param>
+        <param>
+          <type>TwoSentences</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="109" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="109" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1ab98436a61148c4966177778192a8d99b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SplitSentencesTest, ExclamationAndQuestion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref></type>
+        </param>
+        <param>
+          <type>ExclamationAndQuestion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="115" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="115" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a11c5831a28738a3d661206497b08be8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SplitSentencesTest, ShortSentencesDropped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref></type>
+        </param>
+        <param>
+          <type>ShortSentencesDropped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="121" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1ad8a307a9c36866aaa02cd10d6650bd7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SplitSentencesTest, NoDelimiterReturnsWholeParagraph)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref></type>
+        </param>
+        <param>
+          <type>NoDelimiterReturnsWholeParagraph</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="128" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a6476030e715d0cb266a280d93aa3fea6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, PrimaryCitationAssigned)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>PrimaryCitationAssigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="152" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="152" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a097f038018f8a8760786087fb2061533" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, TwoSentencesTwoCitations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>TwoSentencesTwoCitations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="163" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="163" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1abd1b465d2d7fdf928ae46cb8876a5c0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, CoverageIsOneWhenAllCited)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>CoverageIsOneWhenAllCited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="176" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="176" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a54d6b3f493fc55ed96bb0c9f0286d130" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, MeanSimilarityRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>MeanSimilarityRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="184" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="184" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a3635c80592aab74eb2ab3ee3f433331a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, HighlightTimeNonNegative)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>HighlightTimeNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="192" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="192" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a8571c43afbaa766f501a0960721158c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, EmptyAnswerReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyAnswerReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="202" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="202" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1aeb9340b7f2e5dc69343ef2feee201bbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, EmptyChunksReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyChunksReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="208" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="208" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1afab3117c3e53df992c9e3b3365cdff75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, NoCitationBelowThreshold)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>NoCitationBelowThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="215" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="215" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a2a1073c73051c310e3e92303fe26cbe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, SecondaryCitationsCollected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>SecondaryCitationsCollected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="232" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="232" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a4ef446a3d433d51b5c046f2f71b93e63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, SecondaryCitationsRespectMaxLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>SecondaryCitationsRespectMaxLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="256" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="256" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a2ece98e68f3272923162329ddc73072c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, SecondaryCitationsDisabledWhenMaxIsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>SecondaryCitationsDisabledWhenMaxIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="272" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="272" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a034cf572e6ca240e591d8d82d1f46246" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CitationHighlightTest, SecondaryScoreRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref></type>
+        </param>
+        <param>
+          <type>SecondaryScoreRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="287" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="287" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a8d8127dfd2de790ad58244b2909b6d2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationConfigTest, DefaultConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="310" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="310" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1abc09c4976c92078e2e51d1325d29468e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationConfigTest, SetConfigUpdates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationConfigTest</type>
+        </param>
+        <param>
+          <type>SetConfigUpdates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="317" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="317" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a1589f39ec5c921da22d830d5fb1036ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationFactoryTest, CreateStrictReturnsInstance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateStrictReturnsInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="329" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="329" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1ade281649bc9c5696bc225b7f9076cda8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationFactoryTest, CreateBalancedReturnsInstance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateBalancedReturnsInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="335" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="335" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a28694dd4e1a90998b7309f91002c00a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationFactoryTest, CreatePermissiveReturnsInstance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationFactoryTest</type>
+        </param>
+        <param>
+          <type>CreatePermissiveReturnsInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="340" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="340" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1ada831979f61eecff6c52f5bdbc4e1205" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationFactoryTest, StrictThresholdHigherThanPermissive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationFactoryTest</type>
+        </param>
+        <param>
+          <type>StrictThresholdHigherThanPermissive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="347" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="347" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a769a583acfd5ffa71dfd1d37e6059772" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationFactoryTest, BalancedCitesGoodMatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationFactoryTest</type>
+        </param>
+        <param>
+          <type>BalancedCitesGoodMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="355" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="355" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__citation__highlighter_8cpp_1a7754e8c40c6f50138c3da5ccfc89e990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CitationOrderTest, SentenceIndicesAreConsecutive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CitationOrderTest</type>
+        </param>
+        <param>
+          <type>SentenceIndicesAreConsecutive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="369" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="369" bodyend="382"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref> (map answer sentences to source chunks). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para>Sentence splitting (basic, abbreviations, short sentences, empty input)</para>
+</listitem><listitem><para>computeSimilarity edge cases (empty strings, identical, disjoint)</para>
+</listitem><listitem><para>highlight: primary citation assignment</para>
+</listitem><listitem><para>highlight: no citation when similarity below threshold</para>
+</listitem><listitem><para>highlight: secondary citations</para>
+</listitem><listitem><para>highlight: empty answer or empty chunks</para>
+</listitem><listitem><para>citation_coverage and mean_similarity statistics</para>
+</listitem><listitem><para>getConfig / setConfig</para>
+</listitem><listitem><para>Factory helpers (strict, balanced, permissive) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="citation__highlighter_8h" kindref="compound">rag/citation_highlighter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;SourceChunk&gt;<sp/>makeChunks(</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>id_content)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SourceChunk&gt;<sp/>chunks<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>chunks.reserve(id_content.size());</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>id_content.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_source_chunk" kindref="compound">SourceChunk</ref><sp/>c;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1rag_1_1_source_chunk_1aa236ba0baad5a288686d5ad275ec413a" kindref="member">doc_id</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id_content[i].first;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1rag_1_1_source_chunk_1ad9644de3fc5f5816f7f73700a5fb7a03" kindref="member">chunk_index</ref><sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1rag_1_1_source_chunk_1a3d6d366cb1b6d15bc3565e10aa57a094" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>id_content[i].second;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks.push_back(std::move(c));</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>chunks;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>computeSimilarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationSimilarityTest,<sp/>IdenticalStrings)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" kindref="member">CitationHighlighter::computeSimilarity</ref>(</highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sim,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationSimilarityTest,<sp/>DisjointStrings)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" kindref="member">CitationHighlighter::computeSimilarity</ref>(</highlight><highlight class="stringliteral">&quot;apple<sp/>orange&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;banana<sp/>grape&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sim,<sp/>0.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationSimilarityTest,<sp/>BothEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" kindref="member">CitationHighlighter::computeSimilarity</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sim,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationSimilarityTest,<sp/>OneEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" kindref="member">CitationHighlighter::computeSimilarity</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sim,<sp/>0.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationSimilarityTest,<sp/>PartialOverlap)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;cat<sp/>dog&quot;<sp/>vs<sp/>&quot;cat<sp/>bird&quot;<sp/>→<sp/>1<sp/>common<sp/>token<sp/>out<sp/>of<sp/>3<sp/>unique<sp/>=<sp/>1/3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" kindref="member">CitationHighlighter::computeSimilarity</ref>(</highlight><highlight class="stringliteral">&quot;cat<sp/>dog&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cat<sp/>bird&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(sim,<sp/>0.0);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(sim,<sp/>1.0);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationSimilarityTest,<sp/>InRange)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" kindref="member">CitationHighlighter::computeSimilarity</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>and<sp/>a<sp/>major<sp/>European<sp/>city&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>capital<sp/>of<sp/>France<sp/>is<sp/>Paris<sp/>which<sp/>is<sp/>located<sp/>in<sp/>Western<sp/>Europe&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(sim,<sp/>0.0);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(sim,<sp/>1.0);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Short<sp/>tokens<sp/>(&lt;<sp/>2<sp/>chars)<sp/>are<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationSimilarityTest,<sp/>ShortTokensIgnored)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>strings<sp/>share<sp/>&quot;is&quot;<sp/>(len=2,<sp/>included)<sp/>and<sp/>&quot;a&quot;<sp/>(len=1,<sp/>excluded)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" kindref="member">CitationHighlighter::computeSimilarity</ref>(</highlight><highlight class="stringliteral">&quot;it<sp/>is<sp/>fine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;it<sp/>is<sp/>okay&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(sim,<sp/>0.0);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(sim,<sp/>1.0);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>splitSentences</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="class_split_sentences_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/><ref refid="class_split_sentences_test_1a8943d6b436bfd27cc614d59b1e77981e" kindref="member">highlighter_</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref>,<sp/>EmptyInput)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sents<sp/>=<sp/>highlighter_.splitSentences(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sents.empty());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref>,<sp/>SingleSentence)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sents<sp/>=<sp/>highlighter_.splitSentences(</highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sents.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sents[0],<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref>,<sp/>TwoSentences)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sents<sp/>=<sp/>highlighter_.splitSentences(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.<sp/>The<sp/>Eiffel<sp/>Tower<sp/>was<sp/>built<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sents.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref>,<sp/>ExclamationAndQuestion)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sents<sp/>=<sp/>highlighter_.splitSentences(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;What<sp/>a<sp/>city!<sp/>Is<sp/>Paris<sp/>beautiful?<sp/>It<sp/>certainly<sp/>is.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sents.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref>,<sp/>ShortSentencesDropped)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;OK.&quot;<sp/>is<sp/>only<sp/>3<sp/>chars<sp/>→<sp/>below<sp/>min_sentence_length=5<sp/>→<sp/>dropped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sents<sp/>=<sp/>highlighter_.splitSentences(</highlight><highlight class="stringliteral">&quot;OK.<sp/>Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sents.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sents[0],<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_split_sentences_test" kindref="compound">SplitSentencesTest</ref>,<sp/>NoDelimiterReturnsWholeParagraph)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>a<sp/>wonderful<sp/>city<sp/>full<sp/>of<sp/>history<sp/>and<sp/>culture&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sents<sp/>=<sp/>highlighter_.splitSentences(text);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sents.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sents[0],<sp/>text);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>highlight<sp/>–<sp/>basic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="class_citation_highlight_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/><ref refid="class_citation_highlight_test_1a2fc9af3e6790886807a013327c1c7dba" kindref="member">highlighter_</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SourceChunk&gt;<sp/><ref refid="class_citation_highlight_test_1a0ca5c4c787d18b343b94e09685b3f81b" kindref="member">chunks_</ref><sp/>=<sp/>makeChunks({</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France,<sp/>located<sp/>in<sp/>Western<sp/>Europe.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>stands<sp/>in<sp/>Paris<sp/>and<sp/>was<sp/>completed<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Berlin<sp/>is<sp/>the<sp/>capital<sp/>city<sp/>of<sp/>Germany<sp/>in<sp/>Central<sp/>Europe.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Primary<sp/>citation<sp/>assigned<sp/>to<sp/>the<sp/>most<sp/>relevant<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>PrimaryCitationAssigned)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>highlighter_.highlight(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>chunks_);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.mappings.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.mappings[0].has_citation());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mappings[0].primary_chunk_id,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.mappings[0].similarity_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Two-sentence<sp/>answer<sp/>→<sp/>each<sp/>sentence<sp/>gets<sp/>independent<sp/>citation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>TwoSentencesTwoCitations)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>highlighter_.highlight(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.<sp/>The<sp/>Eiffel<sp/>Tower<sp/>was<sp/>completed<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks_);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.mappings.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.mappings[0].has_citation());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.mappings[1].has_citation());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mappings[0].primary_chunk_id,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mappings[1].primary_chunk_id,<sp/></highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Coverage<sp/>is<sp/>1.0<sp/>when<sp/>every<sp/>sentence<sp/>is<sp/>cited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>CoverageIsOneWhenAllCited)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>highlighter_.highlight(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.<sp/>The<sp/>Eiffel<sp/>Tower<sp/>was<sp/>completed<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks_);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.citation_coverage,<sp/>1.0,<sp/>0.01);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>mean_similarity<sp/>is<sp/>in<sp/>[0,<sp/>1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>MeanSimilarityRange)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>highlighter_.highlight(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>chunks_);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.mean_similarity,<sp/>0.0);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.mean_similarity,<sp/>1.0);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>highlight_time_ms<sp/>is<sp/>non-negative</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>HighlightTimeNonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>highlighter_.highlight(</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>chunks_);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.highlight_time_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>highlight<sp/>–<sp/>edge<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>EmptyAnswerReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>highlighter_.highlight(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>chunks_);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.mappings.empty());</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.citation_coverage,<sp/>0.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>EmptyChunksReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>highlighter_.highlight(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.mappings.empty());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sentence<sp/>with<sp/>no<sp/>token<sp/>overlap<sp/>→<sp/>no<sp/>citation<sp/>(primary_chunk_id<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>NoCitationBelowThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref><sp/>=<sp/>0.99;<sp/></highlight><highlight class="comment">//<sp/>near-impossible<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/>strict_hl(cfg);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>strict_hl.highlight(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>chunks_);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.mappings.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.mappings[0].has_citation());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.citation_coverage,<sp/>0.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>highlight<sp/>–<sp/>secondary<sp/>citations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>SecondaryCitationsCollected)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ad87238a42806c72ffa9dcf71a2d627ec" kindref="member">secondary_similarity_threshold</ref><sp/>=<sp/>0.03;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a620593bb2dfcf39c0de13a861df0a0fc" kindref="member">max_secondary_citations</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/>hl(cfg);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Answer<sp/>overlaps<sp/>with<sp/>doc1<sp/>and<sp/>doc2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>hl.highlight(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>and<sp/>the<sp/>Eiffel<sp/>Tower<sp/>is<sp/>there.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks_);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.mappings.empty());</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>secondary<sp/>citation<sp/>should<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_secondary<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>:<sp/>result.mappings)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!m.secondary_sources.empty())<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_secondary<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_secondary);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>SecondaryCitationsRespectMaxLimit)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ad87238a42806c72ffa9dcf71a2d627ec" kindref="member">secondary_similarity_threshold</ref><sp/>=<sp/>0.03;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a620593bb2dfcf39c0de13a861df0a0fc" kindref="member">max_secondary_citations</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/>hl(cfg);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>hl.highlight(</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>and<sp/>the<sp/>Eiffel<sp/>Tower<sp/>is<sp/>there.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks_);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>:<sp/>result.mappings)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(m.secondary_sources.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>SecondaryCitationsDisabledWhenMaxIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a620593bb2dfcf39c0de13a861df0a0fc" kindref="member">max_secondary_citations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/>hl(cfg);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>hl.highlight(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>and<sp/>the<sp/>Eiffel<sp/>Tower<sp/>is<sp/>there.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks_);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>:<sp/>result.mappings)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.secondary_sources.empty());</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secondary<sp/>similarity<sp/>scores<sp/>are<sp/>in<sp/>[0,<sp/>1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a405a294418d6e45e8c5b6c33fe450e09" kindref="member">TEST_F</ref>(<ref refid="class_citation_highlight_test" kindref="compound">CitationHighlightTest</ref>,<sp/>SecondaryScoreRange)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ad87238a42806c72ffa9dcf71a2d627ec" kindref="member">secondary_similarity_threshold</ref><sp/>=<sp/>0.03;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a620593bb2dfcf39c0de13a861df0a0fc" kindref="member">max_secondary_citations</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/>hl(cfg);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>hl.highlight(</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>and<sp/>the<sp/>Eiffel<sp/>Tower<sp/>is<sp/>there.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks_);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>:<sp/>result.mappings)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>sec<sp/>:<sp/>m.secondary_sources)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(sec.similarity_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(sec.similarity_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getConfig<sp/>/<sp/>setConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationConfigTest,<sp/>DefaultConfig)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/>hl;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>hl.<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a85efa06e46b57ab5bdd05e7d71c6636f" kindref="member">getConfig</ref>();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationConfigTest,<sp/>SetConfigUpdates)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/>hl;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref><sp/>=<sp/>0.42;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>hl.<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a617d7341f2263504df7813c5f446221b" kindref="member">setConfig</ref>(cfg);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(hl.<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a85efa06e46b57ab5bdd05e7d71c6636f" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref>,<sp/>0.42,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CitationHighlighterFactory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationFactoryTest,<sp/>CreateStrictReturnsInstance)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hl<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a8f4c033ce90c56e0b2af64590bbdd60f" kindref="member">CitationHighlighterFactory::createStrict</ref>();</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(hl,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(hl-&gt;<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a85efa06e46b57ab5bdd05e7d71c6636f" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref>,<sp/>0.20);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationFactoryTest,<sp/>CreateBalancedReturnsInstance)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hl<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a3ee20aa2ddc1e96be84b58bf3ccdbb0b" kindref="member">CitationHighlighterFactory::createBalanced</ref>();</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(hl,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationFactoryTest,<sp/>CreatePermissiveReturnsInstance)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hl<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a6fba0a0eff1a329cd8630ab3dfdecf69" kindref="member">CitationHighlighterFactory::createPermissive</ref>();</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(hl,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(hl-&gt;<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a85efa06e46b57ab5bdd05e7d71c6636f" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref>,<sp/>0.15);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Strict<sp/>mode:<sp/>higher<sp/>threshold<sp/>than<sp/>balanced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationFactoryTest,<sp/>StrictThresholdHigherThanPermissive)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>strict<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a8f4c033ce90c56e0b2af64590bbdd60f" kindref="member">CitationHighlighterFactory::createStrict</ref>();</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>permissive<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a6fba0a0eff1a329cd8630ab3dfdecf69" kindref="member">CitationHighlighterFactory::createPermissive</ref>();</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(strict-&gt;getConfig().min_similarity_threshold,</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>permissive-&gt;getConfig().min_similarity_threshold);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Balanced<sp/>mode<sp/>cites<sp/>well-matching<sp/>sentences</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationFactoryTest,<sp/>BalancedCitesGoodMatch)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hl<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a3ee20aa2ddc1e96be84b58bf3ccdbb0b" kindref="member">CitationHighlighterFactory::createBalanced</ref>();</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/>=<sp/>makeChunks({</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France,<sp/>located<sp/>in<sp/>Western<sp/>Europe.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>hl-&gt;<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a207db2136e69ff7f0810b07a34b6ba44" kindref="member">highlight</ref>(</highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>chunks);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.mappings.empty());</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.mappings[0].has_citation());</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sentence<sp/>index<sp/>ordering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><ref refid="test__rag__citation__highlighter_8cpp_1a3aa303c074c0e2ffb12040621641ac15" kindref="member">TEST</ref>(CitationOrderTest,<sp/>SentenceIndicesAreConsecutive)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref><sp/>hl;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/>=<sp/>makeChunks({</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>was<sp/>built<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>hl.<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a207db2136e69ff7f0810b07a34b6ba44" kindref="member">highlight</ref>(</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.<sp/>The<sp/>Eiffel<sp/>Tower<sp/>was<sp/>built<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>result.mappings.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mappings[i].sentence_index,<sp/>i);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_citation_highlighter.cpp"/>
+  </compounddef>
+</doxygen>

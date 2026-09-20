@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geo__topology__router_8h" kind="file" language="C++">
+    <compoundname>geo_topology_router.h</compoundname>
+    <includes local="yes">sharding/shard_topology.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="geo__topology__router_8cpp" local="yes">src/network/geo_topology_router.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/geo_topology_router.h</label>
+        <link refid="geo__topology__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>sharding/shard_topology.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/geo_topology_router.h</label>
+        <link refid="geo__topology__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/geo_topology_router.cpp</label>
+        <link refid="geo__topology__router_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_geo_topology_router" prot="public">themis::network::GeoTopologyRouter</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config" prot="public">themis::network::GeoTopologyRouter::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats" prot="public">themis::network::GeoTopologyRouter::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>–<sp/>Network<sp/>topology-aware<sp/>routing<sp/>for<sp/>geo-distributed<sp/>clusters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Routes<sp/>wire<sp/>protocol<sp/>requests<sp/>to<sp/>the<sp/>optimal<sp/>shard<sp/>endpoint<sp/>based<sp/>on<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>cluster&apos;s<sp/>network<sp/>topology<sp/>(region,<sp/>availability<sp/>zone,<sp/>datacenter,<sp/>rack),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>shard<sp/>health<sp/>status,<sp/>and<sp/>a<sp/>configurable<sp/>routing<sp/>strategy.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>properties:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Integrates<sp/>with<sp/>sharding::ShardTopology<sp/>to<sp/>retrieve<sp/>live<sp/>shard<sp/>locations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Three<sp/>routing<sp/>strategies:<sp/>PREFER_LOCAL,<sp/>LOWEST_LATENCY,<sp/>ROUND_ROBIN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Zone/datacenter<sp/>affinity<sp/>within<sp/>a<sp/>region<sp/>(sub-region<sp/>locality<sp/>scoring)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Optional<sp/>cross-region<sp/>fallback<sp/>when<sp/>all<sp/>local<sp/>shards<sp/>are<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Per-region<sp/>latency<sp/>hints<sp/>for<sp/>the<sp/>LOWEST_LATENCY<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Prometheus-compatible<sp/>Stats<sp/>struct<sp/>for<sp/>metrics<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Thread-safe;<sp/>round-robin<sp/>counter<sp/>uses<sp/>std::atomic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Design<sp/>constraints<sp/>(from<sp/>ROADMAP.md<sp/>Phase<sp/>3):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>This<sp/>class<sp/>is<sp/>a<sp/>routing<sp/>component<sp/>only.<sp/><sp/>It<sp/>does<sp/>not<sp/>manage<sp/>connections,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>perform<sp/>health<sp/>checks,<sp/>or<sp/>own<sp/>any<sp/>sockets.<sp/><sp/>Connection<sp/>establishment<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>handled<sp/>by<sp/>WireProtocolConnectionPool;<sp/>health<sp/>data<sp/>is<sp/>maintained<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ShardTopology.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/shard_topology.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GeoTopologyRouter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1network_1_1_geo_topology_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Routing<sp/>strategy<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50b" kindref="member">Strategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba6d1313ba7ab8afcb895591481871ef89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba6d1313ba7ab8afcb895591481871ef89" kindref="member">PREFER_LOCAL</ref>,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50bac206f99d8dc24fc9e4502b9d46605608" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50bac206f99d8dc24fc9e4502b9d46605608" kindref="member">LOWEST_LATENCY</ref>,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba1ebd8dbf8c34e255f5cbf28f35860b71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">ROUND_ROBIN</ref>,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a0c4d4e41f588f3d6b2b78b527439a748" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a91e0a6f35ae06a2cf6902a5fc2ee31cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a91e0a6f35ae06a2cf6902a5fc2ee31cc" kindref="member">local_region</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1acf34d32d9d13ed34f294d766fe9c2b95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1acf34d32d9d13ed34f294d766fe9c2b95" kindref="member">local_zone</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a1a885d619a74ca92430a46e111707dcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a1a885d619a74ca92430a46e111707dcf" kindref="member">local_datacenter</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a6b5d1d9c9589dffbbef089377098dcfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50b" kindref="member">Strategy</ref><sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a6b5d1d9c9589dffbbef089377098dcfa" kindref="member">strategy</ref><sp/>=<sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba6d1313ba7ab8afcb895591481871ef89" kindref="member">Strategy::PREFER_LOCAL</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1adcae1ba96ef1ee95ed864dec9cb3ce77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1adcae1ba96ef1ee95ed864dec9cb3ce77" kindref="member">fallback_cross_region</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1ab64734f8bb8dccd789d3f6996becb850" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint32_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1ab64734f8bb8dccd789d3f6996becb850" kindref="member">region_latency_hints</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a0c4d4e41f588f3d6b2b78b527439a748" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a0c4d4e41f588f3d6b2b78b527439a748" kindref="member">Config</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Statistics<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a47f0736400231299a6f2d3b9363b340a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a47f0736400231299a6f2d3b9363b340a" kindref="member">requests_routed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a715e8930640d89c75e349578bbdcd4c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a715e8930640d89c75e349578bbdcd4c1" kindref="member">local_region_hits</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1ae9632271322ac805e6418fde77404cad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1ae9632271322ac805e6418fde77404cad" kindref="member">cross_region_fallbacks</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a56cae537171b6b8ebb5eb14796bf0812" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a56cae537171b6b8ebb5eb14796bf0812" kindref="member">routing_failures</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config" kindref="compound">Config</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::ShardTopology&gt;<sp/>topology);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1network_1_1_geo_topology_router_1a011414522c4b103d8d72d572dc79e0bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a011414522c4b103d8d72d572dc79e0bf" kindref="member">~GeoTopologyRouter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1network_1_1_geo_topology_router_1ae49f9c4996dede26efe9d92163f4c95c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ae49f9c4996dede26efe9d92163f4c95c" kindref="member">GeoTopologyRouter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1network_1_1_geo_topology_router_1a620e8d54c291c0f80ae642ea787a534a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a620e8d54c291c0f80ae642ea787a534a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1network_1_1_geo_topology_router_1aedee4643f3a9cd924c7b07cd2f6c6965" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1aedee4643f3a9cd924c7b07cd2f6c6965" kindref="member">GeoTopologyRouter</ref>(<ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1network_1_1_geo_topology_router_1a1578f9ed75fe5c02d0cd6448f1b83e2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a1578f9ed75fe5c02d0cd6448f1b83e2c" kindref="member">operator=</ref>(<ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Routing<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1adad37887c3cc8c86ceda4375a833e348" kindref="member">selectEndpoint</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a40790b4662b6299bb99c11e2864c00d0" kindref="member">selectEndpointInRegion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>region)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;sharding::ShardInfo&gt;<sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ee7d781baab063920d9ebeb41e76e4d" kindref="member">getRankedShards</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Inspection<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab8b3e76676bb36f5e211260bce5ac66c" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1network_1_1_geo_topology_router_1a7993205572e289211aeb795ec9151ec5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a7993205572e289211aeb795ec9151ec5" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Internal<sp/>helpers<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>localityScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sharding::ShardInfo&amp;<sp/>shard)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sharding::ShardInfo*<sp/>selectPreferLocal(</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;sharding::ShardInfo&gt;&amp;<sp/>healthy)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sharding::ShardInfo*<sp/>selectLowestLatency(</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;sharding::ShardInfo&gt;&amp;<sp/>healthy)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sharding::ShardInfo*<sp/>selectRoundRobin(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;sharding::ShardInfo&gt;&amp;<sp/>healthy)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Members<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::ShardTopology&gt;<sp/>topology_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>round_robin_counter_{0};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Stats<sp/><sp/><sp/><sp/><sp/><sp/>stats_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/geo_topology_router.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_i_prioritization_strategy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::tensor::IPrioritizationStrategy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_cost_based_prioritization" prot="public" virt="non-virtual">themis::tensor::CostBasedPrioritization</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_rank_based_prioritization" prot="public" virt="non-virtual">themis::tensor::RankBasedPrioritization</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_similarity_based_prioritization" prot="public" virt="non-virtual">themis::tensor::SimilarityBasedPrioritization</derivedcompoundref>
+    <includes refid="tensor__routing__strategy_8h" local="no">tensor_routing_strategy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a8ad2a45dbb8ca01461982bc3c4d7acd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::tensor::IPrioritizationStrategy::~IPrioritizationStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPrioritizationStrategy</name>
+        <qualifiedname>themis::tensor::IPrioritizationStrategy::~IPrioritizationStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="86" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::tensor::IPrioritizationStrategy::name</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::IPrioritizationStrategy::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1af9c3a42464910e1f5cea02ec6d056723">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1af4e884865dae93e2834b32f65bf881d4">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1a12cb073d9f446ebf86702e881eafad9e">name</reimplementedby>
+        <briefdescription>
+<para>Get the name of this prioritization strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="92" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a96b2fc1d6553a9dd8ec44fd430881e04" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::tensor::IPrioritizationStrategy::prioritize</definition>
+        <argsstring>(const std::vector&lt; const BaseTensorSummary * &gt; &amp;summaries) const =0</argsstring>
+        <name>prioritize</name>
+        <qualifiedname>themis::tensor::IPrioritizationStrategy::prioritize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1ab118ea3194f5e2bc41ad22ee2eb20861">prioritize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a2680cf76adebe19ac7faf3bcbd64bf3f">prioritize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1ac637c178a9c17bf5d21e81a81d0d2f82">prioritize</reimplementedby>
+        <param>
+          <type>const std::vector&lt; const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> * &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <briefdescription>
+<para>Compute priority scores for candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of tensor summaries to prioritize. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of priority scores (0.0-1.0), same length as summaries. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="100" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_prioritization_strategy_1aa80f83b2b63293eb8f43e26996487bb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tensor::IPrioritizationStrategy::sort</definition>
+        <argsstring>(std::vector&lt; BaseTensorSummary &gt; &amp;summaries) const =0</argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::tensor::IPrioritizationStrategy::sort</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1aaee33e2d7c6c39b851737cf0095a773c">sort</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1ab49d6bc2b7cb99173b590d62f65c9e34">sort</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1a4855a06182792650f66351e2f1a1e763">sort</reimplementedby>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <briefdescription>
+<para>Sort summaries by priority (highest first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of summaries to sort (modified in-place). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if sorting was successful. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="109" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for candidate prioritization strategies. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations assign priority scores to candidates based on various criteria (similarity, freshness, validation status, cost, etc.). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::CostBasedPrioritization</label>
+        <link refid="classthemis_1_1tensor_1_1_cost_based_prioritization"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::tensor::IPrioritizationStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_prioritization_strategy"/>
+      </node>
+      <node id="3">
+        <label>themis::tensor::RankBasedPrioritization</label>
+        <link refid="classthemis_1_1tensor_1_1_rank_based_prioritization"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::tensor::SimilarityBasedPrioritization</label>
+        <link refid="classthemis_1_1tensor_1_1_similarity_based_prioritization"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/tensor/tensor_routing_strategy.h" line="84" column="1" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="84" bodyend="110"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" prot="public" virt="pure-virtual"><scope>themis::tensor::IPrioritizationStrategy</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a96b2fc1d6553a9dd8ec44fd430881e04" prot="public" virt="pure-virtual"><scope>themis::tensor::IPrioritizationStrategy</scope><name>prioritize</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1aa80f83b2b63293eb8f43e26996487bb2" prot="public" virt="pure-virtual"><scope>themis::tensor::IPrioritizationStrategy</scope><name>sort</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a8ad2a45dbb8ca01461982bc3c4d7acd2" prot="public" virt="virtual"><scope>themis::tensor::IPrioritizationStrategy</scope><name>~IPrioritizationStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

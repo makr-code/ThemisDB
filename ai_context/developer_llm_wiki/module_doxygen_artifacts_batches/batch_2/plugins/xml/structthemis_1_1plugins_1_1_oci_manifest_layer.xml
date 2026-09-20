@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_oci_manifest_layer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::OciManifestLayer</compoundname>
+    <includes refid="oci__registry__client_8h" local="no">oci_registry_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_manifest_layer_1adc1d608ef2267474c4c2d86a26deb0fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciManifestLayer::media_type</definition>
+        <argsstring></argsstring>
+        <name>media_type</name>
+        <qualifiedname>themis::plugins::OciManifestLayer::media_type</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;application/vnd.themisdb.plugin.v1.binary&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="73" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_manifest_layer_1a8433c0d5df9d25364672fcec7039b1a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciManifestLayer::digest</definition>
+        <argsstring></argsstring>
+        <name>digest</name>
+        <qualifiedname>themis::plugins::OciManifestLayer::digest</qualifiedname>
+        <briefdescription>
+<para>&quot;sha256:&lt;hex&gt;&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="74" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_manifest_layer_1abd6dfa119748c32435837f9bc1fbafd3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::OciManifestLayer::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::plugins::OciManifestLayer::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Byte size of the compressed layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="75" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor for a single layer inside an OCI manifest. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/oci_registry_client.h" line="72" column="1" bodyfile="include/plugins/oci_registry_client.h" bodystart="72" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_oci_manifest_layer_1a8433c0d5df9d25364672fcec7039b1a0" prot="public" virt="non-virtual"><scope>themis::plugins::OciManifestLayer</scope><name>digest</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_manifest_layer_1adc1d608ef2267474c4c2d86a26deb0fc" prot="public" virt="non-virtual"><scope>themis::plugins::OciManifestLayer</scope><name>media_type</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_manifest_layer_1abd6dfa119748c32435837f9bc1fbafd3" prot="public" virt="non-virtual"><scope>themis::plugins::OciManifestLayer</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

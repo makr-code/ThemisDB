@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ResultAggregator::Stats</compoundname>
+    <includes refid="result__aggregator_8h" local="no">result_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats_1a705e78e56d959c2272f234f08f428fee" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ResultAggregator::Stats::total_written</definition>
+        <argsstring></argsstring>
+        <name>total_written</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::Stats::total_written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="94" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats_1a1332cce6378d00e2bc0972572e388123" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ResultAggregator::Stats::total_failed</definition>
+        <argsstring></argsstring>
+        <name>total_failed</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::Stats::total_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="95" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats_1aa0e5cd89fac6f608d4bcbad0de4b2f2f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ResultAggregator::Stats::peak_batch_size</definition>
+        <argsstring></argsstring>
+        <name>peak_batch_size</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::Stats::peak_batch_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="96" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats_1a5a24427de2bd4c1a4bfda0b8bdde6219" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ResultAggregator::Stats::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::Stats::error_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="97" column="13" bodyfile="include/analytics/result_aggregator.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/result_aggregator.h" line="93" column="5" bodyfile="include/analytics/result_aggregator.h" bodystart="93" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats_1a5a24427de2bd4c1a4bfda0b8bdde6219" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator::Stats</scope><name>error_count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats_1aa0e5cd89fac6f608d4bcbad0de4b2f2f" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator::Stats</scope><name>peak_batch_size</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats_1a1332cce6378d00e2bc0972572e388123" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator::Stats</scope><name>total_failed</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats_1a705e78e56d959c2272f234f08f428fee" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator::Stats</scope><name>total_written</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

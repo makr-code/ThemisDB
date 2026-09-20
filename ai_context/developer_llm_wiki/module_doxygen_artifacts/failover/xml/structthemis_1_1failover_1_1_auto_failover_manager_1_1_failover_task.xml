@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task" kind="struct" language="C++" prot="private">
+    <compoundname>themis::failover::AutoFailoverManager::FailoverTask</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1ac7c2786e569fbfe87e7512d3505e5adb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::AutoFailoverManager::FailoverTask::failed_node_id</definition>
+        <argsstring></argsstring>
+        <name>failed_node_id</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::FailoverTask::failed_node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="389" column="21" bodyfile="include/failover/auto_failover_manager.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1a58d4e1d70043fb0444656e03424f9325" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::AutoFailoverManager::FailoverTask::target_promote_id</definition>
+        <argsstring></argsstring>
+        <name>target_promote_id</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::FailoverTask::target_promote_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="390" column="21" bodyfile="include/failover/auto_failover_manager.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1a3e010e0ee9a080c4e635827d1afc1d06" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::failover::AutoFailoverManager::FailoverTask::enqueued_at</definition>
+        <argsstring></argsstring>
+        <name>enqueued_at</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::FailoverTask::enqueued_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="391" column="47" bodyfile="include/failover/auto_failover_manager.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/auto_failover_manager.h" line="388" column="5" bodyfile="include/failover/auto_failover_manager.h" bodystart="388" bodyend="392"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1a3e010e0ee9a080c4e635827d1afc1d06" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::FailoverTask</scope><name>enqueued_at</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1ac7c2786e569fbfe87e7512d3505e5adb" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::FailoverTask</scope><name>failed_node_id</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1a58d4e1d70043fb0444656e03424f9325" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::FailoverTask</scope><name>target_promote_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

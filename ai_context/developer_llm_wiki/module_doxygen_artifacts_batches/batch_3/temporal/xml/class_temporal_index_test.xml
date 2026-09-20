@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_index_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_index_test_1a2676e0c09f658bcda2f5c52c5853bb04" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_index" kindref="compound">TemporalIndex</ref></type>
+        <definition>TemporalIndex TemporalIndexTest::idx</definition>
+        <argsstring></argsstring>
+        <name>idx</name>
+        <qualifiedname>TemporalIndexTest::idx</qualifiedname>
+        <initializer>{&quot;test_index&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="15" column="19" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="15" bodyend="15"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_temporal_index_test_1aa5bdeea67b7b3fad545d164dd286ac1e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_index_entry" kindref="compound">TemporalIndexEntry</ref></type>
+        <definition>TemporalIndexEntry TemporalIndexTest::makeEntry</definition>
+        <argsstring>(const std::string &amp;key, Timestamp start, Timestamp end, nlohmann::json payload={})</argsstring>
+        <name>makeEntry</name>
+        <qualifiedname>TemporalIndexTest::makeEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>payload</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="17" column="24" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="17" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalIndexTest</label>
+        <link refid="class_temporal_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalIndexTest</label>
+        <link refid="class_temporal_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>idx</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalIndex</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_index"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_index.cpp" line="13" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="13" bodyend="22"/>
+    <listofallmembers>
+      <member refid="class_temporal_index_test_1a2676e0c09f658bcda2f5c52c5853bb04" prot="protected" virt="non-virtual"><scope>TemporalIndexTest</scope><name>idx</name></member>
+      <member refid="class_temporal_index_test_1aa5bdeea67b7b3fad545d164dd286ac1e" prot="protected" virt="non-virtual"><scope>TemporalIndexTest</scope><name>makeEntry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

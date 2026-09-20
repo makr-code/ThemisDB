@@ -1,0 +1,530 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__hsm__provider_8cpp" kind="file" language="C++">
+    <compoundname>bench_hsm_provider.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="hsm__provider_8h" local="yes">security/hsm_provider.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">random</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/security/bench_hsm_provider.cpp</label>
+        <link refid="bench__hsm__provider_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>filesystem</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>random</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a18ad4d74b877318b9f47d1c5685f34b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string getHSMLibPath</definition>
+        <argsstring>()</argsstring>
+        <name>getHSMLibPath</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="20" column="20" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="20" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a653399e027a4d1396f5bf7133c80ccd6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref></type>
+        <definition>static HSMConfig makeConfig</definition>
+        <argsstring>(uint32_t poolSize)</argsstring>
+        <name>makeConfig</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>poolSize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="36" column="18" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="36" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a9ec97d0dfab1c7bf455662997be00515" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; randomData</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>randomData</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="48" column="20" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a539c7f5b738b56efe4653fff63ba2ec9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HSM_Sign_Stub</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HSM_Sign_Stub</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="58" column="13" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="58" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1abb36808054c05f0f1ae97c543b3eb767" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HSM_Sign_Stub)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HSM_Sign_Stub</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="69" column="1" declfile="benchmarks/security/bench_hsm_provider.cpp" declline="69" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a0cf5765318cb2d8c0142156626e3757c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HSM_Verify_Stub</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HSM_Verify_Stub</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="71" column="13" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="71" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1aa6ed0c0dcad5b500183364cc58c55a45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HSM_Verify_Stub)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HSM_Verify_Stub</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="82" column="1" declfile="benchmarks/security/bench_hsm_provider.cpp" declline="82" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1ad1d24131a5350b630efc5497614fcbc4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HSM_Sign_Real_Pool1</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HSM_Sign_Real_Pool1</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="85" column="13" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="85" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1af558a802d5fdca8e83ba9d535a3b2b07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HSM_Sign_Real_Pool1)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HSM_Sign_Real_Pool1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="97" column="1" declfile="benchmarks/security/bench_hsm_provider.cpp" declline="97" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1af2ceec0d5994272bf2f463566ba463af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HSM_Sign_Real_Pool2</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HSM_Sign_Real_Pool2</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="100" column="13" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="100" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a07911c008e2fa9310669ff795258a52f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HSM_Sign_Real_Pool2)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HSM_Sign_Real_Pool2</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="111" column="1" declfile="benchmarks/security/bench_hsm_provider.cpp" declline="111" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a6e6a276899249b849728807e6ef25d40" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HSM_Sign_Real_Pool4</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HSM_Sign_Real_Pool4</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="114" column="13" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="114" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a120c3846826ded7d6bde39ed7d5f191e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HSM_Sign_Real_Pool4)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HSM_Sign_Real_Pool4</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="125" column="1" declfile="benchmarks/security/bench_hsm_provider.cpp" declline="125" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a544eb12804d0b16d2d5868fbc4cbf464" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HSM_Verify_Real_Pool4</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HSM_Verify_Real_Pool4</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="128" column="13" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="128" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1ade74761fb47799d4b66ea3f2ee0893d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HSM_Verify_Real_Pool4)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HSM_Verify_Real_Pool4</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="140" column="1" declfile="benchmarks/security/bench_hsm_provider.cpp" declline="140" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1aaae34ea6a56bf12290bf8ea3f4744cd1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HSM_Sign_Parallel</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HSM_Sign_Parallel</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="143" column="13" bodyfile="benchmarks/security/bench_hsm_provider.cpp" bodystart="143" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1adda6c749eab3f52611236e5ad1e6ec77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HSM_Sign_Parallel) -&gt; Threads(1) -&gt;Threads(2) -&gt;Threads(4) -&gt;Threads(8)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HSM_Sign_Parallel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="156" column="1" declfile="benchmarks/security/bench_hsm_provider.cpp" declline="156" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__hsm__provider_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_hsm_provider.cpp" line="158" column="1" declfile="benchmarks/security/bench_hsm_provider.cpp" declline="158" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>HSM<sp/>Provider<sp/>Performance<sp/>Benchmark</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>sign/verify<sp/>throughput<sp/>with<sp/>different<sp/>session<sp/>pool<sp/>sizes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>cmake<sp/>-S<sp/>.<sp/>-B<sp/>build<sp/>-G<sp/>Ninja<sp/>-DTHEMIS_BUILD_BENCHMARKS=ON<sp/>-DTHEMIS_ENABLE_HSM_REAL=ON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>cmake<sp/>--build<sp/>build<sp/>--target<sp/>bench_hsm_provider<sp/>-j</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Run:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>export<sp/>THEMIS_TEST_HSM_LIBRARY=/usr/lib/softhsm/libsofthsm2.so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>export<sp/>THEMIS_TEST_HSM_PIN=1234</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>./build/bench_hsm_provider<sp/>--benchmark_filter=HSM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__provider_8h" kindref="compound">security/hsm_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>getHSMLibPath()<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_TEST_HSM_LIBRARY&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>env;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>paths<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/usr/lib/softhsm/libsofthsm2.so&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/usr/lib/x86_64-linux-gnu/softhsm/libsofthsm2.so&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/usr/local/lib/softhsm/libsofthsm2.so&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/opt/homebrew/lib/softhsm/libsofthsm2.so&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p:<sp/>paths)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(std::filesystem::exists(p))<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>makeConfig(uint32_t<sp/>poolSize)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/>getHSMLibPath();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1acc0b927b3d4bc134a5ab326d18b1d42c" kindref="member">slot_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1ab4b51ff96783bff418c4114490403178" kindref="member">pin</ref><sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_TEST_HSM_PIN&quot;</highlight><highlight class="normal">)<sp/>?<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_TEST_HSM_PIN&quot;</highlight><highlight class="normal">)<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;1234&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1af31c0565e8cf0b9c0c70fe66dae610df" kindref="member">key_label</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis-signing-key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a25d57848f7c031867a66c6051e3c6d1c" kindref="member">signature_algorithm</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1ae6b7ce3b482979be560f86d3cbd8d18a" kindref="member">verbose</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a4059b7cb6493c529f7f044b43019efbd" kindref="member">session_pool_size</ref><sp/>=<sp/>poolSize;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>randomData(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data(size);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>b<sp/>=<sp/>rng()<sp/>&amp;<sp/>0xFF;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Baseline:<sp/>Stub<sp/>provider<sp/>(no<sp/>PKCS#11)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HSM_Sign_Stub(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>force<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(cfg);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!hsm.initialize()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;Init<sp/>failed&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randomData(256);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>hsm.sign(data);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sig);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="bench__hsm__provider_8cpp_1abb36808054c05f0f1ae97c543b3eb767" kindref="member">BENCHMARK</ref>(BM_HSM_Sign_Stub);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HSM_Verify_Stub(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(cfg);<sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randomData(256);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>hsm.sign(data);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>hsm.verify(data,<sp/>sig.signature_b64);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="bench__hsm__provider_8cpp_1abb36808054c05f0f1ae97c543b3eb767" kindref="member">BENCHMARK</ref>(BM_HSM_Verify_Stub);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Real<sp/>PKCS#11:<sp/>Single<sp/>session</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HSM_Sign_Real_Pool1(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig(1);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.empty()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;HSM<sp/>lib<sp/>not<sp/>found&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(cfg);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!hsm.initialize()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;Init<sp/>failed&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randomData(256);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>hsm.sign(data);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sig);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="bench__hsm__provider_8cpp_1abb36808054c05f0f1ae97c543b3eb767" kindref="member">BENCHMARK</ref>(BM_HSM_Sign_Real_Pool1);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Pool<sp/>size<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HSM_Sign_Real_Pool2(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig(2);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.empty()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;HSM<sp/>lib<sp/>not<sp/>found&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(cfg);<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!hsm.initialize()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;Init<sp/>failed&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randomData(256);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>hsm.sign(data);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sig);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="bench__hsm__provider_8cpp_1abb36808054c05f0f1ae97c543b3eb767" kindref="member">BENCHMARK</ref>(BM_HSM_Sign_Real_Pool2);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Pool<sp/>size<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HSM_Sign_Real_Pool4(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig(4);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.empty()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;HSM<sp/>lib<sp/>not<sp/>found&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(cfg);<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!hsm.initialize()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;Init<sp/>failed&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randomData(256);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>hsm.sign(data);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sig);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="bench__hsm__provider_8cpp_1abb36808054c05f0f1ae97c543b3eb767" kindref="member">BENCHMARK</ref>(BM_HSM_Sign_Real_Pool4);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>with<sp/>pool<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HSM_Verify_Real_Pool4(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig(4);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.empty()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;HSM<sp/>lib<sp/>not<sp/>found&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(cfg);<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!hsm.initialize()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;Init<sp/>failed&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randomData(256);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>hsm.sign(data);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>hsm.verify(data,<sp/>sig.signature_b64);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="bench__hsm__provider_8cpp_1abb36808054c05f0f1ae97c543b3eb767" kindref="member">BENCHMARK</ref>(BM_HSM_Verify_Real_Pool4);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parallel<sp/>sign<sp/>benchmark<sp/>(threads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HSM_Sign_Parallel(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig(4);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(cfg.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.empty()){<sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;HSM<sp/>lib<sp/>not<sp/>found&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(cfg);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!initialized){<sp/>hsm.initialize();<sp/>initialized<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>randomData(256);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>hsm.sign(data);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sig);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="bench__hsm__provider_8cpp_1abb36808054c05f0f1ae97c543b3eb767" kindref="member">BENCHMARK</ref>(BM_HSM_Sign_Parallel)-&gt;Threads(1)-&gt;Threads(2)-&gt;Threads(4)-&gt;Threads(8);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="bench__hsm__provider_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/security/bench_hsm_provider.cpp"/>
+  </compounddef>
+</doxygen>

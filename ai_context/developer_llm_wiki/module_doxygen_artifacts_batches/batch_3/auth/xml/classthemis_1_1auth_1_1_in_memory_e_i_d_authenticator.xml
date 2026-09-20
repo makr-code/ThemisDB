@@ -1,0 +1,542 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::InMemoryEIDAuthenticator</compoundname>
+    <basecompoundref refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator" prot="public" virt="non-virtual">themis::auth::IEIDAuthenticator</basecompoundref>
+    <includes refid="eid__authenticator_8h" local="no">eid_authenticator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a746e191d2f5a0a99874be7a96bf1d053" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::InMemoryEIDAuthenticator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="525" column="24" bodyfile="include/auth/eid_authenticator.h" bodystart="525" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1ac491608f487b54b59fe26c9e36c19031" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::InMemoryEIDAuthenticator::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="526" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="526" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a0fa0f93455295531ee19fe5666190973" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_e_i_d_auth_config" kindref="compound">EIDAuthConfig</ref></type>
+        <definition>EIDAuthConfig themis::auth::InMemoryEIDAuthenticator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="527" column="19" bodyfile="include/auth/eid_authenticator.h" bodystart="527" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1ab7cb714aa36cf2a24f2d0ccfe9863e24" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::auth::InMemoryEIDAuthenticator::active_sessions_</definition>
+        <argsstring></argsstring>
+        <name>active_sessions_</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::active_sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="528" column="14" bodyfile="include/auth/eid_authenticator.h" bodystart="528" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a503c58198149c69e96f641fb24dfc6ab" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1auth_1_1_e_i_d_identity" kindref="compound">EIDIdentity</ref> &gt;</type>
+        <definition>std::map&lt;std::string, EIDIdentity&gt; themis::auth::InMemoryEIDAuthenticator::test_identities_</definition>
+        <argsstring></argsstring>
+        <name>test_identities_</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::test_identities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="529" column="14" bodyfile="include/auth/eid_authenticator.h" bodystart="529" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1af0294e1105d95d3631a8113c8c9b74b9" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::pair&lt; <ref refid="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dc" kindref="member">EIDAuthErrorCode</ref>, std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::pair&lt;EIDAuthErrorCode, std::string&gt; &gt; themis::auth::InMemoryEIDAuthenticator::test_failures_</definition>
+        <argsstring></argsstring>
+        <name>test_failures_</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::test_failures_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="530" column="14" bodyfile="include/auth/eid_authenticator.h" bodystart="530" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1acb35722edba00fb6aa32fc989f1c654e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::InMemoryEIDAuthenticator::registerTestIdentity</definition>
+        <argsstring>(std::string_view session_id, const EIDIdentity &amp;identity)</argsstring>
+        <name>registerTestIdentity</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::registerTestIdentity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_e_i_d_identity" kindref="compound">EIDIdentity</ref> &amp;</type>
+          <declname>identity</declname>
+        </param>
+        <briefdescription>
+<para>── Test helper ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">identity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="347" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="347" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a3d68d5ae808d62cb721dd7d75c3668f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::InMemoryEIDAuthenticator::storeIdentity</definition>
+        <argsstring>(const EIDIdentity &amp;identity)</argsstring>
+        <name>storeIdentity</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::storeIdentity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_e_i_d_identity" kindref="compound">EIDIdentity</ref> &amp;</type>
+          <declname>identity</declname>
+        </param>
+        <briefdescription>
+<para>Legacy helper name kept for compatibility with older tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">identity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1acb35722edba00fb6aa32fc989f1c654e" kindref="member">registerTestIdentity()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="358" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="358" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a9138d026c476f5ea5db44841f7069504" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::InMemoryEIDAuthenticator::registerTestFailure</definition>
+        <argsstring>(std::string_view session_id, EIDAuthErrorCode code, std::string message)</argsstring>
+        <name>registerTestFailure</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::registerTestFailure</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dc" kindref="member">EIDAuthErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Register Test Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::string(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="369" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="369" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a486f11938588fbd6a108936cb1b0f92f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::InMemoryEIDAuthenticator::initialize</definition>
+        <argsstring>(const EIDAuthConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator_1a8fc890b5f1456474e542f7d4dcd43ea5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_e_i_d_auth_config" kindref="compound">EIDAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="378" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="378" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1acecabecc9556040c6c8e9a5cf7dd4d2b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::InMemoryEIDAuthenticator::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator_1a39041eebe86061c4b11646099e9ff80b">isInitialized</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="399" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="399" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a6cc0e982a3b91b24ab1c38211a6b5e69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::InMemoryEIDAuthenticator::beginAuthSession</definition>
+        <argsstring>(std::string_view session_id) override</argsstring>
+        <name>beginAuthSession</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::beginAuthSession</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator_1a84ec41bc6d2d00a3723b55a23f55d3a9">beginAuthSession</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="409" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="409" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a2f76c8e7df1607c2e20bcc8370ea0492" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_e_i_d_auth_session" kindref="compound">EIDAuthSession</ref></type>
+        <definition>EIDAuthSession themis::auth::InMemoryEIDAuthenticator::beginAuthSession</definition>
+        <argsstring>(const EIDAuthRequest &amp;request)</argsstring>
+        <name>beginAuthSession</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::beginAuthSession</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_e_i_d_auth_request" kindref="compound">EIDAuthRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Legacy overload used by older tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="435" column="20" bodyfile="include/auth/eid_authenticator.h" bodystart="435" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a745e661824738bca38a2603e4a19867f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_e_i_d_auth_result" kindref="compound">EIDAuthResult</ref></type>
+        <definition>EIDAuthResult themis::auth::InMemoryEIDAuthenticator::completeAuthSession</definition>
+        <argsstring>(std::string_view session_id, std::string_view saml_response) override</argsstring>
+        <name>completeAuthSession</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::completeAuthSession</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator_1ac3ae0429329c92b636a502c77fb4dec7">completeAuthSession</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>saml_response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="445" column="19" bodyfile="include/auth/eid_authenticator.h" bodystart="445" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1ac7eb6cf66566c7abef23ce2b33bb561b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::auth::InMemoryEIDAuthenticator::revokeSession</definition>
+        <argsstring>(std::string_view session_id) override</argsstring>
+        <name>revokeSession</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::revokeSession</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator_1a9e35e24c516c8c6087b2da7727c99073">revokeSession</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Revoke Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="494" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="494" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a48e771a26b6d913e7af9ee9ac51992ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::InMemoryEIDAuthenticator::activeSessions</definition>
+        <argsstring>() const override</argsstring>
+        <name>activeSessions</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::activeSessions</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator_1aed5f2879a54450e3d37d5cc45d785247">activeSessions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="504" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="504" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a1ed41a0cd53c05e496564b55698faf9a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_e_i_d_auth_config" kindref="compound">EIDAuthConfig</ref></type>
+        <definition>EIDAuthConfig themis::auth::InMemoryEIDAuthenticator::config</definition>
+        <argsstring>() const override</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::auth::InMemoryEIDAuthenticator::config</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator_1a819bf38a1b8bd41dbe21551812e3b52a">config</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="514" column="19" bodyfile="include/auth/eid_authenticator.h" bodystart="514" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::auth::IEIDAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::InMemoryEIDAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::auth::IEIDAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::InMemoryEIDAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/eid_authenticator.h" line="338" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="338" bodyend="531"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1ab7cb714aa36cf2a24f2d0ccfe9863e24" prot="private" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>active_sessions_</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a48e771a26b6d913e7af9ee9ac51992ee" prot="public" virt="virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>activeSessions</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a6cc0e982a3b91b24ab1c38211a6b5e69" prot="public" virt="virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>beginAuthSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a2f76c8e7df1607c2e20bcc8370ea0492" prot="public" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>beginAuthSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a745e661824738bca38a2603e4a19867f" prot="public" virt="virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>completeAuthSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a1ed41a0cd53c05e496564b55698faf9a" prot="public" virt="virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>config</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a0fa0f93455295531ee19fe5666190973" prot="private" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a486f11938588fbd6a108936cb1b0f92f" prot="public" virt="virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1ac491608f487b54b59fe26c9e36c19031" prot="private" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1acecabecc9556040c6c8e9a5cf7dd4d2b" prot="public" virt="virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a746e191d2f5a0a99874be7a96bf1d053" prot="private" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a9138d026c476f5ea5db44841f7069504" prot="public" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>registerTestFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1acb35722edba00fb6aa32fc989f1c654e" prot="public" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>registerTestIdentity</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1ac7eb6cf66566c7abef23ce2b33bb561b" prot="public" virt="virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>revokeSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a3d68d5ae808d62cb721dd7d75c3668f1" prot="public" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>storeIdentity</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1af0294e1105d95d3631a8113c8c9b74b9" prot="private" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>test_failures_</name></member>
+      <member refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator_1a503c58198149c69e96f641fb24dfc6ab" prot="private" virt="non-virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>test_identities_</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator_1a7856edc4e77d5ed69c9523fac4ce294b" prot="public" virt="virtual"><scope>themis::auth::InMemoryEIDAuthenticator</scope><name>~IEIDAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

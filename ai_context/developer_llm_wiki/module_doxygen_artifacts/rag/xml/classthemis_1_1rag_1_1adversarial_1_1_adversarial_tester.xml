@@ -1,0 +1,699 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::AdversarialTester</compoundname>
+    <includes refid="adversarial__tester_8h" local="no">adversarial_tester.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl" prot="public">themis::rag::adversarial::AdversarialTester::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1accbb7f87cc6b1649d25783d7fc32070e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::adversarial::AdversarialTester::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="308" column="21" bodyfile="include/rag/adversarial_tester.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::adversarial::AdversarialTester::AdversarialTester</definition>
+        <argsstring>(const AdversarialTesterConfig &amp;config=AdversarialTesterConfig{})</argsstring>
+        <name>AdversarialTester</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::AdversarialTester</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kindref="compound">AdversarialTesterConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kindref="compound">AdversarialTesterConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with optional configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="188" column="14" bodyfile="src/rag/adversarial_tester.cpp" bodystart="330" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1af9f6fd1dc4fca223fea6d5d85b8c813c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::adversarial::AdversarialTester::~AdversarialTester</definition>
+        <argsstring>()</argsstring>
+        <name>~AdversarialTester</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::~AdversarialTester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="190" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a9b6737e5b41fce93048ac0a16d57642c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::adversarial::AdversarialTester::AdversarialTester</definition>
+        <argsstring>(const AdversarialTester &amp;)=delete</argsstring>
+        <name>AdversarialTester</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::AdversarialTester</qualifiedname>
+        <param>
+          <type>const AdversarialTester &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="193" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a5f8627167a3b7433b5b8218879ee5cde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref> &amp;</type>
+        <definition>AdversarialTester &amp; themis::rag::adversarial::AdversarialTester::operator=</definition>
+        <argsstring>(const AdversarialTester &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="194" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a1e8679cfd9959493e9a66424b605f26e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::adversarial::AdversarialTester::AdversarialTester</definition>
+        <argsstring>(AdversarialTester &amp;&amp;) noexcept</argsstring>
+        <name>AdversarialTester</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::AdversarialTester</qualifiedname>
+        <param>
+          <type>AdversarialTester &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="195" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab7cd992a89732b66bb03c5c4c33ca8b5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref> &amp;</type>
+        <definition>AdversarialTester &amp; themis::rag::adversarial::AdversarialTester::operator=</definition>
+        <argsstring>(AdversarialTester &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="196" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1acf8a1b5c10a6b0ca3685411a191e5b70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::addBaseQuery</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;expected_answer={})</argsstring>
+        <name>addBaseQuery</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::addBaseQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_answer</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Add a base query (and optional expected answer) to the test set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Base Query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="203" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="351" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a50ed7cb6aaef8e81b31534c4feaa9b4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::addBaseDocument</definition>
+        <argsstring>(const RetrievedDocument &amp;document)</argsstring>
+        <name>addBaseDocument</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::addBaseDocument</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+<para>Add a base document available to the judge during evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Base Document.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="209" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="362" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1aaadf20fc0d0ac113219d42e6f5628e8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::setBaseQueries</definition>
+        <argsstring>(const std::vector&lt; BaseQuery &gt; &amp;queries)</argsstring>
+        <name>setBaseQueries</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::setBaseQueries</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1adversarial_1_1_base_query" kindref="compound">BaseQuery</ref> &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <briefdescription>
+<para>Replace the entire base-query set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Base Queries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="214" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="372" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2effe772f01c3da7c7205021a3297e65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::setBaseDocuments</definition>
+        <argsstring>(const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>setBaseDocuments</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::setBaseDocuments</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Replace the entire base-document set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Base Documents.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="219" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="382" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab29d9e7665dde69ebf673c26aeb9a6ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::adversarial::AdversarialTester::generatePerturbedQueries</definition>
+        <argsstring>(const std::string &amp;query, AdversarialStrategy strategy, size_t count) const</argsstring>
+        <name>generatePerturbedQueries</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::generatePerturbedQueries</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" kindref="member">AdversarialStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Generate perturbed query variants for a single query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Perturbation strategy to apply. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of variants to produce. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of perturbed query strings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="230" column="17" bodyfile="src/rag/adversarial_tester.cpp" bodystart="392" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a3f7cdad3a4b96800e0fe6427df1209c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedDocument &gt; themis::rag::adversarial::AdversarialTester::generatePoisonedDocuments</definition>
+        <argsstring>(const std::vector&lt; RetrievedDocument &gt; &amp;documents) const</argsstring>
+        <name>generatePoisonedDocuments</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::generatePoisonedDocuments</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Create a poisoned copy of <computeroutput>documents</computeroutput> by injecting misleading content into one or more documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original document set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Documents with injected poison payload. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="241" column="17" bodyfile="src/rag/adversarial_tester.cpp" bodystart="424" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2054fc486576bbb4a9b75d79e2c03d40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::adversarial::AdversarialTester::generateSycophancyQuery</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>generateSycophancyQuery</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::generateSycophancyQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Generate a sycophantic rephrasing of <computeroutput>query</computeroutput> that presupposes an incorrect or biased premise. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="248" column="17" bodyfile="src/rag/adversarial_tester.cpp" bodystart="438" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0f1eb423ab4b3d954855964955a7e440" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref></type>
+        <definition>RobustnessReport themis::rag::adversarial::AdversarialTester::testRobustness</definition>
+        <argsstring>(RAGJudge &amp;judge)</argsstring>
+        <name>testRobustness</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::testRobustness</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &amp;</type>
+          <declname>judge</declname>
+        </param>
+        <briefdescription>
+<para>Run the full adversarial robustness suite. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test Robustness.</para>
+<para>Executes all four attack categories and returns a consolidated <ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref>. Requires at least one base query and one base document to have been added.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> instance used for all evaluations. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Consolidated robustness report.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="262" column="22" bodyfile="src/rag/adversarial_tester.cpp" bodystart="821" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a50798c33da9f17c3f41245e29bb7c56f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::testQueryPerturbations</definition>
+        <argsstring>(RAGJudge &amp;judge, RobustnessReport &amp;report)</argsstring>
+        <name>testQueryPerturbations</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::testQueryPerturbations</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &amp;</type>
+          <declname>judge</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Test only query perturbation stability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test Query Perturbations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="267" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="479" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a5e5661dcc696a325179d067838775679" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::testDocumentPoisoning</definition>
+        <argsstring>(RAGJudge &amp;judge, RobustnessReport &amp;report)</argsstring>
+        <name>testDocumentPoisoning</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::testDocumentPoisoning</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &amp;</type>
+          <declname>judge</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Test only document-poisoning robustness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test Document Poisoning.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="272" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="554" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2e6638a111be81be46370763abe75ff3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::testPromptInjection</definition>
+        <argsstring>(RAGJudge &amp;judge, RobustnessReport &amp;report)</argsstring>
+        <name>testPromptInjection</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::testPromptInjection</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &amp;</type>
+          <declname>judge</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Test only prompt-injection resilience. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test Prompt Injection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="277" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="631" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a66c62887851faf7a281b9bbd7666ca25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::testContextOverflow</definition>
+        <argsstring>(RAGJudge &amp;judge, RobustnessReport &amp;report)</argsstring>
+        <name>testContextOverflow</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::testContextOverflow</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &amp;</type>
+          <declname>judge</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Test only context-overflow degradation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test Context Overflow.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="282" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="687" bodyend="743"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab0d0305318b9fcea8e248d39ecdcdb86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::adversarial::AdversarialTester::testSycophancy</definition>
+        <argsstring>(RAGJudge &amp;judge, RobustnessReport &amp;report)</argsstring>
+        <name>testSycophancy</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::testSycophancy</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &amp;</type>
+          <declname>judge</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Test only sycophancy susceptibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test Sycophancy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="287" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="750" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a8f3ca9d5126ec2c1429176fba7cac738" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::adversarial::AdversarialTester::isSuccessfulAttack</definition>
+        <argsstring>(const std::string &amp;original_answer, const std::string &amp;adversarial_answer) const</argsstring>
+        <name>isSuccessfulAttack</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::isSuccessfulAttack</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_answer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adversarial_answer</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the attack on <computeroutput>original</computeroutput> succeeded: i.e. the adversarial answer differs substantially from the baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compares <computeroutput>original_answer</computeroutput> with <computeroutput>adversarial_answer</computeroutput> using a simple word-overlap divergence metric. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="298" column="10" bodyfile="src/rag/adversarial_tester.cpp" bodystart="448" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1aba7e824bcf2f66d7929199db9b84dcfe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kindref="compound">AdversarialTesterConfig</ref></type>
+        <definition>AdversarialTesterConfig themis::rag::adversarial::AdversarialTester::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="304" column="29" bodyfile="src/rag/adversarial_tester.cpp" bodystart="465" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Systematically tests a <ref refid="classthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> against adversarial inputs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The tester is populated with base queries and documents, then <ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0f1eb423ab4b3d954855964955a7e440" kindref="member">AdversarialTester::testRobustness()</ref> orchestrates five attack categories:</para>
+<para><orderedlist>
+<listitem><para><bold>Query perturbations</bold> – generates variants with <ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" kindref="member">AdversarialStrategy</ref> and measures score stability.</para>
+</listitem><listitem><para><bold>Document poisoning</bold> – injects misleading content into retrieved documents and measures faithfulness degradation.</para>
+</listitem><listitem><para><bold>Prompt injection</bold> – places known injection payloads inside documents and tests whether they affect evaluation scores.</para>
+</listitem><listitem><para><bold>Context overflow</bold> – pads retrieved documents to exceed typical context budgets and checks for quality degradation.</para>
+</listitem><listitem><para><bold>Sycophancy</bold> – applies biased/presupposed query framing and measures score shift.</para>
+</listitem></orderedlist>
+</para>
+<para>Thread-safety: the tester is <bold>not</bold> thread-safe. Create one instance per thread or add external synchronisation. </para>
+    </detaileddescription>
+    <location file="include/rag/adversarial_tester.h" line="183" column="1" bodyfile="include/rag/adversarial_tester.h" bodystart="183" bodyend="309"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a50ed7cb6aaef8e81b31534c4feaa9b4e" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>addBaseDocument</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1acf8a1b5c10a6b0ca3685411a191e5b70" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>addBaseQuery</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>AdversarialTester</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a9b6737e5b41fce93048ac0a16d57642c" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>AdversarialTester</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a1e8679cfd9959493e9a66424b605f26e" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>AdversarialTester</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab29d9e7665dde69ebf673c26aeb9a6ef" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>generatePerturbedQueries</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a3f7cdad3a4b96800e0fe6427df1209c3" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>generatePoisonedDocuments</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2054fc486576bbb4a9b75d79e2c03d40" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>generateSycophancyQuery</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1aba7e824bcf2f66d7929199db9b84dcfe" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1accbb7f87cc6b1649d25783d7fc32070e" prot="private" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a8f3ca9d5126ec2c1429176fba7cac738" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>isSuccessfulAttack</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a5f8627167a3b7433b5b8218879ee5cde" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab7cd992a89732b66bb03c5c4c33ca8b5" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2effe772f01c3da7c7205021a3297e65" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>setBaseDocuments</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1aaadf20fc0d0ac113219d42e6f5628e8e" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>setBaseQueries</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a66c62887851faf7a281b9bbd7666ca25" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>testContextOverflow</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a5e5661dcc696a325179d067838775679" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>testDocumentPoisoning</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2e6638a111be81be46370763abe75ff3" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>testPromptInjection</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a50798c33da9f17c3f41245e29bb7c56f" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>testQueryPerturbations</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0f1eb423ab4b3d954855964955a7e440" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>testRobustness</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab0d0305318b9fcea8e248d39ecdcdb86" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>testSycophancy</name></member>
+      <member refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1af9f6fd1dc4fca223fea6d5d85b8c813c" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester</scope><name>~AdversarialTester</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

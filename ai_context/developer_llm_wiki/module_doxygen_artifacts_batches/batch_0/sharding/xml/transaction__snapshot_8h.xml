@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="transaction__snapshot_8h" kind="file" language="C++">
+    <compoundname>transaction_snapshot.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="transaction__wal_8h" local="yes">transaction_wal.h</includes>
+    <includedby refid="cross__shard__transaction_8cpp" local="yes">src/sharding/cross_shard_transaction.cpp</includedby>
+    <includedby refid="transaction__snapshot_8cpp" local="yes">src/sharding/transaction_snapshot.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/transaction_snapshot.h</label>
+        <link refid="transaction__snapshot_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>transaction_wal.h</label>
+        <link refid="transaction__wal_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>fstream</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/transaction_snapshot.h</label>
+        <link refid="transaction__snapshot_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/cross_shard_transaction.cpp</label>
+        <link refid="cross__shard__transaction_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/sharding/transaction_snapshot.cpp</label>
+        <link refid="transaction__snapshot_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structsharding_1_1_participant_status" prot="public">sharding::ParticipantStatus</innerclass>
+    <innerclass refid="structsharding_1_1_s_a_g_a_step" prot="public">sharding::SAGAStep</innerclass>
+    <innerclass refid="structsharding_1_1_percolator_intent" prot="public">sharding::PercolatorIntent</innerclass>
+    <innerclass refid="structsharding_1_1_transaction_snapshot_entry" prot="public">sharding::TransactionSnapshotEntry</innerclass>
+    <innerclass refid="structsharding_1_1_transaction_snapshot" prot="public">sharding::TransactionSnapshot</innerclass>
+    <innerclass refid="classsharding_1_1_transaction_snapshot_manager" prot="public">sharding::TransactionSnapshotManager</innerclass>
+    <innernamespace refid="namespacesharding">sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="transaction__wal_8h" kindref="compound">transaction_wal.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref><sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">themis::sharding::LSN</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9a" kindref="member">TransactionState</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaf35171ff17bf71b60aa90cfef5974a15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaf35171ff17bf71b60aa90cfef5974a15" kindref="member">INITIATED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>started</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aabd6a3a60251e4e52cdc9c393f33cbe10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aabd6a3a60251e4e52cdc9c393f33cbe10" kindref="member">PREPARING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Preparing<sp/>phase<sp/>in<sp/>progress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa6bbfc22048d63183dd626a026e63e497" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa6bbfc22048d63183dd626a026e63e497" kindref="member">PREPARED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>participants<sp/>prepared<sp/>(2PC/3PC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaee5eaf232622ef258e4328cceb5930c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaee5eaf232622ef258e4328cceb5930c5" kindref="member">PRE_COMMITTING</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-commit<sp/>phase<sp/>(3PC<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaca44b8332c1a61e48d551bef2876c633" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaca44b8332c1a61e48d551bef2876c633" kindref="member">PRE_COMMITTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-commit<sp/>phase<sp/>done<sp/>(3PC<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa001d8fa76b26eee4f6d7c8a8d44c73ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa001d8fa76b26eee4f6d7c8a8d44c73ef" kindref="member">COMMITTING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Committing<sp/>in<sp/>progress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa1c372d13f50af5ca9a935ebc78006e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa1c372d13f50af5ca9a935ebc78006e82" kindref="member">COMMITTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>committed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa0f7fb3ad9bfa0a293be603d57f9fa02c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa0f7fb3ad9bfa0a293be603d57f9fa02c" kindref="member">ABORTING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aborting<sp/>in<sp/>progress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa4e6c860e5da10e31c5fd9cb76ddc2025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa4e6c860e5da10e31c5fd9cb76ddc2025" kindref="member">ABORTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>aborted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaf7eb1a2119233b7d89c3c76589a10664" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaf7eb1a2119233b7d89c3c76589a10664" kindref="member">COMPENSATING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SAGA<sp/>compensation<sp/>in<sp/>progress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa2df8d8245b6e73417307f431a21ae041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa2df8d8245b6e73417307f431a21ae041" kindref="member">COMPENSATED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SAGA<sp/>compensation<sp/>done</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structsharding_1_1_participant_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsharding_1_1_participant_status" kindref="compound">ParticipantStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structsharding_1_1_participant_status_1a465796322662336d5cd1ef6a3b44e8af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structsharding_1_1_participant_status_1a465796322662336d5cd1ef6a3b44e8af" kindref="member">participant_id</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structsharding_1_1_participant_status_1ac14cf4974e9cd67481b010dd714ed4b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_participant_status_1ac14cf4974e9cd67481b010dd714ed4b5" kindref="member">prepared</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>2PC/3PC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structsharding_1_1_participant_status_1a593321b321f2f572577c62ed91df4d3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_participant_status_1a593321b321f2f572577c62ed91df4d3f" kindref="member">pre_committed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>3PC<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structsharding_1_1_participant_status_1ae9cbb2b1c7ee985727dce6ad7c842e14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_participant_status_1ae9cbb2b1c7ee985727dce6ad7c842e14" kindref="member">committed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structsharding_1_1_participant_status_1ade544c93b443f53131d5d21d6d6c83b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_participant_status_1ade544c93b443f53131d5d21d6d6c83b6" kindref="member">aborted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structsharding_1_1_participant_status_1a9f1861eb31d9e5f4f398bcd7ff5202cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structsharding_1_1_participant_status_1a9f1861eb31d9e5f4f398bcd7ff5202cf" kindref="member">response_data</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structsharding_1_1_participant_status_1a4967c38fcf59ca0561a1fd810a13fe15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structsharding_1_1_participant_status_1a4967c38fcf59ca0561a1fd810a13fe15" kindref="member">timestamp</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structsharding_1_1_s_a_g_a_step" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsharding_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structsharding_1_1_s_a_g_a_step_1a4fbffcc3c3693fc1ca5f324294a02d0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structsharding_1_1_s_a_g_a_step_1a4fbffcc3c3693fc1ca5f324294a02d0b" kindref="member">step_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structsharding_1_1_s_a_g_a_step_1ae9323f16bc29f5e4f679accfd73c1e56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structsharding_1_1_s_a_g_a_step_1ae9323f16bc29f5e4f679accfd73c1e56" kindref="member">operation</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structsharding_1_1_s_a_g_a_step_1af1ae75ff953d6bc5ea0913263cd519e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structsharding_1_1_s_a_g_a_step_1af1ae75ff953d6bc5ea0913263cd519e6" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structsharding_1_1_s_a_g_a_step_1a5e152d0f627506ba7d0a897957f7ef8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_s_a_g_a_step_1a5e152d0f627506ba7d0a897957f7ef8e" kindref="member">completed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58" refid="structsharding_1_1_s_a_g_a_step_1a69ee87fd457c4297a8df0cf1d8cc2a35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_s_a_g_a_step_1a69ee87fd457c4297a8df0cf1d8cc2a35" kindref="member">compensated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="structsharding_1_1_s_a_g_a_step_1a3a8ad684bb49641f754c1d2cdc9af397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structsharding_1_1_s_a_g_a_step_1a3a8ad684bb49641f754c1d2cdc9af397" kindref="member">timestamp</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structsharding_1_1_percolator_intent" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsharding_1_1_percolator_intent" kindref="compound">PercolatorIntent</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structsharding_1_1_percolator_intent_1afa30a80efbc5cc07ab185a5585aa72ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structsharding_1_1_percolator_intent_1afa30a80efbc5cc07ab185a5585aa72ce" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structsharding_1_1_percolator_intent_1aff5ba48995b142579474b58735e65afd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structsharding_1_1_percolator_intent_1aff5ba48995b142579474b58735e65afd" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structsharding_1_1_percolator_intent_1afa29caee1f93476de95bfa8f536aa3cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structsharding_1_1_percolator_intent_1afa29caee1f93476de95bfa8f536aa3cf" kindref="member">start_timestamp</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structsharding_1_1_percolator_intent_1a64a31ff866acacf397947ee5f437fc36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_percolator_intent_1a64a31ff866acacf397947ee5f437fc36" kindref="member">locked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structsharding_1_1_transaction_snapshot_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structsharding_1_1_transaction_snapshot_entry_1afccfd51ddbb7f6f26a8a13677197ebf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1afccfd51ddbb7f6f26a8a13677197ebf4" kindref="member">transaction_id</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structsharding_1_1_transaction_snapshot_entry_1a73b688448b0a4c3a49a62ba83913fec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1a52dab72ab076f10f582422ce080e3afe" kindref="member">TransactionProtocol</ref><sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a73b688448b0a4c3a49a62ba83913fec8" kindref="member">protocol</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structsharding_1_1_transaction_snapshot_entry_1a7cd6bcda035886765e6b1aca8bb6eabb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9a" kindref="member">TransactionState</ref><sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a7cd6bcda035886765e6b1aca8bb6eabb" kindref="member">state</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structsharding_1_1_transaction_snapshot_entry_1a04620cdf1e4852854e3ce79b4c71c4bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a04620cdf1e4852854e3ce79b4c71c4bd" kindref="member">participants</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structsharding_1_1_transaction_snapshot_entry_1ab7247b43c874d7e02e237712e3fbe16c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ParticipantStatus&gt;<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1ab7247b43c874d7e02e237712e3fbe16c" kindref="member">participant_status</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structsharding_1_1_transaction_snapshot_entry_1a57bb7e0a313d24005dd96a5b7f262696" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a57bb7e0a313d24005dd96a5b7f262696" kindref="member">start_timestamp</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structsharding_1_1_transaction_snapshot_entry_1abe0bc63f09734af8e7f9bf88a6447059" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1abe0bc63f09734af8e7f9bf88a6447059" kindref="member">timeout_ms</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protocol-specific<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structsharding_1_1_transaction_snapshot_entry_1a72dd82cf74336fc4550e7270eba2cc32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a72dd82cf74336fc4550e7270eba2cc32" kindref="member">prepare_data</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structsharding_1_1_transaction_snapshot_entry_1a570d5686e729c5185152812d391e1824" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a570d5686e729c5185152812d391e1824" kindref="member">commit_data</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SAGA-specific</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structsharding_1_1_transaction_snapshot_entry_1adf5f33b96c05fe9d3f40bb0cf61f6cb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SAGAStep&gt;<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1adf5f33b96c05fe9d3f40bb0cf61f6cb6" kindref="member">saga_steps</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structsharding_1_1_transaction_snapshot_entry_1a15196b05a74cca4f0d79d7b35bcf34e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SAGAStep&gt;<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a15196b05a74cca4f0d79d7b35bcf34e6" kindref="member">saga_compensations</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Percolator-specific</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structsharding_1_1_transaction_snapshot_entry_1ad25355ac8dd85c9e44ac1f8fee58eff1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PercolatorIntent&gt;<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1ad25355ac8dd85c9e44ac1f8fee58eff1" kindref="member">write_intents</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structsharding_1_1_transaction_snapshot_entry_1a4f1f746a4cc0fef8e5640d3c31c3b062" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a4f1f746a4cc0fef8e5640d3c31c3b062" kindref="member">percolator_commit_timestamp</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structsharding_1_1_transaction_snapshot_entry_1ab2c73f3a56c19d68b0cfe52cd61a0934" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1ab2c73f3a56c19d68b0cfe52cd61a0934" kindref="member">coordinator_id</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structsharding_1_1_transaction_snapshot_entry_1a3b399687eb1669ae18191cb0fc505eb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry_1a3b399687eb1669ae18191cb0fc505eb2" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structsharding_1_1_transaction_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structsharding_1_1_transaction_snapshot_1a83a66003df9c4247c9422586d472f34f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structsharding_1_1_transaction_snapshot_1a83a66003df9c4247c9422586d472f34f" kindref="member">snapshot_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100" refid="structsharding_1_1_transaction_snapshot_1aaf9465d4208812fbfb5d7e4809d77c9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref><sp/><ref refid="structsharding_1_1_transaction_snapshot_1aaf9465d4208812fbfb5d7e4809d77c9a" kindref="member">last_applied_lsn</ref>;</highlight></codeline>
+<codeline lineno="101" refid="structsharding_1_1_transaction_snapshot_1a89d7a55de72637df97811a272664a878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structsharding_1_1_transaction_snapshot_1a89d7a55de72637df97811a272664a878" kindref="member">coordinator_id</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structsharding_1_1_transaction_snapshot_1ac8b39b6125175fa43e04fba903108162" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structsharding_1_1_transaction_snapshot_1ac8b39b6125175fa43e04fba903108162" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="103" refid="structsharding_1_1_transaction_snapshot_1a8c2d5504c4c77b51e8b28e15c9c830b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TransactionSnapshotEntry&gt;<sp/><ref refid="structsharding_1_1_transaction_snapshot_1a8c2d5504c4c77b51e8b28e15c9c830b2" kindref="member">active_transactions</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structsharding_1_1_transaction_snapshot_1a0bafdbf5171a97d26b5ff8857433e97d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structsharding_1_1_transaction_snapshot_1a0bafdbf5171a97d26b5ff8857433e97d" kindref="member">checksum</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structsharding_1_1_transaction_snapshot_1aa3abb68224ba485e6ac6c17e65c81362" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_transaction_snapshot_1aa3abb68224ba485e6ac6c17e65c81362" kindref="member">total_transactions</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structsharding_1_1_transaction_snapshot_1aee59dbc4b5e2d8ddc3d9ad168066496b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;TransactionSnapshot&gt;<sp/><ref refid="structsharding_1_1_transaction_snapshot_1a4d75afda5021b1efcfc97d30f88a9c12" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classsharding_1_1_transaction_snapshot_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsharding_1_1_transaction_snapshot_manager_1a9a3cbde60de52fd299d7ef3532d2e7ee" kindref="member">TransactionSnapshotManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1a9a3cbde60de52fd299d7ef3532d2e7ee" kindref="member">TransactionSnapshotManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>snapshot_directory,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_snapshots<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="123" refid="classsharding_1_1_transaction_snapshot_manager_1abbc8583fb9ab35034168b2e1bd727a62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1abbc8583fb9ab35034168b2e1bd727a62" kindref="member">~TransactionSnapshotManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1aec19565001213dacc6cfa9682a1ac90c" kindref="member">createSnapshot</ref>(</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>coordinator_id,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref><sp/>last_applied_lsn,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TransactionSnapshotEntry&gt;&amp;<sp/>active_transactions</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TransactionSnapshot&gt;<sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1a1cbfe4175acfc03779c02d529ebe8116" kindref="member">loadLatestSnapshot</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TransactionSnapshot&gt;<sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1a6de93999ddbb7568e868073159ed8532" kindref="member">loadSnapshot</ref>(uint64_t<sp/>snapshot_id);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1adbbb47ef5cf95b047f772502791b8316" kindref="member">listSnapshots</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1a72c2dfd6afc16ac2a510596dcda6ea58" kindref="member">deleteSnapshot</ref>(uint64_t<sp/>snapshot_id);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1aef7493a2f71c7e2ed9de8b68819dc391" kindref="member">cleanupOldSnapshots</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classsharding_1_1_transaction_snapshot_manager_1a56676be71dbd3c9e5604b1bb6327f0af" kindref="member">verifySnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref>&amp;<sp/>snapshot);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>snapshot_directory_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_snapshots_;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getSnapshotPath(uint64_t<sp/>snapshot_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>calculateChecksum(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>saveSnapshotToFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref>&amp;<sp/>snapshot);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TransactionSnapshot&gt;<sp/>loadSnapshotFromFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">std::string<sp/><ref refid="namespacesharding_1a84382b8c8a105b7c98f7fe10d06b7947" kindref="member">transactionStateToString</ref>(<ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9a" kindref="member">TransactionState</ref><sp/>state);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9a" kindref="member">TransactionState</ref><sp/><ref refid="namespacesharding_1acd92d4956c52c8396ffa6ccef1bbb4c2" kindref="member">transactionStateFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">std::string<sp/><ref refid="namespacesharding_1aafc2f6e4f000ba14c9b3ce24ccfe7d41" kindref="member">transactionProtocolToString</ref>(<ref refid="namespacesharding_1a52dab72ab076f10f582422ce080e3afe" kindref="member">TransactionProtocol</ref><sp/>protocol);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="namespacesharding_1a52dab72ab076f10f582422ce080e3afe" kindref="member">TransactionProtocol</ref><sp/><ref refid="namespacesharding_1a1166fb13dc381dcae0a00b1c307b9c1b" kindref="member">transactionProtocolFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1aca73c80e974a75c231d55bb0d73778a2" kindref="member">to_json</ref>(nlohmann::json&amp;<sp/>j,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_participant_status" kindref="compound">ParticipantStatus</ref>&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1a00e67156713e123b66b72cab4bdc56b3" kindref="member">from_json</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j,<sp/><ref refid="structsharding_1_1_participant_status" kindref="compound">ParticipantStatus</ref>&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1aca73c80e974a75c231d55bb0d73778a2" kindref="member">to_json</ref>(nlohmann::json&amp;<sp/>j,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref>&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1a00e67156713e123b66b72cab4bdc56b3" kindref="member">from_json</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j,<sp/><ref refid="structsharding_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref>&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1aca73c80e974a75c231d55bb0d73778a2" kindref="member">to_json</ref>(nlohmann::json&amp;<sp/>j,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_percolator_intent" kindref="compound">PercolatorIntent</ref>&amp;<sp/>i);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1a00e67156713e123b66b72cab4bdc56b3" kindref="member">from_json</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j,<sp/><ref refid="structsharding_1_1_percolator_intent" kindref="compound">PercolatorIntent</ref>&amp;<sp/>i);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1aca73c80e974a75c231d55bb0d73778a2" kindref="member">to_json</ref>(nlohmann::json&amp;<sp/>j,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref>&amp;<sp/>e);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacesharding_1a00e67156713e123b66b72cab4bdc56b3" kindref="member">from_json</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j,<sp/><ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref>&amp;<sp/>e);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/transaction_snapshot.h"/>
+  </compounddef>
+</doxygen>

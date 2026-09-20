@@ -1,0 +1,942 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="grafana__metrics_8h" kind="file" language="C++">
+    <compoundname>grafana_metrics.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">thread</includes>
+    <includedby refid="bench__extended__context_8cpp" local="yes">benchmarks/llm/bench_extended_context.cpp</includedby>
+    <includedby refid="continuous__batch__scheduler_8h" local="yes">include/llm/continuous_batch_scheduler.h</includedby>
+    <includedby refid="llama__wrapper_8h" local="yes">include/llm/llama_wrapper.h</includedby>
+    <includedby refid="llm__plugin__manager_8h" local="yes">include/llm/llm_plugin_manager.h</includedby>
+    <includedby refid="grafana__metrics_8cpp" local="yes">src/llm/grafana_metrics.cpp</includedby>
+    <includedby refid="llm__plugin__manager_8cpp" local="yes">src/llm/llm_plugin_manager.cpp</includedby>
+    <includedby refid="llm__response__cache_8cpp" local="yes">src/llm/llm_response_cache.cpp</includedby>
+    <includedby refid="test__extended__context_8cpp" local="yes">tests/llm/test_extended_context.cpp</includedby>
+    <includedby refid="test__llm__grafana__metrics_8cpp" local="yes">tests/llm/test_llm_grafana_metrics.cpp</includedby>
+    <includedby refid="test__llm__response__cache__metrics_8cpp" local="yes">tests/llm/test_llm_response_cache_metrics.cpp</includedby>
+    <includedby refid="test__metrics__server__wiring_8cpp" local="yes">tests/llm/test_metrics_server_wiring.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="3">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="26">
+        <label>benchmarks/llm/bench_embedded_llm.cpp</label>
+        <link refid="bench__embedded__llm_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/llm/bench_extended_context.cpp</label>
+        <link refid="bench__extended__context_8cpp"/>
+      </node>
+      <node id="67">
+        <label>benchmarks/llm/bench_llm_raid_pipeline.cpp</label>
+        <link refid="bench__llm__raid__pipeline_8cpp"/>
+      </node>
+      <node id="24">
+        <label>benchmarks/llm/bench_phase1_flash_attention.cpp</label>
+        <link refid="bench__phase1__flash__attention_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/llm/llm_bench.cpp</label>
+        <link refid="llm__bench_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/llm/embedded_llm.h</label>
+        <link refid="embedded__llm_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/llm/llama_wrapper.h</label>
+        <link refid="llama__wrapper_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>include/llm/llm_ingestion_bridge.h</label>
+        <link refid="llm__ingestion__bridge_8h"/>
+        <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>include/llm/llm_plugin_manager.h</label>
+        <link refid="llm__plugin__manager_8h"/>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/ml_model_manager.h</label>
+        <link refid="ml__model__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/llm/moral_analyzer.h</label>
+        <link refid="moral__analyzer_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/llm/production_validator.h</label>
+        <link refid="production__validator_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/llm/wiki_chunk_splitter.h</label>
+        <link refid="wiki__chunk__splitter_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/llm/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/llm/wiki_rag_source.h</label>
+        <link refid="wiki__rag__source_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>src/llm/api/embedded_llm_adapter.cpp</label>
+        <link refid="embedded__llm__adapter_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/llm/applications/themis_help_lora.cpp</label>
+        <link refid="themis__help__lora_8cpp"/>
+      </node>
+      <node id="61">
+        <label>src/llm/continuous_batch_scheduler.cpp</label>
+        <link refid="continuous__batch__scheduler_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/llm/docs_assistant.cpp</label>
+        <link refid="docs__assistant_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/llm/embedded_llm.cpp</label>
+        <link refid="embedded__llm_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/llm/embedded_llm_stub.cpp</label>
+        <link refid="embedded__llm__stub_8cpp"/>
+      </node>
+      <node id="76">
+        <label>src/llm/grafana_metrics.cpp</label>
+        <link refid="grafana__metrics_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/llm/inference_engine_enhanced.cpp</label>
+        <link refid="inference__engine__enhanced_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/llm/inference_guard.cpp</label>
+        <link refid="inference__guard_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/llm/llama_wrapper.cpp</label>
+        <link refid="llama__wrapper_8cpp"/>
+      </node>
+      <node id="70">
+        <label>src/llm/llm_client_default.cpp</label>
+        <link refid="llm__client__default_8cpp"/>
+      </node>
+      <node id="69">
+        <label>src/llm/llm_ingestion_bridge.cpp</label>
+        <link refid="llm__ingestion__bridge_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/llm/llm_plugin_manager.cpp</label>
+        <link refid="llm__plugin__manager_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/llm/llm_response_cache.cpp</label>
+        <link refid="llm__response__cache_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/ml_model_manager.cpp</label>
+        <link refid="ml__model__manager_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/moral_analyzer.cpp</label>
+        <link refid="moral__analyzer_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/llm/production_validator.cpp</label>
+        <link refid="production__validator_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/llm/wiki_chunk_splitter.cpp</label>
+        <link refid="wiki__chunk__splitter_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/llm/wiki_index_store.cpp</label>
+        <link refid="wiki__index__store_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/llm/wiki_rag_source.cpp</label>
+        <link refid="wiki__rag__source_8cpp"/>
+      </node>
+      <node id="62">
+        <label>tests/llm/bench_continuous_batch_scheduler.cpp</label>
+        <link refid="bench__continuous__batch__scheduler_8cpp"/>
+      </node>
+      <node id="55">
+        <label>tests/llm/bench_model_loading_from_themisdb.cpp</label>
+        <link refid="bench__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="47">
+        <label>tests/llm/test_embedded_llm_batch_contract.cpp</label>
+        <link refid="test__embedded__llm__batch__contract_8cpp"/>
+      </node>
+      <node id="77">
+        <label>tests/llm/test_extended_context.cpp</label>
+        <link refid="test__extended__context_8cpp"/>
+      </node>
+      <node id="56">
+        <label>tests/llm/test_llama_wrapper_state.cpp</label>
+        <link refid="test__llama__wrapper__state_8cpp"/>
+      </node>
+      <node id="71">
+        <label>tests/llm/test_llm_aql_explain_stream_api.cpp</label>
+        <link refid="test__llm__aql__explain__stream__api_8cpp"/>
+      </node>
+      <node id="48">
+        <label>tests/llm/test_llm_aql_handler.cpp</label>
+        <link refid="test__llm__aql__handler_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/llm/test_llm_doku_rag.cpp</label>
+        <link refid="test__llm__doku__rag_8cpp"/>
+      </node>
+      <node id="49">
+        <label>tests/llm/test_llm_exception_safety.cpp</label>
+        <link refid="test__llm__exception__safety_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/llm/test_llm_federated_failure_envelopes.cpp</label>
+        <link refid="test__llm__federated__failure__envelopes_8cpp"/>
+      </node>
+      <node id="72">
+        <label>tests/llm/test_llm_gossip_adapter_publisher.cpp</label>
+        <link refid="test__llm__gossip__adapter__publisher_8cpp"/>
+      </node>
+      <node id="57">
+        <label>tests/llm/test_llm_grafana_metrics.cpp</label>
+        <link refid="test__llm__grafana__metrics_8cpp"/>
+      </node>
+      <node id="63">
+        <label>tests/llm/test_llm_hardening_phase4.cpp</label>
+        <link refid="test__llm__hardening__phase4_8cpp"/>
+      </node>
+      <node id="58">
+        <label>tests/llm/test_llm_inference_roles.cpp</label>
+        <link refid="test__llm__inference__roles_8cpp"/>
+      </node>
+      <node id="50">
+        <label>tests/llm/test_llm_memory_lifecycle.cpp</label>
+        <link refid="test__llm__memory__lifecycle_8cpp"/>
+      </node>
+      <node id="73">
+        <label>tests/llm/test_llm_model_path_traversal.cpp</label>
+        <link refid="test__llm__model__path__traversal_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/llm/test_llm_multi_model_integration.cpp</label>
+        <link refid="test__llm__multi__model__integration_8cpp"/>
+      </node>
+      <node id="51">
+        <label>tests/llm/test_llm_p0_hardening.cpp</label>
+        <link refid="test__llm__p0__hardening_8cpp"/>
+      </node>
+      <node id="64">
+        <label>tests/llm/test_llm_phase5_hardening.cpp</label>
+        <link refid="test__llm__phase5__hardening_8cpp"/>
+      </node>
+      <node id="59">
+        <label>tests/llm/test_llm_plugin.cpp</label>
+        <link refid="test__llm__plugin_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/llm/test_llm_raid_integration.cpp</label>
+        <link refid="test__llm__raid__integration_8cpp"/>
+      </node>
+      <node id="78">
+        <label>tests/llm/test_llm_response_cache_metrics.cpp</label>
+        <link refid="test__llm__response__cache__metrics_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/llm/test_llm_timeout_cancellation.cpp</label>
+        <link refid="test__llm__timeout__cancellation_8cpp"/>
+      </node>
+      <node id="52">
+        <label>tests/llm/test_llm_tinyllama_inference.cpp</label>
+        <link refid="test__llm__tinyllama__inference_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/llm/test_llm_wiki_phase3_features_focused.cpp</label>
+        <link refid="test__llm__wiki__phase3__features__focused_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/llm/test_llm_wiki_provenance_focused.cpp</label>
+        <link refid="test__llm__wiki__provenance__focused_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/llm/test_lora_hot_loading.cpp</label>
+        <link refid="test__lora__hot__loading_8cpp"/>
+      </node>
+      <node id="74">
+        <label>tests/llm/test_metrics_server_wiring.cpp</label>
+        <link refid="test__metrics__server__wiring_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/llm/test_model_loading_from_themisdb.cpp</label>
+        <link refid="test__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="65">
+        <label>tests/llm/test_move_semantics_llm.cpp</label>
+        <link refid="test__move__semantics__llm_8cpp"/>
+      </node>
+      <node id="75">
+        <label>tests/llm/test_openai_compat_adapter.cpp</label>
+        <link refid="test__openai__compat__adapter_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/llm/test_wave5_llm_stubs.cpp</label>
+        <link refid="test__wave5__llm__stubs_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/llm/test_wave9_speculative_decode_bridges.cpp</label>
+        <link refid="test__wave9__speculative__decode__bridges_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/llm/test_wave_next_llm_threadsafety.cpp</label>
+        <link refid="test__wave__next__llm__threadsafety_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/llm/test_wiki_crossdep_focused.cpp</label>
+        <link refid="test__wiki__crossdep__focused_8cpp"/>
+      </node>
+      <node id="39">
+        <label>tests/llm/test_wiki_eval_metrics.cpp</label>
+        <link refid="test__wiki__eval__metrics_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/llm/test_wiki_index_store.cpp</label>
+        <link refid="test__wiki__index__store_8cpp"/>
+      </node>
+      <node id="40">
+        <label>tests/llm/test_wiki_index_store_phase_b.cpp</label>
+        <link refid="test__wiki__index__store__phase__b_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/llm/test_wiki_rag_quality.cpp</label>
+        <link refid="test__wiki__rag__quality_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" prot="public">themis::llm::monitoring::PrometheusExporter</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition" prot="public">themis::llm::monitoring::PrometheusExporter::MetricDefinition</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_value" prot="private">themis::llm::monitoring::PrometheusExporter::MetricValue</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" prot="public">themis::llm::monitoring::LLMMetricsCollector</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config" prot="public">themis::llm::monitoring::LLMMetricsCollector::Config</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator" prot="public">themis::llm::monitoring::GrafanaDashboardGenerator</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config" prot="public">themis::llm::monitoring::GrafanaDashboardGenerator::DashboardConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" prot="public">themis::llm::monitoring::MetricsServer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" prot="public">themis::llm::monitoring::MetricsServer::ServerConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1monitoring">themis::llm::monitoring</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1llm_1_1monitoring" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1monitoring" kindref="compound">monitoring</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1a3e449e7bae37098fafb9bd3be2c24851" kindref="member">PrometheusExporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9" kindref="member">MetricType</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9a125e831262b4dbbd68c6878c5d3759f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9a125e831262b4dbbd68c6878c5d3759f6" kindref="member">COUNTER</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monotonically<sp/>increasing<sp/>(e.g.,<sp/>total<sp/>requests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9a6a91e159ac40f39402ef860163318744" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9a6a91e159ac40f39402ef860163318744" kindref="member">GAUGE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>go<sp/>up/down<sp/>(e.g.,<sp/>memory<sp/>usage)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9a7f33aef6b28f7abec2f5d804ab1343c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9a7f33aef6b28f7abec2f5d804ab1343c8" kindref="member">HISTOGRAM</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Distribution<sp/>of<sp/>values<sp/>(e.g.,<sp/>latency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9a36cbecb886c3fb994669cd10cdbd9f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9a36cbecb886c3fb994669cd10cdbd9f5f" kindref="member">SUMMARY</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Similar<sp/>to<sp/>histogram<sp/>with<sp/>quantiles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition" kindref="compound">MetricDefinition</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition_1abb1690f41e5128f02623b6dfa1da4e63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition_1abb1690f41e5128f02623b6dfa1da4e63" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition_1a97d369d55970d93d5c7a94f65414bae1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition_1a97d369d55970d93d5c7a94f65414bae1" kindref="member">help</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition_1a5062ea1b85ad329a4d3fae57e5618495" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9" kindref="member">MetricType</ref><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition_1a5062ea1b85ad329a4d3fae57e5618495" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition_1a3946795002ff0226d004c02bc49d3f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition_1a3946795002ff0226d004c02bc49d3f40" kindref="member">label_names</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1a3e449e7bae37098fafb9bd3be2c24851" kindref="member">PrometheusExporter</ref>();</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1a5dd5f675a061bd3c4373184663b84d81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1a5dd5f675a061bd3c4373184663b84d81" kindref="member">~PrometheusExporter</ref>();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metric<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1ac4d96f278174276d17d7e47ed0683c9e" kindref="member">registerMetric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1_1_metric_definition" kindref="compound">MetricDefinition</ref>&amp;<sp/>def);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counter<sp/>operations<sp/>(always<sp/>increase)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1ae41b173fe5556b9b9e4b5acd4a702802" kindref="member">incrementCounter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>1.0);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gauge<sp/>operations<sp/>(current<sp/>value)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1af98f9d7a1fa28f3129d93da5b94faf67" kindref="member">setGauge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1a220f4d0344e6c7be43f44058dba21a42" kindref="member">incrementGauge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>delta,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Histogram<sp/>operations<sp/>(for<sp/>latency<sp/>distributions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1af1b64b1da8875f2658f03928acc61079" kindref="member">observeHistogram</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aa9567ad92901b2926e618948a78d7292" kindref="member">exportMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1a61c57c9e0704a0d6ef50c16e7195252e" kindref="member">handleMetricsRequest</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>all<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1a4dde07529b221bf3143824fbe2feca3f" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MetricValue<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter_1aee5c4939b5f3f1c922a47e6e30470dc9" kindref="member">MetricType</ref><sp/>type;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>histogram_buckets;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>histograms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_updated;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>MetricDefinition&gt;<sp/>registered_metrics_;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>MetricValue&gt;<sp/>metrics_;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>serializeMetric(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MetricValue&amp;<sp/>value)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeMetricKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af1c68690a815c95265fc0bc8782b87f0" kindref="member">LLMMetricsCollector</ref><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config_1a20ff3879750dd926ee6f4185951c76d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config_1a20ff3879750dd926ee6f4185951c76d6" kindref="member">lock_contention_threshold_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af1c68690a815c95265fc0bc8782b87f0" kindref="member">LLMMetricsCollector</ref>(<ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref>*<sp/>exporter);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af1c68690a815c95265fc0bc8782b87f0" kindref="member">LLMMetricsCollector</ref>(<ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref>*<sp/>exporter,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inference<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af052d839173d6a3bb623e07ce54b2304" kindref="member">recordInferenceRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aa7faa1eb7260746706c707e2053d66d7" kindref="member">recordInferenceSuccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration_ms);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1acbac750c7d4ee90f3166a2ed9ed5f73e" kindref="member">recordInferenceFailure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9d27f5237df3acd236b199489aac27d4" kindref="member">recordFirstTokenLatency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ae0401f732cea75da0722421634d598f3" kindref="member">recordPerTokenLatency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a5853beaabd26a30a04088d28a24d160f" kindref="member">recordEndToEndLatency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Throughput<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a76b615ab5d113b2660dd743d28dc9764" kindref="member">recordTokensGenerated</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a629b86cde137c3bc3535028c3594b077" kindref="member">recordBatchSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad8e74b9619e8c14605533b3022a4edd8" kindref="member">recordConcurrentRequests</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a907a17c8d71231424413e0cfa35f4467" kindref="member">recordGPUMemoryUsage</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_mb,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_vram_mb);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a68767a370684e228f8b2bdd4a93602e6" kindref="member">recordGPUUtilization</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>utilization_pct);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aab0f3b45c31583c75399ec6e0680e6f6" kindref="member">recordGPUTemperature</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>temp_celsius);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a271468a784adf7a5c82009b3e14ac7c5" kindref="member">recordModelLoaded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_mb);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1acea8ef9b942f2ffb91a387fd2fa0efba" kindref="member">recordModelUnloaded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2c9fe4d8d0ce2371d65e3a9ab396c209" kindref="member">recordModelSwitchLatency</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a707fde21292cff8b3a940aa23a4f0827" kindref="member">recordCacheHit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cache_type);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2477356df4350f50ae38ea6bc44a5317" kindref="member">recordCacheMiss</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cache_type);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac665c3013c3c24c5e0e340ae8e865c29" kindref="member">recordCacheSize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cache_type,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_mb);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scheduler<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac7b4457a0d514668e04642d6f922fc33" kindref="member">recordQueueLength</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>length);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ae15d1028bad1501d77fa4bbad69efd44" kindref="member">recordPreemptions</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a1c122dec6800de63f43fb31d04b8b26c" kindref="member">recordSchedulingLatency</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a574eae26f03533aabfeb295b383c0f63" kindref="member">recordBackpressureDrop</ref>();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantization<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a6a745bf96443c50d8a49517a217063cf" kindref="member">recordQuantizationFormat</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>format);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af1332173b67c05391a3fde7176faaed0" kindref="member">recordDequantizationLatency</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a24d51a9b74881713ec03afc02e2ace6d" kindref="member">recordError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9b058c15632a99838a02d66c097dda5a" kindref="member">recordContextLength</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>context_length);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a96333c416cd1d6ad08f48e1af40be7ee" kindref="member">recordContextCacheSize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cache_size_mb);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9607241f0a0c8a7e24d28a918e67a760" kindref="member">recordExtendedContextEnabled</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a4349b360b949df471918ca4960ac4000" kindref="member">recordContextScalingFactor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>scaling_factor);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ab494496f619381ca328adc66b417db66" kindref="member">recordRoPEScalingMethod</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2839afcdbf44ae740cc292f333d0acc4" kindref="member">recordRoPEScalingError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a3ef99e47a7740c971f1b2b30b3c5a37b" kindref="member">recordYARNParameters</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ext_factor,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>attn_factor,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>beta_fast,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>beta_slow);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a0aedf9cd9b2eef34f0125e0fa5859675" kindref="member">recordRAMUsage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ram_mb,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_ram_mb);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac58e89f11147d6622b8a525dc9f7e8da" kindref="member">recordVRAMUsage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_mb,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_vram_mb);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a7480acc4cd47de3b6cea158553796765" kindref="member">recordMemoryPressure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>pressure_pct);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a379ff411412c1760ca886600a5181b49" kindref="member">recordOOMEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a00343d57962b5f69a1f7aa2dab21280b" kindref="member">recordMemoryEstimate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimated_mb,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>actual_mb);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad1e7cecef0c5ad7e184014215f90e535" kindref="member">recordLoRAAdapterSwitch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from_adapter,</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to_adapter,</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration_ms);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2b790b90fecacc730eac24adb11c6e25" kindref="member">recordContextLockWait</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>wait_time_ms);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a095bf8577ad75054a8f5c2ced36f2a84" kindref="member">recordConcurrentLoRAOperation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sequential_mode);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1adb616a72c893eb9676c2c286bf7d5b16" kindref="member">recordWorkerPoolQueueDepth</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>depth);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a81d8d841fef40378e6b776d5d4539907" kindref="member">recordWorkerPoolTasksCompleted</ref>(uint64_t<sp/>total_completed);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a35af6507cef331f8f6e3b4a7ca82f632" kindref="member">recordEngineInferenceRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>engine_type);</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aef6abe3daa7cff20cd7fc6a6f1b74349" kindref="member">recordEngineInferenceSuccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>engine_type,</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration_ms);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a3ddf159c48d9dbe75af7c053bab0b93e" kindref="member">recordEngineInferenceFailure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>engine_type,</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad6939c18a4b5af77d51cd77f503adb9d" kindref="member">recordEngineTokensGenerated</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>engine_type,</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a68efc43bef7b0576450f639366aba396" kindref="member">recordEngineQueueDepth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>engine_type,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>depth);</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref>*<sp/>exporter_;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>absolute<sp/>value<sp/>reported<sp/>by<sp/>recordWorkerPoolTasksCompleted().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Used<sp/>to<sp/>compute<sp/>the<sp/>delta<sp/>for<sp/>the<sp/>Prometheus<sp/>counter<sp/>increment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>last_pool_tasks_completed_{0};</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeMetrics();</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeExtendedContextMetrics();<sp/><sp/></highlight><highlight class="comment">//<sp/>v1.4.0+<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464" refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1aee87e370d6a814298286a15ac2cde543" kindref="member">GrafanaDashboardGenerator</ref><sp/>{</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="466" refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config" kindref="compound">DashboardConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="467" refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config_1a849cb8171f4a16dc74ecdd6b0bf98790" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config_1a849cb8171f4a16dc74ecdd6b0bf98790" kindref="member">title</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>LLM<sp/>Monitoring&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="468" refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config_1a02c8beab58d3b2fe9791dbc365484a0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config_1a02c8beab58d3b2fe9791dbc365484a0e" kindref="member">datasource</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Prometheus&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="469" refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config_1afa2bdcdf40f3dcb5f94a85a3cd24faa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config_1afa2bdcdf40f3dcb5f94a85a3cd24faa6" kindref="member">refresh_interval_sec</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="470" refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config_1ad4ea669c480d7a52b9af63ec1d6a9e3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config_1ad4ea669c480d7a52b9af63ec1d6a9e3a" kindref="member">enable_alerts</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1aee87e370d6a814298286a15ac2cde543" kindref="member">GrafanaDashboardGenerator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config" kindref="compound">DashboardConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1a45bdbc67cdfa9be17024bb38fcb97c1d" kindref="member">generateDashboard</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1ac06e7360030c1ea5a27ec47820b7cf80" kindref="member">generateUnifiedDashboard</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>individual<sp/>panels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1a0ce206bea5715a5b8fde68a8c0d6fe64" kindref="member">generateInferencePanel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1a205b53f8dd36acb9f1d24809ef73eabf" kindref="member">generateLatencyPanel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1ad28db2f8bdf172d11f8db4e561a1ede1" kindref="member">generateThroughputPanel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1a2716832a90a461194dc964c682d230d4" kindref="member">generateGPUPanel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1ade64a9a108b84f16244bd1c78a5ccf3d" kindref="member">generateCachePanel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1a0c444c2255caa466c5a39db44ef15c75" kindref="member">generateSchedulerPanel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1a45b98f53ab8735fecea7bf6912ce4b25" kindref="member">generateErrorPanel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1a4766337403ad157486e4e279f718c7cb" kindref="member">saveDashboard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator_1_1_dashboard_config" kindref="compound">DashboardConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>createPanel(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>title,</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>grid_pos_x,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>grid_pos_y,</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>grid_width,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>grid_height)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="555"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557" refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ab4ebbd7f753dd088acced46f27991fb1" kindref="member">MetricsServer</ref><sp/>{</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="559" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" kindref="compound">ServerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="560" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a484a2c8d7b87308448e2ac0754f710b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a484a2c8d7b87308448e2ac0754f710b9" kindref="member">host</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;0.0.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="561" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1aa990d2d384af0dc4734736338f18b415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1aa990d2d384af0dc4734736338f18b415" kindref="member">port</ref><sp/>=<sp/>9090;</highlight></codeline>
+<codeline lineno="562" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a9beba9088e2f8c3de2c2acc5785bc5b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a9beba9088e2f8c3de2c2acc5785bc5b4" kindref="member">enable_cors</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="563" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1af5e7201514b8641c9635864def48ace8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1af5e7201514b8641c9635864def48ace8" kindref="member">metrics_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/metrics&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="564" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a12ab6ae425fe9e18f06e6db122261c41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a12ab6ae425fe9e18f06e6db122261c41" kindref="member">dashboard_path</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/dashboard&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="565" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a8791341eb458a5b13cc63b039f923df2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a8791341eb458a5b13cc63b039f923df2" kindref="member">health_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/health&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="566" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a1fe0cc3fb2dff7e4f54c990f4a0c8ab1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a1fe0cc3fb2dff7e4f54c990f4a0c8ab1" kindref="member">ready_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/ready&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="567" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a9948c368e008e9f21c6a51f26794d8b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a9948c368e008e9f21c6a51f26794d8b2" kindref="member">models_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/models&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="568" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a1e8a33b2c56875a09c6b8ff25b909dd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a1e8a33b2c56875a09c6b8ff25b909dd5" kindref="member">admin_reload_path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/models/reload&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="569" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a16b273f98f91c3805c7898faa24aaa34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a16b273f98f91c3805c7898faa24aaa34" kindref="member">admin_simulate_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/prompt/simulate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="570" refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a025e20f432e2f72033366ae6867fd634" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a025e20f432e2f72033366ae6867fd634" kindref="member">admin_sessions_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/sessions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ab4ebbd7f753dd088acced46f27991fb1" kindref="member">MetricsServer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" kindref="compound">ServerConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref>*<sp/>exporter);</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a7d9d6874f55389940f85b9f3b814d034" kindref="member">~MetricsServer</ref>();</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Server<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ac900409667879cd56953485554ca07e1" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ade3232e6d147ae6ef21fc6619a6ea78a" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aa9ce2c5980d7585c813ccc132e461c67" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>server<sp/>URLs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a6bbde58067af618ae9aae7a034e305c0" kindref="member">getMetricsURL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aed75fe75260eb2180f716709eaa7f051" kindref="member">getDashboardURL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a89246a92fc0e5e6bcc9f46760d782eed" kindref="member">getHealthURL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aa8d264a0dedc63429076b5c557a964e3" kindref="member">getReadyURL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1af27fe019f7532a450a464aa6671897d7" kindref="member">getModelsURL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a34b59293ceec507dfadf5f12bcd03a26" kindref="member">getAdminReloadURL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a2fb10f376e64cb3a174071d945eedad4" kindref="member">getAdminSimulateURL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aefde9fc77728251036e16020da4aa6f3" kindref="member">getAdminSessionsURL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"></highlight></codeline>
+<codeline lineno="641" refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a7ab155aef0f63271141d4103ddd9c3d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a7ab155aef0f63271141d4103ddd9c3d9" kindref="member">setModelInfoCallback</ref>(std::function&lt;std::string()&gt;<sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_info_cb_<sp/>=<sp/>std::move(cb);</highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="644"><highlight class="normal"></highlight></codeline>
+<codeline lineno="645" refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a2031df833764cb579aba75ee9d44616b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a2031df833764cb579aba75ee9d44616b" kindref="member">setDashboardCallback</ref>(std::function&lt;std::string()&gt;<sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dashboard_cb_<sp/>=<sp/>std::move(cb);</highlight></codeline>
+<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"></highlight></codeline>
+<codeline lineno="649" refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a16a96ed7fc573dc1747f2fb1788fdcd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a16a96ed7fc573dc1747f2fb1788fdcd6" kindref="member">setReloadCallback</ref>(std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reload_cb_<sp/>=<sp/>std::move(cb);</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="652"><highlight class="normal"></highlight></codeline>
+<codeline lineno="653" refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a651c01694948c87c61891c71e6bde557" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a651c01694948c87c61891c71e6bde557" kindref="member">setSimulateCallback</ref>(std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="654"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>simulate_cb_<sp/>=<sp/>std::move(cb);</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="656"><highlight class="normal"></highlight></codeline>
+<codeline lineno="657" refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ada67c7bf10a26d01875a96ff6dbe25c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ada67c7bf10a26d01875a96ff6dbe25c1" kindref="member">setSessionListCallback</ref>(std::function&lt;std::string()&gt;<sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="658"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>session_list_cb_<sp/>=<sp/>std::move(cb);</highlight></codeline>
+<codeline lineno="659"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="660"><highlight class="normal"></highlight></codeline>
+<codeline lineno="661" refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a9e0d41b8d13458cbce4c55ab745bc4b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a9e0d41b8d13458cbce4c55ab745bc4b0" kindref="member">setSessionDeleteCallback</ref>(std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>session_delete_cb_<sp/>=<sp/>std::move(cb);</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="664"><highlight class="normal"></highlight></codeline>
+<codeline lineno="672"><highlight class="normal"></highlight></codeline>
+<codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a6ca2e9ddef6abaf65e769e102caeae84" kindref="member">handlePost</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body,</highlight></codeline>
+<codeline lineno="674"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="681"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a777357aca25dacd6c5a8eca1b911c25b" kindref="member">handleDelete</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resource_id,</highlight></codeline>
+<codeline lineno="682"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="683"><highlight class="normal"></highlight></codeline>
+<codeline lineno="684" refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ac96c3915e0688d23e6944b7adcc7b654" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" kindref="compound">ServerConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ac96c3915e0688d23e6944b7adcc7b654" kindref="member">serverConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="685"><highlight class="normal"></highlight></codeline>
+<codeline lineno="686"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/>ServerConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref>*<sp/>exporter_;</highlight></codeline>
+<codeline lineno="689"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>running_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="690"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string()&gt;<sp/>model_info_cb_;</highlight></codeline>
+<codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string()&gt;<sp/>dashboard_cb_;</highlight></codeline>
+<codeline lineno="692"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>reload_cb_;</highlight></codeline>
+<codeline lineno="693"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>simulate_cb_;</highlight></codeline>
+<codeline lineno="694"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string()&gt;<sp/>session_list_cb_;</highlight></codeline>
+<codeline lineno="695"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>session_delete_cb_;</highlight></codeline>
+<codeline lineno="696"><highlight class="normal"></highlight></codeline>
+<codeline lineno="697"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pimpl:<sp/>holds<sp/>httplib::Server<sp/>and<sp/>the<sp/>background<sp/>listener<sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="698"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Defined<sp/>in<sp/>grafana_metrics.cpp<sp/>to<sp/>keep<sp/>&lt;httplib.h&gt;<sp/>out<sp/>of<sp/>this<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="699"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="700"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="701"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="707"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleRequest(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="708"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="709"><highlight class="normal"></highlight></codeline>
+<codeline lineno="710"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="711"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="712"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/grafana_metrics.h"/>
+  </compounddef>
+</doxygen>

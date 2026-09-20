@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bwtree_8h" kind="file" language="C++">
+    <compoundname>bwtree.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bwtree_8cpp" local="yes">src/performance/phase3/bwtree.cpp</includedby>
+    <includedby refid="test__bwtree_8cpp" local="yes">tests/performance/phase3/test_bwtree.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/phase3/bwtree.h</label>
+        <link refid="bwtree_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase3/bwtree.h</label>
+        <link refid="bwtree_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/phase3/bwtree.cpp</label>
+        <link refid="bwtree_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/phase3/test_bwtree.cpp</label>
+        <link refid="test__bwtree_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" prot="public">themis::performance::phase3::BwTreePage</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page" prot="public">themis::performance::phase3::LeafPage</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert" prot="public">themis::performance::phase3::DeltaInsert</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete" prot="public">themis::performance::phase3::DeltaDelete</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table" prot="public">themis::performance::phase3::MappingTable</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree" prot="public">themis::performance::phase3::BwTree</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats" prot="public">themis::performance::phase3::BwTree::Stats</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_retired_chain" prot="private">themis::performance::phase3::BwTree::RetiredChain</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase3">themis::performance::phase3</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Bw-Tree:<sp/>A<sp/>Lock-Free<sp/>B-tree<sp/>for<sp/>Multi-core<sp/>Systems</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Paper:<sp/>&quot;The<sp/>Bw-Tree:<sp/>A<sp/>B-tree<sp/>for<sp/>New<sp/>Hardware<sp/>Platforms&quot;<sp/>(ICDE&apos;13)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Justin<sp/>Levandoski<sp/>et<sp/>al.,<sp/>Microsoft<sp/>Research</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>idea:<sp/>Lock-free<sp/>index<sp/>using<sp/>mapping<sp/>table<sp/>and<sp/>delta<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+100-200%<sp/>index<sp/>update<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reference:<sp/>https://www.microsoft.com/en-us/research/publication/the-bw-tree-a-b-tree-for-new-hardware-platforms/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3" kindref="compound">phase3</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref><sp/>=<sp/>uint64_t;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfc" kindref="member">PageType</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfca5c19bc679506425e481a34caff777350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfca5c19bc679506425e481a34caff777350" kindref="member">LEAF</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcac4540d3222d43c398e55b47cb3846a40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcac4540d3222d43c398e55b47cb3846a40" kindref="member">INNER</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcaf723552d5b9b9e595011c94e435c1bf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcaf723552d5b9b9e595011c94e435c1bf6" kindref="member">DELTA_INSERT</ref>,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfca9cceafd8a6006fabb043409aa0f540da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfca9cceafd8a6006fabb043409aa0f540da" kindref="member">DELTA_DELETE</ref>,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcab35dd36304ab448bd3dd2057e83c0985" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcab35dd36304ab448bd3dd2057e83c0985" kindref="member">DELTA_SPLIT</ref></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1aeec03f1eff0c095cd82537e347a29ca1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfc" kindref="member">PageType</ref><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1aeec03f1eff0c095cd82537e347a29ca1" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1a13de474a8c14a74b77b97f682c460f14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;BwTreePage*&gt;<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1a13de474a8c14a74b77b97f682c460f14" kindref="member">next_delta</ref>{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};<sp/><sp/></highlight><highlight class="comment">//<sp/>Delta<sp/>chain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1ad26ef19c726f5c3571e41b329bda93e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1ad26ef19c726f5c3571e41b329bda93e8" kindref="member">~BwTreePage</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a12fea615fb372d65c2c61d85cefab76b" kindref="member">LeafPage</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a99598b7bdae1e5cd75fbd66b1634bd28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;int64_t,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a99598b7bdae1e5cd75fbd66b1634bd28" kindref="member">records</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>key-value<sp/>pairs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a3089fe69c89e053b8e5477964a29996e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a3089fe69c89e053b8e5477964a29996e" kindref="member">left_sibling</ref>{0};</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a05657683cd9300ac9bef361acaa63a28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a05657683cd9300ac9bef361acaa63a28" kindref="member">right_sibling</ref>{0};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a12fea615fb372d65c2c61d85cefab76b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page_1a12fea615fb372d65c2c61d85cefab76b" kindref="member">LeafPage</ref>()<sp/>{<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1aeec03f1eff0c095cd82537e347a29ca1" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfca5c19bc679506425e481a34caff777350" kindref="member">PageType::LEAF</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a07d0cd4af3a3983b8985ec8db174356b" kindref="member">DeltaInsert</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1ae97ccdbd652ef79563b17e034022e7e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1ae97ccdbd652ef79563b17e034022e7e6" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a28b2e362b69bfa723f05e0248421085d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a28b2e362b69bfa723f05e0248421085d" kindref="member">value</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a07d0cd4af3a3983b8985ec8db174356b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a07d0cd4af3a3983b8985ec8db174356b" kindref="member">DeltaInsert</ref>(int64_t<sp/>k,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>v)<sp/>:<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1ae97ccdbd652ef79563b17e034022e7e6" kindref="member">key</ref>(k),<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a28b2e362b69bfa723f05e0248421085d" kindref="member">value</ref>(v)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1aeec03f1eff0c095cd82537e347a29ca1" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcaf723552d5b9b9e595011c94e435c1bf6" kindref="member">PageType::DELTA_INSERT</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete_1a0fca5e28b8c0753596ac41038c332241" kindref="member">DeltaDelete</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete_1a017edc5a0985423e76cd228df63c9e62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete_1a017edc5a0985423e76cd228df63c9e62" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete_1a0fca5e28b8c0753596ac41038c332241" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete_1a0fca5e28b8c0753596ac41038c332241" kindref="member">DeltaDelete</ref>(int64_t<sp/>k)<sp/>:<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete_1a017edc5a0985423e76cd228df63c9e62" kindref="member">key</ref>(k)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1aeec03f1eff0c095cd82537e347a29ca1" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfca9cceafd8a6006fabb043409aa0f540da" kindref="member">PageType::DELTA_DELETE</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1a79674d80d811cede1b4793d63cd675ef" kindref="member">MappingTable</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1a79674d80d811cede1b4793d63cd675ef" kindref="member">MappingTable</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size<sp/>=<sp/>10000);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Atomic<sp/>get/set<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref>*<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1a1aeaf92665674b39a69c3d40c6869dda" kindref="member">get</ref>(<ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref><sp/>pid)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1aa7ed3b469bb0d8a00dc64388bdf0aa16" kindref="member">compare_and_swap</ref>(<ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref><sp/>pid,<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref>*<sp/>expected,<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref>*<sp/>desired);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::atomic&lt;BwTreePage*&gt;&gt;<sp/>table_;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree_1a5b3db954d0b214964d8731ac6d279ce3" kindref="member">BwTree</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree_1a5b3db954d0b214964d8731ac6d279ce3" kindref="member">BwTree</ref>();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree_1aaf1198ad29398402a39f6271220391c3" kindref="member">~BwTree</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lock-free<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree_1a66f832e66f8afefb96ff2728d829be87" kindref="member">insert</ref>(int64_t<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree_1abe90963012857cfe14899cfe423ea5fa" kindref="member">remove</ref>(int64_t<sp/>key);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree_1ad38573711548234e7ca2870885707996" kindref="member">search</ref>(int64_t<sp/>key,<sp/>std::string&amp;<sp/>value)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Range<sp/>scan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;int64_t,<sp/>std::string&gt;&gt;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree_1a74c94be3d5207689d338ffcf5c9921d2" kindref="member">range_scan</ref>(int64_t<sp/>start_key,<sp/>int64_t<sp/>end_key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats_1ac440f9fd465b28151ab15d0320506049" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats_1ac440f9fd465b28151ab15d0320506049" kindref="member">num_pages</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats_1a115a7a3cac54a161b35bac31de3ea832" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats_1a115a7a3cac54a161b35bac31de3ea832" kindref="member">num_deltas</ref>;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats_1a60b7f13ff8a750c3dbaa59ae8914047f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats_1a60b7f13ff8a750c3dbaa59ae8914047f" kindref="member">consolidations</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree_1a7cb3ffcbe43a0ca68445b36cf67b1483" kindref="member">get_stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MappingTable&gt;<sp/>mapping_table_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref><sp/>root_pid_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;PageID&gt;<sp/>next_pid_{1};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delta<sp/>consolidation<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>DELTA_CHAIN_THRESHOLD<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delta<sp/>consolidation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>consolidate(<ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref><sp/>pid);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Apply<sp/>deltas<sp/>to<sp/>get<sp/>consolidated<sp/>page</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LeafPage&gt;<sp/>apply_deltas(<ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref>*<sp/>page)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Count<sp/>delta<sp/>chain<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count_delta_chain_length(<ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref>*<sp/>page)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Epoch-based<sp/>memory<sp/>reclamation<sp/>for<sp/>retired<sp/>delta<sp/>chains</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>a<sp/>successful<sp/>CAS<sp/>in<sp/>consolidate(),<sp/>the<sp/>old<sp/>chain<sp/>head<sp/>is<sp/>still</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reachable<sp/>from<sp/>in-flight<sp/>readers<sp/>that<sp/>loaded<sp/>the<sp/>mapping-table<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>before<sp/>the<sp/>CAS.<sp/><sp/>We<sp/>defer<sp/>deletion<sp/>until<sp/>at<sp/>least<sp/>kSafeReclaimEpochs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>consolidation<sp/>rounds<sp/>have<sp/>elapsed,<sp/>giving<sp/>those<sp/>readers<sp/>time<sp/>to<sp/>finish</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>their<sp/>apply_deltas()<sp/>traversal<sp/>(which<sp/>is<sp/>bounded<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DELTA_CHAIN_THRESHOLD<sp/>nodes<sp/>and<sp/>completes<sp/>in<sp/>O(ns)).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RetiredChain<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref>*<sp/>head;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/>retirement_epoch;<sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kSafeReclaimEpochs<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/><sp/>consolidation_epoch_{0};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>retired_mutex_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetiredChain&gt;<sp/>retired_chains_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>retire_chain(BwTreePage*<sp/>head)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reclaim_retired_chains()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>delete_chain(BwTreePage*<sp/>head)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>phase3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase3/bwtree.h"/>
+  </compounddef>
+</doxygen>

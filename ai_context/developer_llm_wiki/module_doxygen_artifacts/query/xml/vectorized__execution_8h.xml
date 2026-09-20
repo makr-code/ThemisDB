@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="vectorized__execution_8h" kind="file" language="C++">
+    <compoundname>vectorized_execution.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">analytics/columnar_execution.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="bench__phase4__performance_8cpp" local="yes">benchmarks/query/bench_phase4_performance.cpp</includedby>
+    <includedby refid="bench__query__lazy__eval_8cpp" local="yes">benchmarks/query/bench_query_lazy_eval.cpp</includedby>
+    <includedby refid="vectorized__execution_8cpp" local="yes">src/query/vectorized_execution.cpp</includedby>
+    <includedby refid="test__wave9__block3__fixes_8cpp" local="yes">tests/query/test_wave9_block3_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/vectorized_execution.h</label>
+        <link refid="vectorized__execution_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>analytics/columnar_execution.h</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/query/bench_phase4_performance.cpp</label>
+        <link refid="bench__phase4__performance_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/query/bench_query_lazy_eval.cpp</label>
+        <link refid="bench__query__lazy__eval_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/query/vectorized_execution.h</label>
+        <link refid="vectorized__execution_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/query/vectorized_execution.cpp</label>
+        <link refid="vectorized__execution_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_wave9_block3_fixes.cpp</label>
+        <link refid="test__wave9__block3__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_predicate" prot="public">themis::query::VectorizedPredicate</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_aggregation" prot="public">themis::query::VectorizedAggregation</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_sort_key" prot="public">themis::query::VectorizedSortKey</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_vectorized_query_plan" prot="public">themis::query::VectorizedQueryPlan</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage" prot="public">themis::query::VectorizedQueryPlan::FilterStage</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage" prot="public">themis::query::VectorizedQueryPlan::ProjectStage</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage" prot="public">themis::query::VectorizedQueryPlan::AggStage</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage" prot="public">themis::query::VectorizedQueryPlan::SortStage</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage" prot="public">themis::query::VectorizedQueryPlan::Stage</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_vectorized_execution_engine" prot="public">themis::query::VectorizedExecutionEngine</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" prot="public">themis::query::VectorizedExecutionEngine::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats" prot="public">themis::query::VectorizedExecutionEngine::ExecStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/columnar_execution.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VectorizedPredicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1query_1_1_vectorized_predicate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa3718b5ecf60aa0dba49e150e96cb1fc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992f" kindref="member">Op</ref><sp/>{<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa3718b5ecf60aa0dba49e150e96cb1fc3" kindref="member">Eq</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa4dec99baa99738721da9c9b0c1a92498" kindref="member">Ne</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa50033c15af7795cd6617f117b29d6922" kindref="member">Lt</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fabccd5ec3ec8fd3a4471e71e9b407c60c" kindref="member">Le</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa086cb8308e5a36e7c4ed1f8873ad801f" kindref="member">Gt</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fac6a675552648c0becb8283f05c172483" kindref="member">Ge</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992faf0050362b45a1bdf34a9b8ab6c97a433" kindref="member">IsNull</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa99c0b87e5e7c0a8bb743819dd0c06f12" kindref="member">IsNotNull</ref><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1query_1_1_vectorized_predicate_1a2d8c8d87ec519a6d47e171d01727dd2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992f" kindref="member">Op</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a2d8c8d87ec519a6d47e171d01727dd2b" kindref="member">op</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa3718b5ecf60aa0dba49e150e96cb1fc3" kindref="member">Op::Eq</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" kindref="member">value</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>unused<sp/>for<sp/>IsNull<sp/>/<sp/>IsNotNull</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convenience<sp/>factories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a017dd633b55070cf298b2c24e1b28597" kindref="member">eq</ref>(std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref>,<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a17cb5e9c1696c0e0a4ef33807754cc2f" kindref="member">ne</ref>(std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref>,<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1aa1d2aa4d79f50678975d1e930133ef9a" kindref="member">lt</ref>(std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref>,<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a9c4579d4fe67bea1ae8208916ff73aad" kindref="member">le</ref>(std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref>,<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ac664a810c2b3798188a3de28e5beda52" kindref="member">gt</ref>(std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref>,<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a6c49adc2366147f73a9d0f08f2b2abc2" kindref="member">ge</ref>(std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref>,<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a81932fef391fb64c6ca84c47c1649cf6" kindref="member">isNull</ref>(std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref>);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a55931d93baf495a3c6cd5fed955fd261" kindref="member">isNotNull</ref>(std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" kindref="member">field</ref>);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VectorizedAggregation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1query_1_1_vectorized_aggregation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_aggregation" kindref="compound">VectorizedAggregation</ref><sp/>{</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756a5c0c148daa2c67922abe6018b87a759f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756" kindref="member">Function</ref><sp/>{<sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756ae93f994f01c537c4e2f7d8528c3eb5e9" kindref="member">Count</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756aa0ec87054b5e5b7847d0d8780a01a3d5" kindref="member">Sum</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756a5c0c148daa2c67922abe6018b87a759f" kindref="member">Avg</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756a78d811e98514cd165dda532286610fd2" kindref="member">Min</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756a6a061313d22e51e0f25b7cd4dc065233" kindref="member">Max</ref>,<sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756af276fdc4c77204edf5f9a34f35d50dca" kindref="member">CountDistinct</ref><sp/>};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1query_1_1_vectorized_aggregation_1a95ce7fc50d24aaa0deaf7d1d3c1c2570" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a95ce7fc50d24aaa0deaf7d1d3c1c2570" kindref="member">result_field</ref>;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1query_1_1_vectorized_aggregation_1a007907e70e19ce5110ba0680606b9ad7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a007907e70e19ce5110ba0680606b9ad7" kindref="member">input_field</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>for<sp/>Count(*)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1query_1_1_vectorized_aggregation_1adc85cae782a715bac2a379115f5f4333" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756" kindref="member">Function</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1adc85cae782a715bac2a379115f5f4333" kindref="member">function</ref><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756ae93f994f01c537c4e2f7d8528c3eb5e9" kindref="member">Function::Count</ref>;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1query_1_1_vectorized_aggregation_1aa9467b68367866313bcea394ba354773" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1aa9467b68367866313bcea394ba354773" kindref="member">group_by</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared<sp/>across<sp/>specs<sp/>in<sp/>one<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VectorizedSortKey</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1query_1_1_vectorized_sort_key" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_sort_key" kindref="compound">VectorizedSortKey</ref><sp/>{</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1query_1_1_vectorized_sort_key_1af4ce15f29e47dca434bcf6dd0217c292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_vectorized_sort_key_1af4ce15f29e47dca434bcf6dd0217c292" kindref="member">field</ref>;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1query_1_1_vectorized_sort_key_1af747bf2f7c69be9354d561ca170d4f03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_sort_key_1af747bf2f7c69be9354d561ca170d4f03" kindref="member">ascending</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VectorizedQueryPlan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1query_1_1_vectorized_query_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a97fc3b9fb8314e958dc491ce3ca85dbe" kindref="member">addFilter</ref>(std::vector&lt;VectorizedPredicate&gt;<sp/>predicates);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aa07af1171b3daa651ff9507782a0bb3f" kindref="member">addProject</ref>(std::vector&lt;std::string&gt;<sp/>fields);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a9f3445d0fad575c02000a1886e90fe5c" kindref="member">addAggregate</ref>(std::vector&lt;VectorizedAggregation&gt;<sp/>aggregations);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1acd65938f72f66ed03e9b4ddd3af5cb28" kindref="member">addSort</ref>(std::vector&lt;VectorizedSortKey&gt;<sp/>keys);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aec3a3aec56fa78219b774e5d7cf15a88" kindref="member">setLimit</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1query_1_1_vectorized_query_plan_1a95cdfcfd5837410e315d7636473a8905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a95cdfcfd5837410e315d7636473a8905" kindref="member">stageCount</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stages_.size();<sp/>}</highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1query_1_1_vectorized_query_plan_1a69346e7430639bd5114258a23456fa1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;size_t&gt;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a69346e7430639bd5114258a23456fa1b" kindref="member">limit</ref>()<sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>limit_;<sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage<sp/>variant<sp/>types<sp/>(public<sp/>for<sp/>VectorizedExecutionEngine<sp/>access)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage_1a947737273379f98874f447d0010c0213" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage" kindref="compound">FilterStage</ref><sp/><sp/>{<sp/>std::vector&lt;VectorizedPredicate&gt;<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage_1a947737273379f98874f447d0010c0213" kindref="member">predicates</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage_1adfbc237777810cd9239727f38e19cb41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage" kindref="compound">ProjectStage</ref><sp/>{<sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage_1adfbc237777810cd9239727f38e19cb41" kindref="member">fields</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage_1ad3db07439f8bbebd720967077d1e6449" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage" kindref="compound">AggStage</ref><sp/><sp/><sp/><sp/><sp/>{<sp/>std::vector&lt;VectorizedAggregation&gt;<sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage_1ad3db07439f8bbebd720967077d1e6449" kindref="member">aggregations</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage_1aa10e1b9e7a70e0613b5c4c6658e826b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage" kindref="compound">SortStage</ref><sp/><sp/><sp/><sp/>{<sp/>std::vector&lt;VectorizedSortKey&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage_1aa10e1b9e7a70e0613b5c4c6658e826b5" kindref="member">keys</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3da2ee34178bb8415b7d7234cd27b83aed6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3d" kindref="member">StageType</ref><sp/>{<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3dad7778d0c64b6ba21494c97f77a66885a" kindref="member">Filter</ref>,<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3da9e727fdd3aec8274f46685441900280d" kindref="member">Project</ref>,<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3da2ee34178bb8415b7d7234cd27b83aed6" kindref="member">Aggregate</ref>,<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3da6b46ae48421828d9973deec5fa9aa0c3" kindref="member">Sort</ref><sp/>};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage" kindref="compound">Stage</ref><sp/>{</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a48c596d302ecaa99c807deecee126782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3d" kindref="member">StageType</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a48c596d302ecaa99c807deecee126782" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a255f2b566badfefb2777ac115e26dd2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage" kindref="compound">FilterStage</ref><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a255f2b566badfefb2777ac115e26dd2b" kindref="member">filter</ref>;</highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1ad5cdb5440d90c583b90925fa5b43f6e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage" kindref="compound">ProjectStage</ref><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1ad5cdb5440d90c583b90925fa5b43f6e8" kindref="member">project</ref>;</highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a1797011ddba812381a3763a06d927602" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage" kindref="compound">AggStage</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a1797011ddba812381a3763a06d927602" kindref="member">aggregate</ref>;</highlight></codeline>
+<codeline lineno="204" refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a941e55425c65a09213a59822646a5745" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage" kindref="compound">SortStage</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a941e55425c65a09213a59822646a5745" kindref="member">sort</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1query_1_1_vectorized_query_plan_1a12bc2e7f91bbef5ae488e811cc4ad86a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Stage&gt;&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a12bc2e7f91bbef5ae488e811cc4ad86a" kindref="member">stages</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stages_;<sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Stage&gt;<sp/><sp/><sp/><sp/>stages_;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;size_t&gt;<sp/>limit_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VectorizedExecutionEngine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1query_1_1_vectorized_execution_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab61e05330d250b24295ae8a429b07b44" kindref="member">VectorizedExecutionEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a6af0a81c67c3233c08dc5e01be8db8fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a6af0a81c67c3233c08dc5e01be8db8fa" kindref="member">batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>themisdb::analytics::ColumnBatch::kDefaultBatchSize;</highlight></codeline>
+<codeline lineno="222" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a15fc6dc8000b0f8a9726b859f6d6b9ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a15fc6dc8000b0f8a9726b859f6d6b9ef" kindref="member">enable_simd</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a20babbf39ef1cfceed09a7e20ec8bc6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a20babbf39ef1cfceed09a7e20ec8bc6f" kindref="member">max_memory_bytes</ref><sp/>=<sp/>512ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MB<sp/>soft<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab61e05330d250b24295ae8a429b07b44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab61e05330d250b24295ae8a429b07b44" kindref="member">VectorizedExecutionEngine</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab61e05330d250b24295ae8a429b07b44" kindref="member">VectorizedExecutionEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1aada0927e703db6489b8a4fbb370466ba" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab634cf34a930ec6d02ae9ca405dcdb12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab634cf34a930ec6d02ae9ca405dcdb12" kindref="member">~VectorizedExecutionEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;nlohmann::json&gt;&gt;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9a41262aaf15340597d51771fa15a682" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>rows,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan" kindref="compound">VectorizedQueryPlan</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plan);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;nlohmann::json&gt;&gt;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a86c7b9134c5fe87e86acf2bcbe47196d" kindref="member">filter</ref>(</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>rows,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VectorizedPredicate&gt;<sp/><sp/><sp/>predicates);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;nlohmann::json&gt;&gt;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9699c8710a9f399c38fc089c4b172b0f" kindref="member">aggregate</ref>(</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/><sp/>rows,</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VectorizedAggregation&gt;<sp/><sp/>aggregations);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;nlohmann::json&gt;&gt;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a2c1a93f3fe5cfad42893394f865fc189" kindref="member">project</ref>(</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>rows,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fields);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;nlohmann::json&gt;&gt;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a053cfe11179655cd1d6b8ede3c652b3b" kindref="member">sort</ref>(</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>rows,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VectorizedSortKey&gt;<sp/><sp/><sp/><sp/><sp/>keys);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats" kindref="compound">ExecStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="286" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a5b9b329951bbdeed97ac503b9ada21f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a5b9b329951bbdeed97ac503b9ada21f9" kindref="member">batches_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="287" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1ab9260738df99acd188ed3ddc8ecf2e7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1ab9260738df99acd188ed3ddc8ecf2e7d" kindref="member">rows_in</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="288" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a1ae8bb684160562ff08e0f005fa5b434" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a1ae8bb684160562ff08e0f005fa5b434" kindref="member">rows_out</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="289" refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a276efb510f7d894c8b603fc6912d94bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a276efb510f7d894c8b603fc6912d94bb" kindref="member">elapsed_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a4b132fdbe453e0585d4d20fd99c816a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats" kindref="compound">ExecStats</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a4b132fdbe453e0585d4d20fd99c816a4" kindref="member">lastStats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a7760c0b927558a7446a7db481496dfee" kindref="member">resetStats</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="classthemis_1_1query_1_1_vectorized_execution_engine_1aada0927e703db6489b8a4fbb370466ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1aada0927e703db6489b8a4fbb370466ba" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>ExecStats<sp/>stats_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>themisdb::analytics::ColumnBatch<sp/>jsonToColumnBatch(</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>rows,</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;<sp/>columnBatchToJson(</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themisdb::analytics::ColumnBatch&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>themisdb::analytics::VectorizedPipeline<sp/>buildPipeline(</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan" kindref="compound">VectorizedQueryPlan</ref>&amp;<sp/>plan);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>themisdb::analytics::Predicate<sp/>translatePredicate(</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref>&amp;<sp/>pred);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>themisdb::analytics::ColumnValue<sp/>jsonToColumnValue(</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>val);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/vectorized_execution.h"/>
+  </compounddef>
+</doxygen>

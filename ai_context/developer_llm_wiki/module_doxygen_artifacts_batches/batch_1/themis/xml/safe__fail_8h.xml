@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="safe__fail_8h" kind="file" language="C++">
+    <compoundname>safe_fail.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includedby refid="gpu__module_8h" local="yes">include/themis/gpu/gpu_module.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/safe_fail.h</label>
+        <link refid="safe__fail_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/gpu/gpu_module.h</label>
+        <link refid="gpu__module_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/safe_fail.h</label>
+        <link refid="safe__fail_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail" prot="public">themis::gpu::GPUSafeFail</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config" prot="public">themis::gpu::GPUSafeFail::Config</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status" prot="public">themis::gpu::GPUSafeFail::HealthStatus</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a18b8d399455dbc2e30e894a3061315e5" kindref="member">GPUSafeFail</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State<sp/>&amp;<sp/>failure<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5f" kindref="member">State</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5faf068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5faf068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5fa0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5fa0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5fa130389aec25aa182cd466b2a2a7890e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5fa130389aec25aa182cd466b2a2a7890e0" kindref="member">CIRCUIT_OPEN</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5fab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5fab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755" kindref="member">FailureType</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755a56a16d94e7f11cd4af1723c74c8d9291" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755a56a16d94e7f11cd4af1723c74c8d9291" kindref="member">OOM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755a070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755a070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755ae8ae983711de90edc09f13df02eb695e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755ae8ae983711de90edc09f13df02eb695e" kindref="member">DEVICE_ERROR</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755a27c5a04aacc99a63cd29044a823a5fff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755a27c5a04aacc99a63cd29044a823a5fff" kindref="member">KERNEL_ERROR</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755aae34ef6a1ce718288b090db5f54793cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755aae34ef6a1ce718288b090db5f54793cf" kindref="member">MEMORY_ERROR</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a1b954642893cc8c8d1d0ebf44d41cd0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a1b954642893cc8c8d1d0ebf44d41cd0b" kindref="member">failure_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1acc6f49794b861522a9561e9c32b8e3b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1acc6f49794b861522a9561e9c32b8e3b5" kindref="member">success_threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a41caa6cf8cbeb2178021631e02c91bdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a41caa6cf8cbeb2178021631e02c91bdc" kindref="member">circuit_reset_timeout</ref>{30};</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a2f6bd01c1f9c2ee0010a877c0ad819b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a2f6bd01c1f9c2ee0010a877c0ad819b3" kindref="member">oom_threshold</ref><sp/>=<sp/>0.90f;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a75dda215075ef3136c147faaecff5003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a75dda215075ef3136c147faaecff5003" kindref="member">enable_cpu_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>status<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status" kindref="compound">HealthStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1abe4d29aa26436e494acfe709fc065d3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5f" kindref="member">State</ref><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1abe4d29aa26436e494acfe709fc065d3b" kindref="member">state</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5faf068ebe4133e3e6563080836268ea979" kindref="member">State::HEALTHY</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a4ac7346a0e22a463e2091e7097c6202e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a4ac7346a0e22a463e2091e7097c6202e" kindref="member">consecutive_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a2f0b5c20259f88c1f6ce26a2c8f62417" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a2f0b5c20259f88c1f6ce26a2c8f62417" kindref="member">consecutive_successes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1ad64d79eea7d1966909419e17edd360d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1ad64d79eea7d1966909419e17edd360d7" kindref="member">total_failures</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1ab1e53568b1649f1e6950c519e5562d9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1ab1e53568b1649f1e6950c519e5562d9f" kindref="member">total_operations</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a086c53a08b425c81e1662473b52dda73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a086c53a08b425c81e1662473b52dda73" kindref="member">total_fallbacks</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a254b26fffcd8c7c7e4856af9e7d3287a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a254b26fffcd8c7c7e4856af9e7d3287a" kindref="member">last_error</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a2d7a30ea30075651c3dabcdd9a06bca0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755" kindref="member">FailureType</ref><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a2d7a30ea30075651c3dabcdd9a06bca0" kindref="member">last_failure_type</ref><sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755ae8ae983711de90edc09f13df02eb695e" kindref="member">FailureType::DEVICE_ERROR</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a1ba6d216f2e0536c4dd175206ec5b8f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a1ba6d216f2e0536c4dd175206ec5b8f0" kindref="member">cpu_fallback_active</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a99e9721fadbc25b5755f5afd74769b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status_1a99e9721fadbc25b5755f5afd74769b4b" kindref="member">error_rate</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a18b8d399455dbc2e30e894a3061315e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a18b8d399455dbc2e30e894a3061315e5" kindref="member">GPUSafeFail</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a223b2309eabb1aad722be281408eb176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a223b2309eabb1aad722be281408eb176" kindref="member">GPUSafeFail</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ae6c089036cf013219971bc2f73755936" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ae6c089036cf013219971bc2f73755936" kindref="member">~GPUSafeFail</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1acfccd4eea1e036ddbf9198e72c986770" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1acfccd4eea1e036ddbf9198e72c986770" kindref="member">reset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a36ac66a9bcb7141a5d53c06b6610447d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a36ac66a9bcb7141a5d53c06b6610447d" kindref="member">executeWithFallback</ref>(std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">()&gt;<sp/>gpu_op,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">()&gt;<sp/>cpu_fallback,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>op_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a1bf6ce11b49ccd9273bdc5c1ca3327a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a1bf6ce11b49ccd9273bdc5c1ca3327a6" kindref="member">recordFailure</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755" kindref="member">FailureType</ref><sp/>type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1af9a89111b6872b8e5157715c41c66af0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1af9a89111b6872b8e5157715c41c66af0" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circuit-breaker<sp/>control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1af7817d6b9110b00e82a5d1428e2a349f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1af7817d6b9110b00e82a5d1428e2a349f" kindref="member">shouldAttemptGPU</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ab2b5d4af8df55b8ed8599a3b7c1c2561" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ab2b5d4af8df55b8ed8599a3b7c1c2561" kindref="member">canResetCircuit</ref>()<sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a0c9929dec463dc1ccf834064eee795a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a0c9929dec463dc1ccf834064eee795a3" kindref="member">tryResetCircuit</ref>();</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1add00e8416e64b1a0fb47e0c2119aff04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1add00e8416e64b1a0fb47e0c2119aff04" kindref="member">forceHealthy</ref>();</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a7b71115e44eafb01615553995855a034" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a7b71115e44eafb01615553995855a034" kindref="member">forceFailed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a50361989e98a2465e93db47ab31fbd12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a50361989e98a2465e93db47ab31fbd12" kindref="member">isHealthy</ref>()<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1abb1d0e7221882a4dc96427084395d047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_health_status" kindref="compound">HealthStatus</ref><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1abb1d0e7221882a4dc96427084395d047" kindref="member">getStatus</ref>()<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1af00bd02e3e7565a0b02bfa499d93d458" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1af00bd02e3e7565a0b02bfa499d93d458" kindref="member">getErrorRate</ref>()<sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ab69b2e5d775d6943eda13e4e6453cfe1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ab69b2e5d775d6943eda13e4e6453cfe1" kindref="member">checkMemoryAvailable</ref>(uint64_t<sp/>required_bytes,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>available_bytes,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total_bytes<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config" kindref="compound">Config</ref><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counters<sp/>are<sp/>accessed<sp/>under<sp/>mutex_<sp/>for<sp/>consistency.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5f" kindref="member">State</ref><sp/><sp/>state_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1a652c1e1e6fc6a4379ab76863801c4c5faf068ebe4133e3e6563080836268ea979" kindref="member">State::HEALTHY</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>consecutive_failures_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>consecutive_successes_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_failures_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_operations_<sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_fallbacks_<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/>cpu_fallback_active_<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>last_error_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755" kindref="member">FailureType</ref><sp/>last_failure_type_<sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_safe_fail_1ac1d167623abe42e1e20a4ab4d1e03755ae8ae983711de90edc09f13df02eb695e" kindref="member">FailureType::DEVICE_ERROR</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>circuit_opened_at_;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers<sp/>(called<sp/>under<sp/>lock).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applyFailure();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applySuccess();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/safe_fail.h"/>
+  </compounddef>
+</doxygen>

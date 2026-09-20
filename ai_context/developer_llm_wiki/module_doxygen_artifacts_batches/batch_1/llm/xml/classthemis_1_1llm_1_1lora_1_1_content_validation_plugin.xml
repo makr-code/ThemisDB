@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ContentValidationPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" prot="public" virt="non-virtual">themis::llm::lora::BaseFeedbackPlugin</basecompoundref>
+    <includes refid="feedback__plugin_8h" local="no">feedback_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a61fddc580a0626ffd41e6a167e94b377" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::ContentValidationPlugin::~ContentValidationPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ContentValidationPlugin</name>
+        <qualifiedname>themis::llm::lora::ContentValidationPlugin::~ContentValidationPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="85" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7a97bfc1c292f35372577f2b80a26f73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ContentValidationPlugin::validate</definition>
+        <argsstring>(const Feedback &amp;feedback) const override</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm::lora::ContentValidationPlugin::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a1bfad4661bb7411cfce7ce0989f4696e">validate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref> &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="86" column="10" bodyfile="src/llm/lora_framework/feedback_plugin.cpp" bodystart="75" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7db9460faa839782caf653d148cc2264" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ContentValidationPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::lora::ContentValidationPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7e5acd991ac8a9d81b2fa500caac48c0">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="87" column="17" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a03eb66ef66edac3e29a0a605fb205644" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ContentValidationPlugin::containsSpam</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>containsSpam</name>
+        <qualifiedname>themis::llm::lora::ContentValidationPlugin::containsSpam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Contains Spam. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="95" column="10" bodyfile="src/llm/lora_framework/feedback_plugin.cpp" bodystart="104" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1af544c0f1a65836603932771e2c6ce4a0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ContentValidationPlugin::containsProfanity</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>containsProfanity</name>
+        <qualifiedname>themis::llm::lora::ContentValidationPlugin::containsProfanity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Contains Profanity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="101" column="10" bodyfile="src/llm/lora_framework/feedback_plugin.cpp" bodystart="140" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::BaseFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::ContentValidationPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::FeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::BaseFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::ContentValidationPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::FeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/feedback_plugin.h" line="83" column="1" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="83" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1af544c0f1a65836603932771e2c6ce4a0" prot="private" virt="non-virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>containsProfanity</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a03eb66ef66edac3e29a0a605fb205644" prot="private" virt="non-virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>containsSpam</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7db9460faa839782caf653d148cc2264" prot="public" virt="virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a65ab7213e5ed159aa019a0b5294abe5d" prot="public" virt="virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>onTrainingTrigger</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7d3d8625b623aa482e2db4d8773ed51a" prot="public" virt="virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>process</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7a97bfc1c292f35372577f2b80a26f73" prot="public" virt="virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>validate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1afe83ca0c780ba5f6b3802898bd688c68" prot="public" virt="non-virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>~BaseFeedbackPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a61fddc580a0626ffd41e6a167e94b377" prot="public" virt="non-virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>~ContentValidationPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a389b7d5762d2f99a345aa3a11b76eb4c" prot="public" virt="virtual"><scope>themis::llm::lora::ContentValidationPlugin</scope><name>~FeedbackPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

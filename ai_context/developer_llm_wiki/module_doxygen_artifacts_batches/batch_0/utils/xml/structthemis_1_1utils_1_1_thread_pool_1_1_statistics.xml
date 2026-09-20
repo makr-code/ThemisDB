@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::ThreadPool::Statistics</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a95107e38dc0dd37db00ef77fb7cf8d04" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPool::Statistics::active_threads</definition>
+        <argsstring></argsstring>
+        <name>active_threads</name>
+        <qualifiedname>themis::utils::ThreadPool::Statistics::active_threads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="135" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a94b4ed165e3aae654d6cb9b7725a3405" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPool::Statistics::idle_threads</definition>
+        <argsstring></argsstring>
+        <name>idle_threads</name>
+        <qualifiedname>themis::utils::ThreadPool::Statistics::idle_threads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="136" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1aabe0a01e1ee3de4b04ff545a6f43bd68" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPool::Statistics::queued_tasks</definition>
+        <argsstring></argsstring>
+        <name>queued_tasks</name>
+        <qualifiedname>themis::utils::ThreadPool::Statistics::queued_tasks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="137" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a5bdc0a76f9e370499d406186d1a6c8c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPool::Statistics::total_executed</definition>
+        <argsstring></argsstring>
+        <name>total_executed</name>
+        <qualifiedname>themis::utils::ThreadPool::Statistics::total_executed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="138" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a83dd3e38a69fddb7c294924a9529398b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPool::Statistics::total_failed</definition>
+        <argsstring></argsstring>
+        <name>total_failed</name>
+        <qualifiedname>themis::utils::ThreadPool::Statistics::total_failed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="139" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a2350c2f1043edb8085cfba8bb6729743" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::ThreadPool::Statistics::average_task_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>average_task_latency_ms</name>
+        <qualifiedname>themis::utils::ThreadPool::Statistics::average_task_latency_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="140" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/thread_pool_manager.h" line="134" column="5" bodyfile="include/utils/thread_pool_manager.h" bodystart="134" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a95107e38dc0dd37db00ef77fb7cf8d04" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Statistics</scope><name>active_threads</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a2350c2f1043edb8085cfba8bb6729743" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Statistics</scope><name>average_task_latency_ms</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a94b4ed165e3aae654d6cb9b7725a3405" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Statistics</scope><name>idle_threads</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1aabe0a01e1ee3de4b04ff545a6f43bd68" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Statistics</scope><name>queued_tasks</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a5bdc0a76f9e370499d406186d1a6c8c2" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Statistics</scope><name>total_executed</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a83dd3e38a69fddb7c294924a9529398b" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Statistics</scope><name>total_failed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

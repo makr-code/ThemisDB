@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ReplicaConsistencyManager::Statistics</compoundname>
+    <includes refid="replica__consistency_8h" local="no">replica_consistency.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1aa23a130ea67fab006e8a0bc33c2d98cf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicaConsistencyManager::Statistics::total_writes</definition>
+        <argsstring></argsstring>
+        <name>total_writes</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Statistics::total_writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of recorded write operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="189" column="18" bodyfile="include/sharding/replica_consistency.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1a1959ed19d0306a3862203a4f5990f79a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicaConsistencyManager::Statistics::conflicts_detected</definition>
+        <argsstring></argsstring>
+        <name>conflicts_detected</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Statistics::conflicts_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of detected version conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="191" column="18" bodyfile="include/sharding/replica_consistency.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1a3ff23667f068da6faab05ef97c3bdb27" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicaConsistencyManager::Statistics::conflicts_resolved</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Statistics::conflicts_resolved</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of automatically resolved conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="193" column="18" bodyfile="include/sharding/replica_consistency.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1ad70b0522c5575ddbf706b99d2797e657" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicaConsistencyManager::Statistics::manual_resolutions</definition>
+        <argsstring></argsstring>
+        <name>manual_resolutions</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Statistics::manual_resolutions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of manually resolved conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="195" column="18" bodyfile="include/sharding/replica_consistency.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1ad224caf6d807e796dd81223b9cc7b565" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicaConsistencyManager::Statistics::merges_performed</definition>
+        <argsstring></argsstring>
+        <name>merges_performed</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Statistics::merges_performed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of merge operations performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="197" column="18" bodyfile="include/sharding/replica_consistency.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Consistency/conflict activity counters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/replica_consistency.h" line="187" column="5" bodyfile="include/sharding/replica_consistency.h" bodystart="187" bodyend="198"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1a1959ed19d0306a3862203a4f5990f79a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Statistics</scope><name>conflicts_detected</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1a3ff23667f068da6faab05ef97c3bdb27" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Statistics</scope><name>conflicts_resolved</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1ad70b0522c5575ddbf706b99d2797e657" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Statistics</scope><name>manual_resolutions</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1ad224caf6d807e796dd81223b9cc7b565" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Statistics</scope><name>merges_performed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics_1aa23a130ea67fab006e8a0bc33c2d98cf" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Statistics</scope><name>total_writes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

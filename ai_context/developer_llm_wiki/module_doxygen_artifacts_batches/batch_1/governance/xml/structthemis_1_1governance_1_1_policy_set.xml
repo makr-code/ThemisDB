@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicySet</compoundname>
+    <includes refid="policy__manager_8h" local="no">policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_set_1a80b291a705032081f858c513e520e23e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PolicyRule&gt; themis::governance::PolicySet::rules</definition>
+        <argsstring></argsstring>
+        <name>rules</name>
+        <qualifiedname>themis::governance::PolicySet::rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="120" column="24" bodyfile="include/governance/policy_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_set_1a85b75a8e8dff2e4aafda3362765d707c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicySet::version_hash</definition>
+        <argsstring></argsstring>
+        <name>version_hash</name>
+        <qualifiedname>themis::governance::PolicySet::version_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="121" column="17" bodyfile="include/governance/policy_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_set_1ad9ef59dbdca3d4c0fba9d49369d621d9" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::governance::PolicySet::loaded_at</definition>
+        <argsstring></argsstring>
+        <name>loaded_at</name>
+        <qualifiedname>themis::governance::PolicySet::loaded_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix epoch milliseconds of last load. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="122" column="18" bodyfile="include/governance/policy_manager.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_manager.h" line="119" column="1" bodyfile="include/governance/policy_manager.h" bodystart="119" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_set_1ad9ef59dbdca3d4c0fba9d49369d621d9" prot="public" virt="non-virtual"><scope>themis::governance::PolicySet</scope><name>loaded_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_set_1a80b291a705032081f858c513e520e23e" prot="public" virt="non-virtual"><scope>themis::governance::PolicySet</scope><name>rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_set_1a85b75a8e8dff2e4aafda3362765d707c" prot="public" virt="non-virtual"><scope>themis::governance::PolicySet</scope><name>version_hash</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

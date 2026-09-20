@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d114341033104202112374116007240136222341232355015" kind="namespace" language="C++">
+    <compoundname>@114341033104202112374116007240136222341232355015</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/geo/bench_geojson_parse.cpp" line="16" column="1"/>
+  </compounddef>
+</doxygen>

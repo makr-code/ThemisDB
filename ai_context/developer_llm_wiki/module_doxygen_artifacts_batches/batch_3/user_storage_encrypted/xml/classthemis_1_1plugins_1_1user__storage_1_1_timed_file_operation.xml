@@ -1,0 +1,524 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::TimedFileOperation</compoundname>
+    <includes refid="timed__file__operation_8hpp" local="no">timed_file_operation.hpp</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a151fc0f24bd65a15a967e2552b600209" prot="public" static="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>using themis::plugins::user_storage::TimedFileOperation::DurationMs = std::chrono::milliseconds</definition>
+        <argsstring></argsstring>
+        <name>DurationMs</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::DurationMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="73" column="5" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a182f779252b8b213ad318d4846855341" prot="public" static="no">
+        <type>std::chrono::seconds</type>
+        <definition>using themis::plugins::user_storage::TimedFileOperation::DurationS = std::chrono::seconds</definition>
+        <argsstring></argsstring>
+        <name>DurationS</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::DurationS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="74" column="5" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1abe39f7a1d48bf4ce4c053a4b42da4011" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::TimedFileOperation::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::fd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="240" column="9" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a683e08f102065e5efe19a28acdd73e1f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::TimedFileOperation::timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms_</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::timeout_ms_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="241" column="9" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="241" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af93c461b7dc3e060b3862187d19d594a" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908" kindref="member">IoTimeoutPolicy</ref></type>
+        <definition>IoTimeoutPolicy themis::plugins::user_storage::TimedFileOperation::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="242" column="21" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a11dcebacdb6f0d88a508c55f585d5e22" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::plugins::user_storage::TimedFileOperation::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="243" column="43" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af7b912d4fbe1953c8326e90496a30430" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::TimedFileOperation::TimedFileOperation</definition>
+        <argsstring>(int fd, DurationMs timeout=DurationMs(5000), IoTimeoutPolicy policy=IoTimeoutPolicy::kPerOperation) noexcept</argsstring>
+        <name>TimedFileOperation</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::TimedFileOperation</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a151fc0f24bd65a15a967e2552b600209" kindref="member">DurationMs</ref></type>
+          <declname>timeout</declname>
+          <defval><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a151fc0f24bd65a15a967e2552b600209" kindref="member">DurationMs</ref>(5000)</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908" kindref="member">IoTimeoutPolicy</ref></type>
+          <declname>policy</declname>
+          <defval><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908a88ca00ad71a74ac2f70001ec14d0c29f" kindref="member">IoTimeoutPolicy::kPerOperation</ref></defval>
+        </param>
+        <briefdescription>
+<para>Construct a timed I/O operator for a file descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File descriptor to operate on (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait for I/O to complete </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How to interpret timeout (absolute or per-operation)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Does NOT close the file descriptor on destruction </para>
+</simplesect>
+<simplesect kind="note"><para>fd must be valid and not closed while this object is in use </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="86" column="14" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="86" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ad3ebf6a37d661edce8ad2c9d2058a364" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Rep</type>
+          </param>
+          <param>
+            <type>typename Period</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>themis::plugins::user_storage::TimedFileOperation::TimedFileOperation</definition>
+        <argsstring>(int fd, std::chrono::duration&lt; Rep, Period &gt; timeout, IoTimeoutPolicy policy=IoTimeoutPolicy::kPerOperation) noexcept</argsstring>
+        <name>TimedFileOperation</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::TimedFileOperation</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::chrono::duration&lt; Rep, Period &gt;</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908" kindref="member">IoTimeoutPolicy</ref></type>
+          <declname>policy</declname>
+          <defval><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908a88ca00ad71a74ac2f70001ec14d0c29f" kindref="member">IoTimeoutPolicy::kPerOperation</ref></defval>
+        </param>
+        <briefdescription>
+<para>Construct with std::chrono duration of any type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="101" column="14" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="101" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a28021bd89864753048d702e180e5fd4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::TimedFileOperation::TimedFileOperation</definition>
+        <argsstring>(const TimedFileOperation &amp;)=delete</argsstring>
+        <name>TimedFileOperation</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::TimedFileOperation</qualifiedname>
+        <param>
+          <type>const TimedFileOperation &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a166cb4d116905426ff3f358cf9950617" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af7b912d4fbe1953c8326e90496a30430" kindref="member">TimedFileOperation</ref> &amp;</type>
+        <definition>TimedFileOperation &amp; themis::plugins::user_storage::TimedFileOperation::operator=</definition>
+        <argsstring>(const TimedFileOperation &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af7b912d4fbe1953c8326e90496a30430" kindref="member">TimedFileOperation</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="113" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aead6978529c2aaa559233974401dd777" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::TimedFileOperation::~TimedFileOperation</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~TimedFileOperation</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::~TimedFileOperation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="115" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a7f054bfece8c3de9e89eb27f62d68bb7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; ssize_t &gt;</type>
+        <definition>std::optional&lt; ssize_t &gt; themis::plugins::user_storage::TimedFileOperation::read</definition>
+        <argsstring>(void *buffer, size_t count) noexcept</argsstring>
+        <name>read</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::read</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Non-blocking read with timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempts to read up to <computeroutput>count</computeroutput> bytes from the file descriptor. If the read would block, waits up to timeout_ milliseconds using poll().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to read into (not null) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to attempt to read </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of bytes read, or empty optional on timeout/error</para>
+</simplesect>
+Error codes (errno):<itemizedlist>
+<listitem><para>EAGAIN: Timeout occurred</para>
+</listitem><listitem><para>EBADF: Invalid file descriptor</para>
+</listitem><listitem><para>EIO: I/O error</para>
+</listitem><listitem><para>Other POSIX errors from <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a7f054bfece8c3de9e89eb27f62d68bb7" kindref="member">read()</ref> </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="133" column="19" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="133" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ab0492fb3140a10245d365315c2479553" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; ssize_t &gt;</type>
+        <definition>std::optional&lt; ssize_t &gt; themis::plugins::user_storage::TimedFileOperation::write</definition>
+        <argsstring>(const void *buffer, size_t count) noexcept</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::write</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Non-blocking write with timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempts to write <computeroutput>count</computeroutput> bytes to the file descriptor. If the write would block, waits up to timeout_ milliseconds using poll().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to write from (not null) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to write </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of bytes written, or empty optional on timeout/error</para>
+</simplesect>
+Error codes (errno):<itemizedlist>
+<listitem><para>EAGAIN: Timeout occurred</para>
+</listitem><listitem><para>EBADF: Invalid file descriptor</para>
+</listitem><listitem><para>EPIPE: Pipe closed by peer</para>
+</listitem><listitem><para>Other POSIX errors from <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ab0492fb3140a10245d365315c2479553" kindref="member">write()</ref> </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="183" column="19" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="183" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a616a2f939e0258376b216d073492ad0d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::TimedFileOperation::hasTimedOut</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasTimedOut</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::hasTimedOut</qualifiedname>
+        <briefdescription>
+<para>Check if operation has timed out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if total elapsed time &gt;= timeout (in absolute policy) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="222" column="10" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="222" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a063da9c9359a35f55f5b69f9c938f2c3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::TimedFileOperation::fd</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>fd</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::fd</qualifiedname>
+        <briefdescription>
+<para>Get the file descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="232" column="9" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aa267a936b5d7d6688f28b81ef3ccc6db" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::TimedFileOperation::timeoutMs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>timeoutMs</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::timeoutMs</qualifiedname>
+        <briefdescription>
+<para>Get configured timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="237" column="9" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="237" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aa4ffc8f74023466a2977f8e01da32c83" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::TimedFileOperation::getRemainingTimeoutMs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getRemainingTimeoutMs</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::getRemainingTimeoutMs</qualifiedname>
+        <briefdescription>
+<para>Get remaining time for absolute timeouts (or timeout_ if per-operation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Milliseconds remaining, or negative if expired </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="249" column="9" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="249" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ae7b01899a87b00d9e6049322b57142d2" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::TimedFileOperation::poll_for_readability</definition>
+        <argsstring>(int timeout_ms) const noexcept</argsstring>
+        <name>poll_for_readability</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::poll_for_readability</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Wait for fd to be readable (using poll). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds (-1 = forever) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 if readable, 0 if timeout, -1 if error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="265" column="9" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="265" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1acb3c8b8d47bba3674524660e2392a66c" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::TimedFileOperation::poll_for_writability</definition>
+        <argsstring>(int timeout_ms) const noexcept</argsstring>
+        <name>poll_for_writability</name>
+        <qualifiedname>themis::plugins::user_storage::TimedFileOperation::poll_for_writability</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Wait for fd to be writable (using poll). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds (-1 = forever) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 if writable, 0 if timeout, -1 if error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="275" column="9" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="275" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bounded I/O operations for file descriptors with explicit timeout. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides type-safe read/write operations on POSIX file descriptors with configurable timeouts. Uses poll() for non-blocking checks to prevent indefinite blocking.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Template class supporting various buffer types (void*, std::string, etc.)</para>
+</listitem><listitem><para>Configurable timeout via std::chrono::duration</para>
+</listitem><listitem><para>Explicit error handling (no exceptions on timeout)</para>
+</listitem><listitem><para>Both read and write operations</para>
+</listitem><listitem><para>Returns ssize_t or optional&lt;ssize_t&gt; for easy integration</para>
+</listitem></itemizedlist>
+</para>
+<para>Exception safety: noexcept (exceptions only on construction/destruction issues)</para>
+<para>Usage example: <programlisting><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a063da9c9359a35f55f5b69f9c938f2c3" kindref="member">fd</ref><sp/>=<sp/>open(...);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buf[1024];</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af7b912d4fbe1953c8326e90496a30430" kindref="member">TimedFileOperation</ref><sp/>op(<ref refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a063da9c9359a35f55f5b69f9c938f2c3" kindref="member">fd</ref>,<sp/>std::chrono::seconds(5));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes_read<sp/>=<sp/>op.read(buf,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buf));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bytes_read.has_value())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>timeout<sp/>or<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error(</highlight><highlight class="stringliteral">&quot;I/O<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes_written<sp/>=<sp/>op.write(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/>4);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bytes_written.has_value())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>timeout<sp/>or<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error(</highlight><highlight class="stringliteral">&quot;I/O<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="71" column="1" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="71" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a151fc0f24bd65a15a967e2552b600209" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>DurationMs</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a182f779252b8b213ad318d4846855341" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>DurationS</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a063da9c9359a35f55f5b69f9c938f2c3" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>fd</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1abe39f7a1d48bf4ce4c053a4b42da4011" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aa4ffc8f74023466a2977f8e01da32c83" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>getRemainingTimeoutMs</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a616a2f939e0258376b216d073492ad0d" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>hasTimedOut</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a166cb4d116905426ff3f358cf9950617" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af93c461b7dc3e060b3862187d19d594a" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ae7b01899a87b00d9e6049322b57142d2" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>poll_for_readability</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1acb3c8b8d47bba3674524660e2392a66c" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>poll_for_writability</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a7f054bfece8c3de9e89eb27f62d68bb7" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>read</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a11dcebacdb6f0d88a508c55f585d5e22" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af7b912d4fbe1953c8326e90496a30430" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>TimedFileOperation</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ad3ebf6a37d661edce8ad2c9d2058a364" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>TimedFileOperation</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a28021bd89864753048d702e180e5fd4b" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>TimedFileOperation</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a683e08f102065e5efe19a28acdd73e1f" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>timeout_ms_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aa267a936b5d7d6688f28b81ef3ccc6db" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>timeoutMs</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ab0492fb3140a10245d365315c2479553" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>write</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aead6978529c2aaa559233974401dd777" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::TimedFileOperation</scope><name>~TimedFileOperation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

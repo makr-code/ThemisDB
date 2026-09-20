@@ -1,0 +1,533 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GpuKernelDispatcher</compoundname>
+    <includes refid="gpu__kernel__dispatcher_8h" local="no">gpu_kernel_dispatcher.h</includes>
+    <innerclass refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_containment_result" prot="public">themis::geo::GpuKernelDispatcher::ContainmentResult</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_distance_result" prot="public">themis::geo::GpuKernelDispatcher::DistanceResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a591ffb5a66b62fa1afea0021cbe445e3" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_containment_result" kindref="compound">ContainmentResult</ref>(const double *, const double *, int, const double *, int)&gt;</type>
+        <definition>using themis::geo::GpuKernelDispatcher::ContainmentDispatchFn = std::function&lt;ContainmentResult(const double*,
+                                                                 const double*,
+                                                                 int,
+                                                                 const double*,
+                                                                 int)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContainmentDispatchFn</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::ContainmentDispatchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="82" column="5" bodyfile="include/geo/gpu_kernel_dispatcher.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a572aafa18d6e7ca60b594f0da5b42ca7" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_distance_result" kindref="compound">DistanceResult</ref>(const double *, const double *, const double *, const double *, int, themis::acceleration::GeoDistanceFormula)&gt;</type>
+        <definition>using themis::geo::GpuKernelDispatcher::DistanceDispatchFn = std::function&lt;DistanceResult(const double*,
+                                                           const double*,
+                                                           const double*,
+                                                           const double*,
+                                                           int,
+                                                           themis::acceleration::GeoDistanceFormula)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DistanceDispatchFn</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::DistanceDispatchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="87" column="5" bodyfile="include/geo/gpu_kernel_dispatcher.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1af27fe3ea7758a6a3a53a86f56cb02002" prot="private" static="no" mutable="no">
+        <type>themis::acceleration::GeoKernelDispatch</type>
+        <definition>themis::acceleration::GeoKernelDispatch themis::geo::GpuKernelDispatcher::dispatch_table_</definition>
+        <argsstring></argsstring>
+        <name>dispatch_table_</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::dispatch_table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="107" column="45" bodyfile="include/geo/gpu_kernel_dispatcher.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a3e191a3955e24c9d32d8c5438c60a687" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GpuKernelDispatcher::GpuKernelDispatcher</definition>
+        <argsstring>(const themis::acceleration::GeoKernelDispatch &amp;dispatch_table) noexcept</argsstring>
+        <name>GpuKernelDispatcher</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::GpuKernelDispatcher</qualifiedname>
+        <param>
+          <type>const themis::acceleration::GeoKernelDispatch &amp;</type>
+          <declname>dispatch_table</declname>
+        </param>
+        <briefdescription>
+<para>Gpu Kernel Dispatcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dispatch_table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="44" column="14" bodyfile="src/geo/gpu_backend_hip.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1aefb73e5852d0afb7214560e0d9ec9122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_containment_result" kindref="compound">ContainmentResult</ref></type>
+        <definition>GpuKernelDispatcher::ContainmentResult themis::geo::GpuKernelDispatcher::dispatchContainment</definition>
+        <argsstring>(const double *point_lats, const double *point_lons, int numPoints, const double *polygon_coords, int numPolygonVertices)</argsstring>
+        <name>dispatchContainment</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::dispatchContainment</qualifiedname>
+        <param>
+          <type>const double *</type>
+          <declname>point_lats</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>point_lons</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numPoints</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>polygon_coords</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numPolygonVertices</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Containment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point_lats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">point_lons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygon_coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPolygonVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point_lats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">point_lons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygon_coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPolygonVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hipMalloc(), hipMemcpy(), get(), hipMemset(), launchContainment(), hipDeviceSynchronize(), resize(), data().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point_lats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">point_lons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygon_coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPolygonVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), fn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="56" column="23" bodyfile="src/geo/gpu_backend_hip.cpp" bodystart="70" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a80cc0ecb1f1b390ed5823bd873af6f35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_distance_result" kindref="compound">DistanceResult</ref></type>
+        <definition>GpuKernelDispatcher::DistanceResult themis::geo::GpuKernelDispatcher::dispatchDistance</definition>
+        <argsstring>(const double *lats1, const double *lons1, const double *lats2, const double *lons2, int count, themis::acceleration::GeoDistanceFormula formula=themis::acceleration::GeoDistanceFormula::HAVERSINE)</argsstring>
+        <name>dispatchDistance</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::dispatchDistance</qualifiedname>
+        <param>
+          <type>const double *</type>
+          <declname>lats1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lons1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lats2</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lons2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>themis::acceleration::GeoDistanceFormula</type>
+          <declname>formula</declname>
+          <defval>themis::acceleration::GeoDistanceFormula::HAVERSINE</defval>
+        </param>
+        <briefdescription>
+<para>Dispatch Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lats1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lons1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lats2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lons2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">formula</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hipMalloc(), hipMemcpy(), get(), hipMemset(), launchDistance(), hipDeviceSynchronize(), resize(), data().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lats1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lons1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lats2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lons2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">formula</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), fn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="64" column="20" bodyfile="src/geo/gpu_backend_hip.cpp" bodystart="157" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a0627ce1d0ccff2368deae52258fb1406" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GpuKernelDispatcher::isAvailable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_dispatch_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="79" column="10" bodyfile="src/geo/gpu_backend_hip.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1ac48bbdec93659b0a35afcd98377dfd6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GpuKernelDispatcher::setContainmentDispatchFn</definition>
+        <argsstring>(ContainmentDispatchFn fn)</argsstring>
+        <name>setContainmentDispatchFn</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::setContainmentDispatchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a591ffb5a66b62fa1afea0021cbe445e3" kindref="member">ContainmentDispatchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Containment Dispatch Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="98" column="17" bodyfile="src/geo/gpu_kernel_dispatcher_cpu.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1aa8478e79949fc97ace1be63df34441dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GpuKernelDispatcher::setDistanceDispatchFn</definition>
+        <argsstring>(DistanceDispatchFn fn)</argsstring>
+        <name>setDistanceDispatchFn</name>
+        <qualifiedname>themis::geo::GpuKernelDispatcher::setDistanceDispatchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a572aafa18d6e7ca60b594f0da5b42ca7" kindref="member">DistanceDispatchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Distance Dispatch Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/gpu_kernel_dispatcher.h" line="103" column="17" bodyfile="src/geo/gpu_kernel_dispatcher_cpu.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/gpu_kernel_dispatcher.h" line="24" column="1" bodyfile="include/geo/gpu_kernel_dispatcher.h" bodystart="24" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a591ffb5a66b62fa1afea0021cbe445e3" prot="public" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>ContainmentDispatchFn</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1af27fe3ea7758a6a3a53a86f56cb02002" prot="private" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>dispatch_table_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1aefb73e5852d0afb7214560e0d9ec9122" prot="public" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>dispatchContainment</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a80cc0ecb1f1b390ed5823bd873af6f35" prot="public" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>dispatchDistance</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a572aafa18d6e7ca60b594f0da5b42ca7" prot="public" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>DistanceDispatchFn</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a3e191a3955e24c9d32d8c5438c60a687" prot="public" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>GpuKernelDispatcher</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a0627ce1d0ccff2368deae52258fb1406" prot="public" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1ac48bbdec93659b0a35afcd98377dfd6f" prot="public" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>setContainmentDispatchFn</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1aa8478e79949fc97ace1be63df34441dc" prot="public" virt="non-virtual"><scope>themis::geo::GpuKernelDispatcher</scope><name>setDistanceDispatchFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

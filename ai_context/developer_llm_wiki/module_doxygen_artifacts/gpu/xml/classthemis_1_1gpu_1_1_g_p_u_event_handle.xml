@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_event_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUEventHandle</compoundname>
+    <includes refid="gpu__raii__wrappers_8hpp" local="no">gpu_raii_wrappers.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1addfc64bcee887c0766ff8fa32ab5705b" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::GPUEventHandle::event_</definition>
+        <argsstring></argsstring>
+        <name>event_</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::event_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="387" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a2c25ce07d6b379c8111e53e5755ec3bf" prot="private" static="no" mutable="no">
+        <type><ref refid="gpu__raii__wrappers_8hpp_1a10ef323f4b28b1be73faa1cacaf2d1f0" kindref="member">cudaEvent_t</ref></type>
+        <definition>cudaEvent_t themis::gpu::GPUEventHandle::event_</definition>
+        <argsstring></argsstring>
+        <name>event_</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::event_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="157" column="17" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUEventHandle::GPUEventHandle</definition>
+        <argsstring>()</argsstring>
+        <name>GPUEventHandle</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::GPUEventHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="277" column="14" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="277" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a1b64705499e9e8d13e8d9a4eae107b91" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUEventHandle::~GPUEventHandle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GPUEventHandle</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::~GPUEventHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="293" column="5" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="293" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a6cbb4d88a9e9ff0fa0b33eab15d567b5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUEventHandle::GPUEventHandle</definition>
+        <argsstring>(GPUEventHandle &amp;&amp;other) noexcept</argsstring>
+        <name>GPUEventHandle</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::GPUEventHandle</qualifiedname>
+        <param>
+          <type>GPUEventHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="299" column="5" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="299" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a40cd498f4c135dd51cd2342ca299498a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" kindref="member">GPUEventHandle</ref> &amp;</type>
+        <definition>GPUEventHandle &amp; themis::gpu::GPUEventHandle::operator=</definition>
+        <argsstring>(GPUEventHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" kindref="member">GPUEventHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="302" column="20" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="302" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ab68c4a875a850fea28d05f87764f6673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUEventHandle::GPUEventHandle</definition>
+        <argsstring>(const GPUEventHandle &amp;)=delete</argsstring>
+        <name>GPUEventHandle</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::GPUEventHandle</qualifiedname>
+        <param>
+          <type>const GPUEventHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="312" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1aebf5aea40c06854db5242a470ffe7bb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" kindref="member">GPUEventHandle</ref> &amp;</type>
+        <definition>GPUEventHandle &amp; themis::gpu::GPUEventHandle::operator=</definition>
+        <argsstring>(const GPUEventHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" kindref="member">GPUEventHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="314" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1af1f334a3beacd718e036b958bfe38f7f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::GPUEventHandle::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="323" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="323" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ad2c23a2f49d5deb750643eb81d6c010c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUEventHandle::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="328" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="328" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a0fc53562cfa3610769997d7efab88053" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUEventHandle::record</definition>
+        <argsstring>(cudaStream_t stream)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::record</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cudaEventRecord(), std::string(), <ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString()</ref>, <ref refid="namespacethemis_1_1gpu_1ad0fe664c398874152c80563b60d6500c" kindref="member">logGPUError()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cudaEventRecord(), THEMIS_ERROR(), <ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString()</ref>, defined(), hipEventRecord(), hipGetErrorString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="338" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="338" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ab3784b747b646435feaa7ebf25eec898" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUEventHandle::isCompleted</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isCompleted</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::isCompleted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="352" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="352" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1afcfe502fb9fc2c3e7e8e30cad770b1ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUEventHandle::wait</definition>
+        <argsstring>()</argsstring>
+        <name>wait</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::wait</qualifiedname>
+        <briefdescription>
+<para>Wait. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cudaEventSynchronize(), std::string(), <ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString()</ref>, <ref refid="namespacethemis_1_1gpu_1ad0fe664c398874152c80563b60d6500c" kindref="member">logGPUError()</ref>.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cudaEventSynchronize(), THEMIS_ERROR(), <ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString()</ref>, defined(), hipEventSynchronize(), hipGetErrorString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="369" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="369" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUEventHandle::GPUEventHandle</definition>
+        <argsstring>()</argsstring>
+        <name>GPUEventHandle</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::GPUEventHandle</qualifiedname>
+        <briefdescription>
+<para>GPUEvent Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="109" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a1b64705499e9e8d13e8d9a4eae107b91" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUEventHandle::~GPUEventHandle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GPUEventHandle</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::~GPUEventHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ab68c4a875a850fea28d05f87764f6673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUEventHandle::GPUEventHandle</definition>
+        <argsstring>(const GPUEventHandle &amp;)=delete</argsstring>
+        <name>GPUEventHandle</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::GPUEventHandle</qualifiedname>
+        <param>
+          <type>const GPUEventHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="114" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1aebf5aea40c06854db5242a470ffe7bb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" kindref="member">GPUEventHandle</ref> &amp;</type>
+        <definition>GPUEventHandle &amp; themis::gpu::GPUEventHandle::operator=</definition>
+        <argsstring>(const GPUEventHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" kindref="member">GPUEventHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="115" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a6cbb4d88a9e9ff0fa0b33eab15d567b5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUEventHandle::GPUEventHandle</definition>
+        <argsstring>(GPUEventHandle &amp;&amp;other) noexcept</argsstring>
+        <name>GPUEventHandle</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::GPUEventHandle</qualifiedname>
+        <param>
+          <type>GPUEventHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="118" column="5" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="118" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a40cd498f4c135dd51cd2342ca299498a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" kindref="member">GPUEventHandle</ref> &amp;</type>
+        <definition>GPUEventHandle &amp; themis::gpu::GPUEventHandle::operator=</definition>
+        <argsstring>(GPUEventHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" kindref="member">GPUEventHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="121" column="20" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="121" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a2eb37025192ae19722eb00e4d40cbe08" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__raii__wrappers_8hpp_1a10ef323f4b28b1be73faa1cacaf2d1f0" kindref="member">cudaEvent_t</ref></type>
+        <definition>cudaEvent_t themis::gpu::GPUEventHandle::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="130" column="17" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ad2c23a2f49d5deb750643eb81d6c010c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUEventHandle::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="135" column="10" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a0fc53562cfa3610769997d7efab88053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUEventHandle::record</definition>
+        <argsstring>(cudaStream_t stream)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::record</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="141" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ab3784b747b646435feaa7ebf25eec898" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUEventHandle::isCompleted</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isCompleted</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::isCompleted</qualifiedname>
+        <briefdescription>
+<para>Is Completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="148" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1afcfe502fb9fc2c3e7e8e30cad770b1ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUEventHandle::wait</definition>
+        <argsstring>()</argsstring>
+        <name>wait</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::wait</qualifiedname>
+        <briefdescription>
+<para>Wait. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="153" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a243b175056cd82117a3bb5c2de40376d" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUEventHandle::destroy</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>destroy</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::destroy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="390" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="390" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a243b175056cd82117a3bb5c2de40376d" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUEventHandle::destroy</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>destroy</name>
+        <qualifiedname>themis::gpu::GPUEventHandle::destroy</qualifiedname>
+        <briefdescription>
+<para>Destroy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="166" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_raii_wrappers.hpp" line="275" column="1" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="275" bodyend="399"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a243b175056cd82117a3bb5c2de40376d" prot="private" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>destroy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a243b175056cd82117a3bb5c2de40376d" prot="private" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>destroy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1addfc64bcee887c0766ff8fa32ab5705b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>event_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a2c25ce07d6b379c8111e53e5755ec3bf" prot="private" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>event_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1af1f334a3beacd718e036b958bfe38f7f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>get</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a2eb37025192ae19722eb00e4d40cbe08" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>get</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>GPUEventHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a6cbb4d88a9e9ff0fa0b33eab15d567b5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>GPUEventHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ab68c4a875a850fea28d05f87764f6673" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>GPUEventHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a5ea0e5c779354ef4764dc2194a4a2765" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>GPUEventHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ab68c4a875a850fea28d05f87764f6673" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>GPUEventHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a6cbb4d88a9e9ff0fa0b33eab15d567b5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>GPUEventHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ab3784b747b646435feaa7ebf25eec898" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>isCompleted</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ab3784b747b646435feaa7ebf25eec898" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>isCompleted</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ad2c23a2f49d5deb750643eb81d6c010c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1ad2c23a2f49d5deb750643eb81d6c010c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a40cd498f4c135dd51cd2342ca299498a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1aebf5aea40c06854db5242a470ffe7bb8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1aebf5aea40c06854db5242a470ffe7bb8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a40cd498f4c135dd51cd2342ca299498a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a0fc53562cfa3610769997d7efab88053" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>record</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a0fc53562cfa3610769997d7efab88053" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>record</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1afcfe502fb9fc2c3e7e8e30cad770b1ae" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>wait</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1afcfe502fb9fc2c3e7e8e30cad770b1ae" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>wait</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a1b64705499e9e8d13e8d9a4eae107b91" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>~GPUEventHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_event_handle_1a1b64705499e9e8d13e8d9a4eae107b91" prot="public" virt="non-virtual"><scope>themis::gpu::GPUEventHandle</scope><name>~GPUEventHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

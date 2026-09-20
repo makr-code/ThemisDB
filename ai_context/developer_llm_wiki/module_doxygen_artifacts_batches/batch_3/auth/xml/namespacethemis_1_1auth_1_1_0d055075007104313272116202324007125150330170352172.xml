@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1auth_1_1_0d055075007104313272116202324007125150330170352172" kind="namespace" language="C++">
+    <compoundname>themis::auth::@055075007104313272116202324007125150330170352172</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/auth/mtls_authenticator.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

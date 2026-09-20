@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::Pattern</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_pattern_1ab15552e55f5914d6b3b7ef3fe6d11757" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string themis::observability::Pattern::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::observability::Pattern::pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="82" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_pattern_1a278df5f5fe2065d104750ea210202252" prot="public" static="no" mutable="no">
+        <type>vector&lt; string &gt;</type>
+        <definition>vector&lt;string&gt; themis::observability::Pattern::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::observability::Pattern::tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="83" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_pattern_1a0dcdc3b80d93950564ee3869c7c2d112" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::Pattern::matches</definition>
+        <argsstring>(const string &amp;metric_name) const</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::observability::Pattern::matches</qualifiedname>
+        <param>
+          <type>const string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="85" column="10" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_pattern" kindref="compound">Pattern</ref> for pattern matching. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="81" column="1" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="81" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_pattern_1a0dcdc3b80d93950564ee3869c7c2d112" prot="public" virt="non-virtual"><scope>themis::observability::Pattern</scope><name>matches</name></member>
+      <member refid="structthemis_1_1observability_1_1_pattern_1ab15552e55f5914d6b3b7ef3fe6d11757" prot="public" virt="non-virtual"><scope>themis::observability::Pattern</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1observability_1_1_pattern_1a278df5f5fe2065d104750ea210202252" prot="public" virt="non-virtual"><scope>themis::observability::Pattern</scope><name>tags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

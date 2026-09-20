@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__utils__rate__limiter_8cpp" kind="file" language="C++">
+    <compoundname>test_utils_rate_limiter.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="rate__limiter_8h" local="yes">utils/rate_limiter.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>utils/rate_limiter.h</label>
+        <link refid="rate__limiter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/utils/test_utils_rate_limiter.cpp</label>
+        <link refid="test__utils__rate__limiter_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__utils__rate__limiter_8cpp_1a6b3c4f539f867f8425662e440d602d98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UtilsRateLimiter, InitialBucketIsFull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>UtilsRateLimiter</type>
+        </param>
+        <param>
+          <type>InitialBucketIsFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_rate_limiter.cpp" line="13" column="1" bodyfile="tests/utils/test_utils_rate_limiter.cpp" bodystart="13" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__rate__limiter_8cpp_1ae2456c1a8e0f56a678b11013faf39d2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UtilsRateLimiter, TryAcquireSucceedsWhenTokensAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>UtilsRateLimiter</type>
+        </param>
+        <param>
+          <type>TryAcquireSucceedsWhenTokensAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_rate_limiter.cpp" line="18" column="1" bodyfile="tests/utils/test_utils_rate_limiter.cpp" bodystart="18" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__rate__limiter_8cpp_1ac144770b3c26a652be7a1590b08395f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UtilsRateLimiter, TryAcquireFailsWhenInsufficientTokens)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>UtilsRateLimiter</type>
+        </param>
+        <param>
+          <type>TryAcquireFailsWhenInsufficientTokens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_rate_limiter.cpp" line="23" column="1" bodyfile="tests/utils/test_utils_rate_limiter.cpp" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__rate__limiter_8cpp_1ae04af092729faaea8b4a6eedd30431d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UtilsRateLimiter, ResetFillsBucketToMax)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>UtilsRateLimiter</type>
+        </param>
+        <param>
+          <type>ResetFillsBucketToMax</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_rate_limiter.cpp" line="31" column="1" bodyfile="tests/utils/test_utils_rate_limiter.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__rate__limiter_8cpp_1a9d96d1137bd87f4dfb0b71db45e05ca6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UtilsRateLimiter, SetRateChangesRefillSpeed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>UtilsRateLimiter</type>
+        </param>
+        <param>
+          <type>SetRateChangesRefillSpeed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_rate_limiter.cpp" line="38" column="1" bodyfile="tests/utils/test_utils_rate_limiter.cpp" bodystart="38" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__rate__limiter_8cpp_1ab2a5517474a662819de76a301974f054" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UtilsRateLimiter, AcquireBlocksAndCompletes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>UtilsRateLimiter</type>
+        </param>
+        <param>
+          <type>AcquireBlocksAndCompletes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_rate_limiter.cpp" line="48" column="1" bodyfile="tests/utils/test_utils_rate_limiter.cpp" bodystart="48" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__rate__limiter_8cpp_1ab5cb862ba717f5a59535af9dc111ac7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(UtilsRateLimiter, AvailableNeverExceedsBurst)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>UtilsRateLimiter</type>
+        </param>
+        <param>
+          <type>AvailableNeverExceedsBurst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_rate_limiter.cpp" line="60" column="1" bodyfile="tests/utils/test_utils_rate_limiter.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rate__limiter_8h" kindref="compound">utils/rate_limiter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Token<sp/>bucket<sp/>behaviour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(UtilsRateLimiter,<sp/>InitialBucketIsFull)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>rl(10.0,<sp/>10.0);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(rl.available(),<sp/>10.0);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(UtilsRateLimiter,<sp/>TryAcquireSucceedsWhenTokensAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>rl(10.0,<sp/>10.0);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rl.try_acquire(1.0));</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(UtilsRateLimiter,<sp/>TryAcquireFailsWhenInsufficientTokens)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>rl(1.0,<sp/>3.0);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain<sp/>all<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rl.try_acquire(3.0));</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Next<sp/>attempt<sp/>must<sp/>fail<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rl.try_acquire(1.0));</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(UtilsRateLimiter,<sp/>ResetFillsBucketToMax)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>rl(10.0,<sp/>10.0);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.try_acquire(9.0);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.reset();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(rl.available(),<sp/>10.0);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(UtilsRateLimiter,<sp/>SetRateChangesRefillSpeed)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>rl(1000.0,<sp/>5.0);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain<sp/>all<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.try_acquire(5.0);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.set_rate(1000000.0);<sp/></highlight><highlight class="comment">//<sp/>Very<sp/>fast<sp/>refill</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Short<sp/>sleep<sp/>should<sp/>be<sp/>enough<sp/>to<sp/>refill<sp/>at<sp/>the<sp/>new<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(100us);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(rl.available(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(UtilsRateLimiter,<sp/>AcquireBlocksAndCompletes)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>rl(1000.0,<sp/>1.0);<sp/></highlight><highlight class="comment">//<sp/>1000<sp/>tokens/s,<sp/>burst=1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.try_acquire(1.0);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blocking<sp/>acquire<sp/>should<sp/>complete<sp/>quickly<sp/>given<sp/>high<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rl.acquire_with_timeout(1.0,<sp/>100ms));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>start;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>complete<sp/>within<sp/>100<sp/>ms<sp/>(theoretical:<sp/>~1<sp/>ms<sp/>at<sp/>1000<sp/>tok/s)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed,<sp/>100ms);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(UtilsRateLimiter,<sp/>AvailableNeverExceedsBurst)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>rl(1000.0,<sp/>5.0);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>and<sp/>then<sp/>check:<sp/>tokens<sp/>should<sp/>not<sp/>exceed<sp/>burst</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(10ms);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(rl.available(),<sp/>5.0);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/test_utils_rate_limiter.cpp"/>
+  </compounddef>
+</doxygen>

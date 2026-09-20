@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar" kind="class" language="C++" prot="public">
+    <compoundname>themis::llamacpp::LlamaCppPluginRegistrar</compoundname>
+    <includes refid="llama__cpp__registrar_8h" local="no">llama_cpp_registrar.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2ae253ecb15e79425472c99de1cc5314" prot="public" static="no">
+        <type>std::function&lt; bool(<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> &amp;plugin, const <ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref> &amp;config)&gt;</type>
+        <definition>using themis::llamacpp::LlamaCppPluginRegistrar::ReloadCallback = 
+std::function&lt;bool(LlamaCppPlugin&amp; plugin, const json&amp; config)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReloadCallback</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPluginRegistrar::ReloadCallback</qualifiedname>
+        <briefdescription>
+<para>Callback invoked when the plugin is hot-reloaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The freshly created replacement plugin (not yet loaded). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The configuration that was originally passed to the registrar; the callback may use it to re-load the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the callback handled the event; false aborts the reload. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_registrar.h" line="115" column="5" bodyfile="include/llama_cpp/llama_cpp_registrar.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1acc92100bc4bcc6bb6bfdc170b7abe9d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; LlamaCppPlugin &gt; themis::llamacpp::LlamaCppPluginRegistrar::createPlugin</definition>
+        <argsstring>(const json &amp;config={})</argsstring>
+        <name>createPlugin</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPluginRegistrar::createPlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a standalone <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── createPlugin ─────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional JSON configuration forwarded to loadModel(). Keys: &quot;model_path&quot; (string), &quot;n_ctx&quot; / &quot;context_length&quot; (integer), &quot;n_gpu_layers&quot; (integer). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Heap-allocated plugin, caller owns.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), empty(), loadModel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_registrar.h" line="72" column="28" bodyfile="src/llama_cpp/llama_cpp_registrar.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a1e573a0c67f5d4d7176a3dc3b1461429" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; llm::LLMPluginAdapter &gt;</type>
+        <definition>std::unique_ptr&lt; llm::LLMPluginAdapter &gt; themis::llamacpp::LlamaCppPluginRegistrar::createAdapter</definition>
+        <argsstring>(const json &amp;config={})</argsstring>
+        <name>createAdapter</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPluginRegistrar::createAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create an LLMPluginAdapter wrapping a <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── createAdapter ─────────────────────────────────────────────────────────────</para>
+<para>The adapter implements IThemisPlugin so it can be handed to the unified plugins::PluginManager. Internally it delegates to <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> for all LLM operations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional JSON configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Heap-allocated adapter, caller owns.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1acc92100bc4bcc6bb6bfdc170b7abe9d2" kindref="member">createPlugin()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_registrar.h" line="84" column="28" bodyfile="src/llama_cpp/llama_cpp_registrar.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2974c5ba95d52a76f2b179e8cf5fddb7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::LlamaCppPluginRegistrar::registerWithLLMManager</definition>
+        <argsstring>(llm::LLMPluginManager &amp;manager, const std::string &amp;plugin_name=&quot;llama_cpp&quot;, const json &amp;config={})</argsstring>
+        <name>registerWithLLMManager</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPluginRegistrar::registerWithLLMManager</qualifiedname>
+        <param>
+          <type>llm::LLMPluginManager &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+          <defval>&quot;llama_cpp&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Register a new <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> instance with an LLMPluginManager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── registerWithLLMManager ────────────────────────────────────────────────────</para>
+<para>Creates a fresh plugin, optionally calls loadModel() when config[&quot;model_path&quot;] is present, and hands ownership to the manager.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target LLMPluginManager. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name under which the plugin is registered. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional JSON configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1acc92100bc4bcc6bb6bfdc170b7abe9d2" kindref="member">createPlugin()</ref>, registerPlugin(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_registrar.h" line="100" column="17" bodyfile="src/llama_cpp/llama_cpp_registrar.cpp" bodystart="61" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1aa08d118bf57c7c745e917c89e1e478c4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2ae253ecb15e79425472c99de1cc5314" kindref="member">ReloadCallback</ref></type>
+        <definition>LlamaCppPluginRegistrar::ReloadCallback themis::llamacpp::LlamaCppPluginRegistrar::defaultReloadCallback</definition>
+        <argsstring>()</argsstring>
+        <name>defaultReloadCallback</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPluginRegistrar::defaultReloadCallback</qualifiedname>
+        <briefdescription>
+<para>Default hot-plug reload callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls loadModel(config[&quot;model_path&quot;], config) when &quot;model_path&quot; is present; otherwise returns false (or true in stub mode). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_registrar.h" line="124" column="27" bodyfile="src/llama_cpp/llama_cpp_registrar.cpp" bodystart="77" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::LlamaCppPluginRegistrar::initFromServerConfig</definition>
+        <argsstring>(const json &amp;server_config)</argsstring>
+        <name>initFromServerConfig</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPluginRegistrar::initFromServerConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref> &amp;</type>
+          <declname>server_config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the LLM plugin subsystem from server configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── initFromServerConfig ──────────────────────────────────────────────────────</para>
+<para>Called during server startup. Reads the LLM configuration block from <computeroutput>server_config</computeroutput>, and if a model path is configured, registers a <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> with the global LLMPluginManager singleton under the name <computeroutput>&quot;llama_cpp&quot;</computeroutput>.</para>
+<para>This method is a no-op (returns <computeroutput>true</computeroutput>) when:<itemizedlist>
+<listitem><para><computeroutput>server_config</computeroutput> contains no <computeroutput>&quot;llm&quot;</computeroutput> key, or</para>
+</listitem><listitem><para>the <computeroutput>&quot;llm&quot;</computeroutput> object has no <computeroutput>&quot;model_path&quot;</computeroutput> key, or</para>
+</listitem><listitem><para><computeroutput>model_path</computeroutput> is an empty string.</para>
+</listitem></itemizedlist>
+</para>
+<para>In those cases the server starts in stub / CI mode without any model loaded. When a non-empty <computeroutput>model_path</computeroutput> is present the plugin is created, <computeroutput>loadModel()</computeroutput> is called, and the plugin is registered with <computeroutput>LLMPluginManager::instance()</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>server_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full server configuration JSON object. Expected key path: <computeroutput>config</computeroutput>[&quot;llm&quot;][&quot;model_path&quot;] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if registration succeeded or no plugin was needed; <computeroutput>false</computeroutput> if plugin creation or model loading failed.</para>
+</simplesect>
+<programlisting><codeline><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>cfg<sp/>=<sp/>load_server_config(</highlight><highlight class="stringliteral">&quot;config.json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kindref="member">LlamaCppPluginRegistrar::initFromServerConfig</ref>(cfg))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;LlamaCpp<sp/>plugin<sp/>failed<sp/>to<sp/>initialise&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">server_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: contains(), value(), empty(), themis::llm::LLMPluginManager::instance(), <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2974c5ba95d52a76f2b179e8cf5fddb7" kindref="member">registerWithLLMManager()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_registrar.h" line="158" column="17" bodyfile="src/llama_cpp/llama_cpp_registrar.cpp" bodystart="116" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a0029d6b3a0bad46f5b0256a6ce97ad72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::LlamaCppPluginRegistrar::LlamaCppPluginRegistrar</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LlamaCppPluginRegistrar</name>
+        <qualifiedname>themis::llamacpp::LlamaCppPluginRegistrar::LlamaCppPluginRegistrar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_registrar.h" line="161" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory and registration helper for <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides static utilities to:<itemizedlist>
+<listitem><para>Create a raw <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> (createPlugin)</para>
+</listitem><listitem><para>Wrap it in an LLMPluginAdapter for use with the PluginManager (createAdapter)</para>
+</listitem><listitem><para>Perform one-shot registration with LLMPluginManager (registerWithLLMManager)</para>
+</listitem></itemizedlist>
+</para>
+<para>Hot-plug lifecycle: <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> can be registered with plugins::PluginManager via the LLMPluginAdapter. When the PluginManager hot-reloads the plugin (e.g. after a model file is replaced on disk), a reload listener can call registerReloadListener() to receive BEFORE_UNLOAD / AFTER_LOAD notifications and tear-down / re-initialise state accordingly.</para>
+<para>Usage: <programlisting><codeline><highlight class="comment">//<sp/>Simple:<sp/>register<sp/>with<sp/>LLMPluginManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/>themis::llm::LLMPluginManager::instance();</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2974c5ba95d52a76f2b179e8cf5fddb7" kindref="member">LlamaCppPluginRegistrar::registerWithLLMManager</ref>(mgr,<sp/></highlight><highlight class="stringliteral">&quot;llama_cpp&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Advanced:<sp/>create<sp/>an<sp/>adapter<sp/>for<sp/>PluginManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a1e573a0c67f5d4d7176a3dc3b1461429" kindref="member">LlamaCppPluginRegistrar::createAdapter</ref>({});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/llama_cpp/llama_cpp_registrar.h" line="60" column="1" bodyfile="include/llama_cpp/llama_cpp_registrar.h" bodystart="60" bodyend="162"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a1e573a0c67f5d4d7176a3dc3b1461429" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPluginRegistrar</scope><name>createAdapter</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1acc92100bc4bcc6bb6bfdc170b7abe9d2" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPluginRegistrar</scope><name>createPlugin</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1aa08d118bf57c7c745e917c89e1e478c4" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPluginRegistrar</scope><name>defaultReloadCallback</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPluginRegistrar</scope><name>initFromServerConfig</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a0029d6b3a0bad46f5b0256a6ce97ad72" prot="private" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPluginRegistrar</scope><name>LlamaCppPluginRegistrar</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2974c5ba95d52a76f2b179e8cf5fddb7" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPluginRegistrar</scope><name>registerWithLLMManager</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2ae253ecb15e79425472c99de1cc5314" prot="public" virt="non-virtual"><scope>themis::llamacpp::LlamaCppPluginRegistrar</scope><name>ReloadCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

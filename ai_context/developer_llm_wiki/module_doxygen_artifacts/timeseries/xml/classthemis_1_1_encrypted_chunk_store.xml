@@ -1,0 +1,824 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_encrypted_chunk_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::EncryptedChunkStore</compoundname>
+    <includes refid="encrypted__chunk__store_8h" local="no">encrypted_chunk_store.h</includes>
+    <innerclass refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" prot="public">themis::EncryptedChunkStore::EncryptResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_encrypted_chunk_store_1afd235274cb6bffa6c6f721c9f1dd294b" prot="public" static="no">
+        <type>std::function&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt;()&gt;</type>
+        <definition>using themis::EncryptedChunkStore::CurrentKeyFn = 
+std::function&lt;std::pair&lt;std::string, std::vector&lt;uint8_t&gt;&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>CurrentKeyFn</name>
+        <qualifiedname>themis::EncryptedChunkStore::CurrentKeyFn</qualifiedname>
+        <briefdescription>
+<para>Callback type that provides the current master key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns { key_id, key_bytes }. Called on every encrypted write so that automatic key rotation is picked up without explicit notification.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the key cannot be retrieved. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="112" column="5" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_encrypted_chunk_store_1aa0b1dbdcd11d06ed7335d434f0ed424e" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt;(const std::string &amp;key_id)&gt;</type>
+        <definition>using themis::EncryptedChunkStore::LookupKeyFn = 
+std::function&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;(const std::string&amp; key_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LookupKeyFn</name>
+        <qualifiedname>themis::EncryptedChunkStore::LookupKeyFn</qualifiedname>
+        <briefdescription>
+<para>Callback type that looks up a master key by key_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used during decryption to retrieve the historical key that was active when the chunk was written.</para>
+<para><simplesect kind="return"><para>key bytes, or std::nullopt if the key_id is unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="123" column="5" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1add84357c192fbc4b8610f145833f386b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EncryptedChunkStore::KEY_ID_PREFIX_LEN_BYTES</definition>
+        <argsstring></argsstring>
+        <name>KEY_ID_PREFIX_LEN_BYTES</name>
+        <qualifiedname>themis::EncryptedChunkStore::KEY_ID_PREFIX_LEN_BYTES</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Length in bytes of the key_id length prefix stored inside the blob. Layout: KEY_ID_PREFIX_LEN_BYTES (4, big-endian) | key_id | IV[12] | CT | TAG[16] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="264" column="29" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1ac845b11dbc99726aec156021febcbac0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EncryptedChunkStore::IV_LEN</definition>
+        <argsstring></argsstring>
+        <name>IV_LEN</name>
+        <qualifiedname>themis::EncryptedChunkStore::IV_LEN</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="265" column="29" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1a05c38154450d857fe1e3e4c13675560f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EncryptedChunkStore::TAG_LEN</definition>
+        <argsstring></argsstring>
+        <name>TAG_LEN</name>
+        <qualifiedname>themis::EncryptedChunkStore::TAG_LEN</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="266" column="29" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1a5d4f55c6858aee9ea6d6cbfa88e740b4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EncryptedChunkStore::DEK_LEN</definition>
+        <argsstring></argsstring>
+        <name>DEK_LEN</name>
+        <qualifiedname>themis::EncryptedChunkStore::DEK_LEN</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>AES-256 key size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="267" column="29" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1acb29cd2ac93393882b7c70adde3607d8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_encrypted_chunk_store_1afd235274cb6bffa6c6f721c9f1dd294b" kindref="member">CurrentKeyFn</ref></type>
+        <definition>CurrentKeyFn themis::EncryptedChunkStore::current_key_fn_</definition>
+        <argsstring></argsstring>
+        <name>current_key_fn_</name>
+        <qualifiedname>themis::EncryptedChunkStore::current_key_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="286" column="25" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1a3d62e088a9452749a7860774cd57132d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_encrypted_chunk_store_1aa0b1dbdcd11d06ed7335d434f0ed424e" kindref="member">LookupKeyFn</ref></type>
+        <definition>LookupKeyFn themis::EncryptedChunkStore::lookup_key_fn_</definition>
+        <argsstring></argsstring>
+        <name>lookup_key_fn_</name>
+        <qualifiedname>themis::EncryptedChunkStore::lookup_key_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="287" column="25" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1aecbff889349fc849306f7a78ea1ef520" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::EncryptedChunkStore::rw_mu_</definition>
+        <argsstring></argsstring>
+        <name>rw_mu_</name>
+        <qualifiedname>themis::EncryptedChunkStore::rw_mu_</qualifiedname>
+        <briefdescription>
+<para>Guards audit_logger_ and accessor_identity_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="289" column="31" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1ae522dbf731066ce8d48085ea97bb020f" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::EncryptedChunkStore::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::EncryptedChunkStore::audit_logger_</qualifiedname>
+        <briefdescription>
+<para>Protected by rw_mu_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="290" column="30" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_encrypted_chunk_store_1a8a6acad848022113e4abbab5c4b78363" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EncryptedChunkStore::accessor_identity_</definition>
+        <argsstring></argsstring>
+        <name>accessor_identity_</name>
+        <qualifiedname>themis::EncryptedChunkStore::accessor_identity_</qualifiedname>
+        <briefdescription>
+<para>Protected by rw_mu_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="291" column="31" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EncryptedChunkStore::EncryptedChunkStore</definition>
+        <argsstring>(CurrentKeyFn current_key_fn, LookupKeyFn lookup_key_fn, utils::AuditLogger *audit_logger=nullptr, std::string accessor_identity=&quot;tsstore&quot;)</argsstring>
+        <name>EncryptedChunkStore</name>
+        <qualifiedname>themis::EncryptedChunkStore::EncryptedChunkStore</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_encrypted_chunk_store_1afd235274cb6bffa6c6f721c9f1dd294b" kindref="member">CurrentKeyFn</ref></type>
+          <declname>current_key_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_encrypted_chunk_store_1aa0b1dbdcd11d06ed7335d434f0ed424e" kindref="member">LookupKeyFn</ref></type>
+          <declname>lookup_key_fn</declname>
+        </param>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>audit_logger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>accessor_identity</declname>
+          <defval>&quot;tsstore&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct an <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_key_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback returning the current (key_id, key_bytes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lookup_key_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback for historical key lookup by key_id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional audit logger; may be nullptr. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>accessor_identity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity string recorded in audit log entries (e.g. service account or user name). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="147" column="5" bodyfile="src/timeseries/encrypted_chunk_store.cpp" bodystart="88" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1ae1868a0ee5b5b271a5ae5b5984041f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EncryptedChunkStore::~EncryptedChunkStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EncryptedChunkStore</name>
+        <qualifiedname>themis::EncryptedChunkStore::~EncryptedChunkStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="152" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1a7a56988ce0bc0a746b4cd9d5970827c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EncryptedChunkStore::EncryptedChunkStore</definition>
+        <argsstring>(const EncryptedChunkStore &amp;)=delete</argsstring>
+        <name>EncryptedChunkStore</name>
+        <qualifiedname>themis::EncryptedChunkStore::EncryptedChunkStore</qualifiedname>
+        <param>
+          <type>const EncryptedChunkStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="156" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1a9fa656127c7b634534b4b4de598b17c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref> &amp;</type>
+        <definition>EncryptedChunkStore &amp; themis::EncryptedChunkStore::operator=</definition>
+        <argsstring>(const EncryptedChunkStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::EncryptedChunkStore::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="157" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1a6a300753581be4466f9d22846dde185e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EncryptedChunkStore::EncryptedChunkStore</definition>
+        <argsstring>(EncryptedChunkStore &amp;&amp;)=delete</argsstring>
+        <name>EncryptedChunkStore</name>
+        <qualifiedname>themis::EncryptedChunkStore::EncryptedChunkStore</qualifiedname>
+        <param>
+          <type>EncryptedChunkStore &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="158" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1aa0f53467ed1b7bd10ac480c8b6b19d88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref> &amp;</type>
+        <definition>EncryptedChunkStore &amp; themis::EncryptedChunkStore::operator=</definition>
+        <argsstring>(EncryptedChunkStore &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::EncryptedChunkStore::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="159" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1ad8f7368dc13bed9129938382bdbffdd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" kindref="compound">EncryptResult</ref></type>
+        <definition>EncryptedChunkStore::EncryptResult themis::EncryptedChunkStore::encryptChunk</definition>
+        <argsstring>(const std::string &amp;series_id, const std::vector&lt; uint8_t &gt; &amp;plaintext, const std::string &amp;chunk_range=&quot;&quot;)</argsstring>
+        <name>encryptChunk</name>
+        <qualifiedname>themis::EncryptedChunkStore::encryptChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>series_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_range</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Encrypt a Gorilla-compressed binary chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Derives a DEK from the current master key and the series_id via HKDF-SHA256, then encrypts <computeroutput>plaintext</computeroutput> with AES-256-GCM.</para>
+<para>The returned <ref refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" kindref="compound">EncryptResult</ref> contains the ciphertext blob <bold>and</bold> the key_id actually used during encryption. Always use the returned key_id (not <ref refid="classthemis_1_1_encrypted_chunk_store_1af9299d2fa8ef2e280eef64dc3d27a2e5" kindref="member">getCurrentKeyId()</ref>) when persisting the JSON envelope to guarantee consistency even if the master key rotates during the call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>series_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;{metric}:{entity}&quot; string used as HKDF salt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw Gorilla-compressed bytes to encrypt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunk_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable range string &quot;[first_ts,last_ts]&quot; written to the audit log. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" kindref="compound">EncryptResult</ref> with the ciphertext blob and the key_id embedded in the blob header. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on OpenSSL or key-provider failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>3. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">IV_LEN</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Generate a random 12-byte IV (nonce).</para>
+<para>Tag. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">TAG_LEN</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="180" column="19" bodyfile="src/timeseries/encrypted_chunk_store.cpp" bodystart="125" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1aa82e36d45c95a403fc8a7e8a76b62cff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::EncryptedChunkStore::decryptChunk</definition>
+        <argsstring>(const std::string &amp;series_id, const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;chunk_range=&quot;&quot;)</argsstring>
+        <name>decryptChunk</name>
+        <qualifiedname>themis::EncryptedChunkStore::decryptChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>series_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_range</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Decrypt a chunk blob produced by <ref refid="classthemis_1_1_encrypted_chunk_store_1ad8f7368dc13bed9129938382bdbffdd2" kindref="member">encryptChunk()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Looks up the master key by the embedded key_id, re-derives the DEK via HKDF, and decrypts with AES-256-GCM.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>series_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;{metric}:{entity}&quot; string — must match the value used during encryption (HKDF salt). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ciphertext blob returned by <ref refid="classthemis_1_1_encrypted_chunk_store_1ad8f7368dc13bed9129938382bdbffdd2" kindref="member">encryptChunk()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunk_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable range string for the audit log. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decrypted plaintext (Gorilla-compressed bytes). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the key is unavailable or authentication fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>5. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ct_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+AES-256-GCM decrypt.</para>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="197" column="17" bodyfile="src/timeseries/encrypted_chunk_store.cpp" bodystart="218" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1af9299d2fa8ef2e280eef64dc3d27a2e5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::EncryptedChunkStore::getCurrentKeyId</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentKeyId</name>
+        <qualifiedname>themis::EncryptedChunkStore::getCurrentKeyId</qualifiedname>
+        <briefdescription>
+<para>Returns the key_id of the current master key without performing any cryptographic operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <ref refid="classthemis_1_1_ts_encrypted_key_rotation" kindref="compound">TsEncryptedKeyRotation</ref> to identify stale chunks efficiently. For writing new chunks, prefer the key_id returned by <ref refid="classthemis_1_1_encrypted_chunk_store_1ad8f7368dc13bed9129938382bdbffdd2" kindref="member">encryptChunk()</ref> to ensure consistency even under concurrent key rotation.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if current_key_fn fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="211" column="17" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1aae3e141ad7c1964a61a735901df3613a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EncryptedChunkStore::isAuditEnabled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isAuditEnabled</name>
+        <qualifiedname>themis::EncryptedChunkStore::isAuditEnabled</qualifiedname>
+        <briefdescription>
+<para>Returns true when an audit logger is attached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="216" column="10" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="216" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1a92f9fd53edfae50d828fe63743d78402" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EncryptedChunkStore::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger) noexcept</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::EncryptedChunkStore::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Replace the audit logger at runtime (nullptr disables auditing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe: may be called concurrently with encrypt/decrypt. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="231" column="10" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="231" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1aa6915d218e18201d9c426077ef0dcb3e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EncryptedChunkStore::setAccessorIdentity</definition>
+        <argsstring>(std::string identity)</argsstring>
+        <name>setAccessorIdentity</name>
+        <qualifiedname>themis::EncryptedChunkStore::setAccessorIdentity</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>identity</declname>
+        </param>
+        <briefdescription>
+<para>Replace the accessor identity string used in audit records. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe: may be called concurrently with encrypt/decrypt. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">identity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="248" column="10" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="248" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1a9187648cbe01138a973876ae8cf3c4a8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::EncryptedChunkStore::deriveDEK</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;master_key, const std::string &amp;series_id)</argsstring>
+        <name>deriveDEK</name>
+        <qualifiedname>themis::EncryptedChunkStore::deriveDEK</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>master_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>series_id</declname>
+        </param>
+        <briefdescription>
+<para>Derive a 32-byte DEK: HKDF(master_key, salt=series_id, info=...). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="271" column="24" bodyfile="src/timeseries/encrypted_chunk_store.cpp" bodystart="110" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_encrypted_chunk_store_1a86f1fd5d01e236ee5ff4eaafec276441" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EncryptedChunkStore::auditKeyAccess</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;series_id, const std::string &amp;key_id, const std::string &amp;chunk_range)</argsstring>
+        <name>auditKeyAccess</name>
+        <qualifiedname>themis::EncryptedChunkStore::auditKeyAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>series_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_range</declname>
+        </param>
+        <briefdescription>
+<para>Audit Key Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">series_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">series_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the series. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="281" column="10" bodyfile="src/timeseries/encrypted_chunk_store.cpp" bodystart="331" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>AES-256-GCM chunk encryption wrapper for time-series chunk storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> applies AES-256-GCM encrypt/decrypt to individual Gorilla-compressed time-series chunks. Encryption is transparent to the query path: chunks are encrypted on write (after Gorilla compression) and decrypted on demand during scan (before Gorilla decode).</para>
+<para>Key derivation uses HKDF-SHA256: DEK = HKDF(master_key, salt=series_id, info=&quot;themis-tsstore-chunk-dek&quot;) where <computeroutput>master_key</computeroutput> is the raw bytes of the current LEK returned by the configured key-fetch callback and <computeroutput>series_id</computeroutput> is &quot;{metric}:{entity}&quot;.</para>
+<para>On-disk JSON envelope fields written alongside the Gorilla chunk: &quot;encryption&quot; : &quot;aes-256-gcm&quot; &quot;key_id&quot; : opaque string identifying the master key (for decryption) &quot;data&quot; : binary blob with layout: KEY_ID_PREFIX_LEN_BYTES(4, big-endian) | key_id | IV[12] | ciphertext | GCM-tag[16]</para>
+<para>Performance targets (AES-NI via OpenSSL EVP):<itemizedlist>
+<listitem><para>Encrypt/decrypt throughput : &gt;1 GB/s per core</para>
+</listitem><listitem><para>Write-path overhead : &lt;5% vs. unencrypted baseline</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1_encrypted_chunk_store_1ad8f7368dc13bed9129938382bdbffdd2" kindref="member">encryptChunk()</ref>, <ref refid="classthemis_1_1_encrypted_chunk_store_1aa82e36d45c95a403fc8a7e8a76b62cff" kindref="member">decryptChunk()</ref>, <ref refid="classthemis_1_1_encrypted_chunk_store_1aae3e141ad7c1964a61a735901df3613a" kindref="member">isAuditEnabled()</ref>, and <ref refid="classthemis_1_1_encrypted_chunk_store_1af9299d2fa8ef2e280eef64dc3d27a2e5" kindref="member">getCurrentKeyId()</ref> are safe to call concurrently.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1_encrypted_chunk_store_1a92f9fd53edfae50d828fe63743d78402" kindref="member">setAuditLogger()</ref> and <ref refid="classthemis_1_1_encrypted_chunk_store_1aa6915d218e18201d9c426077ef0dcb3e" kindref="member">setAccessorIdentity()</ref> are safe to call concurrently with any other method, including concurrent encrypt/decrypt calls. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/timeseries/encrypted_chunk_store.h" line="102" column="1" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="102" bodyend="292"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a8a6acad848022113e4abbab5c4b78363" prot="private" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>accessor_identity_</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1ae522dbf731066ce8d48085ea97bb020f" prot="private" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a86f1fd5d01e236ee5ff4eaafec276441" prot="private" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>auditKeyAccess</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1acb29cd2ac93393882b7c70adde3607d8" prot="private" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>current_key_fn_</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1afd235274cb6bffa6c6f721c9f1dd294b" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>CurrentKeyFn</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1aa82e36d45c95a403fc8a7e8a76b62cff" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>decryptChunk</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a5d4f55c6858aee9ea6d6cbfa88e740b4" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>DEK_LEN</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a9187648cbe01138a973876ae8cf3c4a8" prot="private" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>deriveDEK</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1ad8f7368dc13bed9129938382bdbffdd2" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>encryptChunk</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>EncryptedChunkStore</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a7a56988ce0bc0a746b4cd9d5970827c5" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>EncryptedChunkStore</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a6a300753581be4466f9d22846dde185e" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>EncryptedChunkStore</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1af9299d2fa8ef2e280eef64dc3d27a2e5" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>getCurrentKeyId</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1aae3e141ad7c1964a61a735901df3613a" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>isAuditEnabled</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1ac845b11dbc99726aec156021febcbac0" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>IV_LEN</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1add84357c192fbc4b8610f145833f386b" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>KEY_ID_PREFIX_LEN_BYTES</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a3d62e088a9452749a7860774cd57132d" prot="private" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>lookup_key_fn_</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1aa0b1dbdcd11d06ed7335d434f0ed424e" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>LookupKeyFn</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a9fa656127c7b634534b4b4de598b17c3" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1aa0f53467ed1b7bd10ac480c8b6b19d88" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1aecbff889349fc849306f7a78ea1ef520" prot="private" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>rw_mu_</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1aa6915d218e18201d9c426077ef0dcb3e" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>setAccessorIdentity</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a92f9fd53edfae50d828fe63743d78402" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1a05c38154450d857fe1e3e4c13675560f" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>TAG_LEN</name></member>
+      <member refid="classthemis_1_1_encrypted_chunk_store_1ae1868a0ee5b5b271a5ae5b5984041f2d" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore</scope><name>~EncryptedChunkStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

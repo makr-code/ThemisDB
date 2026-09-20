@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classfaiss_1_1_index" kind="class" language="C++" prot="public">
+    <compoundname>faiss::Index</compoundname>
+    <derivedcompoundref refid="classfaiss_1_1_index_i_v_f_flat" prot="public" virt="non-virtual">faiss::IndexIVFFlat</derivedcompoundref>
+    <derivedcompoundref refid="classfaiss_1_1_index_i_v_f_p_q" prot="public" virt="non-virtual">faiss::IndexIVFPQ</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classfaiss_1_1_index_1ab79d7048c0a680ad0528848e9fc6d1a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual faiss::Index::~Index</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Index</name>
+        <qualifiedname>faiss::Index::~Index</qualifiedname>
+        <briefdescription>
+<para><ref refid="classfaiss_1_1_index" kindref="compound">Index</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/advanced_vector_index.cpp" line="52" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>faiss::Index</label>
+        <link refid="classfaiss_1_1_index"/>
+      </node>
+      <node id="2">
+        <label>faiss::IndexIVFFlat</label>
+        <link refid="classfaiss_1_1_index_i_v_f_flat"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>faiss::IndexIVFPQ</label>
+        <link refid="classfaiss_1_1_index_i_v_f_p_q"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="src/index/advanced_vector_index.cpp" line="46" column="9" bodyfile="src/index/advanced_vector_index.cpp" bodystart="46" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classfaiss_1_1_index_1ab79d7048c0a680ad0528848e9fc6d1a2" prot="public" virt="virtual"><scope>faiss::Index</scope><name>~Index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::PNCounter</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a5ddc7a557a032d3fd6d94166eb54a9b3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter" kindref="compound">GrowOnlyCounter</ref></type>
+        <definition>GrowOnlyCounter themisdb::replication::crdt::PNCounter::pos_</definition>
+        <argsstring></argsstring>
+        <name>pos_</name>
+        <qualifiedname>themisdb::replication::crdt::PNCounter::pos_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="126" column="21" bodyfile="include/replication/crdt_types.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1aa2dceae989fa54da738b707e7e207168" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter" kindref="compound">GrowOnlyCounter</ref></type>
+        <definition>GrowOnlyCounter themisdb::replication::crdt::PNCounter::neg_</definition>
+        <argsstring></argsstring>
+        <name>neg_</name>
+        <qualifiedname>themisdb::replication::crdt::PNCounter::neg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="127" column="21" bodyfile="include/replication/crdt_types.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a1dc63d5a3a94dc56c4b842e044bff3d6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::crdt::PNCounter::PNCounter</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>PNCounter</name>
+        <qualifiedname>themisdb::replication::crdt::PNCounter::PNCounter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="108" column="14" bodyfile="include/replication/crdt_types.h" bodystart="108" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1ae20427151a7914ab9fc1a6b7935a2f8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::PNCounter::increment</definition>
+        <argsstring>(uint64_t delta=1)</argsstring>
+        <name>increment</name>
+        <qualifiedname>themisdb::replication::crdt::PNCounter::increment</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>delta</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="111" column="10" bodyfile="include/replication/crdt_types.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a27da316756e86712e3353b7a9c9a3e89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::PNCounter::decrement</definition>
+        <argsstring>(uint64_t delta=1)</argsstring>
+        <name>decrement</name>
+        <qualifiedname>themisdb::replication::crdt::PNCounter::decrement</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>delta</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="112" column="10" bodyfile="include/replication/crdt_types.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a566dcdff7908649dfe5aa4c13de0e951" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::crdt::PNCounter::value</definition>
+        <argsstring>() const</argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::replication::crdt::PNCounter::value</qualifiedname>
+        <briefdescription>
+<para>Returns the signed counter value (may be negative). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="115" column="13" bodyfile="include/replication/crdt_types.h" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a9a54139bd7c0dec1a2aa26b5420db109" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::PNCounter::merge</definition>
+        <argsstring>(const PNCounter &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::PNCounter::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a1dc63d5a3a94dc56c4b842e044bff3d6" kindref="member">PNCounter</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="120" column="10" bodyfile="include/replication/crdt_types.h" bodystart="120" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A Positive-Negative Counter (PN-Counter). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Internally two G-Counters (P and N) track increments and decrements separately. The value is P.value() − N.value(). </para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="106" column="1" bodyfile="include/replication/crdt_types.h" bodystart="106" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a27da316756e86712e3353b7a9c9a3e89" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::PNCounter</scope><name>decrement</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1ae20427151a7914ab9fc1a6b7935a2f8e" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::PNCounter</scope><name>increment</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a9a54139bd7c0dec1a2aa26b5420db109" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::PNCounter</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1aa2dceae989fa54da738b707e7e207168" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::PNCounter</scope><name>neg_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a1dc63d5a3a94dc56c4b842e044bff3d6" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::PNCounter</scope><name>PNCounter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a5ddc7a557a032d3fd6d94166eb54a9b3" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::PNCounter</scope><name>pos_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter_1a566dcdff7908649dfe5aa4c13de0e951" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::PNCounter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

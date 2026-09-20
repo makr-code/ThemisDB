@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolMetrics::ErrorStats</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1a573e3e934161229914d9de13e29f3123" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::ErrorStats::connection_errors</definition>
+        <argsstring></argsstring>
+        <name>connection_errors</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ErrorStats::connection_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="90" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1a642e5bd8aeb32d0458503d84d1fb4686" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::ErrorStats::timeout_errors</definition>
+        <argsstring></argsstring>
+        <name>timeout_errors</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ErrorStats::timeout_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="91" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1ac0111b24dac09c62b2e2d008dba5a11a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::ErrorStats::parse_errors</definition>
+        <argsstring></argsstring>
+        <name>parse_errors</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ErrorStats::parse_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="92" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1a950af7f3d7f2618b29b2e0601c193e58" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::ErrorStats::auth_errors</definition>
+        <argsstring></argsstring>
+        <name>auth_errors</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ErrorStats::auth_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="93" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1a51226d3ff43a0174a2aa2faf3a792997" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::ErrorStats::error_rate</definition>
+        <argsstring></argsstring>
+        <name>error_rate</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ErrorStats::error_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>errors / (requests + errors) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="94" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="89" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="89" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1a950af7f3d7f2618b29b2e0601c193e58" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ErrorStats</scope><name>auth_errors</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1a573e3e934161229914d9de13e29f3123" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ErrorStats</scope><name>connection_errors</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1a51226d3ff43a0174a2aa2faf3a792997" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ErrorStats</scope><name>error_rate</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1ac0111b24dac09c62b2e2d008dba5a11a" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ErrorStats</scope><name>parse_errors</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats_1a642e5bd8aeb32d0458503d84d1fb4686" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ErrorStats</scope><name>timeout_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

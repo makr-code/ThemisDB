@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern" kind="struct" language="C++" prot="private">
+    <compoundname>themis::analytics::NlpTextAnalyzer::LegalModalityPattern</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1affd43d0f1840ade8ed608744bb362e17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::LegalModalityPattern::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::LegalModalityPattern::pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="261" column="21" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1a45f26152a0b286da2411a98df92be5c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::LegalModalityPattern::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::LegalModalityPattern::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="262" column="21" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1aecd33c3397ecb31123836be59a118aa0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::analytics::NlpTextAnalyzer::LegalModalityPattern::strength</definition>
+        <argsstring></argsstring>
+        <name>strength</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::LegalModalityPattern::strength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="263" column="15" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1a2eae4fb947c541704cb6af5dddabee3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::LegalModalityPattern::deontic_logic</definition>
+        <argsstring></argsstring>
+        <name>deontic_logic</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::LegalModalityPattern::deontic_logic</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="264" column="21" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1af2f0dfe7bf9bf65106059964837fe52b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::LegalModalityPattern::interpretation</definition>
+        <argsstring></argsstring>
+        <name>interpretation</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::LegalModalityPattern::interpretation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="265" column="21" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1a2521e2a2aec18a59d410e1236724223d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::analytics::NlpTextAnalyzer::LegalModalityPattern::context_requirements</definition>
+        <argsstring></argsstring>
+        <name>context_requirements</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::LegalModalityPattern::context_requirements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="266" column="21" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/nlp_text_analyzer.h" line="260" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="260" bodyend="267"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1a45f26152a0b286da2411a98df92be5c0" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::LegalModalityPattern</scope><name>category</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1a2521e2a2aec18a59d410e1236724223d" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::LegalModalityPattern</scope><name>context_requirements</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1a2eae4fb947c541704cb6af5dddabee3e" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::LegalModalityPattern</scope><name>deontic_logic</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1af2f0dfe7bf9bf65106059964837fe52b" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::LegalModalityPattern</scope><name>interpretation</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1affd43d0f1840ade8ed608744bb362e17" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::LegalModalityPattern</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern_1aecd33c3397ecb31123836be59a118aa0" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::LegalModalityPattern</scope><name>strength</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

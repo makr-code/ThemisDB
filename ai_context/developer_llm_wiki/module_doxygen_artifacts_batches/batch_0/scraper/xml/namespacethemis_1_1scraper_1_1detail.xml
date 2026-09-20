@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1scraper_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::scraper::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1detail_1a33fb8ef94b8d98cc9fb70ca3031b4dd0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::detail::containsIgnoreCase</definition>
+        <argsstring>(const std::string &amp;haystack, const std::string &amp;needle) noexcept</argsstring>
+        <name>containsIgnoreCase</name>
+        <qualifiedname>themis::scraper::detail::containsIgnoreCase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>haystack</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>needle</declname>
+        </param>
+        <briefdescription>
+<para>Case-insensitive substring search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_render_contract.h" line="81" column="13" bodyfile="include/scraper/scraper_render_contract.h" bodystart="81" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_render_contract.h" line="78" column="1"/>
+  </compounddef>
+</doxygen>

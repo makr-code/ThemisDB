@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_adapter_candidate_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IAdapterCandidateProvider</compoundname>
+    <derivedcompoundref refid="class_capturing_top_k_adapter_candidate_provider" prot="public" virt="non-virtual">CapturingTopKAdapterCandidateProvider</derivedcompoundref>
+    <derivedcompoundref refid="class_fixed_adapter_candidate_provider" prot="public" virt="non-virtual">FixedAdapterCandidateProvider</derivedcompoundref>
+    <derivedcompoundref refid="class_throwing_adapter_candidate_provider" prot="public" virt="non-virtual">ThrowingAdapterCandidateProvider</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_w3_single_adapter_provider" prot="public" virt="non-virtual">themis::llm::W3SingleAdapterProvider</derivedcompoundref>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_adapter_candidate_provider_1a17bb0a75fac5be30b8803a53fdeeb821" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::IAdapterCandidateProvider::~IAdapterCandidateProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAdapterCandidateProvider</name>
+        <qualifiedname>themis::llm::IAdapterCandidateProvider::~IAdapterCandidateProvider</qualifiedname>
+        <briefdescription>
+<para>IAdapter Candidate Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="424" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_adapter_candidate_provider_1af90ef73c2b34eb08950678c14c5c16e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_selection_result" kindref="compound">AdapterSelectionResult</ref></type>
+        <definition>virtual AdapterSelectionResult themis::llm::IAdapterCandidateProvider::selectCandidates</definition>
+        <argsstring>(const AdapterSelectionInput &amp;input) const =0</argsstring>
+        <name>selectCandidates</name>
+        <qualifiedname>themis::llm::IAdapterCandidateProvider::selectCandidates</qualifiedname>
+        <reimplementedby refid="class_capturing_top_k_adapter_candidate_provider_1aa088159af71b2782ef52f160db5bbbe0">selectCandidates</reimplementedby>
+        <reimplementedby refid="class_fixed_adapter_candidate_provider_1a80431513e80a156b566838e503e7ddf1">selectCandidates</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_single_adapter_provider_1a51d9f9d14726e52cfb3924440d47bc84">selectCandidates</reimplementedby>
+        <reimplementedby refid="class_throwing_adapter_candidate_provider_1ae173d6e1856e990902d0b88e15e9e928">selectCandidates</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_selection_input" kindref="compound">AdapterSelectionInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="427" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>CapturingTopKAdapterCandidateProvider</label>
+        <link refid="class_capturing_top_k_adapter_candidate_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>FixedAdapterCandidateProvider</label>
+        <link refid="class_fixed_adapter_candidate_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ThrowingAdapterCandidateProvider</label>
+        <link refid="class_throwing_adapter_candidate_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::IAdapterCandidateProvider</label>
+        <link refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::W3SingleAdapterProvider</label>
+        <link refid="classthemis_1_1llm_1_1_w3_single_adapter_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/ai_orchestrator.h" line="418" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="418" bodyend="428"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider_1af90ef73c2b34eb08950678c14c5c16e1" prot="public" virt="pure-virtual"><scope>themis::llm::IAdapterCandidateProvider</scope><name>selectCandidates</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider_1a17bb0a75fac5be30b8803a53fdeeb821" prot="public" virt="virtual"><scope>themis::llm::IAdapterCandidateProvider</scope><name>~IAdapterCandidateProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

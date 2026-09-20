@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GraphEdge</compoundname>
+    <includes refid="index__interface_8h" local="no">index_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_edge_1a21aeb4c42fa8652a410e07de929f2d96" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphEdge::from_node</definition>
+        <argsstring></argsstring>
+        <name>from_node</name>
+        <qualifiedname>themis::GraphEdge::from_node</qualifiedname>
+        <briefdescription>
+<para>Source node ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="176" column="17" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_edge_1af1645ae032af3953bc4ef64aafff76ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphEdge::to_node</definition>
+        <argsstring></argsstring>
+        <name>to_node</name>
+        <qualifiedname>themis::GraphEdge::to_node</qualifiedname>
+        <briefdescription>
+<para>Target node ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="177" column="17" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_edge_1aeb02bae65f5c2dafa9ddb1d5dc0c3709" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphEdge::edge_type</definition>
+        <argsstring></argsstring>
+        <name>edge_type</name>
+        <qualifiedname>themis::GraphEdge::edge_type</qualifiedname>
+        <briefdescription>
+<para>Edge type/label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="178" column="17" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_edge_1aec7d170414f106eb101c765a03d6c395" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::GraphEdge::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::GraphEdge::weight</qualifiedname>
+        <briefdescription>
+<para>Edge weight (optional, 1.0 default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="179" column="12" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_graph_edge_1a1ca95592da40544ac4ac2d9789b2baf1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::GraphEdge::GraphEdge</definition>
+        <argsstring>(std::string from, std::string to, std::string type=&quot;&quot;, double w=1.0)</argsstring>
+        <name>GraphEdge</name>
+        <qualifiedname>themis::GraphEdge::GraphEdge</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>w</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="181" column="5" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="181" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Graph edge representation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/index_interface.h" line="175" column="1" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="175" bodyend="187"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_edge_1aeb02bae65f5c2dafa9ddb1d5dc0c3709" prot="public" virt="non-virtual"><scope>themis::GraphEdge</scope><name>edge_type</name></member>
+      <member refid="structthemis_1_1_graph_edge_1a21aeb4c42fa8652a410e07de929f2d96" prot="public" virt="non-virtual"><scope>themis::GraphEdge</scope><name>from_node</name></member>
+      <member refid="structthemis_1_1_graph_edge_1a1ca95592da40544ac4ac2d9789b2baf1" prot="public" virt="non-virtual"><scope>themis::GraphEdge</scope><name>GraphEdge</name></member>
+      <member refid="structthemis_1_1_graph_edge_1af1645ae032af3953bc4ef64aafff76ad" prot="public" virt="non-virtual"><scope>themis::GraphEdge</scope><name>to_node</name></member>
+      <member refid="structthemis_1_1_graph_edge_1aec7d170414f106eb101c765a03d6c395" prot="public" virt="non-virtual"><scope>themis::GraphEdge</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1889 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_async_ingestion_worker" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::AsyncIngestionWorker</compoundname>
+    <includes refid="async__ingestion__worker_8h" local="no">async_ingestion_worker.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1ace6a28adb656e8752057ca66672f8d77" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_content_manager" kindref="compound">ContentManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ContentManager&gt; themis::content::AsyncIngestionWorker::content_manager_</definition>
+        <argsstring></argsstring>
+        <name>content_manager_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::content_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="232" column="21" bodyfile="include/content/async_ingestion_worker.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1aaf63b714a3e0d8f2a3e58c9d823d9469" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_async_ingestion_config" kindref="compound">AsyncIngestionConfig</ref></type>
+        <definition>AsyncIngestionConfig themis::content::AsyncIngestionWorker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="233" column="26" bodyfile="include/content/async_ingestion_worker.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a58bf4a55ad671669e2d19c73d4dee59f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::content::AsyncIngestionWorker::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="236" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a8c67a038bd28d85d4ad62938c35c26e1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::content::AsyncIngestionWorker::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::running_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="237" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a7a5b4917b9a490152ebcf13dc68219a6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::content::AsyncIngestionWorker::shutdown_requested_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_requested_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::shutdown_requested_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="238" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a244448780e3a3ecf8a24e6f2818ffba6" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; <ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &gt;</type>
+        <definition>std::queue&lt;IngestionJob&gt; themis::content::AsyncIngestionWorker::job_queue_</definition>
+        <argsstring></argsstring>
+        <name>job_queue_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::job_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="241" column="16" bodyfile="include/content/async_ingestion_worker.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1acf3efa7f85b8cd697957774df1a492f5" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::AsyncIngestionWorker::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="242" column="16" bodyfile="include/content/async_ingestion_worker.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a3ff21dc8eb68dac48644cd4b7745f224" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::content::AsyncIngestionWorker::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="243" column="29" bodyfile="include/content/async_ingestion_worker.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a39f3e0900bdc6aa90de87d9eb68dfb09" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::content::AsyncIngestionWorker::backpressure_cv_</definition>
+        <argsstring></argsstring>
+        <name>backpressure_cv_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::backpressure_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="244" column="29" bodyfile="include/content/async_ingestion_worker.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1ac7a121421c6391e4706250fb49b87144" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &gt;</type>
+        <definition>std::map&lt;std::string, IngestionJob&gt; themis::content::AsyncIngestionWorker::job_history_</definition>
+        <argsstring></argsstring>
+        <name>job_history_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::job_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="247" column="14" bodyfile="include/content/async_ingestion_worker.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a119681cb9bfe21b46bbd11398208bf94" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::AsyncIngestionWorker::history_mutex_</definition>
+        <argsstring></argsstring>
+        <name>history_mutex_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::history_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="248" column="16" bodyfile="include/content/async_ingestion_worker.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a898d168a42e844f65d4ce59d49e5d0d1" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912b" kindref="member">IngestionJobType</ref>, std::function&lt; void(<ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;)&gt; &gt;</type>
+        <definition>std::map&lt;IngestionJobType, std::function&lt;void(IngestionJob&amp;)&gt; &gt; themis::content::AsyncIngestionWorker::job_handlers_</definition>
+        <argsstring></argsstring>
+        <name>job_handlers_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::job_handlers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="251" column="14" bodyfile="include/content/async_ingestion_worker.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a12fe1ab7ed23f01a1b1023ef630e4abf" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::AsyncIngestionWorker::handlers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>handlers_mutex_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::handlers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="252" column="16" bodyfile="include/content/async_ingestion_worker.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a4fdd3c4fa43bd320d01cdde0a336a362" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AsyncIngestionWorker::total_jobs_processed_</definition>
+        <argsstring></argsstring>
+        <name>total_jobs_processed_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::total_jobs_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="257" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a35575a0772c24d8ac49e8396d05fc324" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AsyncIngestionWorker::total_jobs_failed_</definition>
+        <argsstring></argsstring>
+        <name>total_jobs_failed_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::total_jobs_failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="258" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a509eb4124a1bb451f9bc313971afd980" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AsyncIngestionWorker::total_items_processed_</definition>
+        <argsstring></argsstring>
+        <name>total_items_processed_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::total_items_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="259" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a1b49caf4c6653cb1626ce30315442ad0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AsyncIngestionWorker::total_backpressure_events_</definition>
+        <argsstring></argsstring>
+        <name>total_backpressure_events_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::total_backpressure_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of times a caller was blocked by back-pressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="262" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="262" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a3d6bad47aea658de21693184d89f4cf3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AsyncIngestionWorker::queue_depth_high_watermark_</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_high_watermark_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::queue_depth_high_watermark_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Peak queue depth observed since start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="263" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a0545d47351685e839e1c22575bc45332" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::content::AsyncIngestionWorker::inflight_count_</definition>
+        <argsstring></argsstring>
+        <name>inflight_count_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::inflight_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Jobs currently being processed (dequeued but not completed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="264" column="19" bodyfile="include/content/async_ingestion_worker.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a949e380b421abfdceef662d3b7c38ebd" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_ingestion_plugin" kindref="compound">IngestionPlugin</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;IngestionPlugin&gt; &gt; themis::content::AsyncIngestionWorker::plugins_</definition>
+        <argsstring></argsstring>
+        <name>plugins_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::plugins_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="267" column="14" bodyfile="include/content/async_ingestion_worker.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a654f10069ddb53f32fe376355c45c4b8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::AsyncIngestionWorker::plugins_mutex_</definition>
+        <argsstring></argsstring>
+        <name>plugins_mutex_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::plugins_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="268" column="24" bodyfile="include/content/async_ingestion_worker.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_async_ingestion_worker_1a5b706ed4ad6c1f5fb6455380560cdd3e" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::content::AsyncIngestionWorker::cleanup_thread_</definition>
+        <argsstring></argsstring>
+        <name>cleanup_thread_</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::cleanup_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="335" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a80d973b7a4a2c7fdfa9eebc3e66823eb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::AsyncIngestionWorker::AsyncIngestionWorker</definition>
+        <argsstring>(std::shared_ptr&lt; ContentManager &gt; content_manager, AsyncIngestionConfig config=AsyncIngestionConfig{})</argsstring>
+        <name>AsyncIngestionWorker</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::AsyncIngestionWorker</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_content_manager" kindref="compound">ContentManager</ref> &gt;</type>
+          <declname>content_manager</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_async_ingestion_config" kindref="compound">AsyncIngestionConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1content_1_1_async_ingestion_config" kindref="compound">AsyncIngestionConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="101" column="14" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a9ac236fc4d984a9feb23cfaaf9d0aaf4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::AsyncIngestionWorker::~AsyncIngestionWorker</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~AsyncIngestionWorker</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::~AsyncIngestionWorker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="106" column="5" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="119" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a23bd3d059a36d267151201638b536184" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), THEMIS_WARN(), store(), emplace_back(), std::thread(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="111" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="134" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1aad51d8ebf185e0f13ea9034952ad63be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::stop</definition>
+        <argsstring>(bool wait_for_completion=true)</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::stop</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>wait_for_completion</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wait_for_completion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), THEMIS_INFO(), lock(), empty(), front(), pop(), set_exception(), std::make_exception_ptr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="113" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="161" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a2f99f6c2b1e2614f301f1c12711abf6c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::AsyncIngestionWorker::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="115" column="10" bodyfile="include/content/async_ingestion_worker.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a010f19ce96e160cc70abaf532d902e56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::AsyncIngestionWorker::submitFile</definition>
+        <argsstring>(const std::string &amp;blob, const std::string &amp;filename, const std::string &amp;mime_type=&quot;&quot;, const std::string &amp;user_context=&quot;&quot;, const json &amp;config=json::object())</argsstring>
+        <name>submitFile</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::submitFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Submit File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), generateJobId(), getCurrentTimeMs(), lock(), size(), push(), hist_lock(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="117" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="221" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a2eab538d2b4a3fbd81bce961e4d7c14e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::AsyncIngestionWorker::submitStream</definition>
+        <argsstring>(std::istream &amp;stream, const std::string &amp;filename, const std::string &amp;mime_type=&quot;&quot;, const std::string &amp;user_context=&quot;&quot;, const json &amp;config=json::object())</argsstring>
+        <name>submitStream</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::submitStream</qualifiedname>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Submit Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), generateJobId(), getCurrentTimeMs(), lock(), size(), fetch_add(), wait(), push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="125" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="275" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1ad89d3a952262af406cf94a7e36f353de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; std::string &gt;</type>
+        <definition>std::future&lt; std::string &gt; themis::content::AsyncIngestionWorker::ingestStream</definition>
+        <argsstring>(std::istream &amp;stream, const std::string &amp;filename, const std::string &amp;mime_type=&quot;&quot;, const std::string &amp;user_context=&quot;&quot;, const json &amp;config=json::object())</argsstring>
+        <name>ingestStream</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::ingestStream</qualifiedname>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Ingest Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), get_future(), generateJobId(), getCurrentTimeMs(), lock(), size(), fetch_add(), wait(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="133" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="340" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1af0901b7755db73c93413a20f449814fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::AsyncIngestionWorker::submitArchive</definition>
+        <argsstring>(const std::string &amp;blob, const std::string &amp;filename, const std::string &amp;user_context=&quot;&quot;, const json &amp;config=json::object())</argsstring>
+        <name>submitArchive</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::submitArchive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Submit Archive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), generateJobId(), getCurrentTimeMs(), lock(), size(), push(), hist_lock(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="141" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="412" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1ae03ea4fe61d9be8d4965586b39cd2534" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::AsyncIngestionWorker::submitBatch</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;files, const std::string &amp;user_context=&quot;&quot;, const json &amp;config=json::object())</argsstring>
+        <name>submitBatch</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::submitBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>files</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Add to history (without blobs for efficiency) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">history_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="148" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="453" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a46775dbb169abd083ebc924f290d85a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &gt;</type>
+        <definition>std::optional&lt; IngestionJob &gt; themis::content::AsyncIngestionWorker::getJobStatus</definition>
+        <argsstring>(const std::string &amp;job_id)</argsstring>
+        <name>getJobStatus</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::getJobStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Job <ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="159" column="19" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="523" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1afbdca31b6177900407e40b44332ab9c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::AsyncIngestionWorker::cancelJob</definition>
+        <argsstring>(const std::string &amp;job_id)</argsstring>
+        <name>cancelJob</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::cancelJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="166" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="540" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a6fed5bad6d83f37c741b97287ff65663" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &gt;</type>
+        <definition>std::vector&lt; IngestionJob &gt; themis::content::AsyncIngestionWorker::getAllJobs</definition>
+        <argsstring>(std::optional&lt; IngestionJobStatus &gt; status=std::nullopt)</argsstring>
+        <name>getAllJobs</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::getAllJobs</qualifiedname>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8" kindref="member">IngestionJobStatus</ref> &gt;</type>
+          <declname>status</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Get All Jobs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), has_value(), value(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="168" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="564" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a68c30d3656d9c2767160e38d54b3bd7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::AsyncIngestionWorker::getStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics.</para>
+</simplesect>
+<simplesect kind="return"><para>Access control statistics.</para>
+</simplesect>
+Calls: q_lock(), h_lock(), load(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="176" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="583" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1ab151060f1089231fac9d9756de3263dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::clearCompletedJobs</definition>
+        <argsstring>(int64_t older_than_ms=0)</argsstring>
+        <name>clearCompletedJobs</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::clearCompletedJobs</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>older_than_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Clear Completed Jobs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">older_than_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getCurrentTimeMs(), max(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="178" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="635" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a02f852b19e09a46dea455ac053f45d52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::setCompletionCallback</definition>
+        <argsstring>(const std::string &amp;job_id, std::function&lt; void(const IngestionJob &amp;)&gt; callback)</argsstring>
+        <name>setCompletionCallback</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::setCompletionCallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">history_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="180" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="653" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1ae0573214565b57e6f4955a65b282fb40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::registerJobHandler</definition>
+        <argsstring>(IngestionJobType job_type, std::function&lt; void(IngestionJob &amp;)&gt; handler)</argsstring>
+        <name>registerJobHandler</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::registerJobHandler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912b" kindref="member">IngestionJobType</ref></type>
+          <declname>job_type</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(<ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;)&gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handlers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="185" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="668" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a23a918bf69c997233f87618a1c06c29e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::registerPlugin</definition>
+        <argsstring>(std::shared_ptr&lt; IngestionPlugin &gt; plugin)</argsstring>
+        <name>registerPlugin</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::registerPlugin</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_ingestion_plugin" kindref="compound">IngestionPlugin</ref> &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Register Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), name(), find(), end(), THEMIS_WARN(), THEMIS_INFO(), version(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="198" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="978" bodyend="992"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a845555b616558e6cc2fa092f2a1c3151" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::unregisterPlugin</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>unregisterPlugin</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::unregisterPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), THEMIS_INFO(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="204" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="999" bodyend="1009"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1ac72f1265b21185d453a98eb440ca560c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::AsyncIngestionWorker::listPlugins</definition>
+        <argsstring>() const</argsstring>
+        <name>listPlugins</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::listPlugins</qualifiedname>
+        <briefdescription>
+<para>List Plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugins_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="210" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1011" bodyend="1026"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a6cf1d9556ad50e9013721a66b0a841ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_ingestion_plugin" kindref="compound">IngestionPlugin</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IngestionPlugin &gt; themis::content::AsyncIngestionWorker::getPlugin</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getPlugin</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::getPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugins_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="217" column="21" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1028" bodyend="1041"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a5f88c37c47a4edde64da440daa37b516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::AsyncIngestionWorker::submitSourceJob</definition>
+        <argsstring>(const IngestionSource &amp;source, const json &amp;additional_config=json::object(), const std::string &amp;user_context=&quot;&quot;)</argsstring>
+        <name>submitSourceJob</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::submitSourceJob</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_ingestion_source" kindref="compound">IngestionSource</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>additional_config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Submit Source Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">additional_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), lock(), find(), end(), generateJobId(), toJson(), merge_patch(), getCurrentTimeMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="219" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1052" bodyend="1129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a760e0ae2afaa8bc1d3b3b6caa0b0a24b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::loadSourcesFromConfig</definition>
+        <argsstring>(const std::string &amp;config_path)</argsstring>
+        <name>loadSourcesFromConfig</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::loadSourcesFromConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Sources From Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: requested_path(), is_absolute(), std::filesystem::exists(), lexically_normal(), string(), themis::config::ConfigPathResolver::resolve(), themis::config::ConfigSchemaValidator::loadAsJson(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="229" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1136" bodyend="1185"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a1a081fc8a90f8160de42d09dd382387a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::workerLoop</definition>
+        <argsstring>(int worker_id)</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::workerLoop</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>worker_id</declname>
+        </param>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">worker_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the worker.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">worker_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the worker.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), lock(), wait(), empty(), load(), front(), pop(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="275" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="691" bodyend="801"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a72be4207ab2ae02bcefb3384421506f6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::processJob</definition>
+        <argsstring>(IngestionJob &amp;job)</argsstring>
+        <name>processJob</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::processJob</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Process Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), second(), processSingleFile(), processStreamFile(), processArchive(), processBatchFiles(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="282" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="809" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a9fd823b74d90f38feaecad4e8f1454e6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::processSingleFile</definition>
+        <argsstring>(IngestionJob &amp;job)</argsstring>
+        <name>processSingleFile</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::processSingleFile</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Process Single File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: value(), ingestRawBlob(), push_back(), insert(), end(), begin(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="287" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="855" bodyend="872"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a42cfe7c30f1aea05b7ed89b221744937" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::processStreamFile</definition>
+        <argsstring>(IngestionJob &amp;job)</argsstring>
+        <name>processStreamFile</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::processStreamFile</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Process Stream File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: value(), <ref refid="classthemis_1_1content_1_1_async_ingestion_worker_1ad89d3a952262af406cf94a7e36f353de" kindref="member">ingestStream()</ref>, push_back(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="292" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="880" bodyend="899"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a585e90f3a635feb49aca39fe83c3a279" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::processArchive</definition>
+        <argsstring>(IngestionJob &amp;job)</argsstring>
+        <name>processArchive</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::processArchive</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Process Archive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ingestRawBlob(), push_back(), insert(), end(), begin(), size(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="297" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="907" bodyend="925"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a5cbe6bacc22e72a104bd4ca66a16f50f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::processBatchFiles</definition>
+        <argsstring>(IngestionJob &amp;job)</argsstring>
+        <name>processBatchFiles</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::processBatchFiles</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Process Batch Files. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), ingestRawBlob(), push_back(), insert(), end(), begin(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="302" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="933" bodyend="966"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a14596bd5e58ebd5a8db402bdec10519a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::processPluginJob</definition>
+        <argsstring>(IngestionJob &amp;job)</argsstring>
+        <name>processPluginJob</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::processPluginJob</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Process Plugin Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), <ref refid="structthemis_1_1content_1_1_ingestion_source_1aca79da00796897c020614e0921fbf85c" kindref="member">IngestionSource::fromJson()</ref>, lock(), find(), end(), processJob(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="307" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1193" bodyend="1215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a0e57806188fde6c4f26cf179e5ef0ff8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::AsyncIngestionWorker::generateJobId</definition>
+        <argsstring>()</argsstring>
+        <name>generateJobId</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::generateJobId</qualifiedname>
+        <briefdescription>
+<para>Generate Job Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateRandomJobId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="314" column="17" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1226" bodyend="1228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1ac5a78d906add8eab5d34763a370f1d64" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::updateJobStatus</definition>
+        <argsstring>(const std::string &amp;job_id, IngestionJobStatus status)</argsstring>
+        <name>updateJobStatus</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::updateJobStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8" kindref="member">IngestionJobStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Update Job <ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="320" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1236" bodyend="1243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a65416e66ffd6f790fd82f648f8f8f390" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::updateJobProgress</definition>
+        <argsstring>(const std::string &amp;job_id, int processed, int total)</argsstring>
+        <name>updateJobProgress</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::updateJobProgress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>processed</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+<para>Update Job Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">processed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">processed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="327" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1252" bodyend="1261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1ab680de3fcb53a222601cff2e72de110b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::AsyncIngestionWorker::getCurrentTimeMs</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: steady_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="332" column="13" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1268" bodyend="1270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_async_ingestion_worker_1a704daa233ebb8584d66d7df940e33038" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::AsyncIngestionWorker::cleanupLoop</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupLoop</name>
+        <qualifiedname>themis::content::AsyncIngestionWorker::cleanupLoop</qualifiedname>
+        <briefdescription>
+<para>Cleanup Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), std::this_thread::sleep_for(), std::chrono::minutes(), <ref refid="classthemis_1_1content_1_1_async_ingestion_worker_1ab151060f1089231fac9d9756de3263dc" kindref="member">clearCompletedJobs()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="339" column="10" bodyfile="src/content/async_ingestion_worker.cpp" bodystart="1276" bodyend="1288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/async_ingestion_worker.h" line="99" column="1" bodyfile="include/content/async_ingestion_worker.h" bodystart="99" bodyend="340"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a80d973b7a4a2c7fdfa9eebc3e66823eb" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>AsyncIngestionWorker</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a39f3e0900bdc6aa90de87d9eb68dfb09" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>backpressure_cv_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1afbdca31b6177900407e40b44332ab9c9" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>cancelJob</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a5b706ed4ad6c1f5fb6455380560cdd3e" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>cleanup_thread_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a704daa233ebb8584d66d7df940e33038" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>cleanupLoop</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ab151060f1089231fac9d9756de3263dc" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>clearCompletedJobs</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1aaf63b714a3e0d8f2a3e58c9d823d9469" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ace6a28adb656e8752057ca66672f8d77" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>content_manager_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a0e57806188fde6c4f26cf179e5ef0ff8" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>generateJobId</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a6fed5bad6d83f37c741b97287ff65663" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>getAllJobs</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ab680de3fcb53a222601cff2e72de110b" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a46775dbb169abd083ebc924f290d85a1" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>getJobStatus</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a6cf1d9556ad50e9013721a66b0a841ef" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>getPlugin</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a68c30d3656d9c2767160e38d54b3bd7c" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a12fe1ab7ed23f01a1b1023ef630e4abf" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>handlers_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a119681cb9bfe21b46bbd11398208bf94" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>history_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a0545d47351685e839e1c22575bc45332" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>inflight_count_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ad89d3a952262af406cf94a7e36f353de" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>ingestStream</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a2f99f6c2b1e2614f301f1c12711abf6c" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a898d168a42e844f65d4ce59d49e5d0d1" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>job_handlers_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ac7a121421c6391e4706250fb49b87144" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>job_history_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a244448780e3a3ecf8a24e6f2818ffba6" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>job_queue_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ac72f1265b21185d453a98eb440ca560c" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>listPlugins</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a760e0ae2afaa8bc1d3b3b6caa0b0a24b" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>loadSourcesFromConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a949e380b421abfdceef662d3b7c38ebd" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>plugins_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a654f10069ddb53f32fe376355c45c4b8" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>plugins_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a585e90f3a635feb49aca39fe83c3a279" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>processArchive</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a5cbe6bacc22e72a104bd4ca66a16f50f" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>processBatchFiles</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a72be4207ab2ae02bcefb3384421506f6" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>processJob</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a14596bd5e58ebd5a8db402bdec10519a" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>processPluginJob</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a9fd823b74d90f38feaecad4e8f1454e6" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>processSingleFile</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a42cfe7c30f1aea05b7ed89b221744937" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>processStreamFile</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a3ff21dc8eb68dac48644cd4b7745f224" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>queue_cv_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a3d6bad47aea658de21693184d89f4cf3" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>queue_depth_high_watermark_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1acf3efa7f85b8cd697957774df1a492f5" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ae0573214565b57e6f4955a65b282fb40" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>registerJobHandler</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a23a918bf69c997233f87618a1c06c29e" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>registerPlugin</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a8c67a038bd28d85d4ad62938c35c26e1" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>running_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a02f852b19e09a46dea455ac053f45d52" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>setCompletionCallback</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a7a5b4917b9a490152ebcf13dc68219a6" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>shutdown_requested_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a23bd3d059a36d267151201638b536184" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>start</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1aad51d8ebf185e0f13ea9034952ad63be" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>stop</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1af0901b7755db73c93413a20f449814fc" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>submitArchive</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ae03ea4fe61d9be8d4965586b39cd2534" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>submitBatch</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a010f19ce96e160cc70abaf532d902e56" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>submitFile</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a5f88c37c47a4edde64da440daa37b516" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>submitSourceJob</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a2eab538d2b4a3fbd81bce961e4d7c14e" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>submitStream</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a1b49caf4c6653cb1626ce30315442ad0" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>total_backpressure_events_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a509eb4124a1bb451f9bc313971afd980" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>total_items_processed_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a35575a0772c24d8ac49e8396d05fc324" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>total_jobs_failed_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a4fdd3c4fa43bd320d01cdde0a336a362" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>total_jobs_processed_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a845555b616558e6cc2fa092f2a1c3151" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>unregisterPlugin</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a65416e66ffd6f790fd82f648f8f8f390" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>updateJobProgress</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1ac5a78d906add8eab5d34763a370f1d64" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>updateJobStatus</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a1a081fc8a90f8160de42d09dd382387a" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>workerLoop</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a58bf4a55ad671669e2d19c73d4dee59f" prot="private" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>workers_</name></member>
+      <member refid="classthemis_1_1content_1_1_async_ingestion_worker_1a9ac236fc4d984a9feb23cfaaf9d0aaf4" prot="public" virt="non-virtual"><scope>themis::content::AsyncIngestionWorker</scope><name>~AsyncIngestionWorker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

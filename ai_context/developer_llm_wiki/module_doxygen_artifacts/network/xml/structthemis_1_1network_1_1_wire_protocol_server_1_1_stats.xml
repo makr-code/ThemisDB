@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolServer::Stats</compoundname>
+    <includes refid="wire__protocol__server_8h" local="no">wire_protocol_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1ab110899bad56d786277db1d10d6f275a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::Stats::total_connections</definition>
+        <argsstring></argsstring>
+        <name>total_connections</name>
+        <qualifiedname>themis::network::WireProtocolServer::Stats::total_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="391" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a4f0f6229884314e5afcfb058a3e9714e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::Stats::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::network::WireProtocolServer::Stats::active_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="392" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a2f15459eae0aefd52803fa0493f4e3ef" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::Stats::rejected_connections</definition>
+        <argsstring></argsstring>
+        <name>rejected_connections</name>
+        <qualifiedname>themis::network::WireProtocolServer::Stats::rejected_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="393" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a9b46551d194fc47bf50c4cc7453f0254" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::Stats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::network::WireProtocolServer::Stats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="394" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a561ec1429c670c721f7d12522c357f49" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::Stats::total_errors</definition>
+        <argsstring></argsstring>
+        <name>total_errors</name>
+        <qualifiedname>themis::network::WireProtocolServer::Stats::total_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="395" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a46eab2982d3260464e3e30ffb1fab353" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::Stats::auth_failures</definition>
+        <argsstring></argsstring>
+        <name>auth_failures</name>
+        <qualifiedname>themis::network::WireProtocolServer::Stats::auth_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="396" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a42127a43fbceb92d052cba552af5ad1e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::Stats::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::network::WireProtocolServer::Stats::bytes_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="397" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a82f3c7e2617962c09ae289b8974d022a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::Stats::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::network::WireProtocolServer::Stats::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="398" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get server statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_server.h" line="390" column="5" bodyfile="include/network/wire_protocol_server.h" bodystart="390" bodyend="399"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a4f0f6229884314e5afcfb058a3e9714e" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Stats</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a46eab2982d3260464e3e30ffb1fab353" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Stats</scope><name>auth_failures</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a42127a43fbceb92d052cba552af5ad1e" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Stats</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a82f3c7e2617962c09ae289b8974d022a" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Stats</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a2f15459eae0aefd52803fa0493f4e3ef" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Stats</scope><name>rejected_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1ab110899bad56d786277db1d10d6f275a" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Stats</scope><name>total_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a561ec1429c670c721f7d12522c357f49" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Stats</scope><name>total_errors</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a9b46551d194fc47bf50c4cc7453f0254" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Stats</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

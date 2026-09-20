@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="replug__retriever_8h" kind="file" language="C++">
+    <compoundname>replug_retriever.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="replug__retriever_8cpp" local="yes">src/rag/replug_retriever.cpp</includedby>
+    <includedby refid="test__rag__replug__retriever_8cpp" local="yes">tests/rag/test_rag_replug_retriever.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/replug_retriever.h</label>
+        <link refid="replug__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/replug_retriever.h</label>
+        <link refid="replug__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/replug_retriever.cpp</label>
+        <link refid="replug__retriever_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_replug_retriever.cpp</label>
+        <link refid="test__rag__replug__retriever_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" prot="public">themis::rag::ILLMScorer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer" prot="public">themis::rag::HeuristicLLMScorer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_replug_config" prot="public">themis::rag::ReplugConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_replug_score" prot="public">themis::rag::ReplugScore</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_replug_fusion_result" prot="public">themis::rag::ReplugFusionResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_replug_retriever" prot="public">themis::rag::ReplugRetriever</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_replug_retriever_factory" prot="public">themis::rag::ReplugRetrieverFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Pluggable<sp/>LLM<sp/>scorer<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a9cc6e7ded3cbd84d6ad17926f31a7d2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a9cc6e7ded3cbd84d6ad17926f31a7d2e" kindref="member">~ILLMScorer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a07ee0f571f37c796b89a152f46a230ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a07ee0f571f37c796b89a152f46a230ed" kindref="member">score</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1document" kindref="compound">document</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1ab1e53805042ea6241d3dadadc581955e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1ab1e53805042ea6241d3dadadc581955e" kindref="member">name</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Heuristic<sp/>default<sp/>scorer<sp/>(no<sp/>LLM<sp/>runtime<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer" kindref="compound">HeuristicLLMScorer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer_1ac6e8bb0fa7cdff77bbda8174c1841149" kindref="member">score</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1document" kindref="compound">document</ref>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer_1ac7d62bd98a3a344fd985b433d31144a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer_1ac7d62bd98a3a344fd985b433d31144a0" kindref="member">name</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;HeuristicLLMScorer&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1rag_1_1_replug_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_replug_config" kindref="compound">ReplugConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1rag_1_1_replug_config_1a4fff79ec0195e310be1db5c15ee65419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_config_1a4fff79ec0195e310be1db5c15ee65419" kindref="member">llm_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1rag_1_1_replug_config_1a5e26b6b563b426b1fa1bffbd52f5bb41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_config_1a5e26b6b563b426b1fa1bffbd52f5bb41" kindref="member">top_k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1rag_1_1_replug_config_1a1c218c0959637c7092f16bd85e83076b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_config_1a1c218c0959637c7092f16bd85e83076b" kindref="member">temperature</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1rag_1_1_replug_config_1a3f03a8a9b3caad1cd62c4c1e0be56be4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_config_1a3f03a8a9b3caad1cd62c4c1e0be56be4" kindref="member">enable_weight_update</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1rag_1_1_replug_config_1ab8036158894ab66d062df6d23e01d12e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_config_1ab8036158894ab66d062df6d23e01d12e" kindref="member">weight_update_lr</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1rag_1_1_replug_config_1af6b1cbe88df5f4a79d301eb310d00963" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_config_1af6b1cbe88df5f4a79d301eb310d00963" kindref="member">min_retrieval_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-document<sp/>scoring<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1rag_1_1_replug_score" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_replug_score" kindref="compound">ReplugScore</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1rag_1_1_replug_score_1a3a3a2477c02e0a77fc74d7fe3070af0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_replug_score_1a3a3a2477c02e0a77fc74d7fe3070af0c" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1rag_1_1_replug_score_1ad5d366667b7ca570c00c7d3ea4581667" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_score_1ad5d366667b7ca570c00c7d3ea4581667" kindref="member">retrieval_score</ref><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1rag_1_1_replug_score_1ae94536f6a7adca02ee07e50ce45c8143" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_score_1ae94536f6a7adca02ee07e50ce45c8143" kindref="member">llm_score</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1rag_1_1_replug_score_1acf917f407a7a532995552d7d86aa596d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_score_1acf917f407a7a532995552d7d86aa596d" kindref="member">fused_score</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1rag_1_1_replug_score_1a4516eca9588e727dd37ee7aaaa0904a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_score_1a4516eca9588e727dd37ee7aaaa0904a1" kindref="member">kl_gradient</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1rag_1_1_replug_fusion_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_replug_fusion_result" kindref="compound">ReplugFusionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1rag_1_1_replug_fusion_result_1a7049b334548fbb85d9ab44f0c9522fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1_replug_fusion_result_1a7049b334548fbb85d9ab44f0c9522fd5" kindref="member">documents</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1rag_1_1_replug_fusion_result_1a17b3d81ef0ebfce2daec1ecf15d81be6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReplugScore&gt;<sp/><ref refid="structthemis_1_1rag_1_1_replug_fusion_result_1a17b3d81ef0ebfce2daec1ecf15d81be6" kindref="member">scores</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1rag_1_1_replug_fusion_result_1ae9cef16b4c86659ed27cc2ec18c90365" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_replug_fusion_result_1ae9cef16b4c86659ed27cc2ec18c90365" kindref="member">scorer_name</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1rag_1_1_replug_fusion_result_1aeadc1817ef9d347cde5e6761bd7582df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_fusion_result_1aeadc1817ef9d347cde5e6761bd7582df" kindref="member">total_candidates</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ReplugRetriever</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1rag_1_1_replug_retriever" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref><sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref>();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref>(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_replug_config" kindref="compound">ReplugConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILLMScorer&gt;<sp/>scorer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1rag_1_1_replug_retriever_1a95fd511a0e480e9389d29c824f720460" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a95fd511a0e480e9389d29c824f720460" kindref="member">~ReplugRetriever</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>copyable<sp/>because<sp/>the<sp/>weight<sp/>table<sp/>is<sp/>mutable<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1rag_1_1_replug_retriever_1af3b816b442413d4cac9a6c3541d23879" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1af3b816b442413d4cac9a6c3541d23879" kindref="member">ReplugRetriever</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1rag_1_1_replug_retriever_1a019c91feaec03904409146f3e04331f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a019c91feaec03904409146f3e04331f6" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1rag_1_1_replug_retriever_1aa945154b2b0d44c4e5ee812f2bf22230" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1aa945154b2b0d44c4e5ee812f2bf22230" kindref="member">ReplugRetriever</ref>(<ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1rag_1_1_replug_retriever_1a51d6cb445a61a14b3c37fd8e86cb2345" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1_replug_retriever_1a4882eee63307f63b3668112c09be5f0c" kindref="member">ReplugRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_replug_fusion_result" kindref="compound">ReplugFusionResult</ref><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a2be88f7e71e829383578ba28b17ac868" kindref="member">fuse</ref>(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>candidates)<sp/>const;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a034cfc861c9a39b5bfda76d94439fc41" kindref="member">updateRetrieverWeights</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_replug_fusion_result" kindref="compound">ReplugFusionResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1ac3ddf347cdbdc6be8863e931f54ebafb" kindref="member">resetWeights</ref>();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1afa90ed9b67d80b93ac5d72aaa731c38d" kindref="member">getWeight</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>document_id)<sp/>const;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1rag_1_1_replug_config" kindref="compound">ReplugConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a7d39e8c77acb8973beae3573c6024db8" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1adbf8f6d906387c8d826d2e44d4cb4b2d" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_replug_config" kindref="compound">ReplugConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a5929753327348f243df6bc24435aedf0" kindref="member">setScorer</ref>(std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref>&gt;<sp/>scorer);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1a315b67cbf3480cb34ab694df1173555f" kindref="member">scorerName</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_1afaac54046c1439055921f5b6363bb621" kindref="member">validateConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_replug_config" kindref="compound">ReplugConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_replug_config" kindref="compound">ReplugConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scorer_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/>weights_;<sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/>computeLLMScores(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>candidates)<sp/>const;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applySoftmax(std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/>scores,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>temperature);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>normalise(std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/>scores);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/>computeKLGradients(</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/>retrieval_probs,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/>llm_probs);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="classthemis_1_1rag_1_1_replug_retriever_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_factory" kindref="compound">ReplugRetrieverFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_factory_1a1a1d6006dff82cdb2a6155ab7a60c215" kindref="member">createBalanced</ref>(</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILLMScorer&gt;<sp/>scorer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_factory_1aaaae77d31b6aa35eca201e0537301cfd" kindref="member">createLLMDominant</ref>(</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILLMScorer&gt;<sp/>scorer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_factory_1a7a1bb843d1c2e6d4b5fd78ceaa92d081" kindref="member">createRetrievalDominant</ref>(</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILLMScorer&gt;<sp/>scorer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref><sp/><ref refid="classthemis_1_1rag_1_1_replug_retriever_factory_1a64673ba6a7ab9f773ace8bdf71f30dc8" kindref="member">createLSR</ref>(</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILLMScorer&gt;<sp/>scorer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/replug_retriever.h"/>
+  </compounddef>
+</doxygen>

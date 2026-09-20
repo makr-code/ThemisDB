@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_config_file_watcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::ConfigFileWatcher</compoundname>
+    <includes refid="config__file__watcher_8h" local="no">config_file_watcher.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_file_watcher_1af65b3724dbcc335e7bb4c1e3235232bf" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigFileWatcher::watch_path_</definition>
+        <argsstring></argsstring>
+        <name>watch_path_</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::watch_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="86" column="32" bodyfile="include/config/config_file_watcher.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_file_watcher_1ae8ac0214818e068ade14fb770a9fb2e6" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>std::function&lt;void()&gt; themis::config::ConfigFileWatcher::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="87" column="24" bodyfile="include/config/config_file_watcher.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_file_watcher_1ac9908f51ee6ef5cfb76bca4705daf1bc" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::config::ConfigFileWatcher::debounce_</definition>
+        <argsstring></argsstring>
+        <name>debounce_</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::debounce_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="88" column="32" bodyfile="include/config/config_file_watcher.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_file_watcher_1ae3fde8ae57b2ea205f09a33a8a378725" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::config::ConfigFileWatcher::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="90" column="26" bodyfile="include/config/config_file_watcher.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_file_watcher_1ac473cc4bee3d42c7e2f5b6164ad4ab89" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::config::ConfigFileWatcher::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="91" column="32" bodyfile="include/config/config_file_watcher.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_file_watcher_1ad637032dc469458c485078bb7f5089f4" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::config::ConfigFileWatcher::debounce_mutex_</definition>
+        <argsstring></argsstring>
+        <name>debounce_mutex_</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::debounce_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="94" column="44" bodyfile="include/config/config_file_watcher.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_file_watcher_1afbefeb79cd67cc0a92815e9d0556da51" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::config::ConfigFileWatcher::last_event_time_</definition>
+        <argsstring></argsstring>
+        <name>last_event_time_</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::last_event_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="95" column="44" bodyfile="include/config/config_file_watcher.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_file_watcher_1a513b9797091c07b1d8fba3b3025b74ec" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::config::ConfigFileWatcher::event_pending_</definition>
+        <argsstring></argsstring>
+        <name>event_pending_</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::event_pending_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="96" column="44" bodyfile="include/config/config_file_watcher.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a56b768d81e3c462b945269ad1c94c19b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigFileWatcher::ConfigFileWatcher</definition>
+        <argsstring>(std::string watch_path, std::function&lt; void()&gt; callback, std::chrono::milliseconds debounce=std::chrono::milliseconds(200))</argsstring>
+        <name>ConfigFileWatcher</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::ConfigFileWatcher</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>watch_path</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>debounce</declname>
+          <defval>std::chrono::milliseconds(200)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="26" column="14" bodyfile="src/config/config_file_watcher.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a6fab17152768f44e10d03e33b91db9da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigFileWatcher::~ConfigFileWatcher</definition>
+        <argsstring>()</argsstring>
+        <name>~ConfigFileWatcher</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::~ConfigFileWatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="31" column="5" bodyfile="src/config/config_file_watcher.cpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a85fef93942bb888fd43b394cbb86d79b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigFileWatcher::ConfigFileWatcher</definition>
+        <argsstring>(const ConfigFileWatcher &amp;)=delete</argsstring>
+        <name>ConfigFileWatcher</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::ConfigFileWatcher</qualifiedname>
+        <param>
+          <type>const ConfigFileWatcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a8f58ab9c3e7fa805ddadca4a8fd77e50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1config_1_1_config_file_watcher_1a56b768d81e3c462b945269ad1c94c19b" kindref="member">ConfigFileWatcher</ref> &amp;</type>
+        <definition>ConfigFileWatcher &amp; themis::config::ConfigFileWatcher::operator=</definition>
+        <argsstring>(const ConfigFileWatcher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1config_1_1_config_file_watcher_1a56b768d81e3c462b945269ad1c94c19b" kindref="member">ConfigFileWatcher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="35" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1ae53a8258d2d2542859736a0a0dc2ba50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigFileWatcher::ConfigFileWatcher</definition>
+        <argsstring>(ConfigFileWatcher &amp;&amp;)=delete</argsstring>
+        <name>ConfigFileWatcher</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::ConfigFileWatcher</qualifiedname>
+        <param>
+          <type>ConfigFileWatcher &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a00bbd18f04e158a86597508007de0abf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1config_1_1_config_file_watcher_1a56b768d81e3c462b945269ad1c94c19b" kindref="member">ConfigFileWatcher</ref> &amp;</type>
+        <definition>ConfigFileWatcher &amp; themis::config::ConfigFileWatcher::operator=</definition>
+        <argsstring>(ConfigFileWatcher &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1_config_file_watcher_1a56b768d81e3c462b945269ad1c94c19b" kindref="member">ConfigFileWatcher</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="37" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a8d1c6988ceb28447a9282964abe4453c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::config::ConfigFileWatcher::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), std::filesystem::exists(), spdlog::warn(), defined(), pipe2(), strerror(), kqueue(), pipe(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="43" column="10" bodyfile="src/config/config_file_watcher.cpp" bodystart="86" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a4f81788a1a3f097cf721ba217f8390ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigFileWatcher::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), defined(), write(), spdlog::warn(), strerror(), SetEvent(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="48" column="10" bodyfile="src/config/config_file_watcher.cpp" bodystart="240" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1ae72030f3b4bb547bcb7852430e53f064" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::config::ConfigFileWatcher::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="50" column="10" bodyfile="include/config/config_file_watcher.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1ad4074fdd768eb7396d5a38d87d36d47a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::config::ConfigFileWatcher::watchPath</definition>
+        <argsstring>() const</argsstring>
+        <name>watchPath</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::watchPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="52" column="23" bodyfile="include/config/config_file_watcher.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a2bf921a8e582a94f4b2e3d80828d28d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::config::ConfigFileWatcher::debounceInterval</definition>
+        <argsstring>() const</argsstring>
+        <name>debounceInterval</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::debounceInterval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="54" column="31" bodyfile="include/config/config_file_watcher.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1a11fb30cc776143f46d3f35b79ceb4425" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigFileWatcher::watchLoop</definition>
+        <argsstring>()</argsstring>
+        <name>watchLoop</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::watchLoop</qualifiedname>
+        <briefdescription>
+<para>── Entry point for the watcher thread ────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Watch Loop.</para>
+<para>Calls: defined(), watchLoopInotify(), watchLoopKqueue(), watchLoopReadDirChanges(), spdlog::warn(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="60" column="10" bodyfile="src/config/config_file_watcher.cpp" bodystart="311" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_file_watcher_1acf1688e9e9a5932a74d5a9104f4dfe4c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigFileWatcher::scheduleCallback</definition>
+        <argsstring>()</argsstring>
+        <name>scheduleCallback</name>
+        <qualifiedname>themis::config::ConfigFileWatcher::scheduleCallback</qualifiedname>
+        <briefdescription>
+<para>── Debounce helper ───────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Debounce helper ───────────────────────────────────────────────────────────</para>
+<para>Calls: lk(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_file_watcher.h" line="83" column="10" bodyfile="src/config/config_file_watcher.cpp" bodystart="330" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/config_file_watcher.h" line="24" column="1" bodyfile="include/config/config_file_watcher.h" bodystart="24" bodyend="109"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1ae8ac0214818e068ade14fb770a9fb2e6" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a56b768d81e3c462b945269ad1c94c19b" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>ConfigFileWatcher</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a85fef93942bb888fd43b394cbb86d79b" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>ConfigFileWatcher</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1ae53a8258d2d2542859736a0a0dc2ba50" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>ConfigFileWatcher</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1ac9908f51ee6ef5cfb76bca4705daf1bc" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>debounce_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1ad637032dc469458c485078bb7f5089f4" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>debounce_mutex_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a2bf921a8e582a94f4b2e3d80828d28d0" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>debounceInterval</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a513b9797091c07b1d8fba3b3025b74ec" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>event_pending_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1ae72030f3b4bb547bcb7852430e53f064" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1afbefeb79cd67cc0a92815e9d0556da51" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>last_event_time_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a8f58ab9c3e7fa805ddadca4a8fd77e50" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a00bbd18f04e158a86597508007de0abf" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1ae3fde8ae57b2ea205f09a33a8a378725" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>running_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1acf1688e9e9a5932a74d5a9104f4dfe4c" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>scheduleCallback</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a8d1c6988ceb28447a9282964abe4453c" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>start</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a4f81788a1a3f097cf721ba217f8390ba" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>stop</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1ac473cc4bee3d42c7e2f5b6164ad4ab89" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>thread_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1af65b3724dbcc335e7bb4c1e3235232bf" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>watch_path_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a11fb30cc776143f46d3f35b79ceb4425" prot="private" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>watchLoop</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1ad4074fdd768eb7396d5a38d87d36d47a" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>watchPath</name></member>
+      <member refid="classthemis_1_1config_1_1_config_file_watcher_1a6fab17152768f44e10d03e33b91db9da" prot="public" virt="non-virtual"><scope>themis::config::ConfigFileWatcher</scope><name>~ConfigFileWatcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

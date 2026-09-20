@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_role" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::Role</compoundname>
+    <includes refid="rbac_8h" local="no">rbac.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::Role::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::security::Role::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="50" column="17" bodyfile="include/security/rbac.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::Role::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::security::Role::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="51" column="17" bodyfile="include/security/rbac.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref> &gt;</type>
+        <definition>std::vector&lt;Permission&gt; themis::security::Role::permissions</definition>
+        <argsstring></argsstring>
+        <name>permissions</name>
+        <qualifiedname>themis::security::Role::permissions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="52" column="17" bodyfile="include/security/rbac.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::Role::inherits</definition>
+        <argsstring></argsstring>
+        <name>inherits</name>
+        <qualifiedname>themis::security::Role::inherits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="53" column="17" bodyfile="include/security/rbac.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_role_1a0f57b4aab034335e27ee5b5ebd71294c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::Role::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::Role::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="59" column="20" bodyfile="src/security/rbac.cpp" bodystart="37" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_role_1ad0cf2ab2c3522b3c64eb464293cc1f27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref></type>
+        <definition>Role themis::security::Role::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::security::Role::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), is_array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="65" column="17" bodyfile="src/security/rbac.cpp" bodystart="60" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> represents a set of permissions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/rbac.h" line="49" column="1" bodyfile="include/security/rbac.h" bodystart="49" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" prot="public" virt="non-virtual"><scope>themis::security::Role</scope><name>description</name></member>
+      <member refid="structthemis_1_1security_1_1_role_1ad0cf2ab2c3522b3c64eb464293cc1f27" prot="public" virt="non-virtual"><scope>themis::security::Role</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" prot="public" virt="non-virtual"><scope>themis::security::Role</scope><name>inherits</name></member>
+      <member refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" prot="public" virt="non-virtual"><scope>themis::security::Role</scope><name>name</name></member>
+      <member refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" prot="public" virt="non-virtual"><scope>themis::security::Role</scope><name>permissions</name></member>
+      <member refid="structthemis_1_1security_1_1_role_1a0f57b4aab034335e27ee5b5ebd71294c" prot="public" virt="non-virtual"><scope>themis::security::Role</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

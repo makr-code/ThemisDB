@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_best_practice_bench" kind="class" language="C++" prot="public">
+    <compoundname>BestPracticeBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_best_practice_bench_1a175df47d79d2eafa07e257c4adadf1cb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; DatabaseFixture &gt;</type>
+        <definition>std::unique_ptr&lt;DatabaseFixture&gt; BestPracticeBench::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>BestPracticeBench::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2925" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2925" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_best_practice_bench_1a4f8aea3756fb2416facb56b683b624ce" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BestPracticeBench::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BestPracticeBench::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2916" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2916" bodyend="2918"/>
+      </memberdef>
+      <memberdef kind="function" id="class_best_practice_bench_1aa42ce8470a5ce24420537e7aed211a0b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BestPracticeBench::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>BestPracticeBench::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2920" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2920" bodyend="2922"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Best-practice pattern testing </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BestPracticeBench</label>
+        <link refid="class_best_practice_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BestPracticeBench</label>
+        <link refid="class_best_practice_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2914" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2914" bodyend="2926"/>
+    <listofallmembers>
+      <member refid="class_best_practice_bench_1a175df47d79d2eafa07e257c4adadf1cb" prot="protected" virt="non-virtual"><scope>BestPracticeBench</scope><name>fixture_</name></member>
+      <member refid="class_best_practice_bench_1a4f8aea3756fb2416facb56b683b624ce" prot="protected" virt="non-virtual"><scope>BestPracticeBench</scope><name>SetUp</name></member>
+      <member refid="class_best_practice_bench_1aa42ce8470a5ce24420537e7aed211a0b" prot="protected" virt="non-virtual"><scope>BestPracticeBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

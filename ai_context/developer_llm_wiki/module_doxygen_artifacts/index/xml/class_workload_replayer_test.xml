@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_workload_replayer_test" kind="class" language="C++" prot="public">
+    <compoundname>WorkloadReplayerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_workload_replayer_test_1a6bad9e149c35605141150b03957be079" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref></type>
+        <definition>WorkloadCapture WorkloadReplayerTest::capture_</definition>
+        <argsstring></argsstring>
+        <name>capture_</name>
+        <qualifiedname>WorkloadReplayerTest::capture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="154" column="22" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_workload_replayer_test_1a29a32d3356d8594d1356209dc75456fd" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_workload_replayer" kindref="compound">WorkloadReplayer</ref></type>
+        <definition>WorkloadReplayer WorkloadReplayerTest::replayer_</definition>
+        <argsstring></argsstring>
+        <name>replayer_</name>
+        <qualifiedname>WorkloadReplayerTest::replayer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="155" column="22" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WorkloadReplayerTest</label>
+        <link refid="class_workload_replayer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WorkloadReplayerTest</label>
+        <link refid="class_workload_replayer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>capture_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>replayer_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::WorkloadCapture</label>
+        <link refid="classthemis_1_1_workload_capture"/>
+      </node>
+      <node id="4">
+        <label>themis::WorkloadReplayer</label>
+        <link refid="classthemis_1_1_workload_replayer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_index_workload_replay.cpp" line="152" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="152" bodyend="156"/>
+    <listofallmembers>
+      <member refid="class_workload_replayer_test_1a6bad9e149c35605141150b03957be079" prot="protected" virt="non-virtual"><scope>WorkloadReplayerTest</scope><name>capture_</name></member>
+      <member refid="class_workload_replayer_test_1a29a32d3356d8594d1356209dc75456fd" prot="protected" virt="non-virtual"><scope>WorkloadReplayerTest</scope><name>replayer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

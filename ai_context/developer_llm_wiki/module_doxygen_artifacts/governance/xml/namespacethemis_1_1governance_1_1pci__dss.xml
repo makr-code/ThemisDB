@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1pci__dss" kind="namespace" language="C++">
+    <compoundname>themis::governance::pci_dss</compoundname>
+    <innernamespace refid="namespacethemis_1_1governance_1_1pci__dss_1_1requirements">themis::governance::pci_dss::requirements</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="303" column="1"/>
+  </compounddef>
+</doxygen>

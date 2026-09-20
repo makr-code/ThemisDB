@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_i_language_detector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::toolbox::ILanguageDetector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1toolbox_1_1_default_language_detector" prot="public" virt="non-virtual">themis::toolbox::DefaultLanguageDetector</derivedcompoundref>
+    <includes refid="language__detector_8h" local="no">language_detector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_i_language_detector_1aad6eb87a5311cb285cf73d0c9ce7c554" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::toolbox::ILanguageDetector::~ILanguageDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILanguageDetector</name>
+        <qualifiedname>themis::toolbox::ILanguageDetector::~ILanguageDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="30" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_i_language_detector_1acabdb5937c57d014ceb6dcea62122246" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::toolbox::ILanguageDetector::detect</definition>
+        <argsstring>(std::string_view text) const =0</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::toolbox::ILanguageDetector::detect</qualifiedname>
+        <reimplementedby refid="classthemis_1_1toolbox_1_1_default_language_detector_1aaf55e8cd38f38dc5196013f453fb7b39">detect</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect the primary language of <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text sample. For reliable results, supply at least 100 characters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ISO 639-1 language code (e.g. &quot;en&quot;, &quot;de&quot;) or &quot;und&quot; when the language cannot be determined. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="40" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for language detection implementations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returning an ISO 639-1 code (e.g. &quot;en&quot;, &quot;de&quot;) or &quot;und&quot; (undetermined) when the language cannot be identified with sufficient confidence. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::toolbox::DefaultLanguageDetector</label>
+        <link refid="classthemis_1_1toolbox_1_1_default_language_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::toolbox::ILanguageDetector</label>
+        <link refid="classthemis_1_1toolbox_1_1_i_language_detector"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/toolbox/language_detector.h" line="28" column="1" bodyfile="include/toolbox/language_detector.h" bodystart="28" bodyend="41"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_i_language_detector_1acabdb5937c57d014ceb6dcea62122246" prot="public" virt="pure-virtual"><scope>themis::toolbox::ILanguageDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_i_language_detector_1aad6eb87a5311cb285cf73d0c9ce7c554" prot="public" virt="virtual"><scope>themis::toolbox::ILanguageDetector</scope><name>~ILanguageDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_mock_field_def" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockFieldDef</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_field_def_1afe0e0af95afc3f656f23ffda62886dc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockFieldDef::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::aql::testing::MockFieldDef::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="36" column="17" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_field_def_1ad26cae7b2ea58a2f0027a5f23ff7e502" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockFieldDef::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::aql::testing::MockFieldDef::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="37" column="17" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_field_def_1ad34934903738a94ace016ac62016d8ad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::MockFieldDef::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::aql::testing::MockFieldDef::required</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="38" column="10" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="35" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="35" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_field_def_1afe0e0af95afc3f656f23ffda62886dc4" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockFieldDef</scope><name>name</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_field_def_1ad34934903738a94ace016ac62016d8ad" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockFieldDef</scope><name>required</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_field_def_1ad26cae7b2ea58a2f0027a5f23ff7e502" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockFieldDef</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

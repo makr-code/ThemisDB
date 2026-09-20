@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_cross_shard_query_router" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockCrossShardQueryRouter</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_i_cross_shard_query_router" prot="public" virt="non-virtual">themis::sharding::ICrossShardQueryRouter</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_cross_shard_query_router_1a4aad3be3b3cd0410bed8b739717a351e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref> &gt;</type>
+        <definition>std::vector&lt;ShardId&gt; MockCrossShardQueryRouter::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>MockCrossShardQueryRouter::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="332" column="17" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="332" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_cross_shard_query_router_1a0fc59f323747eade122e6928202332f8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockCrossShardQueryRouter::MockCrossShardQueryRouter</definition>
+        <argsstring>(std::vector&lt; ShardId &gt; shards)</argsstring>
+        <name>MockCrossShardQueryRouter</name>
+        <qualifiedname>MockCrossShardQueryRouter::MockCrossShardQueryRouter</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref> &gt;</type>
+          <declname>shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="286" column="14" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="286" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cross_shard_query_router_1a6ef13d1fea85a2c55a09b908a9915fcc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_query_plan" kindref="compound">ShardQueryPlan</ref> &gt;</type>
+        <definition>std::vector&lt; ShardQueryPlan &gt; MockCrossShardQueryRouter::fanOut</definition>
+        <argsstring>(const QueryPlan &amp;plan) const override</argsstring>
+        <name>fanOut</name>
+        <qualifiedname>MockCrossShardQueryRouter::fanOut</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cross_shard_query_router_1ab06dd2504e0a832f4ee236a014835ad5">fanOut</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_query_plan" kindref="compound">QueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompose a logical <ref refid="structthemis_1_1sharding_1_1_query_plan" kindref="compound">QueryPlan</ref> into one <ref refid="structthemis_1_1sharding_1_1_shard_query_plan" kindref="compound">ShardQueryPlan</ref> per affected shard. <simplesect kind="return"><para>One element per affected shard. An empty vector means the query can be satisfied locally with no cross-shard traffic. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="289" column="17" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="289" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cross_shard_query_router_1afe9e52f61d749182250fb5d9a1a05077" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_result_set" kindref="compound">ResultSet</ref></type>
+        <definition>ResultSet MockCrossShardQueryRouter::merge</definition>
+        <argsstring>(std::span&lt; const ShardQueryResult &gt; results, MergeStrategy strategy=MergeStrategy::Union) const override</argsstring>
+        <name>merge</name>
+        <qualifiedname>MockCrossShardQueryRouter::merge</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cross_shard_query_router_1a93832b03ba386c1979a91e189214a5dc">merge</reimplements>
+        <param>
+          <type>std::span&lt; const <ref refid="structthemis_1_1sharding_1_1_shard_query_result" kindref="compound">ShardQueryResult</ref> &gt;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1ab042133914861de7d41de64224b34f23" kindref="member">MergeStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval>MergeStrategy::Union</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge per-shard results according to <computeroutput>strategy</computeroutput>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Results collected from each shard&apos;s <ref refid="structthemis_1_1sharding_1_1_shard_query_plan" kindref="compound">ShardQueryPlan</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How to combine rows from multiple shards. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The merged <ref refid="structthemis_1_1sharding_1_1_result_set" kindref="compound">ResultSet</ref> ready for the client. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="302" column="15" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="302" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cross_shard_query_router_1ae4b127bce6bd7cececa99a56314b6b58" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_query_cost_estimate" kindref="compound">QueryCostEstimate</ref></type>
+        <definition>QueryCostEstimate MockCrossShardQueryRouter::estimateCost</definition>
+        <argsstring>(const QueryPlan &amp;) const override</argsstring>
+        <name>estimateCost</name>
+        <qualifiedname>MockCrossShardQueryRouter::estimateCost</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cross_shard_query_router_1acadeac92e4ec12e0dda2202548199974">estimateCost</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_query_plan" kindref="compound">QueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimate the cost of executing a <ref refid="structthemis_1_1sharding_1_1_query_plan" kindref="compound">QueryPlan</ref> across the cluster. Pure function; no network calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="323" column="23" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="323" bodyend="329"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockCrossShardQueryRouter</label>
+        <link refid="class_mock_cross_shard_query_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ICrossShardQueryRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_i_cross_shard_query_router"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockCrossShardQueryRouter</label>
+        <link refid="class_mock_cross_shard_query_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ICrossShardQueryRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_i_cross_shard_query_router"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_interfaces.cpp" line="284" column="1" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="284" bodyend="333"/>
+    <listofallmembers>
+      <member refid="class_mock_cross_shard_query_router_1ae4b127bce6bd7cececa99a56314b6b58" prot="public" virt="virtual"><scope>MockCrossShardQueryRouter</scope><name>estimateCost</name></member>
+      <member refid="class_mock_cross_shard_query_router_1a6ef13d1fea85a2c55a09b908a9915fcc" prot="public" virt="virtual"><scope>MockCrossShardQueryRouter</scope><name>fanOut</name></member>
+      <member refid="class_mock_cross_shard_query_router_1afe9e52f61d749182250fb5d9a1a05077" prot="public" virt="virtual"><scope>MockCrossShardQueryRouter</scope><name>merge</name></member>
+      <member refid="class_mock_cross_shard_query_router_1a0fc59f323747eade122e6928202332f8" prot="public" virt="non-virtual"><scope>MockCrossShardQueryRouter</scope><name>MockCrossShardQueryRouter</name></member>
+      <member refid="class_mock_cross_shard_query_router_1a4aad3be3b3cd0410bed8b739717a351e" prot="private" virt="non-virtual"><scope>MockCrossShardQueryRouter</scope><name>shards_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_cross_shard_query_router_1acd08c1af7a5ea667a8729cb757887a9e" prot="public" virt="virtual"><scope>MockCrossShardQueryRouter</scope><name>~ICrossShardQueryRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

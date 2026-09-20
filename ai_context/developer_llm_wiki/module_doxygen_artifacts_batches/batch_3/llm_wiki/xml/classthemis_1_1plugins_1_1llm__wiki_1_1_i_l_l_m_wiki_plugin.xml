@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::llm_wiki::ILLMWikiPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IThemisPlugin</basecompoundref>
+    <includes refid="llm__wiki__plugin__interface_8h" local="no">llm_wiki_plugin_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1ad5016eb7eec1a16084e78c866653168b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::ILLMWikiPlugin::~ILLMWikiPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ILLMWikiPlugin</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::~ILLMWikiPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="255" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a5e4a8c06cffd28a6537174a79508a945" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::plugins::llm_wiki::ILLMWikiPlugin::pluginId</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>pluginId</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::pluginId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>&quot;llm_wiki&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="260" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1aefbd6750d6e93a8a5a294c20d20cd286" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::plugins::llm_wiki::ILLMWikiPlugin::pluginVersion</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>pluginVersion</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::pluginVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable name, e.g., &quot;ThemisDB LLM Wiki Plugin v0.1.0&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="262" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a3077971e16ebb92957f87e68d81cc339" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginType</type>
+        <definition>PluginType themis::plugins::llm_wiki::ILLMWikiPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="263" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1afd216307943fd2f76da6d525386829c9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref></type>
+        <definition>virtual Status themis::plugins::llm_wiki::ILLMWikiPlugin::initialize</definition>
+        <argsstring>(const std::string &amp;config_json)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the plugin from a JSON configuration blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Required fields (all have defaults):<itemizedlist>
+<listitem><para><computeroutput>"embedding_provider"</computeroutput> (<computeroutput>string</computeroutput>, default <computeroutput>"hash"</computeroutput>)</para>
+</listitem><listitem><para><computeroutput>"embedding_dim"</computeroutput> (<computeroutput>int</computeroutput>, default <computeroutput>128</computeroutput>)</para>
+</listitem><listitem><para><computeroutput>"table_name"</computeroutput> (<computeroutput>string</computeroutput>, default <computeroutput>"wiki_chunks"</computeroutput>)</para>
+</listitem><listitem><para><computeroutput>"workspace_root"</computeroutput> (<computeroutput>string</computeroutput>, optional)</para>
+</listitem><listitem><para><computeroutput>"rocksdb_dir"</computeroutput> (<computeroutput>string</computeroutput>, optional — activates Phase B if set)</para>
+</listitem><listitem><para><computeroutput>"fail_open"</computeroutput> (<computeroutput>bool</computeroutput>, default <computeroutput>false</computeroutput>; when <computeroutput>rocksdb_dir</computeroutput> is set, allows explicit test/degraded in-memory fallback on RocksDB init failure)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object with plugin configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34b5c0c5020ded76a271c1aee6d63b36" kindref="member">Status::Ok()</ref></computeroutput> on success; error status otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="282" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a4d688da79f871291b6d0219f1fbd97cd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::llm_wiki::ILLMWikiPlugin::shutdown</definition>
+        <argsstring>() noexcept=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::shutdown</qualifiedname>
+        <briefdescription>
+<para>Gracefully shut down the plugin and flush pending writes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be called before the shared library is unloaded or the plugin pointer is released. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="290" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a06d2ba30a839e13275853b941f35376b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" kindref="compound">WikiIngestResult</ref></type>
+        <definition>virtual WikiIngestResult themis::plugins::llm_wiki::ILLMWikiPlugin::ingest</definition>
+        <argsstring>(const std::string &amp;source_path, const WikiIngestOptions &amp;opts={})=0</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::ingest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options" kindref="compound">WikiIngestOptions</ref> &amp;</type>
+          <declname>opts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Ingest documents from <computeroutput>source_path</computeroutput> into the wiki index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs per-file ingestion with partial-failure semantics:<itemizedlist>
+<listitem><para>Files are processed sequentially</para>
+</listitem><listitem><para>If a file fails to parse or chunk, the error is logged and processing continues</para>
+</listitem><listitem><para>The result includes a list of failed files and counts of successful/skipped chunks</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File or directory path to ingest. Directories are traversed according to <computeroutput>opts.recursive</computeroutput> and <computeroutput>opts.file_glob</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ingestion options; defaults are production-safe. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" kindref="compound">WikiIngestResult</ref></computeroutput> with counts, error list (<computeroutput>failed_files</computeroutput>), and per-file error details. A non-empty <computeroutput>failed_files</computeroutput> vector indicates partial-failure mode (some files succeeded, some failed).</para>
+</simplesect>
+<simplesect kind="note"><para>Partial-failure means the result is non-fatal even if some files error. Check <computeroutput>result.failed_files.empty()</computeroutput> to distinguish complete success from partial success with errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="314" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a67f46949ca4179d0b67b216312a7aa3c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result" kindref="compound">WikiQueryResult</ref></type>
+        <definition>virtual WikiQueryResult themis::plugins::llm_wiki::ILLMWikiPlugin::query</definition>
+        <argsstring>(const std::string &amp;query_text, const WikiQueryOptions &amp;opts={})=0</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options" kindref="compound">WikiQueryOptions</ref> &amp;</type>
+          <declname>opts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Query the wiki index for chunks relevant to <computeroutput>query_text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieval strategy depends on the active backend:<itemizedlist>
+<listitem><para>Phase A (JSON/in-memory): BM25 TF token overlap + cosine KNN.</para>
+</listitem><listitem><para>Phase B (RocksDB-native): <computeroutput>WikiIndexStore</computeroutput> BM25 + HNSW + RRF fusion.</para>
+</listitem></itemizedlist>
+</para>
+<para>Guardrails:<itemizedlist>
+<listitem><para>Query is screened for prompt-injection patterns before retrieval.</para>
+</listitem><listitem><para>Individual chunks are filtered if they match unsafe content patterns.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result" kindref="compound">WikiQueryResult</ref></computeroutput> with scored candidates and guardrail flags. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="335" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1acc143344377ac3f4ffca73defc7426c2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref></type>
+        <definition>virtual Status themis::plugins::llm_wiki::ILLMWikiPlugin::wikiInit</definition>
+        <argsstring>(const std::string &amp;workspace_root)=0</argsstring>
+        <name>wikiInit</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::wikiInit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>workspace_root</declname>
+        </param>
+        <briefdescription>
+<para>Initialize a persistent LLM Wiki workspace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates the canonical workspace directory structure:<itemizedlist>
+<listitem><para><computeroutput>raw_sources/</computeroutput> — immutable source copies</para>
+</listitem><listitem><para><computeroutput>wiki/pages/</computeroutput> — LLM-maintained wiki pages</para>
+</listitem><listitem><para><computeroutput>wiki/index.md</computeroutput> — content catalog</para>
+</listitem><listitem><para><computeroutput>wiki/log.md</computeroutput> — append-only ingest/query/lint timeline</para>
+</listitem><listitem><para><computeroutput>wiki/schema.md</computeroutput> — maintenance rules</para>
+</listitem><listitem><para><computeroutput>wiki/state.json</computeroutput> — structured state (links, assertions, tasks)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>workspace_root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path for the workspace directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34b5c0c5020ded76a271c1aee6d63b36" kindref="member">Status::Ok()</ref></computeroutput> on success; error if the directory cannot be created or is already incompatible. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="356" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a2c2ce8a1cc191bf86791905a781160d5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" kindref="compound">WikiIngestResult</ref></type>
+        <definition>virtual WikiIngestResult themis::plugins::llm_wiki::ILLMWikiPlugin::wikiIngest</definition>
+        <argsstring>(const std::string &amp;source_path, const WikiIngestOptions &amp;opts)=0</argsstring>
+        <name>wikiIngest</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::wikiIngest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options" kindref="compound">WikiIngestOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Ingest a single source into an initialized workspace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Appends a log entry, generates a summary page, and creates concept links in <computeroutput>wiki/state.json</computeroutput>. A raw copy is placed in <computeroutput>raw_sources/</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ingestion options; <computeroutput>opts.workspace_root</computeroutput> is mandatory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" kindref="compound">WikiIngestResult</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="368" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1af275709a6a33c6910d9270d905a8fe59" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result" kindref="compound">WikiQueryResult</ref></type>
+        <definition>virtual WikiQueryResult themis::plugins::llm_wiki::ILLMWikiPlugin::wikiQuery</definition>
+        <argsstring>(const std::string &amp;query_text, const WikiQueryOptions &amp;opts)=0</argsstring>
+        <name>wikiQuery</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::wikiQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options" kindref="compound">WikiQueryOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Query an initialized workspace and optionally persist the answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When <computeroutput>opts.save_as_page = true</computeroutput> a new page is written to <computeroutput>wiki/pages/&lt;slug&gt;.md</computeroutput> and indexed. The returned <computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1aa32865bdfe14e8e8921b8b26821838a8" kindref="member">WikiQueryResult::saved_page_path</ref></computeroutput> contains the path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query options; <computeroutput>opts.workspace_root</computeroutput> is mandatory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result" kindref="compound">WikiQueryResult</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="383" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a83554a44aa8e75a9dcdc6e5a6fcb282e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result" kindref="compound">WikiLintResult</ref></type>
+        <definition>virtual WikiLintResult themis::plugins::llm_wiki::ILLMWikiPlugin::wikiLint</definition>
+        <argsstring>(const std::string &amp;workspace_root, int max_staleness_days=30)=0</argsstring>
+        <name>wikiLint</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::wikiLint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>workspace_root</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_staleness_days</declname>
+          <defval>30</defval>
+        </param>
+        <briefdescription>
+<para>Run lint checks on a workspace and return diagnostic findings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks:<itemizedlist>
+<listitem><para>Orphan pages (no inbound links)</para>
+</listitem><listitem><para>Missing backlinks</para>
+</listitem><listitem><para>Stale synthesis pages (source refs older than <computeroutput>max_staleness_days</computeroutput>)</para>
+</listitem><listitem><para>Unresolved contradiction-review tasks</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>workspace_root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute workspace root path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_staleness_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pages whose source refs are older than this are flagged as stale (default 30). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result" kindref="compound">WikiLintResult</ref></computeroutput> with categorised findings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="401" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a753513352eb44c63eef1e0d2126fc14a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" kindref="compound">WikiIngestResult</ref></type>
+        <definition>virtual WikiIngestResult themis::plugins::llm_wiki::ILLMWikiPlugin::ingestWikipediaDump</definition>
+        <argsstring>(const std::string &amp;dump_path, const WikiDumpIngestOptions &amp;opts={})=0</argsstring>
+        <name>ingestWikipediaDump</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::ingestWikipediaDump</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dump_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options" kindref="compound">WikiDumpIngestOptions</ref> &amp;</type>
+          <declname>opts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Ingest a Wikipedia XML dump into the wiki index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delegates to the C++ Wikipedia ingestion pipeline (<computeroutput>src/importers/wikipedia_pipeline.cpp</computeroutput>). Resumable via checkpoint when <computeroutput>opts.checkpoint_dir</computeroutput> is set.</para>
+<para><simplesect kind="note"><para>Requires license sub-feature <computeroutput>"llm_wiki_wikipedia"</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dump_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local path or <computeroutput>http(s)://</computeroutput> URI of the compressed Wikipedia dump file (<computeroutput>*-pages-articles.xml.bz2</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dump ingestion options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" kindref="compound">WikiIngestResult</ref></computeroutput> with article/chunk counts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="421" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a88de5596a0f7894cfc236d5de3da2c3d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats" kindref="compound">WikiWorkspaceStats</ref></type>
+        <definition>virtual WikiWorkspaceStats themis::plugins::llm_wiki::ILLMWikiPlugin::stats</definition>
+        <argsstring>(const std::string &amp;workspace_root={})=0</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::plugins::llm_wiki::ILLMWikiPlugin::stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>workspace_root</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Return current index and workspace statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>workspace_root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional workspace root path; when empty, only index-level stats are returned. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats" kindref="compound">WikiWorkspaceStats</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="434" column="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Primary interface for the LLM Wiki enterprise plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends <computeroutput>IThemisPlugin</computeroutput> with wiki-specific ingestion, retrieval, workspace management, and Wikipedia dump ingestion capabilities.</para>
+<para><heading level="3">Edition gating</heading>
+</para>
+<para>All methods are available in <computeroutput>enterprise</computeroutput>, <computeroutput>hyperscaler</computeroutput>, and <computeroutput>military</computeroutput> builds. <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a753513352eb44c63eef1e0d2126fc14a" kindref="member">ingestWikipediaDump()</ref></computeroutput> additionally requires the optional <computeroutput>llm_wiki_wikipedia</computeroutput> sub-feature (licensed separately for high-volume dumps).</para>
+<para><heading level="3">Lifecycle</heading>
+</para>
+<para><orderedlist>
+<listitem><para>Construct via plugin factory / <computeroutput>PluginManager::load()</computeroutput>.</para>
+</listitem><listitem><para>Call <computeroutput>initialize(config_json)</computeroutput> — sets up RocksDB table, embedding provider, and optional workspace root.</para>
+</listitem><listitem><para>Use <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a06d2ba30a839e13275853b941f35376b" kindref="member">ingest()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a67f46949ca4179d0b67b216312a7aa3c" kindref="member">query()</ref></computeroutput> (or workspace variants).</para>
+</listitem><listitem><para>Call <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a4d688da79f871291b6d0219f1fbd97cd" kindref="member">shutdown()</ref></computeroutput> before unloading. </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::llm_wiki::ILLMWikiPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::llm_wiki::ILLMWikiPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="253" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="253" bodyend="436"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a3077971e16ebb92957f87e68d81cc339" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a06d2ba30a839e13275853b941f35376b" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a753513352eb44c63eef1e0d2126fc14a" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>ingestWikipediaDump</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1afd216307943fd2f76da6d525386829c9" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a5e4a8c06cffd28a6537174a79508a945" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>pluginId</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1aefbd6750d6e93a8a5a294c20d20cd286" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>pluginVersion</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a67f46949ca4179d0b67b216312a7aa3c" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>query</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a4d688da79f871291b6d0219f1fbd97cd" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a88de5596a0f7894cfc236d5de3da2c3d" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>stats</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a2c2ce8a1cc191bf86791905a781160d5" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>wikiIngest</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1acc143344377ac3f4ffca73defc7426c2" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>wikiInit</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a83554a44aa8e75a9dcdc6e5a6fcb282e" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>wikiLint</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1af275709a6a33c6910d9270d905a8fe59" prot="public" virt="pure-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>wikiQuery</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1ad5016eb7eec1a16084e78c866653168b" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::ILLMWikiPlugin</scope><name>~ILLMWikiPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

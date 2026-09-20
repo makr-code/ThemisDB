@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_s_t_query_engine_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLSTQueryEngineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_s_t_query_engine_test_1a8d52e0578f7c48c37bb0b6fc99c5489b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; AQLSTQueryEngineTest::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>AQLSTQueryEngineTest::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_aql_st_queryengine.cpp" line="53" column="21" bodyfile="tests/geo/test_aql_st_queryengine.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_s_t_query_engine_test_1aeb36952804ea2310d1a296713b565a88" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; AQLSTQueryEngineTest::secIdx</definition>
+        <argsstring></argsstring>
+        <name>secIdx</name>
+        <qualifiedname>AQLSTQueryEngineTest::secIdx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_aql_st_queryengine.cpp" line="54" column="21" bodyfile="tests/geo/test_aql_st_queryengine.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_s_t_query_engine_test_1ae9a019d4841d35f2f5c9db854bd3edf4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::unique_ptr&lt;QueryEngine&gt; AQLSTQueryEngineTest::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>AQLSTQueryEngineTest::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_aql_st_queryengine.cpp" line="55" column="21" bodyfile="tests/geo/test_aql_st_queryengine.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_q_l_s_t_query_engine_test_1acc05896ced0480bf059d107f820efae8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLSTQueryEngineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLSTQueryEngineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_aql_st_queryengine.cpp" line="15" column="10" bodyfile="tests/geo/test_aql_st_queryengine.cpp" bodystart="15" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_s_t_query_engine_test_1a6f07d999596e2602ea8b06c16f05c4bb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLSTQueryEngineTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AQLSTQueryEngineTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_aql_st_queryengine.cpp" line="43" column="10" bodyfile="tests/geo/test_aql_st_queryengine.cpp" bodystart="43" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLSTQueryEngineTest</label>
+        <link refid="class_a_q_l_s_t_query_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLSTQueryEngineTest</label>
+        <link refid="class_a_q_l_s_t_query_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_aql_st_queryengine.cpp" line="13" column="1" bodyfile="tests/geo/test_aql_st_queryengine.cpp" bodystart="13" bodyend="56"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_s_t_query_engine_test_1a8d52e0578f7c48c37bb0b6fc99c5489b" prot="protected" virt="non-virtual"><scope>AQLSTQueryEngineTest</scope><name>db</name></member>
+      <member refid="class_a_q_l_s_t_query_engine_test_1ae9a019d4841d35f2f5c9db854bd3edf4" prot="protected" virt="non-virtual"><scope>AQLSTQueryEngineTest</scope><name>engine</name></member>
+      <member refid="class_a_q_l_s_t_query_engine_test_1aeb36952804ea2310d1a296713b565a88" prot="protected" virt="non-virtual"><scope>AQLSTQueryEngineTest</scope><name>secIdx</name></member>
+      <member refid="class_a_q_l_s_t_query_engine_test_1acc05896ced0480bf059d107f820efae8" prot="protected" virt="non-virtual"><scope>AQLSTQueryEngineTest</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_s_t_query_engine_test_1a6f07d999596e2602ea8b06c16f05c4bb" prot="protected" virt="non-virtual"><scope>AQLSTQueryEngineTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

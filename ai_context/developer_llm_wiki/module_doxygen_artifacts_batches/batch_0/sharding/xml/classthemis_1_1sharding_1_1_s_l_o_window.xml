@@ -1,0 +1,583 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_s_l_o_window" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::SLOWindow</compoundname>
+    <includes refid="slo__monitor_8h" local="no">slo_monitor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1ae428cb5591a85c0f5a3da38d47d01247" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::SLOWindow::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::SLOWindow::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="104" column="24" bodyfile="include/sharding/slo_monitor.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1a266416aa6a9b28eee7275658e0e33dbc" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::SLOWindow::window_duration_</definition>
+        <argsstring></argsstring>
+        <name>window_duration_</name>
+        <qualifiedname>themis::sharding::SLOWindow::window_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="105" column="26" bodyfile="include/sharding/slo_monitor.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1a31a2a6d44cb09e0f6ba4e7f6c5f3d63c" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::SLOWindow::window_start_</definition>
+        <argsstring></argsstring>
+        <name>window_start_</name>
+        <qualifiedname>themis::sharding::SLOWindow::window_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="106" column="43" bodyfile="include/sharding/slo_monitor.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1a0c60b70d6d403eafa4897c0f3dbd0826" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::SLOWindow::total_uptime_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_uptime_ms_</name>
+        <qualifiedname>themis::sharding::SLOWindow::total_uptime_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="109" column="17" bodyfile="include/sharding/slo_monitor.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1a5fe6285a4679426497fe6a02ab262132" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::SLOWindow::total_downtime_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_downtime_ms_</name>
+        <qualifiedname>themis::sharding::SLOWindow::total_downtime_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="110" column="17" bodyfile="include/sharding/slo_monitor.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1a0cad97a3cac5a628ccf983dcec603bdf" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::sharding::SLOWindow::latency_samples_</definition>
+        <argsstring></argsstring>
+        <name>latency_samples_</name>
+        <qualifiedname>themis::sharding::SLOWindow::latency_samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="113" column="17" bodyfile="include/sharding/slo_monitor.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1a887f080159e5bca22865c5d0f41302d7" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::SLOWindow::max_latency_samples_</definition>
+        <argsstring></argsstring>
+        <name>max_latency_samples_</name>
+        <qualifiedname>themis::sharding::SLOWindow::max_latency_samples_</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="114" column="12" bodyfile="include/sharding/slo_monitor.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1a569422c40756ab8744949e1b926300d1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::SLOWindow::total_bytes_lost_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_lost_</name>
+        <qualifiedname>themis::sharding::SLOWindow::total_bytes_lost_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="117" column="17" bodyfile="include/sharding/slo_monitor.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1aca1e2313a4bd8b2850aefca92e10d217" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::SLOWindow::total_bytes_written_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_written_</name>
+        <qualifiedname>themis::sharding::SLOWindow::total_bytes_written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="118" column="17" bodyfile="include/sharding/slo_monitor.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1acd3c9d3af1c6e44f6c97ed0ec879a401" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::sharding::SLOWindow::replication_lag_samples_</definition>
+        <argsstring></argsstring>
+        <name>replication_lag_samples_</name>
+        <qualifiedname>themis::sharding::SLOWindow::replication_lag_samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="121" column="17" bodyfile="include/sharding/slo_monitor.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_window_1aaa41aa62b4649fc96f5a9e482950924a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::SLOWindow::max_lag_samples_</definition>
+        <argsstring></argsstring>
+        <name>max_lag_samples_</name>
+        <qualifiedname>themis::sharding::SLOWindow::max_lag_samples_</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="122" column="12" bodyfile="include/sharding/slo_monitor.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a8b728b8184a5b517d4e2c749be920291" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::SLOWindow::SLOWindow</definition>
+        <argsstring>(std::chrono::seconds window_duration=std::chrono::seconds(3600))</argsstring>
+        <name>SLOWindow</name>
+        <qualifiedname>themis::sharding::SLOWindow::SLOWindow</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>window_duration</declname>
+          <defval>std::chrono::seconds(3600)</defval>
+        </param>
+        <briefdescription>
+<para>Create an SLO measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window_duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rolling aggregation window duration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="60" column="14" bodyfile="src/sharding/slo_monitor.cpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a1deb78c1f2e79e9debf22903199eb30d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOWindow::recordUptime</definition>
+        <argsstring>(std::chrono::milliseconds duration)</argsstring>
+        <name>recordUptime</name>
+        <qualifiedname>themis::sharding::SLOWindow::recordUptime</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Record uptime duration sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Uptime.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="63" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1adff0ef52c6d0ad60935a364dc9654057" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOWindow::recordDowntime</definition>
+        <argsstring>(std::chrono::milliseconds duration)</argsstring>
+        <name>recordDowntime</name>
+        <qualifiedname>themis::sharding::SLOWindow::recordDowntime</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Record downtime duration sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Downtime.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="65" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a4b5059ba759f1742b83a01822e3731c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOWindow::recordLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::sharding::SLOWindow::recordLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record latency observation in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Latency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed latency.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="71" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1ae92e7afbc7e1af3a0302dbfdca407b10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOWindow::recordDataLoss</definition>
+        <argsstring>(uint64_t bytes_lost)</argsstring>
+        <name>recordDataLoss</name>
+        <qualifiedname>themis::sharding::SLOWindow::recordDataLoss</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_lost</declname>
+        </param>
+        <briefdescription>
+<para>Record observed lost bytes for durability accounting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Data Loss.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_lost</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="74" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a4fc74273e85263a3c51d72ee4f474e0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOWindow::recordReplicationLag</definition>
+        <argsstring>(double lag_ms)</argsstring>
+        <name>recordReplicationLag</name>
+        <qualifiedname>themis::sharding::SLOWindow::recordReplicationLag</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record replication lag sample in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Replication Lag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replication lag.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="80" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="84" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1abc5f09ec9b1e04f9e5dca3aaa6a60210" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOWindow::getAvailability</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailability</name>
+        <qualifiedname>themis::sharding::SLOWindow::getAvailability</qualifiedname>
+        <briefdescription>
+<para>Compute availability ratio in [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="83" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="94" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1afb5511118c304217fa1431bd2db5c82e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOWindow::getLatencyP50</definition>
+        <argsstring>() const</argsstring>
+        <name>getLatencyP50</name>
+        <qualifiedname>themis::sharding::SLOWindow::getLatencyP50</qualifiedname>
+        <briefdescription>
+<para>Compute p50 latency from current samples (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="85" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a30392e623e28ad9c1c7b5e1a15546fbb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOWindow::getLatencyP99</definition>
+        <argsstring>() const</argsstring>
+        <name>getLatencyP99</name>
+        <qualifiedname>themis::sharding::SLOWindow::getLatencyP99</qualifiedname>
+        <briefdescription>
+<para>Compute p99 latency from current samples (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="87" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="116" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1abec4d41f9b53668e61adcea3ab7a12f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOWindow::getDataLossRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getDataLossRate</name>
+        <qualifiedname>themis::sharding::SLOWindow::getDataLossRate</qualifiedname>
+        <briefdescription>
+<para>Compute data-loss rate as lost_bytes / written_bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="89" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="126" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a8f4d4cc62c4e5a41b23d0b507e1442d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOWindow::getAvgReplicationLag</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvgReplicationLag</name>
+        <qualifiedname>themis::sharding::SLOWindow::getAvgReplicationLag</qualifiedname>
+        <briefdescription>
+<para>Compute average replication lag in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="91" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="137" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a35f4e57b1fefba422712865800f0f40f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOWindow::getErrorBudget</definition>
+        <argsstring>(double target_availability) const</argsstring>
+        <name>getErrorBudget</name>
+        <qualifiedname>themis::sharding::SLOWindow::getErrorBudget</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>target_availability</declname>
+        </param>
+        <briefdescription>
+<para>Compute remaining error budget fraction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_availability</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target availability ratio in [0,1]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Remaining budget fraction where 1.0 means unused budget. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="98" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="157" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a39e4ab430a39f6b1536ade3bfc3edd59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOWindow::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::sharding::SLOWindow::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all accumulated samples and counters for this window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), store(), clear(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="101" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="169" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_window_1a74313cb3192ea6cbd4b2e59bb052c7dc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOWindow::calculatePercentile</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;samples, double percentile) const</argsstring>
+        <name>calculatePercentile</name>
+        <qualifiedname>themis::sharding::SLOWindow::calculatePercentile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="124" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="183" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>SLO measurement window for calculating compliance. </para>
+    </detaileddescription>
+    <location file="include/sharding/slo_monitor.h" line="54" column="1" bodyfile="include/sharding/slo_monitor.h" bodystart="54" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a74313cb3192ea6cbd4b2e59bb052c7dc" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>calculatePercentile</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1abc5f09ec9b1e04f9e5dca3aaa6a60210" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>getAvailability</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a8f4d4cc62c4e5a41b23d0b507e1442d8" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>getAvgReplicationLag</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1abec4d41f9b53668e61adcea3ab7a12f6" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>getDataLossRate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a35f4e57b1fefba422712865800f0f40f" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>getErrorBudget</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1afb5511118c304217fa1431bd2db5c82e" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>getLatencyP50</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a30392e623e28ad9c1c7b5e1a15546fbb" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>getLatencyP99</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a0cad97a3cac5a628ccf983dcec603bdf" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>latency_samples_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1aaa41aa62b4649fc96f5a9e482950924a" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>max_lag_samples_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a887f080159e5bca22865c5d0f41302d7" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>max_latency_samples_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1ae428cb5591a85c0f5a3da38d47d01247" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1ae92e7afbc7e1af3a0302dbfdca407b10" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>recordDataLoss</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1adff0ef52c6d0ad60935a364dc9654057" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>recordDowntime</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a4b5059ba759f1742b83a01822e3731c0" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a4fc74273e85263a3c51d72ee4f474e0c" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>recordReplicationLag</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a1deb78c1f2e79e9debf22903199eb30d" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>recordUptime</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1acd3c9d3af1c6e44f6c97ed0ec879a401" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>replication_lag_samples_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a39e4ab430a39f6b1536ade3bfc3edd59" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>reset</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a8b728b8184a5b517d4e2c749be920291" prot="public" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>SLOWindow</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a569422c40756ab8744949e1b926300d1" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>total_bytes_lost_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1aca1e2313a4bd8b2850aefca92e10d217" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>total_bytes_written_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a5fe6285a4679426497fe6a02ab262132" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>total_downtime_ms_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a0c60b70d6d403eafa4897c0f3dbd0826" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>total_uptime_ms_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a266416aa6a9b28eee7275658e0e33dbc" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>window_duration_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_window_1a31a2a6d44cb09e0f6ba4e7f6c5f3d63c" prot="private" virt="non-virtual"><scope>themis::sharding::SLOWindow</scope><name>window_start_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

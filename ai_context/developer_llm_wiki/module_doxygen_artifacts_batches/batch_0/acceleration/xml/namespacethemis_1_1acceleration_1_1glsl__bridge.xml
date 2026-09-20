@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration_1_1glsl__bridge" kind="namespace" language="C++">
+    <compoundname>themis::acceleration::glsl_bridge</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1_1glsl__bridge_1a7d677d744d285916dc16ec62808fd970" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::glsl_bridge::s_vk_compile_glsl_mutex</definition>
+        <argsstring></argsstring>
+        <name>s_vk_compile_glsl_mutex</name>
+        <qualifiedname>themis::acceleration::glsl_bridge::s_vk_compile_glsl_mutex</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="1152" column="38" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1152" bodyend="1152"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1_1glsl__bridge_1ac98bfb4e95a354cf5d88a0a5a71e947f" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a9819726214760ecbf4e180face9efad2" kindref="member">VulkanVectorBackend::CompileGLSLFn</ref></type>
+        <definition>VulkanVectorBackend::CompileGLSLFn themis::acceleration::glsl_bridge::s_vk_compile_glsl_fn</definition>
+        <argsstring></argsstring>
+        <name>s_vk_compile_glsl_fn</name>
+        <qualifiedname>themis::acceleration::glsl_bridge::s_vk_compile_glsl_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="1153" column="40" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/graphics_backends.cpp" line="1151" column="1"/>
+  </compounddef>
+</doxygen>

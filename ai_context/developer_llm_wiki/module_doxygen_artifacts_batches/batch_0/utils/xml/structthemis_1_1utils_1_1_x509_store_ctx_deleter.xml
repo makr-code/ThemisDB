@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_x509_store_ctx_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::X509StoreCtxDeleter</compoundname>
+    <includes refid="openssl__deleter_8h" local="no">openssl_deleter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_x509_store_ctx_deleter_1a8dc4240f8c6189de369c38c2448aad48" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::X509StoreCtxDeleter::operator()</definition>
+        <argsstring>(X509_STORE_CTX *ctx) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::utils::X509StoreCtxDeleter::operator()</qualifiedname>
+        <param>
+          <type>X509_STORE_CTX *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/openssl_deleter.h" line="101" column="10" bodyfile="include/utils/openssl_deleter.h" bodystart="101" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deleter for X509_STORE_CTX. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/openssl_deleter.h" line="100" column="1" bodyfile="include/utils/openssl_deleter.h" bodystart="100" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_x509_store_ctx_deleter_1a8dc4240f8c6189de369c38c2448aad48" prot="public" virt="non-virtual"><scope>themis::utils::X509StoreCtxDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptTemplateCompiler</compoundname>
+    <includes refid="prompt__template__compiler_8h" local="no">prompt_template_compiler.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler_1a651b5195f7f78a64884d9a7ea7dfd27e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template" kindref="compound">CompiledPromptTemplate</ref></type>
+        <definition>CompiledPromptTemplate themis::prompt_engineering::PromptTemplateCompiler::compile</definition>
+        <argsstring>(const std::string &amp;source, const std::vector&lt; SlotDefinition &gt; &amp;slots={}) const</argsstring>
+        <name>compile</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateCompiler::compile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref> &gt; &amp;</type>
+          <declname>slots</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Compile <computeroutput>source</computeroutput> using the supplied slot declarations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Slots that appear in the source but are not declared receive an implicit <computeroutput><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba63b588d5559f64f89a416e656880b949" kindref="member">SlotType::STRING</ref></computeroutput> declaration. Declared slots that do not appear in the source are allowed (they may be used by conditional expressions that are never true). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="254" column="28" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="532" bodyend="594"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compiles a DSL source string into a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template" kindref="compound">CompiledPromptTemplate</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The compiler is stateless; a single instance can compile multiple templates concurrently from different threads.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>PromptTemplateCompileError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on any parse error. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_template_compiler.h" line="244" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="244" bodyend="257"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler_1a651b5195f7f78a64884d9a7ea7dfd27e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateCompiler</scope><name>compile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

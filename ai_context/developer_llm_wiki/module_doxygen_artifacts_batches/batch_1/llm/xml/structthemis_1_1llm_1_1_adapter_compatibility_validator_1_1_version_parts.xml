@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::AdapterCompatibilityValidator::VersionParts</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts_1a5bf5f18db64f9121d7d88145bd0e54ba" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::llm::AdapterCompatibilityValidator::VersionParts::major</definition>
+        <argsstring></argsstring>
+        <name>major</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::VersionParts::major</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="254" column="23" bodyfile="include/llm/adapter_compatibility.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts_1ad8d50d9ca2a460d4fcf5442edcdd6ba4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::llm::AdapterCompatibilityValidator::VersionParts::minor</definition>
+        <argsstring></argsstring>
+        <name>minor</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::VersionParts::minor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="255" column="23" bodyfile="include/llm/adapter_compatibility.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts_1a82edb0fe09b37804dfbec8f2d86b8f85" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::llm::AdapterCompatibilityValidator::VersionParts::patch</definition>
+        <argsstring></argsstring>
+        <name>patch</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::VersionParts::patch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="256" column="23" bodyfile="include/llm/adapter_compatibility.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts_1a144ac979d4e702e99c9a51838ea8b56b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCompatibilityValidator::VersionParts::variant</definition>
+        <argsstring></argsstring>
+        <name>variant</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::VersionParts::variant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="257" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_compatibility.h" line="253" column="5" bodyfile="include/llm/adapter_compatibility.h" bodystart="253" bodyend="258"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts_1a5bf5f18db64f9121d7d88145bd0e54ba" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::VersionParts</scope><name>major</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts_1ad8d50d9ca2a460d4fcf5442edcdd6ba4" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::VersionParts</scope><name>minor</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts_1a82edb0fe09b37804dfbec8f2d86b8f85" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::VersionParts</scope><name>patch</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts_1a144ac979d4e702e99c9a51838ea8b56b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::VersionParts</scope><name>variant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_changefeed" prot="public">themis::Changefeed</innerclass>
+    <innerclass refid="classthemis_1_1_changefeed_buffer" prot="public">themis::ChangefeedBuffer</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_buffer_config" prot="public">themis::ChangefeedBufferConfig</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_buffer_stats" prot="public">themis::ChangefeedBufferStats</innerclass>
+    <innernamespace refid="namespacethemis_1_1cdc">themis::cdc</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB CDC Error Codes and Structured Error Handling</para>
+<para>Provides structured error codes for Change Data Capture operations. Enables better error handling, monitoring, and debugging.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB CDC-based Materialized View Maintenance</para>
+<para>Bridges CDC change events (<ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref>) to the analytics incremental view maintenance engine (IncrementalViewManager), enabling materialized views to be kept up-to-date automatically as CDC events arrive.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB CDC Metrics and Observability</para>
+<para>Provides latency histograms, throughput tracking, and enhanced metrics for Change Data Capture operations.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB <ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref> Auto-Batching Buffer</para>
+<para>Automatic buffering of CDC events for batch processing with compression. Analogous to TSAutoBuffer for time series and VectorAutoBuffer for vectors.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Configurable buffer size and flush intervals</para>
+</listitem><listitem><para>Per-event-type buffering</para>
+</listitem><listitem><para>Thread-safe operation</para>
+</listitem><listitem><para>Automatic flush on size/time thresholds</para>
+</listitem><listitem><para>Optional Zstd compression for event payloads</para>
+</listitem><listitem><para>Integration with existing <ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>Change stream compression for high-volume CDC feeds.</para>
+<para>Provides batch compression of CDC change events for efficient transport over high-volume SSE or WebSocket streams. A batch of ChangeEvent records is serialised to a JSON array and compressed with Zstandard before being handed to the transport layer; the transport writes the opaque bytes and the consumer decompresses them before delivering individual events.</para>
+<para>Wire format (<ref refid="structthemis_1_1cdc_1_1_compressed_batch_1a1ecc6067072a33ae4a129587a37da659" kindref="member">CompressedBatch::serialize()</ref>): <programlisting><codeline><highlight class="normal">+----------+---------+-----------+---------------+-------------+---...---+</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>magic<sp/><sp/><sp/><sp/>|<sp/>version<sp/>|<sp/>algorithm<sp/>|<sp/>original_size<sp/>|<sp/>event_count<sp/>|<sp/>payload<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>4<sp/>bytes<sp/><sp/>|<sp/>1<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/><sp/>|<sp/>1<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>|<sp/>4<sp/>bytes<sp/>LE<sp/><sp/><sp/><sp/>|<sp/>4<sp/>bytes<sp/>LE<sp/><sp/>|<sp/>N<sp/>bytes<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">+----------+---------+-----------+---------------+-------------+---...---+</highlight></codeline>
+</programlisting></para>
+<para>magic = 0x43 0x44 0x43 0x5A (&quot;CDCZ&quot;) version = 0x01 (current) algorithm = 0x00 (NONE / uncompressed) | 0x01 (ZSTD) original_size = byte-length of the uncompressed JSON payload event_count = number of ChangeEvent records in the batch payload = zstd-compressed UTF-8 JSON array (or raw JSON when algorithm=NONE)</para>
+<para>When the raw JSON is smaller than Config::min_compression_size_bytes the batch is stored uncompressed (algorithm = NONE) to avoid overhead.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>Debezium-compatible change event envelope format for ThemisDB CDC.</para>
+<para>Produces JSON envelopes that match the Debezium unified change-event schema, allowing downstream consumers (Kafka Connect transforms, Debezium Server sinks, etc.) to process ThemisDB change events without modification.</para>
+<para>Reference: <ulink url="https://debezium.io/documentation/reference/stable/">https://debezium.io/documentation/reference/stable/</ulink></para>
+<para>Operation codes (&quot;op&quot; field): &apos;c&apos; – create (INSERT; EVENT_PUT without before_snapshot) &apos;u&apos; – update (UPDATE; EVENT_PUT with before_snapshot) &apos;d&apos; – delete (DELETE; EVENT_DELETE) &apos;r&apos; – read (snapshot; EVENT_TRANSACTION_COMMIT / ROLLBACK)</para>
+<para>Envelope JSON structure (payload-only mode, include_schema = false): <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;before&quot;</highlight><highlight class="normal">:<sp/>null<sp/>|<sp/>{<sp/>...<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">:<sp/><sp/>null<sp/>|<sp/>{<sp/>...<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.5.0-dev&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;connector&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/>1740000000000,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;snapshot&quot;</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sequence&quot;</highlight><highlight class="normal">:<sp/><sp/>42</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">:<sp/>1740000000000</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>When include_schema = true a &quot;schema&quot; block describing the envelope structure is prepended.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB CDC At-Least-Once Delivery Tracker</para>
+<para>Tracks in-flight change events delivered to consumers and provides redelivery of unacknowledged events, implementing at-least-once delivery semantics for CDC streams.</para>
+<para>Design:<itemizedlist>
+<listitem><para>Caller delivers events to a named consumer via trackDelivery().</para>
+</listitem><listitem><para>Consumer acknowledges receipt via acknowledge().</para>
+</listitem><listitem><para>Events not acknowledged within the configured ack_timeout are returned by getPendingRedelivery() so the caller can re-send them.</para>
+</listitem><listitem><para>An optional redelivery callback is invoked by a background thread when events exceed their ack deadline.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety: all public methods are thread-safe.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — CDC Backpressure Signaling Interface</para>
+<para>Advisory flow-control interface for CDC event delivery. Consumers that cannot process events fast enough signal backpressure to the CDC layer, which may reduce throughput or (when configured) trigger an automatic <ref refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a45f6298d79e004854cd971aab185f845" kindref="member">ICDCPauseControl::pause()</ref> at the Critical level.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — CDC Batch Commit Coordinator Interface</para>
+<para>Coordinates exactly-once, multi-event batch commits for CDC consumers. A batch groups a sequence of change events into an atomic unit; either all events in the batch are committed (acknowledged) or none are, which prevents partial acknowledgements and duplicate deliveries under consumer restarts.</para>
+<para>Design constraints:<itemizedlist>
+<listitem><para>Only one open batch is allowed per coordinator at a time. Calling beginBatch() while a batch is open returns an error (BatchAlreadyOpen).</para>
+</listitem><listitem><para>commitBatch() is idempotent for the same <ref refid="namespacethemis_1_1cdc_1a36306083ac2fa0afda203aaf26622e52" kindref="member">BatchId</ref> if the batch has already been committed (returns CommitResult::AlreadyCommitted).</para>
+</listitem><listitem><para>rollbackBatch() discards all events in the current batch; the coordinator returns to idle state.</para>
+</listitem><listitem><para>All methods are thread-safe.</para>
+</listitem><listitem><para>Maximum batch size is configurable via <ref refid="structthemis_1_1cdc_1_1_batch_config_1a82e151c7952ce5bd74c113af4fa9ad01" kindref="member">BatchConfig::max_batch_size</ref>; addEvent() returns BatchFull once this limit is reached.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — CDC Schema Evolution Interface</para>
+<para>Defines the abstract interface for schema-aware CDC event streams and the schema evolution hook that CDC consumers can register to receive notifications when a collection&apos;s schema changes.</para>
+<para>Design constraints (from FUTURE_ENHANCEMENTS.md):<itemizedlist>
+<listitem><para>Incompatible schema evolution triggers an automatic <ref refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a45f6298d79e004854cd971aab185f845" kindref="member">ICDCPauseControl::pause()</ref> until the consumer resolves the conflict.</para>
+</listitem><listitem><para>Schema validation prevents malformed events from reaching ICDCMaterializedViewHook; invalid events route to the error callback.</para>
+</listitem><listitem><para>ICDCMaterializedViewHook methods are noexcept; exceptions terminate.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — CDC Multi-Source Fan-In Interface</para>
+<para>Provides a unified, globally-ordered (best-effort across sources) view of CDC change events from multiple named <ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref> instances.</para>
+<para>Design constraints (from FUTURE_ENHANCEMENTS.md):<itemizedlist>
+<listitem><para>Events from the same source collection arrive in order.</para>
+</listitem><listitem><para>Cross-collection ordering is best-effort (wall-clock timestamp + sequence).</para>
+</listitem><listitem><para><ref refid="structthemis_1_1cdc_1_1_fan_in_event" kindref="compound">FanInEvent</ref> wraps a ChangeEvent with the originating <ref refid="namespacethemis_1_1cdc_1a5af31e7761367151e1668596b4d17d0f" kindref="member">CollectionId</ref>.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy" kindref="compound">IFanInMergePolicy</ref> is pluggable for custom conflict-resolution strategies.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — CDC Server-Side Filter Pipeline Interface</para>
+<para>Provides a composable, ordered chain of named event filters that are applied server-side before CDC events are delivered to a subscriber. Each filter stage is an <ref refid="classthemis_1_1cdc_1_1_i_event_filter" kindref="compound">IEventFilter</ref> implementation that independently decides whether to pass or drop an event.</para>
+<para>Design constraints:<itemizedlist>
+<listitem><para>Filter stages are applied in insertion order; the first stage that drops an event short-circuits the rest (fail-fast semantics).</para>
+</listitem><listitem><para>Filter names are unique within a pipeline; adding a filter with the same name as an existing one is a no-op that returns false.</para>
+</listitem><listitem><para>Filters must be noexcept; exceptions from filter implementations are caught and treated as FilterResult::Pass to avoid blocking the event stream.</para>
+</listitem><listitem><para>All <ref refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline" kindref="compound">ICDCFilterPipeline</ref> methods are thread-safe.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — CDC Pause/Resume Control Interface</para>
+<para>Provides atomic stream suspension and resumption for CDC change feeds. Consumers (e.g. admin API, backpressure manager, schema evolution handler) call pause() to halt event delivery and resume() to restart it. Events arriving during a pause are buffered up to maxBufferBytes; overflow returns an error.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — CDC Replay Controller Interface</para>
+<para>Provides time-based and sequence-based changefeed replay for CDC consumers. Callers can request a bounded replay window (by wall-clock range or sequence range) and iterate the resulting events as a snapshot.</para>
+<para>Design constraints:<itemizedlist>
+<listitem><para>Replay is always a bounded, read-only view; it never affects the live event stream or any subscriber state.</para>
+</listitem><listitem><para>ReplaySession objects are single-use; once drained they return an empty vector and <computeroutput>done()</computeroutput> returns true.</para>
+</listitem><listitem><para>All methods on <ref refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller" kindref="compound">ICDCReplayController</ref> and ReplaySession are thread-safe.</para>
+</listitem><listitem><para>A maximum of <ref refid="structthemis_1_1cdc_1_1_replay_options_1a7a96ad0a9779d4a83aeb7d3168440dc7" kindref="member">ReplayOptions::max_events_per_session</ref> events are returned per session to bound memory usage.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB - CDC Transport Interface</para>
+<para>Abstract interface for CDC (Change Data Capture) transport backends. Concrete implementations include:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" kindref="compound">KafkaCDCProducer</ref> (Kafka, <ref refid="kafka__cdc__producer_8h" kindref="compound">include/cdc/kafka_cdc_producer.h</ref>)</para>
+</listitem></itemizedlist>
+</para>
+<para>Each transport publishes ChangeEvent records to a specific delivery channel. The interface is intentionally minimal: lifecycle management (start/stop) plus a single-event publish method. Transport-specific statistics and configuration are exposed by the concrete classes.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — CDC Delivery Guarantee Configuration Interface</para>
+<para>Configures at-least-once vs. exactly-once delivery semantics per CDC listener registration. The exactly-once mode requires the listener to implement <ref refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener" kindref="compound">IIdempotentCDCListener</ref> to prevent duplicate processing.</para>
+<para>Design constraints (from FUTURE_ENHANCEMENTS.md):<itemizedlist>
+<listitem><para>DeliveryMode::ExactlyOnce requires <ref refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener" kindref="compound">IIdempotentCDCListener</ref>.</para>
+</listitem><listitem><para>setDeduplicationWindow() configures the rolling dedup window for ExactlyOnce mode; default is 5 minutes.</para>
+</listitem><listitem><para>Deduplication check per event ≤ 10 µs via a rolling hash window.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB - CDC Kafka Producer</para>
+<para>Bridges the ThemisDB Change Data Capture (CDC) changefeed to an Apache Kafka topic. Each ChangeEvent is published with ChangeEvent::key as the Kafka message key and ChangeEvent::toJson() (UTF-8) as the Kafka message value.</para>
+<para>Topic routing:<itemizedlist>
+<listitem><para>per-collection mode (default): one topic per collection, e.g. &quot;themis.cdc.orders&quot; for collection &quot;orders&quot;.</para>
+</listitem><listitem><para>single-topic mode: all events go to a single configurable topic.</para>
+</listitem></itemizedlist>
+</para>
+<para>The producer requires librdkafka. When THEMIS_ENABLE_KAFKA is not defined at build time, every method is a documented no-op so the rest of the codebase can reference <ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" kindref="compound">KafkaCDCProducer</ref> unconditionally; the no-op stubs compile to zero overhead and the Kafka dependency is entirely absent.</para>
+<para>Prometheus metrics: cdc_kafka_delivered_total – events successfully acknowledged by the broker cdc_kafka_error_total – delivery-error callbacks from librdkafka</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>Schema-aware CDC with Avro/Protobuf schema registry integration.</para>
+<para>Provides schema registration, caching, and Confluent-compatible wire-format encoding for ThemisDB CDC change events. Downstream consumers (Kafka, Kafka Connect, etc.) can use any Confluent-compatible schema registry client to decode the binary-framed messages produced by <ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder" kindref="compound">CdcSchemaEncoder</ref>.</para>
+<para>Wire format (Confluent Schema Registry protocol): <programlisting><codeline><highlight class="normal">+--------+------------------+--------------------------+</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>0x00<sp/><sp/><sp/>|<sp/><sp/>schema_id<sp/>(4B)<sp/><sp/>|<sp/><sp/>serialized<sp/>payload<sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>magic<sp/><sp/>|<sp/><sp/>big-endian<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/><sp/><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">JSON</ref><sp/>/<sp/>Avro<sp/>/<sp/>Protobuf<sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">+--------+------------------+--------------------------+</highlight></codeline>
+</programlisting></para>
+<para>Components:<itemizedlist>
+<listitem><para><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref> – format identifier (JSON, AVRO, PROTOBUF)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1cdc_1_1_schema_info" kindref="compound">SchemaInfo</ref> – schema metadata (id, version, subject, definition)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1cdc_1_1_schema_registry_config" kindref="compound">SchemaRegistryConfig</ref> – connection and behaviour settings</para>
+</listitem><listitem><para><ref refid="classthemis_1_1cdc_1_1_i_schema_registry_backend" kindref="compound">ISchemaRegistryBackend</ref> – abstract backend (register / lookup schemas)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1cdc_1_1_in_memory_schema_registry_backend" kindref="compound">InMemorySchemaRegistryBackend</ref> – thread-safe in-memory backend for testing and standalone use</para>
+</listitem><listitem><para><ref refid="classthemis_1_1cdc_1_1_schema_registry_client" kindref="compound">SchemaRegistryClient</ref> – caching client over an <ref refid="classthemis_1_1cdc_1_1_i_schema_registry_backend" kindref="compound">ISchemaRegistryBackend</ref></para>
+</listitem><listitem><para><ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder" kindref="compound">CdcSchemaEncoder</ref> – encode ChangeEvents using the wire format</para>
+</listitem></itemizedlist>
+</para>
+<para>The header is self-contained (no external HTTP library required). For production use with a remote Confluent Schema Registry, provide a custom <ref refid="classthemis_1_1cdc_1_1_i_schema_registry_backend" kindref="compound">ISchemaRegistryBackend</ref> implementation that issues HTTP requests to the registry REST API.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Tenant-Aware CDC Buffer Manager</para>
+<para>Provides multi-tenant isolation for CDC operations with per-tenant buffers, metrics, and rate limiting.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Per-tenant buffer isolation</para>
+</listitem><listitem><para>Per-tenant metrics and statistics</para>
+</listitem><listitem><para>Per-tenant rate limiting</para>
+</listitem><listitem><para>Automatic tenant buffer lifecycle management</para>
+</listitem><listitem><para>Thread-safe multi-tenant operations</para>
+</listitem><listitem><para>Backward compatible with single-tenant mode</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB CDC-based Materialized View Maintenance — Implementation</para>
+<para>Converts <ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> records to analytics::ChangeRecord and dispatches them to IncrementalViewManager for delta-based view maintenance.</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/cdc/cdc_admin.h" line="22" column="1"/>
+  </compounddef>
+</doxygen>

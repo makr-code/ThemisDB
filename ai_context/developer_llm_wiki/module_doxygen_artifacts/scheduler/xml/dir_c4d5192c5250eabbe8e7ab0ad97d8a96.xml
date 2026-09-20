@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c4d5192c5250eabbe8e7ab0ad97d8a96" kind="dir">
+    <compoundname>include/scheduler</compoundname>
+    <innerfile refid="distributed__task__coordinator_8h">distributed_task_coordinator.h</innerfile>
+    <innerfile refid="event__trigger_8h">event_trigger.h</innerfile>
+    <innerfile refid="external__scheduler__adapter_8h">external_scheduler_adapter.h</innerfile>
+    <innerfile refid="hybrid__retention__manager_8h">hybrid_retention_manager.h</innerfile>
+    <innerfile refid="scheduler__api__contract_8h">scheduler_api_contract.h</innerfile>
+    <innerfile refid="task__anomaly__detector_8h">task_anomaly_detector.h</innerfile>
+    <innerfile refid="task__audit__event_8h">task_audit_event.h</innerfile>
+    <innerfile refid="task__audit__manager_8h">task_audit_manager.h</innerfile>
+    <innerfile refid="task__result__store_8h">task_result_store.h</innerfile>
+    <innerfile refid="task__scheduler_8h">task_scheduler.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_policy_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PolicyResult</compoundname>
+    <includes refid="prompt__policy_8h" local="no">prompt_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_policy_result_1a96c697523ae92876e5c4e8488932a0d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PolicyResult::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::llm::PolicyResult::allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false if the prompt was blocked </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="24" column="10" bodyfile="include/llm/prompt_policy.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_policy_result_1a8c149b840ed36be2d1e0b7344b20d5d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PolicyResult::sanitized_prompt</definition>
+        <argsstring></argsstring>
+        <name>sanitized_prompt</name>
+        <qualifiedname>themis::llm::PolicyResult::sanitized_prompt</qualifiedname>
+        <briefdescription>
+<para>sanitized text (may differ from input) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="25" column="17" bodyfile="include/llm/prompt_policy.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_policy_result_1ac764f4b101f3ec9093d980e6870293e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PolicyResult::rule_name</definition>
+        <argsstring></argsstring>
+        <name>rule_name</name>
+        <qualifiedname>themis::llm::PolicyResult::rule_name</qualifiedname>
+        <briefdescription>
+<para>name of the rule that triggered, if any </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="26" column="17" bodyfile="include/llm/prompt_policy.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_policy_result_1ab91e619321d9ed4f647bcec2bd69188a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PolicyResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::PolicyResult::reason</qualifiedname>
+        <briefdescription>
+<para>human-readable explanation </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="27" column="17" bodyfile="include/llm/prompt_policy.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_policy.h" line="23" column="1" bodyfile="include/llm/prompt_policy.h" bodystart="23" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_policy_result_1a96c697523ae92876e5c4e8488932a0d8" prot="public" virt="non-virtual"><scope>themis::llm::PolicyResult</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1llm_1_1_policy_result_1ab91e619321d9ed4f647bcec2bd69188a" prot="public" virt="non-virtual"><scope>themis::llm::PolicyResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_policy_result_1ac764f4b101f3ec9093d980e6870293e8" prot="public" virt="non-virtual"><scope>themis::llm::PolicyResult</scope><name>rule_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_policy_result_1a8c149b840ed36be2d1e0b7344b20d5d8" prot="public" virt="non-virtual"><scope>themis::llm::PolicyResult</scope><name>sanitized_prompt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

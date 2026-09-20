@@ -1,0 +1,929 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_distributed_token_blacklist" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::auth::DistributedTokenBlacklist</compoundname>
+    <basecompoundref refid="classthemis_1_1auth_1_1_i_token_blacklist" prot="public" virt="non-virtual">themis::auth::ITokenBlacklist</basecompoundref>
+    <includes refid="distributed__token__blacklist_8h" local="no">distributed_token_blacklist.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats" prot="public">themis::auth::DistributedTokenBlacklist::ReplicationStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a1986c4df1a073a7c88d6318ef8fc1aac" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config" kindref="compound">DistributedBlacklistConfig</ref></type>
+        <definition>DistributedBlacklistConfig themis::auth::DistributedTokenBlacklist::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="113" column="32" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a91a4e5a9ec5536e7a218dbb66c8a44db" prot="private" static="no" mutable="no">
+        <type>rocksdb::DB *</type>
+        <definition>rocksdb::DB* themis::auth::DistributedTokenBlacklist::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::db_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="116" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1af4846d8f99c2eaddd3d85ac719298a88" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::auth::DistributedTokenBlacklist::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::cf_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="117" column="33" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a45d62ef9ddde239280ea7a2f98747441" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; rocksdb::ColumnFamilyHandle * &gt;</type>
+        <definition>std::vector&lt;rocksdb::ColumnFamilyHandle*&gt; themis::auth::DistributedTokenBlacklist::other_cf_handles_</definition>
+        <argsstring></argsstring>
+        <name>other_cf_handles_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::other_cf_handles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="118" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a3745c2d75a6282b2da80decb7d1857bc" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::auth::DistributedTokenBlacklist::purge_thread_</definition>
+        <argsstring></argsstring>
+        <name>purge_thread_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::purge_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="121" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ab2a50c49dfbdea67e80e23361f50b45c" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::auth::DistributedTokenBlacklist::replication_thread_</definition>
+        <argsstring></argsstring>
+        <name>replication_thread_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::replication_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="122" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ae2f547a75bdf10898ff9549de8094cec" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::auth::DistributedTokenBlacklist::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="123" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1aec6f09ffa0f42d19375f4e414596977b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::auth::DistributedTokenBlacklist::is_leader_</definition>
+        <argsstring></argsstring>
+        <name>is_leader_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::is_leader_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="124" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a6bf5946353f1ceb383076835673156a2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::DistributedTokenBlacklist::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::cv_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="127" column="24" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a8cdbcaefd6442cd91917febf489f54e7" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::auth::DistributedTokenBlacklist::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="128" column="29" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1af9e00e9c28601607e91c1d84afdba89e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::DistributedTokenBlacklist::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="131" column="24" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a704c72d677d53a98e56edd9c27f367c6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats" kindref="compound">ReplicationStats</ref></type>
+        <definition>ReplicationStats themis::auth::DistributedTokenBlacklist::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="132" column="22" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a440da72a3f972e612d787b9d51aedf66" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::atomic&lt;std::chrono::system_clock::time_point&gt; themis::auth::DistributedTokenBlacklist::last_successful_sync_</definition>
+        <argsstring></argsstring>
+        <name>last_successful_sync_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::last_successful_sync_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="134" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ad13fdde5709bf6ae891e3ca06430c849" prot="private" static="no" mutable="no">
+        <type>std::uintptr_t</type>
+        <definition>std::uintptr_t themis::auth::DistributedTokenBlacklist::server_fd_</definition>
+        <argsstring></argsstring>
+        <name>server_fd_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::server_fd_</qualifiedname>
+        <initializer>{static_cast&lt;std::uintptr_t&gt;(-1)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="136" column="20" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a815ee2de96d766abc976467acc141f70" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::auth::DistributedTokenBlacklist::listener_thread_</definition>
+        <argsstring></argsstring>
+        <name>listener_thread_</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::listener_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="138" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1abba3c8e5a9b7bf2ff06691a31f2e4de0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::DistributedTokenBlacklist::DistributedTokenBlacklist</definition>
+        <argsstring>(const DistributedBlacklistConfig &amp;config)</argsstring>
+        <name>DistributedTokenBlacklist</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::DistributedTokenBlacklist</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config" kindref="compound">DistributedBlacklistConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Distributed Token Blacklist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Db guard. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">db_instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="71" column="14" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="315" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1af03d58a7cf5a499d6b17eaf9fa1f9528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::DistributedTokenBlacklist::~DistributedTokenBlacklist</definition>
+        <argsstring>() override</argsstring>
+        <name>~DistributedTokenBlacklist</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::~DistributedTokenBlacklist</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="73" column="5" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="414" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a70af1c6b1749a8da1171d8098980e193" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::DistributedTokenBlacklist::DistributedTokenBlacklist</definition>
+        <argsstring>(const DistributedTokenBlacklist &amp;)=delete</argsstring>
+        <name>DistributedTokenBlacklist</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::DistributedTokenBlacklist</qualifiedname>
+        <param>
+          <type>const DistributedTokenBlacklist &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a7f2c8a358703fea166f3c4a59adef453" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1abba3c8e5a9b7bf2ff06691a31f2e4de0" kindref="member">DistributedTokenBlacklist</ref> &amp;</type>
+        <definition>DistributedTokenBlacklist &amp; themis::auth::DistributedTokenBlacklist::operator=</definition>
+        <argsstring>(const DistributedTokenBlacklist &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1abba3c8e5a9b7bf2ff06691a31f2e4de0" kindref="member">DistributedTokenBlacklist</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="76" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1aa61dbfd8d949d29a1319b3915650a583" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::auth::DistributedTokenBlacklist::add</definition>
+        <argsstring>(const std::string &amp;jti, std::chrono::system_clock::time_point expiry) override</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::add</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_token_blacklist_1af1eb58cffcd58a90c145cfba7e3313a6">add</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>expiry</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expiry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="82" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="461" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1af953baf746c1c8f26a856d00bd3cf231" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::DistributedTokenBlacklist::isRevoked</definition>
+        <argsstring>(const std::string &amp;jti) const override</argsstring>
+        <name>isRevoked</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::isRevoked</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_token_blacklist_1a4143e749b180b3df021129be9665e8b7">isRevoked</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="85" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="489" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a206e632665168e7ae2d5e3d6d4238ff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::auth::DistributedTokenBlacklist::purgeExpired</definition>
+        <argsstring>() override</argsstring>
+        <name>purgeExpired</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::purgeExpired</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_token_blacklist_1a254fc6cba8f6c6d140fe6ebd3782bb69">purgeExpired</reimplements>
+        <briefdescription>
+<para>Purge Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="87" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="511" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a7da7ecf041b232b98265e156294e73c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; bool &gt;</type>
+        <definition>std::future&lt; bool &gt; themis::auth::DistributedTokenBlacklist::syncWithCluster</definition>
+        <argsstring>()</argsstring>
+        <name>syncWithCluster</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::syncWithCluster</qualifiedname>
+        <briefdescription>
+<para>Sync With Cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="97" column="17" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="547" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1abc97aace98d0e73b7cec4e811b460e3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats" kindref="compound">ReplicationStats</ref></type>
+        <definition>DistributedTokenBlacklist::ReplicationStats themis::auth::DistributedTokenBlacklist::getReplicationStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicationStats</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::getReplicationStats</qualifiedname>
+        <briefdescription>
+<para>Get Replication Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="103" column="22" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="554" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a5119c58997f01b9d911c8e4a48e15c1c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config" kindref="compound">DistributedBlacklistConfig</ref> &amp;</type>
+        <definition>const DistributedBlacklistConfig &amp; themis::auth::DistributedTokenBlacklist::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="105" column="38" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1aa44809ae1531f5281f4839b7b4add5c3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::DistributedTokenBlacklist::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::isLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="107" column="10" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a5e9bb4955992b4ae34242bfdb759bb59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::DistributedTokenBlacklist::waitForClusterConvergence</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::milliseconds(0))</argsstring>
+        <name>waitForClusterConvergence</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::waitForClusterConvergence</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds(0)</defval>
+        </param>
+        <briefdescription>
+<para>Wait For Cluster Convergence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="109" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="570" bodyend="602"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a4ffbcc8465e53a7f0ce014ddc9e8b4f4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::DistributedTokenBlacklist::purgeLoop</definition>
+        <argsstring>()</argsstring>
+        <name>purgeLoop</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::purgeLoop</qualifiedname>
+        <briefdescription>
+<para>Purge Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cv_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="144" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="611" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1aa6d9bbd263b9eeabfbbcd2c9870d4e86" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::DistributedTokenBlacklist::replicationLoop</definition>
+        <argsstring>()</argsstring>
+        <name>replicationLoop</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::replicationLoop</qualifiedname>
+        <briefdescription>
+<para>Replication Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cv_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Stats lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="148" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="629" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ade9426199eea95aa0bf132109c35635c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::DistributedTokenBlacklist::serveIncomingConnections</definition>
+        <argsstring>()</argsstring>
+        <name>serveIncomingConnections</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::serveIncomingConnections</qualifiedname>
+        <briefdescription>
+<para>TCP server listener — accepts PUSH and PULL_REQ connections from cluster peers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>=========================================================================== TCP server listener — accepts inbound connections from cluster peers =========================================================================== </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="153" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="712" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a5740d99fb0877be4dbe7f3a65350355b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::DistributedTokenBlacklist::handlePeerConnection</definition>
+        <argsstring>(std::uintptr_t client_fd)</argsstring>
+        <name>handlePeerConnection</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::handlePeerConnection</qualifiedname>
+        <param>
+          <type>std::uintptr_t</type>
+          <declname>client_fd</declname>
+        </param>
+        <briefdescription>
+<para>Handle Peer Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="159" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="751" bodyend="854"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ad9193ba4a89f2c65c857a4b482a0d66f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::chrono::system_clock::time_point &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::chrono::system_clock::time_point &gt; &gt; themis::auth::DistributedTokenBlacklist::getAllEntries</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllEntries</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::getAllEntries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="162" column="9" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="666" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1afd600ee8f68e5e36ca6410350deff49b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::DistributedTokenBlacklist::applyEntries</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, int64_t &gt; &gt; &amp;entries)</argsstring>
+        <name>applyEntries</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::applyEntries</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, int64_t &gt; &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="164" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="684" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ad0abd12dfd7dc04ae0e2b63496615ed8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::DistributedTokenBlacklist::performClusterSync</definition>
+        <argsstring>()</argsstring>
+        <name>performClusterSync</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::performClusterSync</qualifiedname>
+        <briefdescription>
+<para>RPC handlers (for peer-to-peer communication). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform Cluster Sync.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="170" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="864" bodyend="940"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a464d5ce1052ea3ae96bb8c9a546fd740" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::DistributedTokenBlacklist::performLeaderElection</definition>
+        <argsstring>()</argsstring>
+        <name>performLeaderElection</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::performLeaderElection</qualifiedname>
+        <briefdescription>
+<para>Perform Leader Election. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="175" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="946" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ad96d4df2cb74a930a5d2a6afccf0e81a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::DistributedTokenBlacklist::pushRevisionsToFollower</definition>
+        <argsstring>(const std::string &amp;peer_address)</argsstring>
+        <name>pushRevisionsToFollower</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::pushRevisionsToFollower</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>peer_address</declname>
+        </param>
+        <briefdescription>
+<para>Push Revisions To Follower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="181" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="964" bodyend="1023"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1a385e665e3da8a319ffbd27d27f1d29c0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::DistributedTokenBlacklist::pullRevisionsFromLeader</definition>
+        <argsstring>(const std::string &amp;leader_address)</argsstring>
+        <name>pullRevisionsFromLeader</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::pullRevisionsFromLeader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_address</declname>
+        </param>
+        <briefdescription>
+<para>Pull Revisions From Leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="187" column="10" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="1030" bodyend="1107"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ab3887aa27083baa29df3edb8e664cac4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::DistributedTokenBlacklist::encodeExpiry</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp)</argsstring>
+        <name>encodeExpiry</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::encodeExpiry</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>Encode Expiry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>=========================================================================== Helper: Expiry encoding/decoding ===========================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="195" column="24" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="276" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_distributed_token_blacklist_1ab20ed7e6de553f021f21d50081885640" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::DistributedTokenBlacklist::decodeExpiry</definition>
+        <argsstring>(const std::string &amp;val)</argsstring>
+        <name>decodeExpiry</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::decodeExpiry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Decode Expiry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="201" column="50" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="295" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::auth::DistributedTokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_distributed_token_blacklist"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::ITokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_i_token_blacklist"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::auth::DistributedTokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_distributed_token_blacklist"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::ITokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_i_token_blacklist"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/distributed_token_blacklist.h" line="55" column="1" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="55" bodyend="202"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1aa61dbfd8d949d29a1319b3915650a583" prot="public" virt="virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>add</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1afd600ee8f68e5e36ca6410350deff49b" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>applyEntries</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1af4846d8f99c2eaddd3d85ac719298a88" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a5119c58997f01b9d911c8e4a48e15c1c" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>config</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a1986c4df1a073a7c88d6318ef8fc1aac" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a8cdbcaefd6442cd91917febf489f54e7" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a6bf5946353f1ceb383076835673156a2" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>cv_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a91a4e5a9ec5536e7a218dbb66c8a44db" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>db_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ab20ed7e6de553f021f21d50081885640" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>decodeExpiry</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1abba3c8e5a9b7bf2ff06691a31f2e4de0" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>DistributedTokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a70af1c6b1749a8da1171d8098980e193" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>DistributedTokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ab3887aa27083baa29df3edb8e664cac4" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>encodeExpiry</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ad9193ba4a89f2c65c857a4b482a0d66f" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>getAllEntries</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1abc97aace98d0e73b7cec4e811b460e3b" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>getReplicationStats</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a5740d99fb0877be4dbe7f3a65350355b" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>handlePeerConnection</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1aec6f09ffa0f42d19375f4e414596977b" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>is_leader_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1aa44809ae1531f5281f4839b7b4add5c3" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>isLeader</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1af953baf746c1c8f26a856d00bd3cf231" prot="public" virt="virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>isRevoked</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a440da72a3f972e612d787b9d51aedf66" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>last_successful_sync_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a815ee2de96d766abc976467acc141f70" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>listener_thread_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a7f2c8a358703fea166f3c4a59adef453" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a45d62ef9ddde239280ea7a2f98747441" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>other_cf_handles_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ad0abd12dfd7dc04ae0e2b63496615ed8" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>performClusterSync</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a464d5ce1052ea3ae96bb8c9a546fd740" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>performLeaderElection</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a385e665e3da8a319ffbd27d27f1d29c0" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>pullRevisionsFromLeader</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a3745c2d75a6282b2da80decb7d1857bc" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>purge_thread_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a206e632665168e7ae2d5e3d6d4238ff0" prot="public" virt="virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>purgeExpired</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a4ffbcc8465e53a7f0ce014ddc9e8b4f4" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>purgeLoop</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ad96d4df2cb74a930a5d2a6afccf0e81a" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>pushRevisionsToFollower</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ab2a50c49dfbdea67e80e23361f50b45c" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>replication_thread_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1aa6d9bbd263b9eeabfbbcd2c9870d4e86" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>replicationLoop</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ae2f547a75bdf10898ff9549de8094cec" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>running_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ade9426199eea95aa0bf132109c35635c" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>serveIncomingConnections</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1ad13fdde5709bf6ae891e3ca06430c849" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>server_fd_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a704c72d677d53a98e56edd9c27f367c6" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1af9e00e9c28601607e91c1d84afdba89e" prot="private" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a7da7ecf041b232b98265e156294e73c5" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>syncWithCluster</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1a5e9bb4955992b4ae34242bfdb759bb59" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>waitForClusterConvergence</name></member>
+      <member refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1af03d58a7cf5a499d6b17eaf9fa1f9528" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>~DistributedTokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_token_blacklist_1ac85bfacfbd62eea066156af8d9cf2642" prot="public" virt="virtual"><scope>themis::auth::DistributedTokenBlacklist</scope><name>~ITokenBlacklist</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,870 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityControlPipeline</compoundname>
+    <includes refid="quality__control__pipeline_8h" local="no">quality_control_pipeline.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config" prot="public">themis::rag::judge::QualityControlPipeline::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl" prot="public">themis::rag::judge::QualityControlPipeline::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1addf2da6de47eb83c518fb1d1bd82ab3f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::QualityControlPipeline::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="274" column="21" bodyfile="include/rag/quality_control_pipeline.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ae75fb6da649cbd72c4dc1a0d774461f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::QualityControlPipeline::QualityControlPipeline</definition>
+        <argsstring>()</argsstring>
+        <name>QualityControlPipeline</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::QualityControlPipeline</qualifiedname>
+        <briefdescription>
+<para>Construct pipeline with default config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="174" column="5" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ad39549fc29db6b9d4d2632446c7a1faf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::QualityControlPipeline::QualityControlPipeline</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>QualityControlPipeline</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::QualityControlPipeline</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct pipeline with custom config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pipeline configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="180" column="14" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a89ec482711f9d6d519ff1a6befacf768" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::QualityControlPipeline::~QualityControlPipeline</definition>
+        <argsstring>()</argsstring>
+        <name>~QualityControlPipeline</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::~QualityControlPipeline</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="185" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ac759100652589a46b0850e6758c8deb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kindref="compound">QualityCheckResult</ref></type>
+        <definition>QualityCheckResult themis::rag::judge::QualityControlPipeline::runQualityControl</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>runQualityControl</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::runQualityControl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Run quality control on generated answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Quality Control.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original user query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents used </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Quality check result with pass/fail and details</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), substr(), runFastStage(), emplace_back(), failure_callback(), insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="194" column="24" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="94" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1af2b266cc491d2e1bcb71b2b9bf5d45a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kindref="compound">QualityCheckResult</ref></type>
+        <definition>QualityCheckResult themis::rag::judge::QualityControlPipeline::runStage</definition>
+        <argsstring>(QualityStage stage, const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>runStage</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::runStage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a85ae081e2faa0c55b396ce69872f1be9" kindref="member">QualityStage</ref></type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Run specific stage only. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Stage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stage to run </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Quality check result for that stage</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: runFastStage(), runBalancedStage(), runThoroughStage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="208" column="24" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="226" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a448616a02f34fb42742e7e70d5a24dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::QualityControlPipeline::setFailureCallback</definition>
+        <argsstring>(std::function&lt; void(const QualityCheckResult &amp;)&gt; callback)</argsstring>
+        <name>setFailureCallback</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::setFailureCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kindref="compound">QualityCheckResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set callback for quality gate failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call when quality gate fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="219" column="10" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="576" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ae680d9033e8b88554ec8ace5021c2dc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::QualityControlPipeline::setLearningCallback</definition>
+        <argsstring>(std::function&lt; void(const std::string &amp;, const QualityCheckResult &amp;)&gt; callback)</argsstring>
+        <name>setLearningCallback</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::setLearningCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;, const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kindref="compound">QualityCheckResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set callback for learning feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call when sending feedback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="227" column="10" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="582" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a80b08d6454359bd646de1107c17a30da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::QualityControlPipeline::setLLMJudgeClient</definition>
+        <argsstring>(std::shared_ptr&lt; LLMJudgeClient &gt; client)</argsstring>
+        <name>setLLMJudgeClient</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::setLLMJudgeClient</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client" kindref="compound">LLMJudgeClient</ref> &gt;</type>
+          <declname>client</declname>
+        </param>
+        <briefdescription>
+<para>Set LLM judge client. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set LLMJudge Client.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to LLM judge client</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setLLMJudgeClient without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="235" column="10" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="593" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ab7523e289812f682b8141d40fe73d0b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::QualityControlPipeline::setGEvalEvaluator</definition>
+        <argsstring>(std::shared_ptr&lt; GEvalEvaluator &gt; evaluator)</argsstring>
+        <name>setGEvalEvaluator</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::setGEvalEvaluator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref> &gt;</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Set G-Eval evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set GEval Evaluator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to G-Eval evaluator</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setGEvalEvaluator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="241" column="10" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="604" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1af5cb0758dfa6172e5117343f8cd7aa45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::QualityControlPipeline::setNLIVerifier</definition>
+        <argsstring>(std::shared_ptr&lt; NLIFaithfulnessVerifier &gt; verifier)</argsstring>
+        <name>setNLIVerifier</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::setNLIVerifier</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" kindref="compound">NLIFaithfulnessVerifier</ref> &gt;</type>
+          <declname>verifier</declname>
+        </param>
+        <briefdescription>
+<para>Set NLI verifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set NLIVerifier.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to NLI verifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setNLIVerifier without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="247" column="10" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="615" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1aae7ffec98794a393c012e99bd55eaca8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config" kindref="compound">Config</ref></type>
+        <definition>QualityControlPipeline::Config themis::rag::judge::QualityControlPipeline::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current config </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="253" column="12" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="621" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ab70909373623aff1feca3c32321c9ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::QualityControlPipeline::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config" kindref="compound">Config</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="259" column="10" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="630" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1addbf1ec491773bb7a7e8a988e64dddca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityControlPipeline::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get pipeline statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="265" column="17" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="634" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a72f570bfef034ac175719d7a8ec34f96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::QualityControlPipeline::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Statistics.</para>
+<para>Implements resetStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="270" column="10" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="654" bodyend="656"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ae3d2012e98780a5a2e2cc5b47e6fd38a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kindref="compound">QualityCheckResult</ref></type>
+        <definition>QualityCheckResult themis::rag::judge::QualityControlPipeline::runFastStage</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>runFastStage</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::runFastStage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Run Fast Stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), THEMIS_DEBUG(), reserve(), size(), emplace_back(), evaluateDimension(), push_back(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="277" column="24" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="254" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a7ff4deae659939c772da00ad43f0e304" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kindref="compound">QualityCheckResult</ref></type>
+        <definition>QualityCheckResult themis::rag::judge::QualityControlPipeline::runBalancedStage</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>runBalancedStage</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::runBalancedStage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Run Balanced Stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), THEMIS_DEBUG(), reserve(), size(), emplace_back(), evaluate(), push_back(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="283" column="24" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="318" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1aa4d7657ac3960e6e98d7bfe5770684fc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kindref="compound">QualityCheckResult</ref></type>
+        <definition>QualityCheckResult themis::rag::judge::QualityControlPipeline::runThoroughStage</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>runThoroughStage</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::runThoroughStage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Run Thorough Stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), THEMIS_DEBUG(), reserve(), size(), emplace_back(), verify(), push_back(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="289" column="24" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="382" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1aaa4414fac0c37567fac501c0041a5005" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::QualityControlPipeline::sendLearningFeedback</definition>
+        <argsstring>(const std::string &amp;query, const QualityCheckResult &amp;result)</argsstring>
+        <name>sendLearningFeedback</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::sendLearningFeedback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kindref="compound">QualityCheckResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Send Learning Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_DEBUG(), learning_callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="295" column="10" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="480" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1afe4b3e47a18bd833ae736466609a5b90" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::computeOverallScore</definition>
+        <argsstring>(const std::vector&lt; DimensionScore &gt; &amp;scores)</argsstring>
+        <name>computeOverallScore</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::computeOverallScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_score" kindref="compound">DimensionScore</ref> &gt; &amp;</type>
+          <declname>scores</declname>
+        </param>
+        <briefdescription>
+<para>Compute Overall Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scores</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="300" column="12" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="504" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a899105d9753551be227d7f4ad014a6b5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a9309ca773636352d9ad81044c03e364f" kindref="member">QualityGateStatus</ref></type>
+        <definition>QualityGateStatus themis::rag::judge::QualityControlPipeline::determineStatus</definition>
+        <argsstring>(double score, QualityStage stage)</argsstring>
+        <name>determineStatus</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::determineStatus</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a85ae081e2faa0c55b396ce69872f1be9" kindref="member">QualityStage</ref></type>
+          <declname>stage</declname>
+        </param>
+        <briefdescription>
+<para>Determine Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements determineStatus without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="301" column="23" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="547" bodyend="574"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality control pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Multi-stage pipeline for comprehensive quality control:</para>
+<para>Stage 1: Fast Screening (&lt;50ms)<itemizedlist>
+<listitem><para>Quick LLM judge on critical dimension (faithfulness)</para>
+</listitem><listitem><para>Early rejection of clearly bad answers</para>
+</listitem></itemizedlist>
+</para>
+<para>Stage 2: Balanced Evaluation (&lt;500ms)<itemizedlist>
+<listitem><para>Multi-dimension LLM judging</para>
+</listitem><listitem><para>G-Eval probabilistic scoring</para>
+</listitem><listitem><para>Aggregate quality assessment</para>
+</listitem></itemizedlist>
+</para>
+<para>Stage 3: Thorough Verification (&lt;2s)<itemizedlist>
+<listitem><para>NLI faithfulness verification</para>
+</listitem><listitem><para>Claim-level analysis</para>
+</listitem><listitem><para><ref refid="structthemis_1_1rag_1_1judge_1_1_citation" kindref="compound">Citation</ref> checking</para>
+</listitem></itemizedlist>
+</para>
+<para>Stage 4: Continuous Learning<itemizedlist>
+<listitem><para>Send feedback to learning orchestrator</para>
+</listitem><listitem><para>Update quality models</para>
+</listitem><listitem><para>Track long-term quality trends </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/quality_control_pipeline.h" line="129" column="1" bodyfile="include/rag/quality_control_pipeline.h" bodystart="129" bodyend="302"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1afe4b3e47a18bd833ae736466609a5b90" prot="private" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>computeOverallScore</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a899105d9753551be227d7f4ad014a6b5" prot="private" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>determineStatus</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1aae7ffec98794a393c012e99bd55eaca8" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1addbf1ec491773bb7a7e8a988e64dddca" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1addf2da6de47eb83c518fb1d1bd82ab3f" prot="private" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ae75fb6da649cbd72c4dc1a0d774461f4" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>QualityControlPipeline</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ad39549fc29db6b9d4d2632446c7a1faf" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>QualityControlPipeline</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a72f570bfef034ac175719d7a8ec34f96" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a7ff4deae659939c772da00ad43f0e304" prot="private" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>runBalancedStage</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ae3d2012e98780a5a2e2cc5b47e6fd38a" prot="private" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>runFastStage</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ac759100652589a46b0850e6758c8deb4" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>runQualityControl</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1af2b266cc491d2e1bcb71b2b9bf5d45a3" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>runStage</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1aa4d7657ac3960e6e98d7bfe5770684fc" prot="private" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>runThoroughStage</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1aaa4414fac0c37567fac501c0041a5005" prot="private" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>sendLearningFeedback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ab70909373623aff1feca3c32321c9ac5" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a448616a02f34fb42742e7e70d5a24dbd" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>setFailureCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ab7523e289812f682b8141d40fe73d0b6" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>setGEvalEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1ae680d9033e8b88554ec8ace5021c2dc4" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>setLearningCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a80b08d6454359bd646de1107c17a30da" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>setLLMJudgeClient</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1af5cb0758dfa6172e5117343f8cd7aa45" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>setNLIVerifier</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1a89ec482711f9d6d519ff1a6befacf768" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline</scope><name>~QualityControlPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

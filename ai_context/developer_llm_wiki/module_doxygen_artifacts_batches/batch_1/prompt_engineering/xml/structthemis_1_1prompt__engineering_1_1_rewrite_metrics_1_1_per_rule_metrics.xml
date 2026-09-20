@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1a46659239b123e6be653e8282e40fcd34" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::match_count</definition>
+        <argsstring></argsstring>
+        <name>match_count</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::match_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="36" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1aa0a7719db4439a73de4ae43a84e7f9c9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::apply_count</definition>
+        <argsstring></argsstring>
+        <name>apply_count</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::apply_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="37" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1aa9106d3afd87c997c8cc9cf71378fb48" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::total_latency_micros</definition>
+        <argsstring></argsstring>
+        <name>total_latency_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::total_latency_micros</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="38" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1a25a7a50a9cff09eafff2eae1682a5c72" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::max_latency_micros</definition>
+        <argsstring></argsstring>
+        <name>max_latency_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::max_latency_micros</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="39" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1ae243f6bd5e5bd95d89409d39a40aecd3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="40" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/rewrite_metrics.cpp" line="35" column="5" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="35" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1aa0a7719db4439a73de4ae43a84e7f9c9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics</scope><name>apply_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1ae243f6bd5e5bd95d89409d39a40aecd3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1a46659239b123e6be653e8282e40fcd34" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics</scope><name>match_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1a25a7a50a9cff09eafff2eae1682a5c72" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics</scope><name>max_latency_micros</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics_1aa9106d3afd87c997c8cc9cf71378fb48" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerRuleMetrics</scope><name>total_latency_micros</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

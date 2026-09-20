@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_ebpf_tracer" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::EbpfTracer</compoundname>
+    <includes refid="ebpf__tracer_8h" local="no">ebpf_tracer.h</includes>
+    <innerclass refid="classthemis_1_1observability_1_1_ebpf_tracer_1_1_impl" prot="public">themis::observability::EbpfTracer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_ebpf_tracer_1a14a44636c2666486517a9e05f67ff3d6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::observability::EbpfTracer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::observability::EbpfTracer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="221" column="21" bodyfile="include/observability/ebpf_tracer.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::EbpfTracer::EbpfTracer</definition>
+        <argsstring>(const EbpfTracerConfig &amp;config=EbpfTracerConfig{})</argsstring>
+        <name>EbpfTracer</name>
+        <qualifiedname>themis::observability::EbpfTracer::EbpfTracer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config" kindref="compound">EbpfTracerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config" kindref="compound">EbpfTracerConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="140" column="14" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="558" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a4ed10aea8f4890a6dadf87a09f174b00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::EbpfTracer::~EbpfTracer</definition>
+        <argsstring>()</argsstring>
+        <name>~EbpfTracer</name>
+        <qualifiedname>themis::observability::EbpfTracer::~EbpfTracer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1aebf628f929a28efe3365c668169796f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::EbpfTracer::EbpfTracer</definition>
+        <argsstring>(const EbpfTracer &amp;)=delete</argsstring>
+        <name>EbpfTracer</name>
+        <qualifiedname>themis::observability::EbpfTracer::EbpfTracer</qualifiedname>
+        <param>
+          <type>const EbpfTracer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a3019fc74dfff90bd91cdfc072a96fd5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" kindref="member">EbpfTracer</ref> &amp;</type>
+        <definition>EbpfTracer &amp; themis::observability::EbpfTracer::operator=</definition>
+        <argsstring>(const EbpfTracer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::EbpfTracer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" kindref="member">EbpfTracer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="145" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a34595b1e0a81590324cb2da8a47680a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::EbpfTracer::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::observability::EbpfTracer::start</qualifiedname>
+        <briefdescription>
+<para>Start the background collection loop. No-op if already running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Implements start without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="151" column="10" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="567" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a48fb4a7c748d0dccd4084ab7570e9411" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::EbpfTracer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::observability::EbpfTracer::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the background collection loop. Blocks until the background thread has exited. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Implements stop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="157" column="10" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="572" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a5957fa98863a5173de5552f78227afe0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::EbpfTracer::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::observability::EbpfTracer::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Returns true when the tracer is actively collecting events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="162" column="10" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="573" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a453b6cd9f90b73c329f55b47fd9a18f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::EbpfTracer::enable</definition>
+        <argsstring>()</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::observability::EbpfTracer::enable</qualifiedname>
+        <briefdescription>
+<para>Dynamically enable or disable tracing without restart. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable.</para>
+<para>Calling <computeroutput><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a453b6cd9f90b73c329f55b47fd9a18f3" kindref="member">enable()</ref></computeroutput> on a stopped-but-configured tracer restarts the background thread. Calling <computeroutput><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a775e565c8627052b15d8c41b74334c12" kindref="member">disable()</ref></computeroutput> stops the thread and keeps the collected data intact.</para>
+<para>Implements enable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="171" column="10" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="578" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a775e565c8627052b15d8c41b74334c12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::EbpfTracer::disable</definition>
+        <argsstring>()</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::observability::EbpfTracer::disable</qualifiedname>
+        <briefdescription>
+<para>Disable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements disable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="172" column="10" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="583" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1aeff966ec0b580b41c0c1ec807ff52015" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_stats" kindref="compound">EbpfTracerStats</ref></type>
+        <definition>EbpfTracerStats themis::observability::EbpfTracer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::observability::EbpfTracer::getStats</qualifiedname>
+        <briefdescription>
+<para>Return the cumulative statistics since the last <computeroutput><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a5b15799ee86d1cb2d61555648be396bf" kindref="member">reset()</ref></computeroutput> or construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="178" column="21" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="585" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1aa062bc5474f48886210a0a86d62fa720" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_kernel_event" kindref="compound">KernelEvent</ref> &gt;</type>
+        <definition>std::vector&lt; KernelEvent &gt; themis::observability::EbpfTracer::getRecentEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecentEvents</name>
+        <qualifiedname>themis::observability::EbpfTracer::getRecentEvents</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of the recent event ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Events are ordered oldest-first. The buffer size is bounded by <computeroutput><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1ae3d6f5ddaf2d15acefec2c32b264c945" kindref="member">EbpfTracerConfig::max_events_retained</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="186" column="17" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="587" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a4424fd16e4fab7c1461fa66fd53e4c1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::EbpfTracer::registerEventCallback</definition>
+        <argsstring>(std::function&lt; void(const std::vector&lt; KernelEvent &gt; &amp;)&gt; cb)</argsstring>
+        <name>registerEventCallback</name>
+        <qualifiedname>themis::observability::EbpfTracer::registerEventCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_kernel_event" kindref="compound">KernelEvent</ref> &gt; &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked when at least one kernel event was collected in a cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback receives the <computeroutput><ref refid="structthemis_1_1observability_1_1_kernel_event" kindref="compound">KernelEvent</ref></computeroutput> objects collected during that cycle. It is called from the background thread; implementations must be thread-safe. The callback is NOT invoked on cycles where no new events were observed (e.g. zero deltas or non-Linux platforms). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="197" column="10" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="591" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a5b15799ee86d1cb2d61555648be396bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::EbpfTracer::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::EbpfTracer::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all accumulated counters and clear the event ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="203" column="10" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="600" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1a230f2dfabb9cee71952551061210bded" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config" kindref="compound">EbpfTracerConfig</ref></type>
+        <definition>EbpfTracerConfig themis::observability::EbpfTracer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::observability::EbpfTracer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Retrieve the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="208" column="22" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="602" bodyend="602"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_ebpf_tracer_1ade7aec74fdf7c21139cd74196fdfddf9" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::EbpfTracer::isPlatformSupported</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isPlatformSupported</name>
+        <qualifiedname>themis::observability::EbpfTracer::isPlatformSupported</qualifiedname>
+        <briefdescription>
+<para>Returns true if the current platform supports perf_event_open(2) software counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On non-Linux platforms this always returns false and the tracer operates in no-op mode. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="217" column="17" bodyfile="src/observability/ebpf_tracer.cpp" bodystart="604" bodyend="606"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>eBPF-based, low-overhead kernel-level tracer for ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Overview</heading>
+</para>
+<para>On Linux this class opens one <computeroutput>perf_event_open(2)</computeroutput> file descriptor per enabled probe type and polls the counters from a background thread at the configured <computeroutput>collection_interval</computeroutput>. Delta values (change since the last poll) are accumulated in a ring buffer of <computeroutput><ref refid="structthemis_1_1observability_1_1_kernel_event" kindref="compound">KernelEvent</ref></computeroutput> objects and exported as Prometheus-style counters via <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_collector" kindref="compound">MetricsCollector</ref>:</computeroutput> </para>
+<para><table rows="6" cols="2"><row>
+<entry thead="yes"><para>Prometheus metric name  </para>
+</entry><entry thead="yes"><para>Unit  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>themis_ebpf_context_switches_total</computeroutput>  </para>
+</entry><entry thead="no"><para>events  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>themis_ebpf_page_faults_total</computeroutput>  </para>
+</entry><entry thead="no"><para>events  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>themis_ebpf_cpu_migrations_total</computeroutput>  </para>
+</entry><entry thead="no"><para>events  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>themis_ebpf_task_clock_ns_total</computeroutput>  </para>
+</entry><entry thead="no"><para>ns  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>themis_ebpf_collection_cycles_total</computeroutput>  </para>
+</entry><entry thead="no"><para>cycles  </para>
+</entry></row>
+</table>
+</para>
+<para>When <computeroutput>THEMIS_ENABLE_EBPF</computeroutput> is defined and <computeroutput>libbpf</computeroutput> is available at link time, additional BPF programs can be attached (reserved for future extension; the current implementation uses perf_event_open only).</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">EbpfTracerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enabled<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.collection_interval<sp/><sp/>=<sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" kindref="member">EbpfTracer</ref><sp/>tracer(cfg);</highlight></codeline>
+<codeline><highlight class="normal">tracer.start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>workload<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>tracer.getStats();</highlight></codeline>
+<codeline><highlight class="normal">tracer.stop();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/observability/ebpf_tracer.h" line="138" column="1" bodyfile="include/observability/ebpf_tracer.h" bodystart="138" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a775e565c8627052b15d8c41b74334c12" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>disable</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>EbpfTracer</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1aebf628f929a28efe3365c668169796f6" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>EbpfTracer</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a453b6cd9f90b73c329f55b47fd9a18f3" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>enable</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a230f2dfabb9cee71952551061210bded" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1aa062bc5474f48886210a0a86d62fa720" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>getRecentEvents</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1aeff966ec0b580b41c0c1ec807ff52015" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a14a44636c2666486517a9e05f67ff3d6" prot="private" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a5957fa98863a5173de5552f78227afe0" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1ade7aec74fdf7c21139cd74196fdfddf9" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>isPlatformSupported</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a3019fc74dfff90bd91cdfc072a96fd5b" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a4424fd16e4fab7c1461fa66fd53e4c1f" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>registerEventCallback</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a5b15799ee86d1cb2d61555648be396bf" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a34595b1e0a81590324cb2da8a47680a9" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>start</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a48fb4a7c748d0dccd4084ab7570e9411" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1observability_1_1_ebpf_tracer_1a4ed10aea8f4890a6dadf87a09f174b00" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracer</scope><name>~EbpfTracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

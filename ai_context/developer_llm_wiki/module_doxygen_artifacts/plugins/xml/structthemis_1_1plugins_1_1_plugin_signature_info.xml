@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_signature_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginSignatureInfo</compoundname>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_signature_info_1a30dd682482262d7b60bb49744d9841b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginSignatureInfo::fingerprint</definition>
+        <argsstring></argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::plugins::PluginSignatureInfo::fingerprint</qualifiedname>
+        <briefdescription>
+<para>Hex-encoded Ed25519 public key fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="543" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_signature_info_1a025e3a90ba0654ca07c8e24bf1a589e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginSignatureInfo::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::plugins::PluginSignatureInfo::algorithm</qualifiedname>
+        <briefdescription>
+<para>Signing algorithm (e.g. &quot;ed25519&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="544" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_signature_info_1a414bc731c3dfee3e544d961a1bd62e6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginSignatureInfo::signed_at</definition>
+        <argsstring></argsstring>
+        <name>signed_at</name>
+        <qualifiedname>themis::plugins::PluginSignatureInfo::signed_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="545" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Publisher signature metadata for marketplace plugins. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/plugin_interface.h" line="542" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="542" bodyend="546"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_signature_info_1a025e3a90ba0654ca07c8e24bf1a589e0" prot="public" virt="non-virtual"><scope>themis::plugins::PluginSignatureInfo</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_signature_info_1a30dd682482262d7b60bb49744d9841b6" prot="public" virt="non-virtual"><scope>themis::plugins::PluginSignatureInfo</scope><name>fingerprint</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_signature_info_1a414bc731c3dfee3e544d961a1bd62e6e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginSignatureInfo</scope><name>signed_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

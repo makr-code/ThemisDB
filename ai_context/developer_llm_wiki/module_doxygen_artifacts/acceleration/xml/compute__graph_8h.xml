@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="compute__graph_8h" kind="file" language="C++">
+    <compoundname>compute_graph.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/acceleration/compute_graph.h</label>
+        <link refid="compute__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1acceleration_1_1_compute_graph_node" prot="public">themis::acceleration::ComputeGraphNode</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_compute_graph_edge" prot="public">themis::acceleration::ComputeGraphEdge</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_compute_graph_config" prot="public">themis::acceleration::ComputeGraphConfig</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_compute_graph_stats" prot="public">themis::acceleration::ComputeGraphStats</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_compute_graph" prot="public">themis::acceleration::IComputeGraph</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory" prot="public">themis::acceleration::IComputeGraphFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360" kindref="member">NodeDependencyMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360a39403cd282d944abcd4f14996cb71bcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360a39403cd282d944abcd4f14996cb71bcb" kindref="member">SEQUENTIAL</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360adf13a99b035d6f0bce4f44ab18eec8eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360adf13a99b035d6f0bce4f44ab18eec8eb" kindref="member">PARALLEL</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1acceleration_1_1_compute_graph_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_compute_graph_node" kindref="compound">ComputeGraphNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a6bc17080e8cb9ac986ae9949266df2d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a6bc17080e8cb9ac986ae9949266df2d2" kindref="member">node_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1acceleration_1_1_compute_graph_node_1ac8ef697ea83d1ead097080aba9919c36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_node_1ac8ef697ea83d1ead097080aba9919c36" kindref="member">kernel_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a4f8de78705a4af65d0392df5c42fde20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a4f8de78705a4af65d0392df5c42fde20" kindref="member">input_buffer_ids</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a9565d24fdf2edb5e18ddf3b6605fbaaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a9565d24fdf2edb5e18ddf3b6605fbaaa" kindref="member">output_buffer_ids</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1acceleration_1_1_compute_graph_node_1ae607941c97123d1555b6521931402e7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_node_1ae607941c97123d1555b6521931402e7d" kindref="member">attributes</ref>;<sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a206123f58a42da7a1287cd1f032c10b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360" kindref="member">NodeDependencyMode</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a206123f58a42da7a1287cd1f032c10b3" kindref="member">dependency_mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360a39403cd282d944abcd4f14996cb71bcb" kindref="member">NodeDependencyMode::SEQUENTIAL</ref>;<sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1acceleration_1_1_compute_graph_edge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_compute_graph_edge" kindref="compound">ComputeGraphEdge</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a81cc9ad94d1f54a22d1b512f7a21c0fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a81cc9ad94d1f54a22d1b512f7a21c0fd" kindref="member">from_node_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a6a56385d0c3539928724371597259647" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a6a56385d0c3539928724371597259647" kindref="member">to_node_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a3af7cde0a25ef0b64ea774c3fefc517c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_edge_1a3af7cde0a25ef0b64ea774c3fefc517c" kindref="member">data_buffer_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1acceleration_1_1_compute_graph_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_compute_graph_config" kindref="compound">ComputeGraphConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1acceleration_1_1_compute_graph_config_1ab3ed5908c2472b2a25e885e93db25327" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_config_1ab3ed5908c2472b2a25e885e93db25327" kindref="member">graph_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1acceleration_1_1_compute_graph_config_1aa94bb356869f25835c295189637d1a4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_config_1aa94bb356869f25835c295189637d1a4e" kindref="member">enable_fusion</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1acceleration_1_1_compute_graph_config_1aee94a7192fe3f597421721146db47378" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_config_1aee94a7192fe3f597421721146db47378" kindref="member">enable_memory_reuse</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1acceleration_1_1_compute_graph_config_1af3f8ce3124a5e1c8c60aa95152c26662" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_config_1af3f8ce3124a5e1c8c60aa95152c26662" kindref="member">max_parallel_nodes</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1acceleration_1_1_compute_graph_config_1a1ff81a93318fadcdb5bb2d11fb258fc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_config_1a1ff81a93318fadcdb5bb2d11fb258fc9" kindref="member">timeout</ref>{5000};<sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1acceleration_1_1_compute_graph_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_compute_graph_stats" kindref="compound">ComputeGraphStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1ad88e23a1aaa83eddd82146cbc07930a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1ad88e23a1aaa83eddd82146cbc07930a9" kindref="member">nodes_executed</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1aea6eccf6cccc1395d152fd3fe554415f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1aea6eccf6cccc1395d152fd3fe554415f" kindref="member">kernel_fusions</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1ab17c13576ca860faf5ba373d7ff31b31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1ab17c13576ca860faf5ba373d7ff31b31" kindref="member">total_execution_ms</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1a9b59f9e77da3cb88e912a211cba8bb1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1a9b59f9e77da3cb88e912a211cba8bb1a" kindref="member">peak_memory_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1acceleration_1_1_i_compute_graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph" kindref="compound">IComputeGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a7a595c66c5ea63657639b85dd28afcc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a7a595c66c5ea63657639b85dd28afcc9" kindref="member">~IComputeGraph</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a7c2d4392c533cfbe17d2b93eeeea7f85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a7c2d4392c533cfbe17d2b93eeeea7f85" kindref="member">addNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_node" kindref="compound">ComputeGraphNode</ref>&amp;<sp/>node)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1aee1a8340179c61a7ccc4541cf2b6a414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1aee1a8340179c61a7ccc4541cf2b6a414" kindref="member">addEdge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_edge" kindref="compound">ComputeGraphEdge</ref>&amp;<sp/>edge)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1ad322ac72f5412c65b1f12342647d2114" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1ad322ac72f5412c65b1f12342647d2114" kindref="member">removeNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1aa25f8c22ffe6152edbbbe51ec6a244a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1aa25f8c22ffe6152edbbbe51ec6a244a0" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_config" kindref="compound">ComputeGraphConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a52bdea93e4d8ce1a5d50d9af73ebb601" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a52bdea93e4d8ce1a5d50d9af73ebb601" kindref="member">execute</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1aa5ce32d780491704e4077205dc3fd98b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_compute_graph_stats" kindref="compound">ComputeGraphStats</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1aa5ce32d780491704e4077205dc3fd98b" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a85846223c4552e44722745a3d53dc271" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a85846223c4552e44722745a3d53dc271" kindref="member">reset</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a42b003392411dfb7ab41de3d8efbdbb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a42b003392411dfb7ab41de3d8efbdbb5" kindref="member">toDot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1ac4fb90f790e8cc26f2f664d34b94605e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1ac4fb90f790e8cc26f2f664d34b94605e" kindref="member">isCompiled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a2728f4b80473a23bf3029d6180ac6d81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1a2728f4b80473a23bf3029d6180ac6d81" kindref="member">nodeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1acceleration_1_1_i_compute_graph_1ad1934821a7740f65c3c5b86eea19e3ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_1ad1934821a7740f65c3c5b86eea19e3ec" kindref="member">edgeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory" kindref="compound">IComputeGraphFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory_1a02a3e1eaa89a2773fc793f1c351b0da3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory_1a02a3e1eaa89a2773fc793f1c351b0da3" kindref="member">~IComputeGraphFactory</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory_1a3266e734bac0e436337e85ce54fd0d43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IComputeGraph&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory_1a3266e734bac0e436337e85ce54fd0d43" kindref="member">create</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>backend_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/compute_graph.h"/>
+  </compounddef>
+</doxygen>

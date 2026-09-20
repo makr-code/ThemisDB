@@ -1,0 +1,938 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::governance::test</compoundname>
+    <innerclass refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" prot="public">themis::governance::test::ApprovalWorkflowTest</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1test_1_1_change_manager_test" prot="public">themis::governance::test::ChangeManagerTest</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" prot="public">themis::governance::test::LineageBackpressureTest</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger" prot="public">themis::governance::test::MockAuditLogger</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" prot="public">themis::governance::test::PolicyVersioningTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a03021e71dedaee9cceba8ac96284dc0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_01_ErrorCodeValues)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_01_ErrorCodeValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="77" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="77" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a62c54327268f7bcb1e53efdc7e9017e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_01_IsSuccessCheck)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_01_IsSuccessCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="87" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="87" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1aa53b4bd2c2b04f56ff42032a6a570569" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_01_GetErrorNameCompleteness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_01_GetErrorNameCompleteness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="97" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="97" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a7ace0080dce11c27142da7efa3e182ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_02_InitialStateIsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_02_InitialStateIsClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="120" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="120" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a91bdf881695c42e7560a999d2a26b717" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_02_ClosedToOpenOnFailures)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_02_ClosedToOpenOnFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="124" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="124" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a067e23418d4d8c6e102343cab21a5a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_02_OpenToHalfOpenAfterTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_02_OpenToHalfOpenAfterTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="141" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="141" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a8054dc135ad1f7519928ddaeaee67150" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_02_HalfOpenToClosedOnSuccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_02_HalfOpenToClosedOnSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="162" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="162" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a9f8acd248a1afc4e9dbbf5f33832463d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_03_EventsRecordedLocallyWhenCircuitOpen)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_03_EventsRecordedLocallyWhenCircuitOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="184" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="184" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a98e8826a71ce738df060d49ee7d12381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_03_DiagnosticsEmittedOnFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_03_DiagnosticsEmittedOnFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="205" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="205" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a589c16ffe2c982fdfc2cbddfea598187" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_04_RecordUpToLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_04_RecordUpToLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="226" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="226" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a86f9cd02b7b98647d4bf77ee0f68733a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_04_SizeLimitEnforcedWithFIFOEviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_04_SizeLimitEnforcedWithFIFOEviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="240" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="240" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1ae1d7ebd592e65b2ac9c484e0ad203998" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_05_ConcurrentRecordingNoRaces)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_05_ConcurrentRecordingNoRaces</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="263" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="263" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1aea5f2dfa2e6380a387b5eff72b2ad0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_06_StatisticsSnapshot)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_06_StatisticsSnapshot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="292" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="292" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1aa7eb2efc85c2b6d0baa12e28716f78e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_06_StatisticsReflectErrors)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_06_StatisticsReflectErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="313" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="313" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a97cea11e014d000ac2c5d2a2151e2299" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_07_PruneOldEventsFIFO)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_07_PruneOldEventsFIFO</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="330" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="330" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a9a238dd53a37be5e37f702c5e66745d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_07_PruneRecordsInAuditTrail)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_07_PruneRecordsInAuditTrail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="349" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="349" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1aae96a73eb0ba2a52bfd97a67c5c7d10e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_08_AllErrorCodesMapped)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_08_AllErrorCodesMapped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="371" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="371" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a82081918e67137be06dd365b0b2f6227" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_08_NoDuplicateErrorCodes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_08_NoDuplicateErrorCodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="390" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="390" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1ac99dcbfb21e28805a5ef148a36e2c415" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_09_DiagnosticsRecordedInAggregator)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_09_DiagnosticsRecordedInAggregator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="410" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="410" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a136e7e2d2a2fb552a4e8335ead5ea6c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_09_DiagnosticCodesMatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_09_DiagnosticCodesMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="428" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="428" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1ab9cf6e62c37a3d89b919c3a433699d82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_09_RemediationStepsProvided)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_09_RemediationStepsProvided</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="448" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="448" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a6f7a4395a4f1762114cbe92bf6caddcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_10_FIFOEvictionHighVolume)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_10_FIFOEvictionHighVolume</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="468" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="468" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a7d78c143cfb1a6c1c10359932f9da555" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(LineageBackpressureTest, LB_10_VerifyNoMissingOrDuplicateEvents)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kindref="compound">LineageBackpressureTest</ref></type>
+        </param>
+        <param>
+          <type>LB_10_VerifyNoMissingOrDuplicateEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="490" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="490" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a2f5aca617809f736e3dca14ec51ce8a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, GOV_Version_01_RecordNewVersion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_01_RecordNewVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="106" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="106" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a481b94faeba59ee0667a486d40f570fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, GOV_Version_01_SemanticVersioning)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_01_SemanticVersioning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="139" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="139" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a5fb74c7139d8d088d959d8e142533ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, GOV_Version_01_VersionMetadata)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_01_VersionMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="156" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="156" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1af9d2cb5036b371380e9cdfacc8ec1269" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, GOV_Version_02_GetLatestVersion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_02_GetLatestVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="181" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="181" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1aef8b9587635c94eca8787b1381322bc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, GOV_Version_02_GetPreviousVersion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_02_GetPreviousVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="194" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a183cee3e53b8a773334a3ffce11c6a35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, GOV_Version_02_CompareVersions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_02_CompareVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="206" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="206" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a35376f52546e783702523942ff08436f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, GOV_Version_02_AuditTrail)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_02_AuditTrail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="227" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="227" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a5389bec9d169e20ad815eec439afea79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ChangeManagerTest, GOV_Version_03_CheckRollbackSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_change_manager_test" kindref="compound">ChangeManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_03_CheckRollbackSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="246" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="246" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1ada98db679584e285da380d26668e21bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ChangeManagerTest, GOV_Version_03_PreviewRollback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_change_manager_test" kindref="compound">ChangeManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_03_PreviewRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="262" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="262" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1afdf5cd3c020c9f2c8f6e9663ecae2fda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ChangeManagerTest, GOV_Version_03_DependencyTracking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_change_manager_test" kindref="compound">ChangeManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_03_DependencyTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="276" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="276" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a238d1f78086bd575360eb68f0e1299f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ApprovalWorkflowTest, GOV_Version_04_ApprovalStateMachine)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" kindref="compound">ApprovalWorkflowTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_04_ApprovalStateMachine</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="296" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="296" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a1241476981ef33e4038bd5d049e067da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ApprovalWorkflowTest, GOV_Version_04_ApprovalRejection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" kindref="compound">ApprovalWorkflowTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_04_ApprovalRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="327" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="327" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a2a3c8d5a7e238fadb16ed578e07e94ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ApprovalWorkflowTest, GOV_Version_04_MultipleApprovers)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" kindref="compound">ApprovalWorkflowTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_04_MultipleApprovers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="339" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="339" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a95c09e311bc4e6940fa16133dc69c1cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ApprovalWorkflowTest, GOV_Version_04_GetRulesInState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" kindref="compound">ApprovalWorkflowTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_04_GetRulesInState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="354" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="354" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1af33a90097ada9126c765690b6259859f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ChangeManagerTest, GOV_Version_05_CoordinatedRollback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_change_manager_test" kindref="compound">ChangeManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_05_CoordinatedRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="367" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="367" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a1537af5857eb272dd59435c5fc8809da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ChangeManagerTest, GOV_Version_05_RollbackInProgress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_change_manager_test" kindref="compound">ChangeManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_05_RollbackInProgress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="394" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="394" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a229f3da160d8cf75ca9b19fe91aa4383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ChangeManagerTest, GOV_Version_05_RollbackHistory)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_change_manager_test" kindref="compound">ChangeManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_05_RollbackHistory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="413" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="413" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a0b4dee4b9d5b17a9303cd328185c06a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ApprovalWorkflowTest, GOV_Version_06_ApprovalAuditTrail)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" kindref="compound">ApprovalWorkflowTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_06_ApprovalAuditTrail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="439" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="439" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1a3c78db97da904d4baeb1d5df5350273d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ApprovalWorkflowTest, GOV_Version_06_EmergencyOverride)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" kindref="compound">ApprovalWorkflowTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_06_EmergencyOverride</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="459" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="459" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1aa11ae013746c9e45f7db3ad990cb77d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ApprovalWorkflowTest, GOV_Version_06_RollbackApproval)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_approval_workflow_test" kindref="compound">ApprovalWorkflowTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_Version_06_RollbackApproval</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="483" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="483" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1affa97146466c61f1a2b2724b9bdbdb14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(ChangeManagerTest, GOV_GRG_05_RollbackLatency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_change_manager_test" kindref="compound">ChangeManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_GRG_05_RollbackLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="499" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="499" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1ad95709ddd605a1fa15fd88c69d0d07cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, GOV_GRG_05_VersionQueryLatency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>GOV_GRG_05_VersionQueryLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="523" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="523" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1test_1ab56054b6bb0ccadbb2dabc93a98eb401" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::test::TEST_F</definition>
+        <argsstring>(PolicyVersioningTest, IntegrationTest_FullVersioningWorkflow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1test_1_1_policy_versioning_test" kindref="compound">PolicyVersioningTest</ref></type>
+        </param>
+        <param>
+          <type>IntegrationTest_FullVersioningWorkflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="545" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="545" bodyend="577"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm__wiki_1_1_wiki_guardrails" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::WikiGuardrails</compoundname>
+    <includes refid="guardrail__patterns_8h" local="no">guardrail_patterns.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a4a42fac14884538afaff4df137591c08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm_wiki::WikiGuardrails::WikiGuardrails</definition>
+        <argsstring>()=default</argsstring>
+        <name>WikiGuardrails</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::WikiGuardrails</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="133" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a21362cf682cfb2d2f2e0b861ec4337a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm_wiki::WikiGuardrails::~WikiGuardrails</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WikiGuardrails</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::~WikiGuardrails</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ad73e23a60e09d69adfc8ea3847f2a480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm_wiki::WikiGuardrails::WikiGuardrails</definition>
+        <argsstring>(const WikiGuardrails &amp;)=delete</argsstring>
+        <name>WikiGuardrails</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::WikiGuardrails</qualifiedname>
+        <param>
+          <type>const WikiGuardrails &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a3e871a84dbb40f69b20833511e954b34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a4a42fac14884538afaff4df137591c08" kindref="member">WikiGuardrails</ref> &amp;</type>
+        <definition>WikiGuardrails &amp; themis::llm_wiki::WikiGuardrails::operator=</definition>
+        <argsstring>(const WikiGuardrails &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a4a42fac14884538afaff4df137591c08" kindref="member">WikiGuardrails</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="138" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ac6e530df186e44b3b47718b7d5c4d335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm_wiki::WikiGuardrails::WikiGuardrails</definition>
+        <argsstring>(WikiGuardrails &amp;&amp;)=delete</argsstring>
+        <name>WikiGuardrails</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::WikiGuardrails</qualifiedname>
+        <param>
+          <type>WikiGuardrails &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="139" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a53dc943e96eb9dd718e4593c8c3cd91e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a4a42fac14884538afaff4df137591c08" kindref="member">WikiGuardrails</ref> &amp;</type>
+        <definition>WikiGuardrails &amp; themis::llm_wiki::WikiGuardrails::operator=</definition>
+        <argsstring>(WikiGuardrails &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a4a42fac14884538afaff4df137591c08" kindref="member">WikiGuardrails</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="140" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ab90051bc8b90c01b3b69524bc4d94d33" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::WikiGuardrails::isUnsafeQuery</definition>
+        <argsstring>(std::string_view query_text) const noexcept</argsstring>
+        <name>isUnsafeQuery</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::isUnsafeQuery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="142" column="11" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1acab2e9dfe80b3870a720f4b9f629c200" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::WikiGuardrails::isUnsafeContent</definition>
+        <argsstring>(std::string_view chunk_text) const noexcept</argsstring>
+        <name>isUnsafeContent</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::isUnsafeContent</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>chunk_text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="146" column="11" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="146" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1af2eca8bee3bbfb747dcf933ba1df8f9d" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::WikiGuardrails::checkPatterns</definition>
+        <argsstring>(std::string_view text) const noexcept</argsstring>
+        <name>checkPatterns</name>
+        <qualifiedname>themis::llm_wiki::WikiGuardrails::checkPatterns</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="153" column="11" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="153" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm_wiki/guardrail_patterns.h" line="131" column="1" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="131" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1af2eca8bee3bbfb747dcf933ba1df8f9d" prot="private" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>checkPatterns</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1acab2e9dfe80b3870a720f4b9f629c200" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>isUnsafeContent</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ab90051bc8b90c01b3b69524bc4d94d33" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>isUnsafeQuery</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a3e871a84dbb40f69b20833511e954b34" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a53dc943e96eb9dd718e4593c8c3cd91e" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a4a42fac14884538afaff4df137591c08" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>WikiGuardrails</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ad73e23a60e09d69adfc8ea3847f2a480" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>WikiGuardrails</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ac6e530df186e44b3b47718b7d5c4d335" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>WikiGuardrails</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a21362cf682cfb2d2f2e0b861ec4337a8" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WikiGuardrails</scope><name>~WikiGuardrails</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

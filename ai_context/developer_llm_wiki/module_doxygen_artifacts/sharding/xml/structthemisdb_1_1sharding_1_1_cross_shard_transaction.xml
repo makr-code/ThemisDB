@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardTransaction</compoundname>
+    <includes refid="cross__shard__transaction_8h" local="no">cross_shard_transaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a5211062c38c823ff29303f2b98bb0ed1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransaction::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::transaction_id</qualifiedname>
+        <briefdescription>
+<para>Global transaction ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="113" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1ad2aeae812328fa6232207db5a9b95f19" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0" kindref="member">TransactionProtocol</ref></type>
+        <definition>TransactionProtocol themisdb::sharding::CrossShardTransaction::protocol</definition>
+        <argsstring></argsstring>
+        <name>protocol</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::protocol</qualifiedname>
+        <briefdescription>
+<para>Selected transaction protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="114" column="25" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1afb938164ee2311b4f4b32775b2c955f3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927" kindref="member">IsolationLevel</ref></type>
+        <definition>IsolationLevel themisdb::sharding::CrossShardTransaction::isolation_level</definition>
+        <argsstring></argsstring>
+        <name>isolation_level</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::isolation_level</qualifiedname>
+        <briefdescription>
+<para>Requested isolation level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="115" column="20" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1adad75e4487c26d7951a3644e1314c014" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1" kindref="member">TransactionState</ref></type>
+        <definition>TransactionState themisdb::sharding::CrossShardTransaction::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::state</qualifiedname>
+        <briefdescription>
+<para>Current transaction state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="116" column="22" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1aa82d31413fe0b25b4537a1e0768cb686" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::CrossShardTransaction::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="117" column="43" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a5bc99e52b00dd24eb07bcbf30d006bc6" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::CrossShardTransaction::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="118" column="43" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a2b536a0f21f51b8b1ede95b7ecc00cf8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_shard_participant" kindref="compound">ShardParticipant</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ShardParticipant&gt; themisdb::sharding::CrossShardTransaction::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::participants</qualifiedname>
+        <briefdescription>
+<para>Participants keyed by shard ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="119" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1aeeeb9b794a56957f904baf5ffb959ed3" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::CrossShardTransaction::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional protocol metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="120" column="20" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1aba7a05d709def6712566776064e5242e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::CrossShardTransaction::snapshot_timestamp</definition>
+        <argsstring></argsstring>
+        <name>snapshot_timestamp</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::snapshot_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Snapshot/read timestamp at begin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="123" column="13" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a37601cf705e5a1fe9345181514ed2030" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::CrossShardTransaction::commit_timestamp</definition>
+        <argsstring></argsstring>
+        <name>commit_timestamp</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::commit_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Commit timestamp assigned on decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="124" column="13" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1afbac66b54f8eac704de782549c7d5de1" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::map&lt;std::string, nlohmann::json&gt; themisdb::sharding::CrossShardTransaction::compensations</definition>
+        <argsstring></argsstring>
+        <name>compensations</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::compensations</qualifiedname>
+        <briefdescription>
+<para>Compensation payloads for SAGA. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="127" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a675e12d2bb3b134fb3b7d57a77aaf946" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::CrossShardTransaction::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransaction::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="129" column="20" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="129" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cross-shard transaction metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_transaction.h" line="112" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="112" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a37601cf705e5a1fe9345181514ed2030" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>commit_timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1afbac66b54f8eac704de782549c7d5de1" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>compensations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a5bc99e52b00dd24eb07bcbf30d006bc6" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>end_time</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1afb938164ee2311b4f4b32775b2c955f3" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>isolation_level</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1aeeeb9b794a56957f904baf5ffb959ed3" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>metadata</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a2b536a0f21f51b8b1ede95b7ecc00cf8" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>participants</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1ad2aeae812328fa6232207db5a9b95f19" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>protocol</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1aba7a05d709def6712566776064e5242e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>snapshot_timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1aa82d31413fe0b25b4537a1e0768cb686" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>start_time</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1adad75e4487c26d7951a3644e1314c014" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>state</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a675e12d2bb3b134fb3b7d57a77aaf946" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_1a5211062c38c823ff29303f2b98bb0ed1" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransaction</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

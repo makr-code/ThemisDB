@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_legacy_geo_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::LegacyGeoProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="content__processor_8h" local="no">content_processor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_geo_processor_1abb5b6d5732648974ab34a6f26e24868b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::LegacyGeoProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::LegacyGeoProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="160" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_geo_processor_1a078535f3fc32d4a689ee3d02bc4638f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::content::LegacyGeoProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::LegacyGeoProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="161" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_geo_processor_1ac4bc12254160fde65ea9c9eb8e17041e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::LegacyGeoProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::LegacyGeoProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="162" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_geo_processor_1aa4048245a1f13f01d82d1927d82dfc4c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::LegacyGeoProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::LegacyGeoProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="163" column="17" bodyfile="include/content/content_processor.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_geo_processor_1a1af1261db7bee770872a893355a6e584" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::LegacyGeoProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::LegacyGeoProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="164" column="17" bodyfile="include/content/content_processor.h" bodystart="164" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_geo_processor_1ab2f4a794a0f8b639578a78beb84eefe1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result_1_1_geo_data" kindref="compound">ExtractionResult::GeoData</ref></type>
+        <definition>ExtractionResult::GeoData themis::content::LegacyGeoProcessor::parseGeoJSON</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>parseGeoJSON</name>
+        <qualifiedname>themis::content::LegacyGeoProcessor::parseGeoJSON</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse Geo JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="174" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_geo_processor_1a702030ec1b3a855d6084947a08c86651" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result_1_1_geo_data" kindref="compound">ExtractionResult::GeoData</ref></type>
+        <definition>ExtractionResult::GeoData themis::content::LegacyGeoProcessor::parseGPX</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>parseGPX</name>
+        <qualifiedname>themis::content::LegacyGeoProcessor::parseGPX</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse GPX. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="180" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::LegacyGeoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_legacy_geo_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::LegacyGeoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_legacy_geo_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/content_processor.h" line="158" column="1" bodyfile="include/content/content_processor.h" bodystart="158" bodyend="181"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_legacy_geo_processor_1a078535f3fc32d4a689ee3d02bc4638f4" prot="public" virt="virtual"><scope>themis::content::LegacyGeoProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_geo_processor_1abb5b6d5732648974ab34a6f26e24868b" prot="public" virt="virtual"><scope>themis::content::LegacyGeoProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_geo_processor_1ac4bc12254160fde65ea9c9eb8e17041e" prot="public" virt="virtual"><scope>themis::content::LegacyGeoProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_geo_processor_1aa4048245a1f13f01d82d1927d82dfc4c" prot="public" virt="virtual"><scope>themis::content::LegacyGeoProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_geo_processor_1a1af1261db7bee770872a893355a6e584" prot="public" virt="virtual"><scope>themis::content::LegacyGeoProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_geo_processor_1ab2f4a794a0f8b639578a78beb84eefe1" prot="private" virt="non-virtual"><scope>themis::content::LegacyGeoProcessor</scope><name>parseGeoJSON</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_geo_processor_1a702030ec1b3a855d6084947a08c86651" prot="private" virt="non-virtual"><scope>themis::content::LegacyGeoProcessor</scope><name>parseGPX</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::LegacyGeoProcessor</scope><name>~IContentProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

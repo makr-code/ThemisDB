@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::test::VoiceWaveAChaosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test_1aad80f44d8c09706eec7362cb3fdd6ab8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1test_1_1_voice_backend" kindref="compound">VoiceBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VoiceBackend&gt; themis::voice::test::VoiceWaveAChaosTest::stt_</definition>
+        <argsstring></argsstring>
+        <name>stt_</name>
+        <qualifiedname>themis::voice::test::VoiceWaveAChaosTest::stt_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="270" column="19" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test_1a4e144bf38a532ac317ea027c689fd5b3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1test_1_1_voice_backend" kindref="compound">VoiceBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VoiceBackend&gt; themis::voice::test::VoiceWaveAChaosTest::llm_</definition>
+        <argsstring></argsstring>
+        <name>llm_</name>
+        <qualifiedname>themis::voice::test::VoiceWaveAChaosTest::llm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="271" column="19" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test_1a5bcce84f3e521cadea9b096feb9dd12a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1test_1_1_audit_log" kindref="compound">AuditLog</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuditLog&gt; themis::voice::test::VoiceWaveAChaosTest::audit_</definition>
+        <argsstring></argsstring>
+        <name>audit_</name>
+        <qualifiedname>themis::voice::test::VoiceWaveAChaosTest::audit_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="272" column="19" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="272" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test_1aca06e2befe643576292a7b27e33656a5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::VoiceWaveAChaosTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::voice::test::VoiceWaveAChaosTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="264" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="264" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::test::VoiceWaveAChaosTest</label>
+        <link refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::test::VoiceWaveAChaosTest</label>
+        <link refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="262" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="262" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test_1a5bcce84f3e521cadea9b096feb9dd12a" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceWaveAChaosTest</scope><name>audit_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test_1a4e144bf38a532ac317ea027c689fd5b3" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceWaveAChaosTest</scope><name>llm_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test_1aca06e2befe643576292a7b27e33656a5" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceWaveAChaosTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test_1aad80f44d8c09706eec7362cb3fdd6ab8" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceWaveAChaosTest</scope><name>stt_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

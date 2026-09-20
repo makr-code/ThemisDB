@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_add_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::ThreadSafeConversationContext::AddResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_add_result_1a3a198c6aaa459e76656476ce6135eed3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::ThreadSafeConversationContext::AddResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::AddResult::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="53" column="25" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_add_result_1af5b656f1fe0f36ed245904c25031e014" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::ThreadSafeConversationContext::AddResult::evicted</definition>
+        <argsstring></argsstring>
+        <name>evicted</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::AddResult::evicted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="53" column="42" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="53" column="5" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="53" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_add_result_1af5b656f1fe0f36ed245904c25031e014" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext::AddResult</scope><name>evicted</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_add_result_1a3a198c6aaa459e76656476ce6135eed3" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext::AddResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

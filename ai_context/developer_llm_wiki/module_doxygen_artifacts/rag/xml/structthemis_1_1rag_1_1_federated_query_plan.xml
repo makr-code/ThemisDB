@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_federated_query_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::FederatedQueryPlan</compoundname>
+    <includes refid="retrieval__guardrail_8h" local="no">retrieval_guardrail.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_federated_query_plan_1a11ac4ced99c7148a40bc47a16339c783" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::FederatedQueryPlan::shard_ids</definition>
+        <argsstring></argsstring>
+        <name>shard_ids</name>
+        <qualifiedname>themis::rag::FederatedQueryPlan::shard_ids</qualifiedname>
+        <briefdescription>
+<para>Shard identifiers targeted by this query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="53" column="17" bodyfile="include/rag/retrieval_guardrail.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_federated_query_plan_1ae7572eccca3ca81e8218171e3052fb6e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FederatedQueryPlan::num_chunks</definition>
+        <argsstring></argsstring>
+        <name>num_chunks</name>
+        <qualifiedname>themis::rag::FederatedQueryPlan::num_chunks</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of candidate chunks to retrieve across all shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="56" column="17" bodyfile="include/rag/retrieval_guardrail.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_federated_query_plan_1a32f2d38398968e41eb82acca40cccdc1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::FederatedQueryPlan::estimated_cost_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost_ms</name>
+        <qualifiedname>themis::rag::FederatedQueryPlan::estimated_cost_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Pre-computed cost estimate from an upstream planner (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When 0.0, the guardrail derives the estimate itself via <ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1a4b45753bd46076c70a8b54984dc0035b" kindref="member">TensorRagCostModel::estimate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="64" column="11" bodyfile="include/rag/retrieval_guardrail.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_federated_query_plan_1a6af61a766066b1009dc72900fd3fbde7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FederatedQueryPlan::cross_datacenter</definition>
+        <argsstring></argsstring>
+        <name>cross_datacenter</name>
+        <qualifiedname>themis::rag::FederatedQueryPlan::cross_datacenter</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when the plan spans shards in different data-centres. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="67" column="10" bodyfile="include/rag/retrieval_guardrail.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight descriptor of a federated query plan passed to the guardrail. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/retrieval_guardrail.h" line="51" column="1" bodyfile="include/rag/retrieval_guardrail.h" bodystart="51" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_federated_query_plan_1a6af61a766066b1009dc72900fd3fbde7" prot="public" virt="non-virtual"><scope>themis::rag::FederatedQueryPlan</scope><name>cross_datacenter</name></member>
+      <member refid="structthemis_1_1rag_1_1_federated_query_plan_1a32f2d38398968e41eb82acca40cccdc1" prot="public" virt="non-virtual"><scope>themis::rag::FederatedQueryPlan</scope><name>estimated_cost_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_federated_query_plan_1ae7572eccca3ca81e8218171e3052fb6e" prot="public" virt="non-virtual"><scope>themis::rag::FederatedQueryPlan</scope><name>num_chunks</name></member>
+      <member refid="structthemis_1_1rag_1_1_federated_query_plan_1a11ac4ced99c7148a40bc47a16339c783" prot="public" virt="non-virtual"><scope>themis::rag::FederatedQueryPlan</scope><name>shard_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

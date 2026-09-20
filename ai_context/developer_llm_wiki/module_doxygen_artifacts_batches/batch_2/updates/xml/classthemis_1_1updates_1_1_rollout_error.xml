@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_rollout_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::RolloutError</compoundname>
+    <basecompoundref refid="classthemis_1_1updates_1_1_update_incident" prot="public" virt="non-virtual">themis::updates::UpdateIncident</basecompoundref>
+    <includes refid="updates__diagnostics_8h" local="no">updates_diagnostics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_rollout_error_1a9b7ead1bbe05b19f0ba1ddc2c2aaef54" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>DiagnosticErrorCode themis::updates::RolloutError::error_code_</definition>
+        <argsstring></argsstring>
+        <name>error_code_</name>
+        <qualifiedname>themis::updates::RolloutError::error_code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="400" column="25" bodyfile="include/updates/updates_diagnostics.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_rollout_error_1a6415735ca8306848ed03d709087c8df6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::RolloutError::update_id_</definition>
+        <argsstring></argsstring>
+        <name>update_id_</name>
+        <qualifiedname>themis::updates::RolloutError::update_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="401" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_rollout_error_1a8c4e204eacced1752c966ab870003a24" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::RolloutError::failed_nodes_</definition>
+        <argsstring></argsstring>
+        <name>failed_nodes_</name>
+        <qualifiedname>themis::updates::RolloutError::failed_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="402" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_rollout_error_1ae18f3b250ff34b978a4d55248db43429" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::RolloutError::reason_</definition>
+        <argsstring></argsstring>
+        <name>reason_</name>
+        <qualifiedname>themis::updates::RolloutError::reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="403" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_rollout_error_1aac2d7ca70c220e367b303db3e3afdb5a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::RolloutError::healthy_node_count_</definition>
+        <argsstring></argsstring>
+        <name>healthy_node_count_</name>
+        <qualifiedname>themis::updates::RolloutError::healthy_node_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="404" column="9" bodyfile="include/updates/updates_diagnostics.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_rollout_error_1a086d90906d92d3e89ed2bc1a26f9a245" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::RolloutError::total_node_count_</definition>
+        <argsstring></argsstring>
+        <name>total_node_count_</name>
+        <qualifiedname>themis::updates::RolloutError::total_node_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="405" column="9" bodyfile="include/updates/updates_diagnostics.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1ab3191cb4de5438f269259616beb8c440" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::RolloutError::RolloutError</definition>
+        <argsstring>(DiagnosticErrorCode code, std::string update_id, std::vector&lt; std::string &gt; failed_nodes, std::string reason, int healthy_node_count, int total_node_count)</argsstring>
+        <name>RolloutError</name>
+        <qualifiedname>themis::updates::RolloutError::RolloutError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>update_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>failed_nodes</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>healthy_node_count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total_node_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="408" column="5" bodyfile="include/updates/updates_diagnostics.h" bodystart="408" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1af470a2a40a06abbddfc3d85603e42f69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>DiagnosticErrorCode themis::updates::RolloutError::errorCode</definition>
+        <argsstring>() const override</argsstring>
+        <name>errorCode</name>
+        <qualifiedname>themis::updates::RolloutError::errorCode</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a4393ffce81ca6200cc85e05c04470786">errorCode</reimplements>
+        <briefdescription>
+<para>Get the primary error code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="419" column="25" bodyfile="include/updates/updates_diagnostics.h" bodystart="419" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1a6029e1a097a42690c41cbbdefa123f29" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7a" kindref="member">RootCauseClass</ref></type>
+        <definition>RootCauseClass themis::updates::RolloutError::rootCause</definition>
+        <argsstring>() const override</argsstring>
+        <name>rootCause</name>
+        <qualifiedname>themis::updates::RolloutError::rootCause</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1ad365305eb6fb912f5167d4ff33f20814">rootCause</reimplements>
+        <briefdescription>
+<para>Get the root cause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="420" column="20" bodyfile="include/updates/updates_diagnostics.h" bodystart="420" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1a89b93c36a5670ca79a5dd5c8a9c0df53" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57d" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>DiagnosticSeverity themis::updates::RolloutError::severity</definition>
+        <argsstring>() const override</argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::updates::RolloutError::severity</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1ac10ab2dbbe11b905a6868ee61a68524a">severity</reimplements>
+        <briefdescription>
+<para>Get the severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="421" column="24" bodyfile="include/updates/updates_diagnostics.h" bodystart="421" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1a97036818d4fb925dc2366629da8e6a9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::RolloutError::message</definition>
+        <argsstring>() const override</argsstring>
+        <name>message</name>
+        <qualifiedname>themis::updates::RolloutError::message</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a02ca63e45939a24aad69384110833676">message</reimplements>
+        <briefdescription>
+<para>Get human-readable message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="422" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="422" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1aa63b2fef4050f15da6249dc8fa93b11a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::RolloutError::operationContext</definition>
+        <argsstring>() const override</argsstring>
+        <name>operationContext</name>
+        <qualifiedname>themis::updates::RolloutError::operationContext</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1aec14a3dd0a687ecd8ddfe7f030c32599">operationContext</reimplements>
+        <briefdescription>
+<para>Get operation context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="423" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="423" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1a3697d4b71742760c35d84ef0b6faafc2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::RolloutError::toJson</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::RolloutError::toJson</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a2d00f3951ecee42abad5b1c0389416e2">toJson</reimplements>
+        <briefdescription>
+<para>Convert to structured JSON for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="424" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1a154b4e6c53ef41793e70410e9128b99b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::updates::RolloutError::failedNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>failedNodes</name>
+        <qualifiedname>themis::updates::RolloutError::failedNodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="426" column="23" bodyfile="include/updates/updates_diagnostics.h" bodystart="426" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1a8d79fd8f4f01172733fa38cf19a812ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::updates::RolloutError::healthyNodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>healthyNodeCount</name>
+        <qualifiedname>themis::updates::RolloutError::healthyNodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="427" column="9" bodyfile="include/updates/updates_diagnostics.h" bodystart="427" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_rollout_error_1a876fb1f3118e8afbd3b533159fabdce1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::updates::RolloutError::totalNodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>totalNodeCount</name>
+        <qualifiedname>themis::updates::RolloutError::totalNodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="428" column="9" bodyfile="include/updates/updates_diagnostics.h" bodystart="428" bodyend="428"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Rollout error - coordinated deployment and rollback failures. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers quorum loss, network partitions, cascade detection, and multi-node failures. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::updates::RolloutError</label>
+        <link refid="classthemis_1_1updates_1_1_rollout_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::UpdateIncident</label>
+        <link refid="classthemis_1_1updates_1_1_update_incident"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::updates::RolloutError</label>
+        <link refid="classthemis_1_1updates_1_1_rollout_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::UpdateIncident</label>
+        <link refid="classthemis_1_1updates_1_1_update_incident"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/updates_diagnostics.h" line="398" column="1" bodyfile="include/updates/updates_diagnostics.h" bodystart="398" bodyend="429"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a9b7ead1bbe05b19f0ba1ddc2c2aaef54" prot="private" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1af470a2a40a06abbddfc3d85603e42f69" prot="public" virt="virtual"><scope>themis::updates::RolloutError</scope><name>errorCode</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a8c4e204eacced1752c966ab870003a24" prot="private" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>failed_nodes_</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a154b4e6c53ef41793e70410e9128b99b" prot="public" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>failedNodes</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1aac2d7ca70c220e367b303db3e3afdb5a" prot="private" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>healthy_node_count_</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a8d79fd8f4f01172733fa38cf19a812ee" prot="public" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>healthyNodeCount</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a97036818d4fb925dc2366629da8e6a9e" prot="public" virt="virtual"><scope>themis::updates::RolloutError</scope><name>message</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1aa63b2fef4050f15da6249dc8fa93b11a" prot="public" virt="virtual"><scope>themis::updates::RolloutError</scope><name>operationContext</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1ae18f3b250ff34b978a4d55248db43429" prot="private" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>reason_</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1ab3191cb4de5438f269259616beb8c440" prot="public" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>RolloutError</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a6029e1a097a42690c41cbbdefa123f29" prot="public" virt="virtual"><scope>themis::updates::RolloutError</scope><name>rootCause</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a89b93c36a5670ca79a5dd5c8a9c0df53" prot="public" virt="virtual"><scope>themis::updates::RolloutError</scope><name>severity</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a3697d4b71742760c35d84ef0b6faafc2" prot="public" virt="virtual"><scope>themis::updates::RolloutError</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a086d90906d92d3e89ed2bc1a26f9a245" prot="private" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>total_node_count_</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a876fb1f3118e8afbd3b533159fabdce1" prot="public" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>totalNodeCount</name></member>
+      <member refid="classthemis_1_1updates_1_1_rollout_error_1a6415735ca8306848ed03d709087c8df6" prot="private" virt="non-virtual"><scope>themis::updates::RolloutError</scope><name>update_id_</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1ab2f0f7a3da7b96172dc1864d79bafa04" prot="public" virt="virtual"><scope>themis::updates::RolloutError</scope><name>~UpdateIncident</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

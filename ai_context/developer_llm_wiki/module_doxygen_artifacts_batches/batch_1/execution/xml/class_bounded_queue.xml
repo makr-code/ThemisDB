@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bounded_queue" kind="class" language="C++" prot="public">
+    <compoundname>BoundedQueue</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_bounded_queue_1a184f9588b62fc2d44328edecd1580304" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t BoundedQueue::cap_</definition>
+        <argsstring></argsstring>
+        <name>cap_</name>
+        <qualifiedname>BoundedQueue::cap_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="66" column="23" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bounded_queue_1a6bc1e39e644a9c9787f17a307127c436" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex BoundedQueue::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>BoundedQueue::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="67" column="24" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bounded_queue_1ac950c9b37949993783c3258ee20ca4d9" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; uint64_t &gt;</type>
+        <definition>std::deque&lt;uint64_t&gt; BoundedQueue::q_</definition>
+        <argsstring></argsstring>
+        <name>q_</name>
+        <qualifiedname>BoundedQueue::q_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="68" column="16" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_bounded_queue_1a061aad326c517ce1c82c3b3df742581d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>BoundedQueue::BoundedQueue</definition>
+        <argsstring>(std::size_t capacity)</argsstring>
+        <name>BoundedQueue</name>
+        <qualifiedname>BoundedQueue::BoundedQueue</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="43" column="14" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bounded_queue_1a6b5089770dbbb29cd828712ef6ea1c8a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BoundedQueue::enqueue</definition>
+        <argsstring>(uint64_t item)</argsstring>
+        <name>enqueue</name>
+        <qualifiedname>BoundedQueue::enqueue</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="45" column="10" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bounded_queue_1ab0230dad243c177ec09260456b903582" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BoundedQueue::dequeue</definition>
+        <argsstring>(uint64_t &amp;out)</argsstring>
+        <name>dequeue</name>
+        <qualifiedname>BoundedQueue::dequeue</qualifiedname>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="52" column="10" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="52" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bounded_queue_1aeb4dd2fe9749e73784531ac7fc92c97b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t BoundedQueue::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>BoundedQueue::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="60" column="17" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="41" column="1" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="41" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_bounded_queue_1a061aad326c517ce1c82c3b3df742581d" prot="public" virt="non-virtual"><scope>BoundedQueue</scope><name>BoundedQueue</name></member>
+      <member refid="class_bounded_queue_1a184f9588b62fc2d44328edecd1580304" prot="private" virt="non-virtual"><scope>BoundedQueue</scope><name>cap_</name></member>
+      <member refid="class_bounded_queue_1ab0230dad243c177ec09260456b903582" prot="public" virt="non-virtual"><scope>BoundedQueue</scope><name>dequeue</name></member>
+      <member refid="class_bounded_queue_1a6b5089770dbbb29cd828712ef6ea1c8a" prot="public" virt="non-virtual"><scope>BoundedQueue</scope><name>enqueue</name></member>
+      <member refid="class_bounded_queue_1a6bc1e39e644a9c9787f17a307127c436" prot="private" virt="non-virtual"><scope>BoundedQueue</scope><name>mu_</name></member>
+      <member refid="class_bounded_queue_1ac950c9b37949993783c3258ee20ca4d9" prot="private" virt="non-virtual"><scope>BoundedQueue</scope><name>q_</name></member>
+      <member refid="class_bounded_queue_1aeb4dd2fe9749e73784531ac7fc92c97b" prot="public" virt="non-virtual"><scope>BoundedQueue</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

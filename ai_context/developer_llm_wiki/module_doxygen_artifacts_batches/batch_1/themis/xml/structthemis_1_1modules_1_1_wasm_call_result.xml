@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_wasm_call_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::WasmCallResult</compoundname>
+    <includes refid="wasm__plugin__sandbox_8h" local="no">wasm_plugin_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_call_result_1ab74a745259f49de4d2ad51b4f92537db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmCallResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::modules::WasmCallResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="113" column="10" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_call_result_1a7321a6d35e93748239a7cbf83eace4f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmCallResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::modules::WasmCallResult::error</qualifiedname>
+        <briefdescription>
+<para>Non-empty when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="114" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_call_result_1aea2429258f9259cdc4fb704fc9e2fca6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::modules::WasmCallResult::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::modules::WasmCallResult::output</qualifiedname>
+        <briefdescription>
+<para>Return value blob (plugin-defined). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="115" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_call_result_1a42e72db0b0ee9c5455698f581caacf1d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmCallResult::duration_us</definition>
+        <argsstring></argsstring>
+        <name>duration_us</name>
+        <qualifiedname>themis::modules::WasmCallResult::duration_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="116" column="14" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3522c0e7d5df1b7c190356cf05c0a502" kindref="member">WasmPluginSandbox::callExport()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/wasm_plugin_sandbox.h" line="112" column="1" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="112" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_wasm_call_result_1a42e72db0b0ee9c5455698f581caacf1d" prot="public" virt="non-virtual"><scope>themis::modules::WasmCallResult</scope><name>duration_us</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_call_result_1a7321a6d35e93748239a7cbf83eace4f7" prot="public" virt="non-virtual"><scope>themis::modules::WasmCallResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_call_result_1aea2429258f9259cdc4fb704fc9e2fca6" prot="public" virt="non-virtual"><scope>themis::modules::WasmCallResult</scope><name>output</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_call_result_1ab74a745259f49de4d2ad51b4f92537db" prot="public" virt="non-virtual"><scope>themis::modules::WasmCallResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_columnar_execution_engine" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ColumnarExecutionEngine</compoundname>
+    <includes refid="columnar__execution_8h" local="no">columnar_execution.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_config" prot="public">themisdb::analytics::ColumnarExecutionEngine::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats" prot="public">themisdb::analytics::ColumnarExecutionEngine::ExecutionStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a29c660e9c2000df22f28aee6764fda64" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::analytics::ColumnarExecutionEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="658" column="20" bodyfile="include/analytics/columnar_execution.h" bodystart="658" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a5affba0707f5d54cce019033e9f82cb0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats" kindref="compound">ExecutionStats</ref></type>
+        <definition>ExecutionStats themisdb::analytics::ColumnarExecutionEngine::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="659" column="20" bodyfile="include/analytics/columnar_execution.h" bodystart="659" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1aea0184de76a00ac199394eed58abfcdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ColumnarExecutionEngine::ColumnarExecutionEngine</definition>
+        <argsstring>()</argsstring>
+        <name>ColumnarExecutionEngine</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::ColumnarExecutionEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="586" column="5" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1439" bodyend="1439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a47ecd3f5ce93d4754b7c3d7f0e448e31" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ColumnarExecutionEngine::ColumnarExecutionEngine</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ColumnarExecutionEngine</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::ColumnarExecutionEngine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Columnar Execution Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="592" column="14" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1441" bodyend="1441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a77805263059236d3efbcb904c2ed8881" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ColumnarExecutionEngine::~ColumnarExecutionEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ColumnarExecutionEngine</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::~ColumnarExecutionEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="593" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a27b5c8ae98e4205c48b3aafdea3f432c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::ColumnarExecutionEngine::execute</definition>
+        <argsstring>(const ColumnBatch &amp;input, const VectorizedPipeline &amp;pipeline)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_vectorized_pipeline" kindref="compound">VectorizedPipeline</ref> &amp;</type>
+          <declname>pipeline</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), rowCount(), selectedRowCount(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="601" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1450" bodyend="1464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a727e95dada1ba426a74d4aaabf8950c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnBatch &gt; themisdb::analytics::ColumnarExecutionEngine::executeBatched</definition>
+        <argsstring>(const std::vector&lt; ColumnBatch &gt; &amp;batches, const VectorizedPipeline &amp;pipeline)</argsstring>
+        <name>executeBatched</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::executeBatched</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &gt; &amp;</type>
+          <declname>batches</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_vectorized_pipeline" kindref="compound">VectorizedPipeline</ref> &amp;</type>
+          <declname>pipeline</declname>
+        </param>
+        <briefdescription>
+<para>Execute Batched. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batches</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batches</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), <ref refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a27b5c8ae98e4205c48b3aafdea3f432c" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="609" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1473" bodyend="1482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ac9973c3bf8b686a927c7c02a6da31885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::ColumnarExecutionEngine::filter</definition>
+        <argsstring>(const ColumnBatch &amp;input, std::vector&lt; Predicate &gt; predicates)</argsstring>
+        <name>filter</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::filter</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_predicate" kindref="compound">Predicate</ref> &gt;</type>
+          <declname>predicates</declname>
+        </param>
+        <briefdescription>
+<para>Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addFilter(), std::move(), <ref refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a27b5c8ae98e4205c48b3aafdea3f432c" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="618" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1491" bodyend="1495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ab8d134c3e0bd84ac828252afe05262c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::ColumnarExecutionEngine::aggregate</definition>
+        <argsstring>(const ColumnBatch &amp;input, std::vector&lt; AggregateSpec &gt; specs)</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::aggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref> &gt;</type>
+          <declname>specs</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">specs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">specs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addAggregate(), std::move(), <ref refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a27b5c8ae98e4205c48b3aafdea3f432c" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="625" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1504" bodyend="1508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ac610870cb98791c2bfe673386e73e66d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::ColumnarExecutionEngine::project</definition>
+        <argsstring>(const ColumnBatch &amp;input, std::vector&lt; std::string &gt; columns)</argsstring>
+        <name>project</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::project</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>columns</declname>
+        </param>
+        <briefdescription>
+<para>Project. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addProject(), std::move(), <ref refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a27b5c8ae98e4205c48b3aafdea3f432c" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="632" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1517" bodyend="1521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ab42568dca4570151cfe51e6e8b00c53c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::ColumnarExecutionEngine::sort</definition>
+        <argsstring>(const ColumnBatch &amp;input, std::vector&lt; SortOperator::SortKey &gt; keys)</argsstring>
+        <name>sort</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::sort</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key" kindref="compound">SortOperator::SortKey</ref> &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addSort(), std::move(), <ref refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a27b5c8ae98e4205c48b3aafdea3f432c" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="639" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1530" bodyend="1534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a0f8f13f2a137c2fa606edefcebbbf6e7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats" kindref="compound">ExecutionStats</ref> &amp;</type>
+        <definition>const ExecutionStats &amp; themisdb::analytics::ColumnarExecutionEngine::lastStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastStats</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::lastStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="648" column="26" bodyfile="include/analytics/columnar_execution.h" bodystart="648" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ae18c5d1d12aa48fe155407ae79465d52" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ColumnarExecutionEngine::resetStats</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="653" column="10" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1536" bodyend="1538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a2b2bff6a9b4817a82c12d8f88574f9ea" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themisdb::analytics::ColumnarExecutionEngine::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="655" column="18" bodyfile="include/analytics/columnar_execution.h" bodystart="655" bodyend="655"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/columnar_execution.h" line="578" column="1" bodyfile="include/analytics/columnar_execution.h" bodystart="578" bodyend="660"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ab8d134c3e0bd84ac828252afe05262c0" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>aggregate</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1aea0184de76a00ac199394eed58abfcdf" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>ColumnarExecutionEngine</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a47ecd3f5ce93d4754b7c3d7f0e448e31" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>ColumnarExecutionEngine</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a2b2bff6a9b4817a82c12d8f88574f9ea" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>config</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a29c660e9c2000df22f28aee6764fda64" prot="private" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a27b5c8ae98e4205c48b3aafdea3f432c" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a727e95dada1ba426a74d4aaabf8950c1" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>executeBatched</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ac9973c3bf8b686a927c7c02a6da31885" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>filter</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a0f8f13f2a137c2fa606edefcebbbf6e7" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>lastStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ac610870cb98791c2bfe673386e73e66d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>project</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ae18c5d1d12aa48fe155407ae79465d52" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1ab42568dca4570151cfe51e6e8b00c53c" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>sort</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a5affba0707f5d54cce019033e9f82cb0" prot="private" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine_1a77805263059236d3efbcb904c2ed8881" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine</scope><name>~ColumnarExecutionEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

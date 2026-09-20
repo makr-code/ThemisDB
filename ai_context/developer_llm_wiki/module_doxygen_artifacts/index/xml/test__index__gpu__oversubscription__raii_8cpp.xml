@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__index__gpu__oversubscription__raii_8cpp" kind="file" language="C++">
+    <compoundname>test_index_gpu_oversubscription_raii.cpp</compoundname>
+    <includes refid="gpu__memory__oversubscription_8h" local="yes">index/gpu_memory_oversubscription.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>index/gpu_memory_oversubscription.h</label>
+        <link refid="gpu__memory__oversubscription_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/index/test_index_gpu_oversubscription_raii.cpp</label>
+        <link refid="test__index__gpu__oversubscription__raii_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/unified_memory.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__index__gpu__oversubscription__raii_8cpp_1adfa6f9cd8f9ca44903de7ab3fe8a6b8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUOversubscriptionRAII, RAII_1_ManagerWithPartition_DestructorDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUOversubscriptionRAII</type>
+        </param>
+        <param>
+          <type>RAII_1_ManagerWithPartition_DestructorDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_oversubscription_raii.cpp" line="46" column="1" bodyfile="tests/index/test_index_gpu_oversubscription_raii.cpp" bodystart="46" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__gpu__oversubscription__raii_8cpp_1ad70595ddb04eeecdfc908dc749c57f82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUOversubscriptionRAII, RAII_2_ManagerWithNoVramPartitions_DestructorDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUOversubscriptionRAII</type>
+        </param>
+        <param>
+          <type>RAII_2_ManagerWithNoVramPartitions_DestructorDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_oversubscription_raii.cpp" line="67" column="1" bodyfile="tests/index/test_index_gpu_oversubscription_raii.cpp" bodystart="67" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__gpu__oversubscription__raii_8cpp_1a2cb9dcb0d9578b5ce69dbfd6fe3906d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUOversubscriptionRAII, RAII_3_MultipleVramPartitions_AllFreedAfterDestruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUOversubscriptionRAII</type>
+        </param>
+        <param>
+          <type>RAII_3_MultipleVramPartitions_AllFreedAfterDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_oversubscription_raii.cpp" line="88" column="1" bodyfile="tests/index/test_index_gpu_oversubscription_raii.cpp" bodystart="88" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII/destructor safety tests for <ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager" kindref="compound">GPUMemoryOversubscriptionManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wave 2-B — B1: Validates that the Impl destructor correctly frees all VRAM-resident partitions on object destruction, with no crash and no leak.</para>
+<para>Test cases: RAII_1 ManagerWithPartition_DestructorDoesNotCrash RAII_2 ManagerWithNoVramPartitions_DestructorDoesNotCrash RAII_3 ManagerWithMultiplePartitions_AllFreedAfterDestruction </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__memory__oversubscription_8h" kindref="compound">index/gpu_memory_oversubscription.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">themis::index</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" kindref="compound">GPUMemoryOversubscriptionManager::Config</ref><sp/>makeCfg(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_budget_mb<sp/>=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" kindref="compound">GPUMemoryOversubscriptionManager::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0ea04f37eeabcbb5feac0dea2c30a832" kindref="member">enable_oversubscription</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a5a665ff478c366d811473f86a19f7d98" kindref="member">vram_budget_mb</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>vram_budget_mb;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0e86129fa98b4427cea8af7912da8149" kindref="member">prefetch_strategy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ab50339a10e1de285ac99d4c3990b8693" kindref="member">PrefetchStrategy::NONE</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a174251e161a0230e62b633899046a324" kindref="member">partition_vectors</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a7289cb05023d6dcf738841e2257e4024" kindref="member">use_unified_memory</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>build-safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">std::vector&lt;float&gt;<sp/>flat(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>1.0f)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;(n<sp/>*<sp/>dim,<sp/>v);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII_1:<sp/>Create<sp/>manager,<sp/>add<sp/>a<sp/>partition,<sp/>load<sp/>it<sp/>(pin<sp/>it<sp/>in<sp/>VRAM/CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fallback),<sp/>then<sp/>destroy<sp/>the<sp/>manager.<sp/><sp/>Must<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__index__gpu__oversubscription__raii_8cpp_1adfa6f9cd8f9ca44903de7ab3fe8a6b8d" kindref="member">TEST</ref>(GPUOversubscriptionRAII,<sp/>RAII_1_ManagerWithPartition_DestructorDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager" kindref="compound">GPUMemoryOversubscriptionManager</ref><sp/>mgr(makeCfg());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kDim<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kN<sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>flat(kN,<sp/>kDim);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr.addPartition(data,<sp/>kN,<sp/>kDim,<sp/></highlight><highlight class="stringliteral">&quot;raii_test_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(-1));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>to<sp/>bring<sp/>it<sp/>into<sp/>VRAM<sp/>(or<sp/>CPU<sp/>alias)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.accessPartition(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.isPartitionInVRAM(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manager<sp/>goes<sp/>out<sp/>of<sp/>scope<sp/>here<sp/>—<sp/>destructor<sp/>must<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>we<sp/>reach<sp/>this<sp/>line<sp/>the<sp/>destructor<sp/>completed<sp/>without<sp/>aborting.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII_2:<sp/>Manager<sp/>destroyed<sp/>with<sp/>NO<sp/>in-VRAM<sp/>partitions<sp/>(all<sp/>cold).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Destructor<sp/>must<sp/>be<sp/>a<sp/>no-op<sp/>(no<sp/>free,<sp/>no<sp/>crash).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__index__gpu__oversubscription__raii_8cpp_1adfa6f9cd8f9ca44903de7ab3fe8a6b8d" kindref="member">TEST</ref>(GPUOversubscriptionRAII,<sp/>RAII_2_ManagerWithNoVramPartitions_DestructorDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager" kindref="compound">GPUMemoryOversubscriptionManager</ref><sp/>mgr(makeCfg());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kDim<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kN<sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>flat(kN,<sp/>kDim);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr.addPartition(data,<sp/>kN,<sp/>kDim,<sp/></highlight><highlight class="stringliteral">&quot;cold_partition&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(-1));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>NOT<sp/>call<sp/>accessPartition<sp/>—<sp/>partition<sp/>stays<sp/>cold<sp/>(in_vram<sp/>==<sp/>false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.isPartitionInVRAM(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destructor<sp/>must<sp/>silently<sp/>skip<sp/>cold<sp/>partitions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII_3:<sp/>Manager<sp/>with<sp/>multiple<sp/>partitions<sp/>all<sp/>made<sp/>VRAM-resident.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>All<sp/>must<sp/>be<sp/>freed<sp/>after<sp/>destruction<sp/>(validated<sp/>via<sp/>stats:<sp/>query<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>destruction<sp/>and<sp/>confirm<sp/>hot_partitions<sp/>&gt;<sp/>0,<sp/>then<sp/>after<sp/>destruction<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager<sp/>is<sp/>gone<sp/>—<sp/>we<sp/>verify<sp/>via<sp/>the<sp/>Stats<sp/>snapshot<sp/>taken<sp/>before).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__index__gpu__oversubscription__raii_8cpp_1adfa6f9cd8f9ca44903de7ab3fe8a6b8d" kindref="member">TEST</ref>(GPUOversubscriptionRAII,<sp/>RAII_3_MultipleVramPartitions_AllFreedAfterDestruction)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kDim<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kN<sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>kCount<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" kindref="compound">GPUMemoryOversubscriptionManager::Stats</ref><sp/>stats_before;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>budget=0<sp/>(SIZE_MAX<sp/>effective),<sp/>so<sp/>all<sp/>partitions<sp/>fit<sp/>in<sp/>&quot;VRAM&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager" kindref="compound">GPUMemoryOversubscriptionManager</ref><sp/>mgr(makeCfg(</highlight><highlight class="comment">/*vram_budget_mb=*/</highlight><highlight class="normal">0));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>ids<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kCount;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>flat(kN,<sp/>kDim,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ids.push_back(mgr.addPartition(data,<sp/>kN,<sp/>kDim,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;partition_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bring<sp/>all<sp/>into<sp/>VRAM<sp/>(CPU<sp/>alias<sp/>on<sp/>non-CUDA<sp/>builds).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>ids)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.accessPartition(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_before<sp/>=<sp/>mgr.getStats();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats_before.<ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a8c5bcb34825c699eae8c1ca1f6c9d9a3" kindref="member">hot_partitions</ref>,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kCount))</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>partitions<sp/>should<sp/>be<sp/>VRAM-resident<sp/>before<sp/>destruction&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mgr<sp/>goes<sp/>out<sp/>of<sp/>scope<sp/>→<sp/>Impl<sp/>destructor<sp/>runs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>we<sp/>get<sp/>here<sp/>the<sp/>destructor<sp/>ran<sp/>without<sp/>aborting<sp/>or<sp/>double-freeing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>correct<sp/>hot<sp/>count<sp/>before<sp/>destruction<sp/>was<sp/>verified<sp/>above.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats_before.<ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a8c5bcb34825c699eae8c1ca1f6c9d9a3" kindref="member">hot_partitions</ref>,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kCount));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/index/test_index_gpu_oversubscription_raii.cpp"/>
+  </compounddef>
+</doxygen>

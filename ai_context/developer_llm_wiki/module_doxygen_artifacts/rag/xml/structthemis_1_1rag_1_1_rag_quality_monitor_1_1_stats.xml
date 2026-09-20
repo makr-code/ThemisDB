@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_rag_quality_monitor_1_1_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::rag::RagQualityMonitor::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rag_quality_monitor_1_1_stats_1a269aa644503944d95360ad349b90a869" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::RagQualityMonitor::Stats::mean</definition>
+        <argsstring></argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::Stats::mean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="128" column="22" bodyfile="include/rag/rag_quality_monitor.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rag_quality_monitor_1_1_stats_1a4a14a99fcff09a4d8f8f53ad9f1b15d1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::RagQualityMonitor::Stats::stddev</definition>
+        <argsstring></argsstring>
+        <name>stddev</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::Stats::stddev</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="128" column="33" bodyfile="include/rag/rag_quality_monitor.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_quality_monitor.h" line="128" column="5" bodyfile="include/rag/rag_quality_monitor.h" bodystart="128" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_rag_quality_monitor_1_1_stats_1a269aa644503944d95360ad349b90a869" prot="public" virt="non-virtual"><scope>themis::rag::RagQualityMonitor::Stats</scope><name>mean</name></member>
+      <member refid="structthemis_1_1rag_1_1_rag_quality_monitor_1_1_stats_1a4a14a99fcff09a4d8f8f53ad9f1b15d1" prot="public" virt="non-virtual"><scope>themis::rag::RagQualityMonitor::Stats</scope><name>stddev</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

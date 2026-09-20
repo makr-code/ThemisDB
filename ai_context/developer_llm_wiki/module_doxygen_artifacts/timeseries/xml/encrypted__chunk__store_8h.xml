@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="encrypted__chunk__store_8h" kind="file" language="C++">
+    <compoundname>encrypted_chunk_store.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ts__encrypted__key__rotation_8h" local="yes">include/timeseries/ts_encrypted_key_rotation.h</includedby>
+    <includedby refid="encrypted__chunk__store_8cpp" local="yes">src/timeseries/encrypted_chunk_store.cpp</includedby>
+    <includedby refid="tsstore_8cpp" local="yes">src/timeseries/tsstore.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/timeseries/encrypted_chunk_store.h</label>
+        <link refid="encrypted__chunk__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>shared_mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/timeseries/encrypted_chunk_store.h</label>
+        <link refid="encrypted__chunk__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/timeseries/ts_encrypted_key_rotation.h</label>
+        <link refid="ts__encrypted__key__rotation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/timeseries/encrypted_chunk_store.cpp</label>
+        <link refid="encrypted__chunk__store_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/timeseries/ts_encrypted_key_rotation.cpp</label>
+        <link refid="ts__encrypted__key__rotation_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/timeseries/tsstore.cpp</label>
+        <link refid="tsstore_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_encrypted_chunk_store" prot="public">themis::EncryptedChunkStore</innerclass>
+    <innerclass refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" prot="public">themis::EncryptedChunkStore::EncryptResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Phase 2 hardening: Bounded key rotation with explicit edge case handling. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 2 — Core Implementation Complete</para>
+</simplesect>
+</para>
+<sect1 id="encrypted__chunk__store_8h_1autotoc_md4_1s1"><sect2 id="encrypted__chunk__store_8h_1autotoc_md4">
+<title>Overview</title><para>EncryptedChunkStore provides authenticated encryption (AES-256-GCM) for timeseries chunks with automatic key rotation support and explicit error handling for all edge cases.</para>
+</sect2></sect1>
+<sect1 id="encrypted__chunk__store_8h_1autotoc_md5_1s1"><sect2 id="encrypted__chunk__store_8h_1autotoc_md5">
+<title>Key Features</title><para><itemizedlist>
+<listitem><para><bold>AES-256-GCM Encryption</bold>: NIST-approved authenticated encryption with associated data</para>
+</listitem><listitem><para><bold>Key Rotation Support</bold>: Automatic key lookup by ID with bounded retry logic</para>
+</listitem><listitem><para><bold>Deterministic Errors</bold>: All failure paths explicitly handled (no silent data loss)</para>
+</listitem><listitem><para><bold>IV Generation</bold>: Cryptographically secure random IVs prevent deterministic ciphertexts</para>
+</listitem><listitem><para><bold>Audit Logging</bold>: All encryption/decryption operations logged with accessor identity</para>
+</listitem><listitem><para><bold>Edge Case Handling</bold>: Empty ciphertexts, missing keys, and format errors handled explicitly</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="encrypted__chunk__store_8h_1autotoc_md6_1s1"><sect2 id="encrypted__chunk__store_8h_1autotoc_md6">
+<title>API Contract Compliance</title><para>Implements:<itemizedlist>
+<listitem><para><bold>Lossless round-trip</bold>: encryptChunk(p) → decryptChunk() recovers p exactly</para>
+</listitem><listitem><para><bold>Deterministic format</bold>: Ciphertext format includes key ID and IV for transparent rotation</para>
+</listitem><listitem><para><bold>Empty data handling</bold>: Empty plaintext → empty ciphertext (no minimum size requirement)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="encrypted__chunk__store_8h_1autotoc_md7_1s1"><sect2 id="encrypted__chunk__store_8h_1autotoc_md7">
+<title>Thread Safety</title><para><itemizedlist>
+<listitem><para>current_key_fn() and lookup_key_fn() must be thread-safe (caller responsibility)</para>
+</listitem><listitem><para>All encryption/decryption operations are thread-safe (stateless design)</para>
+</listitem><listitem><para>No mutable shared state between operations</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="encrypted__chunk__store_8h_1autotoc_md8_1s1"><sect2 id="encrypted__chunk__store_8h_1autotoc_md8">
+<title>Error Handling</title><para>Public methods return explicit result types:<itemizedlist>
+<listitem><para>EncryptResult: { key_id: uint32_t, ciphertext: vector&lt;uint8_t&gt; } or error</para>
+</listitem><listitem><para>DecryptResult: { plaintext: vector&lt;uint8_t&gt; } or error</para>
+</listitem></itemizedlist>
+</para>
+<para>Error codes (via error_registry.h):<itemizedlist>
+<listitem><para>ENCRYPTION_FAILED: OpenSSL EVP encryption error</para>
+</listitem><listitem><para>DECRYPTION_FAILED: OpenSSL EVP decryption error (includes format/MAC failures)</para>
+</listitem><listitem><para>KEY_LOOKUP_FAILED: Key ID not found in lookup function</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="timeseries__api__contract_8h" kindref="compound">include/timeseries/timeseries_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/SECURITY.md </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/ROADMAP.md — Phase 2 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1_encrypted_chunk_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1_encrypted_chunk_store_1afd235274cb6bffa6c6f721c9f1dd294b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_encrypted_chunk_store_1afd235274cb6bffa6c6f721c9f1dd294b" kindref="member">CurrentKeyFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::pair&lt;std::string,<sp/>std::vector&lt;uint8_t&gt;&gt;()&gt;;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1_encrypted_chunk_store_1aa0b1dbdcd11d06ed7335d434f0ed424e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_encrypted_chunk_store_1aa0b1dbdcd11d06ed7335d434f0ed424e" kindref="member">LookupKeyFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)&gt;;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" kindref="compound">EncryptResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result_1a030e0333b5d8b466693f05b0c6818dc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result_1a030e0333b5d8b466693f05b0c6818dc2" kindref="member">key_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result_1a92eafe6b7a3f78104567085c16892878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result_1a92eafe6b7a3f78104567085c16892878" kindref="member">blob</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref>(<ref refid="classthemis_1_1_encrypted_chunk_store_1afd235274cb6bffa6c6f721c9f1dd294b" kindref="member">CurrentKeyFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_key_fn,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1aa0b1dbdcd11d06ed7335d434f0ed424e" kindref="member">LookupKeyFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lookup_key_fn,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/><sp/><sp/>audit_logger<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accessor_identity<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tsstore&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1_encrypted_chunk_store_1ae1868a0ee5b5b271a5ae5b5984041f2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1ae1868a0ee5b5b271a5ae5b5984041f2d" kindref="member">~EncryptedChunkStore</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-moveable<sp/>(contains<sp/>std::shared_mutex).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>callers<sp/>should<sp/>hold<sp/>this<sp/>via<sp/>std::shared_ptr.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1_encrypted_chunk_store_1a7a56988ce0bc0a746b4cd9d5970827c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1a7a56988ce0bc0a746b4cd9d5970827c5" kindref="member">EncryptedChunkStore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1_encrypted_chunk_store_1a9fa656127c7b634534b4b4de598b17c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref>&amp;<sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1a9fa656127c7b634534b4b4de598b17c3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1_encrypted_chunk_store_1a6a300753581be4466f9d22846dde185e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1a6a300753581be4466f9d22846dde185e" kindref="member">EncryptedChunkStore</ref>(<ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1_encrypted_chunk_store_1aa0f53467ed1b7bd10ac480c8b6b19d88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref>&amp;<sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1aa0f53467ed1b7bd10ac480c8b6b19d88" kindref="member">operator=</ref>(<ref refid="classthemis_1_1_encrypted_chunk_store_1ae390060d8a6fcd5c5d8c1ccbfd4d8d3b" kindref="member">EncryptedChunkStore</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" kindref="compound">EncryptResult</ref><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1ad8f7368dc13bed9129938382bdbffdd2" kindref="member">encryptChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>series_id,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>plaintext,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunk_range<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1aa82e36d45c95a403fc8a7e8a76b62cff" kindref="member">decryptChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>series_id,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>blob,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunk_range<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1_encrypted_chunk_store_1af9299d2fa8ef2e280eef64dc3d27a2e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1af9299d2fa8ef2e280eef64dc3d27a2e5" kindref="member">getCurrentKeyId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_key_fn_().first;<sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1_encrypted_chunk_store_1aae3e141ad7c1964a61a735901df3613a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1aae3e141ad7c1964a61a735901df3613a" kindref="member">isAuditEnabled</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_lock&lt;std::shared_mutex&gt;<sp/>lk(rw_mu_);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>audit_logger_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1_encrypted_chunk_store_1a92f9fd53edfae50d828fe63743d78402" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1a92f9fd53edfae50d828fe63743d78402" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::shared_mutex&gt;<sp/>lk(rw_mu_);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit_logger_<sp/>=<sp/>logger;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1_encrypted_chunk_store_1aa6915d218e18201d9c426077ef0dcb3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1aa6915d218e18201d9c426077ef0dcb3e" kindref="member">setAccessorIdentity</ref>(std::string<sp/>identity)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::shared_mutex&gt;<sp/>lk(rw_mu_);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accessor_identity_<sp/>=<sp/>std::move(identity);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blob<sp/>layout<sp/>constants<sp/>(public<sp/>for<sp/>use<sp/>by<sp/>TsEncryptedKeyRotation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1_encrypted_chunk_store_1add84357c192fbc4b8610f145833f386b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1add84357c192fbc4b8610f145833f386b" kindref="member">KEY_ID_PREFIX_LEN_BYTES</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1_encrypted_chunk_store_1ac845b11dbc99726aec156021febcbac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1ac845b11dbc99726aec156021febcbac0" kindref="member">IV_LEN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="266" refid="classthemis_1_1_encrypted_chunk_store_1a05c38154450d857fe1e3e4c13675560f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1a05c38154450d857fe1e3e4c13675560f" kindref="member">TAG_LEN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="267" refid="classthemis_1_1_encrypted_chunk_store_1a5d4f55c6858aee9ea6d6cbfa88e740b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1a5d4f55c6858aee9ea6d6cbfa88e740b4" kindref="member">DEK_LEN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>32;<sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>deriveDEK(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>master_key,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>series_id);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>auditKeyAccess(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>series_id,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_range);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1afd235274cb6bffa6c6f721c9f1dd294b" kindref="member">CurrentKeyFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_key_fn_;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_encrypted_chunk_store_1aa0b1dbdcd11d06ed7335d434f0ed424e" kindref="member">LookupKeyFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lookup_key_fn_;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>rw_mu_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit_logger_;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accessor_identity_;<sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/timeseries/encrypted_chunk_store.h"/>
+  </compounddef>
+</doxygen>

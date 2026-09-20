@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_layer_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorLayerContext</compoundname>
+    <includes refid="tensor__mid__layer_8h" local="no">tensor_mid_layer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_context_1a3dd0ea4a437c65b78ff0986caaebd065" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorLayerContext::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::tensor::TensorLayerContext::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="41" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_context_1a76a52891bdf1193312355106b6f7edce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorLayerContext::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::tensor::TensorLayerContext::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="42" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_context_1a3b5cc58910f2ae44a2df942b92d99597" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorLayerContext::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::tensor::TensorLayerContext::base_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="43" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_context_1a7654b5a46f4e85e5a89fd448584046a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorLayerContext::scope_id</definition>
+        <argsstring></argsstring>
+        <name>scope_id</name>
+        <qualifiedname>themis::tensor::TensorLayerContext::scope_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="44" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_context_1a87267a97f316199848edc75509a93677" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::tensor::TensorLayerContext::shard_scope_ids</definition>
+        <argsstring></argsstring>
+        <name>shard_scope_ids</name>
+        <qualifiedname>themis::tensor::TensorLayerContext::shard_scope_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="45" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_context_1a90735969bfa20268c6de15c54e430e84" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorLayerContext::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::tensor::TensorLayerContext::top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="46" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_context_1a158834dc9f78d31824dbad68774d4f31" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorLayerContext::use_fingerprint_summary</definition>
+        <argsstring></argsstring>
+        <name>use_fingerprint_summary</name>
+        <qualifiedname>themis::tensor::TensorLayerContext::use_fingerprint_summary</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="47" column="10" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_context_1a5138790367da7fd3175666123ef31b58" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorLayerContext::shard_aware</definition>
+        <argsstring></argsstring>
+        <name>shard_aware</name>
+        <qualifiedname>themis::tensor::TensorLayerContext::shard_aware</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="48" column="10" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Input context for tensor-layer planning and orchestration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The mid-layer uses the context to normalize adapter/package identifiers, select a summary strategy, and build a stable explanation for downstream routing layers. </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_mid_layer.h" line="40" column="1" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="40" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a3b5cc58910f2ae44a2df942b92d99597" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerContext</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a76a52891bdf1193312355106b6f7edce" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerContext</scope><name>domain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a7654b5a46f4e85e5a89fd448584046a4" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerContext</scope><name>scope_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a5138790367da7fd3175666123ef31b58" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerContext</scope><name>shard_aware</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a87267a97f316199848edc75509a93677" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerContext</scope><name>shard_scope_ids</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a3dd0ea4a437c65b78ff0986caaebd065" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerContext</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a90735969bfa20268c6de15c54e430e84" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerContext</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a158834dc9f78d31824dbad68774d4f31" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerContext</scope><name>use_fingerprint_summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

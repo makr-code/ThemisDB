@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_residual_quantizer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ResidualQuantizer::Config</compoundname>
+    <includes refid="residual__quantizer_8h" local="no">residual_quantizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_residual_quantizer_1_1_config_1a1fcc35635caa731a2c04152ddf3c8074" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ResidualQuantizer::Config::num_stages</definition>
+        <argsstring></argsstring>
+        <name>num_stages</name>
+        <qualifiedname>themis::ResidualQuantizer::Config::num_stages</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="61" column="13" bodyfile="include/index/residual_quantizer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_residual_quantizer_1_1_config_1ae4fb16b7f2aefa1d2466815ceff19a71" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ResidualQuantizer::Config::num_subquantizers</definition>
+        <argsstring></argsstring>
+        <name>num_subquantizers</name>
+        <qualifiedname>themis::ResidualQuantizer::Config::num_subquantizers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="62" column="13" bodyfile="include/index/residual_quantizer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_residual_quantizer_1_1_config_1a4fc29cab851edc4ac318815305b7da5b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ResidualQuantizer::Config::num_centroids</definition>
+        <argsstring></argsstring>
+        <name>num_centroids</name>
+        <qualifiedname>themis::ResidualQuantizer::Config::num_centroids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="63" column="13" bodyfile="include/index/residual_quantizer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_residual_quantizer_1_1_config_1ae2eb79990f143f8e7b268ba36624a34e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ResidualQuantizer::Config::max_kmeans_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_kmeans_iterations</name>
+        <qualifiedname>themis::ResidualQuantizer::Config::max_kmeans_iterations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="64" column="13" bodyfile="include/index/residual_quantizer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_residual_quantizer_1_1_config_1a7fa6d516bf13c0e027dc4d1ba7b1fbb1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::ResidualQuantizer::Config::convergence_threshold</definition>
+        <argsstring></argsstring>
+        <name>convergence_threshold</name>
+        <qualifiedname>themis::ResidualQuantizer::Config::convergence_threshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="65" column="15" bodyfile="include/index/residual_quantizer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_residual_quantizer_1_1_config_1a6d0740aba393e31c0f48064032f95a62" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ResidualQuantizer::Config::early_termination</definition>
+        <argsstring></argsstring>
+        <name>early_termination</name>
+        <qualifiedname>themis::ResidualQuantizer::Config::early_termination</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="66" column="14" bodyfile="include/index/residual_quantizer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_residual_quantizer_1_1_config_1ac7ec63c650db26aff5c2068a895cb729" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ResidualQuantizer::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::ResidualQuantizer::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="68" column="9" bodyfile="include/index/residual_quantizer.h" bodystart="68" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/residual_quantizer.h" line="60" column="5" bodyfile="include/index/residual_quantizer.h" bodystart="60" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_residual_quantizer_1_1_config_1ac7ec63c650db26aff5c2068a895cb729" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1_residual_quantizer_1_1_config_1a7fa6d516bf13c0e027dc4d1ba7b1fbb1" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer::Config</scope><name>convergence_threshold</name></member>
+      <member refid="structthemis_1_1_residual_quantizer_1_1_config_1a6d0740aba393e31c0f48064032f95a62" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer::Config</scope><name>early_termination</name></member>
+      <member refid="structthemis_1_1_residual_quantizer_1_1_config_1ae2eb79990f143f8e7b268ba36624a34e" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer::Config</scope><name>max_kmeans_iterations</name></member>
+      <member refid="structthemis_1_1_residual_quantizer_1_1_config_1a4fc29cab851edc4ac318815305b7da5b" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer::Config</scope><name>num_centroids</name></member>
+      <member refid="structthemis_1_1_residual_quantizer_1_1_config_1a1fcc35635caa731a2c04152ddf3c8074" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer::Config</scope><name>num_stages</name></member>
+      <member refid="structthemis_1_1_residual_quantizer_1_1_config_1ae4fb16b7f2aefa1d2466815ceff19a71" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer::Config</scope><name>num_subquantizers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

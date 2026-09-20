@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1safety_1_1_safety_classifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::safety::SafetyClassifier</compoundname>
+    <includes refid="classifier_8h" local="no">classifier.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a27293a7d6572e47b82b1a86593a1c55c" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; <ref refid="structthemis_1_1llm_1_1safety_1_1_safety_classification" kindref="compound">SafetyClassification</ref> &gt;(std::string_view)&gt;</type>
+        <definition>using themis::llm::safety::SafetyClassifier::InferenceFn = std::function&lt;std::optional&lt;SafetyClassification&gt;(std::string_view)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InferenceFn</name>
+        <qualifiedname>themis::llm::safety::SafetyClassifier::InferenceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="38" column="5" bodyfile="include/llm/safety/classifier.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1acbcd5efd8005ab73692f17573f65c135" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a27293a7d6572e47b82b1a86593a1c55c" kindref="member">InferenceFn</ref></type>
+        <definition>InferenceFn themis::llm::safety::SafetyClassifier::inference_fn_</definition>
+        <argsstring></argsstring>
+        <name>inference_fn_</name>
+        <qualifiedname>themis::llm::safety::SafetyClassifier::inference_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="71" column="17" bodyfile="include/llm/safety/classifier.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a99660f6955276c874ca2b6df40ec89ae" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::safety::SafetyClassifier::SafetyClassifier</definition>
+        <argsstring>(InferenceFn inference_fn=nullptr)</argsstring>
+        <name>SafetyClassifier</name>
+        <qualifiedname>themis::llm::safety::SafetyClassifier::SafetyClassifier</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a27293a7d6572e47b82b1a86593a1c55c" kindref="member">InferenceFn</ref></type>
+          <declname>inference_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="40" column="14" bodyfile="src/llm/safety/classifier.cpp" bodystart="55" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a4db0c291ff1e0171cb52112632469a67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::safety::SafetyClassifier::setInferenceFn</definition>
+        <argsstring>(InferenceFn inference_fn)</argsstring>
+        <name>setInferenceFn</name>
+        <qualifiedname>themis::llm::safety::SafetyClassifier::setInferenceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a27293a7d6572e47b82b1a86593a1c55c" kindref="member">InferenceFn</ref></type>
+          <declname>inference_fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject an inference function used by <ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a9653ef549db0c4bf8a9013cad0a7d5d7" kindref="member">classify()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inference_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">inference_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="46" column="10" bodyfile="src/llm/safety/classifier.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a18320d751799a7c669da974f8115e981" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::safety::SafetyClassifier::hasInferenceFn</definition>
+        <argsstring>() const</argsstring>
+        <name>hasInferenceFn</name>
+        <qualifiedname>themis::llm::safety::SafetyClassifier::hasInferenceFn</qualifiedname>
+        <briefdescription>
+<para>Has Inference Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="51" column="10" bodyfile="src/llm/safety/classifier.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a9653ef549db0c4bf8a9013cad0a7d5d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_classification" kindref="compound">SafetyClassification</ref></type>
+        <definition>SafetyClassification themis::llm::safety::SafetyClassifier::classify</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>classify</name>
+        <qualifiedname>themis::llm::safety::SafetyClassifier::classify</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Classify the semantic intent of a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="58" column="26" bodyfile="src/llm/safety/classifier.cpp" bodystart="71" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1ac5dfdd34f034d1faa98dcc934b846db7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1safety_1_1_safety_classification" kindref="compound">SafetyClassification</ref> &gt;</type>
+        <definition>std::vector&lt; SafetyClassification &gt; themis::llm::safety::SafetyClassifier::classifyBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;texts, std::size_t max_parallelism=0) const</argsstring>
+        <name>classifyBatch</name>
+        <qualifiedname>themis::llm::safety::SafetyClassifier::classifyBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>texts</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_parallelism</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="59" column="17" bodyfile="src/llm/safety/classifier.cpp" bodystart="90" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a49bdca04aa4fa6c1b1a69d599bd9eed8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_classification" kindref="compound">SafetyClassification</ref></type>
+        <definition>SafetyClassification themis::llm::safety::SafetyClassifier::fallbackClassify</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>fallbackClassify</name>
+        <qualifiedname>themis::llm::safety::SafetyClassifier::fallbackClassify</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Fallback Classify. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="69" column="26" bodyfile="src/llm/safety/classifier.cpp" bodystart="125" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/safety/classifier.h" line="36" column="1" bodyfile="include/llm/safety/classifier.h" bodystart="36" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a9653ef549db0c4bf8a9013cad0a7d5d7" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassifier</scope><name>classify</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1ac5dfdd34f034d1faa98dcc934b846db7" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassifier</scope><name>classifyBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a49bdca04aa4fa6c1b1a69d599bd9eed8" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyClassifier</scope><name>fallbackClassify</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a18320d751799a7c669da974f8115e981" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassifier</scope><name>hasInferenceFn</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1acbcd5efd8005ab73692f17573f65c135" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyClassifier</scope><name>inference_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a27293a7d6572e47b82b1a86593a1c55c" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassifier</scope><name>InferenceFn</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a99660f6955276c874ca2b6df40ec89ae" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassifier</scope><name>SafetyClassifier</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a4db0c291ff1e0171cb52112632469a67" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassifier</scope><name>setInferenceFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

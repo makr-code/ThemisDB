@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_dimension" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::Dimension</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_dimension_1a537ec06565e6773b3f0e7a7c1fb88319" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Dimension::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::analytics::Dimension::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="29" column="17" bodyfile="include/analytics/olap.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_dimension_1af9efb36490a0fabfb73be3a1c3ab51aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Dimension::expression</definition>
+        <argsstring></argsstring>
+        <name>expression</name>
+        <qualifiedname>themis::analytics::Dimension::expression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="30" column="17" bodyfile="include/analytics/olap.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_dimension_1adbf0d3aaa40029795e40d0723b23a5c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::Dimension::include_in_grouping</definition>
+        <argsstring></argsstring>
+        <name>include_in_grouping</name>
+        <qualifiedname>themis::analytics::Dimension::include_in_grouping</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="31" column="10" bodyfile="include/analytics/olap.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="28" column="1" bodyfile="include/analytics/olap.h" bodystart="28" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_dimension_1af9efb36490a0fabfb73be3a1c3ab51aa" prot="public" virt="non-virtual"><scope>themis::analytics::Dimension</scope><name>expression</name></member>
+      <member refid="structthemis_1_1analytics_1_1_dimension_1adbf0d3aaa40029795e40d0723b23a5c9" prot="public" virt="non-virtual"><scope>themis::analytics::Dimension</scope><name>include_in_grouping</name></member>
+      <member refid="structthemis_1_1analytics_1_1_dimension_1a537ec06565e6773b3f0e7a7c1fb88319" prot="public" virt="non-virtual"><scope>themis::analytics::Dimension</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

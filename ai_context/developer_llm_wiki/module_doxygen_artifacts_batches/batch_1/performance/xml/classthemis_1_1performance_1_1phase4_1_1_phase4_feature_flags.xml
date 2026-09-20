@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::Phase4FeatureFlags</compoundname>
+    <includes refid="phase4_2feature__flags_8h" local="no">feature_flags.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a4f16f906766b7e9642e859fc6623ada9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase4::Phase4FeatureFlags::pmem_enabled_</definition>
+        <argsstring></argsstring>
+        <name>pmem_enabled_</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::pmem_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="63" column="17" bodyfile="include/performance/phase4/feature_flags.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a984d61fa8d2ed6f14fcb5b4a211e6fba" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase4::Phase4FeatureFlags::pmu_enabled_</definition>
+        <argsstring></argsstring>
+        <name>pmu_enabled_</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::pmu_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="64" column="17" bodyfile="include/performance/phase4/feature_flags.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1ac2e83ac8512910bcc27b3b36d29423c3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase4::Phase4FeatureFlags::io_uring_enabled_</definition>
+        <argsstring></argsstring>
+        <name>io_uring_enabled_</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::io_uring_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="65" column="17" bodyfile="include/performance/phase4/feature_flags.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Phase4FeatureFlags &amp;</type>
+        <definition>static Phase4FeatureFlags &amp; themis::performance::phase4::Phase4FeatureFlags::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="34" column="31" bodyfile="include/performance/phase4/feature_flags.h" bodystart="34" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0bb27efff298dd6778f05d07aded29b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::Phase4FeatureFlags::pmem_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>pmem_enabled</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::pmem_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="41" column="10" bodyfile="include/performance/phase4/feature_flags.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::Phase4FeatureFlags::set_pmem_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_pmem_enabled</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::set_pmem_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="42" column="10" bodyfile="include/performance/phase4/feature_flags.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a9eb43d4508684cd5cdb4990c382f8d52" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::Phase4FeatureFlags::pmu_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>pmu_enabled</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::pmu_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="46" column="10" bodyfile="include/performance/phase4/feature_flags.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1adf38aee181968efb9bee8cc536ee9f0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::Phase4FeatureFlags::set_pmu_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_pmu_enabled</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::set_pmu_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="47" column="10" bodyfile="include/performance/phase4/feature_flags.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a91c9572be8b0937a5de78bc2a5b6f1d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::Phase4FeatureFlags::io_uring_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>io_uring_enabled</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::io_uring_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="51" column="10" bodyfile="include/performance/phase4/feature_flags.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a1f744fb421fc85f953a81b4d8e16b0ab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::Phase4FeatureFlags::set_io_uring_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_io_uring_enabled</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::set_io_uring_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="52" column="10" bodyfile="include/performance/phase4/feature_flags.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a36483d304f2e9724aebcc0c466ef7d7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::Phase4FeatureFlags::load_from_config</definition>
+        <argsstring>(const std::string &amp;config_path)</argsstring>
+        <name>load_from_config</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::load_from_config</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+        </param>
+        <briefdescription>
+<para>Load from config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: file(), is_open(), contains(), <ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled()</ref>, <ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1adf38aee181968efb9bee8cc536ee9f0d" kindref="member">set_pmu_enabled()</ref>, <ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a1f744fb421fc85f953a81b4d8e16b0ab" kindref="member">set_io_uring_enabled()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="55" column="10" bodyfile="src/performance/phase4/feature_flags.cpp" bodystart="26" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1af82e5ea6ffdc3f6b4413b6121114e2bb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::Phase4FeatureFlags::Phase4FeatureFlags</definition>
+        <argsstring>()=default</argsstring>
+        <name>Phase4FeatureFlags</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::Phase4FeatureFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1ae669a7719169af8c8f2670781ed401fd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::Phase4FeatureFlags::~Phase4FeatureFlags</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Phase4FeatureFlags</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::~Phase4FeatureFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a777ab1d9d9dd19b3f7099b0b5a905aa2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::Phase4FeatureFlags::Phase4FeatureFlags</definition>
+        <argsstring>(const Phase4FeatureFlags &amp;)=delete</argsstring>
+        <name>Phase4FeatureFlags</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::Phase4FeatureFlags</qualifiedname>
+        <param>
+          <type>const Phase4FeatureFlags &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a80494b1b2216b8dbb4d092535423394c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Phase4FeatureFlags &amp;</type>
+        <definition>Phase4FeatureFlags &amp; themis::performance::phase4::Phase4FeatureFlags::operator=</definition>
+        <argsstring>(const Phase4FeatureFlags &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::Phase4FeatureFlags::operator=</qualifiedname>
+        <param>
+          <type>const Phase4FeatureFlags &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="61" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe singleton for Phase 4 performance feature flags. Allows runtime toggling of optimizations without recompilation. </para>
+    </detaileddescription>
+    <location file="include/performance/phase4/feature_flags.h" line="32" column="1" bodyfile="include/performance/phase4/feature_flags.h" bodystart="32" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" prot="public" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>instance</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a91c9572be8b0937a5de78bc2a5b6f1d0" prot="public" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>io_uring_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1ac2e83ac8512910bcc27b3b36d29423c3" prot="private" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>io_uring_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a36483d304f2e9724aebcc0c466ef7d7b" prot="public" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>load_from_config</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a80494b1b2216b8dbb4d092535423394c" prot="private" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1af82e5ea6ffdc3f6b4413b6121114e2bb" prot="private" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>Phase4FeatureFlags</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a777ab1d9d9dd19b3f7099b0b5a905aa2" prot="private" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>Phase4FeatureFlags</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0bb27efff298dd6778f05d07aded29b3" prot="public" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>pmem_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a4f16f906766b7e9642e859fc6623ada9" prot="private" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>pmem_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a9eb43d4508684cd5cdb4990c382f8d52" prot="public" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>pmu_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a984d61fa8d2ed6f14fcb5b4a211e6fba" prot="private" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>pmu_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a1f744fb421fc85f953a81b4d8e16b0ab" prot="public" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>set_io_uring_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" prot="public" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>set_pmem_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1adf38aee181968efb9bee8cc536ee9f0d" prot="public" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>set_pmu_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1ae669a7719169af8c8f2670781ed401fd" prot="private" virt="non-virtual"><scope>themis::performance::phase4::Phase4FeatureFlags</scope><name>~Phase4FeatureFlags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

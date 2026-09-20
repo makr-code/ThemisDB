@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::WikiQueryOptions</compoundname>
+    <includes refid="llm__wiki__plugin__interface_8h" local="no">llm_wiki_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1aef53396d5edd0b2151f9aeed7595f6e5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiQueryOptions::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryOptions::top_k</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum number of chunks to return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="113" column="11" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1a53081d0e5b6a30eb506b11f334344b65" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::llm_wiki::WikiQueryOptions::min_score</definition>
+        <argsstring></argsstring>
+        <name>min_score</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryOptions::min_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Minimum score threshold; lower results are dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="114" column="11" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1ade04009ee731c4bd40ca8b49815a53a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::WikiQueryOptions::save_as_page</definition>
+        <argsstring></argsstring>
+        <name>save_as_page</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryOptions::save_as_page</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Persist query result as a wiki page (workspace mode). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="115" column="11" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1a5ed1889caec62830c74b0864dd294a82" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::plugins::llm_wiki::WikiQueryOptions::page_title</definition>
+        <argsstring></argsstring>
+        <name>page_title</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryOptions::page_title</qualifiedname>
+        <briefdescription>
+<para>Title for the persisted page (if save_as_page). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="116" column="19" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1abe99867ef9812a1305ad38e665102c06" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::plugins::llm_wiki::WikiQueryOptions::workspace_root</definition>
+        <argsstring></argsstring>
+        <name>workspace_root</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryOptions::workspace_root</qualifiedname>
+        <briefdescription>
+<para>Workspace root for persistent query mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="117" column="19" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Options controlling retrieval from the LLM Wiki index. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Passed to <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a67f46949ca4179d0b67b216312a7aa3c" kindref="member">ILLMWikiPlugin::query()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1af275709a6a33c6910d9270d905a8fe59" kindref="member">ILLMWikiPlugin::wikiQuery()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="112" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="112" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1a53081d0e5b6a30eb506b11f334344b65" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryOptions</scope><name>min_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1a5ed1889caec62830c74b0864dd294a82" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryOptions</scope><name>page_title</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1ade04009ee731c4bd40ca8b49815a53a3" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryOptions</scope><name>save_as_page</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1aef53396d5edd0b2151f9aeed7595f6e5" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryOptions</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1abe99867ef9812a1305ad38e665102c06" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryOptions</scope><name>workspace_root</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

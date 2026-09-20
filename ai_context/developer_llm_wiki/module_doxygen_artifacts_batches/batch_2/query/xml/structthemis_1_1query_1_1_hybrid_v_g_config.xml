@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_hybrid_v_g_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::HybridVGConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_v_g_config_1adeee7399df3adfdb071f5f8a6860fadf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::HybridVGConfig::overfetch</definition>
+        <argsstring></argsstring>
+        <name>overfetch</name>
+        <qualifiedname>themis::query::HybridVGConfig::overfetch</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="4803" column="8" bodyfile="src/query/query_engine.cpp" bodystart="4803" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_v_g_config_1a592b5f0de0bdf601e2876105e0b85505" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::HybridVGConfig::bbox_ratio_threshold</definition>
+        <argsstring></argsstring>
+        <name>bbox_ratio_threshold</name>
+        <qualifiedname>themis::query::HybridVGConfig::bbox_ratio_threshold</qualifiedname>
+        <initializer>= 0.25</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="4804" column="8" bodyfile="src/query/query_engine.cpp" bodystart="4804" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_v_g_config_1aae7bb7f7cbc767d5836206d7432f3aba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::HybridVGConfig::min_chunk_spatial_eval</definition>
+        <argsstring></argsstring>
+        <name>min_chunk_spatial_eval</name>
+        <qualifiedname>themis::query::HybridVGConfig::min_chunk_spatial_eval</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="4805" column="8" bodyfile="src/query/query_engine.cpp" bodystart="4805" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_v_g_config_1af29e1eacf889aed874ee7c493faa2894" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::HybridVGConfig::min_chunk_vector_bf</definition>
+        <argsstring></argsstring>
+        <name>min_chunk_vector_bf</name>
+        <qualifiedname>themis::query::HybridVGConfig::min_chunk_vector_bf</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="4806" column="8" bodyfile="src/query/query_engine.cpp" bodystart="4806" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/query_engine.cpp" line="4802" column="1" bodyfile="src/query/query_engine.cpp" bodystart="4802" bodyend="4807"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_hybrid_v_g_config_1a592b5f0de0bdf601e2876105e0b85505" prot="public" virt="non-virtual"><scope>themis::query::HybridVGConfig</scope><name>bbox_ratio_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_v_g_config_1aae7bb7f7cbc767d5836206d7432f3aba" prot="public" virt="non-virtual"><scope>themis::query::HybridVGConfig</scope><name>min_chunk_spatial_eval</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_v_g_config_1af29e1eacf889aed874ee7c493faa2894" prot="public" virt="non-virtual"><scope>themis::query::HybridVGConfig</scope><name>min_chunk_vector_bf</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_v_g_config_1adeee7399df3adfdb071f5f8a6860fadf" prot="public" virt="non-virtual"><scope>themis::query::HybridVGConfig</scope><name>overfetch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

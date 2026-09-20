@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7ebf28614b69002b6fb6b01cf7442e3b" kind="dir">
+    <compoundname>benchmarks/distributed_tensor</compoundname>
+    <innerfile refid="bench__distributed__tensor__dedicated__gates_8cpp">bench_distributed_tensor_dedicated_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/distributed_tensor/"/>
+  </compounddef>
+</doxygen>

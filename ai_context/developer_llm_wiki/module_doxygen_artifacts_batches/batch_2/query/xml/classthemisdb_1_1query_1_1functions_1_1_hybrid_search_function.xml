@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::query::functions::HybridSearchFunction</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IFunction</basecompoundref>
+    <includes refid="ai__ml__functions_8h" local="no">ai_ml_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function_1aa1d64ca48e8c28194988e85ea53af063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::query::functions::HybridSearchFunction::~HybridSearchFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~HybridSearchFunction</name>
+        <qualifiedname>themisdb::query::functions::HybridSearchFunction::~HybridSearchFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function_1aa9f3e4389a80066eda7cea16e476ac43" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>FunctionSignature</type>
+        <definition>FunctionSignature themisdb::query::functions::HybridSearchFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themisdb::query::functions::HybridSearchFunction::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="39" column="23" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="39" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function_1abe97828511d2bbd9f85ac279bd290a9b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>JsonValue</type>
+        <definition>JsonValue themisdb::query::functions::HybridSearchFunction::execute</definition>
+        <argsstring>(const std::vector&lt; JsonValue &gt; &amp;args, ExecutionContext &amp;ctx) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::query::functions::HybridSearchFunction::execute</qualifiedname>
+        <param>
+          <type>const std::vector&lt; JsonValue &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>ExecutionContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="51" column="15" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="51" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::HybridSearchFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::HybridSearchFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/ai_ml_functions.h" line="36" column="1" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="36" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function_1abe97828511d2bbd9f85ac279bd290a9b" prot="public" virt="non-virtual"><scope>themisdb::query::functions::HybridSearchFunction</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function_1aa9f3e4389a80066eda7cea16e476ac43" prot="public" virt="non-virtual"><scope>themisdb::query::functions::HybridSearchFunction</scope><name>signature</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function_1aa1d64ca48e8c28194988e85ea53af063" prot="public" virt="non-virtual"><scope>themisdb::query::functions::HybridSearchFunction</scope><name>~HybridSearchFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

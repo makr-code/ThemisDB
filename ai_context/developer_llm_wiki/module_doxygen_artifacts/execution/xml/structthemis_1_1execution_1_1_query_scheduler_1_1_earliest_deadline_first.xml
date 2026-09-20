@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1execution_1_1_query_scheduler_1_1_earliest_deadline_first" kind="struct" language="C++" prot="private">
+    <compoundname>themis::execution::QueryScheduler::EarliestDeadlineFirst</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1execution_1_1_query_scheduler_1_1_earliest_deadline_first_1a0f3844f94a15e7f6326ea9b9d5c68fad" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::execution::QueryScheduler::EarliestDeadlineFirst::operator()</definition>
+        <argsstring>(const QueryEntry &amp;a, const QueryEntry &amp;b) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::execution::QueryScheduler::EarliestDeadlineFirst::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1execution_1_1_query_entry" kindref="compound">QueryEntry</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1execution_1_1_query_entry" kindref="compound">QueryEntry</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="147" column="14" bodyfile="include/execution/query_scheduler.h" bodystart="147" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/query_scheduler.h" line="146" column="5" bodyfile="include/execution/query_scheduler.h" bodystart="146" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_earliest_deadline_first_1a0f3844f94a15e7f6326ea9b9d5c68fad" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::EarliestDeadlineFirst</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,472 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_request_coalescing_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::RequestCoalescingManager</compoundname>
+    <includes refid="request__coalescing_8h" local="no">request_coalescing.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_config" prot="public">themis::server::RequestCoalescingManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats" prot="public">themis::server::RequestCoalescingManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_in_flight" prot="private">themis::server::RequestCoalescingManager::InFlight</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_coalescing_manager_1ab5ae2e686b489e5cc39803e435093a16" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::RequestCoalescingManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="162" column="12" bodyfile="include/server/request_coalescing.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_coalescing_manager_1a0371ab7913c9b2b007df944ec734515d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::RequestCoalescingManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="164" column="24" bodyfile="include/server/request_coalescing.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_coalescing_manager_1a2f9466375e0d04821a2363ded4480398" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, InFlight &gt;</type>
+        <definition>std::unordered_map&lt;std::string, InFlight&gt; themis::server::RequestCoalescingManager::in_flight_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::in_flight_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="165" column="24" bodyfile="include/server/request_coalescing.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_coalescing_manager_1a28770c2b05635ca6197cb69bdcbd51a0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestCoalescingManager::total_requests_</definition>
+        <argsstring></argsstring>
+        <name>total_requests_</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::total_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="168" column="17" bodyfile="include/server/request_coalescing.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_coalescing_manager_1a9dd46b8fe9628c04811ae7ba69e78b2b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestCoalescingManager::coalesced_requests_</definition>
+        <argsstring></argsstring>
+        <name>coalesced_requests_</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::coalesced_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="169" column="17" bodyfile="include/server/request_coalescing.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_coalescing_manager_1a0ea934743e781393967a751f2810a349" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestCoalescingManager::backend_calls_</definition>
+        <argsstring></argsstring>
+        <name>backend_calls_</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::backend_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="170" column="17" bodyfile="include/server/request_coalescing.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_coalescing_manager_1ab44e5aa9ecdfd6c5bc916ce6dff4a125" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestCoalescingManager::timeout_fallbacks_</definition>
+        <argsstring></argsstring>
+        <name>timeout_fallbacks_</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::timeout_fallbacks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="171" column="17" bodyfile="include/server/request_coalescing.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_coalescing_manager_1af1dbb91c3fdd7929825b38e32b3994c7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RequestCoalescingManager::capacity_fallbacks_</definition>
+        <argsstring></argsstring>
+        <name>capacity_fallbacks_</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::capacity_fallbacks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="172" column="17" bodyfile="include/server/request_coalescing.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a2d05398e1fd8618728eb9626185afe9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestCoalescingManager::RequestCoalescingManager</definition>
+        <argsstring>()</argsstring>
+        <name>RequestCoalescingManager</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::RequestCoalescingManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="81" column="5" bodyfile="src/server/request_coalescing.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a84a2bf58151a3735d3fecdf91a42ac6c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestCoalescingManager::RequestCoalescingManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RequestCoalescingManager</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::RequestCoalescingManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> Coalescing Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="87" column="14" bodyfile="src/server/request_coalescing.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1aa17483e7dc79cb69e2a0b9ed5e13c426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestCoalescingManager::RequestCoalescingManager</definition>
+        <argsstring>(const RequestCoalescingManager &amp;)=delete</argsstring>
+        <name>RequestCoalescingManager</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::RequestCoalescingManager</qualifiedname>
+        <param>
+          <type>const RequestCoalescingManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="90" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1abe19f13596edfd24919d339dc28f6aab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_request_coalescing_manager_1a2d05398e1fd8618728eb9626185afe9b" kindref="member">RequestCoalescingManager</ref> &amp;</type>
+        <definition>RequestCoalescingManager &amp; themis::server::RequestCoalescingManager::operator=</definition>
+        <argsstring>(const RequestCoalescingManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_request_coalescing_manager_1a2d05398e1fd8618728eb9626185afe9b" kindref="member">RequestCoalescingManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="91" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a83242db0827b7511bb812ca99bfe8126" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestCoalescingManager::RequestCoalescingManager</definition>
+        <argsstring>(RequestCoalescingManager &amp;&amp;) noexcept=default</argsstring>
+        <name>RequestCoalescingManager</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::RequestCoalescingManager</qualifiedname>
+        <param>
+          <type>RequestCoalescingManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a98462ce5373ee819933163c1e27069e3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_request_coalescing_manager_1a2d05398e1fd8618728eb9626185afe9b" kindref="member">RequestCoalescingManager</ref> &amp;</type>
+        <definition>RequestCoalescingManager &amp; themis::server::RequestCoalescingManager::operator=</definition>
+        <argsstring>(RequestCoalescingManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_request_coalescing_manager_1a2d05398e1fd8618728eb9626185afe9b" kindref="member">RequestCoalescingManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="93" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a65062277c5f054f47ff65355e093c4a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestCoalescingManager::~RequestCoalescingManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RequestCoalescingManager</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::~RequestCoalescingManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a591ad31a4a8f32d84a10e84dfd2c4d67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RequestCoalescingManager::handle</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt; handler)</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::handle</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="101" column="20" bodyfile="src/server/request_coalescing.cpp" bodystart="38" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a5313ec9db93c1a42d178c5ddfbbbe376" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>RequestCoalescingManager::Stats themis::server::RequestCoalescingManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="115" column="11" bodyfile="src/server/request_coalescing.cpp" bodystart="165" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a86a5c7da3223e9ee86aa7b75344f93cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RequestCoalescingManager::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="120" column="10" bodyfile="src/server/request_coalescing.cpp" bodystart="179" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a454b2b374934d1c43f5479f86c4685c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::RequestCoalescingManager::inFlightCount</definition>
+        <argsstring>() const</argsstring>
+        <name>inFlightCount</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::inFlightCount</qualifiedname>
+        <briefdescription>
+<para>In Flight Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="126" column="17" bodyfile="src/server/request_coalescing.cpp" bodystart="187" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a4c6d0e145bdb1b8719540f40843fca07" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::RequestCoalescingManager::makeKey</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::makeKey</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="148" column="24" bodyfile="src/server/request_coalescing.cpp" bodystart="206" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_coalescing_manager_1a032d0c5a4aede1bb7a433151e25a73dd" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RequestCoalescingManager::isCoalescible</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req) noexcept</argsstring>
+        <name>isCoalescible</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::isCoalescible</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Is Coalescible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="156" column="17" bodyfile="src/server/request_coalescing.cpp" bodystart="230" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/request_coalescing.h" line="32" column="1" bodyfile="include/server/request_coalescing.h" bodystart="32" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a0ea934743e781393967a751f2810a349" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>backend_calls_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1af1dbb91c3fdd7929825b38e32b3994c7" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>capacity_fallbacks_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a9dd46b8fe9628c04811ae7ba69e78b2b" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>coalesced_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1ab5ae2e686b489e5cc39803e435093a16" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a5313ec9db93c1a42d178c5ddfbbbe376" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a591ad31a4a8f32d84a10e84dfd2c4d67" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>handle</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a2f9466375e0d04821a2363ded4480398" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>in_flight_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a454b2b374934d1c43f5479f86c4685c3" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>inFlightCount</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a032d0c5a4aede1bb7a433151e25a73dd" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>isCoalescible</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a4c6d0e145bdb1b8719540f40843fca07" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a0371ab7913c9b2b007df944ec734515d" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1abe19f13596edfd24919d339dc28f6aab" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a98462ce5373ee819933163c1e27069e3" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a2d05398e1fd8618728eb9626185afe9b" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>RequestCoalescingManager</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a84a2bf58151a3735d3fecdf91a42ac6c" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>RequestCoalescingManager</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1aa17483e7dc79cb69e2a0b9ed5e13c426" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>RequestCoalescingManager</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a83242db0827b7511bb812ca99bfe8126" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>RequestCoalescingManager</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a86a5c7da3223e9ee86aa7b75344f93cf" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1ab44e5aa9ecdfd6c5bc916ce6dff4a125" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>timeout_fallbacks_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a28770c2b05635ca6197cb69bdcbd51a0" prot="private" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>total_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_coalescing_manager_1a65062277c5f054f47ff65355e093c4a3" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager</scope><name>~RequestCoalescingManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

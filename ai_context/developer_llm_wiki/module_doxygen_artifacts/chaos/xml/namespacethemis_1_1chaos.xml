@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1chaos" kind="namespace" language="C++">
+    <compoundname>themis::chaos</compoundname>
+    <innerclass refid="structthemis_1_1chaos_1_1_fault_spec" prot="public">themis::chaos::FaultSpec</innerclass>
+    <innerclass refid="structthemis_1_1chaos_1_1_active_fault" prot="public">themis::chaos::ActiveFault</innerclass>
+    <innerclass refid="classthemis_1_1chaos_1_1_fault_injector" prot="public">themis::chaos::FaultInjector</innerclass>
+    <innerclass refid="structthemis_1_1chaos_1_1_chaos_schedule_entry" prot="public">themis::chaos::ChaosScheduleEntry</innerclass>
+    <innerclass refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" prot="public">themis::chaos::ChaosSchedulerConfig</innerclass>
+    <innerclass refid="classthemis_1_1chaos_1_1_chaos_scheduler" prot="public">themis::chaos::ChaosScheduler</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcad" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>ChaosFailureClass</name>
+        <qualifiedname>themis::chaos::ChaosFailureClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadab6a3446ef6633c9d048af1e250346fef" prot="public">
+          <name>MalformedDescriptor</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Input is structurally malformed (empty node_id, probability out of range, tick_interval out of bounds, null injector pointer, …). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadaedf260198e4d75d1cb3c7588f7380120" prot="public">
+          <name>InvalidState</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>The operation was attempted on a component that is not in a valid state (e.g., scheduling a fault to a stopped scheduler, recovering from an empty registry). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadaccb6e0d08df2028b9c1ddc4e1463b71c" prot="public">
+          <name>TemporalViolation</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>A time-related constraint was violated (duration exceeds kMaxFaultDuration, tick_interval out of [kMinTickInterval, kMaxTickInterval]). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadafe518b5d77e35a7d9bebb6025ba8f992" prot="public">
+          <name>CapacityExceeded</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>The fault registry or scheduler queue has reached its capacity limit (kMaxPendingEntries exceeded, active fault registry full). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcada8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>An unexpected internal error occurred; always results in a no-op return. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical failure classes for chaos module errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every failure detectable from outside the chaos module maps to one of these classes, enabling uniform operator diagnostics regardless of the triggering component (<ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref> vs <ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref>). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="100" column="1" bodyfile="include/chaos/chaos_contract.h" bodystart="100" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FaultType</name>
+        <qualifiedname>themis::chaos::FaultType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" prot="public">
+          <name>NODE_FAILURE</name>
+          <briefdescription>
+<para>Simulate a complete node crash. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfaf0fc848d79f32c305a5d9c0155192ba3" prot="public">
+          <name>NETWORK_PARTITION</name>
+          <briefdescription>
+<para>Isolate a node from the cluster network. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfad20e7ef27b6d223a5582e39c07323703" prot="public">
+          <name>LEADER_CRASH</name>
+          <briefdescription>
+<para>Kill the current leader abruptly. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfac8186e2faedebbe67e5d6a9e6dbf0a5d" prot="public">
+          <name>DELAYED_RESPONSE</name>
+          <briefdescription>
+<para>Add artificial latency to responses. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" prot="public">
+          <name>DISK_FAILURE</name>
+          <briefdescription>
+<para>Simulate storage I/O failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa5b1c00d426f8c2fa9712859124a08656" prot="public">
+          <name>RANDOM_FAILURE</name>
+          <briefdescription>
+<para>Inject random failure with configurable probability. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfac6badc85aba3812bff0effd469655fe9" prot="public">
+          <name>DISASTER_RECOVERY_DRILL</name>
+          <briefdescription>
+<para>Simulate DR restore procedure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="28" column="1" bodyfile="include/chaos/chaos_framework.h" bodystart="28" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WakeStrategy</name>
+        <qualifiedname>themis::chaos::WakeStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901daf9c565eafc13190fdd19477b12955374" prot="public">
+          <name>FIXED_TICK</name>
+          <briefdescription>
+<para>Plain sleep_for(tick_interval) — simple, deterministic. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901dae228a20504c75ccc411fe4d69bbf6653" prot="public">
+          <name>CONDVAR</name>
+          <briefdescription>
+<para>Condition-variable with tick_interval timeout — lower latency stop. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="186" column="1" bodyfile="include/chaos/chaos_framework.h" bodystart="186" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a3780baa07fff86cf676da790be6230db" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::chaos::kMaxNodeIdBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxNodeIdBytes</name>
+        <qualifiedname>themis::chaos::kMaxNodeIdBytes</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum recommended node identifier length in UTF-8 bytes (not currently enforced by the v1.x <ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref> runtime). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="49" column="30" bodyfile="include/chaos/chaos_contract.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a162fe58cb968d42d93df8fad0e8546ff" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::chaos::kMaxDescriptionBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxDescriptionBytes</name>
+        <qualifiedname>themis::chaos::kMaxDescriptionBytes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum recommended fault description length in UTF-8 bytes (not currently enforced or truncated by the v1.x FaultSpec/FaultInjector runtime). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="53" column="30" bodyfile="include/chaos/chaos_contract.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a71932bd4a5ba29b5a7bca6356d1c1a8a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::chaos::kMinProbability</definition>
+        <argsstring></argsstring>
+        <name>kMinProbability</name>
+        <qualifiedname>themis::chaos::kMinProbability</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Valid probability range for RANDOM_FAILURE faults: [0.0, 1.0]. Values outside this range are rejected by injectFault() with a false return. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="57" column="25" bodyfile="include/chaos/chaos_contract.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a394984f19b508835d9a725b660482530" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::chaos::kMaxProbability</definition>
+        <argsstring></argsstring>
+        <name>kMaxProbability</name>
+        <qualifiedname>themis::chaos::kMaxProbability</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="58" column="25" bodyfile="include/chaos/chaos_contract.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a167e717f931a3129ff7fee077f61355d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::chaos::kMinNodeIdBytes</definition>
+        <argsstring></argsstring>
+        <name>kMinNodeIdBytes</name>
+        <qualifiedname>themis::chaos::kMinNodeIdBytes</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>An empty node_id is always rejected; the minimum accepted length is 1 byte. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="61" column="30" bodyfile="include/chaos/chaos_contract.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a27951e791ad0f19ba77f1d3110a8940e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::chaos::kMaxFaultDuration</definition>
+        <argsstring></argsstring>
+        <name>kMaxFaultDuration</name>
+        <qualifiedname>themis::chaos::kMaxFaultDuration</qualifiedname>
+        <initializer>{24 * 7}</initializer>
+        <briefdescription>
+<para>7 days </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum recommended fault duration for integration scenarios. Current v1.x runtime does not clamp durations above this bound. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="72" column="37" bodyfile="include/chaos/chaos_contract.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1acc474eb9e0586b2547524f1802f15238" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::chaos::kMaxTickInterval</definition>
+        <argsstring></argsstring>
+        <name>kMaxTickInterval</name>
+        <qualifiedname>themis::chaos::kMaxTickInterval</qualifiedname>
+        <initializer>{60&apos;000}</initializer>
+        <briefdescription>
+<para>60 s </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum recommended scheduler tick_interval for <ref refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" kindref="compound">ChaosSchedulerConfig</ref>. Current v1.x runtime does not enforce this upper bound. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="76" column="44" bodyfile="include/chaos/chaos_contract.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a725741196f7eb313f2ad993401de2ff9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::chaos::kMinTickInterval</definition>
+        <argsstring></argsstring>
+        <name>kMinTickInterval</name>
+        <qualifiedname>themis::chaos::kMinTickInterval</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Minimum recommended scheduler tick_interval to prevent busy-spin. Current v1.x runtime does not enforce this lower bound. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>1 ms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="80" column="44" bodyfile="include/chaos/chaos_contract.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a12fa1534913bb6c40474914813334f67" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::chaos::kMaxPendingEntries</definition>
+        <argsstring></argsstring>
+        <name>kMaxPendingEntries</name>
+        <qualifiedname>themis::chaos::kMaxPendingEntries</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum recommended number of pending entries in the <ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref> queue. Current v1.x runtime does not enforce queue-cap drops at this limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="84" column="30" bodyfile="include/chaos/chaos_contract.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a8c7f8ccbc29a2f772159ebe9189391ad" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::chaos::kMaxEventCallbacks</definition>
+        <argsstring></argsstring>
+        <name>kMaxEventCallbacks</name>
+        <qualifiedname>themis::chaos::kMaxEventCallbacks</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum recommended number of event callbacks for a single <ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref>. Current v1.x runtime does not enforce a hard registration cap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="170" column="30" bodyfile="include/chaos/chaos_contract.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1chaos_1a1da32a926ab33f630557017462aa6172" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::chaos::kSchedulerStopTimeout</definition>
+        <argsstring></argsstring>
+        <name>kSchedulerStopTimeout</name>
+        <qualifiedname>themis::chaos::kSchedulerStopTimeout</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Maximum expected latency (in milliseconds) from stop() call to isRunning() returning false. Tests that poll isRunning() after stop() should budget at least this window before reporting failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="192" column="44" bodyfile="include/chaos/chaos_contract.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1chaos_1aa259cfa7527fe1360cfc01b7e9af85dc" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::chaos::isFailClosedClass</definition>
+        <argsstring>(ChaosFailureClass fc) noexcept</argsstring>
+        <name>isFailClosedClass</name>
+        <qualifiedname>themis::chaos::isFailClosedClass</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcad" kindref="member">ChaosFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given failure class mandates a fail-closed no-op. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The failure class to classify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the class requires silent rejection (no state mutation).</para>
+</simplesect>
+<simplesect kind="note"><para>All classes currently mandate fail-closed semantics; this helper exists to allow future fine-grained recovery for non-critical classes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_contract.h" line="142" column="24" bodyfile="include/chaos/chaos_contract.h" bodystart="142" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chaos/chaos_contract.h" line="33" column="1"/>
+  </compounddef>
+</doxygen>

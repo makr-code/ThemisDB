@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_abort_throwing_participant" kind="class" language="C++" prot="public">
+    <compoundname>AbortThrowingParticipant</compoundname>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback" prot="public" virt="non-virtual">themis::transaction::IDistributedParticipantCallback</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_abort_throwing_participant_1ac48e82e4d2e147bff70756ae8e46ae9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool AbortThrowingParticipant::onPrepare</definition>
+        <argsstring>(const std::string &amp;, const std::set&lt; std::string &gt; &amp;) override</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>AbortThrowingParticipant::onPrepare</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a89abea487b7f9ed7022470ed41faba06">onPrepare</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="111" column="10" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="111" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_abort_throwing_participant_1a5eb431cbf776d382156ceb416339865e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AbortThrowingParticipant::onCommit</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>AbortThrowingParticipant::onCommit</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1af647d0102bad4e770015b086d7cf399a">onCommit</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="114" column="10" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_abort_throwing_participant_1acd49463a3b2db4099d7c6829bd80a35e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AbortThrowingParticipant::onAbort</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onAbort</name>
+        <qualifiedname>AbortThrowingParticipant::onAbort</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a683d107218ed5398400b54b9dd8765c8">onAbort</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="115" column="10" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AbortThrowingParticipant</label>
+        <link refid="class_abort_throwing_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AbortThrowingParticipant</label>
+        <link refid="class_abort_throwing_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="109" column="1" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="109" bodyend="118"/>
+    <listofallmembers>
+      <member refid="class_abort_throwing_participant_1acd49463a3b2db4099d7c6829bd80a35e" prot="public" virt="virtual"><scope>AbortThrowingParticipant</scope><name>onAbort</name></member>
+      <member refid="class_abort_throwing_participant_1a5eb431cbf776d382156ceb416339865e" prot="public" virt="virtual"><scope>AbortThrowingParticipant</scope><name>onCommit</name></member>
+      <member refid="class_abort_throwing_participant_1ac48e82e4d2e147bff70756ae8e46ae9f" prot="public" virt="virtual"><scope>AbortThrowingParticipant</scope><name>onPrepare</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a8c6c340c8cd2ab3b390cf90c13cac610" prot="public" virt="virtual"><scope>AbortThrowingParticipant</scope><name>~IDistributedParticipantCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

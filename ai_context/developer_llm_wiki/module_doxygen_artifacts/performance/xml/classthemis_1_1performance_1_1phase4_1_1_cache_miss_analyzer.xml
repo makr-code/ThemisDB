@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::CacheMissAnalyzer</compoundname>
+    <includes refid="pmu__counters_8h" local="no">pmu_counters.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a76e4bca55e18c710f4a8a8e29a5ff896" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref>()&gt;</type>
+        <definition>using themis::performance::phase4::CacheMissAnalyzer::StopFn = std::function&lt;CacheMissMetrics()&gt;</definition>
+        <argsstring></argsstring>
+        <name>StopFn</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::StopFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="117" column="5" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a97418fb592c1295d761a003bcfbfb31d" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::performance::phase4::CacheMissAnalyzer::ProbeFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProbeFn</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::ProbeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="118" column="5" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ac69e14420732d95cecf31d57fdb93580" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref></type>
+        <definition>PmuCounter themis::performance::phase4::CacheMissAnalyzer::l1d_misses_</definition>
+        <argsstring></argsstring>
+        <name>l1d_misses_</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::l1d_misses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="142" column="16" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a5a08a21011d854ac0b9acb351ac92dd2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref></type>
+        <definition>PmuCounter themis::performance::phase4::CacheMissAnalyzer::llc_misses_</definition>
+        <argsstring></argsstring>
+        <name>llc_misses_</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::llc_misses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="143" column="16" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a375058f7b38e2a6f5ba4a6110a6d029b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref></type>
+        <definition>PmuCounter themis::performance::phase4::CacheMissAnalyzer::branch_mispredict_</definition>
+        <argsstring></argsstring>
+        <name>branch_mispredict_</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::branch_mispredict_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="144" column="16" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a749490a91e72d0ef0b81f57eb75e6881" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::CacheMissAnalyzer::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::available_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="145" column="16" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::CacheMissAnalyzer::CacheMissAnalyzer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>CacheMissAnalyzer</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::CacheMissAnalyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="120" column="5" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="942" bodyend="942"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aeb567350bb3bb12eccdeec42525efcdf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::CacheMissAnalyzer::~CacheMissAnalyzer</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~CacheMissAnalyzer</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::~CacheMissAnalyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1abb3806cadb26d4123ef66aa4ae5314e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::CacheMissAnalyzer::CacheMissAnalyzer</definition>
+        <argsstring>(const CacheMissAnalyzer &amp;)=delete</argsstring>
+        <name>CacheMissAnalyzer</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::CacheMissAnalyzer</qualifiedname>
+        <param>
+          <type>const CacheMissAnalyzer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a6340ff9eca367d18788d6c4a997ed25a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref> &amp;</type>
+        <definition>CacheMissAnalyzer &amp; themis::performance::phase4::CacheMissAnalyzer::operator=</definition>
+        <argsstring>(const CacheMissAnalyzer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="124" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::CacheMissAnalyzer::is_available</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_available</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::is_available</qualifiedname>
+        <briefdescription>
+<para>Returns true if all required PMU counters could be opened. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="127" column="10" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::CacheMissAnalyzer::start</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::start</qualifiedname>
+        <briefdescription>
+<para>Reset and enable all counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="130" column="10" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="943" bodyend="943"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref></type>
+        <definition>CacheMissMetrics themis::performance::phase4::CacheMissAnalyzer::stop</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::stop</qualifiedname>
+        <briefdescription>
+<para>Disable counters and return accumulated metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_pmu_stub_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="133" column="22" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="944" bodyend="965"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aa2135f76d9b10d734556748ca8e8c646" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::CacheMissAnalyzer::pmu_accessible</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>pmu_accessible</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::pmu_accessible</qualifiedname>
+        <briefdescription>
+<para>Static convenience check (tries to open a test counter). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_pmu_stub_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="136" column="17" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="966" bodyend="985"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a30da8eaaabf7f59b063c454c1b8de35f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::CacheMissAnalyzer::setStopFn</definition>
+        <argsstring>(StopFn fn)</argsstring>
+        <name>setStopFn</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::setStopFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a76e4bca55e18c710f4a8a8e29a5ff896" kindref="member">StopFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Stop Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="138" column="17" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="872" bodyend="875"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a78c1402bde6cc3552a991fa5621eee46" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::CacheMissAnalyzer::setProbeFn</definition>
+        <argsstring>(ProbeFn fn)</argsstring>
+        <name>setProbeFn</name>
+        <qualifiedname>themis::performance::phase4::CacheMissAnalyzer::setProbeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a97418fb592c1295d761a003bcfbfb31d" kindref="member">ProbeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Probe Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="139" column="17" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="882" bodyend="885"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Collects L1d, LLC, and branch-misprediction counters. Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(analyzer.is_available())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer.start();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>do_work();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>CacheMissMetrics<sp/>m<sp/>=<sp/>analyzer.stop();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>use<sp/>m.llc_misses,<sp/>m.l1d_read_misses,<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmu_counters.h" line="115" column="1" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="115" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a749490a91e72d0ef0b81f57eb75e6881" prot="private" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>available_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a375058f7b38e2a6f5ba4a6110a6d029b" prot="private" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>branch_mispredict_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>CacheMissAnalyzer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1abb3806cadb26d4123ef66aa4ae5314e1" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>CacheMissAnalyzer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>is_available</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ac69e14420732d95cecf31d57fdb93580" prot="private" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>l1d_misses_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a5a08a21011d854ac0b9acb351ac92dd2" prot="private" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>llc_misses_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a6340ff9eca367d18788d6c4a997ed25a" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aa2135f76d9b10d734556748ca8e8c646" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>pmu_accessible</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a97418fb592c1295d761a003bcfbfb31d" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>ProbeFn</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a78c1402bde6cc3552a991fa5621eee46" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>setProbeFn</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a30da8eaaabf7f59b063c454c1b8de35f" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>setStopFn</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>start</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a76e4bca55e18c710f4a8a8e29a5ff896" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>StopFn</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aeb567350bb3bb12eccdeec42525efcdf" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissAnalyzer</scope><name>~CacheMissAnalyzer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

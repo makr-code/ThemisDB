@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="license__info_8h" kind="file" language="C++">
+    <compoundname>license_info.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes refid="export_8h" local="yes">themis/export.h</includes>
+    <includedby refid="bench__themis__core_8cpp" local="yes">benchmarks/themis/bench_themis_core.cpp</includedby>
+    <includedby refid="runtime__license__gate_8h" local="yes">include/themis/runtime_license_gate.h</includedby>
+    <includedby refid="license__info_8cpp" local="yes">src/themis/license_info.cpp</includedby>
+    <includedby refid="test__themis__integration_8cpp" local="yes">tests/themis/test_themis_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>themis/export.h</label>
+        <link refid="export_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/license_info.h</label>
+        <link refid="license__info_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/themis/bench_themis_core.cpp</label>
+        <link refid="bench__themis__core_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/themis/license_info.h</label>
+        <link refid="license__info_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/themis/runtime_license_gate.h</label>
+        <link refid="runtime__license__gate_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/themis/license_info.cpp</label>
+        <link refid="license__info_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1license_1_1_license_data" prot="public">themis::license::LicenseData</innerclass>
+    <innerclass refid="structthemis_1_1license_1_1_license_activation_result" prot="public">themis::license::LicenseActivationResult</innerclass>
+    <innerclass refid="structthemis_1_1license_1_1_license_client_config" prot="public">themis::license::LicenseClientConfig</innerclass>
+    <innerclass refid="classthemis_1_1license_1_1_license_client" prot="public">themis::license::LicenseClient</innerclass>
+    <innerclass refid="classthemis_1_1license_1_1_license_info" prot="public">themis::license::LicenseInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1license">themis::license</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>License<sp/>Information</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>============================</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>Compile-time<sp/>embedded<sp/>license<sp/>and<sp/>company<sp/>data.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>This<sp/>header<sp/>provides<sp/>runtime<sp/>access<sp/>to<sp/>license<sp/>information<sp/>that<sp/>was</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>embedded<sp/>into<sp/>the<sp/>binary<sp/>during<sp/>the<sp/>build<sp/>process.</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="export_8h" kindref="compound">themis/export.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1license" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1license" kindref="compound">license</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LICENSE<sp/>DATA<sp/>STRUCTURE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1license_1_1_license_data" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Organization<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1license_1_1_license_data_1a1bb0287ab1ae5f61e00674b9d24aeff2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1a1bb0287ab1ae5f61e00674b9d24aeff2" kindref="member">organization_name</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1license_1_1_license_data_1a51e29193c06bb39f1cbc2b0fca93b703" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1a51e29193c06bb39f1cbc2b0fca93b703" kindref="member">organization_id</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1license_1_1_license_data_1a62f57b18472534423729ad8361f0708a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1a62f57b18472534423729ad8361f0708a" kindref="member">contact_email</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>License<sp/>key<sp/>and<sp/>edition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1license_1_1_license_data_1aff48bf31aaf356260f2e11224b068106" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1aff48bf31aaf356260f2e11224b068106" kindref="member">license_key</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1license_1_1_license_data_1aece40843b93e8b98e6235f9bbd7f0fe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1aece40843b93e8b98e6235f9bbd7f0fe7" kindref="member">edition</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>MINIMAL,<sp/>COMMUNITY,<sp/>ENTERPRISE,<sp/>HYPERSCALER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validity<sp/>period</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1license_1_1_license_data_1ac74e03fdea5cab9b75deb29ea918535b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1ac74e03fdea5cab9b75deb29ea918535b" kindref="member">issued_date</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO<sp/>8601<sp/>format:<sp/>YYYY-MM-DD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1license_1_1_license_data_1a45c211ed4a8c40b3416b06b57a36358e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1a45c211ed4a8c40b3416b06b57a36358e" kindref="member">expiry_date</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO<sp/>8601<sp/>format:<sp/>YYYY-MM-DD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>License<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1license_1_1_license_data_1a86fac1248abbc872a7674a17171d2d3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data_1a86fac1248abbc872a7674a17171d2d3f" kindref="member">max_nodes</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>✓<sp/>SECURITY<sp/>FIX<sp/>#2:<sp/>Initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1license_1_1_license_data_1a3b62506dc0f303de351f177f6ce4724d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data_1a3b62506dc0f303de351f177f6ce4724d" kindref="member">max_cores</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>✓<sp/>SECURITY<sp/>FIX<sp/>#3:<sp/>Initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1license_1_1_license_data_1a226c860a3817d26836ea8ae717b340a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data_1a226c860a3817d26836ea8ae717b340a3" kindref="member">max_storage_tb</ref><sp/><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>✓<sp/>SECURITY<sp/>FIX<sp/>#4:<sp/>Initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1license_1_1_license_data_1a9533ab2077f1dd382762dbd542bf9ef3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1a9533ab2077f1dd382762dbd542bf9ef3" kindref="member">build_id</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1license_1_1_license_data_1ab6c412ae0558711ed2b0809ddc308a05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1ab6c412ae0558711ed2b0809ddc308a05" kindref="member">build_timestamp</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>signature<sp/>for<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1license_1_1_license_data_1afb77c98db9013a670c3b42e3408dff5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_data_1afb77c98db9013a670c3b42e3408dff5f" kindref="member">signature</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LICENSE<sp/>INFORMATION<sp/>ACCESS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/>std::optional&lt;LicenseData&gt;<sp/><ref refid="namespacethemis_1_1license_1ab8fe53fe64a9f428f396975e824be913" kindref="member">getEmbeddedLicense</ref>();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1license_1af87cadac5079c946e60094e684dde3a3" kindref="member">hasEmbeddedLicense</ref>();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/>std::string<sp/><ref refid="namespacethemis_1_1license_1a7fad9a5726741379030c3e8ac67c8b77" kindref="member">formatLicenseInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref>&amp;<sp/><ref refid="namespacethemis_1_1license" kindref="compound">license</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1license_1a0e165ad8f252201f4a6484216152d78b" kindref="member">isLicenseValid</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref>&amp;<sp/><ref refid="namespacethemis_1_1license" kindref="compound">license</ref>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1license_1a5f574ce5e4f6beb7c931d3e053f2b77c" kindref="member">getDaysUntilExpiry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref>&amp;<sp/><ref refid="namespacethemis_1_1license" kindref="compound">license</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1license_1ab07e215cfbdf858fc4f143fe5323f9c0" kindref="member">verifyLicenseSignature</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref>&amp;<sp/><ref refid="namespacethemis_1_1license" kindref="compound">license</ref>);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LICENSE<sp/>CLIENT<sp/>–<sp/>Online<sp/>/<sp/>Offline<sp/>Activation<sp/>(Phase<sp/>6<sp/>–<sp/>v1.7.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1license_1_1_license_activation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1license_1_1_license_activation_result_1ae5f5723d6ad0a605c79de554e5cbddcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_license_activation_result_1ae5f5723d6ad0a605c79de554e5cbddcf" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1license_1_1_license_activation_result_1a9e5d4a572852cb477289fc88a4e09772" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_activation_result_1a9e5d4a572852cb477289fc88a4e09772" kindref="member">status</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1license_1_1_license_activation_result_1a97591df21f77bef363195f3663ab5551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_activation_result_1a97591df21f77bef363195f3663ab5551" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1license_1_1_license_activation_result_1abf12d402ff62b50d460088d723e537a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_license_activation_result_1abf12d402ff62b50d460088d723e537a5" kindref="member">grace_days_remaining</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1license_1_1_license_activation_result_1a46f40ab6dae5f67ffd57307b4a050389" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LicenseData&gt;<sp/><ref refid="structthemis_1_1license_1_1_license_activation_result_1a46f40ab6dae5f67ffd57307b4a050389" kindref="member">refreshed_license</ref>;<sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1license_1_1_license_client_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1license_1_1_license_client_config" kindref="compound">LicenseClientConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1license_1_1_license_client_config_1a9086e43c13e8affed02c3af416434620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_client_config_1a9086e43c13e8affed02c3af416434620" kindref="member">server_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1license_1_1_license_client_config_1a5308077b314f08486a3afe5cf118286d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_license_client_config_1a5308077b314f08486a3afe5cf118286d" kindref="member">api_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1license_1_1_license_client_config_1a6ef875533d639832479650053ea93d51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1license_1_1_license_client_config_1a6ef875533d639832479650053ea93d51" kindref="member">timeout</ref>{10};<sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1license_1_1_license_client_config_1ae186a075558204707d63346eb366bb1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_license_client_config_1ae186a075558204707d63346eb366bb1b" kindref="member">allow_offline</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1license_1_1_license_client_config_1a46fcb3e0401d09a26deaab306c49ff7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_license_client_config_1a46fcb3e0401d09a26deaab306c49ff7b" kindref="member">grace_period_days</ref><sp/>=<sp/>7;<sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1license_1_1_license_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/><ref refid="classthemis_1_1license_1_1_license_client_1a1abe66d77352205540ee471e28a5c015" kindref="member">LicenseClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_license_client_1a1abe66d77352205540ee471e28a5c015" kindref="member">LicenseClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_client_config" kindref="compound">LicenseClientConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1license_1_1_license_client_1a4900c4b5c516c2f3f78d8c50250aeeef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1license_1_1_license_client_1a4900c4b5c516c2f3f78d8c50250aeeef" kindref="member">~LicenseClient</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1license_1_1_license_client_1a828c81e7b0ebfff649311bb3f133eeea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1license_1_1_license_client_1a828c81e7b0ebfff649311bb3f133eeea" kindref="member">LicenseClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_license_client_1a1abe66d77352205540ee471e28a5c015" kindref="member">LicenseClient</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1license_1_1_license_client_1adebbff0091e4b53689e1bd9197626ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1license_1_1_license_client_1a1abe66d77352205540ee471e28a5c015" kindref="member">LicenseClient</ref>&amp;<sp/><ref refid="classthemis_1_1license_1_1_license_client_1adebbff0091e4b53689e1bd9197626ced" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_license_client_1a1abe66d77352205540ee471e28a5c015" kindref="member">LicenseClient</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref><sp/><ref refid="classthemis_1_1license_1_1_license_client_1a4f9dd5f87a7b72af7c405d24606d9fe3" kindref="member">activate</ref>();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref><sp/><ref refid="classthemis_1_1license_1_1_license_client_1ad68fd530e478091d380861e3e489b138" kindref="member">validate</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LicenseData&gt;<sp/><ref refid="classthemis_1_1license_1_1_license_client_1a813d3592005413f44f0cd40e38e68c9c" kindref="member">getCachedLicense</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref><sp/><ref refid="classthemis_1_1license_1_1_license_client_1ab872ac1e8fa276a34aafd473e6e59077" kindref="member">refresh</ref>();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1license_1_1_license_client_1a52b5c5bf9408a9236613e844d10433b3" kindref="member">getMachineFingerprint</ref>();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1license_1_1_license_client_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LICENSE<sp/>INFO<sp/>HELPER<sp/>VIEW<sp/>(v1.7.1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1license_1_1_license_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/><ref refid="classthemis_1_1license_1_1_license_info_1a58e5a929f56a8d735222cee7f40ee478" kindref="member">LicenseInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1license_1_1_license_info_1a723a672ec7c9f00cdabe27c0a9b268a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_license_info_1a723a672ec7c9f00cdabe27c0a9b268a5" kindref="member">kDefaultGracePeriodDays</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_license_info_1a58e5a929f56a8d735222cee7f40ee478" kindref="member">LicenseInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref>&amp;<sp/><ref refid="classthemis_1_1license_1_1_license_info_1a28b8728a8263cdf4418bf7c33b60bb24" kindref="member">data</ref>,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>grace_period_days<sp/>=<sp/><ref refid="classthemis_1_1license_1_1_license_info_1a723a672ec7c9f00cdabe27c0a9b268a5" kindref="member">kDefaultGracePeriodDays</ref>);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_license_info_1abe63ace2afb1645651ff047377b1db7b" kindref="member">remaining_grace_days</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="classthemis_1_1license_1_1_license_info_1a28b8728a8263cdf4418bf7c33b60bb24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref>&amp;<sp/><ref refid="classthemis_1_1license_1_1_license_info_1a28b8728a8263cdf4418bf7c33b60bb24" kindref="member">data</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_;<sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref>&amp;<sp/>data_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>grace_period_days_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>license</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/license_info.h"/>
+  </compounddef>
+</doxygen>

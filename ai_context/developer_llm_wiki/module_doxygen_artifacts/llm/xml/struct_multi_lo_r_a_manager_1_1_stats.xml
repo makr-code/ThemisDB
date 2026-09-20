@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_multi_lo_r_a_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>MultiLoRAManager::Stats</compoundname>
+    <includes refid="multi__lora__manager_8h" local="no">multi_lora_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_stats_1a12f4f71274547a4f4b413fe8a3400570" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiLoRAManager::Stats::total_loras_loaded</definition>
+        <argsstring></argsstring>
+        <name>total_loras_loaded</name>
+        <qualifiedname>MultiLoRAManager::Stats::total_loras_loaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="616" column="16" bodyfile="include/llm/multi_lora_manager.h" bodystart="616" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_stats_1ab48ec134f96462cf30fccdfc374fd7c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiLoRAManager::Stats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>MultiLoRAManager::Stats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="617" column="16" bodyfile="include/llm/multi_lora_manager.h" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_stats_1acc6c245561f3f7cf22584a901af57ff3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiLoRAManager::Stats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>MultiLoRAManager::Stats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="618" column="16" bodyfile="include/llm/multi_lora_manager.h" bodystart="618" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_stats_1a7699114bac61230bc10e97a2118f5f4b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiLoRAManager::Stats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>MultiLoRAManager::Stats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="619" column="16" bodyfile="include/llm/multi_lora_manager.h" bodystart="619" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_stats_1a74c834b370fbb14aa51898d57b09e703" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiLoRAManager::Stats::switches</definition>
+        <argsstring></argsstring>
+        <name>switches</name>
+        <qualifiedname>MultiLoRAManager::Stats::switches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="620" column="16" bodyfile="include/llm/multi_lora_manager.h" bodystart="620" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_lora_manager.h" line="615" column="5" bodyfile="include/llm/multi_lora_manager.h" bodystart="615" bodyend="621"/>
+    <listofallmembers>
+      <member refid="struct_multi_lo_r_a_manager_1_1_stats_1ab48ec134f96462cf30fccdfc374fd7c1" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Stats</scope><name>cache_hits</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_stats_1acc6c245561f3f7cf22584a901af57ff3" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Stats</scope><name>cache_misses</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_stats_1a7699114bac61230bc10e97a2118f5f4b" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Stats</scope><name>evictions</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_stats_1a74c834b370fbb14aa51898d57b09e703" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Stats</scope><name>switches</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_stats_1a12f4f71274547a4f4b413fe8a3400570" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Stats</scope><name>total_loras_loaded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

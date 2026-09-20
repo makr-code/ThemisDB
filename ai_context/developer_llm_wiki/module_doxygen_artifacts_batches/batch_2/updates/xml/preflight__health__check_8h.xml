@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="preflight__health__check_8h" kind="file" language="C++">
+    <compoundname>preflight_health_check.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="preflight__health__check_8cpp" local="yes">src/updates/preflight_health_check.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/preflight_health_check.h</label>
+        <link refid="preflight__health__check_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/updates/preflight_health_check.h</label>
+        <link refid="preflight__health__check_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/updates/preflight_health_check.cpp</label>
+        <link refid="preflight__health__check_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_health_check_result" prot="public">themis::updates::HealthCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_preflight_check_result" prot="public">themis::updates::PreflightCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_i_health_check" prot="public">themis::updates::IHealthCheck</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_disk_space_checker" prot="public">themis::updates::DiskSpaceChecker</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_memory_headroom_checker" prot="public">themis::updates::MemoryHeadroomChecker</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_dependency_version_checker" prot="public">themis::updates::DependencyVersionChecker</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_preflight_health_checker" prot="public">themis::updates::PreflightHealthChecker</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 96/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HealthCheckResult<sp/>–<sp/>result<sp/>of<sp/>one<sp/>individual<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1updates_1_1_health_check_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1updates_1_1_health_check_result_1a92222b89d163f57cccfa777c0b0c1e6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_health_check_result_1a92222b89d163f57cccfa777c0b0c1e6e" kindref="member">check_name</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1updates_1_1_health_check_result_1a8766bfd4a544dc5fbf0b16ccd551e32e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_health_check_result_1a8766bfd4a544dc5fbf0b16ccd551e32e" kindref="member">passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1updates_1_1_health_check_result_1a551c870e55c34f53ca313c18b2604b65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_health_check_result_1a551c870e55c34f53ca313c18b2604b65" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1updates_1_1_health_check_result_1ad0a28f387ce116d2a256cc8885b01535" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_health_check_result_1ad0a28f387ce116d2a256cc8885b01535" kindref="member">error</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PreflightCheckResult<sp/>–<sp/>aggregate<sp/>result<sp/>of<sp/>all<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1updates_1_1_preflight_check_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_preflight_check_result" kindref="compound">PreflightCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1updates_1_1_preflight_check_result_1aa97dc5e2bbdfce2bf04aa04b8fd74ddc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_preflight_check_result_1aa97dc5e2bbdfce2bf04aa04b8fd74ddc" kindref="member">all_passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1updates_1_1_preflight_check_result_1af9c30f4283b905936549b3a80412a60c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HealthCheckResult&gt;<sp/><ref refid="structthemis_1_1updates_1_1_preflight_check_result_1af9c30f4283b905936549b3a80412a60c" kindref="member">results</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1updates_1_1_preflight_check_result_1a8542516db18b34af6fc7df0940e5a515" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_preflight_check_result_1a8542516db18b34af6fc7df0940e5a515" kindref="member">error_summary</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1updates_1_1_preflight_check_result_1a032ec5c8ce9e6507b79b17bdf36812c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1updates_1_1_preflight_check_result_1a032ec5c8ce9e6507b79b17bdf36812c6" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IHealthCheck<sp/>–<sp/>abstract<sp/>interface<sp/>for<sp/>a<sp/>single<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1updates_1_1_i_health_check" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1updates_1_1_i_health_check_1a099710a634eeca5235ee0f6cfb8a5f5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_i_health_check_1a099710a634eeca5235ee0f6cfb8a5f5d" kindref="member">~IHealthCheck</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1updates_1_1_i_health_check_1a3cdfa5ffe02af2a8ebe9c4014fde0d85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1updates_1_1_i_health_check_1a3cdfa5ffe02af2a8ebe9c4014fde0d85" kindref="member">name</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1updates_1_1_i_health_check_1a63104fb9b0cf3fb19684d3221e1112b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_i_health_check_1a63104fb9b0cf3fb19684d3221e1112b7" kindref="member">run</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DiskSpaceChecker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1updates_1_1_disk_space_checker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a3e1a809db6e6bea74dab2cd42dfea9e8" kindref="member">DiskSpaceChecker</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1updates_1_1_disk_space_checker_1a33dd40b5228c69404a259b6ba0bf793f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a33dd40b5228c69404a259b6ba0bf793f" kindref="member">SpaceProvider</ref><sp/>=<sp/>std::function&lt;uint64_t(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)&gt;;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a3e1a809db6e6bea74dab2cd42dfea9e8" kindref="member">DiskSpaceChecker</ref>(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>required_bytes,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a33dd40b5228c69404a259b6ba0bf793f" kindref="member">SpaceProvider</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>provider<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a3509f4f8c4d39b4f914e8caac4872b84" kindref="member">name</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a6767ed595d6fc4c58e5b197ff7e174a5" kindref="member">run</ref>()<sp/><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/>path_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/>required_bytes_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a33dd40b5228c69404a259b6ba0bf793f" kindref="member">SpaceProvider</ref><sp/>provider_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MemoryHeadroomChecker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1updates_1_1_memory_headroom_checker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_memory_headroom_checker_1ad99f0e9850b1663151b0fff9d31f405b" kindref="member">MemoryHeadroomChecker</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref><sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1updates_1_1_memory_headroom_checker_1a3bb0dd77e17ad38b2eeaa571120cc6bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_memory_headroom_checker_1a3bb0dd77e17ad38b2eeaa571120cc6bb" kindref="member">MemoryProvider</ref><sp/>=<sp/>std::function&lt;uint64_t()&gt;;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_memory_headroom_checker_1ad99f0e9850b1663151b0fff9d31f405b" kindref="member">MemoryHeadroomChecker</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>required_bytes,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_memory_headroom_checker_1a3bb0dd77e17ad38b2eeaa571120cc6bb" kindref="member">MemoryProvider</ref><sp/>provider<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_memory_headroom_checker_1a3ced90bd70ea9be8c3b0206e855a33a5" kindref="member">name</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_memory_headroom_checker_1a7f0a11832c2201ee128acb92c6ee00f3" kindref="member">run</ref>()<sp/><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>required_bytes_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_memory_headroom_checker_1a3bb0dd77e17ad38b2eeaa571120cc6bb" kindref="member">MemoryProvider</ref><sp/>provider_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DependencyVersionChecker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1updates_1_1_dependency_version_checker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_dependency_version_checker_1acee8fa22719b1a717a199999782882bc" kindref="member">DependencyVersionChecker</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref><sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200" refid="classthemis_1_1updates_1_1_dependency_version_checker_1a2eac08b0f11774e4e1242eeea33b14bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_dependency_version_checker_1a2eac08b0f11774e4e1242eeea33b14bd" kindref="member">VersionProvider</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dep_name)&gt;;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_dependency_version_checker_1acee8fa22719b1a717a199999782882bc" kindref="member">DependencyVersionChecker</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/>dep_name,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/>min_version,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_dependency_version_checker_1a2eac08b0f11774e4e1242eeea33b14bd" kindref="member">VersionProvider</ref><sp/>version_provider</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_dependency_version_checker_1a176af8a351237dfe2091812fdd75ecd6" kindref="member">name</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_dependency_version_checker_1a098ec37277f07eb6ce47b3b22f312713" kindref="member">run</ref>()<sp/><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_dependency_version_checker_1a47a4a0e32bc99e749655cf7d632c25c5" kindref="member">compareVersions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/>dep_name_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/>min_version_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_dependency_version_checker_1a2eac08b0f11774e4e1242eeea33b14bd" kindref="member">VersionProvider</ref><sp/>version_provider_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PreflightHealthChecker<sp/>–<sp/>orchestrator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1updates_1_1_preflight_health_checker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref><sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1updates_1_1_preflight_health_checker_1a14c4d7119c5c2a50185944c15721ebf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a14c4d7119c5c2a50185944c15721ebf7" kindref="member">PreflightHealthChecker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1updates_1_1_preflight_health_checker_1a93a657ea87de5920de4c068f4044b7da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a93a657ea87de5920de4c068f4044b7da" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1updates_1_1_preflight_health_checker_1ac4082f24fe2217b7858b8933d0fc4bb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1ac4082f24fe2217b7858b8933d0fc4bb3" kindref="member">PreflightHealthChecker</ref>(<ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1updates_1_1_preflight_health_checker_1a0251fed4d7c1d35fea46014f3cf4df29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a35a83214751c72bcb4d9c0705c4e8d54" kindref="member">addCheck</ref>(std::unique_ptr&lt;<ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref>&gt;<sp/>check);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_preflight_check_result" kindref="compound">PreflightCheckResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a3d54bb7df9dc0056920c8c837ebd6d7e" kindref="member">runAll</ref>();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a07775d3e350af7457347763d2a7778f8" kindref="member">checkCount</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;<ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref>&gt;&gt;<sp/>checks_;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/preflight_health_check.h"/>
+  </compounddef>
+</doxygen>

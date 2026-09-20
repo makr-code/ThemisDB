@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::PhotoDNAAbuseDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_abuse_detector" prot="public" virt="non-virtual">themis::content::IAbuseDetector</basecompoundref>
+    <includes refid="abuse__detector_8h" local="no">abuse_detector.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry" prot="public">themis::content::PhotoDNAAbuseDetector::BlocklistEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a0cf224fb31cb3b85b6afbc2cf44bdb25" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry" kindref="compound">BlocklistEntry</ref> &gt;</type>
+        <definition>std::vector&lt;BlocklistEntry&gt; themis::content::PhotoDNAAbuseDetector::blocklist_</definition>
+        <argsstring></argsstring>
+        <name>blocklist_</name>
+        <qualifiedname>themis::content::PhotoDNAAbuseDetector::blocklist_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="114" column="17" bodyfile="include/content/abuse_detector.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a2f08002bfb11a8aa952d85b6bcaa308e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::PhotoDNAAbuseDetector::match_threshold_</definition>
+        <argsstring></argsstring>
+        <name>match_threshold_</name>
+        <qualifiedname>themis::content::PhotoDNAAbuseDetector::match_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="115" column="9" bodyfile="include/content/abuse_detector.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1aa9868afc162643c31f4aa0cac43fd79b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::PhotoDNAAbuseDetector::PhotoDNAAbuseDetector</definition>
+        <argsstring>(std::vector&lt; BlocklistEntry &gt; blocklist, int match_threshold=10)</argsstring>
+        <name>PhotoDNAAbuseDetector</name>
+        <qualifiedname>themis::content::PhotoDNAAbuseDetector::PhotoDNAAbuseDetector</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry" kindref="compound">BlocklistEntry</ref> &gt;</type>
+          <declname>blocklist</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>match_threshold</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="86" column="14" bodyfile="src/content/abuse_detector.cpp" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a927aa64083214b81acbc59e111aa2fb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_abuse_detection_result" kindref="compound">AbuseDetectionResult</ref></type>
+        <definition>AbuseDetectionResult themis::content::PhotoDNAAbuseDetector::detect</definition>
+        <argsstring>(const std::string &amp;content_data, const AbuseDetectorMetadata &amp;metadata) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::content::PhotoDNAAbuseDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_abuse_detector_1a5835e4f891a19d84015dafa369149f3b">detect</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_abuse_detector_metadata" kindref="compound">AbuseDetectorMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="91" column="26" bodyfile="src/content/abuse_detector.cpp" bodystart="89" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1ad30fe9bd297f65896d9f3f0a212a0a5c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::PhotoDNAAbuseDetector::detectorType</definition>
+        <argsstring>() const override</argsstring>
+        <name>detectorType</name>
+        <qualifiedname>themis::content::PhotoDNAAbuseDetector::detectorType</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_abuse_detector_1a6518cb07e46f176795dc95c432f7faac">detectorType</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="96" column="17" bodyfile="include/content/abuse_detector.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a51b103de8cfdb718e79353b971584a3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::PhotoDNAAbuseDetector::computeHash</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>computeHash</name>
+        <qualifiedname>themis::content::PhotoDNAAbuseDetector::computeHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::accumulate(), std::begin(), std::end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="103" column="21" bodyfile="src/content/abuse_detector.cpp" bodystart="40" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1aba09797890dd43cdc40cc026f9d198bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::PhotoDNAAbuseDetector::hammingDistance</definition>
+        <argsstring>(uint64_t a, uint64_t b)</argsstring>
+        <name>hammingDistance</name>
+        <qualifiedname>themis::content::PhotoDNAAbuseDetector::hammingDistance</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Hamming Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements hammingDistance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="111" column="16" bodyfile="src/content/abuse_detector.cpp" bodystart="78" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_i_abuse_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::content::PhotoDNAAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_i_abuse_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::content::PhotoDNAAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/abuse_detector.h" line="78" column="1" bodyfile="include/content/abuse_detector.h" bodystart="78" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a0cf224fb31cb3b85b6afbc2cf44bdb25" prot="private" virt="non-virtual"><scope>themis::content::PhotoDNAAbuseDetector</scope><name>blocklist_</name></member>
+      <member refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a51b103de8cfdb718e79353b971584a3e" prot="public" virt="non-virtual"><scope>themis::content::PhotoDNAAbuseDetector</scope><name>computeHash</name></member>
+      <member refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a927aa64083214b81acbc59e111aa2fb9" prot="public" virt="virtual"><scope>themis::content::PhotoDNAAbuseDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1ad30fe9bd297f65896d9f3f0a212a0a5c" prot="public" virt="virtual"><scope>themis::content::PhotoDNAAbuseDetector</scope><name>detectorType</name></member>
+      <member refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1aba09797890dd43cdc40cc026f9d198bf" prot="public" virt="non-virtual"><scope>themis::content::PhotoDNAAbuseDetector</scope><name>hammingDistance</name></member>
+      <member refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a2f08002bfb11a8aa952d85b6bcaa308e" prot="private" virt="non-virtual"><scope>themis::content::PhotoDNAAbuseDetector</scope><name>match_threshold_</name></member>
+      <member refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1aa9868afc162643c31f4aa0cac43fd79b" prot="public" virt="non-virtual"><scope>themis::content::PhotoDNAAbuseDetector</scope><name>PhotoDNAAbuseDetector</name></member>
+      <member refid="classthemis_1_1content_1_1_i_abuse_detector_1a274cb22468d3ece04c97c18ad7edd51a" prot="public" virt="virtual"><scope>themis::content::PhotoDNAAbuseDetector</scope><name>~IAbuseDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

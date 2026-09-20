@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacewave1__exd" kind="namespace" language="C++">
+    <compoundname>wave1_exd</compoundname>
+    <innerclass refid="classwave1__exd_1_1_stub_inference_engine" prot="public">wave1_exd::StubInferenceEngine</innerclass>
+    <innerclass refid="classwave1__exd_1_1_stub_speculative_decoder" prot="public">wave1_exd::StubSpeculativeDecoder</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="133" column="1"/>
+  </compounddef>
+</doxygen>

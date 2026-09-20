@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="model__metadata__cache_8h" kind="file" language="C++">
+    <compoundname>model_metadata_cache.h</compoundname>
+    <includes local="yes">utils/concurrent_cache.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="model__metadata__cache_8cpp" local="yes">src/llm/model_metadata_cache.cpp</includedby>
+    <includedby refid="test__llm__caching_8cpp" local="yes">tests/llm/test_llm_caching.cpp</includedby>
+    <includedby refid="test__llm__memory__safety_8cpp" local="yes">tests/llm/test_llm_memory_safety.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/model_metadata_cache.h</label>
+        <link refid="model__metadata__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/model_metadata_cache.h</label>
+        <link refid="model__metadata__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/model_metadata_cache.cpp</label>
+        <link refid="model__metadata__cache_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/llm/test_llm_caching.cpp</label>
+        <link refid="test__llm__caching_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm/test_llm_memory_safety.cpp</label>
+        <link refid="test__llm__memory__safety_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_model_metadata" prot="public">themis::llm::ModelMetadata</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_model_metadata_cache" prot="public">themis::llm::ModelMetadataCache</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats" prot="public">themis::llm::ModelMetadataCache::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/concurrent_cache.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1llm_1_1_model_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1_model_metadata_1aec434ab12c63470d3e6a343a5a167b3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1aec434ab12c63470d3e6a343a5a167b3b" kindref="member">~ModelMetadata</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_model_metadata_1a14e44bfb36d68aa6110467204ec93463" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1a14e44bfb36d68aa6110467204ec93463" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_model_metadata_1a3e09e0a914c2b5d0df0224cfea3b7467" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1a3e09e0a914c2b5d0df0224cfea3b7467" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_model_metadata_1a64d00dd0e8356e0653a607b36fdb1049" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1a64d00dd0e8356e0653a607b36fdb1049" kindref="member">n_layers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_model_metadata_1af19bbbb76686b6f97facf40ea7f4636a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1af19bbbb76686b6f97facf40ea7f4636a" kindref="member">n_ctx</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_model_metadata_1a853a54caec005d906790287daa42adbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1a853a54caec005d906790287daa42adbb" kindref="member">loaded_timestamp</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_model_metadata_1adad04ac1eeb94c9e402cf89a76140359" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1adad04ac1eeb94c9e402cf89a76140359" kindref="member">last_accessed</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_model_metadata_1ae5fa01f5967f5ae217a865901d94902d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1ae5fa01f5967f5ae217a865901d94902d" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_model_metadata_1a862c53de936cbaaac1758e309eff3aea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1a862c53de936cbaaac1758e309eff3aea" kindref="member">is_pinned</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GGUF-specific<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_model_metadata_1aa7a3e70ce14e7feaedf6a17eddfb41b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1aa7a3e70ce14e7feaedf6a17eddfb41b4" kindref="member">architecture</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;llama&quot;,<sp/>&quot;mistral&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_model_metadata_1ac8995c7f7b0ba4934bd758c5925fd4cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_1ac8995c7f7b0ba4934bd758c5925fd4cc" kindref="member">quantization</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;Q4_K_M&quot;,<sp/>&quot;Q8_0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1llm_1_1_model_metadata_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" kindref="member">ModelMetadataCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1llm_1_1_model_metadata_cache_1a3f4a634641dd43feeb2b3dcc9adfcbe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a3f4a634641dd43feeb2b3dcc9adfcbe2" kindref="member">CacheType</ref><sp/>=<sp/>ConcurrentCache&lt;std::string,<sp/>ModelMetadata&gt;;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" kindref="member">ModelMetadataCache</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1llm_1_1_model_metadata_cache_1af99f43325f68dd090cd6a770b2b3e9f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1af99f43325f68dd090cd6a770b2b3e9f2" kindref="member">~ModelMetadataCache</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1llm_1_1_model_metadata_cache_1a1157cfe463d3036bb64e98606ba9e82a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a1157cfe463d3036bb64e98606ba9e82a" kindref="member">ModelMetadataCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" kindref="member">ModelMetadataCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1llm_1_1_model_metadata_cache_1a3332a72447cc604a570b0ecf596c7b39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" kindref="member">ModelMetadataCache</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a3332a72447cc604a570b0ecf596c7b39" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" kindref="member">ModelMetadataCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1llm_1_1_model_metadata_cache_1a56da2a394514089fad094665011e2ac9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a56da2a394514089fad094665011e2ac9" kindref="member">ModelMetadataCache</ref>(<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" kindref="member">ModelMetadataCache</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1llm_1_1_model_metadata_cache_1a0329ff7a8efb7d53baffa5fcb4d1b5f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" kindref="member">ModelMetadataCache</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ab0bdca3733de400a0e73d4d08810061f" kindref="member">ModelMetadataCache</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id,<sp/>const<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref>&amp;<sp/>metadata);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref>&gt;<sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1aaef31d0fa7247eeb2b70c64ffee34c91" kindref="member">get</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id)<sp/>const;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a46394be1b4216e47dd325d5298d65348" kindref="member">touch</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a3461dbaaf7a2e42878046dce612f3312" kindref="member">contains</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id)<sp/>const;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a982d6d8685b20b3ecd91e05d4d1c45ce" kindref="member">remove</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ad469eea6bea0569c84d8282dafdd1b5c" kindref="member">size</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a0ac7cd4294315e31cace4ed1cf5d5417" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a47d8f78b552123935989e446c16bd374" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a47d8f78b552123935989e446c16bd374" kindref="member">total_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a816d26e13a6e791befbf913293dd9dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a816d26e13a6e791befbf913293dd9dcd" kindref="member">pinned_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1af8ca23411f30f64f263027d80fd4ae04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1af8ca23411f30f64f263027d80fd4ae04" kindref="member">total_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a8ec34a4e06d8833639c190b32a578f00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a8ec34a4e06d8833639c190b32a578f00" kindref="member">total_accesses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a449fdd847649ec8925c596d815c2d8cf" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4ed2e25e3089323ba565da4a4ed3c323" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a3f4a634641dd43feeb2b3dcc9adfcbe2" kindref="member">CacheType</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4ed2e25e3089323ba565da4a4ed3c323" kindref="member">cache</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cache_;<sp/>}</highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1llm_1_1_model_metadata_cache_1acc65d91b0e8522d8616a01a9d772e015" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a3f4a634641dd43feeb2b3dcc9adfcbe2" kindref="member">CacheType</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1acc65d91b0e8522d8616a01a9d772e015" kindref="member">cache</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cache_;<sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>REUSE:<sp/>ThemisDB&apos;s<sp/>ConcurrentCache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a3f4a634641dd43feeb2b3dcc9adfcbe2" kindref="member">CacheType</ref><sp/>cache_;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/model_metadata_cache.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_wake_word_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::WakeWordFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_wake_word_fixture_1a915157666b924cd79c9de343381e1c66" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_wake_word_detector" kindref="compound">WakeWordDetector</ref></type>
+        <definition>WakeWordDetector themis::voice::WakeWordFixture::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>themis::voice::WakeWordFixture::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="135" column="22" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_wake_word_fixture_1a79aaaa2a2dc0749e91ed64c43075edbb" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::WakeWordFixture::kWakeWordThreshold</definition>
+        <argsstring></argsstring>
+        <name>kWakeWordThreshold</name>
+        <qualifiedname>themis::voice::WakeWordFixture::kWakeWordThreshold</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="136" column="28" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_wake_word_fixture_1a49d3769474da66b66318f06151cbf477" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::WakeWordFixture::kIntentThreshold</definition>
+        <argsstring></argsstring>
+        <name>kIntentThreshold</name>
+        <qualifiedname>themis::voice::WakeWordFixture::kIntentThreshold</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="137" column="28" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_wake_word_fixture_1ac463a783b36364f6d8986fd52b9066e0" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::WakeWordFixture::kLivenessThreshold</definition>
+        <argsstring></argsstring>
+        <name>kLivenessThreshold</name>
+        <qualifiedname>themis::voice::WakeWordFixture::kLivenessThreshold</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="138" column="28" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_wake_word_fixture_1a7e5f94876d747bd0b0b474ba48ad7fd1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::WakeWordFixture::createCleanAudio</definition>
+        <argsstring>()</argsstring>
+        <name>createCleanAudio</name>
+        <qualifiedname>themis::voice::WakeWordFixture::createCleanAudio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="140" column="17" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_wake_word_fixture_1a46fac7478e9d3b690af77bd3753370f3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::WakeWordFixture::createNoisyAudio</definition>
+        <argsstring>()</argsstring>
+        <name>createNoisyAudio</name>
+        <qualifiedname>themis::voice::WakeWordFixture::createNoisyAudio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="144" column="17" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="144" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::WakeWordFixture</label>
+        <link refid="classthemis_1_1voice_1_1_wake_word_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::voice::WakeWordDetector</label>
+        <link refid="classthemis_1_1voice_1_1_wake_word_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::WakeWordFixture</label>
+        <link refid="classthemis_1_1voice_1_1_wake_word_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>detector_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_wake_word_focused.cpp" line="133" column="1" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="133" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_wake_word_fixture_1a7e5f94876d747bd0b0b474ba48ad7fd1" prot="protected" virt="non-virtual"><scope>themis::voice::WakeWordFixture</scope><name>createCleanAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1_wake_word_fixture_1a46fac7478e9d3b690af77bd3753370f3" prot="protected" virt="non-virtual"><scope>themis::voice::WakeWordFixture</scope><name>createNoisyAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1_wake_word_fixture_1a915157666b924cd79c9de343381e1c66" prot="protected" virt="non-virtual"><scope>themis::voice::WakeWordFixture</scope><name>detector_</name></member>
+      <member refid="classthemis_1_1voice_1_1_wake_word_fixture_1a49d3769474da66b66318f06151cbf477" prot="protected" virt="non-virtual"><scope>themis::voice::WakeWordFixture</scope><name>kIntentThreshold</name></member>
+      <member refid="classthemis_1_1voice_1_1_wake_word_fixture_1ac463a783b36364f6d8986fd52b9066e0" prot="protected" virt="non-virtual"><scope>themis::voice::WakeWordFixture</scope><name>kLivenessThreshold</name></member>
+      <member refid="classthemis_1_1voice_1_1_wake_word_fixture_1a79aaaa2a2dc0749e91ed64c43075edbb" prot="protected" virt="non-virtual"><scope>themis::voice::WakeWordFixture</scope><name>kWakeWordThreshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

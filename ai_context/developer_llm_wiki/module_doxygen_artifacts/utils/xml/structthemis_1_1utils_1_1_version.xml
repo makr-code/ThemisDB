@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_version" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::Version</compoundname>
+    <includes refid="update__checker_8h" local="no">update_checker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_version_1aa6df60b023836278ee16e026cabce23d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::Version::major</definition>
+        <argsstring></argsstring>
+        <name>major</name>
+        <qualifiedname>themis::utils::Version::major</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="35" column="9" bodyfile="include/utils/update_checker.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_version_1a8a6799a1175a605ce5e57151f349687c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::Version::minor</definition>
+        <argsstring></argsstring>
+        <name>minor</name>
+        <qualifiedname>themis::utils::Version::minor</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="36" column="9" bodyfile="include/utils/update_checker.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_version_1ac4a6b0ee72d1a6b5ceeef0a83f72f15b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::Version::patch</definition>
+        <argsstring></argsstring>
+        <name>patch</name>
+        <qualifiedname>themis::utils::Version::patch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="37" column="9" bodyfile="include/utils/update_checker.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_version_1a30c4d0e3ca535198f5a64f9044d06c70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Version::prerelease</definition>
+        <argsstring></argsstring>
+        <name>prerelease</name>
+        <qualifiedname>themis::utils::Version::prerelease</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="38" column="17" bodyfile="include/utils/update_checker.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_version_1a211bd169b917f3136cf287e1c8528c73" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Version::build</definition>
+        <argsstring></argsstring>
+        <name>build</name>
+        <qualifiedname>themis::utils::Version::build</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="39" column="17" bodyfile="include/utils/update_checker.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_version_1a4dc9bd21a2fcf1c3c7b6b330018abcde" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt; Version &gt; themis::utils::Version::parse</definition>
+        <argsstring>(const std::string &amp;version_str)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::utils::Version::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse version string (e.g., &quot;1.2.3&quot;, &quot;1.2.3-beta&quot;, &quot;v1.2.3&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version_regex(), std::regex_match(), std::stoi(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="44" column="26" bodyfile="src/utils/update_checker.cpp" bodystart="38" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_version_1ac41a77a5985784a9f33d5424b4804468" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Version::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::utils::Version::toString</qualifiedname>
+        <briefdescription>
+<para>Convert to string representation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="49" column="17" bodyfile="src/utils/update_checker.cpp" bodystart="65" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_version_1a2fb2568ce834711b85482786dc235ee6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Version::operator&lt;</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::utils::Version::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Compare versions (semantic versioning rules). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="54" column="5" bodyfile="src/utils/update_checker.cpp" bodystart="77" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_version_1a148ec9fe33adee880512cc595885760e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Version::operator&gt;</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator&gt;</name>
+        <qualifiedname>themis::utils::Version::operator&gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="55" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_version_1a1a20ed53824b55003313834e44b46fbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Version::operator==</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::utils::Version::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="56" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="106" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_version_1a6eed64f591870afdba9b447467c1b914" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Version::operator&lt;=</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator&lt;=</name>
+        <qualifiedname>themis::utils::Version::operator&lt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="57" column="5" bodyfile="include/utils/update_checker.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_version_1a74ce0b9fece36a38d38f5ad2bbf9abd7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Version::operator&gt;=</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator&gt;=</name>
+        <qualifiedname>themis::utils::Version::operator&gt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="58" column="10" bodyfile="include/utils/update_checker.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_version_1acf9e5cc932c89b55241c763457225456" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Version::operator!=</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::utils::Version::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="59" column="10" bodyfile="include/utils/update_checker.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a software version using semantic versioning. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/update_checker.h" line="34" column="1" bodyfile="include/utils/update_checker.h" bodystart="34" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_version_1a211bd169b917f3136cf287e1c8528c73" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>build</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1aa6df60b023836278ee16e026cabce23d" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>major</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1a8a6799a1175a605ce5e57151f349687c" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>minor</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1acf9e5cc932c89b55241c763457225456" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1a2fb2568ce834711b85482786dc235ee6" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1a6eed64f591870afdba9b447467c1b914" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>operator&lt;=</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1a1a20ed53824b55003313834e44b46fbc" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1a148ec9fe33adee880512cc595885760e" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>operator&gt;</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1a74ce0b9fece36a38d38f5ad2bbf9abd7" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>operator&gt;=</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1a4dc9bd21a2fcf1c3c7b6b330018abcde" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>parse</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1ac4a6b0ee72d1a6b5ceeef0a83f72f15b" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>patch</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1a30c4d0e3ca535198f5a64f9044d06c70" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>prerelease</name></member>
+      <member refid="structthemis_1_1utils_1_1_version_1ac41a77a5985784a9f33d5424b4804468" prot="public" virt="non-virtual"><scope>themis::utils::Version</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

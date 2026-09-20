@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::benchmark::LongRunStabilityBenchmark</compoundname>
+    <innerclass refid="structthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1_1_workload_stats" prot="private">themis::updates::benchmark::LongRunStabilityBenchmark::WorkloadStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ae25276298f685ae70abb6bcfa3bed646" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; UpdateStateManager &gt;</type>
+        <definition>std::unique_ptr&lt;UpdateStateManager&gt; themis::updates::benchmark::LongRunStabilityBenchmark::state_mgr_</definition>
+        <argsstring></argsstring>
+        <name>state_mgr_</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::state_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="50" column="21" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ab9597271d611e0590c3ddd7b9a244904" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1updates_1_1_delta_update_engine" kindref="compound">DeltaUpdateEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DeltaUpdateEngine&gt; themis::updates::benchmark::LongRunStabilityBenchmark::delta_engine_</definition>
+        <argsstring></argsstring>
+        <name>delta_engine_</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::delta_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="51" column="21" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ab1af84a0882ec1993ab91305930d30b4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler" kindref="compound">TenantUpdateScheduler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TenantUpdateScheduler&gt; themis::updates::benchmark::LongRunStabilityBenchmark::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="52" column="21" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a55a7c0c7f63c30602f2593deb4071344" prot="private" static="no" mutable="no">
+        <type>WorkloadStats</type>
+        <definition>WorkloadStats themis::updates::benchmark::LongRunStabilityBenchmark::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="53" column="19" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a11fc0d52fbb80e7cca3d5c10842b33e0" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::updates::benchmark::LongRunStabilityBenchmark::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::rng_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="54" column="18" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1afe7cd271e2a3210551720e612aab3e62" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::LongRunStabilityBenchmark::LongRunStabilityBenchmark</definition>
+        <argsstring>()</argsstring>
+        <name>LongRunStabilityBenchmark</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::LongRunStabilityBenchmark</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="57" column="5" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="57" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1af5df40b888192b0fad2e7d4d63849189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::LongRunStabilityBenchmark::~LongRunStabilityBenchmark</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LongRunStabilityBenchmark</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::~LongRunStabilityBenchmark</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a5a5c509d5f7dfbc6734ce4f004bbb6d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStabilityBenchmark::runMixedWorkload</definition>
+        <argsstring>(uint64_t operation_count)</argsstring>
+        <name>runMixedWorkload</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::runMixedWorkload</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>operation_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="69" column="10" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="69" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a060cb2a70381bed2e55c093c9577e8c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::updates::benchmark::LongRunStabilityBenchmark::getMemoryGrowthPercentage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryGrowthPercentage</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::getMemoryGrowthPercentage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="104" column="12" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="104" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ae3437f340077b7f892e7d98032fb72f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::updates::benchmark::LongRunStabilityBenchmark::getErrorRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorRate</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::getErrorRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="118" column="12" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="118" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a43ee6e2061134d01415ef28a5ecb12e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::benchmark::LongRunStabilityBenchmark::getTotalOperations</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalOperations</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::getTotalOperations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="126" column="14" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1aadc3f4eb3019cdda65065f0e266972fc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::duration&lt; double &gt;</type>
+        <definition>std::chrono::duration&lt; double &gt; themis::updates::benchmark::LongRunStabilityBenchmark::getElapsedTime</definition>
+        <argsstring>() const</argsstring>
+        <name>getElapsedTime</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::getElapsedTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="130" column="27" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="130" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a27f2203b0a62b859f415a3b3eba892af" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::updates::benchmark::LongRunStabilityBenchmark::getThroughputOpsPerSecond</definition>
+        <argsstring>() const</argsstring>
+        <name>getThroughputOpsPerSecond</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::getThroughputOpsPerSecond</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="134" column="12" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="134" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ac7b30f272bf346e46759d7951862c1b5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStabilityBenchmark::executeStateTransition</definition>
+        <argsstring>()</argsstring>
+        <name>executeStateTransition</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::executeStateTransition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="143" column="10" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="143" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ab30591b82f77e849b81834e6492d8164" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStabilityBenchmark::executeDeltaOperation</definition>
+        <argsstring>()</argsstring>
+        <name>executeDeltaOperation</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::executeDeltaOperation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="160" column="10" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a10b11e256b04208937e2cb92a8e8765b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStabilityBenchmark::executeScheduleOperation</definition>
+        <argsstring>()</argsstring>
+        <name>executeScheduleOperation</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::executeScheduleOperation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="173" column="10" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="173" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1af9871929c29f68d520fc649b72642d7a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStabilityBenchmark::monitorResources</definition>
+        <argsstring>()</argsstring>
+        <name>monitorResources</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::monitorResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="188" column="10" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="188" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a6d5cb97f2d4b4003f318cf6d1a5fd1fc" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStabilityBenchmark::captureMemorySnapshot</definition>
+        <argsstring>()</argsstring>
+        <name>captureMemorySnapshot</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::captureMemorySnapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="197" column="10" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ab3a5122be5280b2b5851b861bcd9f01a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::updates::benchmark::LongRunStabilityBenchmark::getCurrentMemoryUsage</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentMemoryUsage</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStabilityBenchmark::getCurrentMemoryUsage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="205" column="12" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="205" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="37" column="1" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="37" bodyend="227"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a6d5cb97f2d4b4003f318cf6d1a5fd1fc" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>captureMemorySnapshot</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ab9597271d611e0590c3ddd7b9a244904" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>delta_engine_</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ab30591b82f77e849b81834e6492d8164" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>executeDeltaOperation</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a10b11e256b04208937e2cb92a8e8765b" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>executeScheduleOperation</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ac7b30f272bf346e46759d7951862c1b5" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>executeStateTransition</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ab3a5122be5280b2b5851b861bcd9f01a" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>getCurrentMemoryUsage</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1aadc3f4eb3019cdda65065f0e266972fc" prot="public" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>getElapsedTime</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ae3437f340077b7f892e7d98032fb72f2" prot="public" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>getErrorRate</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a060cb2a70381bed2e55c093c9577e8c0" prot="public" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>getMemoryGrowthPercentage</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a27f2203b0a62b859f415a3b3eba892af" prot="public" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>getThroughputOpsPerSecond</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a43ee6e2061134d01415ef28a5ecb12e4" prot="public" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>getTotalOperations</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1afe7cd271e2a3210551720e612aab3e62" prot="public" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>LongRunStabilityBenchmark</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1af9871929c29f68d520fc649b72642d7a" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>monitorResources</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a11fc0d52fbb80e7cca3d5c10842b33e0" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a5a5c509d5f7dfbc6734ce4f004bbb6d1" prot="public" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>runMixedWorkload</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ab1af84a0882ec1993ab91305930d30b4" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>scheduler_</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1ae25276298f685ae70abb6bcfa3bed646" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>state_mgr_</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1a55a7c0c7f63c30602f2593deb4071344" prot="private" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark_1af5df40b888192b0fad2e7d4d63849189" prot="public" virt="non-virtual"><scope>themis::updates::benchmark::LongRunStabilityBenchmark</scope><name>~LongRunStabilityBenchmark</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

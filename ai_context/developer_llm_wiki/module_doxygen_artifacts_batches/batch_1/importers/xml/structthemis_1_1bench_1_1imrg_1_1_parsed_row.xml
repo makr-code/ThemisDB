@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1imrg_1_1_parsed_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::imrg::ParsedRow</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_parsed_row_1aff9dc229629df32e4a27cb7b05b46027" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::imrg::ParsedRow::cells[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>cells</name>
+        <qualifiedname>themis::bench::imrg::ParsedRow::cells</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="79" column="17" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_parsed_row_1a9565012b2ccbe1e9efe7527c4acd8cc4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::imrg::ParsedRow::cell_count</definition>
+        <argsstring></argsstring>
+        <name>cell_count</name>
+        <qualifiedname>themis::bench::imrg::ParsedRow::cell_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="80" column="17" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="78" column="1" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="78" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_parsed_row_1a9565012b2ccbe1e9efe7527c4acd8cc4" prot="public" virt="non-virtual"><scope>themis::bench::imrg::ParsedRow</scope><name>cell_count</name></member>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_parsed_row_1aff9dc229629df32e4a27cb7b05b46027" prot="public" virt="non-virtual"><scope>themis::bench::imrg::ParsedRow</scope><name>cells</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

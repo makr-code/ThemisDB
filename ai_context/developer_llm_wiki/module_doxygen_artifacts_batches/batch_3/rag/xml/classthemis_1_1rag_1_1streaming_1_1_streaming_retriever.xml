@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::streaming::StreamingRetriever</compoundname>
+    <includes refid="streaming__retriever_8h" local="no">streaming_retriever.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl" prot="public">themis::rag::streaming::StreamingRetriever::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad1bc02bc934f84c12a755692fef9f724" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::streaming::StreamingRetriever::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="277" column="21" bodyfile="include/rag/streaming_retriever.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::streaming::StreamingRetriever::StreamingRetriever</definition>
+        <argsstring>(const StreamingRetrieverConfig &amp;config={})</argsstring>
+        <name>StreamingRetriever</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::StreamingRetriever</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Streaming and window configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="210" column="14" bodyfile="src/rag/streaming_retriever.cpp" bodystart="181" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad9588515743a5aff3f1229796a89a640" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::streaming::StreamingRetriever::~StreamingRetriever</definition>
+        <argsstring>()</argsstring>
+        <name>~StreamingRetriever</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::~StreamingRetriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="211" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a1f1f062e63fcd980fd8e2fe55cbed0d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::streaming::StreamingRetriever::StreamingRetriever</definition>
+        <argsstring>(const StreamingRetriever &amp;)=delete</argsstring>
+        <name>StreamingRetriever</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::StreamingRetriever</qualifiedname>
+        <param>
+          <type>const StreamingRetriever &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="214" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a9c40709d8c055178441a1989534a266d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref> &amp;</type>
+        <definition>StreamingRetriever &amp; themis::rag::streaming::StreamingRetriever::operator=</definition>
+        <argsstring>(const StreamingRetriever &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="215" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a08abba7d2117bf86ae93588247f8f7d1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::streaming::StreamingRetriever::StreamingRetriever</definition>
+        <argsstring>(StreamingRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>StreamingRetriever</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::StreamingRetriever</qualifiedname>
+        <param>
+          <type>StreamingRetriever &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="216" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad1f7018e9608ff7f3361c526532a98f3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref> &amp;</type>
+        <definition>StreamingRetriever &amp; themis::rag::streaming::StreamingRetriever::operator=</definition>
+        <argsstring>(StreamingRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="217" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a46697cfaa54194d381b4979c7c9f5135" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::streaming::StreamingRetriever::setDocumentAcceptedCallback</definition>
+        <argsstring>(DocumentAcceptedCallback cb)</argsstring>
+        <name>setDocumentAcceptedCallback</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::setDocumentAcceptedCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1streaming_1a52e9951aebaf27cf24478acd2d9002c2" kindref="member">DocumentAcceptedCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register callback invoked for each accepted document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Document Accepted Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="226" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac2efd64ddc9a4ee474b339de036f6a5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::streaming::StreamingRetriever::setDocumentSkippedCallback</definition>
+        <argsstring>(DocumentSkippedCallback cb)</argsstring>
+        <name>setDocumentSkippedCallback</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::setDocumentSkippedCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1streaming_1ac27063e57798dd34b0f31abbe866c085" kindref="member">DocumentSkippedCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register callback invoked for each skipped document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Document Skipped Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="231" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="208" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1aa86f837522a1d212bd89337ebe2dcc75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::streaming::StreamingRetriever::setWindowFullCallback</definition>
+        <argsstring>(WindowFullCallback cb)</argsstring>
+        <name>setWindowFullCallback</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::setWindowFullCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1streaming_1ad37cc7fac053b34cff9cf72ac1de3aec" kindref="member">WindowFullCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register callback invoked once the context window is full. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Window Full Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="236" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="218" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac2b4e381df0f323ef69f5892e8efa850" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result" kindref="compound">StreamingResult</ref></type>
+        <definition>StreamingResult themis::rag::streaming::StreamingRetriever::stream</definition>
+        <argsstring>(const std::string &amp;query, std::vector&lt; StreamedDocument &gt; candidates)</argsstring>
+        <name>stream</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::stream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &gt;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Stream documents from <computeroutput>candidates</computeroutput> into the context window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stream.</para>
+<para>Documents are processed in relevance order (highest first) when <ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab89fe9f7a7dfc8299c1304900fcf192f" kindref="member">StreamingRetrieverConfig::sort_by_relevance</ref> is true. Each accepted document triggers the <ref refid="namespacethemis_1_1rag_1_1streaming_1a52e9951aebaf27cf24478acd2d9002c2" kindref="member">DocumentAcceptedCallback</ref>. Streaming stops when the window is full or all candidates have been processed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query text (used for MMR if enabled). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate documents to stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Final streaming result with selection statistics.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), store(), THEMIS_INFO(), size(), filler(), erase(), std::remove_if(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="254" column="21" bodyfile="src/rag/streaming_retriever.cpp" bodystart="255" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a993e2f34a591f13a802caed8de766289" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::streaming::StreamingRetriever::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::cancel</qualifiedname>
+        <briefdescription>
+<para>Signal that the ongoing stream should stop after the current document. Safe to call from another thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="261" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="227" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac95e762fecac18773cfec12b0a0abf53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::streaming::StreamingRetriever::isStreaming</definition>
+        <argsstring>() const</argsstring>
+        <name>isStreaming</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::isStreaming</qualifiedname>
+        <briefdescription>
+<para>Return true if a stream is currently in progress. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="266" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="231" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a467655a9febc07dff99c1440c7641d81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref></type>
+        <definition>StreamingRetrieverConfig themis::rag::streaming::StreamingRetriever::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="272" column="30" bodyfile="src/rag/streaming_retriever.cpp" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a0f47c06b126a8497a671e084465298e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::streaming::StreamingRetriever::setConfig</definition>
+        <argsstring>(const StreamingRetrieverConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetriever::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="273" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="244" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Streams retrieved documents one at a time, filling the context window incrementally. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="normal">StreamingRetrieverConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_context_tokens<sp/>=<sp/>8192;</highlight></codeline>
+<codeline><highlight class="normal">cfg.sort_by_relevance<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">retriever.setDocumentAcceptedCallback(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StreamedDocument&amp;<sp/>doc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ContextWindowState&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>handle<sp/>newly<sp/>accepted<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(query,<sp/>candidates);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/streaming_retriever.h" line="204" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="204" bodyend="278"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a993e2f34a591f13a802caed8de766289" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a467655a9febc07dff99c1440c7641d81" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad1bc02bc934f84c12a755692fef9f724" prot="private" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac95e762fecac18773cfec12b0a0abf53" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>isStreaming</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a9c40709d8c055178441a1989534a266d" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad1f7018e9608ff7f3361c526532a98f3" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a0f47c06b126a8497a671e084465298e7" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a46697cfaa54194d381b4979c7c9f5135" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>setDocumentAcceptedCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac2efd64ddc9a4ee474b339de036f6a5d" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>setDocumentSkippedCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1aa86f837522a1d212bd89337ebe2dcc75" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>setWindowFullCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac2b4e381df0f323ef69f5892e8efa850" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>stream</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>StreamingRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a1f1f062e63fcd980fd8e2fe55cbed0d5" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>StreamingRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a08abba7d2117bf86ae93588247f8f7d1" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>StreamingRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad9588515743a5aff3f1229796a89a640" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetriever</scope><name>~StreamingRetriever</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

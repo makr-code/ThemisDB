@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_task_scheduler_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TaskScheduler::Config</compoundname>
+    <includes refid="task__scheduler_8h" local="no">task_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1acd4f732eafee8e99d312263411a41fe7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Config::max_concurrent_tasks</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_tasks</name>
+        <qualifiedname>themis::TaskScheduler::Config::max_concurrent_tasks</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="339" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1ab2ff9ad11a16c0f4bc84170586dc91ab" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::TaskScheduler::Config::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themis::TaskScheduler::Config::check_interval</qualifiedname>
+        <initializer>{std::chrono::seconds(10)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="340" column="35" bodyfile="include/scheduler/task_scheduler.h" bodystart="340" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1a49e2aba4d74b0a6c6f67ac6088a014cd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::Config::persist_tasks</definition>
+        <argsstring></argsstring>
+        <name>persist_tasks</name>
+        <qualifiedname>themis::TaskScheduler::Config::persist_tasks</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="341" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1a7e8c9c44fa7c178f306c502d43a0d48b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::Config::persistence_path</definition>
+        <argsstring></argsstring>
+        <name>persistence_path</name>
+        <qualifiedname>themis::TaskScheduler::Config::persistence_path</qualifiedname>
+        <initializer>= &quot;data/tasks&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="342" column="21" bodyfile="include/scheduler/task_scheduler.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1a5797e8e255853b5c30b04f22c025c040" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::Config::allow_task_overlap</definition>
+        <argsstring></argsstring>
+        <name>allow_task_overlap</name>
+        <qualifiedname>themis::TaskScheduler::Config::allow_task_overlap</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="343" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1a6a8bab24d1e6d47291696cb75be41634" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::Config::enable_audit_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_audit_logging</name>
+        <qualifiedname>themis::TaskScheduler::Config::enable_audit_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="346" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1a465067a2aa0edc53c7ec9f7f5103b7ad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::Config::enable_anomaly_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_anomaly_detection</name>
+        <qualifiedname>themis::TaskScheduler::Config::enable_anomaly_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="347" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1adb44696c5fed5506708298edc888470b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::Config::enable_gdpr_mode</definition>
+        <argsstring></argsstring>
+        <name>enable_gdpr_mode</name>
+        <qualifiedname>themis::TaskScheduler::Config::enable_gdpr_mode</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="348" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1a7e6ef458c7b5151f6b72892533944aee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TaskScheduler::Config::audit_log_path</definition>
+        <argsstring></argsstring>
+        <name>audit_log_path</name>
+        <qualifiedname>themis::TaskScheduler::Config::audit_log_path</qualifiedname>
+        <briefdescription>
+<para>Path for the audit log JSONL file. Empty string = use TaskAuditManager default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="350" column="21" bodyfile="include/scheduler/task_scheduler.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1ad4c551603d78ea179b45b23de1d4539c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::Config::enable_result_store</definition>
+        <argsstring></argsstring>
+        <name>enable_result_store</name>
+        <qualifiedname>themis::TaskScheduler::Config::enable_result_store</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="353" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1afb3f67ed5faaea64ad251b45f50b2709" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Config::result_store_max_results_per_task</definition>
+        <argsstring></argsstring>
+        <name>result_store_max_results_per_task</name>
+        <qualifiedname>themis::TaskScheduler::Config::result_store_max_results_per_task</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="354" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1ab69db318877669c6b9fed0eca0d1a7d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::Config::enable_dynamic_scaling</definition>
+        <argsstring></argsstring>
+        <name>enable_dynamic_scaling</name>
+        <qualifiedname>themis::TaskScheduler::Config::enable_dynamic_scaling</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable automatic concurrency scaling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="361" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1aa75a88eccb9b7805549ef1a0171e5a7c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Config::min_concurrent_tasks</definition>
+        <argsstring></argsstring>
+        <name>min_concurrent_tasks</name>
+        <qualifiedname>themis::TaskScheduler::Config::min_concurrent_tasks</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum worker slots (floor for scaling). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="362" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1aba23d7fe21a71f974b2f3819ec974df3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Config::max_concurrent_tasks_ceil</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_tasks_ceil</name>
+        <qualifiedname>themis::TaskScheduler::Config::max_concurrent_tasks_ceil</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Maximum worker slots (ceiling for scaling). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="363" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1a3364c3315d612fec20f2789fc3429c97" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Config::scale_up_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>scale_up_queue_depth</name>
+        <qualifiedname>themis::TaskScheduler::Config::scale_up_queue_depth</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Pending tasks threshold to trigger scale-up. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="364" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1ac55d20bc9e8340563a6d2b62ce7af6ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Config::scale_down_idle_ticks</definition>
+        <argsstring></argsstring>
+        <name>scale_down_idle_ticks</name>
+        <qualifiedname>themis::TaskScheduler::Config::scale_down_idle_ticks</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Consecutive idle ticks before scale-down. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="365" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1ade2a1fe9f7a833aa851b3fab4f740de8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TaskScheduler::Config::sandbox_execution</definition>
+        <argsstring></argsstring>
+        <name>sandbox_execution</name>
+        <qualifiedname>themis::TaskScheduler::Config::sandbox_execution</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>When true, wrap user-provided task functions in ModuleSandbox. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="368" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_config_1a9ed91231146ed306a047984551038aa2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::TaskScheduler::Config::aging_threshold</definition>
+        <argsstring></argsstring>
+        <name>aging_threshold</name>
+        <qualifiedname>themis::TaskScheduler::Config::aging_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Ticks before a skipped task&apos;s priority is boosted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="375" column="18" bodyfile="include/scheduler/task_scheduler.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the task scheduler. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/task_scheduler.h" line="338" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="338" bodyend="376"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1a9ed91231146ed306a047984551038aa2" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>aging_threshold</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1a5797e8e255853b5c30b04f22c025c040" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>allow_task_overlap</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1a7e6ef458c7b5151f6b72892533944aee" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>audit_log_path</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1ab2ff9ad11a16c0f4bc84170586dc91ab" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>check_interval</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1a465067a2aa0edc53c7ec9f7f5103b7ad" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>enable_anomaly_detection</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1a6a8bab24d1e6d47291696cb75be41634" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>enable_audit_logging</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1ab69db318877669c6b9fed0eca0d1a7d7" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>enable_dynamic_scaling</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1adb44696c5fed5506708298edc888470b" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>enable_gdpr_mode</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1ad4c551603d78ea179b45b23de1d4539c" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>enable_result_store</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1acd4f732eafee8e99d312263411a41fe7" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>max_concurrent_tasks</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1aba23d7fe21a71f974b2f3819ec974df3" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>max_concurrent_tasks_ceil</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1aa75a88eccb9b7805549ef1a0171e5a7c" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>min_concurrent_tasks</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1a49e2aba4d74b0a6c6f67ac6088a014cd" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>persist_tasks</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1a7e8c9c44fa7c178f306c502d43a0d48b" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>persistence_path</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1afb3f67ed5faaea64ad251b45f50b2709" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>result_store_max_results_per_task</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1ade2a1fe9f7a833aa851b3fab4f740de8" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>sandbox_execution</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1ac55d20bc9e8340563a6d2b62ce7af6ae" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>scale_down_idle_ticks</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_config_1a3364c3315d612fec20f2789fc3429c97" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Config</scope><name>scale_up_queue_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

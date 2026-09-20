@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_opt_out_of_sale" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::governance::OptOutOfSale</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_rule" prot="public" virt="non-virtual">themis::governance::IComplianceRule</basecompoundref>
+    <includes refid="ccpa__rules_8h" local="no">ccpa_rules.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opt_out_of_sale_1a37e8193e425a6b4272c42a1f29ac2d49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OptOutOfSale::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::OptOutOfSale::id</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a01395f8af99fa20ce9be6b77cd3b5557">id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="109" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opt_out_of_sale_1a7473ba8b4fb29fc645a9234160b18ec9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OptOutOfSale::framework</definition>
+        <argsstring>() const override</argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::OptOutOfSale::framework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1ae95c843e2f550ded2eeb7ad923960aba">framework</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="110" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opt_out_of_sale_1a7107259aa24f4ba2542d5acd4b5ab6bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OptOutOfSale::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::OptOutOfSale::description</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1af1ff57617e2151936aa46d9a4d6d39b2">description</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="111" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opt_out_of_sale_1a33a0e8c77fcbab067160119403faf2ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::OptOutOfSale::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::OptOutOfSale::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a96562e0417b8471400cfcf2ea185a7ea">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="116" column="10" bodyfile="src/governance/ccpa_rules.cpp" bodystart="81" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::OptOutOfSale</label>
+        <link refid="classthemis_1_1governance_1_1_opt_out_of_sale"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::OptOutOfSale</label>
+        <link refid="classthemis_1_1governance_1_1_opt_out_of_sale"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/ccpa_rules.h" line="107" column="1" bodyfile="include/governance/ccpa_rules.h" bodystart="107" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_opt_out_of_sale_1a7107259aa24f4ba2542d5acd4b5ab6bb" prot="public" virt="virtual"><scope>themis::governance::OptOutOfSale</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_opt_out_of_sale_1a33a0e8c77fcbab067160119403faf2ce" prot="public" virt="virtual"><scope>themis::governance::OptOutOfSale</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_opt_out_of_sale_1a7473ba8b4fb29fc645a9234160b18ec9" prot="public" virt="virtual"><scope>themis::governance::OptOutOfSale</scope><name>framework</name></member>
+      <member refid="classthemis_1_1governance_1_1_opt_out_of_sale_1a37e8193e425a6b4272c42a1f29ac2d49" prot="public" virt="virtual"><scope>themis::governance::OptOutOfSale</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_rule_1a6f34423b2bbde587233879f221cb63b8" prot="public" virt="virtual"><scope>themis::governance::OptOutOfSale</scope><name>~IComplianceRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

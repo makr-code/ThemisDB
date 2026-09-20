@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="api__auth__config_8h" kind="file" language="C++">
+    <compoundname>api_auth_config.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="api__security__audit_8h" local="yes">include/server/api_security_audit.h</includedby>
+    <includedby refid="api__auth__config_8cpp" local="yes">src/server/api_auth_config.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/api_auth_config.h</label>
+        <link refid="api__auth__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/api_auth_config.h</label>
+        <link refid="api__auth__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/server/api_security_audit.h</label>
+        <link refid="api__security__audit_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/server/api_auth_config.cpp</label>
+        <link refid="api__auth__config_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/server/api_security_audit.cpp</label>
+        <link refid="api__security__audit_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1server_1_1_endpoint_auth_config" prot="public">themis::server::EndpointAuthConfig</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_api_auth_config" prot="public">themis::server::ApiAuthConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1server_1_1_endpoint_auth_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_endpoint_auth_config" kindref="compound">EndpointAuthConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Endpoint<sp/>pattern<sp/>(e.g.,<sp/>&quot;/entities/*&quot;,<sp/>&quot;/query&quot;,<sp/>&quot;/api/pki/*&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1server_1_1_endpoint_auth_config_1a7e88026b4aebed81fbece025bd033cec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_endpoint_auth_config_1a7e88026b4aebed81fbece025bd033cec" kindref="member">endpoint_pattern</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP<sp/>method<sp/>(e.g.,<sp/>&quot;GET&quot;,<sp/>&quot;POST&quot;,<sp/>&quot;PUT&quot;,<sp/>&quot;DELETE&quot;,<sp/>&quot;*&quot;<sp/>for<sp/>all<sp/>methods)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1server_1_1_endpoint_auth_config_1acb7af356231b7db2f9548b148d8713f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_endpoint_auth_config_1acb7af356231b7db2f9548b148d8713f2" kindref="member">http_method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Required<sp/>scope<sp/>for<sp/>this<sp/>endpoint<sp/>(e.g.,<sp/>&quot;data:read&quot;,<sp/>&quot;data:write&quot;,<sp/>&quot;admin&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1server_1_1_endpoint_auth_config_1ad913aced78edf627dfbc377a57f29b61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_endpoint_auth_config_1ad913aced78edf627dfbc377a57f29b61" kindref="member">required_scope</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Action<sp/>description<sp/>for<sp/>policy<sp/>engine<sp/>(e.g.,<sp/>&quot;read&quot;,<sp/>&quot;write&quot;,<sp/>&quot;delete&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1server_1_1_endpoint_auth_config_1a7f6e6f3fc9bfc7d52804a49d4b87d8d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_endpoint_auth_config_1a7f6e6f3fc9bfc7d52804a49d4b87d8d9" kindref="member">action</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>authentication<sp/>is<sp/>required<sp/>(false<sp/>=<sp/>public<sp/>endpoint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1server_1_1_endpoint_auth_config_1a2f995d7db472236fdaa01cf69a2af972" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_endpoint_auth_config_1a2f995d7db472236fdaa01cf69a2af972" kindref="member">auth_required</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-endpoint<sp/>rate<sp/>limit<sp/>(requests<sp/>per<sp/>minute,<sp/>0<sp/>=<sp/>no<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1server_1_1_endpoint_auth_config_1ad52c77937f855782304e192a0e9075af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_endpoint_auth_config_1ad52c77937f855782304e192a0e9075af" kindref="member">rate_limit_per_minute</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Burst<sp/>capacity<sp/>for<sp/>rate<sp/>limiting<sp/>(0<sp/>=<sp/>use<sp/>global<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1server_1_1_endpoint_auth_config_1aecfd56b2d66f75c095fe4fcfc31a4f6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_endpoint_auth_config_1aecfd56b2d66f75c095fe4fcfc31a4f6a" kindref="member">rate_limit_burst</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1server_1_1_api_auth_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1server_1_1_api_auth_config_1ab0166e8bb016b04d4136524ae919a5fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1ab0166e8bb016b04d4136524ae919a5fd" kindref="member">auth_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>authentication<sp/>globally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1server_1_1_api_auth_config_1a6285e495efc597d64429cf2805d5cebe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1a6285e495efc597d64429cf2805d5cebe" kindref="member">rate_limiting_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>rate<sp/>limiting<sp/>globally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1server_1_1_api_auth_config_1a7e9eb2fa2dc116e6bbfb782b79062a2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1a7e9eb2fa2dc116e6bbfb782b79062a2b" kindref="member">global_rate_limit_per_minute</ref><sp/>=<sp/>100;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>rate<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1server_1_1_api_auth_config_1add01296656eb669011a8f59bfac7462b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1add01296656eb669011a8f59bfac7462b" kindref="member">global_rate_limit_burst</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>burst<sp/>capacity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit<sp/>endpoint<sp/>rate<sp/>limiting<sp/>(more<sp/>restrictive<sp/>by<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1server_1_1_api_auth_config_1a56e4243ba2123197423535310ab37f81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1a56e4243ba2123197423535310ab37f81" kindref="member">audit_rate_limit_per_minute</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whitelist<sp/>IPs<sp/>(no<sp/>authentication<sp/>or<sp/>rate<sp/>limiting)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1server_1_1_api_auth_config_1a2a2a740a81ad5234620d6ba7f7d1085c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1a2a2a740a81ad5234620d6ba7f7d1085c" kindref="member">whitelist_ips</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-endpoint<sp/>configurations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1server_1_1_api_auth_config_1a1576977b8a41aca09e9330db601c1ccc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EndpointAuthConfig&gt;<sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1a1576977b8a41aca09e9330db601c1ccc" kindref="member">endpoint_configs</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;EndpointAuthConfig&gt;<sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1a3dad7b08fd5cec5c12302b3a0f5b02c2" kindref="member">getEndpointConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref><sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1a39a0fc96b0a819c686cecb6297301f42" kindref="member">createSecureDefaults</ref>();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref><sp/><ref refid="structthemis_1_1server_1_1_api_auth_config_1abd3f6bedb190951b42116f3a1c9a5002" kindref="member">createDevDefaults</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/api_auth_config.h"/>
+  </compounddef>
+</doxygen>

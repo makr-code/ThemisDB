@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ablation__framework_8h" kind="file" language="C++">
+    <compoundname>ablation_framework.h</compoundname>
+    <includes refid="retrieval__metrics_8h" local="yes">retrieval_metrics.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ablation__framework_8cc" local="yes">src/evaluation/src/ablation_framework.cc</includedby>
+    <includedby refid="test__evaluation__ablation__framework__focused_8cpp" local="yes">tests/evaluation/test_evaluation_ablation_framework_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>src/evaluation/include/ablation_framework.h</label>
+        <link refid="ablation__framework_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>retrieval_metrics.h</label>
+        <link refid="retrieval__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/evaluation/include/ablation_framework.h</label>
+        <link refid="ablation__framework_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/evaluation/src/ablation_framework.cc</label>
+        <link refid="ablation__framework_8cc"/>
+      </node>
+      <node id="3">
+        <label>tests/evaluation/test_evaluation_ablation_framework_focused.cpp</label>
+        <link refid="test__evaluation__ablation__framework__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_config" prot="public">themis::evaluation::AblationConfig</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_query" prot="public">themis::evaluation::AblationQuery</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_result" prot="public">themis::evaluation::AblationResult</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_report" prot="public">themis::evaluation::AblationReport</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_ablation_error" prot="public">themis::evaluation::AblationError</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_ablation_runner" prot="public">themis::evaluation::AblationRunner</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment" prot="private">themis::evaluation::AblationRunner::Experiment</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1evaluation">themis::evaluation</innernamespace>
+    <briefdescription>
+<para>Ablation study API for the layered hybrid retrieval architecture. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the typed contract for running and comparing ablation experiments across the ThemisDB retrieval stack. An ablation study systematically disables or varies one architectural layer at a time to quantify its contribution to overall retrieval quality.</para>
+<sect1 id="ablation__framework_8h_1autotoc_md0_1s1"><sect2 id="ablation__framework_8h_1autotoc_md0">
+<title>Supported ablation dimensions</title><para><orderedlist>
+<listitem><para><bold>Retrieval path</bold> — ANN-only vs ANN+Tensor vs ANN+Tensor+Graph.</para>
+</listitem><listitem><para><bold>Tensor freshness</bold> — fresh vs stale tensor summaries.</para>
+</listitem><listitem><para><bold>Update path</bold> — patch path vs full rebuild path.</para>
+</listitem><listitem><para><bold>Compute backend</bold> — CPU SIMD vs GPU refinement.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="ablation__framework_8h_1autotoc_md1_1s1"><sect2 id="ablation__framework_8h_1autotoc_md1">
+<title>Usage pattern</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">AblationConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.path_variant<sp/>=<sp/>PathVariant::AnnTensorGraph;</highlight></codeline>
+<codeline><highlight class="normal">cfg.freshness_variant<sp/>=<sp/>FreshnessVariant::Fresh;</highlight></codeline>
+<codeline><highlight class="normal">cfg.update_variant<sp/>=<sp/>UpdateVariant::Patch;</highlight></codeline>
+<codeline><highlight class="normal">cfg.compute_variant<sp/>=<sp/>ComputeVariant::Gpu;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">AblationRunner<sp/>runner;</highlight></codeline>
+<codeline><highlight class="normal">runner.addExperiment(</highlight><highlight class="stringliteral">&quot;ann+tensor+graph/fresh&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">cfg.path_variant<sp/>=<sp/>PathVariant::AnnOnly;</highlight></codeline>
+<codeline><highlight class="normal">runner.addExperiment(</highlight><highlight class="stringliteral">&quot;ann-only/baseline&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">AblationReport<sp/>report<sp/>=<sp/>runner.run(query_batch);</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="ablation__framework_8h_1autotoc_md2_1s1"><sect2 id="ablation__framework_8h_1autotoc_md2">
+<title>Error contract</title><para>AblationError is thrown when an experiment configuration is inconsistent, when the query batch is empty, or when metrics cannot be computed due to missing ground-truth data.</para>
+</sect2></sect1>
+<sect1 id="ablation__framework_8h_1autotoc_md3_1s1"><sect2 id="ablation__framework_8h_1autotoc_md3">
+<title>Thread safety</title><para>AblationRunner is NOT thread-safe. Experiments are registered and executed sequentially. Callers must synchronize externally when sharing a runner across threads.</para>
+<para><simplesect kind="see"><para><ref refid="retrieval__metrics_8h" kindref="compound">src/evaluation/include/retrieval_metrics.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>EVALUATION_FRAMEWORK.md </para>
+</simplesect>
+<simplesect kind="see"><para>docs/EPIC2_QUERY_PLANNER.md </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="retrieval__metrics_8h" kindref="compound">retrieval_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1evaluation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1evaluation" kindref="compound">evaluation</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ablation<sp/>dimension<sp/>enumerations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018" kindref="member">PathVariant</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a3e68b850f1a019ba9d2201c9cd484dd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a3e68b850f1a019ba9d2201c9cd484dd4" kindref="member">AnnOnly</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a897795e8f83035e14a64f027a8653a07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a897795e8f83035e14a64f027a8653a07" kindref="member">AnnTensor</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a8dfa4f3f3946a828bbe52e7e52005d47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a8dfa4f3f3946a828bbe52e7e52005d47" kindref="member">AnnTensorGraph</ref><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662" kindref="member">FreshnessVariant</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662afe8965a9748c1bc48af1711be837124e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662afe8965a9748c1bc48af1711be837124e" kindref="member">Fresh</ref><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662af1ac273d3c6d8e6489bf332819a2f650" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662af1ac273d3c6d8e6489bf332819a2f650" kindref="member">Stale</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75bef" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75bef" kindref="member">UpdateVariant</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa156e10596fdc76ee5300bab931d89c0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa156e10596fdc76ee5300bab931d89c0f" kindref="member">Patch</ref><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa1c6aac0280240c97962b30423f1f852b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa1c6aac0280240c97962b30423f1f852b" kindref="member">Rebuild</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210" kindref="member">ComputeVariant</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a54c82ef76ecbbd4c2293e09bae01b54e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a54c82ef76ecbbd4c2293e09bae01b54e" kindref="member">Cpu</ref><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a3432ca64f06615abf07ab44c10cada38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a3432ca64f06615abf07ab44c10cada38" kindref="member">Gpu</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ablation<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1evaluation_1_1_ablation_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_ablation_config" kindref="compound">AblationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1evaluation_1_1_ablation_config_1a55b4da9619bb610acaebcc54e950d91c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018" kindref="member">PathVariant</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config_1a55b4da9619bb610acaebcc54e950d91c" kindref="member">path_variant</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a3e68b850f1a019ba9d2201c9cd484dd4" kindref="member">PathVariant::AnnOnly</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1evaluation_1_1_ablation_config_1acfbad7488adf18cdb5e5ae18856ad417" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662" kindref="member">FreshnessVariant</ref><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config_1acfbad7488adf18cdb5e5ae18856ad417" kindref="member">freshness_variant</ref><sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662afe8965a9748c1bc48af1711be837124e" kindref="member">FreshnessVariant::Fresh</ref>;<sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1evaluation_1_1_ablation_config_1a5c37ffe6083835d003e927d611da41dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75bef" kindref="member">UpdateVariant</ref><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config_1a5c37ffe6083835d003e927d611da41dc" kindref="member">update_variant</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa156e10596fdc76ee5300bab931d89c0f" kindref="member">UpdateVariant::Patch</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1evaluation_1_1_ablation_config_1a848e63c2257cb68d9d68ea90027acf08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210" kindref="member">ComputeVariant</ref><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config_1a848e63c2257cb68d9d68ea90027acf08" kindref="member">compute_variant</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a54c82ef76ecbbd4c2293e09bae01b54e" kindref="member">ComputeVariant::Cpu</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1evaluation_1_1_ablation_config_1a487c706d59e4b32758263d546b059b1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config_1a487c706d59e4b32758263d546b059b1a" kindref="member">max_artifact_age_ms</ref>{0};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1evaluation_1_1_ablation_config_1aed6e1b9b096f41e1a45f09edba3c08fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config_1aed6e1b9b096f41e1a45f09edba3c08fc" kindref="member">stale_artifact_age_ms</ref>{0};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1evaluation_1_1_ablation_config_1a2a347e5183f0af786c693ea4e764b055" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config_1a2a347e5183f0af786c693ea4e764b055" kindref="member">gpu_available</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1evaluation_1_1_ablation_config_1aa60bcc81b91f0a870c61dc7871a939ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config_1aa60bcc81b91f0a870c61dc7871a939ad" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ablation<sp/>query<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1evaluation_1_1_ablation_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_ablation_query" kindref="compound">AblationQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1evaluation_1_1_ablation_query_1a4b6fe394c2c66caa06a0efd4b8577311" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_query_1a4b6fe394c2c66caa06a0efd4b8577311" kindref="member">query_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1evaluation_1_1_ablation_query_1a5c1d69ff1876443a4046a7764cf41378" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RankedResult&gt;<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_query_1a5c1d69ff1876443a4046a7764cf41378" kindref="member">results</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1evaluation_1_1_ablation_query_1ac6463cb1cfdbfc28b562b09654a6ade2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_query_1ac6463cb1cfdbfc28b562b09654a6ade2" kindref="member">ground_truth</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1evaluation_1_1_ablation_query_1a3725eaeb3ce4fb4df0452011e3eb7ffa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_query_1a3725eaeb3ce4fb4df0452011e3eb7ffa" kindref="member">k</ref>{10};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1evaluation_1_1_ablation_query_1a873f739c3e68468d33aac358095fbd93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_query_1a873f739c3e68468d33aac358095fbd93" kindref="member">total_candidates</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1evaluation_1_1_ablation_query_1aebd9737da17d81e4163cd50a20042848" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kindref="compound">TensorGraphSnapshot</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_query_1aebd9737da17d81e4163cd50a20042848" kindref="member">snapshot</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ablation<sp/>result<sp/>for<sp/>a<sp/>single<sp/>experiment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1evaluation_1_1_ablation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_ablation_result" kindref="compound">AblationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1evaluation_1_1_ablation_result_1ab85d50bc6afc8295ce295c6e8e9cb1c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1ab85d50bc6afc8295ce295c6e8e9cb1c5" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1evaluation_1_1_ablation_result_1a4f7d0fb6aa9a5bb630071f1669afae40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config" kindref="compound">AblationConfig</ref><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1a4f7d0fb6aa9a5bb630071f1669afae40" kindref="member">config</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Aggregate<sp/>metric<sp/>means<sp/>over<sp/>all<sp/>queries<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1evaluation_1_1_ablation_result_1afeb457308929be805fe13b99093b8fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1afeb457308929be805fe13b99093b8fb7" kindref="member">mean_recall_at_k</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1evaluation_1_1_ablation_result_1ab960e69687473e5e017285e1ca7459df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1ab960e69687473e5e017285e1ca7459df" kindref="member">mean_precision_at_k</ref>{0.0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1evaluation_1_1_ablation_result_1a8cb7d06f8166465ea0351159b013f832" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1a8cb7d06f8166465ea0351159b013f832" kindref="member">mean_ndcg_at_k</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1evaluation_1_1_ablation_result_1af548bcc8c55a3e0f950efeeac80930fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1af548bcc8c55a3e0f950efeeac80930fe" kindref="member">mean_mrr</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1evaluation_1_1_ablation_result_1acca7ad8569d2bea2a491f1021bfe2c4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1acca7ad8569d2bea2a491f1021bfe2c4a" kindref="member">mean_candidate_reduction</ref>{0.0};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1evaluation_1_1_ablation_result_1a2ee852f4fe37d5330480a07ab7cbe501" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" kindref="compound">TensorGraphRuntimeMetrics</ref><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1a2ee852f4fe37d5330480a07ab7cbe501" kindref="member">tensor_graph</ref>;<sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1evaluation_1_1_ablation_result_1a0e8d21e9ab884446e12cad02472ce2d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1a0e8d21e9ab884446e12cad02472ce2d6" kindref="member">query_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1evaluation_1_1_ablation_result_1aedfb7fc4051b6ebf0a34c66611984f3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1aedfb7fc4051b6ebf0a34c66611984f3b" kindref="member">error_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1evaluation_1_1_ablation_result_1a3e74c088fb2057ea654e6bddcfc659cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1a3e74c088fb2057ea654e6bddcfc659cc" kindref="member">gpu_fallback_occurred</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1evaluation_1_1_ablation_result_1ad25cbcf7bbf3da36869fcac624278aaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1ad25cbcf7bbf3da36869fcac624278aaa" kindref="member">has_unrecovered_false_negatives</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1evaluation_1_1_ablation_result_1ab38e65b9e9e01a90399eb0573ecaed1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1ab38e65b9e9e01a90399eb0573ecaed1f" kindref="member">has_unsafe_residual</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1evaluation_1_1_ablation_result_1ae149ee70eb17a1d7233f181410698444" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result_1ae149ee70eb17a1d7233f181410698444" kindref="member">per_query_errors</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ablation<sp/>report<sp/>—<sp/>comparison<sp/>across<sp/>experiments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1evaluation_1_1_ablation_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_ablation_report" kindref="compound">AblationReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1evaluation_1_1_ablation_report_1aad660f0a64f68f1b26a91ae16293a090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AblationResult&gt;<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_report_1aad660f0a64f68f1b26a91ae16293a090" kindref="member">results</ref>;<sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_report_1a21425b39c452ac7f8682e88cfd7a9555" kindref="member">bestByRecall</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_report_1a35f62266f14a6edd689a4a3d821caa06" kindref="member">bestByNdcg</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_report_1ad90606229856378201d2c326bd096161" kindref="member">bestByFallbackEfficiency</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_report_1a80c19cb49e0ab54aba9da6711ac7aed0" kindref="member">recallGain</ref>(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>a,<sp/>std::string_view<sp/>b)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_report_1a36b476c88328cc1844d2f513e99324b7" kindref="member">ndcgGain</ref>(</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>a,<sp/>std::string_view<sp/>b)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AblationError</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1evaluation_1_1_ablation_error" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_error_1a59a0b8485be0b7b482e7cd2d4697cbd5" kindref="member">AblationError</ref><sp/>:<sp/>public<sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1evaluation_1_1_ablation_error_1a59a0b8485be0b7b482e7cd2d4697cbd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_error_1a59a0b8485be0b7b482e7cd2d4697cbd5" kindref="member">AblationError</ref>(std::string_view<sp/>what)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(std::string{what})<sp/>{}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AblationRunner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1evaluation_1_1_ablation_runner" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref><sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1evaluation_1_1_ablation_runner_1af397a53f12ae5426d9cfca7704c2cea7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1af397a53f12ae5426d9cfca7704c2cea7" kindref="member">AblationRunner</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1evaluation_1_1_ablation_runner_1aff942fb94750c5acc27df40cc85b5100" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref>&amp;<sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1aff942fb94750c5acc27df40cc85b5100" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1evaluation_1_1_ablation_runner_1a54d964c52ef1d22c217d69aa7f13a322" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a54d964c52ef1d22c217d69aa7f13a322" kindref="member">AblationRunner</ref>(<ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1evaluation_1_1_ablation_runner_1ac1509046330b765861ae1462bc239034" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref>&amp;<sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1ac1509046330b765861ae1462bc239034" kindref="member">operator=</ref>(<ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a5287423b5d4478a562cd3a27988842ca" kindref="member">addExperiment</ref>(std::string<sp/>name,<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config" kindref="compound">AblationConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1abea93a2ac868fd8e6d1f73711648925d" kindref="member">experimentCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_report" kindref="compound">AblationReport</ref><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a41a3089f4b3a3d7634b4898ad577391a" kindref="member">run</ref>(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1evaluation_1_1_ablation_query" kindref="compound">AblationQuery</ref>&gt;&amp;<sp/>queries,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_residual<sp/>=<sp/>0.10)<sp/>const;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a11e8d7237b0407d632183d9deb1b9ecb" kindref="member">reset</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>Experiment<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/>name;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_config" kindref="compound">AblationConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Experiment&gt;<sp/>experiments_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1evaluation_1_1_ablation_result" kindref="compound">AblationResult</ref><sp/>runExperiment(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Experiment&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exp,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;AblationQuery&gt;&amp;<sp/><sp/>queries,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_residual)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/evaluation/include/ablation_framework.h"/>
+  </compounddef>
+</doxygen>

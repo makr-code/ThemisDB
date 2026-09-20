@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_fairness_detector_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::FairnessDetectorConfig</compoundname>
+    <includes refid="fairness__detector_8h" local="no">fairness_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a1f8c11daf352807ae992d39aff4bbcff" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::FairnessDetectorConfig::bias_threshold</definition>
+        <argsstring></argsstring>
+        <name>bias_threshold</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::bias_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>Overall bias score threshold for flagging (0.0–1.0); default 0.6. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="32" column="12" bodyfile="include/rag/fairness_detector.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a51d466107fac1fb6663946f9a466d712" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FairnessDetectorConfig::detect_gender_bias</definition>
+        <argsstring></argsstring>
+        <name>detect_gender_bias</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::detect_gender_bias</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable gender bias detection (PCA-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="35" column="10" bodyfile="include/rag/fairness_detector.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a038e9c70432cf9376b5096a3af5b79d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FairnessDetectorConfig::detect_occupational_bias</definition>
+        <argsstring></argsstring>
+        <name>detect_occupational_bias</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::detect_occupational_bias</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable occupational stereotype detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="38" column="10" bodyfile="include/rag/fairness_detector.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a5a128aa4762e3c0685b1d94418349782" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FairnessDetectorConfig::detect_ethnicity_bias</definition>
+        <argsstring></argsstring>
+        <name>detect_ethnicity_bias</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::detect_ethnicity_bias</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable ethnicity/cultural bias detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="41" column="10" bodyfile="include/rag/fairness_detector.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a7220daddf47466fb0c0da16e4baacea2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FairnessDetectorConfig::detect_intersectional_bias</definition>
+        <argsstring></argsstring>
+        <name>detect_intersectional_bias</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::detect_intersectional_bias</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable intersectional (compound) bias detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="44" column="10" bodyfile="include/rag/fairness_detector.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a1ef9e27a99d9740e6f2778f9e482f961" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::FairnessDetectorConfig::embedding_model_path</definition>
+        <argsstring></argsstring>
+        <name>embedding_model_path</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::embedding_model_path</qualifiedname>
+        <briefdescription>
+<para>Path to word embeddings (GloVe/FastText) for PCA projection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="47" column="17" bodyfile="include/rag/fairness_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a1ada617d5821cef362cf29e0c2e8fee5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::FairnessDetectorConfig::embedding_dimension</definition>
+        <argsstring></argsstring>
+        <name>embedding_dimension</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::embedding_dimension</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Target embedding dimension (typically 300). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="50" column="12" bodyfile="include/rag/fairness_detector.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a8bb554813f326f2fbe82a0d90f781010" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::FairnessDetectorConfig::max_doc_length</definition>
+        <argsstring></argsstring>
+        <name>max_doc_length</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::max_doc_length</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum document length for bias analysis (truncate if larger). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="53" column="12" bodyfile="include/rag/fairness_detector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_fairness_detector_config_1a198118677b09b2c632c92bb37f4d33eb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::FairnessDetectorConfig::min_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_confidence</name>
+        <qualifiedname>themis::rag::FairnessDetectorConfig::min_confidence</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Minimum confidence threshold for flagging (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/fairness_detector.h" line="56" column="12" bodyfile="include/rag/fairness_detector.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_fairness_detector" kindref="compound">FairnessDetector</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls bias detection thresholds, which bias types to check, and optional filtering behavior. </para>
+    </detaileddescription>
+    <location file="include/rag/fairness_detector.h" line="30" column="1" bodyfile="include/rag/fairness_detector.h" bodystart="30" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a1f8c11daf352807ae992d39aff4bbcff" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>bias_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a5a128aa4762e3c0685b1d94418349782" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>detect_ethnicity_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a51d466107fac1fb6663946f9a466d712" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>detect_gender_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a7220daddf47466fb0c0da16e4baacea2" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>detect_intersectional_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a038e9c70432cf9376b5096a3af5b79d8" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>detect_occupational_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a1ada617d5821cef362cf29e0c2e8fee5" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>embedding_dimension</name></member>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a1ef9e27a99d9740e6f2778f9e482f961" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>embedding_model_path</name></member>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a8bb554813f326f2fbe82a0d90f781010" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>max_doc_length</name></member>
+      <member refid="structthemis_1_1rag_1_1_fairness_detector_config_1a198118677b09b2c632c92bb37f4d33eb" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetectorConfig</scope><name>min_confidence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

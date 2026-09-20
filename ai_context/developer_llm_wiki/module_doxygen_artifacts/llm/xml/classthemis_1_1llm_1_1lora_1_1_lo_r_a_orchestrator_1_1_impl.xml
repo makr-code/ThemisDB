@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAOrchestrator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a71a8e6cd3f634967c214383104a68643" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::lora::LoRAOrchestrator::Impl::is_initialized</definition>
+        <argsstring></argsstring>
+        <name>is_initialized</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::is_initialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="84" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a4d14caa90116a07411cc7079511def62" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::Impl::advanced_enabled</definition>
+        <argsstring></argsstring>
+        <name>advanced_enabled</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::advanced_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="85" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1ad4ecdfa6f149bb742834d9076f9eede1" prot="public" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::llm::lora::LoRAOrchestrator::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="86" column="31" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a91906271db454d4300ebfd973433fef8" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_info" kindref="compound">AdapterInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AdapterInfo&gt; themis::llm::lora::LoRAOrchestrator::Impl::adapters</definition>
+        <argsstring></argsstring>
+        <name>adapters</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::adapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="87" column="24" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a821a63ca1a814f5b65bda231b86e7840" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::llm::lora::LoRAOrchestrator::Impl::versions</definition>
+        <argsstring></argsstring>
+        <name>versions</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::versions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="88" column="24" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a9fc9652aa84bc3e42ac34785ca11889e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info" kindref="compound">JobInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, JobInfo&gt; themis::llm::lora::LoRAOrchestrator::Impl::jobs</definition>
+        <argsstring></argsstring>
+        <name>jobs</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::jobs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="89" column="24" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a090ee829a6e3335f5dd7193aa2ae0af4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a329453cda3ca3d7402fea73b141ba358" kindref="member">EventCallback</ref> &gt;</type>
+        <definition>std::vector&lt;EventCallback&gt; themis::llm::lora::LoRAOrchestrator::Impl::callbacks</definition>
+        <argsstring></argsstring>
+        <name>callbacks</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::callbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="90" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a2f4426a1cd3f0ade2ba6a635aba14204" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" kindref="compound">LoRAStorageService</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LoRAStorageService&gt; themis::llm::lora::LoRAOrchestrator::Impl::storage_service</definition>
+        <argsstring></argsstring>
+        <name>storage_service</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::storage_service</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="93" column="21" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a56d0997d2520b7a45441ccc7ea0b19bc" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker" kindref="compound">AdapterConsistencyChecker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdapterConsistencyChecker&gt; themis::llm::lora::LoRAOrchestrator::Impl::consistency_checker</definition>
+        <argsstring></argsstring>
+        <name>consistency_checker</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::consistency_checker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="94" column="21" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a6578dbef4a9923dce8a9ff76a7fd3585" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager" kindref="compound">LoRAProvenanceManager</ref></type>
+        <definition>LoRAProvenanceManager themis::llm::lora::LoRAOrchestrator::Impl::provenance_mgr</definition>
+        <argsstring></argsstring>
+        <name>provenance_mgr</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::provenance_mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="97" column="27" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1aa817de08c41567500af32b38370319a8" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor" kindref="compound">themis::llm::DecisionRecordYamlProcessor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::llm::DecisionRecordYamlProcessor&gt; themis::llm::lora::LoRAOrchestrator::Impl::dr_processor</definition>
+        <argsstring></argsstring>
+        <name>dr_processor</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::dr_processor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="100" column="21" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1af8f7cbef9252ac1ce5a41e6e2daa52a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAOrchestrator::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="83" column="5" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::LoRAOrchestrator::Impl</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>provenance_mgr</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LoRAProvenanceManager</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="81" column="1" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="81" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a91906271db454d4300ebfd973433fef8" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>adapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a4d14caa90116a07411cc7079511def62" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>advanced_enabled</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a090ee829a6e3335f5dd7193aa2ae0af4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>callbacks</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a56d0997d2520b7a45441ccc7ea0b19bc" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>consistency_checker</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1aa817de08c41567500af32b38370319a8" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>dr_processor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1af8f7cbef9252ac1ce5a41e6e2daa52a5" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a71a8e6cd3f634967c214383104a68643" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>is_initialized</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a9fc9652aa84bc3e42ac34785ca11889e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>jobs</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a6578dbef4a9923dce8a9ff76a7fd3585" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>provenance_mgr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1ad4ecdfa6f149bb742834d9076f9eede1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>state_mutex</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a2f4426a1cd3f0ade2ba6a635aba14204" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>storage_service</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl_1a821a63ca1a814f5b65bda231b86e7840" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Impl</scope><name>versions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

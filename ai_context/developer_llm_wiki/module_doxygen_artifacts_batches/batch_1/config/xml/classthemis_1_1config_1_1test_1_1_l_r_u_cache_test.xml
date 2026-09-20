@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_l_r_u_cache_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::LRUCacheTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_l_r_u_cache_test_1af08c966994e5807c030179d538723fe2" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1config_1_1_l_r_u_cache_with_t_t_l" kindref="compound">LRUCacheWithTTL</ref>&lt; std::string, int &gt;</type>
+        <definition>LRUCacheWithTTL&lt;std::string, int&gt; themis::config::test::LRUCacheTest::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::config::test::LRUCacheTest::cache_</qualifiedname>
+        <initializer>{4, 60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_coverage.cpp" line="46" column="21" bodyfile="tests/config/test_config_coverage.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::LRUCacheTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_l_r_u_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::config::LRUCacheWithTTL&lt; std::string, int &gt;</label>
+        <link refid="classthemis_1_1config_1_1_l_r_u_cache_with_t_t_l"/>
+      </node>
+      <node id="1">
+        <label>themis::config::test::LRUCacheTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_l_r_u_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cache_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_coverage.cpp" line="43" column="1" bodyfile="tests/config/test_config_coverage.cpp" bodystart="43" bodyend="47"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_l_r_u_cache_test_1af08c966994e5807c030179d538723fe2" prot="protected" virt="non-virtual"><scope>themis::config::test::LRUCacheTest</scope><name>cache_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

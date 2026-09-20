@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wake_word_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>WakeWordBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_wake_word_bench_fixture_1afd33c32ca30871828c4504314c48f8fc" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_wake_word_detector" kindref="compound">WakeWordDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WakeWordDetector&gt; WakeWordBenchFixture::detector</definition>
+        <argsstring></argsstring>
+        <name>detector</name>
+        <qualifiedname>WakeWordBenchFixture::detector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="85" column="21" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wake_word_bench_fixture_1a4e8d9f013e47ede0850c7ed03ebd2182" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; WakeWordBenchFixture::chunk_100ms_energy</definition>
+        <argsstring></argsstring>
+        <name>chunk_100ms_energy</name>
+        <qualifiedname>WakeWordBenchFixture::chunk_100ms_energy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="86" column="30" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wake_word_bench_fixture_1a5b18ea75bdd68aaf57f43f58931ec11b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; WakeWordBenchFixture::chunk_100ms_silent</definition>
+        <argsstring></argsstring>
+        <name>chunk_100ms_silent</name>
+        <qualifiedname>WakeWordBenchFixture::chunk_100ms_silent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="87" column="30" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_wake_word_bench_fixture_1a947fd5cb5e7d79b45cbdbaf936f964e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WakeWordBenchFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>WakeWordBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="64" column="10" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="64" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wake_word_bench_fixture_1ab45084aa34fb6e874e53aa5f9323faac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WakeWordBenchFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>WakeWordBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="81" column="10" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WakeWordBenchFixture</label>
+        <link refid="class_wake_word_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WakeWordBenchFixture</label>
+        <link refid="class_wake_word_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="62" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="62" bodyend="88"/>
+    <listofallmembers>
+      <member refid="class_wake_word_bench_fixture_1a4e8d9f013e47ede0850c7ed03ebd2182" prot="public" virt="non-virtual"><scope>WakeWordBenchFixture</scope><name>chunk_100ms_energy</name></member>
+      <member refid="class_wake_word_bench_fixture_1a5b18ea75bdd68aaf57f43f58931ec11b" prot="public" virt="non-virtual"><scope>WakeWordBenchFixture</scope><name>chunk_100ms_silent</name></member>
+      <member refid="class_wake_word_bench_fixture_1afd33c32ca30871828c4504314c48f8fc" prot="public" virt="non-virtual"><scope>WakeWordBenchFixture</scope><name>detector</name></member>
+      <member refid="class_wake_word_bench_fixture_1a947fd5cb5e7d79b45cbdbaf936f964e8" prot="public" virt="non-virtual"><scope>WakeWordBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_wake_word_bench_fixture_1ab45084aa34fb6e874e53aa5f9323faac" prot="public" virt="non-virtual"><scope>WakeWordBenchFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

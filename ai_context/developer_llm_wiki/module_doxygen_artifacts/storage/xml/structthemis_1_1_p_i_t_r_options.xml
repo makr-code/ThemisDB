@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_p_i_t_r_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PITROptions</compoundname>
+    <includes refid="backup__manager_8h" local="no">backup_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_options_1a9390fb08085f03db2f9d14830af89681" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::PITROptions::target_time</definition>
+        <argsstring></argsstring>
+        <name>target_time</name>
+        <qualifiedname>themis::PITROptions::target_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="126" column="43" bodyfile="include/storage/backup_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_options_1af464fe6b4d54acf52142431196a8b32b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PITROptions::target_lsn</definition>
+        <argsstring></argsstring>
+        <name>target_lsn</name>
+        <qualifiedname>themis::PITROptions::target_lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="127" column="17" bodyfile="include/storage/backup_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_options_1ae424d3521837bcb6586ba92abc4132e4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PITROptions::timeline_consistent</definition>
+        <argsstring></argsstring>
+        <name>timeline_consistent</name>
+        <qualifiedname>themis::PITROptions::timeline_consistent</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="128" column="10" bodyfile="include/storage/backup_manager.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Point-in-time recovery target selection parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/backup_manager.h" line="125" column="1" bodyfile="include/storage/backup_manager.h" bodystart="125" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_p_i_t_r_options_1af464fe6b4d54acf52142431196a8b32b" prot="public" virt="non-virtual"><scope>themis::PITROptions</scope><name>target_lsn</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_options_1a9390fb08085f03db2f9d14830af89681" prot="public" virt="non-virtual"><scope>themis::PITROptions</scope><name>target_time</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_options_1ae424d3521837bcb6586ba92abc4132e4" prot="public" virt="non-virtual"><scope>themis::PITROptions</scope><name>timeline_consistent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

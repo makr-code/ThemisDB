@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_streaming_handler_test" kind="class" language="C++" prot="public">
+    <compoundname>StreamingHandlerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_streaming_handler_test_1a8eee9819eab5c7ddb3d7f0f0ff874c3b" prot="protected" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string StreamingHandlerTest::kRequestId</definition>
+        <argsstring></argsstring>
+        <name>kRequestId</name>
+        <qualifiedname>StreamingHandlerTest::kRequestId</qualifiedname>
+        <initializer>{&quot;req-test-001&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="32" column="23" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StreamingHandlerTest</label>
+        <link refid="class_streaming_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StreamingHandlerTest</label>
+        <link refid="class_streaming_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_streaming_handler.cpp" line="30" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="30" bodyend="33"/>
+    <listofallmembers>
+      <member refid="class_streaming_handler_test_1a8eee9819eab5c7ddb3d7f0f0ff874c3b" prot="protected" virt="non-virtual"><scope>StreamingHandlerTest</scope><name>kRequestId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

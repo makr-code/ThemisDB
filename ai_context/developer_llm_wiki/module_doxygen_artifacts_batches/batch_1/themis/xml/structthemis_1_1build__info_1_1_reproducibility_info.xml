@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1build__info_1_1_reproducibility_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::build_info::ReproducibilityInfo</compoundname>
+    <includes refid="build__info_8h" local="no">build_info.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1a9d98a159a90663588d6b020bb2044c01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ReproducibilityInfo::git_commit</definition>
+        <argsstring></argsstring>
+        <name>git_commit</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::git_commit</qualifiedname>
+        <briefdescription>
+<para>Full SHA-1 of HEAD at build time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="124" column="17" bodyfile="include/themis/build_info.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1a31fa266715d04b1d384ad62781ba9bbc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ReproducibilityInfo::git_commit_date</definition>
+        <argsstring></argsstring>
+        <name>git_commit_date</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::git_commit_date</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 author date of HEAD. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="125" column="17" bodyfile="include/themis/build_info.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1a073f59bc76c4b2d0feab50d089de8171" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ReproducibilityInfo::git_branch</definition>
+        <argsstring></argsstring>
+        <name>git_branch</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::git_branch</qualifiedname>
+        <briefdescription>
+<para>Branch name (or &quot;(detached)&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="126" column="17" bodyfile="include/themis/build_info.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1a443a44a643aab139f3d224400b52b30a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::build_info::ReproducibilityInfo::git_dirty</definition>
+        <argsstring></argsstring>
+        <name>git_dirty</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::git_dirty</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if working tree had uncommitted changes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="127" column="17" bodyfile="include/themis/build_info.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1a988c77921f475027fd7c630e11f1080e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ReproducibilityInfo::build_host</definition>
+        <argsstring></argsstring>
+        <name>build_host</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::build_host</qualifiedname>
+        <briefdescription>
+<para>Hostname of the build machine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="128" column="17" bodyfile="include/themis/build_info.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1a90f95d47dbf4b187a4aea9e1cd651cf1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ReproducibilityInfo::build_user</definition>
+        <argsstring></argsstring>
+        <name>build_user</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::build_user</qualifiedname>
+        <briefdescription>
+<para>OS username that invoked the build. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="129" column="17" bodyfile="include/themis/build_info.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1acc300b6598818b4ca468742a2519013f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ReproducibilityInfo::toolchain</definition>
+        <argsstring></argsstring>
+        <name>toolchain</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::toolchain</qualifiedname>
+        <briefdescription>
+<para>&quot;compiler-id/version&quot; e.g. &quot;GCC/13.2.0&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="130" column="17" bodyfile="include/themis/build_info.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1a7635b845902a39538ec11e17e24f1d14" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::build_info::ReproducibilityInfo::dependencies</definition>
+        <argsstring></argsstring>
+        <name>dependencies</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::dependencies</qualifiedname>
+        <briefdescription>
+<para>dep-name → version/hash </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="131" column="14" bodyfile="include/themis/build_info.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_reproducibility_info_1a2a62252479245d68b11fc68ae9e14f66" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ReproducibilityInfo::binary_hash</definition>
+        <argsstring></argsstring>
+        <name>binary_hash</name>
+        <qualifiedname>themis::build_info::ReproducibilityInfo::binary_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the current executable (filled at runtime). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="132" column="17" bodyfile="include/themis/build_info.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reproducibility information for build auditing and CI verification. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures the exact source-code revision, toolchain version, and key dependency hashes so that a binary can be unambiguously traced back to a specific source snapshot. </para>
+    </detaileddescription>
+    <location file="include/themis/build_info.h" line="123" column="1" bodyfile="include/themis/build_info.h" bodystart="123" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1a2a62252479245d68b11fc68ae9e14f66" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>binary_hash</name></member>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1a988c77921f475027fd7c630e11f1080e" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>build_host</name></member>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1a90f95d47dbf4b187a4aea9e1cd651cf1" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>build_user</name></member>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1a7635b845902a39538ec11e17e24f1d14" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>dependencies</name></member>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1a073f59bc76c4b2d0feab50d089de8171" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>git_branch</name></member>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1a9d98a159a90663588d6b020bb2044c01" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>git_commit</name></member>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1a31fa266715d04b1d384ad62781ba9bbc" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>git_commit_date</name></member>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1a443a44a643aab139f3d224400b52b30a" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>git_dirty</name></member>
+      <member refid="structthemis_1_1build__info_1_1_reproducibility_info_1acc300b6598818b4ca468742a2519013f" prot="public" virt="non-virtual"><scope>themis::build_info::ReproducibilityInfo</scope><name>toolchain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_z4_codec_tests" kind="class" language="C++" prot="public">
+    <compoundname>LZ4CodecTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LZ4CodecTests</label>
+        <link refid="class_l_z4_codec_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LZ4CodecTests</label>
+        <link refid="class_l_z4_codec_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_future_interfaces.cpp" line="132" column="1" bodyfile="tests/utils/test_utils_future_interfaces.cpp" bodystart="132" bodyend="132"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

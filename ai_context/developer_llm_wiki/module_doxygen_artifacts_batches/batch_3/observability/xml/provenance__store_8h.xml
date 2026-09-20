@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="provenance__store_8h" kind="file" language="C++">
+    <compoundname>provenance_store.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="bench__observability__block__b__gates_8cpp" local="yes">benchmarks/observability/bench_observability_block_b_gates.cpp</includedby>
+    <includedby refid="provenance__store_8cpp" local="yes">src/observability/provenance_store.cpp</includedby>
+    <includedby refid="test__provenance__store_8cpp" local="yes">tests/observability/test_provenance_store.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/provenance_store.h</label>
+        <link refid="provenance__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/observability/bench_observability_block_b_gates.cpp</label>
+        <link refid="bench__observability__block__b__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/observability/provenance_store.h</label>
+        <link refid="provenance__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/observability/provenance_store.cpp</label>
+        <link refid="provenance__store_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/observability/test_provenance_store.cpp</label>
+        <link refid="test__provenance__store_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_provenance_step_record" prot="public">themis::observability::ProvenanceStepRecord</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_i_provenance_store" prot="public">themis::observability::IProvenanceStore</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store" prot="public">themis::observability::RocksDBProvenanceStore</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config" prot="public">themis::observability::RocksDBProvenanceStore::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Post-generation provenance persistence and queryability. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enables audit-ready retrieval of complete provenance chains for retrieval steps: ANN frontdoor → Tensor Mid-Layer → Graph Validator → Final Layer.</para>
+<para>Backed by RocksDB for production-grade persistence, crash recovery, and range queries. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">themis::observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1observability_1_1_provenance_step_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>identity<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1observability_1_1_provenance_step_record_1ac78a9e760e4f0323ee7fb8eaee4b49e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1ac78a9e760e4f0323ee7fb8eaee4b49e7" kindref="member">query_id</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1observability_1_1_provenance_step_record_1a01f3ef76c201e014239a2a1656df2f25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1a01f3ef76c201e014239a2a1656df2f25" kindref="member">step_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1observability_1_1_provenance_step_record_1a1dd6247f8fadf3a64468c2641898453b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1a1dd6247f8fadf3a64468c2641898453b" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1observability_1_1_provenance_step_record_1af2b826c6b236cd8c8f6df95c6ba9374b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1af2b826c6b236cd8c8f6df95c6ba9374b" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>layer/layer<sp/>flow<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1observability_1_1_provenance_step_record_1ae89c5168b4fcc85df1e88c337601e5bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1ae89c5168b4fcc85df1e88c337601e5bf" kindref="member">layer_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1observability_1_1_provenance_step_record_1aa9285eae2bcd14dd74c93c4d7334e7d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1aa9285eae2bcd14dd74c93c4d7334e7d6" kindref="member">source_layer</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>candidates/evidence<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1observability_1_1_provenance_step_record_1a9d832bd5e4b0e2e15c92beed9f1ac30d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1a9d832bd5e4b0e2e15c92beed9f1ac30d" kindref="member">num_candidates</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1observability_1_1_provenance_step_record_1af5319c83811df8ce2e0df80b1f77a086" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1af5319c83811df8ce2e0df80b1f77a086" kindref="member">num_selected</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1observability_1_1_provenance_step_record_1a7d3e8ce736933b87094f2472bdf73f31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1a7d3e8ce736933b87094f2472bdf73f31" kindref="member">input_vector_hash</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1observability_1_1_provenance_step_record_1a60621007e4a6f0baaf717ab1e10f889e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1a60621007e4a6f0baaf717ab1e10f889e" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1observability_1_1_provenance_step_record_1adc961d3edd219bb7f1b17334c5cabc25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1adc961d3edd219bb7f1b17334c5cabc25" kindref="member">backend_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>routing/fallback<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1observability_1_1_provenance_step_record_1abc640dd1c5b88ec84700bf27af804b61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1abc640dd1c5b88ec84700bf27af804b61" kindref="member">routing_reason_code</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1observability_1_1_provenance_step_record_1a6c1e2c45cd5f4b3d70dec01bf3f2fa06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1a6c1e2c45cd5f4b3d70dec01bf3f2fa06" kindref="member">fallback_mode</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_provenance_step_record_1ac7c0ed7f73d655b19d5b7b3f80e6c618" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1ac7c0ed7f73d655b19d5b7b3f80e6c618" kindref="member">confidence_policy_version</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>performance<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1observability_1_1_provenance_step_record_1ad6f0c6afa37c4b7ad69eb0024be961c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record_1ad6f0c6afa37c4b7ad69eb0024be961c8" kindref="member">decision_duration_us</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1observability_1_1_i_provenance_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_i_provenance_store" kindref="compound">IProvenanceStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1observability_1_1_i_provenance_store_1a4fc0a75a025b3f8b7c86fca6dfe5552d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_provenance_store_1a4fc0a75a025b3f8b7c86fca6dfe5552d" kindref="member">~IProvenanceStore</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1observability_1_1_i_provenance_store_1a766978376f7a631e7f408339c8c2b422" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_provenance_store_1a766978376f7a631e7f408339c8c2b422" kindref="member">storeRecord</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>step_number,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref>&amp;<sp/>record)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1observability_1_1_i_provenance_store_1a07bc0aed982766af8a97299f49734018" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;ProvenanceStepRecord&gt;<sp/><ref refid="classthemis_1_1observability_1_1_i_provenance_store_1a07bc0aed982766af8a97299f49734018" kindref="member">getRecord</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>step_number)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1observability_1_1_i_provenance_store_1a27adcd0e61952d00873ffb9a0b10afcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ProvenanceStepRecord&gt;<sp/><ref refid="classthemis_1_1observability_1_1_i_provenance_store_1a27adcd0e61952d00873ffb9a0b10afcd" kindref="member">getProvenanceChain</ref>(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1observability_1_1_i_provenance_store_1a97f4804122060c27e0ac3cf2ecf52006" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ProvenanceStepRecord&gt;<sp/><ref refid="classthemis_1_1observability_1_1_i_provenance_store_1a97f4804122060c27e0ac3cf2ecf52006" kindref="member">getRecordsByTimeRange</ref>(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_ts_ms,<sp/>int64_t<sp/>end_ts_ms)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1observability_1_1_i_provenance_store_1a5ae2ba84c7a5520072002a6eec430ab7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_i_provenance_store_1a5ae2ba84c7a5520072002a6eec430ab7" kindref="member">listQueryIds</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1observability_1_1_i_provenance_store_1a7f7c7fc35a360df25de6809f122c248e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_provenance_store_1a7f7c7fc35a360df25de6809f122c248e" kindref="member">deleteQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1adbbc98cc264af8bf4cd6bcddd0e744fc" kindref="member">RocksDBProvenanceStore</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_provenance_store" kindref="compound">IProvenanceStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a742626ec96595bf680849b93ee3a1673" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a742626ec96595bf680849b93ee3a1673" kindref="member">db_path</ref>;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a53ae19f6ef287e2f40bb70aabede9532" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a53ae19f6ef287e2f40bb70aabede9532" kindref="member">batch_flush_threshold</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a27e48ae6d1797d15bfc2cc292e900e72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a27e48ae6d1797d15bfc2cc292e900e72" kindref="member">enable_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a1448ff4d1c0ba9119abb1f27ffc70d7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1a1448ff4d1c0ba9119abb1f27ffc70d7d" kindref="member">retention_max_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1ab14e7edd84a1924ce2cbdca03c1d6cd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config_1ab14e7edd84a1924ce2cbdca03c1d6cd0" kindref="member">retention_max_age_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1adbbc98cc264af8bf4cd6bcddd0e744fc" kindref="member">RocksDBProvenanceStore</ref>(<ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a0f1547c5d7f754af80863cfb631e6b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a0f1547c5d7f754af80863cfb631e6b18" kindref="member">~RocksDBProvenanceStore</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy;<sp/>move<sp/>is<sp/>allowed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a26a151b25545184aac239d0cb82de6f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a26a151b25545184aac239d0cb82de6f9" kindref="member">RocksDBProvenanceStore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1adbbc98cc264af8bf4cd6bcddd0e744fc" kindref="member">RocksDBProvenanceStore</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a3c05dd3b64071bff4c89e2ac268f0f3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1adbbc98cc264af8bf4cd6bcddd0e744fc" kindref="member">RocksDBProvenanceStore</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a3c05dd3b64071bff4c89e2ac268f0f3a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1adbbc98cc264af8bf4cd6bcddd0e744fc" kindref="member">RocksDBProvenanceStore</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a85774ecb372a681873bc808abe9349a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a85774ecb372a681873bc808abe9349a8" kindref="member">RocksDBProvenanceStore</ref>(<ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1adbbc98cc264af8bf4cd6bcddd0e744fc" kindref="member">RocksDBProvenanceStore</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a7b5d4e431fedf0d3816af0c488e6c2e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1adbbc98cc264af8bf4cd6bcddd0e744fc" kindref="member">RocksDBProvenanceStore</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1adbbc98cc264af8bf4cd6bcddd0e744fc" kindref="member">RocksDBProvenanceStore</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IProvenanceStore<sp/>interface<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a982b07b893faa7579739024a87b7f511" kindref="member">storeRecord</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_id,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>step_number,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref>&amp;<sp/>record)<sp/>override;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;<ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref>&gt;<sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1af9d68af1ac82c5ab193dc3c8aab7e962" kindref="member">getRecord</ref>(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>step_number)<sp/>override;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref>&gt;<sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a4ced15550a9e6368626791e5bbd9748c" kindref="member">getProvenanceChain</ref>(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query_id)<sp/>override;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref>&gt;<sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a882be6c61f645bd02d2778b9f3a264dd" kindref="member">getRecordsByTimeRange</ref>(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_ts_ms,<sp/>int64_t<sp/>end_ts_ms)<sp/>override;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a8bae5d2cb48f4de19fecc9763848567b" kindref="member">listQueryIds</ref>()<sp/>override;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a2fe09258c21101adda26a64c6dbd4194" kindref="member">deleteQuery</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query_id)<sp/>override;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a2259aa6602f982e3751fed4ba9ef9789" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1aa8cd5c90e9806f097291ad802fbb40eb" kindref="member">compact</ref>();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::observability</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/provenance_store.h"/>
+  </compounddef>
+</doxygen>

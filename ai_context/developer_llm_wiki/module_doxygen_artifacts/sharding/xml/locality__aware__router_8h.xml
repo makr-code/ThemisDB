@@ -1,0 +1,418 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="locality__aware__router_8h" kind="file" language="C++">
+    <compoundname>locality_aware_router.h</compoundname>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes refid="shard__resource__manager_8h" local="yes">sharding/shard_resource_manager.h</includes>
+    <includes refid="urn_8h" local="yes">sharding/urn.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">map</includes>
+    <includes local="no">set</includes>
+    <includedby refid="bench__locality__aware__router_8cpp" local="yes">benchmarks/sharding/bench_locality_aware_router.cpp</includedby>
+    <includedby refid="locality__aware__router_8cpp" local="yes">src/sharding/locality_aware_router.cpp</includedby>
+    <includedby refid="test__sharding__core_8cpp" local="yes">tests/sharding/test_sharding_core.cpp</includedby>
+    <incdepgraph>
+      <node id="13">
+        <label>sharding/gossip_config_manager.h</label>
+        <link refid="gossip__config__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/locality_aware_router.h</label>
+        <link refid="locality__aware__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>sharding/shard_resource_manager.h</label>
+        <link refid="shard__resource__manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>sharding/urn.h</label>
+        <link refid="urn_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="23">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="24">
+        <label>regex</label>
+      </node>
+      <node id="11">
+        <label>set</label>
+      </node>
+      <node id="19">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>string_view</label>
+      </node>
+      <node id="17">
+        <label>thread</label>
+      </node>
+      <node id="18">
+        <label>utils/rate_limiter.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/sharding/bench_locality_aware_router.cpp</label>
+        <link refid="bench__locality__aware__router_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/sharding/locality_aware_router.h</label>
+        <link refid="locality__aware__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/locality_aware_router.cpp</label>
+        <link refid="locality__aware__router_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/sharding/test_sharding_core.cpp</label>
+        <link refid="test__sharding__core_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_locality_aware_router" prot="public">themis::sharding::LocalityAwareRouter</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec" prot="public">themis::sharding::LocalityAwareRouter::QuerySpec</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity" prot="public">themis::sharding::LocalityAwareRouter::ShardAffinity</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config" prot="public">themis::sharding::LocalityAwareRouter::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics" prot="public">themis::sharding::LocalityAwareRouter::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_latency_record" prot="private">themis::sharding::LocalityAwareRouter::LatencyRecord</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__resource__manager_8h" kindref="compound">sharding/shard_resource_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="urn_8h" kindref="compound">sharding/urn.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1sharding_1_1_locality_aware_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1ae4966bff112d46a00d0ded9796df91d3" kindref="member">LocalityAwareRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec" kindref="compound">QuerySpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1a3b23876195364d88e41f4a27978827e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1a3b23876195364d88e41f4a27978827e3" kindref="member">query_id</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1ade38fb0ed9e0c99c5c0e035ed13588ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1ade38fb0ed9e0c99c5c0e035ed13588ed" kindref="member">query_aql</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1adb96624e697652d375ede2238ae717c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1adb96624e697652d375ede2238ae717c4" kindref="member">accessed_collections</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1a7ea1c8cca954208b500a8f486190f177" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1a7ea1c8cca954208b500a8f486190f177" kindref="member">accessed_keys</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>URNs<sp/>or<sp/>key<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1a4b3843ff1c5de6ebc2e548a365831f28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1a4b3843ff1c5de6ebc2e548a365831f28" kindref="member">estimated_result_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1a5793d0e88e8c1620aedecf0e1cf1f580" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec_1a5793d0e88e8c1620aedecf0e1cf1f580" kindref="member">allow_cross_shard</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>routing<sp/>to<sp/>remote<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity" kindref="compound">ShardAffinity</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5341aed52e22018d0d224bae63f1de3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5341aed52e22018d0d224bae63f1de3a" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5075a761eac47845ff4887a96e0b6e44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5075a761eac47845ff4887a96e0b6e44" kindref="member">locality_score</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0.0-1.0<sp/>(1.0<sp/>=<sp/>all<sp/>data<sp/>local)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a76bba8773b6b1e4f0b1f9609fdf5eb11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a76bba8773b6b1e4f0b1f9609fdf5eb11" kindref="member">load_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0.0-1.0<sp/>(0.0<sp/>=<sp/>no<sp/>load,<sp/>1.0<sp/>=<sp/>max<sp/>load)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a37e77046ccdbbc3b506d7e34f534cc70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a37e77046ccdbbc3b506d7e34f534cc70" kindref="member">network_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0.0-1.0<sp/>(1.0<sp/>=<sp/>same<sp/>datacenter)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5d84b5a27772988cea7037d37d55bd5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5d84b5a27772988cea7037d37d55bd5b" kindref="member">combined_score</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weighted<sp/>sum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a99fd3c3ee600b83926c9309822d820a0" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scoring<sp/>weights<sp/>(must<sp/>sum<sp/>to<sp/>1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a61863bc6a3922198a8301db878d41f77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a61863bc6a3922198a8301db878d41f77" kindref="member">locality_weight</ref><sp/>=<sp/>0.50f;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50%<sp/>locality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aec5fb367629876174094995f202e9a21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aec5fb367629876174094995f202e9a21" kindref="member">load_weight</ref><sp/>=<sp/>0.30f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30%<sp/>load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a9951f7a1ce8974ccf62103ea130d267d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a9951f7a1ce8974ccf62103ea130d267d" kindref="member">network_weight</ref><sp/>=<sp/>0.20f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>20%<sp/>network<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Routing<sp/>behavior</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a1d12e28ecd30c1d33702bcbd4caf8f6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a1d12e28ecd30c1d33702bcbd4caf8f6a" kindref="member">enable_cross_shard_optimization</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a2ad9d35a88ec012084511f3dbea4db4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a2ad9d35a88ec012084511f3dbea4db4a" kindref="member">max_cross_shard_hops</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1ab81969872a8d341de95b9ef6d6ed827e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1ab81969872a8d341de95b9ef6d6ed827e" kindref="member">prefer_local_shard</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a27b1f67560765a49e56b14b301f6cebb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a27b1f67560765a49e56b14b301f6cebb" kindref="member">local_shard_bonus</ref><sp/>=<sp/>0.2f;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>20%<sp/>bonus<sp/>for<sp/>local<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>placement<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aaf46fd48b3298506f999fbb8524a846a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aaf46fd48b3298506f999fbb8524a846a" kindref="member">enable_placement_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a8d844900986aeffd3e11dc23c25f3197" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a8d844900986aeffd3e11dc23c25f3197" kindref="member">max_cache_entries</ref><sp/>=<sp/>100000;<sp/><sp/></highlight><highlight class="comment">//<sp/>100k<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a7e739d9032a33ce7f339f9cdc835130e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a7e739d9032a33ce7f339f9cdc835130e" kindref="member">cache_ttl_seconds</ref><sp/>=<sp/>300;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aeac17785431fc6cccbd0062dd2e42401" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aeac17785431fc6cccbd0062dd2e42401" kindref="member">use_bloom_filter</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Space-efficient<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" kindref="member">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a1d9f771f46f76945a1872aceca26f6b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a1d9f771f46f76945a1872aceca26f6b4" kindref="member">queries_routed</ref>{0};</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a37317be93c72b5f8a9db4ceb44d69f76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a37317be93c72b5f8a9db4ceb44d69f76" kindref="member">local_routes</ref>{0};</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ac86b835d5f958ceb8485c62fe28c202c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ac86b835d5f958ceb8485c62fe28c202c" kindref="member">remote_routes</ref>{0};</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad230b6f083547ed06d1117a422f791f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad230b6f083547ed06d1117a422f791f5" kindref="member">cross_shard_avoided</ref>{0};</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ab9edd0b3397a5990aa8d658104cdc272" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ab9edd0b3397a5990aa8d658104cdc272" kindref="member">avg_locality_score</ref>{0.0};</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a4e720064ec305ba24ed17c9dd631965d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a4e720064ec305ba24ed17c9dd631965d" kindref="member">avg_combined_score</ref>{0.0};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" kindref="member">Statistics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a592f819b61558eef128a66f1fac79d19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a592f819b61558eef128a66f1fac79d19" kindref="member">Statistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" kindref="member">Statistics</ref>&amp;<sp/>other)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a1d9f771f46f76945a1872aceca26f6b4" kindref="member">queries_routed</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a1d9f771f46f76945a1872aceca26f6b4" kindref="member">queries_routed</ref>.load());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a37317be93c72b5f8a9db4ceb44d69f76" kindref="member">local_routes</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a37317be93c72b5f8a9db4ceb44d69f76" kindref="member">local_routes</ref>.load());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ac86b835d5f958ceb8485c62fe28c202c" kindref="member">remote_routes</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ac86b835d5f958ceb8485c62fe28c202c" kindref="member">remote_routes</ref>.load());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad230b6f083547ed06d1117a422f791f5" kindref="member">cross_shard_avoided</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad230b6f083547ed06d1117a422f791f5" kindref="member">cross_shard_avoided</ref>.load());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ab9edd0b3397a5990aa8d658104cdc272" kindref="member">avg_locality_score</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ab9edd0b3397a5990aa8d658104cdc272" kindref="member">avg_locality_score</ref>.load());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a4e720064ec305ba24ed17c9dd631965d" kindref="member">avg_combined_score</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a4e720064ec305ba24ed17c9dd631965d" kindref="member">avg_combined_score</ref>.load());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad7975e0f4b74a26241af03b1302ba146" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" kindref="member">Statistics</ref>&amp;<sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad7975e0f4b74a26241af03b1302ba146" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" kindref="member">Statistics</ref>&amp;<sp/>other)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>!=<sp/>&amp;other)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a1d9f771f46f76945a1872aceca26f6b4" kindref="member">queries_routed</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a1d9f771f46f76945a1872aceca26f6b4" kindref="member">queries_routed</ref>.load());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a37317be93c72b5f8a9db4ceb44d69f76" kindref="member">local_routes</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a37317be93c72b5f8a9db4ceb44d69f76" kindref="member">local_routes</ref>.load());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ac86b835d5f958ceb8485c62fe28c202c" kindref="member">remote_routes</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ac86b835d5f958ceb8485c62fe28c202c" kindref="member">remote_routes</ref>.load());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad230b6f083547ed06d1117a422f791f5" kindref="member">cross_shard_avoided</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad230b6f083547ed06d1117a422f791f5" kindref="member">cross_shard_avoided</ref>.load());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ab9edd0b3397a5990aa8d658104cdc272" kindref="member">avg_locality_score</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ab9edd0b3397a5990aa8d658104cdc272" kindref="member">avg_locality_score</ref>.load());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a4e720064ec305ba24ed17c9dd631965d" kindref="member">avg_combined_score</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a4e720064ec305ba24ed17c9dd631965d" kindref="member">avg_combined_score</ref>.load());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1ae4966bff112d46a00d0ded9796df91d3" kindref="member">LocalityAwareRouter</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_shard_id,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardResourceManager&gt;<sp/>resource_mgr,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1ae4966bff112d46a00d0ded9796df91d3" kindref="member">LocalityAwareRouter</ref>(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_shard_id,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardResourceManager&gt;<sp/>resource_mgr</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1sharding_1_1_locality_aware_router_1a77b90c2e9656c7dfe95c99720e46da9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a77b90c2e9656c7dfe95c99720e46da9e" kindref="member">~LocalityAwareRouter</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Main<sp/>routing<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a10393a6bbcaad691802cdcd8daf722fa" kindref="member">routeQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec" kindref="compound">QuerySpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a47150e44387730a9ce34141b77fc0dd1" kindref="member">routeMultiShardQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec" kindref="compound">QuerySpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Affinity<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ShardAffinity&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a3f72b891911f1d855e239c90ffb379a9" kindref="member">computeAffinity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec" kindref="compound">QuerySpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity" kindref="compound">ShardAffinity</ref><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a5c9eef159bd473e31641bc0523d99ac3" kindref="member">computeShardAffinity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_query_spec" kindref="compound">QuerySpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>placement<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a1d13c668d55c041bb54e3cfbffbe0d27" kindref="member">updateDataPlacement</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a239866dc1c231678be00583ecaf36398" kindref="member">removeDataPlacement</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1ae0c6c759657c095e37c7878a284395fb" kindref="member">hasData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimization<sp/>hints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a70b6781bb6cf86baeb4f833dd51eb0a2" kindref="member">suggestCoLocation</ref>(</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>collections);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a4db9b75f0a0c8bc53086bb10e227cdf0" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a6f01ac4a1f2a90e4aae094a5a599c9c9" kindref="member">getStatisticsJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a02b0384c22fe629093fb0a3a8de570b4" kindref="member">recordReplicaLatency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>replica_id,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>datacenter_id,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>rtt_ms);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a77cd98b6da87614b21edc3c8e7e7b448" kindref="member">selectLowestRTTReplica</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>requesting_datacenter_id,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>timeout_ms<sp/>=<sp/>1000);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_locality_aware_router_1a427dc98d7120b40058920e9d562a75c5" kindref="member">computeMultiShardExactConsistency</ref>(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>shard_ids,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>consistency_level<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;strong&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>local_shard_id_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardResourceManager&gt;<sp/>resource_mgr_;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>placement<sp/>cache<sp/>(collection:<sp/>key<sp/>-&gt;<sp/>set&lt;shard_id&gt;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::set&lt;std::string&gt;&gt;<sp/>placement_cache_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>cache_mutex_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>tracking:<sp/>replica_id<sp/>-&gt;<sp/>(datacenter_id<sp/>-&gt;<sp/>rtt_ms,<sp/>timestamp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">LatencyRecord<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>rtt_ms<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_update;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::map&lt;std::string,<sp/>LatencyRecord&gt;&gt;<sp/>latency_records_;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>latency_mutex_;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bloom<sp/>filter<sp/>for<sp/>space-efficient<sp/>tracking<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::unique_ptr&lt;BloomFilter&gt;<sp/>bloom_filter_;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/>stats_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scoring<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>calculateLocalityScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QuerySpec&amp;<sp/>spec)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>calculateLoadScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>calculateNetworkScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>getReplicaLatency(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>replica_id,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>datacenter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isLatencyStale(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>replica_id,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>datacenter_id,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>max_age_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeCacheKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupStaleEntries();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/locality_aware_router.h"/>
+  </compounddef>
+</doxygen>

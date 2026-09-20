@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_maintenance_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MaintenancePolicy</compoundname>
+    <includes refid="index__maintenance_8h" local="no">index_maintenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1afb770880d8813395052f8ce4604736f7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MaintenancePolicy::reorganize_threshold</definition>
+        <argsstring></argsstring>
+        <name>reorganize_threshold</name>
+        <qualifiedname>themis::MaintenancePolicy::reorganize_threshold</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="108" column="12" bodyfile="include/storage/index_maintenance.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1a36e09c1c1478f01b2f8fcea9720f01a2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MaintenancePolicy::rebuild_threshold</definition>
+        <argsstring></argsstring>
+        <name>rebuild_threshold</name>
+        <qualifiedname>themis::MaintenancePolicy::rebuild_threshold</qualifiedname>
+        <initializer>= 30.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="109" column="12" bodyfile="include/storage/index_maintenance.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1aa40d77afa5fb44a2a9b4172ac5279b24" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MaintenancePolicy::statistics_update_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>statistics_update_interval_ms</name>
+        <qualifiedname>themis::MaintenancePolicy::statistics_update_interval_ms</qualifiedname>
+        <initializer>= 3600000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="112" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1a72588b9bbebffc4cc490990919082951" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0a" kindref="member">MaintenanceSchedule</ref></type>
+        <definition>MaintenanceSchedule themis::MaintenancePolicy::schedule_type</definition>
+        <argsstring></argsstring>
+        <name>schedule_type</name>
+        <qualifiedname>themis::MaintenancePolicy::schedule_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa3bf07fe8ac3883060b1558113ba248d4" kindref="member">MaintenanceSchedule::HYBRID</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="115" column="25" bodyfile="include/storage/index_maintenance.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1add272858dc88ebfa78ae4d3d58b1d3a3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MaintenancePolicy::time_based_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>time_based_interval_ms</name>
+        <qualifiedname>themis::MaintenancePolicy::time_based_interval_ms</qualifiedname>
+        <initializer>= 86400000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="116" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1a67634d6cf40ec3cc568b44d1f810a5b2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::MaintenancePolicy::max_concurrent_jobs</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_jobs</name>
+        <qualifiedname>themis::MaintenancePolicy::max_concurrent_jobs</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="119" column="9" bodyfile="include/storage/index_maintenance.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1a47e5129c818374ec32f8621bb3149d6e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::MaintenancePolicy::priority_level</definition>
+        <argsstring></argsstring>
+        <name>priority_level</name>
+        <qualifiedname>themis::MaintenancePolicy::priority_level</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="120" column="9" bodyfile="include/storage/index_maintenance.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1a6810536d59a29db122d6c1e672973a9b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::MaintenancePolicy::enable_maintenance_window</definition>
+        <argsstring></argsstring>
+        <name>enable_maintenance_window</name>
+        <qualifiedname>themis::MaintenancePolicy::enable_maintenance_window</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="123" column="10" bodyfile="include/storage/index_maintenance.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1a5edcb4d4cb2bf03586b1d39574cdf17e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::MaintenancePolicy::window_start_hour</definition>
+        <argsstring></argsstring>
+        <name>window_start_hour</name>
+        <qualifiedname>themis::MaintenancePolicy::window_start_hour</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="124" column="9" bodyfile="include/storage/index_maintenance.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1adec2ed51616770605a858f4bb92b624f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::MaintenancePolicy::window_end_hour</definition>
+        <argsstring></argsstring>
+        <name>window_end_hour</name>
+        <qualifiedname>themis::MaintenancePolicy::window_end_hour</qualifiedname>
+        <initializer>= 6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="125" column="9" bodyfile="include/storage/index_maintenance.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1aa2ff8daf626a4931430e73e5b96b4222" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::MaintenancePolicy::enable_throttling</definition>
+        <argsstring></argsstring>
+        <name>enable_throttling</name>
+        <qualifiedname>themis::MaintenancePolicy::enable_throttling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="128" column="10" bodyfile="include/storage/index_maintenance.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1a2f49a1df6f53595ca75d048407accfa0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MaintenancePolicy::max_cpu_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>max_cpu_usage_percent</name>
+        <qualifiedname>themis::MaintenancePolicy::max_cpu_usage_percent</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="129" column="12" bodyfile="include/storage/index_maintenance.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1aca0a68c383c19a9224860adf07c9de78" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MaintenancePolicy::max_memory_usage_mb</definition>
+        <argsstring></argsstring>
+        <name>max_memory_usage_mb</name>
+        <qualifiedname>themis::MaintenancePolicy::max_memory_usage_mb</qualifiedname>
+        <initializer>= 1024.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="130" column="12" bodyfile="include/storage/index_maintenance.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_policy_1a64aed9dfac8b706f7ef50d1879945c79" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::MaintenancePolicy::online_maintenance</definition>
+        <argsstring></argsstring>
+        <name>online_maintenance</name>
+        <qualifiedname>themis::MaintenancePolicy::online_maintenance</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="133" column="10" bodyfile="include/storage/index_maintenance.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Maintenance policy configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/index_maintenance.h" line="106" column="1" bodyfile="include/storage/index_maintenance.h" bodystart="106" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_maintenance_policy_1a6810536d59a29db122d6c1e672973a9b" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>enable_maintenance_window</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1aa2ff8daf626a4931430e73e5b96b4222" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>enable_throttling</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1a67634d6cf40ec3cc568b44d1f810a5b2" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>max_concurrent_jobs</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1a2f49a1df6f53595ca75d048407accfa0" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>max_cpu_usage_percent</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1aca0a68c383c19a9224860adf07c9de78" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>max_memory_usage_mb</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1a64aed9dfac8b706f7ef50d1879945c79" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>online_maintenance</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1a47e5129c818374ec32f8621bb3149d6e" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>priority_level</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1a36e09c1c1478f01b2f8fcea9720f01a2" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>rebuild_threshold</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1afb770880d8813395052f8ce4604736f7" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>reorganize_threshold</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1a72588b9bbebffc4cc490990919082951" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>schedule_type</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1aa40d77afa5fb44a2a9b4172ac5279b24" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>statistics_update_interval_ms</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1add272858dc88ebfa78ae4d3d58b1d3a3" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>time_based_interval_ms</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1adec2ed51616770605a858f4bb92b624f" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>window_end_hour</name></member>
+      <member refid="structthemis_1_1_maintenance_policy_1a5edcb4d4cb2bf03586b1d39574cdf17e" prot="public" virt="non-virtual"><scope>themis::MaintenancePolicy</scope><name>window_start_hour</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

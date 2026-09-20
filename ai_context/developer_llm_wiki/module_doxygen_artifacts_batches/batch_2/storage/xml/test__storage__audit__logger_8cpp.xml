@@ -1,0 +1,522 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__storage__audit__logger_8cpp" kind="file" language="C++">
+    <compoundname>test_storage_audit_logger.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="storage__audit__logger_8h" local="yes">storage/storage_audit_logger.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>storage/storage_audit_logger.h</label>
+        <link refid="storage__audit__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_storage_audit_logger.cpp</label>
+        <link refid="test__storage__audit__logger_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1a813127d3dabbeedd4a747d91bc84cdf5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string readFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="33" column="20" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1ab1dd379a063238912b11b519a449087e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string auditDir</definition>
+        <argsstring>()</argsstring>
+        <name>auditDir</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="38" column="20" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, Open_CreatesSegmentFile)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>Open_CreatesSegmentFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="50" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="50" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1a2f08df727f6261dd513cf706c7ffdb47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, LogPut_WritesEntryAndIncrementsSequence)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>LogPut_WritesEntryAndIncrementsSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="62" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="62" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1aca702daa42b470641d32af44a950a44d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, LogDel_WritesDelLine)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>LogDel_WritesDelLine</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="82" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="82" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1ae58ee19cbe9e79077efd41b7de4af003" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, AllEventTypes_LogSuccessfully)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>AllEventTypes_LogSuccessfully</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="98" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="98" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1a0797bb38433603e168616ef7dce452bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, SequenceMonotonicallyIncreases)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>SequenceMonotonicallyIncreases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="114" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="114" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1ad9832e479a63793711032431fab25456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, Rotation_NewSegmentCreatedWhenLimitReached)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>Rotation_NewSegmentCreatedWhenLimitReached</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="131" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="131" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1a74ea7bc33dc114419ef5440a2b15ef9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, SegmentCount_StartsAtOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>SegmentCount_StartsAtOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="145" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="145" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1ae272821f9ad6005eef01c84582526bad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, EventName_AllTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>EventName_AllTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="158" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="158" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1a5e1529b67e2012522cfbdca8570ea73f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, SegmentName_Format)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>SegmentName_Format</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="167" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__audit__logger_8cpp_1ae0b122efc4399fc0561c803f90193945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageAuditTest, ConcurrentLogging_NoRaceConditions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageAuditTest</type>
+        </param>
+        <param>
+          <type>ConcurrentLogging_NoRaceConditions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_audit_logger.cpp" line="177" column="1" bodyfile="tests/storage/test_storage_audit_logger.cpp" bodystart="177" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>for<sp/>StorageAuditLogger:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Open<sp/>creates<sp/>a<sp/>segment<sp/>file<sp/>in<sp/>the<sp/>given<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>logPut<sp/>/<sp/>logDel<sp/>/<sp/>logCheckpoint<sp/>/<sp/>logRecovery<sp/>/<sp/>logCompaction<sp/>/<sp/>logSnapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>lastSequence()<sp/>increments<sp/>with<sp/>each<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Log<sp/>content<sp/>format:<sp/>timestamp,<sp/>sequence,<sp/>event<sp/>token,<sp/>key,<sp/>extra</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Rotation:<sp/>new<sp/>segment<sp/>created<sp/>when<sp/>max_file_bytes<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>segmentCount()<sp/>reflects<sp/>rotation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>flush()<sp/>succeeds<sp/>without<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>eventName()<sp/>maps<sp/>all<sp/>event<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>segmentName()<sp/>produces<sp/>expected<sp/>filename</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Thread-safe<sp/>concurrent<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__audit__logger_8h" kindref="compound">storage/storage_audit_logger.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>readFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>f(path);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{std::istreambuf_iterator&lt;char&gt;(f),<sp/>{}};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>auditDir()<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_audit_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>open<sp/>and<sp/>log</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>Open_CreatesSegmentFile)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>dir<sp/>=<sp/>auditDir();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">StorageAuditLogger::Config</ref><sp/>cfg{dir};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" kindref="member">StorageAuditLogger::open</ref>(cfg);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ((*res)-&gt;segmentCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ((*res)-&gt;lastSequence(),<sp/>0u);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(dir);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>LogPut_WritesEntryAndIncrementsSequence)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>dir<sp/>=<sp/>auditDir();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">StorageAuditLogger::Config</ref><sp/>cfg{dir};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>content<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" kindref="member">StorageAuditLogger::open</ref>(cfg);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>logger<sp/>=<sp/>*res;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;logPut(</highlight><highlight class="stringliteral">&quot;user:42&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bytes=64&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(logger-&gt;lastSequence(),<sp/>1u);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;flush().has_value());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>seg<sp/>=<sp/>(fs::path(dir)<sp/>/<sp/><ref refid="classthemis_1_1_storage_audit_logger_1ae3e63a66431bc29683b605309e091560" kindref="member">StorageAuditLogger::segmentName</ref>(0)).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content<sp/>=<sp/>readFile(seg);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(content.find(</highlight><highlight class="stringliteral">&quot;PUT&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(content.find(</highlight><highlight class="stringliteral">&quot;user:42&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(content.find(</highlight><highlight class="stringliteral">&quot;bytes=64&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(dir);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>LogDel_WritesDelLine)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>dir<sp/>=<sp/>auditDir();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">StorageAuditLogger::Config</ref><sp/>cfg{dir};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>content<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>*<ref refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" kindref="member">StorageAuditLogger::open</ref>(cfg);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;logDel(</highlight><highlight class="stringliteral">&quot;user:99&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)logger-&gt;flush();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content<sp/>=<sp/>readFile(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(fs::path(dir)<sp/>/<sp/><ref refid="classthemis_1_1_storage_audit_logger_1ae3e63a66431bc29683b605309e091560" kindref="member">StorageAuditLogger::segmentName</ref>(0)).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(content.find(</highlight><highlight class="stringliteral">&quot;DEL&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(content.find(</highlight><highlight class="stringliteral">&quot;user:99&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(dir);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>AllEventTypes_LogSuccessfully)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>dir<sp/>=<sp/>auditDir();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">StorageAuditLogger::Config</ref><sp/>cfg{dir};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>*<ref refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" kindref="member">StorageAuditLogger::open</ref>(cfg);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;logPut(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;logDel(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;logCheckpoint(</highlight><highlight class="stringliteral">&quot;seq=100&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;logRecovery(</highlight><highlight class="stringliteral">&quot;entries=50&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;logCompaction(</highlight><highlight class="stringliteral">&quot;range=all&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(logger-&gt;logSnapshot(</highlight><highlight class="stringliteral">&quot;snap-2025&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(logger-&gt;lastSequence(),<sp/>6u);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(dir);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>SequenceMonotonicallyIncreases)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>dir<sp/>=<sp/>auditDir();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">StorageAuditLogger::Config</ref><sp/>cfg{dir};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>*<ref refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" kindref="member">StorageAuditLogger::open</ref>(cfg);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)logger-&gt;logPut(</highlight><highlight class="stringliteral">&quot;key:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(logger-&gt;lastSequence(),<sp/>20u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(dir);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Rotation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>Rotation_NewSegmentCreatedWhenLimitReached)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>dir<sp/>=<sp/>auditDir();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>small<sp/>rotation<sp/>threshold<sp/>so<sp/>it<sp/>rotates<sp/>quickly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">StorageAuditLogger::Config</ref><sp/>cfg{dir,<sp/></highlight><highlight class="comment">/*max_file_bytes=*/</highlight><highlight class="normal">200};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>*<ref refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" kindref="member">StorageAuditLogger::open</ref>(cfg);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)logger-&gt;logPut(</highlight><highlight class="stringliteral">&quot;key-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;extra-data-padding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(logger-&gt;segmentCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(dir);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>SegmentCount_StartsAtOne)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>dir<sp/>=<sp/>auditDir();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>*<ref refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" kindref="member">StorageAuditLogger::open</ref>(<ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">StorageAuditLogger::Config</ref>{dir});</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(logger-&gt;segmentCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(dir);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>EventName_AllTypes)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" kindref="member">StorageAuditLogger::eventName</ref>(<ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a3e75383a5992a6d15fb81e872e46e256" kindref="member">StorageAuditLogger::Event::PUT</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PUT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" kindref="member">StorageAuditLogger::eventName</ref>(<ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a2bbe23c0e8b3f638f0f5aed4b6864513" kindref="member">StorageAuditLogger::Event::DEL</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DEL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" kindref="member">StorageAuditLogger::eventName</ref>(<ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a0f15e1247e93ddfa95c008106eb0d22f" kindref="member">StorageAuditLogger::Event::CHECKPOINT</ref>),<sp/><sp/></highlight><highlight class="stringliteral">&quot;CHECKPOINT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" kindref="member">StorageAuditLogger::eventName</ref>(<ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a9c90eb3f9201a7df861d94e494aa9b0b" kindref="member">StorageAuditLogger::Event::RECOVERY</ref>),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RECOVERY&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" kindref="member">StorageAuditLogger::eventName</ref>(<ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a8cc9accb36fc96056e2f531049fb31a7" kindref="member">StorageAuditLogger::Event::COMPACTION</ref>),<sp/><sp/></highlight><highlight class="stringliteral">&quot;COMPACTION&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" kindref="member">StorageAuditLogger::eventName</ref>(<ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a46b8744c6bc840d2cb241fa165f3e204" kindref="member">StorageAuditLogger::Event::SNAPSHOT</ref>),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SNAPSHOT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>SegmentName_Format)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1ae3e63a66431bc29683b605309e091560" kindref="member">StorageAuditLogger::segmentName</ref>(0),<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;audit_000000.log&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1ae3e63a66431bc29683b605309e091560" kindref="member">StorageAuditLogger::segmentName</ref>(1),<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;audit_000001.log&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_storage_audit_logger_1ae3e63a66431bc29683b605309e091560" kindref="member">StorageAuditLogger::segmentName</ref>(999999),<sp/></highlight><highlight class="stringliteral">&quot;audit_999999.log&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__storage__audit__logger_8cpp_1ae539e80f5baec9a5d07f3ae52fa67d21" kindref="member">TEST</ref>(StorageAuditTest,<sp/>ConcurrentLogging_NoRaceConditions)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>dir<sp/>=<sp/>auditDir();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">StorageAuditLogger::Config</ref><sp/>cfg{dir};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>*<ref refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" kindref="member">StorageAuditLogger::open</ref>(cfg);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kPerThread<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)logger-&gt;logPut(</highlight><highlight class="stringliteral">&quot;thread:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(logger-&gt;lastSequence(),</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads<sp/>*<sp/>kPerThread));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(dir);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_storage_audit_logger.cpp"/>
+  </compounddef>
+</doxygen>

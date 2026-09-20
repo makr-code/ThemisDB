@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::MySQLImporter::JdbcConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a59676ea4a042dacf92f6410475d0e4ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MySQLImporter::JdbcConfig::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::importers::MySQLImporter::JdbcConfig::host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="57" column="21" bodyfile="include/importers/mysql_importer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1aaf3931445eb591d4dfb5254656d3ea26" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::MySQLImporter::JdbcConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::importers::MySQLImporter::JdbcConfig::port</qualifiedname>
+        <initializer>= 3306</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="58" column="21" bodyfile="include/importers/mysql_importer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a4ce9804d3367f83e120f21932e53c02c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MySQLImporter::JdbcConfig::database</definition>
+        <argsstring></argsstring>
+        <name>database</name>
+        <qualifiedname>themis::importers::MySQLImporter::JdbcConfig::database</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="59" column="21" bodyfile="include/importers/mysql_importer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a2375b0e6909e1243241f6898dca6ffce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MySQLImporter::JdbcConfig::user</definition>
+        <argsstring></argsstring>
+        <name>user</name>
+        <qualifiedname>themis::importers::MySQLImporter::JdbcConfig::user</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="60" column="21" bodyfile="include/importers/mysql_importer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a000bc80921262df2e57da924ef167f92" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::JdbcConfig::ssl</definition>
+        <argsstring></argsstring>
+        <name>ssl</name>
+        <qualifiedname>themis::importers::MySQLImporter::JdbcConfig::ssl</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="61" column="21" bodyfile="include/importers/mysql_importer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a449aa7d23fc4e52be39cf3eb5c2e8953" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::JdbcConfig::tinyint1_as_boolean</definition>
+        <argsstring></argsstring>
+        <name>tinyint1_as_boolean</name>
+        <qualifiedname>themis::importers::MySQLImporter::JdbcConfig::tinyint1_as_boolean</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Map TINYINT(1) -&gt; boolean (JDBC default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="62" column="21" bodyfile="include/importers/mysql_importer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/mysql_importer.h" line="56" column="5" bodyfile="include/importers/mysql_importer.h" bodystart="56" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a4ce9804d3367f83e120f21932e53c02c" prot="public" virt="non-virtual"><scope>themis::importers::MySQLImporter::JdbcConfig</scope><name>database</name></member>
+      <member refid="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a59676ea4a042dacf92f6410475d0e4ad" prot="public" virt="non-virtual"><scope>themis::importers::MySQLImporter::JdbcConfig</scope><name>host</name></member>
+      <member refid="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1aaf3931445eb591d4dfb5254656d3ea26" prot="public" virt="non-virtual"><scope>themis::importers::MySQLImporter::JdbcConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a000bc80921262df2e57da924ef167f92" prot="public" virt="non-virtual"><scope>themis::importers::MySQLImporter::JdbcConfig</scope><name>ssl</name></member>
+      <member refid="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a449aa7d23fc4e52be39cf3eb5c2e8953" prot="public" virt="non-virtual"><scope>themis::importers::MySQLImporter::JdbcConfig</scope><name>tinyint1_as_boolean</name></member>
+      <member refid="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config_1a2375b0e6909e1243241f6898dca6ffce" prot="public" virt="non-virtual"><scope>themis::importers::MySQLImporter::JdbcConfig</scope><name>user</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

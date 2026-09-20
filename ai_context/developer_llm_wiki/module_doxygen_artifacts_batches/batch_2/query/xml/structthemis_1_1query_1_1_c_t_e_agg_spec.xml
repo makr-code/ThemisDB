@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_c_t_e_agg_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CTEAggSpec</compoundname>
+    <includes refid="materialized__cte_8h" local="no">materialized_cte.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_agg_spec_1a77547f4bbb31a001bb9aa11063306e56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CTEAggSpec::output_name</definition>
+        <argsstring></argsstring>
+        <name>output_name</name>
+        <qualifiedname>themis::query::CTEAggSpec::output_name</qualifiedname>
+        <briefdescription>
+<para>Field name in the result row. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="77" column="17" bodyfile="include/query/materialized_cte.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_agg_spec_1a951c728785ff78ccc8c37457b4806e7e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a420b577862a165a6e35bb29fa60bbe24" kindref="member">CTEAggFunc</ref></type>
+        <definition>CTEAggFunc themis::query::CTEAggSpec::func</definition>
+        <argsstring></argsstring>
+        <name>func</name>
+        <qualifiedname>themis::query::CTEAggSpec::func</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="78" column="17" bodyfile="include/query/materialized_cte.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_agg_spec_1a53f0c38f3bd34a207379aad056d07e75" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CTEAggSpec::source_field</definition>
+        <argsstring></argsstring>
+        <name>source_field</name>
+        <qualifiedname>themis::query::CTEAggSpec::source_field</qualifiedname>
+        <briefdescription>
+<para>Source field (empty = COUNT(*)). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="79" column="17" bodyfile="include/query/materialized_cte.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_cte.h" line="76" column="1" bodyfile="include/query/materialized_cte.h" bodystart="76" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_c_t_e_agg_spec_1a951c728785ff78ccc8c37457b4806e7e" prot="public" virt="non-virtual"><scope>themis::query::CTEAggSpec</scope><name>func</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_agg_spec_1a77547f4bbb31a001bb9aa11063306e56" prot="public" virt="non-virtual"><scope>themis::query::CTEAggSpec</scope><name>output_name</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_agg_spec_1a53f0c38f3bd34a207379aad056d07e75" prot="public" virt="non-virtual"><scope>themis::query::CTEAggSpec</scope><name>source_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

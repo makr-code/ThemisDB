@@ -1,0 +1,794 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_remote_executor" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::RemoteExecutor</compoundname>
+    <includes refid="remote__executor_8h" local="no">remote_executor.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config" prot="public">themis::sharding::RemoteExecutor::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" prot="public">themis::sharding::RemoteExecutor::Result</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_remote_executor_1aa6de70d06bc001deb907d7ad068baeca" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::RemoteExecutor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="163" column="12" bodyfile="include/sharding/remote_executor.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_remote_executor_1a92e21e93a77003328b79d59d90209edb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MTLSClient&gt; themis::sharding::RemoteExecutor::mtls_client_</definition>
+        <argsstring></argsstring>
+        <name>mtls_client_</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::mtls_client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="164" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_remote_executor_1a786730f59e3c4fb13305c49100407e7d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_signed_request_signer" kindref="compound">SignedRequestSigner</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SignedRequestSigner&gt; themis::sharding::RemoteExecutor::request_signer_</definition>
+        <argsstring></argsstring>
+        <name>request_signer_</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::request_signer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="165" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_remote_executor_1ae9d33b419035181ab119c5b80d4a900c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_circuit_breaker_manager" kindref="compound">CircuitBreakerManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CircuitBreakerManager&gt; themis::sharding::RemoteExecutor::circuit_breaker_manager_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_manager_</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::circuit_breaker_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="166" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1ab28dc9c8a849bd38e7ebdfbfd1f8ac3e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RemoteExecutor::RemoteExecutor</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RemoteExecutor</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::RemoteExecutor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct Remote Executor with configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="76" column="14" bodyfile="src/sharding/remote_executor.cpp" bodystart="19" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a49f59842beb8f11a7b4cfe148bf95242" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>RemoteExecutor::Result themis::sharding::RemoteExecutor::get</definition>
+        <argsstring>(const ShardInfo &amp;shard_info, const std::string &amp;path)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::get</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute GET request on remote shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard information </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path (e.g., &quot;/api/v1/data/urn:themis:...&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref> with response data or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: executeRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="84" column="12" bodyfile="src/sharding/remote_executor.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a491930cc13e584025fe355efb4866101" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>RemoteExecutor::Result themis::sharding::RemoteExecutor::post</definition>
+        <argsstring>(const ShardInfo &amp;shard_info, const std::string &amp;path, const nlohmann::json &amp;body)</argsstring>
+        <name>post</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::post</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute POST request on remote shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard information </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request body (JSON) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref> with response data or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: executeRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="93" column="12" bodyfile="src/sharding/remote_executor.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a3766ecfb59912b1aac7b56647f9becd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>RemoteExecutor::Result themis::sharding::RemoteExecutor::put</definition>
+        <argsstring>(const ShardInfo &amp;shard_info, const std::string &amp;path, const nlohmann::json &amp;body)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::put</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute PUT request on remote shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard information </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request body (JSON) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref> with response data or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: executeRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="104" column="12" bodyfile="src/sharding/remote_executor.cpp" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a66d43c82f8f44c46fbb6bfb48d0d1b7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>RemoteExecutor::Result themis::sharding::RemoteExecutor::del</definition>
+        <argsstring>(const ShardInfo &amp;shard_info, const std::string &amp;path)</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::del</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Del. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute DELETE request on remote shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard information </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref> with response data or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: executeRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="114" column="12" bodyfile="src/sharding/remote_executor.cpp" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1afc7e0a98bd3ae90aeae9b9781787ac69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>RemoteExecutor::Result themis::sharding::RemoteExecutor::executeQuery</definition>
+        <argsstring>(const ShardInfo &amp;shard_info, const std::string &amp;query)</argsstring>
+        <name>executeQuery</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::executeQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute query on remote shard Convenience method for query execution <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard information </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string (e.g., AQL query) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref> with query results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_remote_executor_1a491930cc13e584025fe355efb4866101" kindref="member">post()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="123" column="12" bodyfile="src/sharding/remote_executor.cpp" bodystart="112" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a30792b512ca6e53fa7993f1db67dc1f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>RemoteExecutor::Result themis::sharding::RemoteExecutor::postBinary</definition>
+        <argsstring>(const ShardInfo &amp;shard_info, const std::string &amp;path, const uint8_t *data, std::size_t size)</argsstring>
+        <name>postBinary</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::postBinary</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Post Binary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transfer a raw binary payload to a remote shard via HTTP POST.</para>
+<para>Intended for KV-state transfer (Phase 5 KV-Prefix Cross-Shard sharing): the serialised KV cache for a shared system-prompt prefix is POSTed to the target shard so that it can warm its local KV cache and reduce time-to-first-token (TTFT) for requests that share the same prefix.</para>
+<para>Content-Type is set to &quot;application/octet-stream&quot;. The response body is returned in <computeroutput>Result::response</computeroutput> (base64-encoded by the mTLS layer if non-printable characters are present).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path (e.g., &quot;/api/v1/kv-prefix/ingest&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to binary payload bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Payload size in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref> with success flag, shard_id, and optional error message.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), std::move(), <ref refid="classthemis_1_1sharding_1_1_remote_executor_1a491930cc13e584025fe355efb4866101" kindref="member">post()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="143" column="12" bodyfile="src/sharding/remote_executor.cpp" bodystart="131" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a9f080d7762870a25c330f5a6f90c2a07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RemoteExecutor::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if remote executor is ready <simplesect kind="return"><para>true if configured and ready to execute requests </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="152" column="10" bodyfile="src/sharding/remote_executor.cpp" bodystart="166" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a5783264bc926917dc1cb9cf2445c206d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::sharding::RemoteExecutor::getLocalShardId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocalShardId</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::getLocalShardId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get local shard ID <simplesect kind="return"><para>This shard&apos;s ID </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="158" column="23" bodyfile="include/sharding/remote_executor.h" bodystart="158" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a9292931bf214c2e7be1f79e56e9a7387" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::getEndpointURL</definition>
+        <argsstring>(const ShardInfo &amp;shard_info) const</argsstring>
+        <name>getEndpointURL</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::getEndpointURL</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> to endpoint URL <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard information </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Endpoint URL (e.g., &quot;https://shard-001.dc1:8080&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="173" column="17" bodyfile="src/sharding/remote_executor.cpp" bodystart="170" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1aa8ae840312918b31d50b428af09f147d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>RemoteExecutor::Result themis::sharding::RemoteExecutor::executeRequest</definition>
+        <argsstring>(const std::string &amp;method, const ShardInfo &amp;shard_info, const std::string &amp;path, const std::optional&lt; nlohmann::json &gt; &amp;body=std::nullopt)</argsstring>
+        <name>executeRequest</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::executeRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; nlohmann::json &gt; &amp;</type>
+          <declname>body</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Execute Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute request with optional signing <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP method </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional request body </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), std::chrono::steady_clock::now(), getCircuitBreaker(), allowRequest(), count(), getEndpointURL(), createSignedRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="183" column="12" bodyfile="src/sharding/remote_executor.cpp" bodystart="190" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_remote_executor_1a6f2c9d900a2a4970528d9a6c3cb2352a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>RemoteExecutor::Result themis::sharding::RemoteExecutor::convertResponse</definition>
+        <argsstring>(const MTLSClient::Response &amp;response, const std::string &amp;shard_id, uint64_t start_time_ms)</argsstring>
+        <name>convertResponse</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::convertResponse</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">MTLSClient::Response</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>start_time_ms</declname>
+          <defname>elapsed_ms</defname>
+        </param>
+        <briefdescription>
+<para>Convert Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert <ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">MTLSClient::Response</ref> to <ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">RemoteExecutor::Result</ref></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements convertResponse without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="191" column="12" bodyfile="src/sharding/remote_executor.cpp" bodystart="290" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Remote Executor - Execute requests on remote shards</para>
+<para>Handles shard-to-shard communication using mTLS and signed requests. Provides high-level interface for executing operations on remote shards with automatic retry, error handling, and connection management. </para>
+    </detaileddescription>
+    <location file="include/sharding/remote_executor.h" line="32" column="1" bodyfile="include/sharding/remote_executor.h" bodystart="32" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1ae9d33b419035181ab119c5b80d4a900c" prot="private" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>circuit_breaker_manager_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1aa6de70d06bc001deb907d7ad068baeca" prot="private" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a6f2c9d900a2a4970528d9a6c3cb2352a" prot="private" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>convertResponse</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a66d43c82f8f44c46fbb6bfb48d0d1b7a" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>del</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1afc7e0a98bd3ae90aeae9b9781787ac69" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>executeQuery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1aa8ae840312918b31d50b428af09f147d" prot="private" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>executeRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a49f59842beb8f11a7b4cfe148bf95242" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>get</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a9292931bf214c2e7be1f79e56e9a7387" prot="private" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>getEndpointURL</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a5783264bc926917dc1cb9cf2445c206d" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>getLocalShardId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a9f080d7762870a25c330f5a6f90c2a07" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a92e21e93a77003328b79d59d90209edb" prot="private" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>mtls_client_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a491930cc13e584025fe355efb4866101" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>post</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a30792b512ca6e53fa7993f1db67dc1f1" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>postBinary</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a3766ecfb59912b1aac7b56647f9becd0" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>put</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1ab28dc9c8a849bd38e7ebdfbfd1f8ac3e" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>RemoteExecutor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_remote_executor_1a786730f59e3c4fb13305c49100407e7d" prot="private" virt="non-virtual"><scope>themis::sharding::RemoteExecutor</scope><name>request_signer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

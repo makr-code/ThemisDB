@@ -1,0 +1,517 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="federated__span__contract_8h" kind="file" language="C++">
+    <compoundname>federated_span_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/federated_span_contract.h</label>
+        <link refid="federated__span__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_trace_context" prot="public">themis::process::TraceContext</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_span_attributes" prot="public">themis::process::SpanAttributes</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_span_event" prot="public">themis::process::SpanEvent</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_span" prot="public">themis::process::ISpan</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_process_tracer" prot="public">themis::process::IProcessTracer</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_tracing_config" prot="public">themis::process::TracingConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>OpenTelemetry integration for distributed tracing in federated process module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.1.0-beta</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>Defines span semantics, correlation ID propagation, and metric attachment for process module operations running across multiple shards. Enables root-cause analysis of federated operations via distributed traces in OpenTelemetry collectors (Jaeger, Zipkin, OTLP).</para>
+</sect1>
+<sect1 id="federated__span__contract_8h_1span_model">
+<title>Span Model</title><para>Process module spans form a DAG (directed acyclic graph): <programlisting><codeline><highlight class="normal">Root<sp/>Span<sp/>(</highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>operation<sp/>on<sp/>Shard1)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>├─<sp/>Child<sp/>Span<sp/>(consensus<sp/>replication<sp/>to<sp/>Shard2)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>├─<sp/>Child<sp/>Span<sp/>(conflict<sp/>detection)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>├─<sp/>Child<sp/>Span<sp/>(plugin<sp/>callback<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>resolution)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>└─<sp/>Child<sp/>Span<sp/>(response<sp/>to<sp/>client)</highlight></codeline>
+</programlisting></para>
+<para>Each span captures:<itemizedlist>
+<listitem><para><bold>Operation:</bold> What is being done (import, link, federation sync, conflict resolution)</para>
+</listitem><listitem><para><bold>Resource:</bold> Where it&apos;s happening (shard ID, node ID, service name)</para>
+</listitem><listitem><para><bold>Attributes:</bold> Contextual metadata (model ID, principal ID, version clock)</para>
+</listitem><listitem><para><bold>Events:</bold> Milestones during operation (replication started, conflict detected, resolved)</para>
+</listitem><listitem><para><bold>Status:</bold> Success/failure/error with diagnostic details</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="federated__span__contract_8h_1correlation_propagation">
+<title>Correlation ID Propagation (W3C Trace Context)</title><para>Correlation IDs are propagated via W3C Trace Context standard:<itemizedlist>
+<listitem><para><bold>traceparent header:</bold> <computeroutput>version-trace_id-parent_id-trace_flags</computeroutput></para>
+</listitem><listitem><para><bold>tracestate header:</bold> Vendor extensions (e.g., <computeroutput><ref refid="namespacethemis" kindref="compound">themis</ref>=shard_id,principal_id</computeroutput>)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Example:</bold> <programlisting><codeline><highlight class="normal">Client<sp/>Request:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>traceparent:<sp/>00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>tracestate:<sp/><ref refid="namespacethemis" kindref="compound">themis</ref>=shard-a,user123</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Server<sp/>extracts<sp/>trace_id<sp/>=<sp/>0af7651916cd43dd8448eb211c80319c</highlight></codeline>
+<codeline><highlight class="normal">Server<sp/>propagates<sp/>to<sp/>other<sp/>shards<sp/>in<sp/>RPC<sp/>calls<sp/>with<sp/>same<sp/>trace_id</highlight></codeline>
+<codeline><highlight class="normal">All<sp/>operations<sp/>form<sp/>single<sp/>distributed<sp/>trace<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>root-cause<sp/>analysis</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="federated__span__contract_8h_1span_types">
+<title>Span Types</title><para><table rows="7" cols="5"><row>
+<entry thead="yes"><para>Type  </para>
+</entry><entry thead="yes"><para>Operation  </para>
+</entry><entry thead="yes"><para>Parent  </para>
+</entry><entry thead="yes"><para>Attributes  </para>
+</entry><entry thead="yes"><para>Events  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>import  </para>
+</entry><entry thead="no"><para>Model import  </para>
+</entry><entry thead="no"><para>None (root)  </para>
+</entry><entry thead="no"><para>model_id, size_bytes, shard_id  </para>
+</entry><entry thead="no"><para>parse_start, parse_end, storage_start, storage_end  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>link  </para>
+</entry><entry thead="no"><para>Link creation  </para>
+</entry><entry thead="no"><para>import or None  </para>
+</entry><entry thead="no"><para>model_id, link_type, target_id, shard_id  </para>
+</entry><entry thead="no"><para>lock_acquired, persisted  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>federation_sync  </para>
+</entry><entry thead="no"><para>Cross-shard sync  </para>
+</entry><entry thead="no"><para>None (root)  </para>
+</entry><entry thead="no"><para>sync_id, participating_shards, consensus_type  </para>
+</entry><entry thead="no"><para>consensus_round_1, consensus_round_2, sync_complete  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>conflict_resolution  </para>
+</entry><entry thead="no"><para>Plugin callback  </para>
+</entry><entry thead="no"><para>federation_sync  </para>
+</entry><entry thead="no"><para>conflict_type, local_version, remote_version  </para>
+</entry><entry thead="no"><para>plugin_start, plugin_end, merge_metadata  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>consensus_rpc  </para>
+</entry><entry thead="no"><para>RPC to remote shard  </para>
+</entry><entry thead="no"><para>federation_sync  </para>
+</entry><entry thead="no"><para>remote_shard_id, rpc_type, bytes_sent  </para>
+</entry><entry thead="no"><para>request_sent, response_received  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>validation  </para>
+</entry><entry thead="no"><para>Model validation  </para>
+</entry><entry thead="no"><para>import or recovery  </para>
+</entry><entry thead="no"><para>model_id, validation_rules  </para>
+</entry><entry thead="no"><para>schema_check, cycle_check, constraint_check  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="federated__span__contract_8h_1span_attributes">
+<title>Standard Span Attributes</title><para><heading level="3">All Process Module Spans</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>service.name</computeroutput> = &quot;themisdb-process&quot;</para>
+</listitem><listitem><para><computeroutput>service.version</computeroutput> = version string</para>
+</listitem><listitem><para><computeroutput>span.kind</computeroutput> = &quot;INTERNAL&quot; | &quot;CLIENT&quot; | &quot;SERVER&quot;</para>
+</listitem><listitem><para><computeroutput>span.name</computeroutput> = operation name (e.g., &quot;process.import&quot;, &quot;process.link&quot;)</para>
+</listitem><listitem><para><computeroutput>themis.module</computeroutput> = &quot;process&quot;</para>
+</listitem><listitem><para><computeroutput>themis.operation</computeroutput> = operation type</para>
+</listitem><listitem><para><computeroutput>themis.shard_id</computeroutput> = local shard ID</para>
+</listitem><listitem><para><computeroutput>themis.principal_id</computeroutput> = principal (user/service) ID</para>
+</listitem><listitem><para><computeroutput>db.system</computeroutput> = &quot;themisdb&quot;</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Import Span</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>process.model_id</computeroutput> = model ID</para>
+</listitem><listitem><para><computeroutput>process.model_size_bytes</computeroutput> = size of model content</para>
+</listitem><listitem><para><computeroutput>process.import_format</computeroutput> = &quot;bpmn&quot; | &quot;cmmn&quot; | &quot;epk&quot; | etc.</para>
+</listitem><listitem><para><computeroutput>process.timestamp_ns</computeroutput> = model creation timestamp</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Link Span</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>process.model_id</computeroutput> = source model ID</para>
+</listitem><listitem><para><computeroutput>process.link_type</computeroutput> = link type (e.g., &quot;document&quot;, &quot;instance&quot;)</para>
+</listitem><listitem><para><computeroutput>process.target_id</computeroutput> = target entity ID</para>
+</listitem><listitem><para><computeroutput>process.link_count</computeroutput> = total links on target after creation</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Federation Sync Span</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>process.sync_id</computeroutput> = unique sync operation ID</para>
+</listitem><listitem><para><computeroutput>process.consensus_type</computeroutput> = &quot;raft&quot; | &quot;paxos&quot; | &quot;gossip&quot;</para>
+</listitem><listitem><para><computeroutput>process.participating_shards</computeroutput> = CSV of shard IDs</para>
+</listitem><listitem><para><computeroutput>process.conflict_count</computeroutput> = number of conflicts detected</para>
+</listitem><listitem><para><computeroutput>process.resolutions_applied</computeroutput> = number of conflicts resolved</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Conflict Resolution Span</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>process.conflict_type</computeroutput> = &quot;import_collision&quot; | &quot;linking_collision&quot; | &quot;concurrent_modification&quot;</para>
+</listitem><listitem><para><computeroutput>process.resolution_strategy</computeroutput> = &quot;local_wins&quot; | &quot;remote_wins&quot; | &quot;merged&quot; | &quot;unresolved&quot;</para>
+</listitem><listitem><para><computeroutput>process.plugin_name</computeroutput> = conflict resolution plugin name (if used)</para>
+</listitem><listitem><para><computeroutput>process.resolution_time_us</computeroutput> = resolution callback duration</para>
+</listitem><listitem><para><computeroutput>process.fallback_to_lww</computeroutput> = whether fallback was applied</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Consensus RPC Span</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>process.rpc_type</computeroutput> = &quot;request_vote&quot; | &quot;append_entries&quot; | &quot;prepare&quot; | &quot;accept&quot;</para>
+</listitem><listitem><para><computeroutput>process.remote_shard_id</computeroutput> = destination shard ID</para>
+</listitem><listitem><para><computeroutput>process.bytes_sent</computeroutput> = size of RPC request</para>
+</listitem><listitem><para><computeroutput>process.bytes_received</computeroutput> = size of RPC response</para>
+</listitem><listitem><para><computeroutput>process.rpc_timeout_ms</computeroutput> = timeout applied to this RPC</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="federated__span__contract_8h_1span_events">
+<title>Span Events (Milestones)</title><para>Events mark significant points within a span&apos;s lifetime.</para>
+<para><heading level="3">Import Span Events</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>parse_start</computeroutput> (timestamp) – BPMN/CMMN parsing begins</para>
+</listitem><listitem><para><computeroutput>parse_end</computeroutput> (timestamp, parse_duration_ms) – Parsing completes</para>
+</listitem><listitem><para><computeroutput>validation_start</computeroutput> (timestamp) – Model validation begins</para>
+</listitem><listitem><para><computeroutput>validation_end</computeroutput> (timestamp, validation_duration_ms, validation_result)</para>
+</listitem><listitem><para><computeroutput>storage_start</computeroutput> (timestamp) – Persist to storage begins</para>
+</listitem><listitem><para><computeroutput>storage_end</computeroutput> (timestamp, storage_duration_ms, model_version)</para>
+</listitem><listitem><para><computeroutput>replication_start</computeroutput> (timestamp) – Replication to other shards begins (federation only)</para>
+</listitem><listitem><para><computeroutput>replication_end</computeroutput> (timestamp, replication_duration_ms, replicated_shards)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Conflict Resolution Span Events</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>conflict_detected</computeroutput> (timestamp, conflict_type, local_version, remote_version)</para>
+</listitem><listitem><para><computeroutput>plugin_start</computeroutput> (timestamp, plugin_name)</para>
+</listitem><listitem><para><computeroutput>plugin_end</computeroutput> (timestamp, plugin_result, plugin_duration_ms)</para>
+</listitem><listitem><para><computeroutput>fallback_applied</computeroutput> (timestamp, reason) – Fallback to LWW applied</para>
+</listitem><listitem><para><computeroutput>result_applied</computeroutput> (timestamp, winning_version)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Federation Sync Span Events</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>round_1_start</computeroutput> (timestamp) – First consensus round begins</para>
+</listitem><listitem><para><computeroutput>round_N_complete</computeroutput> (timestamp, votes_received, quorum_reached)</para>
+</listitem><listitem><para><computeroutput>sync_complete</computeroutput> (timestamp, total_duration_ms, models_synced, conflicts_resolved)</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="federated__span__contract_8h_1sampling_strategy">
+<title>Sampling Strategy</title><para>Tracing overhead budget: &lt; 2% on typical federated operations (&lt; 5 µs per span).</para>
+<para><bold>Sampling Strategies:</bold><itemizedlist>
+<listitem><para><bold>All:</bold> 100% sampling (use for debugging, not production)</para>
+</listitem><listitem><para><bold>Percentile:</bold> Sample N% of operations (e.g., 1% for low-overhead monitoring)</para>
+</listitem><listitem><para><bold>Slow-only:</bold> Sample operations exceeding threshold (e.g., &gt;100ms latency)</para>
+</listitem><listitem><para><bold>Adaptive:</bold> Sample based on error rate (more samples if errors detected)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Default:</bold> Slow-only (&gt;100ms) + 1% random sampling for fast operations.</para>
+</sect1>
+<sect1 id="federated__span__contract_8h_1metric_attachment">
+<title>Metrics Attached to Spans</title><para>Span attributes can include performance metrics collected during operation:<itemizedlist>
+<listitem><para><computeroutput>process.cpu_time_us</computeroutput> – CPU time consumed</para>
+</listitem><listitem><para><computeroutput>process.memory_used_bytes</computeroutput> – Peak memory usage</para>
+</listitem><listitem><para><computeroutput>process.cache_hits</computeroutput> – Cache hits during operation</para>
+</listitem><listitem><para><computeroutput>process.cache_misses</computeroutput> – Cache misses during operation</para>
+</listitem><listitem><para><computeroutput>process.lock_wait_us</computeroutput> – Time spent waiting for locks</para>
+</listitem><listitem><para><computeroutput>process.consensus_rounds</computeroutput> – Number of consensus rounds (federation)</para>
+</listitem><listitem><para><computeroutput>process.rpc_calls</computeroutput> – Number of RPC calls made</para>
+</listitem><listitem><para><computeroutput>process.audit_records_written</computeroutput> – Audit trail entries created</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="federated__span__contract_8h_1exporter_configuration">
+<title>Exporter Configuration</title><para>Process module spans can be exported to multiple backends:<itemizedlist>
+<listitem><para><bold>OTLP (gRPC):</bold> <computeroutput><ulink url="http://otel-collector:4317">http://otel-collector:4317</ulink></computeroutput></para>
+</listitem><listitem><para><bold>OTLP (HTTP):</bold> <computeroutput><ulink url="http://otel-collector:4318/v1/traces">http://otel-collector:4318/v1/traces</ulink></computeroutput></para>
+</listitem><listitem><para><bold>Jaeger:</bold> <computeroutput><ulink url="http://jaeger:14268/api/traces">http://jaeger:14268/api/traces</ulink></computeroutput> (OTLP-compatible)</para>
+</listitem><listitem><para><bold>Zipkin:</bold> <computeroutput><ulink url="http://zipkin:9411/api/v2/spans">http://zipkin:9411/api/v2/spans</ulink></computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>Exporter must support <bold>batch + async flush</bold> (non-blocking; no trace I/O on hot path).</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1contract_freeze">
+<title>Contract Freeze</title><para>This contract is frozen for ThemisDB v2.1; breaking changes require v3.0. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Span<sp/>Types<sp/>and<sp/>Attributes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787" kindref="member">ProcessSpanType</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="192" refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787ad9c89e6459f4fbd0b03b5bc093e87919" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787ad9c89e6459f4fbd0b03b5bc093e87919" kindref="member">IMPORT</ref><sp/>=<sp/>6300,</highlight></codeline>
+<codeline lineno="194" refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a58c0a0e97e6d2f615bc264c2775fda44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a58c0a0e97e6d2f615bc264c2775fda44" kindref="member">LINK</ref><sp/>=<sp/>6301,</highlight></codeline>
+<codeline lineno="196" refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787aa0dc19226febe43cdc37186a6dd002f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787aa0dc19226febe43cdc37186a6dd002f5" kindref="member">FEDERATION_SYNC</ref><sp/>=<sp/>6302,</highlight></codeline>
+<codeline lineno="198" refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a215589da58063b7fa50160ce2396c411" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a215589da58063b7fa50160ce2396c411" kindref="member">CONFLICT_RESOLUTION</ref><sp/>=<sp/>6303,</highlight></codeline>
+<codeline lineno="200" refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a06328d7d894dce8ca70de7cecf561a16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a06328d7d894dce8ca70de7cecf561a16" kindref="member">CONSENSUS_RPC</ref><sp/>=<sp/>6304,</highlight></codeline>
+<codeline lineno="202" refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a96ad5e23faa67c0157a05e5237f857fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a96ad5e23faa67c0157a05e5237f857fc" kindref="member">VALIDATION</ref><sp/>=<sp/>6305,</highlight></codeline>
+<codeline lineno="204" refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a9c90eb3f9201a7df861d94e494aa9b0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a9c90eb3f9201a7df861d94e494aa9b0b" kindref="member">RECOVERY</ref><sp/>=<sp/>6306,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106" kindref="member">SpanStatus</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="212" refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>6310,</highlight></codeline>
+<codeline lineno="214" refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106abb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/>=<sp/>6311,</highlight></codeline>
+<codeline lineno="216" refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106a9f935beb31030ad0d4d26126c0f39bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106a9f935beb31030ad0d4d26126c0f39bf2" kindref="member">CANCELLED</ref><sp/>=<sp/>6312,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Span<sp/>Context<sp/>Carrier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1process_1_1_trace_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1process_1_1_trace_context_1a6a34f447c0a5633fd5c088e37bbc2a37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a6a34f447c0a5633fd5c088e37bbc2a37" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="structthemis_1_1process_1_1_trace_context_1ae95dd399c594d125b97de2b24c09d095" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1ae95dd399c594d125b97de2b24c09d095" kindref="member">span_id</ref>;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1process_1_1_trace_context_1a21e4f9cc4a1c30c9813412d0ffd7c33d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a21e4f9cc4a1c30c9813412d0ffd7c33d" kindref="member">trace_flags</ref><sp/>=<sp/>0x01;<sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>sampled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="structthemis_1_1process_1_1_trace_context_1a7e8e125a16c4603c40a49779032f477f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a7e8e125a16c4603c40a49779032f477f" kindref="member">tracestate</ref>;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1process_1_1_trace_context_1a6ec28b8598ee9e97893f0523a68b1f8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a6ec28b8598ee9e97893f0523a68b1f8d" kindref="member">toHeaders</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;traceparent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;00-&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a6a34f447c0a5633fd5c088e37bbc2a37" kindref="member">trace_id</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1ae95dd399c594d125b97de2b24c09d095" kindref="member">span_id</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(<ref refid="structthemis_1_1process_1_1_trace_context_1a21e4f9cc4a1c30c9813412d0ffd7c33d" kindref="member">trace_flags</ref><sp/>&amp;<sp/>0x01<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;01&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;00&quot;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;tracestate&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a7e8e125a16c4603c40a49779032f477f" kindref="member">tracestate</ref>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="structthemis_1_1process_1_1_trace_context_1afedc3fffa196a20619e8c5f049ae665d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;TraceContext&gt;<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1afedc3fffa196a20619e8c5f049ae665d" kindref="member">fromHeaders</ref>(</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="structthemis_1_1process_1_1_trace_context_1a1b0c44df084a1c4d4db73afdb135af11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a1b0c44df084a1c4d4db73afdb135af11" kindref="member">isValid</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a6a34f447c0a5633fd5c088e37bbc2a37" kindref="member">trace_id</ref>.size()<sp/>==<sp/>32<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1ae95dd399c594d125b97de2b24c09d095" kindref="member">span_id</ref>.size()<sp/>==<sp/>16;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Span<sp/>Attributes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1process_1_1_span_attributes" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_span_attributes" kindref="compound">SpanAttributes</ref><sp/>{</highlight></codeline>
+<codeline lineno="282" refid="structthemis_1_1process_1_1_span_attributes_1a682c05eb8d7dfd8a2fe6368ece5aaaf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a682c05eb8d7dfd8a2fe6368ece5aaaf8" kindref="member">service_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb-process&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1process_1_1_span_attributes_1a35187d464fb07f1c8c82f148bc1294b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a35187d464fb07f1c8c82f148bc1294b2" kindref="member">service_version</ref>;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="structthemis_1_1process_1_1_span_attributes_1a77a7556a9821ea7f44b0bab55b63efed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a77a7556a9821ea7f44b0bab55b63efed" kindref="member">span_kind</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;INTERNAL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="structthemis_1_1process_1_1_span_attributes_1a9f51056d953fb16f39332c695401bdb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a9f51056d953fb16f39332c695401bdb7" kindref="member">span_name</ref>;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294" refid="structthemis_1_1process_1_1_span_attributes_1a7ed1f5ae981cfba02cef62ccc9499f0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a7ed1f5ae981cfba02cef62ccc9499f0b" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="structthemis_1_1process_1_1_span_attributes_1a9f41e55d3516fef9b553120a337e424f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a9f41e55d3516fef9b553120a337e424f" kindref="member">principal_id</ref>;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300" refid="structthemis_1_1process_1_1_span_attributes_1a229ae78aac3bd07f3c42b6071f9419d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a229ae78aac3bd07f3c42b6071f9419d8" kindref="member">operation_type</ref>;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="structthemis_1_1process_1_1_span_attributes_1a60d79893240748583a428b277aab9092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a60d79893240748583a428b277aab9092" kindref="member">generic_attributes</ref>;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1process_1_1_span_attributes_1a1b2d62e5167a41923e77da58e6d1935f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a1b2d62e5167a41923e77da58e6d1935f" kindref="member">setAttribute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_span_attributes_1a60d79893240748583a428b277aab9092" kindref="member">generic_attributes</ref>[key]<sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Span<sp/>Events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1process_1_1_span_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_span_event" kindref="compound">SpanEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1process_1_1_span_event_1ac063c199996b21345f071316b1ff3cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_span_event_1ac063c199996b21345f071316b1ff3cce" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="structthemis_1_1process_1_1_span_event_1ae06dca50efdd2b6bfc0deeb239a207ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_span_event_1ae06dca50efdd2b6bfc0deeb239a207ae" kindref="member">timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330" refid="structthemis_1_1process_1_1_span_event_1a91c09eee483188922e3d5764cbedfe24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_span_event_1a91c09eee483188922e3d5764cbedfe24" kindref="member">attributes</ref>;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337" refid="structthemis_1_1process_1_1_span_event_1a453b21b41fb61ee9a95fc9c83d2f4f00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_span_event" kindref="compound">SpanEvent</ref><sp/><ref refid="structthemis_1_1process_1_1_span_event_1a453b21b41fb61ee9a95fc9c83d2f4f00" kindref="member">now</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_name)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ns<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>).count();</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{event_name,<sp/>ns,<sp/>{}};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Span<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355" refid="classthemis_1_1process_1_1_i_span" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_i_span" kindref="compound">ISpan</ref><sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="357" refid="classthemis_1_1process_1_1_i_span_1aba9d15445f2bf602b4ff254d8fc8d15e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_span_1aba9d15445f2bf602b4ff254d8fc8d15e" kindref="member">~ISpan</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363" refid="classthemis_1_1process_1_1_i_span_1a9600571b55a7a1f24c27f30b4393c760" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref><sp/><ref refid="classthemis_1_1process_1_1_i_span_1a9600571b55a7a1f24c27f30b4393c760" kindref="member">traceContext</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370" refid="classthemis_1_1process_1_1_i_span_1ac2bd28c5a15b72b1c318a7a9eaab135b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_span_1ac2bd28c5a15b72b1c318a7a9eaab135b" kindref="member">setAttribute</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>value)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376" refid="classthemis_1_1process_1_1_i_span_1a31260823054ece87741bcadc5220719e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_span_1a31260823054ece87741bcadc5220719e" kindref="member">addEvent</ref>(const<sp/><ref refid="structthemis_1_1process_1_1_span_event" kindref="compound">SpanEvent</ref>&amp;<sp/>event)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383" refid="classthemis_1_1process_1_1_i_span_1a2a47034bcf6d3fa3dbece1c23c678ba5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_span_1a2a47034bcf6d3fa3dbece1c23c678ba5" kindref="member">setStatus</ref>(<ref refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106" kindref="member">SpanStatus</ref><sp/>status,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>description<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390" refid="classthemis_1_1process_1_1_i_span_1a5ade710110a7e3a26906c051c8f6525f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_span_1a5ade710110a7e3a26906c051c8f6525f" kindref="member">end</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tracer<sp/>Interface<sp/>(Process-Specific)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402" refid="classthemis_1_1process_1_1_i_process_tracer" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer" kindref="compound">IProcessTracer</ref><sp/>{</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="404" refid="classthemis_1_1process_1_1_i_process_tracer_1af296f6139ceb17dbdff9c35fdd73b1a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer_1af296f6139ceb17dbdff9c35fdd73b1a8" kindref="member">~IProcessTracer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415" refid="classthemis_1_1process_1_1_i_process_tracer_1a21968fa73d8311005ed90097f8e622d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer_1a21968fa73d8311005ed90097f8e622d2" kindref="member">createImportSpan</ref>(</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal_id,</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;TraceContext&gt;&amp;<sp/>parent_context<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432" refid="classthemis_1_1process_1_1_i_process_tracer_1addae91a6a13a5781ae8c41902d212e68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer_1addae91a6a13a5781ae8c41902d212e68" kindref="member">createLinkSpan</ref>(</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_id,</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal_id,</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;TraceContext&gt;&amp;<sp/>parent_context<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449" refid="classthemis_1_1process_1_1_i_process_tracer_1ad8af36b2b0890bc1237548a91a7997ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer_1ad8af36b2b0890bc1237548a91a7997ae" kindref="member">createFederationSyncSpan</ref>(</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sync_id,</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>participating_shards,</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal_id,</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>consensus_type</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466" refid="classthemis_1_1process_1_1_i_process_tracer_1a849d1e96778005be3701d29eaa0d14a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer_1a849d1e96778005be3701d29eaa0d14a5" kindref="member">createConflictResolutionSpan</ref>(</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>conflict_type,</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_version,</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>remote_version,</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin_name,</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref>&amp;<sp/>parent_context</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482" refid="classthemis_1_1process_1_1_i_process_tracer_1a80c76c1c29acf2096fd879a5f2311eb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer_1a80c76c1c29acf2096fd879a5f2311eb7" kindref="member">createConsensusRpcSpan</ref>(</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rpc_type,</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>remote_shard_id,</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref>&amp;<sp/>parent_context</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="497" refid="classthemis_1_1process_1_1_i_process_tracer_1aa7fb6eb16d749035e5e6c714c981231d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer_1aa7fb6eb16d749035e5e6c714c981231d" kindref="member">createRecoverySpan</ref>(</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>target_timestamp_ns,</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal_id</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508" refid="classthemis_1_1process_1_1_i_process_tracer_1a37b652c1709514fd2dc3751b266597a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer" kindref="compound">IProcessTracer</ref>&amp;<sp/><ref refid="classthemis_1_1process_1_1_i_process_tracer_1a37b652c1709514fd2dc3751b266597a7" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="509"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tracing<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518" refid="structthemis_1_1process_1_1_tracing_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_tracing_config" kindref="compound">TracingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="520" refid="structthemis_1_1process_1_1_tracing_config_1a5c5293923e277175b13d6137e105e9b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1a5c5293923e277175b13d6137e105e9b9" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"></highlight></codeline>
+<codeline lineno="523" refid="structthemis_1_1process_1_1_tracing_config_1af577e21b9cd07db4bcde94df11e8f68a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1af577e21b9cd07db4bcde94df11e8f68a" kindref="member">sampling_strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;slow_only&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="526" refid="structthemis_1_1process_1_1_tracing_config_1acc6b7c9696a5de95002340af250d9401" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1acc6b7c9696a5de95002340af250d9401" kindref="member">sampling_percentile</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="529" refid="structthemis_1_1process_1_1_tracing_config_1a7883d97be8e3a8b773311602e6ab4e29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1a7883d97be8e3a8b773311602e6ab4e29" kindref="member">slow_operation_threshold_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"></highlight></codeline>
+<codeline lineno="532" refid="structthemis_1_1process_1_1_tracing_config_1aaeb27fe3c3e03dc40eab2640b572dd09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1aaeb27fe3c3e03dc40eab2640b572dd09" kindref="member">exporter_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost:4317&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"></highlight></codeline>
+<codeline lineno="535" refid="structthemis_1_1process_1_1_tracing_config_1a4e06438a0e8537ada124059aef37bbad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1a4e06438a0e8537ada124059aef37bbad" kindref="member">exporter_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight></codeline>
+<codeline lineno="538" refid="structthemis_1_1process_1_1_tracing_config_1a9862a60c2d8c33c5f6dd909e77f2ea14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1a9862a60c2d8c33c5f6dd909e77f2ea14" kindref="member">batch_size</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"></highlight></codeline>
+<codeline lineno="541" refid="structthemis_1_1process_1_1_tracing_config_1a08921ac408ad246538a6c2b8e98bf298" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1a08921ac408ad246538a6c2b8e98bf298" kindref="member">export_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight></codeline>
+<codeline lineno="544" refid="structthemis_1_1process_1_1_tracing_config_1a83b0d305f8c546a6e56b30472e08627e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1a83b0d305f8c546a6e56b30472e08627e" kindref="member">async_export</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547" refid="structthemis_1_1process_1_1_tracing_config_1a57546dd8ae8c392b23f819b4bf93f1ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1a57546dd8ae8c392b23f819b4bf93f1ea" kindref="member">service_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb-process&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"></highlight></codeline>
+<codeline lineno="550" refid="structthemis_1_1process_1_1_tracing_config_1a431ef5c4502ceb166bab7741cbdfe800" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1a431ef5c4502ceb166bab7741cbdfe800" kindref="member">service_version</ref>;</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"></highlight></codeline>
+<codeline lineno="553" refid="structthemis_1_1process_1_1_tracing_config_1ae06d44585bc2b702df1575c48cfcaba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_tracing_config_1ae06d44585bc2b702df1575c48cfcaba2" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="554"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"></highlight></codeline>
+<codeline lineno="556"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/federated_span_contract.h"/>
+  </compounddef>
+</doxygen>

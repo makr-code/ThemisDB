@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::util::CapabilityAutoGenerator::Config</compoundname>
+    <includes refid="capability__auto__generator_8h" local="no">capability_auto_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a64f70fe5ac6845cd933a6c4a2f8cb3e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="69" column="14" bodyfile="include/utils/capability_auto_generator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a1dea107eff18f7235a6ebf4611988747" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule" kindref="compound">UpdateSchedule</ref> &gt;</type>
+        <definition>std::map&lt;std::string, UpdateSchedule&gt; themis::util::CapabilityAutoGenerator::Config::schedules</definition>
+        <argsstring></argsstring>
+        <name>schedules</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::schedules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="72" column="18" bodyfile="include/utils/capability_auto_generator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a3bc8c88883364c473862a4393357c661" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::CapabilityAutoGenerator::Config::sampling_rate</definition>
+        <argsstring></argsstring>
+        <name>sampling_rate</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::sampling_rate</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="75" column="18" bodyfile="include/utils/capability_auto_generator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a181fd7a89adeb10a7c4001def7c7d0f9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::CapabilityAutoGenerator::Config::max_keywords</definition>
+        <argsstring></argsstring>
+        <name>max_keywords</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::max_keywords</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="76" column="18" bodyfile="include/utils/capability_auto_generator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a561591cf6521ca534671c4d7a959bad9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::Config::audit_logging</definition>
+        <argsstring></argsstring>
+        <name>audit_logging</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::audit_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="79" column="14" bodyfile="include/utils/capability_auto_generator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a649310b14db92625d0503d4bb6d9ee8a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::util::CapabilityAutoGenerator::Config::audit_log_path</definition>
+        <argsstring></argsstring>
+        <name>audit_log_path</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::audit_log_path</qualifiedname>
+        <initializer>= &quot;/var/log/themisdb/capability-generation.log&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="80" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a5497f6a2643796fc8045175b4df4949e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::Config::require_signature</definition>
+        <argsstring></argsstring>
+        <name>require_signature</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::require_signature</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="83" column="14" bodyfile="include/utils/capability_auto_generator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a692b2476db78e03016902d6eef7d6fef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::util::CapabilityAutoGenerator::Config::signing_key_path</definition>
+        <argsstring></argsstring>
+        <name>signing_key_path</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::signing_key_path</qualifiedname>
+        <initializer>= &quot;/etc/themisdb/capability-signing.key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="84" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a6c47d826f52dc156911b33e186d4b7a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::util::CapabilityAutoGenerator::Config::output_directory</definition>
+        <argsstring></argsstring>
+        <name>output_directory</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::output_directory</qualifiedname>
+        <initializer>= &quot;config/capabilities&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="87" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a3d50b4157786cf62dcf83bebe532fec3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::Config::create_backups</definition>
+        <argsstring></argsstring>
+        <name>create_backups</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::create_backups</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="88" column="14" bodyfile="include/utils/capability_auto_generator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1acf3b9bce85c46352993638292fa69636" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::Config::git_commit</definition>
+        <argsstring></argsstring>
+        <name>git_commit</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::git_commit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="89" column="14" bodyfile="include/utils/capability_auto_generator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a36aca617a8feab5ff33ad04e2ddd9006" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>CapabilityAutoGenerator::Config themis::util::CapabilityAutoGenerator::Config::loadFromYAML</definition>
+        <argsstring>(const std::string &amp;yaml_path)</argsstring>
+        <name>loadFromYAML</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::Config::loadFromYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load From YAML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load configuration from YAML file</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: YAML::LoadFile(), std::chrono::seconds(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="94" column="23" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="46" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for capability auto-generation </para>
+    </detaileddescription>
+    <location file="include/utils/capability_auto_generator.h" line="68" column="5" bodyfile="include/utils/capability_auto_generator.h" bodystart="68" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a649310b14db92625d0503d4bb6d9ee8a" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>audit_log_path</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a561591cf6521ca534671c4d7a959bad9" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>audit_logging</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a3d50b4157786cf62dcf83bebe532fec3" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>create_backups</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a64f70fe5ac6845cd933a6c4a2f8cb3e0" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1acf3b9bce85c46352993638292fa69636" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>git_commit</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a36aca617a8feab5ff33ad04e2ddd9006" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>loadFromYAML</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a181fd7a89adeb10a7c4001def7c7d0f9" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>max_keywords</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a6c47d826f52dc156911b33e186d4b7a0" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>output_directory</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a5497f6a2643796fc8045175b4df4949e" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>require_signature</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a3bc8c88883364c473862a4393357c661" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>sampling_rate</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a1dea107eff18f7235a6ebf4611988747" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>schedules</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config_1a692b2476db78e03016902d6eef7d6fef" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::Config</scope><name>signing_key_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

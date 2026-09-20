@@ -1,0 +1,3064 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1content" kind="namespace" language="C++">
+    <compoundname>themis::content</compoundname>
+    <innerclass refid="structthemis_1_1content_1_1_abuse_detection_result" prot="public">themis::content::AbuseDetectionResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_abuse_detector_metadata" prot="public">themis::content::AbuseDetectorMetadata</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_archive_extraction_result" prot="public">themis::content::ArchiveExtractionResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_archive_member" prot="public">themis::content::ArchiveMember</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_archive_metadata" prot="public">themis::content::ArchiveMetadata</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_archive_processor" prot="public">themis::content::ArchiveProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_archive_processor_config" prot="public">themis::content::ArchiveProcessorConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_archive_processor_result" prot="public">themis::content::ArchiveProcessorResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_async_ingestion_config" prot="public">themis::content::AsyncIngestionConfig</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_async_ingestion_worker" prot="public">themis::content::AsyncIngestionWorker</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_audio_processor" prot="public">themis::content::AudioProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_binary_processor" prot="public">themis::content::BinaryProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_c_a_d_extraction_data" prot="public">themis::content::CADExtractionData</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_c_a_d_processor" prot="public">themis::content::CADProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_category_policy" prot="public">themis::content::CategoryPolicy</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_chunk_meta" prot="public">themis::content::ChunkMeta</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_assembly" prot="public">themis::content::ContentAssembly</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_category" prot="public">themis::content::ContentCategory</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_chunk" prot="public">themis::content::ContentChunk</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_classification_request" prot="public">themis::content::ContentClassificationRequest</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_classification_result" prot="public">themis::content::ContentClassificationResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_error" prot="public">themis::content::ContentError</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_extraction_result" prot="public">themis::content::ContentExtractionResult</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_logger" prot="public">themis::content::ContentLogger</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_manager" prot="public">themis::content::ContentManager</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_meta" prot="public">themis::content::ContentMeta</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_metrics" prot="public">themis::content::ContentMetrics</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_operation_timer" prot="public">themis::content::ContentOperationTimer</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_policy" prot="public">themis::content::ContentPolicy</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_security_config" prot="public">themis::content::ContentSecurityConfig</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_security_manager" prot="public">themis::content::ContentSecurityManager</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_type" prot="public">themis::content::ContentType</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_type_pipeline_config" prot="public">themis::content::ContentTypePipelineConfig</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_type_registry" prot="public">themis::content::ContentTypeRegistry</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_validation_config" prot="public">themis::content::ContentValidationConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_validation_result" prot="public">themis::content::ContentValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_validator" prot="public">themis::content::ContentValidator</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_deduplication_checker" prot="public">themis::content::DeduplicationChecker</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_detected_language" prot="public">themis::content::DetectedLanguage</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_duplicate_of" prot="public">themis::content::DuplicateOf</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_embedding_pipeline" prot="public">themis::content::EmbeddingPipeline</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_embedding_pipeline_config" prot="public">themis::content::EmbeddingPipelineConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_excel_workbook_info" prot="public">themis::content::ExcelWorkbookInfo</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_extraction_options" prot="public">themis::content::ExtractionOptions</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_extraction_result" prot="public">themis::content::ExtractionResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_geo_extraction_data" prot="public">themis::content::GeoExtractionData</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_geo_processor" prot="public">themis::content::GeoProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_html_processor" prot="public">themis::content::HtmlProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_i_abuse_detector" prot="public">themis::content::IAbuseDetector</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_i_content_classifier" prot="public">themis::content::IContentClassifier</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_i_content_processor" prot="public">themis::content::IContentProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_i_content_processor_plugin" prot="public">themis::content::IContentProcessorPlugin</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_image_processor" prot="public">themis::content::ImageProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_ingestion_job" prot="public">themis::content::IngestionJob</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_ingestion_plugin" prot="public">themis::content::IngestionPlugin</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_ingestion_source" prot="public">themis::content::IngestionSource</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_i_p_i_i_redactor" prot="public">themis::content::IPIIRedactor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_language_detector" prot="public">themis::content::LanguageDetector</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_legacy_audio_processor" prot="public">themis::content::LegacyAudioProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_legacy_c_a_d_processor" prot="public">themis::content::LegacyCADProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_legacy_geo_processor" prot="public">themis::content::LegacyGeoProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_legacy_image_processor" prot="public">themis::content::LegacyImageProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_markdown_processor" prot="public">themis::content::MarkdownProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_media_extraction_data" prot="public">themis::content::MediaExtractionData</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_mime_detector" prot="public">themis::content::MimeDetector</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_mime_policy" prot="public">themis::content::MimePolicy</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_mock_clip_processor" prot="public">themis::content::MockClipProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_ocr_processor" prot="public">themis::content::OcrProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_office_metadata" prot="public">themis::content::OfficeMetadata</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_office_processor" prot="public">themis::content::OfficeProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_d_f_metadata" prot="public">themis::content::PDFMetadata</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_d_f_page_info" prot="public">themis::content::PDFPageInfo</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_p_d_f_processor" prot="public">themis::content::PDFProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector" prot="public">themis::content::PhotoDNAAbuseDetector</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_i_i_match" prot="public">themis::content::PIIMatch</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_i_i_redaction_config" prot="public">themis::content::PIIRedactionConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_i_i_redaction_result" prot="public">themis::content::PIIRedactionResult</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_plugin_config" prot="public">themis::content::PluginConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_plugin_info" prot="public">themis::content::PluginInfo</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_power_point_info" prot="public">themis::content::PowerPointInfo</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_processor_chain_config" prot="public">themis::content::ProcessorChainConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_scan_result" prot="public">themis::content::ScanResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_security_check_result" prot="public">themis::content::SecurityCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_stage_config" prot="public">themis::content::StageConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_status" prot="public">themis::content::Status</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_structured_processor" prot="public">themis::content::StructuredProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_s_t_t_processor" prot="public">themis::content::STTProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_temp_dir_guard" prot="public">themis::content::TempDirGuard</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_text_abuse_detector" prot="public">themis::content::TextAbuseDetector</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_text_processor" prot="public">themis::content::TextProcessor</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_timeout_guard" prot="public">themis::content::TimeoutGuard</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_transcription_result" prot="public">themis::content::TranscriptionResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_transcription_segment" prot="public">themis::content::TranscriptionSegment</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_t_t_s_options" prot="public">themis::content::TTSOptions</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_t_t_s_processor" prot="public">themis::content::TTSProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_t_t_s_result" prot="public">themis::content::TTSResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_validation_result" prot="public">themis::content::ValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_version_manager" prot="public">themis::content::VersionManager</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_video_processor" prot="public">themis::content::VideoProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_word_document_info" prot="public">themis::content::WordDocumentInfo</innerclass>
+    <innernamespace refid="namespacethemis_1_1content_1_1adapters">themis::content::adapters</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content_1_1pipeline">themis::content::pipeline</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content_1_1test">themis::content::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AbuseAction</name>
+        <qualifiedname>themis::content::AbuseAction</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca40908e0f79c647b844c42f5babdc3feb" prot="public">
+          <name>ALLOW</name>
+          <briefdescription>
+<para>Content is clean; no action required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca0f4d0db3668dd58cabb9eb409657eaa8" prot="public">
+          <name>FLAG</name>
+          <briefdescription>
+<para>Content is suspicious; store with a flag for review. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca4d34f53389ed7f28ca91fc31ea360a66" prot="public">
+          <name>BLOCK</name>
+          <briefdescription>
+<para>Content is clearly abusive; reject/block it. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="24" column="1" bodyfile="include/content/abuse_detector.h" bodystart="24" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1a3036ea534ae06b12a3d5d6db521c1cb9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ArchiveStrategy</name>
+        <qualifiedname>themis::content::ArchiveStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1a3036ea534ae06b12a3d5d6db521c1cb9a5b6de5b8f257deef45ce85b70b22d1fd" prot="public">
+          <name>EXTRACT_AND_INGEST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a3036ea534ae06b12a3d5d6db521c1cb9a9bfbfb51bc0f0a256a2c3393fa0f72fe" prot="public">
+          <name>METADATA_ONLY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a3036ea534ae06b12a3d5d6db521c1cb9a59b228d9fec9b88833bfe5d812ed8ad4" prot="public">
+          <name>REJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="26" column="1" bodyfile="include/content/archive_processor.h" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1af1dbde32d5da90ce053d28fc2cd13a64" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EncryptedArchivePolicy</name>
+        <qualifiedname>themis::content::EncryptedArchivePolicy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1af1dbde32d5da90ce053d28fc2cd13a64a59b228d9fec9b88833bfe5d812ed8ad4" prot="public">
+          <name>REJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1af1dbde32d5da90ce053d28fc2cd13a64a9bfbfb51bc0f0a256a2c3393fa0f72fe" prot="public">
+          <name>METADATA_ONLY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1af1dbde32d5da90ce053d28fc2cd13a64a4617d37289b00d614285acbe5b64119d" prot="public">
+          <name>REQUIRE_PASSWORD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="32" column="1" bodyfile="include/content/archive_processor.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ArchiveFormat</name>
+        <qualifiedname>themis::content::ArchiveFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2ca4348f938bbddd8475e967ccb47ecb234" prot="public">
+          <name>ZIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2caef01abce9646c28f96de24223e801024" prot="public">
+          <name>TAR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2caaa614b69beeac968bfea706921249f3d" prot="public">
+          <name>TAR_GZ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2ca26cd66da9c356a0f5149e51cda58b58b" prot="public">
+          <name>TAR_BZ2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2ca47423cc000e6b7f133a0b057b0644391" prot="public">
+          <name>TAR_XZ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2ca049bc3c595c1e314d24a5e772028da0a" prot="public">
+          <name>SEVEN_ZIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2ca696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="38" column="1" bodyfile="include/content/archive_processor.h" bodystart="38" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IngestionJobStatus</name>
+        <qualifiedname>themis::content::IngestionJobStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8a9df29ce7ca629ff1d47bca1149d9faae" prot="public">
+          <name>QUEUED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8ae133e9a63fd4950f19c2180be4047ecc" prot="public">
+          <name>PROCESSING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8a9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="37" column="1" bodyfile="include/content/async_ingestion_worker.h" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IngestionJobType</name>
+        <qualifiedname>themis::content::IngestionJobType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912bacd7e2514d7b1527c6ff937b4da2d1c46" prot="public">
+          <name>SINGLE_FILE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912bacc4ba0d773c2a2f1be9a9be573eeaf4e" prot="public">
+          <name>STREAM_FILE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912ba71f01f32e90440fd6039511dde69e995" prot="public">
+          <name>ARCHIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912ba62fb8f285d8667a475aea5669152b474" prot="public">
+          <name>BATCH_FILES</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912ba2adcea5c12d0f385d222e4eebfa43e12" prot="public">
+          <name>URL_FETCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912ba25e63a158754f6ce42160bc5084e0b05" prot="public">
+          <name>HUGGINGFACE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912ba43e843f1634c522c70edbbcbfd3b26a9" prot="public">
+          <name>FILESYSTEM_BULK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912ba944f312aaa6c0785d0deff510760c515" prot="public">
+          <name>DATABASE_EXPORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912ba3b1afcf6d15b609e3baa06125219b9cc" prot="public">
+          <name>REST_API</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="45" column="1" bodyfile="include/content/async_ingestion_worker.h" bodystart="45" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ContentError</name>
+        <qualifiedname>themis::content::ContentError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a2d12f765aed55ac7e7bfc8d1eb2ce031" prot="public">
+          <name>kScanError</name>
+          <initializer>= 8000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269ade81e89c9b82497c0e8b9db18a8ac03f" prot="public">
+          <name>kUnsupportedFormat</name>
+          <initializer>= 8001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a78b2eb4551d809d51674b01b2d166f9e" prot="public">
+          <name>kSizeLimit</name>
+          <initializer>= 8002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a5f2af10100e61106ebc84621e7db2e93" prot="public">
+          <name>kEncodingInvalid</name>
+          <initializer>= 8003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_api_contract.h" line="48" column="1" bodyfile="include/content/content_api_contract.h" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ScanVerdict</name>
+        <qualifiedname>themis::content::ScanVerdict</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855a734aa42737f7263b67032297f3965a94" prot="public">
+          <name>kAllow</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855aaf937713a39275d7c02a4a08b982d81a" prot="public">
+          <name>kBlock</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_api_contract.h" line="55" column="1" bodyfile="include/content/content_api_contract.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ContentErrorCode</name>
+        <qualifiedname>themis::content::ContentErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a84864ed59066e3479a279920161bf8d0" prot="public">
+          <name>CONTENT_INVALID_INPUT</name>
+          <initializer>= 1000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" prot="public">
+          <name>CONTENT_SIZE_EXCEEDED</name>
+          <initializer>= 1001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a06ec63cdd1c2148aad4a879471c3e1bb" prot="public">
+          <name>CONTENT_FORMAT_UNSUPPORTED</name>
+          <initializer>= 1002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6044327440d3f269cccc3ed715db9579" prot="public">
+          <name>CONTENT_MIME_TYPE_INVALID</name>
+          <initializer>= 1003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a4325973450f1d10a1f3775637bf51ceb" prot="public">
+          <name>CONTENT_MIME_TYPE_DENIED</name>
+          <initializer>= 1004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0abbd3d39b6cb834f344ed6f84ae72ae66" prot="public">
+          <name>CONTENT_EMPTY</name>
+          <initializer>= 1005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a45501585db9fc46a4a0f486b59f40748" prot="public">
+          <name>CONTENT_CORRUPT</name>
+          <initializer>= 1006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a58bbffa64e26487ab5e7ac0aeacb3592" prot="public">
+          <name>CONTENT_SCHEMA_INVALID</name>
+          <initializer>= 1007</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" prot="public">
+          <name>CONTENT_PROCESSING_FAILED</name>
+          <initializer>= 1100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad7503833b03298f71399f0c189cb2d90" prot="public">
+          <name>CONTENT_EXTRACTION_FAILED</name>
+          <initializer>= 1101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a5cc4f209f913ce693bd378f0effc2fba" prot="public">
+          <name>CONTENT_TIMEOUT</name>
+          <initializer>= 1102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ab5fe7c35cfb945ff06f615e79bf8935c" prot="public">
+          <name>CONTENT_PROCESSOR_UNAVAILABLE</name>
+          <initializer>= 1103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a63739bc5f50dbeb1472f62a7b11b4191" prot="public">
+          <name>CONTENT_CHUNKING_FAILED</name>
+          <initializer>= 1104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a0606b88804fd38ea9fb5c4a24c1a97b0" prot="public">
+          <name>CONTENT_EMBEDDING_FAILED</name>
+          <initializer>= 1105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a17830fd751173a483e51370eff4a35ff" prot="public">
+          <name>CONTENT_INDEXING_FAILED</name>
+          <initializer>= 1106</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" prot="public">
+          <name>CONTENT_MALWARE_DETECTED</name>
+          <initializer>= 1200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679415cb41feb6ae0499b0cb608a03bb" prot="public">
+          <name>CONTENT_PII_DETECTED</name>
+          <initializer>= 1201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a25f00f2cb887fe03dbdbb4ae1a464ebd" prot="public">
+          <name>CONTENT_ABUSE_DETECTED</name>
+          <initializer>= 1202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a955e318eab781ad436ac9b0a900ab229" prot="public">
+          <name>CONTENT_UNAUTHORIZED</name>
+          <initializer>= 1203</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ac572453a1338a2a9dcac2af73c5eaf8c" prot="public">
+          <name>CONTENT_SIGNATURE_INVALID</name>
+          <initializer>= 1204</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a174aad531d53b0d426181468ffbce461" prot="public">
+          <name>CONTENT_ENCRYPTION_FAILED</name>
+          <initializer>= 1205</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ace4f16236d6582fd612bed577fbdaae2" prot="public">
+          <name>CONTENT_NOT_FOUND</name>
+          <initializer>= 1300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad7d502e67e9313a487b5468b44f7c398" prot="public">
+          <name>CONTENT_STORAGE_FAILED</name>
+          <initializer>= 1301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a800699413046f66366545f0d109fdb6b" prot="public">
+          <name>CONTENT_DEDUPLICATION_FAILED</name>
+          <initializer>= 1302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9cc02089c58f436c19003e04b67dc1fb" prot="public">
+          <name>CONTENT_COMPRESSION_FAILED</name>
+          <initializer>= 1303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a021d96de0a7f2486d4095e6f382ce1b3" prot="public">
+          <name>CONTENT_RATE_LIMIT_EXCEEDED</name>
+          <initializer>= 1400</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a0e35ea09f58915b7f3ed80a0b780b6d5" prot="public">
+          <name>CONTENT_QUEUE_FULL</name>
+          <initializer>= 1401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad597fdfe51bfde0b0b08ed70d740db34" prot="public">
+          <name>CONTENT_BACKPRESSURE</name>
+          <initializer>= 1402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a219dd2064e1432a63c8f797e1282503f" prot="public">
+          <name>CONTENT_MEMORY_LIMIT</name>
+          <initializer>= 1500</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0aed69b1793572c7d7efa432fbb09380c2" prot="public">
+          <name>CONTENT_CPU_LIMIT</name>
+          <initializer>= 1501</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a387b370985159618eb3967c2c0920741" prot="public">
+          <name>CONTENT_WORKER_UNAVAILABLE</name>
+          <initializer>= 1502</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679adbc9a216d14b99d7761415b29d8f" prot="public">
+          <name>CONTENT_INTERNAL_ERROR</name>
+          <initializer>= 1900</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a842a7e1a21f5d4fb2f91999abf8cda29" prot="public">
+          <name>CONTENT_CONFIGURATION_ERROR</name>
+          <initializer>= 1901</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6ae4eaf03a3909d964ebc41c2839a105" prot="public">
+          <name>CONTENT_DEPENDENCY_ERROR</name>
+          <initializer>= 1902</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="23" column="1" bodyfile="include/content/content_errors.h" bodystart="23" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ContentCategory</name>
+        <qualifiedname>themis::content::ContentCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" prot="public">
+          <name>TEXT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" prot="public">
+          <name>IMAGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5ae423b8bde9bfbfd7e9409b23b23aed91" prot="public">
+          <name>AUDIO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5ae60ae31f67ab883c746bb71c7a145c18" prot="public">
+          <name>VIDEO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a4a221f74494f1ac7a498e6524292eaef" prot="public">
+          <name>GEO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5aeccb0954fca9f2005aea084605df5ee9" prot="public">
+          <name>CAD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a71f01f32e90440fd6039511dde69e995" prot="public">
+          <name>ARCHIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5af3657f7b18c7809b92f317c5f3b53421" prot="public">
+          <name>STRUCTURED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" prot="public">
+          <name>BINARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="26" column="1" bodyfile="include/content/content_type.h" bodystart="26" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OfficeDocumentType</name>
+        <qualifiedname>themis::content::OfficeDocumentType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a7cfd9a9f0f8957f851d1f18224e85cfe" prot="public">
+          <name>DOCX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a3f191d96d6c2c6bc91e4f271801221a0" prot="public">
+          <name>XLSX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a6c6b5c05d51726fe23e2045ad9f5dcec" prot="public">
+          <name>PPTX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a2e09a5b01eac28408404f266726d465c" prot="public">
+          <name>DOC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276aa995d055dd6053590daad9cc5bd6922f" prot="public">
+          <name>XLS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a5be8fca867cdc28890b877c74efb06fc" prot="public">
+          <name>PPT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a23adbb49bffc45a4ca19a19eb1fc8328" prot="public">
+          <name>ODT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a03bca049e84ba7d10ef0e3ec7529f301" prot="public">
+          <name>ODS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a949d00be963a55903b669b09e2f7ad6d" prot="public">
+          <name>ODP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a7da7adb1d98a6ee0f69281084f9ea9b2" prot="public">
+          <name>RTF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="25" column="1" bodyfile="include/content/office_processor.h" bodystart="25" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aad" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PIIType</name>
+        <qualifiedname>themis::content::PIIType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada61a649a33f2869e5e35fbb7aff3a80d9" prot="public">
+          <name>EMAIL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadaf9dd946cc89c1f3b41a0edbe0f36931d" prot="public">
+          <name>PHONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada8fe59663630697bb628e4de0d1592cdc" prot="public">
+          <name>SSN</name>
+          <briefdescription>
+<para>US Social Security Number. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada23a27a41c4dad3ef8c54f896b77f9056" prot="public">
+          <name>CREDIT_CARD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadab3e03bb42ca194c075e80b94ec97b484" prot="public">
+          <name>IP_ADDRESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadaef932ad40153d770661681c0976d16ac" prot="public">
+          <name>PERSON_NAME</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada2664f03ac6b8bb9eee4287720e407db3" prot="public">
+          <name>ADDRESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadab790572f205f96c001ef492e2807c518" prot="public">
+          <name>DATE_OF_BIRTH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada9fad2ddefe754d604779f7bb8264c80f" prot="public">
+          <name>PASSPORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada28d03c69f04f912fc27771e923bfe2c2" prot="public">
+          <name>DRIVER_LICENSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada350e17d65ded375d643259e7eed26e2a" prot="public">
+          <name>IBAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadae04c1dd6b8f3650faaef43032b5d4f40" prot="public">
+          <name>SWIFT_CODE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada7274044408790a07fa0a3c0a7b7bc577" prot="public">
+          <name>MEDICAL_RECORD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="25" column="1" bodyfile="include/content/pii_redactor.h" bodystart="25" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RedactionMode</name>
+        <qualifiedname>themis::content::RedactionMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a0a9501840acacfc8efe7522f5340000c" prot="public">
+          <name>MASK</name>
+          <briefdescription>
+<para>Replace with asterisks (e.g., &quot;*****&quot;). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a560a2dd6f6744646473b3b19e1fe96d7" prot="public">
+          <name>REPLACE</name>
+          <briefdescription>
+<para>Replace with a typed placeholder (e.g., &quot;[EMAIL]&quot;). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a50b7748612b28db487d115f220bb77ab" prot="public">
+          <name>HASH</name>
+          <briefdescription>
+<para>Replace with a one-way hash for referential integrity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a0552a7280fd804c1fcd306ed05680d4c" prot="public">
+          <name>TOKENIZE</name>
+          <briefdescription>
+<para>Replace with a reversible token (requires a token vault). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a6d0a4b1ea95557a81aa1d452367b47a8" prot="public">
+          <name>ENCRYPT</name>
+          <briefdescription>
+<para>Replace with an encrypted ciphertext. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="58" column="1" bodyfile="include/content/pii_redactor.h" bodystart="58" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::content::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::content::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="24" column="1" bodyfile="include/content/archive_processor.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1content_1a0d9a10538a3eb5200e9d51acf0bd86a1" prot="public" static="no">
+        <type><ref refid="classthemis_1_1content_1_1_i_content_processor_plugin" kindref="compound">IContentProcessorPlugin</ref> *(*)()</type>
+        <definition>using themis::content::CreatePluginFunc = IContentProcessorPlugin* (*)()</definition>
+        <argsstring></argsstring>
+        <name>CreatePluginFunc</name>
+        <qualifiedname>themis::content::CreatePluginFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="261" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1content_1a543c064f825ee908761283527ec3683b" prot="public" static="no">
+        <type>void(*)(<ref refid="classthemis_1_1content_1_1_i_content_processor_plugin" kindref="compound">IContentProcessorPlugin</ref> *)</type>
+        <definition>using themis::content::DestroyPluginFunc = void (*)(IContentProcessorPlugin*)</definition>
+        <argsstring></argsstring>
+        <name>DestroyPluginFunc</name>
+        <qualifiedname>themis::content::DestroyPluginFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="263" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1content_1a2fe30c3f45cd2c2633178d633f33c92c" prot="public" static="no">
+        <type>const char *(*)()</type>
+        <definition>using themis::content::GetVersionFunc = const char* (*)()</definition>
+        <argsstring></argsstring>
+        <name>GetVersionFunc</name>
+        <qualifiedname>themis::content::GetVersionFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="265" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1content_1a3a0637c70fed5dc28d0f81c736e48e89" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1content_1_1_transcription_result" kindref="compound">TranscriptionResult</ref>(const std::vector&lt; float &gt; &amp;pcm_data, const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;options)&gt;</type>
+        <definition>using themis::content::STTTranscribeFn = std::function&lt;
+   TranscriptionResult(const std::vector&lt;float&gt;&amp; pcm_data, const json&amp; options)&gt;</definition>
+        <argsstring></argsstring>
+        <name>STTTranscribeFn</name>
+        <qualifiedname>themis::content::STTTranscribeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="44" column="1" bodyfile="include/content/stt_processor.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1content_1ae019b6ffa8fb90f9ebf7a1ed0242b9b1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::content::ZIP_MAGIC</definition>
+        <argsstring></argsstring>
+        <name>ZIP_MAGIC</name>
+        <qualifiedname>themis::content::ZIP_MAGIC</qualifiedname>
+        <initializer>= 0x04034b50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor.cpp" line="48" column="20" bodyfile="src/content/archive_processor.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1content_1a647f4e601136d7f367b9064ee3025523" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::content::GZIP_MAGIC</definition>
+        <argsstring></argsstring>
+        <name>GZIP_MAGIC</name>
+        <qualifiedname>themis::content::GZIP_MAGIC</qualifiedname>
+        <initializer>= 0x8b1f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor.cpp" line="49" column="20" bodyfile="src/content/archive_processor.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1content_1a958c2094f3632b2d10f5431bbc405f16" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::content::TAR_MAGIC[]</definition>
+        <argsstring>[]</argsstring>
+        <name>TAR_MAGIC</name>
+        <qualifiedname>themis::content::TAR_MAGIC</qualifiedname>
+        <initializer>= &quot;ustar&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor.cpp" line="50" column="16" bodyfile="src/content/archive_processor.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1content_1ab05a95c1c6c721b3f7d37aee38a75090" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char themis::content::SEVEN_ZIP_MAGIC[]</definition>
+        <argsstring>[]</argsstring>
+        <name>SEVEN_ZIP_MAGIC</name>
+        <qualifiedname>themis::content::SEVEN_ZIP_MAGIC</qualifiedname>
+        <initializer>= {0x37, 0x7A, 0xBC, 0xAF, 0x27, 0x1C}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor.cpp" line="53" column="25" bodyfile="src/content/archive_processor.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1content_1af2638c11901c545d72f501fc2c23c4c4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::content::DOCX_CONTENT_TYPE</definition>
+        <argsstring></argsstring>
+        <name>DOCX_CONTENT_TYPE</name>
+        <qualifiedname>themis::content::DOCX_CONTENT_TYPE</qualifiedname>
+        <initializer>= &quot;application/vnd.openxmlformats-officedocument.wordprocessingml.document&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/office_processor.cpp" line="53" column="22" bodyfile="src/content/office_processor.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1content_1a435d5f22614ab5905cc38b816d62cbae" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::content::XLSX_CONTENT_TYPE</definition>
+        <argsstring></argsstring>
+        <name>XLSX_CONTENT_TYPE</name>
+        <qualifiedname>themis::content::XLSX_CONTENT_TYPE</qualifiedname>
+        <initializer>= &quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/office_processor.cpp" line="54" column="22" bodyfile="src/content/office_processor.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1content_1a1b3c707fd38aa4d47e7d86ace2cd0dc6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::content::PPTX_CONTENT_TYPE</definition>
+        <argsstring></argsstring>
+        <name>PPTX_CONTENT_TYPE</name>
+        <qualifiedname>themis::content::PPTX_CONTENT_TYPE</qualifiedname>
+        <initializer>= &quot;application/vnd.openxmlformats-officedocument.presentationml.presentation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/office_processor.cpp" line="55" column="22" bodyfile="src/content/office_processor.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1content_1a7f35e339ca64763a3ebfa538e012f37a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::content::ZIP_SIGNATURE</definition>
+        <argsstring></argsstring>
+        <name>ZIP_SIGNATURE</name>
+        <qualifiedname>themis::content::ZIP_SIGNATURE</qualifiedname>
+        <initializer>= 0x04034b50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/office_processor.cpp" line="58" column="20" bodyfile="src/content/office_processor.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1content_1a8ea6b3252a9294f94d695d785dc3362c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::MAX_OFFICE_BLOB_BYTES</definition>
+        <argsstring></argsstring>
+        <name>MAX_OFFICE_BLOB_BYTES</name>
+        <qualifiedname>themis::content::MAX_OFFICE_BLOB_BYTES</qualifiedname>
+        <initializer>= 256 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/office_processor.cpp" line="59" column="18" bodyfile="src/content/office_processor.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1content_1ae0661bd7627382723c4cd002f341cd36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::abuseActionToString</definition>
+        <argsstring>(AbuseAction action)</argsstring>
+        <name>abuseActionToString</name>
+        <qualifiedname>themis::content::abuseActionToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref></type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Abuse Action To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements abuseActionToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="36" column="20" bodyfile="include/content/abuse_detector.h" bodystart="36" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1af0a5a4d3d30ce37af0d1dfce5ba5a30a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::errorCodeToString</definition>
+        <argsstring>(ContentErrorCode code)</argsstring>
+        <name>errorCodeToString</name>
+        <qualifiedname>themis::content::errorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Error Code To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements errorCodeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_errors.cpp" line="251" column="13" bodyfile="src/content/content_errors.cpp" bodystart="251" bodyend="341" declfile="include/content/content_errors.h" declline="149" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::errorCodeCategory</definition>
+        <argsstring>(ContentErrorCode code)</argsstring>
+        <name>errorCodeCategory</name>
+        <qualifiedname>themis::content::errorCodeCategory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Error Code Category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements errorCodeCategory without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_errors.cpp" line="349" column="13" bodyfile="src/content/content_errors.cpp" bodystart="349" bodyend="378" declfile="include/content/content_errors.h" declline="156" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1adced1aa3d7645b28e084381d3a76f069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::getDefaultErrorMessage</definition>
+        <argsstring>(ContentErrorCode code)</argsstring>
+        <name>getDefaultErrorMessage</name>
+        <qualifiedname>themis::content::getDefaultErrorMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Get Default Error Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getDefaultErrorMessage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_errors.cpp" line="386" column="13" bodyfile="src/content/content_errors.cpp" bodystart="386" bodyend="476" declfile="include/content/content_errors.h" declline="163" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a8bf9af13e1f9c130dc6722f091770d21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::isSecurityError</definition>
+        <argsstring>(ContentErrorCode code)</argsstring>
+        <name>isSecurityError</name>
+        <qualifiedname>themis::content::isSecurityError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Security Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isSecurityError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_errors.cpp" line="484" column="6" bodyfile="src/content/content_errors.cpp" bodystart="484" bodyend="487" declfile="include/content/content_errors.h" declline="170" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a982563aaa1d2886c68b8514e9c69c4f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::isValidationError</definition>
+        <argsstring>(ContentErrorCode code)</argsstring>
+        <name>isValidationError</name>
+        <qualifiedname>themis::content::isValidationError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Validation Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isValidationError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_errors.cpp" line="495" column="6" bodyfile="src/content/content_errors.cpp" bodystart="495" bodyend="498" declfile="include/content/content_errors.h" declline="177" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::countTokens</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::content::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="310" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="310" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a2b7a37dea4bc189fe2bbd96a0ee5c3d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::splitSentences</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>splitSentences</name>
+        <qualifiedname>themis::content::splitSentences</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Split Sentences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::isspace(), empty(), front(), erase(), push_back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="341" column="20" bodyfile="include/content/content_plugin_interface.h" bodystart="341" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a65a28cbc820c183f28420b88ded2e7e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::initializeDefaultContentTypes</definition>
+        <argsstring>()</argsstring>
+        <name>initializeDefaultContentTypes</name>
+        <qualifiedname>themis::content::initializeDefaultContentTypes</qualifiedname>
+        <briefdescription>
+<para>Initialize Default Content Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1content_1_1_content_type_registry_1abbdd3453b667cf2d90cf8e3773255d0e" kindref="member">ContentTypeRegistry::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_type.cpp" line="622" column="6" bodyfile="src/content/content_type.cpp" bodystart="622" bodyend="625" declfile="include/content/content_type.h" declline="132" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a46fc594c96cb76caec966d3b1b3aa637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createHtmlProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>createHtmlProcessor</name>
+        <qualifiedname>themis::content::createHtmlProcessor</qualifiedname>
+        <briefdescription>
+<para>Create Html Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createHtmlProcessor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/html_processor.cpp" line="727" column="17" bodyfile="src/content/html_processor.cpp" bodystart="727" bodyend="729" declfile="include/content/html_processor.h" declline="120" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1ae6ded77533bfb4ab0f7574753c9c14e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createHtmlProcessor</definition>
+        <argsstring>(HtmlProcessor::Config config)</argsstring>
+        <name>createHtmlProcessor</name>
+        <qualifiedname>themis::content::createHtmlProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_html_processor_1_1_config" kindref="compound">HtmlProcessor::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Html Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/html_processor.cpp" line="737" column="17" bodyfile="src/content/html_processor.cpp" bodystart="737" bodyend="739" declfile="include/content/html_processor.h" declline="127" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a067e411717c666f781b9f17efbb6c4dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createMarkdownProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>createMarkdownProcessor</name>
+        <qualifiedname>themis::content::createMarkdownProcessor</qualifiedname>
+        <briefdescription>
+<para>Create Markdown Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createMarkdownProcessor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/markdown_processor.cpp" line="764" column="17" bodyfile="src/content/markdown_processor.cpp" bodystart="764" bodyend="766" declfile="include/content/markdown_processor.h" declline="93" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1ac6f49d13799ca9fe409f23829af0cce6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createMarkdownProcessor</definition>
+        <argsstring>(MarkdownProcessor::Config config)</argsstring>
+        <name>createMarkdownProcessor</name>
+        <qualifiedname>themis::content::createMarkdownProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_markdown_processor_1_1_config" kindref="compound">MarkdownProcessor::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Markdown Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/markdown_processor.cpp" line="774" column="17" bodyfile="src/content/markdown_processor.cpp" bodystart="774" bodyend="776" declfile="include/content/markdown_processor.h" declline="100" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1ad39c076da37393bf098df29f401c4434" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createOcrProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>createOcrProcessor</name>
+        <qualifiedname>themis::content::createOcrProcessor</qualifiedname>
+        <briefdescription>
+<para>Create Ocr Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createOcrProcessor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/ocr_processor.cpp" line="572" column="17" bodyfile="src/content/ocr_processor.cpp" bodystart="572" bodyend="574" declfile="include/content/ocr_processor.h" declline="117" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a66defda98025164600ffa5342f544904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createOcrProcessor</definition>
+        <argsstring>(OcrProcessor::Config config)</argsstring>
+        <name>createOcrProcessor</name>
+        <qualifiedname>themis::content::createOcrProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_ocr_processor_1_1_config" kindref="compound">OcrProcessor::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Ocr Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/ocr_processor.cpp" line="582" column="17" bodyfile="src/content/ocr_processor.cpp" bodystart="582" bodyend="584" declfile="include/content/ocr_processor.h" declline="123" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a5331e92ca2a45030c714e72cd63cbb88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createOfficeProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>createOfficeProcessor</name>
+        <qualifiedname>themis::content::createOfficeProcessor</qualifiedname>
+        <briefdescription>
+<para>Create Office Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createOfficeProcessor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/office_processor.cpp" line="1323" column="17" bodyfile="src/content/office_processor.cpp" bodystart="1323" bodyend="1325" declfile="include/content/office_processor.h" declline="249" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1aaa2e8bfdb9a01087584e3ff707f95680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createOfficeProcessor</definition>
+        <argsstring>(OfficeProcessor::Config config)</argsstring>
+        <name>createOfficeProcessor</name>
+        <qualifiedname>themis::content::createOfficeProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config" kindref="compound">OfficeProcessor::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Office Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/office_processor.cpp" line="1333" column="17" bodyfile="src/content/office_processor.cpp" bodystart="1333" bodyend="1335" declfile="include/content/office_processor.h" declline="255" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a6dc409b47375da3654539e940828ab0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createPDFProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>createPDFProcessor</name>
+        <qualifiedname>themis::content::createPDFProcessor</qualifiedname>
+        <briefdescription>
+<para>Create <ref refid="classthemis_1_1content_1_1_p_d_f_processor" kindref="compound">PDFProcessor</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createPDFProcessor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/pdf_processor.cpp" line="690" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="690" bodyend="692" declfile="include/content/pdf_processor.h" declline="164" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1ab231b0212b94a120070d252ae3588c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IContentProcessor &gt; themis::content::createPDFProcessor</definition>
+        <argsstring>(PDFProcessor::Config config)</argsstring>
+        <name>createPDFProcessor</name>
+        <qualifiedname>themis::content::createPDFProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config" kindref="compound">PDFProcessor::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create <ref refid="classthemis_1_1content_1_1_p_d_f_processor" kindref="compound">PDFProcessor</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/pdf_processor.cpp" line="700" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="700" bodyend="702" declfile="include/content/pdf_processor.h" declline="170" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a2f7f363cdd6caf8e6b2025da7ed23f95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::validateArchiveMember</definition>
+        <argsstring>(const ArchiveMember &amp;member, const ArchiveProcessorConfig &amp;config, std::string &amp;error_msg)</argsstring>
+        <name>validateArchiveMember</name>
+        <qualifiedname>themis::content::validateArchiveMember</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_archive_member" kindref="compound">ArchiveMember</ref> &amp;</type>
+          <declname>member</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_archive_processor_config" kindref="compound">ArchiveProcessorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ SECTION 1: Archive Validation &amp; Error Handling (Graph Phase 2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">member</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+1 Guard) ============================================================================ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="32" column="6" bodyfile="src/content/archive_processor_enhancements.cpp" bodystart="32" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a0df8ec2f6658ac3c0451c5bdf1d6d3fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::validateArchiveMetadata</definition>
+        <argsstring>(const ArchiveMetadata &amp;metadata, const ArchiveProcessorConfig &amp;config, std::string &amp;error_msg)</argsstring>
+        <name>validateArchiveMetadata</name>
+        <qualifiedname>themis::content::validateArchiveMetadata</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_archive_metadata" kindref="compound">ArchiveMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_archive_processor_config" kindref="compound">ArchiveProcessorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>Validate Archive Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="93" column="6" bodyfile="src/content/archive_processor_enhancements.cpp" bodystart="93" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a8df6020a8533faee71a1f98ce65d2250" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>static uint16_t themis::content::readLE16</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, size_t offset)</argsstring>
+        <name>readLE16</name>
+        <qualifiedname>themis::content::readLE16</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Helper: read a little-endian 16-bit integer from blob at offset (returns 0 if out of bounds). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="347" column="17" bodyfile="src/content/audio_processor.cpp" bodystart="347" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a5dcaff01cbff805fe39b5b40af89a38f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::content::readLE32</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, size_t offset)</argsstring>
+        <name>readLE32</name>
+        <qualifiedname>themis::content::readLE32</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Helper: read a little-endian 32-bit integer from blob at offset (returns 0 if out of bounds). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="361" column="17" bodyfile="src/content/audio_processor.cpp" bodystart="361" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a2d8fd72f804c549e91664b75c22d1a4a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::content::readBE32</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, size_t offset)</argsstring>
+        <name>readBE32</name>
+        <qualifiedname>themis::content::readBE32</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Helper: read a big-endian 32-bit integer from blob at offset (returns 0 if out of bounds). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="376" column="17" bodyfile="src/content/audio_processor.cpp" bodystart="376" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a4955109c0b312f25b081ec8bc37012de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::content::parseWavMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, MediaExtractionData &amp;data)</argsstring>
+        <name>parseWavMetadata</name>
+        <qualifiedname>themis::content::parseWavMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_media_extraction_data" kindref="compound">MediaExtractionData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse WAV/RIFF header to extract audio metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), readLE32(), readLE16(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="390" column="13" bodyfile="src/content/audio_processor.cpp" bodystart="390" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a3456ddb6362b3a68698b4eceb4ef52c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::content::parseFlacMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, MediaExtractionData &amp;data)</argsstring>
+        <name>parseFlacMetadata</name>
+        <qualifiedname>themis::content::parseFlacMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_media_extraction_data" kindref="compound">MediaExtractionData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse FLAC STREAMINFO metadata block to extract audio metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="459" column="13" bodyfile="src/content/audio_processor.cpp" bodystart="459" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a04fa420996d49e83541d27d5062b9e5e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::content::parseMp3FrameHeader</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, MediaExtractionData &amp;data)</argsstring>
+        <name>parseMp3FrameHeader</name>
+        <qualifiedname>themis::content::parseMp3FrameHeader</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_media_extraction_data" kindref="compound">MediaExtractionData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse the first valid MPEG frame header to extract MP3 metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="536" column="13" bodyfile="src/content/audio_processor.cpp" bodystart="536" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a7a29c6e246a6edd7be2b7e5cee5d4f4e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::content::parseOggVorbisMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, MediaExtractionData &amp;data)</argsstring>
+        <name>parseOggVorbisMetadata</name>
+        <qualifiedname>themis::content::parseOggVorbisMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_media_extraction_data" kindref="compound">MediaExtractionData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse Ogg/Vorbis identification header to extract audio metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), readLE32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="627" column="13" bodyfile="src/content/audio_processor.cpp" bodystart="627" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a25ccf8d71e61fe3a7e81bd86d367dd65" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::content::decodeUtf16Le</definition>
+        <argsstring>(const uint8_t *data, size_t len)</argsstring>
+        <name>decodeUtf16Le</name>
+        <qualifiedname>themis::content::decodeUtf16Le</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Helper: decode a UTF-16LE string to UTF-8 (basic BMP-only conversion). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements decodeUtf16Le without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="725" column="20" bodyfile="src/content/audio_processor.cpp" bodystart="725" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a2249594a89125095bcac842fae0efd4f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::content::stripBom</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>stripBom</name>
+        <qualifiedname>themis::content::stripBom</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Helper: strip leading BOM and null bytes from a text string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(), find_last_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="752" column="20" bodyfile="src/content/audio_processor.cpp" bodystart="752" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a99cb1434363923a201535698deef69e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>static const char * themis::content::id3FrameToTagName</definition>
+        <argsstring>(const std::string &amp;frame_id)</argsstring>
+        <name>id3FrameToTagName</name>
+        <qualifiedname>themis::content::id3FrameToTagName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>frame_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/audio_processor.cpp" line="763" column="19" bodyfile="src/content/audio_processor.cpp" bodystart="763" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1aaaec291675f2a93655358343529c97a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::content::toHex</definition>
+        <argsstring>(const std::string &amp;in)</argsstring>
+        <name>toHex</name>
+        <qualifiedname>themis::content::toHex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="91" column="21" bodyfile="src/content/content_manager.cpp" bodystart="91" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a1200f9c49dbdd3798a027323a2654d06" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::content::computeImageDedupHash</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>computeImageDedupHash</name>
+        <qualifiedname>themis::content::computeImageDedupHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Compute Image Dedup Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="108" column="20" bodyfile="src/content/content_manager.cpp" bodystart="108" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a2f5df6039fbd3b99fe3f548a3f5cb69e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>static std::optional&lt; ContentCategory &gt; themis::content::parseCategory</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>parseCategory</name>
+        <qualifiedname>themis::content::parseCategory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Helper: parse category string to enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="130" column="22" bodyfile="src/content/content_manager.cpp" bodystart="130" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a7ba67ba5511653310782ac9163c76977" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::content::hasSearchFilterConstraints</definition>
+        <argsstring>(const json &amp;filters)</argsstring>
+        <name>hasSearchFilterConstraints</name>
+        <qualifiedname>themis::content::hasSearchFilterConstraints</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>filters</declname>
+        </param>
+        <briefdescription>
+<para>Has Search Filter Constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_object(), empty(), begin(), end(), key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="163" column="13" bodyfile="src/content/content_manager.cpp" bodystart="163" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1af992ae3e299b73b358a33140a11296d7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::content::whitelistContainsChunkPk</definition>
+        <argsstring>(const std::unordered_set&lt; std::string &gt; &amp;whitelist_set, const std::string &amp;chunk_pk)</argsstring>
+        <name>whitelistContainsChunkPk</name>
+        <qualifiedname>themis::content::whitelistContainsChunkPk</qualifiedname>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>whitelist_set</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_pk</declname>
+        </param>
+        <briefdescription>
+<para>Whitelist Contains Chunk Pk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">whitelist_set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), count(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="182" column="13" bodyfile="src/content/content_manager.cpp" bodystart="182" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a316ae09edd4b64f0dfde21526a36602e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::content::categoryToString</definition>
+        <argsstring>(ContentCategory cat)</argsstring>
+        <name>categoryToString</name>
+        <qualifiedname>themis::content::categoryToString</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref></type>
+          <declname>cat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="196" column="21" bodyfile="src/content/content_manager.cpp" bodystart="196" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1ad64cbeed14f0ca77ae2d594f3064cdef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> *</type>
+        <definition>static const json * themis::content::jsonPathRef</definition>
+        <argsstring>(const json &amp;j, const std::string &amp;path)</argsstring>
+        <name>jsonPathRef</name>
+        <qualifiedname>themis::content::jsonPathRef</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Build whitelist of chunk PKs (&quot;chunks:&lt;id&gt;&quot;) based on filters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: size(), find(), substr(), is_object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="216" column="19" bodyfile="src/content/content_manager.cpp" bodystart="216" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a2c9b4197c1cde1684066f04d9ce31661" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::content::buildChunkWhitelist</definition>
+        <argsstring>(RocksDBWrapper &amp;storage, const json &amp;filters)</argsstring>
+        <name>buildChunkWhitelist</name>
+        <qualifiedname>themis::content::buildChunkWhitelist</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>filters</declname>
+        </param>
+        <briefdescription>
+<para>Build Chunk Whitelist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), parseCategory(), insert(), is_number_integer(), is_array(), is_object(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="242" column="20" bodyfile="src/content/content_manager.cpp" bodystart="242" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a55bedf35c5a3639b7c8bed36c2a2f266" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref></type>
+        <definition>static ContentCategory themis::content::detectCategory</definition>
+        <argsstring>(const std::string &amp;mime, const std::string &amp;blob)</argsstring>
+        <name>detectCategory</name>
+        <qualifiedname>themis::content::detectCategory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="880" column="25" bodyfile="src/content/content_manager.cpp" bodystart="880" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a4f3e14bfb7d9bcac1988189fdacabc16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::content::isTextBasedMime</definition>
+        <argsstring>(const std::string &amp;mime)</argsstring>
+        <name>isTextBasedMime</name>
+        <qualifiedname>themis::content::isTextBasedMime</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <briefdescription>
+<para>Is Text Based Mime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/content_manager.cpp" line="904" column="13" bodyfile="src/content/content_manager.cpp" bodystart="904" bodyend="908"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1af4a2b26469d23fee675a3775158949e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::content::hexToU64</definition>
+        <argsstring>(const std::string &amp;hex)</argsstring>
+        <name>hexToU64</name>
+        <qualifiedname>themis::content::hexToU64</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hex</declname>
+        </param>
+        <briefdescription>
+<para>Hex To U64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/deduplication_checker.cpp" line="49" column="17" bodyfile="src/content/deduplication_checker.cpp" bodystart="49" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1aed3dde311829be6e9d2a1e657d063908" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::content::parseCoordinates</definition>
+        <argsstring>(const json &amp;coords, GeoExtractionData &amp;data)</argsstring>
+        <name>parseCoordinates</name>
+        <qualifiedname>themis::content::parseCoordinates</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>coords</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Forward declaration for recursive coordinate parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Coordinates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: is_array(), size(), is_number(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/geo_processor.cpp" line="424" column="13" bodyfile="src/content/geo_processor.cpp" bodystart="424" bodyend="438" declfile="src/content/geo_processor.cpp" declline="44" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a39b1702c2bdadd873f649479652360cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::content::detectImageDimensions</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, int &amp;width, int &amp;height)</argsstring>
+        <name>detectImageDimensions</name>
+        <qualifiedname>themis::content::detectImageDimensions</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>height</declname>
+        </param>
+        <briefdescription>
+<para>Forward declarations for internal helpers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Image Dimensions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/image_processor.cpp" line="344" column="13" bodyfile="src/content/image_processor.cpp" bodystart="344" bodyend="384" declfile="src/content/image_processor.cpp" declline="37" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a0eebd84b11d317343495e84e5a33b3c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::content::rgbToHex</definition>
+        <argsstring>(uint8_t r, uint8_t g, uint8_t b)</argsstring>
+        <name>rgbToHex</name>
+        <qualifiedname>themis::content::rgbToHex</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>g</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Rgb To Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">g</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">g</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: snprintf(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/image_processor.cpp" line="394" column="20" bodyfile="src/content/image_processor.cpp" bodystart="394" bodyend="398" declfile="src/content/image_processor.cpp" declline="45" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1acc61ffdc70afd1025ed0bc7c43a4ac8d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::content::trimCopy</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>trimCopy</name>
+        <qualifiedname>themis::content::trimCopy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Trim Copy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_first_not_of(), find_last_not_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/markdown_processor.cpp" line="42" column="20" bodyfile="src/content/markdown_processor.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1a1270ba4886294656838d37073db9bf3d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::content::sanitizeOcrText</definition>
+        <argsstring>(std::string text)</argsstring>
+        <name>sanitizeOcrText</name>
+        <qualifiedname>themis::content::sanitizeOcrText</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/ocr_processor.cpp" line="120" column="21" bodyfile="src/content/ocr_processor.cpp" bodystart="120" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/abuse_detector.h" line="22" column="1"/>
+  </compounddef>
+</doxygen>

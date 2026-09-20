@@ -1,0 +1,899 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_smart_router" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::SmartRouter</compoundname>
+    <includes refid="smart__routing_8h" local="no">smart_routing.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_smart_router_1_1_config" prot="public">themis::server::SmartRouter::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_smart_router_1_1_backend_stats" prot="public">themis::server::SmartRouter::BackendStats</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state" prot="private">themis::server::SmartRouter::BackendState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_smart_router_1a0524536b269794002406b9a371140bb8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_smart_router_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::SmartRouter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::SmartRouter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="272" column="12" bodyfile="include/server/smart_routing.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_smart_router_1acffc420a0abba47202bb24ba1912b6d8" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::SmartRouter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::server::SmartRouter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="274" column="31" bodyfile="include/server/smart_routing.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_smart_router_1a4cd289885b994deb7d83749262659c31" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, BackendState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, BackendState&gt; themis::server::SmartRouter::backends_</definition>
+        <argsstring></argsstring>
+        <name>backends_</name>
+        <qualifiedname>themis::server::SmartRouter::backends_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="275" column="24" bodyfile="include/server/smart_routing.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a2d6deded1854bea8078e0f7bf6c00e44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SmartRouter::SmartRouter</definition>
+        <argsstring>()</argsstring>
+        <name>SmartRouter</name>
+        <qualifiedname>themis::server::SmartRouter::SmartRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="90" column="5" bodyfile="src/server/smart_routing.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a33b53d85309caf40c9a42658445c1ff8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SmartRouter::SmartRouter</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>SmartRouter</name>
+        <qualifiedname>themis::server::SmartRouter::SmartRouter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_smart_router_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Smart Router. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="97" column="14" bodyfile="src/server/smart_routing.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a299a038b6099c4abb1770593f8c257da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SmartRouter::SmartRouter</definition>
+        <argsstring>(const SmartRouter &amp;)=delete</argsstring>
+        <name>SmartRouter</name>
+        <qualifiedname>themis::server::SmartRouter::SmartRouter</qualifiedname>
+        <param>
+          <type>const SmartRouter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a2b8c95e961587efe9310e2ce38c840e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_smart_router_1a2d6deded1854bea8078e0f7bf6c00e44" kindref="member">SmartRouter</ref> &amp;</type>
+        <definition>SmartRouter &amp; themis::server::SmartRouter::operator=</definition>
+        <argsstring>(const SmartRouter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::SmartRouter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_smart_router_1a2d6deded1854bea8078e0f7bf6c00e44" kindref="member">SmartRouter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="100" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a87f78b607846a52519ff01d7db70bf17" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SmartRouter::SmartRouter</definition>
+        <argsstring>(SmartRouter &amp;&amp;) noexcept=default</argsstring>
+        <name>SmartRouter</name>
+        <qualifiedname>themis::server::SmartRouter::SmartRouter</qualifiedname>
+        <param>
+          <type>SmartRouter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1aa05a5bcd69a7ce0f18ec0499b1cff733" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_smart_router_1a2d6deded1854bea8078e0f7bf6c00e44" kindref="member">SmartRouter</ref> &amp;</type>
+        <definition>SmartRouter &amp; themis::server::SmartRouter::operator=</definition>
+        <argsstring>(SmartRouter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::SmartRouter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_smart_router_1a2d6deded1854bea8078e0f7bf6c00e44" kindref="member">SmartRouter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="102" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a93b05c359ff3651fdc77e45cd2cc0364" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SmartRouter::~SmartRouter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SmartRouter</name>
+        <qualifiedname>themis::server::SmartRouter::~SmartRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="104" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1afb978fb202900bdfba3c6d2fbf31e467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SmartRouter::addBackend</definition>
+        <argsstring>(const BackendEndpoint &amp;endpoint)</argsstring>
+        <name>addBackend</name>
+        <qualifiedname>themis::server::SmartRouter::addBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_backend_endpoint" kindref="compound">BackendEndpoint</ref> &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Add Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="114" column="10" bodyfile="src/server/smart_routing.cpp" bodystart="46" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a6dff037874b03651a1fac4657f5fb13c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SmartRouter::removeBackend</definition>
+        <argsstring>(const std::string &amp;backend_id)</argsstring>
+        <name>removeBackend</name>
+        <qualifiedname>themis::server::SmartRouter::removeBackend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="120" column="10" bodyfile="src/server/smart_routing.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a997bb23b45bbb5ac54c6cf3c07e14c47" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_backend_endpoint" kindref="compound">BackendEndpoint</ref> &gt;</type>
+        <definition>std::vector&lt; BackendEndpoint &gt; themis::server::SmartRouter::listBackends</definition>
+        <argsstring>() const</argsstring>
+        <name>listBackends</name>
+        <qualifiedname>themis::server::SmartRouter::listBackends</qualifiedname>
+        <briefdescription>
+<para>List Backends. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="126" column="17" bodyfile="src/server/smart_routing.cpp" bodystart="68" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a6b55b6d41320ac7a0f55527230efdb79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SmartRouter::recordLatency</definition>
+        <argsstring>(const std::string &amp;backend_id, double latency_ms)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::server::SmartRouter::recordLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="134" column="10" bodyfile="src/server/smart_routing.cpp" bodystart="93" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1af8c5f8b5d156393a6bddfca2866ab020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SmartRouter::recordCacheHit</definition>
+        <argsstring>(const std::string &amp;backend_id, const std::string &amp;resource_key)</argsstring>
+        <name>recordCacheHit</name>
+        <qualifiedname>themis::server::SmartRouter::recordCacheHit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_key</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="141" column="10" bodyfile="src/server/smart_routing.cpp" bodystart="124" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1acbd2f70d4fdf38203845af5dc0904db6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SmartRouter::recordCacheMiss</definition>
+        <argsstring>(const std::string &amp;backend_id, const std::string &amp;resource_key)</argsstring>
+        <name>recordCacheMiss</name>
+        <qualifiedname>themis::server::SmartRouter::recordCacheMiss</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_key</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="149" column="10" bodyfile="src/server/smart_routing.cpp" bodystart="148" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a234869b900a17cc4b8a9a0c567de81a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SmartRouter::incrementActiveConnections</definition>
+        <argsstring>(const std::string &amp;backend_id)</argsstring>
+        <name>incrementActiveConnections</name>
+        <qualifiedname>themis::server::SmartRouter::incrementActiveConnections</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <briefdescription>
+<para>Increment Active Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="156" column="10" bodyfile="src/server/smart_routing.cpp" bodystart="172" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1ae5c245b9e290d00153b34decfb980117" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SmartRouter::decrementActiveConnections</definition>
+        <argsstring>(const std::string &amp;backend_id)</argsstring>
+        <name>decrementActiveConnections</name>
+        <qualifiedname>themis::server::SmartRouter::decrementActiveConnections</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <briefdescription>
+<para>Decrement Active Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), fetch_sub(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="162" column="10" bodyfile="src/server/smart_routing.cpp" bodystart="186" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a12aabd9340558d92bf51971fc233a6a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_backend_endpoint" kindref="compound">BackendEndpoint</ref> &gt;</type>
+        <definition>std::optional&lt; BackendEndpoint &gt; themis::server::SmartRouter::route</definition>
+        <argsstring>(const std::string &amp;resource_key) const</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::server::SmartRouter::route</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_key</declname>
+        </param>
+        <briefdescription>
+<para>Route. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="173" column="19" bodyfile="src/server/smart_routing.cpp" bodystart="203" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a66685cfcb4421141cb45161cb9a68c1c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_backend_endpoint" kindref="compound">BackendEndpoint</ref> &gt;</type>
+        <definition>std::optional&lt; BackendEndpoint &gt; themis::server::SmartRouter::routeLeastLoaded</definition>
+        <argsstring>() const</argsstring>
+        <name>routeLeastLoaded</name>
+        <qualifiedname>themis::server::SmartRouter::routeLeastLoaded</qualifiedname>
+        <briefdescription>
+<para>Route Least Loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="179" column="19" bodyfile="src/server/smart_routing.cpp" bodystart="295" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a3845557df8de651edc8f703df36be3e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_backend_endpoint" kindref="compound">BackendEndpoint</ref> &gt;</type>
+        <definition>std::optional&lt; BackendEndpoint &gt; themis::server::SmartRouter::predictCachedBackend</definition>
+        <argsstring>(const std::string &amp;resource_key) const</argsstring>
+        <name>predictCachedBackend</name>
+        <qualifiedname>themis::server::SmartRouter::predictCachedBackend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_key</declname>
+        </param>
+        <briefdescription>
+<para>Predict Cached Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="186" column="19" bodyfile="src/server/smart_routing.cpp" bodystart="336" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a93544b3d63083bb76befee6085b43e8f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_smart_router_1_1_backend_stats" kindref="compound">BackendStats</ref> &gt;</type>
+        <definition>std::vector&lt; SmartRouter::BackendStats &gt; themis::server::SmartRouter::getAllStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllStats</name>
+        <qualifiedname>themis::server::SmartRouter::getAllStats</qualifiedname>
+        <briefdescription>
+<para>Get All Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="197" column="17" bodyfile="src/server/smart_routing.cpp" bodystart="370" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1adc3248cb34a16116a192cb26326a367d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_smart_router_1_1_backend_stats" kindref="compound">BackendStats</ref></type>
+        <definition>SmartRouter::BackendStats themis::server::SmartRouter::getBackendStats</definition>
+        <argsstring>(const std::string &amp;backend_id) const</argsstring>
+        <name>getBackendStats</name>
+        <qualifiedname>themis::server::SmartRouter::getBackendStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Backend Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="204" column="18" bodyfile="src/server/smart_routing.cpp" bodystart="396" bodyend="423"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a040f97c8d12aeafe9b1897c14d735fb9" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::server::SmartRouter::computeAvg</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;window) noexcept</argsstring>
+        <name>computeAvg</name>
+        <qualifiedname>themis::server::SmartRouter::computeAvg</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Compute Avg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="242" column="19" bodyfile="src/server/smart_routing.cpp" bodystart="430" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a5351f87de43b654c78a5b5505c31cb45" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::server::SmartRouter::computeP99</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;window)</argsstring>
+        <name>computeP99</name>
+        <qualifiedname>themis::server::SmartRouter::computeP99</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Compute P99. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), sorted(), begin(), end(), std::sort(), std::ceil(), size(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="249" column="19" bodyfile="src/server/smart_routing.cpp" bodystart="444" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1abb8c1bad65a6bc570c6750f01b6887e1" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SmartRouter::refreshStats</definition>
+        <argsstring>(BackendState &amp;state) noexcept</argsstring>
+        <name>refreshStats</name>
+        <qualifiedname>themis::server::SmartRouter::refreshStats</qualifiedname>
+        <param>
+          <type>BackendState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Refresh Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="266" column="17" bodyfile="src/server/smart_routing.cpp" bodystart="461" bodyend="464"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_smart_router_1a2c07ed1009fe88257c5ca9bdc43072ab" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::SmartRouter::isHighTail</definition>
+        <argsstring>(const BackendState &amp;state, bool has_other_candidates) const noexcept</argsstring>
+        <name>isHighTail</name>
+        <qualifiedname>themis::server::SmartRouter::isHighTail</qualifiedname>
+        <param>
+          <type>const BackendState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>has_other_candidates</declname>
+        </param>
+        <briefdescription>
+<para>Is High Tail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">has_other_candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="258" column="10" bodyfile="src/server/smart_routing.cpp" bodystart="466" bodyend="474"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/smart_routing.h" line="42" column="1" bodyfile="include/server/smart_routing.h" bodystart="42" bodyend="276"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_smart_router_1afb978fb202900bdfba3c6d2fbf31e467" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>addBackend</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a4cd289885b994deb7d83749262659c31" prot="private" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>backends_</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a040f97c8d12aeafe9b1897c14d735fb9" prot="private" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>computeAvg</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a5351f87de43b654c78a5b5505c31cb45" prot="private" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>computeP99</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a0524536b269794002406b9a371140bb8" prot="private" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1ae5c245b9e290d00153b34decfb980117" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>decrementActiveConnections</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a93544b3d63083bb76befee6085b43e8f" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>getAllStats</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1adc3248cb34a16116a192cb26326a367d" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>getBackendStats</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a234869b900a17cc4b8a9a0c567de81a1" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>incrementActiveConnections</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a2c07ed1009fe88257c5ca9bdc43072ab" prot="private" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>isHighTail</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a997bb23b45bbb5ac54c6cf3c07e14c47" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>listBackends</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1acffc420a0abba47202bb24ba1912b6d8" prot="private" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a2b8c95e961587efe9310e2ce38c840e9" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1aa05a5bcd69a7ce0f18ec0499b1cff733" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a3845557df8de651edc8f703df36be3e2" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>predictCachedBackend</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1af8c5f8b5d156393a6bddfca2866ab020" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>recordCacheHit</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1acbd2f70d4fdf38203845af5dc0904db6" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>recordCacheMiss</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a6b55b6d41320ac7a0f55527230efdb79" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1abb8c1bad65a6bc570c6750f01b6887e1" prot="private" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>refreshStats</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a6dff037874b03651a1fac4657f5fb13c" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>removeBackend</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a12aabd9340558d92bf51971fc233a6a6" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>route</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a66685cfcb4421141cb45161cb9a68c1c" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>routeLeastLoaded</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a2d6deded1854bea8078e0f7bf6c00e44" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>SmartRouter</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a33b53d85309caf40c9a42658445c1ff8" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>SmartRouter</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a299a038b6099c4abb1770593f8c257da" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>SmartRouter</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a87f78b607846a52519ff01d7db70bf17" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>SmartRouter</name></member>
+      <member refid="classthemis_1_1server_1_1_smart_router_1a93b05c359ff3651fdc77e45cd2cc0364" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter</scope><name>~SmartRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

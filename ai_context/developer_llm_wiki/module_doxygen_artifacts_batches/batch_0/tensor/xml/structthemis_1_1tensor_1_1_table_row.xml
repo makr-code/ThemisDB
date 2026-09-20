@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_table_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TableRow</compoundname>
+    <includes refid="hyper__index__builder_8h" local="no">hyper_index_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_table_row_1abd8b611a3c26f66a5b904bc41e5cffe7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::tensor::TableRow::numeric_values</definition>
+        <argsstring></argsstring>
+        <name>numeric_values</name>
+        <qualifiedname>themis::tensor::TableRow::numeric_values</qualifiedname>
+        <briefdescription>
+<para>Parallel to schema NUMERIC cols. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="48" column="22" bodyfile="include/tensor/hyper_index_builder.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_table_row_1a387ba60914955d02ef77dd7d89b148dc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::tensor::TableRow::category_values</definition>
+        <argsstring></argsstring>
+        <name>category_values</name>
+        <qualifiedname>themis::tensor::TableRow::category_values</qualifiedname>
+        <briefdescription>
+<para>Parallel to schema CATEGORY cols. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="49" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_table_row_1aac91d46b908b5fe15ed4175fe5476ad2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::tensor::TableRow::bool_values</definition>
+        <argsstring></argsstring>
+        <name>bool_values</name>
+        <qualifiedname>themis::tensor::TableRow::bool_values</qualifiedname>
+        <briefdescription>
+<para>Parallel to schema BOOLEAN cols. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="50" column="24" bodyfile="include/tensor/hyper_index_builder.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hyper_index_builder.h" line="47" column="1" bodyfile="include/tensor/hyper_index_builder.h" bodystart="47" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_table_row_1aac91d46b908b5fe15ed4175fe5476ad2" prot="public" virt="non-virtual"><scope>themis::tensor::TableRow</scope><name>bool_values</name></member>
+      <member refid="structthemis_1_1tensor_1_1_table_row_1a387ba60914955d02ef77dd7d89b148dc" prot="public" virt="non-virtual"><scope>themis::tensor::TableRow</scope><name>category_values</name></member>
+      <member refid="structthemis_1_1tensor_1_1_table_row_1abd8b611a3c26f66a5b904bc41e5cffe7" prot="public" virt="non-virtual"><scope>themis::tensor::TableRow</scope><name>numeric_values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

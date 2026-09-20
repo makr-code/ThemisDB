@@ -1,0 +1,1153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__matryoshka__truncation_8cpp" kind="file" language="C++">
+    <compoundname>test_matryoshka_truncation.cpp</compoundname>
+    <includes refid="matryoshka__truncation_8h" local="yes">index/matryoshka_truncation.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>index/ann_index.h</label>
+        <link refid="ann__index_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>index/matryoshka_truncation.h</label>
+        <link refid="matryoshka__truncation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/index/test_matryoshka_truncation.cpp</label>
+        <link refid="test__matryoshka__truncation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>filesystem</label>
+      </node>
+      <node id="14">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>limits</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>numeric</label>
+      </node>
+      <node id="17">
+        <label>random</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_matryoshka_truncated_index_test" prot="public">MatryoshkaTruncatedIndexTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a4d6634c98d875c27b5865f5cb0299103" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float l2norm</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;v)</argsstring>
+        <name>l2norm</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="52" column="14" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="52" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1aeb5d39d8d15a8e5ade511eb322d7b0d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float l2dist</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>l2dist</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="60" column="14" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a718fec3e6faa66d0be2e7338f8e40027" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>static std::vector&lt; std::vector&lt; float &gt; &gt; rand_vecs</definition>
+        <argsstring>(size_t n, size_t dim, unsigned seed=42)</argsstring>
+        <name>rand_vecs</name>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="68" column="20" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="68" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a1784f2742da2994e1a2d17c49fdfce1f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; flatten</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;vv)</argsstring>
+        <name>flatten</name>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>vv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="81" column="20" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="81" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a5c947cc54ce43aab0c1dc2744bea4757" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>static std::vector&lt; int64_t &gt; brute_force_knn</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;db, const std::vector&lt; float &gt; &amp;q, int k)</argsstring>
+        <name>brute_force_knn</name>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="90" column="20" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="90" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, TruncateShorterKeepsFirstNDims)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>TruncateShorterKeepsFirstNDims</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="112" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="112" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a02e67f106fcf4ec9f3c7f4af531c303e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, TruncateEqualDimIsNoOp_NoNorm)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>TruncateEqualDimIsNoOp_NoNorm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="122" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="122" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1ade9f67148276919d4e687a049f14a8ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, TruncateLargerZeroPads)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>TruncateLargerZeroPads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="132" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="132" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a8cee21e4bc2cde36ad0cf3e3b01a92be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, NormalizeProducesUnitNorm)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>NormalizeProducesUnitNorm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="143" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="143" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1ae5313166e38beead18aab6fa17326c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, NoNormalize_RawValuesPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>NoNormalize_RawValuesPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="152" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="152" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a79262a1143e0e652caf6e2938c2ba2b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, ZeroVector_NoDivisionByZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>ZeroVector_NoDivisionByZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="160" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="160" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a0382af4bcf4e8bb2f2c0528e8eee3ccd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, TruncDim1_EdgeCase)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>TruncDim1_EdgeCase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="169" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="169" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1abcf1965aa0c94b24b8a8aaa944e2f036" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, StandardGranularityConstants)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>StandardGranularityConstants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="177" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a5f6b31895e72215c949e5aa515b051b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationTest, Constructor_RejectsTruncDimZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationTest</type>
+        </param>
+        <param>
+          <type>Constructor_RejectsTruncDimZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="187" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="187" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, SizeZeroBeforeBuild)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SizeZeroBeforeBuild</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="229" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a5ef308ce1ee313c4b52418b848b1ae53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, BuildPopulatesSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>BuildPopulatesSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="234" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="234" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1ae415e1f847aa27edfc2127e8030d0ef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, SearchReturnsNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchReturnsNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="240" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="240" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a0a689746587bc3d6c453d71f07b851f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, SearchNearestToSelf)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchNearestToSelf</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="247" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="247" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1af146e6c9339c59cd200fa2714e014a2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, Recall_TopK)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Recall_TopK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="256" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="256" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a45ab1f7e66682b48f29beca95a0e484a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, AddIncrementsSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>AddIncrementsSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="285" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="285" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a893257de5d3accfab3453084609e4616" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, BuildEmptyDataset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>BuildEmptyDataset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="293" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="293" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1ac9fab01e068edcf96bb7375c7823b115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, SearchOnEmptyIndex_NoCrash)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchOnEmptyIndex_NoCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="299" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="299" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1ad32d84b060f01c9fc24715f10a3b89fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, NullBackend_ThrowsInvalidArgument)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>NullBackend_ThrowsInvalidArgument</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="305" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="305" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a563c92e4be32a6afc7da467be0257ab5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, SaveLoad_Roundtrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SaveLoad_Roundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="311" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="311" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a04f903a4d23a26aeb505f8808148f17e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, TruncDimLargerThanFullDim_StillWorks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>TruncDimLargerThanFullDim_StillWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="323" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="323" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a949765fc28915c335dcaa89d9bd4a7a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, PolymorphicIAnnIndexPointer)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>PolymorphicIAnnIndexPointer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="334" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="334" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a203213297e2498f86ba46bf1744bcdd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, TruncationAccessor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>TruncationAccessor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="342" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="342" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1aa10614916aa9fdc95841a6ede392d3d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, BackendAccessor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>BackendAccessor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="348" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="348" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a95d74b22bc7bad1ea6624a1286126491" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, KLargerThanSize_NoCrash)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>KLargerThanSize_NoCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="355" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="355" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a432156e0913376e865d841564c1c55ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MatryoshkaTruncatedIndexTest, MultipleAdds_ThenSearch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleAdds_ThenSearch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="363" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="363" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a09394e335fb56b3de42d3c59eb93d4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationRawPtrTest, RawPtrAndVectorOverloadAgree)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationRawPtrTest</type>
+        </param>
+        <param>
+          <type>RawPtrAndVectorOverloadAgree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="378" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="378" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="test__matryoshka__truncation_8cpp_1a1d7a5752314e0bf4f89715a3ace3a573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MatryoshkaTruncationNormTest, AllOutputsHaveUnitNorm)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MatryoshkaTruncationNormTest</type>
+        </param>
+        <param>
+          <type>AllOutputsHaveUnitNorm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="393" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="393" bodyend="403"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>tests<sp/>for<sp/>MatryoshkaTruncation<sp/>and<sp/>MatryoshkaTruncatedIndex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(index<sp/>module<sp/>—<sp/>Issue:<sp/>Matryoshka<sp/>truncation<sp/>partially<sp/>planned<sp/>v1.4.1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>coverage:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>MatryoshkaTruncation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>1.<sp/><sp/>Truncate<sp/>shorter<sp/>than<sp/>full_dim<sp/>keeps<sp/>first<sp/>trunc_dim<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>2.<sp/><sp/>Truncate<sp/>equal<sp/>to<sp/>full_dim<sp/>is<sp/>a<sp/>no-op<sp/>(modulo<sp/>normalisation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>3.<sp/><sp/>Truncate<sp/>&gt;<sp/>full_dim<sp/>zero-pads<sp/>output<sp/>to<sp/>trunc_dim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>4.<sp/><sp/>Normalisation:<sp/>output<sp/>has<sp/>unit<sp/>L2<sp/>norm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>5.<sp/><sp/>Normalisation<sp/>disabled:<sp/>raw<sp/>values<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>6.<sp/><sp/>Zero<sp/>vector<sp/>→<sp/>no<sp/>division<sp/>by<sp/>zero;<sp/>output<sp/>stays<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>7.<sp/><sp/>trunc_dim=1<sp/>edge<sp/>case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>8.<sp/><sp/>Standard<sp/>granularities<sp/>constant<sp/>values<sp/>are<sp/>correct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>9.<sp/><sp/>Constructor<sp/>rejects<sp/>trunc_dim=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>MatryoshkaTruncatedIndex<sp/>(wrapping<sp/>ScaNN)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>10.<sp/><sp/>size()<sp/>returns<sp/>0<sp/>before<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>11.<sp/><sp/>build()<sp/>populates<sp/>index;<sp/>size()<sp/>reflects<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>12.<sp/><sp/>search()<sp/>returns<sp/>non-empty<sp/>results<sp/>after<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>13.<sp/><sp/>Nearest<sp/>to<sp/>a<sp/>query<sp/>that<sp/>equals<sp/>a<sp/>stored<sp/>vector<sp/>has<sp/>id<sp/>of<sp/>that<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>14.<sp/><sp/>Recall:<sp/>top-k<sp/>from<sp/>truncated<sp/>index<sp/>contains<sp/>most<sp/>brute-force<sp/>top-k</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>15.<sp/><sp/>add()<sp/>increments<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>16.<sp/><sp/>build()<sp/>on<sp/>empty<sp/>dataset<sp/>returns<sp/>true;<sp/>size()<sp/>==<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>17.<sp/><sp/>search()<sp/>on<sp/>empty<sp/>index<sp/>returns<sp/>empty<sp/>vector<sp/>(no<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>18.<sp/><sp/>Null<sp/>backend<sp/>pointer<sp/>raises<sp/>exception<sp/>in<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>19.<sp/><sp/>save()<sp/>/<sp/>load()<sp/>roundtrip<sp/>preserves<sp/>size<sp/>(via<sp/>ScaNN<sp/>save/load)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>20.<sp/><sp/>trunc_dim<sp/>&gt;<sp/>full_dim:<sp/>build<sp/>and<sp/>search<sp/>still<sp/>work<sp/>(zero<sp/>padding)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>21.<sp/><sp/>Polymorphic<sp/>IAnnIndex<sp/>pointer<sp/>works<sp/>with<sp/>MatryoshkaTruncatedIndex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>22.<sp/><sp/>truncation()<sp/>accessor<sp/>returns<sp/>correct<sp/>trunc_dim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>23.<sp/><sp/>backend()<sp/>accessor<sp/>returns<sp/>the<sp/>wrapped<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>24.<sp/><sp/>k<sp/>larger<sp/>than<sp/>index<sp/>size<sp/>returns<sp/>as<sp/>many<sp/>as<sp/>available<sp/>(no<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>25.<sp/><sp/>Multiple<sp/>add()<sp/>calls<sp/>followed<sp/>by<sp/>search()<sp/>works</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="matryoshka__truncation_8h" kindref="compound">index/matryoshka_truncation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">themis::index</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>l2norm(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>0.f;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>+=<sp/>x<sp/>*<sp/>x;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::sqrt(s);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>l2dist(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>b)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>0.f;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>a.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>a[i]<sp/>-<sp/>b[i];<sp/>s<sp/>+=<sp/>d<sp/>*<sp/>d;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::sqrt(s);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>rand_vecs(</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>42)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dist(-1.f,<sp/>1.f);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>out(n,<sp/>std::vector&lt;float&gt;(dim));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>out)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>flatten(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>vv)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>out<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>out.reserve(vv.size()<sp/>*<sp/>(vv.empty()<sp/>?<sp/>0<sp/>:<sp/>vv[0].size()));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>vv)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.insert(out.end(),<sp/>v.begin(),<sp/>v.end());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;<sp/>brute_force_knn(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>db,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>q,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;float,<sp/>int64_t&gt;&gt;<sp/>scored;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>scored.reserve(db.size());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>db.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scored.emplace_back(l2dist(db[i],<sp/>q),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(scored.begin(),<sp/>scored.end());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>scored.resize(std::min&lt;size_t&gt;(scored.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(k)));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>ids<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>scored)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ids.push_back(p.second);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ids;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MatryoshkaTruncation<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>TruncateShorterKeepsFirstNDims)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v<sp/>=<sp/>{1.f,<sp/>2.f,<sp/>3.f,<sp/>4.f,<sp/>5.f,<sp/>6.f};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(3,<sp/></highlight><highlight class="comment">/*normalize=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>t.truncate(v);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(out.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[0],<sp/>1.f);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[1],<sp/>2.f);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[2],<sp/>3.f);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>TruncateEqualDimIsNoOp_NoNorm)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v<sp/>=<sp/>{1.f,<sp/>2.f,<sp/>3.f};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(3,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>t.truncate(v);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(out.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[0],<sp/>1.f);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[1],<sp/>2.f);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[2],<sp/>3.f);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>TruncateLargerZeroPads)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v<sp/>=<sp/>{1.f,<sp/>2.f};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(4,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>t.truncate(v);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(out.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[0],<sp/>1.f);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[1],<sp/>2.f);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[2],<sp/>0.f);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[3],<sp/>0.f);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>NormalizeProducesUnitNorm)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v<sp/>=<sp/>{3.f,<sp/>4.f};<sp/><sp/></highlight><highlight class="comment">//<sp/>|v|<sp/>=<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(2,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>t.truncate(v);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(l2norm(out),<sp/>1.f,<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(out[0],<sp/>3.f<sp/>/<sp/>5.f,<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(out[1],<sp/>4.f<sp/>/<sp/>5.f,<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>NoNormalize_RawValuesPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v<sp/>=<sp/>{3.f,<sp/>4.f};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(2,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>t.truncate(v);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[0],<sp/>3.f);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[1],<sp/>4.f);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>ZeroVector_NoDivisionByZero)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v<sp/>=<sp/>{0.f,<sp/>0.f,<sp/>0.f};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(3,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>t.truncate(v);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x<sp/>:<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(x,<sp/>0.f);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>TruncDim1_EdgeCase)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v<sp/>=<sp/>{5.f,<sp/>10.f,<sp/>15.f};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>t.truncate(v);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(out.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out[0],<sp/>5.f);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>StandardGranularityConstants)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1index_1abb5056a58ec5c0389898f1856c9683b5" kindref="member">kMRL_64</ref>,<sp/><sp/><sp/><sp/>64u);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1index_1a85258e7657dfec3cfb574e88b94e717e" kindref="member">kMRL_128</ref>,<sp/><sp/>128u);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1index_1a92fb909cffe48008374a60036f8ef5a3" kindref="member">kMRL_256</ref>,<sp/><sp/>256u);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1index_1ae7e0f2991e1f31c8050eb45f2ff7b75f" kindref="member">kMRL_512</ref>,<sp/><sp/>512u);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1index_1a84f6bda15bef568441e172ef24ae7fd9" kindref="member">kMRL_768</ref>,<sp/><sp/>768u);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1index_1a8e42428a423e14d8bdc17a873bbf4e21" kindref="member">kMRL_1024</ref>,<sp/>1024u);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1index_1aa5d84e93789f4c2f90aeee5d4a6fb281" kindref="member">kMRL_1536</ref>,<sp/>1536u);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationTest,<sp/>Constructor_RejectsTruncDimZero)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref>(0),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MatryoshkaTruncatedIndex<sp/>fixtures<sp/>and<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="class_matryoshka_truncated_index_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_matryoshka_truncated_index_test_1a474f363d7db7d6d548790ea540cbbedf" kindref="member">N</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_matryoshka_truncated_index_test_1aaea5fbe76aed86b743f5b00813564fae" kindref="member">FULL_DIM</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_matryoshka_truncated_index_test_1a3e262668af1a5491d04ef241ed8ac998" kindref="member">TRUNC</ref><sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_matryoshka_truncated_index_test_1af50d2324c093e198cd0c776909027595" kindref="member">K</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="class_matryoshka_truncated_index_test_1aa9131b02471bdf9ce26d91046b0bd016" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_matryoshka_truncated_index_test_1a069845c8c66ac1beacbad540b412bcae" kindref="member">flat_db_</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_matryoshka_truncated_index_test_1a6c514ef47fe09bf4066e05184da82458" kindref="member">ids_</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_matryoshka_truncated_index_test_1adfb2b35d2fa7ec8d62a69dac7a63b37c" kindref="member">tmp_dir_</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_matryoshka_truncated_index_test_1a02301271382de762db661193dd86f5d6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_matryoshka_truncated_index_test_1aa9131b02471bdf9ce26d91046b0bd016" kindref="member">db_</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>rand_vecs(<ref refid="class_matryoshka_truncated_index_test_1a474f363d7db7d6d548790ea540cbbedf" kindref="member">N</ref>,<sp/><ref refid="class_matryoshka_truncated_index_test_1aaea5fbe76aed86b743f5b00813564fae" kindref="member">FULL_DIM</ref>,<sp/>99);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_matryoshka_truncated_index_test_1a069845c8c66ac1beacbad540b412bcae" kindref="member">flat_db_</ref><sp/>=<sp/>flatten(<ref refid="class_matryoshka_truncated_index_test_1aa9131b02471bdf9ce26d91046b0bd016" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_matryoshka_truncated_index_test_1a6c514ef47fe09bf4066e05184da82458" kindref="member">ids_</ref>.resize(<ref refid="class_matryoshka_truncated_index_test_1a474f363d7db7d6d548790ea540cbbedf" kindref="member">N</ref>);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::iota(<ref refid="class_matryoshka_truncated_index_test_1a6c514ef47fe09bf4066e05184da82458" kindref="member">ids_</ref>.begin(),<sp/><ref refid="class_matryoshka_truncated_index_test_1a6c514ef47fe09bf4066e05184da82458" kindref="member">ids_</ref>.end(),<sp/>0);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_matryoshka_truncated_index_test_1adfb2b35d2fa7ec8d62a69dac7a63b37c" kindref="member">tmp_dir_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_mrl_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_matryoshka_truncated_index_test_1adfb2b35d2fa7ec8d62a69dac7a63b37c" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_matryoshka_truncated_index_test_1a57d52e36f390ba50bcd4151a2b801191" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_matryoshka_truncated_index_test_1adfb2b35d2fa7ec8d62a69dac7a63b37c" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MatryoshkaTruncatedIndex&gt;<sp/><ref refid="class_matryoshka_truncated_index_test_1a638e1625466f56656e79a9c059ffbcfa" kindref="member">make_idx</ref>(</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>trunc<sp/>=<sp/><ref refid="class_matryoshka_truncated_index_test_1a3e262668af1a5491d04ef241ed8ac998" kindref="member">TRUNC</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>norm<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="223"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MatryoshkaTruncatedIndex&gt;(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;ScaNN&gt;(),<sp/>trunc,<sp/>norm);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>SizeZeroBeforeBuild)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx-&gt;size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>BuildPopulatesSize)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx-&gt;size(),<sp/>N);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>SearchReturnsNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx-&gt;search(flat_db_.data(),<sp/>FULL_DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.empty());</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>SearchNearestToSelf)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>identical<sp/>to<sp/>first<sp/>stored<sp/>vector<sp/>→<sp/>nearest<sp/>must<sp/>be<sp/>id=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx(TRUNC,<sp/></highlight><highlight class="comment">/*normalize=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx-&gt;search(flat_db_.data(),<sp/>FULL_DIM,<sp/>1);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(res.empty());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>Recall_TopK)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>truncated<sp/>index<sp/>with<sp/>8-D<sp/>prefix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>truncated<sp/>brute-force<sp/>reference<sp/>with<sp/>the<sp/>same<sp/>prefix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx(TRUNC,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>truncated<sp/>brute-force<sp/>neighbours<sp/>for<sp/>query<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>trunc_db(N,<sp/>std::vector&lt;float&gt;(TRUNC));</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::copy(db_[i].begin(),<sp/>db_[i].begin()<sp/>+<sp/>TRUNC,<sp/>trunc_db[i].begin());</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>q_trunc(db_[0].begin(),<sp/>db_[0].begin()<sp/>+<sp/>TRUNC);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bf_ids<sp/>=<sp/>brute_force_knn(trunc_db,<sp/>q_trunc,<sp/>K);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx-&gt;search(flat_db_.data(),<sp/>FULL_DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>res_ids<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>res_ids.push_back(r.id);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recall:<sp/>at<sp/>least<sp/>3<sp/>out<sp/>of<sp/>K<sp/>should<sp/>overlap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>overlap<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>bf_ids)</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::find(res_ids.begin(),<sp/>res_ids.end(),<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>!=<sp/>res_ids.end())</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++overlap;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(overlap,<sp/>3);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>AddIncrementsSize)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>idx-&gt;size();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx-&gt;add(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N<sp/>+<sp/>10),<sp/>flat_db_.data(),<sp/>FULL_DIM));</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx-&gt;size(),<sp/>before<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>BuildEmptyDataset)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx-&gt;build(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>0,<sp/>FULL_DIM));</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx-&gt;size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>SearchOnEmptyIndex_NoCrash)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx-&gt;search(flat_db_.data(),<sp/>FULL_DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>NullBackend_ThrowsInvalidArgument)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(<ref refid="classthemis_1_1index_1_1_matryoshka_truncated_index" kindref="compound">MatryoshkaTruncatedIndex</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>TRUNC)),</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>SaveLoad_Roundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/>save_path<sp/>=<sp/>tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;mrl_scann&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx-&gt;save(save_path.string()));</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx2<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx2-&gt;load(save_path.string()));</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx2-&gt;size(),<sp/>N);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>TruncDimLargerThanFullDim_StillWorks)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>truncation<sp/>dimension<sp/>larger<sp/>than<sp/>the<sp/>actual<sp/>vector<sp/>dimension<sp/>→</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>remaining<sp/>components<sp/>should<sp/>be<sp/>zero-padded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>std::make_shared&lt;MatryoshkaTruncatedIndex&gt;(</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;ScaNN&gt;(),<sp/>FULL_DIM<sp/>*<sp/>2,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM));</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx-&gt;size(),<sp/>N);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx-&gt;search(flat_db_.data(),<sp/>FULL_DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.empty());</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>PolymorphicIAnnIndexPointer)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IAnnIndex&gt;<sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM));</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx-&gt;size(),<sp/>N);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx-&gt;search(flat_db_.data(),<sp/>FULL_DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.empty());</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>TruncationAccessor)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx(<ref refid="namespacethemis_1_1index_1a85258e7657dfec3cfb574e88b94e717e" kindref="member">kMRL_128</ref>,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx-&gt;truncation().trunc_dim(),<sp/><ref refid="namespacethemis_1_1index_1a85258e7657dfec3cfb574e88b94e717e" kindref="member">kMRL_128</ref>);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx-&gt;truncation().normalize());</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>BackendAccessor)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;ScaNN&gt;();</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;MatryoshkaTruncatedIndex&gt;(backend,<sp/>TRUNC);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>backend()<sp/>should<sp/>return<sp/>the<sp/>same<sp/>underlying<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(&amp;idx-&gt;backend(),<sp/>backend.get());</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>KLargerThanSize_NoCrash)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>k<sp/>&gt;<sp/>N<sp/>should<sp/>not<sp/>crash<sp/>—<sp/>backend<sp/>returns<sp/>what<sp/>it<sp/>has</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx();</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>idx-&gt;build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>FULL_DIM);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>oversized_k<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N)<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(idx-&gt;search(flat_db_.data(),<sp/>FULL_DIM,<sp/>oversized_k));</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1ae45b577444a38f04b8e45310843ebb38" kindref="member">TEST_F</ref>(<ref refid="class_matryoshka_truncated_index_test" kindref="compound">MatryoshkaTruncatedIndexTest</ref>,<sp/>MultipleAdds_ThenSearch)<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>make_idx(TRUNC,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx-&gt;add(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i),<sp/>db_[i].data(),<sp/>FULL_DIM));</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>same<sp/>as<sp/>first<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx-&gt;search(db_[0].data(),<sp/>FULL_DIM,<sp/>1);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(res.empty());</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MatryoshkaTruncation<sp/>raw-pointer<sp/>overload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationRawPtrTest,<sp/>RawPtrAndVectorOverloadAgree)<sp/>{</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>arr[]<sp/>=<sp/>{1.f,<sp/>2.f,<sp/>3.f,<sp/>4.f,<sp/>5.f};</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec(arr,<sp/>arr<sp/>+<sp/>5);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(3,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out_ptr<sp/>=<sp/>t.truncate(arr,<sp/>5);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out_vec<sp/>=<sp/>t.truncate(vec);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(out_ptr.size(),<sp/>out_vec.size());</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>out_ptr.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(out_ptr[i],<sp/>out_vec[i]);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Normalisation<sp/>correctness<sp/>over<sp/>multiple<sp/>random<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><ref refid="test__matryoshka__truncation_8cpp_1aa57d637ef77331626f51ebe470a9bd91" kindref="member">TEST</ref>(MatryoshkaTruncationNormTest,<sp/>AllOutputsHaveUnitNorm)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_matryoshka_truncation" kindref="compound">MatryoshkaTruncation</ref><sp/>t(<ref refid="namespacethemis_1_1index_1abb5056a58ec5c0389898f1856c9683b5" kindref="member">kMRL_64</ref>,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vecs<sp/>=<sp/>rand_vecs(50,<sp/><ref refid="namespacethemis_1_1index_1a92fb909cffe48008374a60036f8ef5a3" kindref="member">kMRL_256</ref>,<sp/>1234);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>vecs)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>t.truncate(v);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>l2norm(out);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>zero<sp/>vectors<sp/>are<sp/>the<sp/>only<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(l2norm(v)<sp/>&gt;<sp/>1e-10f)</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(n,<sp/>1.f,<sp/>1e-5f);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/index/test_matryoshka_truncation.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_phase2_mock_participant" kind="class" language="C++" prot="public">
+    <compoundname>Phase2MockParticipant</compoundname>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback" prot="public" virt="non-virtual">themis::transaction::IDistributedParticipantCallback</basecompoundref>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_phase2_mock_participant_1a4a20dd0fe2ee156dd178e60b254ab57c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Policy</name>
+        <qualifiedname>Phase2MockParticipant::Policy</qualifiedname>
+        <enumvalue id="class_phase2_mock_participant_1a4a20dd0fe2ee156dd178e60b254ab57cae19b2e2dcd43966d1f0dc4d00df1e3a2" prot="public">
+          <name>ALWAYS_COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_phase2_mock_participant_1a4a20dd0fe2ee156dd178e60b254ab57caaf58bc677ea13ed4509d61dc281b8fe9" prot="public">
+          <name>ALWAYS_ABORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_phase2_mock_participant_1a4a20dd0fe2ee156dd178e60b254ab57caf5e3a37ed14d1d1da6aa4d015f75aca7" prot="public">
+          <name>THROW_ON_PREPARE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="44" column="5" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_phase2_mock_participant_1a9c76a41352facb6cbf9bae3f0c102181" prot="private" static="no" mutable="no">
+        <type><ref refid="class_phase2_mock_participant_1a4a20dd0fe2ee156dd178e60b254ab57c" kindref="member">Policy</ref></type>
+        <definition>Policy Phase2MockParticipant::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>Phase2MockParticipant::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="75" column="23" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase2_mock_participant_1aba9ce32064d0d190c9d4d8d6e1bb0439" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex Phase2MockParticipant::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>Phase2MockParticipant::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="76" column="24" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase2_mock_participant_1a6656eb7abc34f6c8f6cf401c50bb4035" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase2MockParticipant::last_prepare_txn_</definition>
+        <argsstring></argsstring>
+        <name>last_prepare_txn_</name>
+        <qualifiedname>Phase2MockParticipant::last_prepare_txn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="77" column="23" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase2_mock_participant_1a19ea397ce5953ad04c97724b4afa5b44" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase2MockParticipant::last_commit_txn_</definition>
+        <argsstring></argsstring>
+        <name>last_commit_txn_</name>
+        <qualifiedname>Phase2MockParticipant::last_commit_txn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="77" column="41" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase2_mock_participant_1a8d2ab79aec53bcad7fa26254b3e158f9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase2MockParticipant::last_abort_txn_</definition>
+        <argsstring></argsstring>
+        <name>last_abort_txn_</name>
+        <qualifiedname>Phase2MockParticipant::last_abort_txn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="77" column="58" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase2_mock_participant_1a4fe00f98cd04cf47395fff1f0db45f71" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; Phase2MockParticipant::prepare_count_</definition>
+        <argsstring></argsstring>
+        <name>prepare_count_</name>
+        <qualifiedname>Phase2MockParticipant::prepare_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="78" column="18" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase2_mock_participant_1abac01726678802171532d9f32c32eb0c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; Phase2MockParticipant::commit_count_</definition>
+        <argsstring></argsstring>
+        <name>commit_count_</name>
+        <qualifiedname>Phase2MockParticipant::commit_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="78" column="33" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase2_mock_participant_1a787f2ae629de2a35559c339f3d477184" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; Phase2MockParticipant::abort_count_</definition>
+        <argsstring></argsstring>
+        <name>abort_count_</name>
+        <qualifiedname>Phase2MockParticipant::abort_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="78" column="47" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_phase2_mock_participant_1afc767a59ea4f2002488b67fddaf3e865" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Phase2MockParticipant::Phase2MockParticipant</definition>
+        <argsstring>(Policy policy=Policy::ALWAYS_COMMIT)</argsstring>
+        <name>Phase2MockParticipant</name>
+        <qualifiedname>Phase2MockParticipant::Phase2MockParticipant</qualifiedname>
+        <param>
+          <type><ref refid="class_phase2_mock_participant_1a4a20dd0fe2ee156dd178e60b254ab57c" kindref="member">Policy</ref></type>
+          <declname>policy</declname>
+          <defval><ref refid="class_phase2_mock_participant_1a4a20dd0fe2ee156dd178e60b254ab57cae19b2e2dcd43966d1f0dc4d00df1e3a2" kindref="member">Policy::ALWAYS_COMMIT</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="46" column="14" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="46" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase2_mock_participant_1ad33093f2a0fc0b772b47df4ee139fed4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool Phase2MockParticipant::onPrepare</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::set&lt; std::string &gt; &amp;) override</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>Phase2MockParticipant::onPrepare</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a89abea487b7f9ed7022470ed41faba06">onPrepare</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="49" column="10" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="49" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase2_mock_participant_1acdf0b02721f7453a25f38ef6e4e66c52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void Phase2MockParticipant::onCommit</definition>
+        <argsstring>(const std::string &amp;txn_id) override</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>Phase2MockParticipant::onCommit</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1af647d0102bad4e770015b086d7cf399a">onCommit</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="58" column="10" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase2_mock_participant_1aee7b0e39dada230a83160e8fd06077e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void Phase2MockParticipant::onAbort</definition>
+        <argsstring>(const std::string &amp;txn_id) override</argsstring>
+        <name>onAbort</name>
+        <qualifiedname>Phase2MockParticipant::onAbort</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a683d107218ed5398400b54b9dd8765c8">onAbort</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="64" column="10" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="64" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase2_mock_participant_1a4a4f1a665df6576f9c96ecfd5fa6c029" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Phase2MockParticipant::prepareCount</definition>
+        <argsstring>() const</argsstring>
+        <name>prepareCount</name>
+        <qualifiedname>Phase2MockParticipant::prepareCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="70" column="9" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase2_mock_participant_1a1ea5f30370bd4520ffd568a06388d480" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Phase2MockParticipant::commitCount</definition>
+        <argsstring>() const</argsstring>
+        <name>commitCount</name>
+        <qualifiedname>Phase2MockParticipant::commitCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="71" column="9" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase2_mock_participant_1abf51747c8c4a72c8cac50c487594a2de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Phase2MockParticipant::abortCount</definition>
+        <argsstring>() const</argsstring>
+        <name>abortCount</name>
+        <qualifiedname>Phase2MockParticipant::abortCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="72" column="9" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Phase2MockParticipant</label>
+        <link refid="class_phase2_mock_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Phase2MockParticipant</label>
+        <link refid="class_phase2_mock_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="42" column="1" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="42" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_phase2_mock_participant_1a787f2ae629de2a35559c339f3d477184" prot="private" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>abort_count_</name></member>
+      <member refid="class_phase2_mock_participant_1abf51747c8c4a72c8cac50c487594a2de" prot="public" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>abortCount</name></member>
+      <member refid="class_phase2_mock_participant_1abac01726678802171532d9f32c32eb0c" prot="private" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>commit_count_</name></member>
+      <member refid="class_phase2_mock_participant_1a1ea5f30370bd4520ffd568a06388d480" prot="public" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>commitCount</name></member>
+      <member refid="class_phase2_mock_participant_1a8d2ab79aec53bcad7fa26254b3e158f9" prot="private" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>last_abort_txn_</name></member>
+      <member refid="class_phase2_mock_participant_1a19ea397ce5953ad04c97724b4afa5b44" prot="private" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>last_commit_txn_</name></member>
+      <member refid="class_phase2_mock_participant_1a6656eb7abc34f6c8f6cf401c50bb4035" prot="private" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>last_prepare_txn_</name></member>
+      <member refid="class_phase2_mock_participant_1aba9ce32064d0d190c9d4d8d6e1bb0439" prot="private" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>mu_</name></member>
+      <member refid="class_phase2_mock_participant_1aee7b0e39dada230a83160e8fd06077e4" prot="public" virt="virtual"><scope>Phase2MockParticipant</scope><name>onAbort</name></member>
+      <member refid="class_phase2_mock_participant_1acdf0b02721f7453a25f38ef6e4e66c52" prot="public" virt="virtual"><scope>Phase2MockParticipant</scope><name>onCommit</name></member>
+      <member refid="class_phase2_mock_participant_1ad33093f2a0fc0b772b47df4ee139fed4" prot="public" virt="virtual"><scope>Phase2MockParticipant</scope><name>onPrepare</name></member>
+      <member refid="class_phase2_mock_participant_1afc767a59ea4f2002488b67fddaf3e865" prot="public" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>Phase2MockParticipant</name></member>
+      <member refid="class_phase2_mock_participant_1a4a20dd0fe2ee156dd178e60b254ab57c" prot="public" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>Policy</name></member>
+      <member refid="class_phase2_mock_participant_1a9c76a41352facb6cbf9bae3f0c102181" prot="private" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>policy_</name></member>
+      <member refid="class_phase2_mock_participant_1a4fe00f98cd04cf47395fff1f0db45f71" prot="private" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>prepare_count_</name></member>
+      <member refid="class_phase2_mock_participant_1a4a4f1a665df6576f9c96ecfd5fa6c029" prot="public" virt="non-virtual"><scope>Phase2MockParticipant</scope><name>prepareCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a8c6c340c8cd2ab3b390cf90c13cac610" prot="public" virt="virtual"><scope>Phase2MockParticipant</scope><name>~IDistributedParticipantCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

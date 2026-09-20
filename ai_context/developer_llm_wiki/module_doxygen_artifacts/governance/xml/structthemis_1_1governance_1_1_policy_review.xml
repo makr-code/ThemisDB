@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_review" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyReview</compoundname>
+    <includes refid="policy__review_8h" local="no">policy_review.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a1de31631ae9a4fb6a10350297f9d4611" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyReview::review_id</definition>
+        <argsstring></argsstring>
+        <name>review_id</name>
+        <qualifiedname>themis::governance::PolicyReview::review_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="27" column="17" bodyfile="include/governance/policy_review.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a8b30d7e91ae4b39f28c96366595e1f85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyReview::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::PolicyReview::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="28" column="17" bodyfile="include/governance/policy_review.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a7834b1fdd5e19c130e24c5f8104bbab2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyReview::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::governance::PolicyReview::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="29" column="17" bodyfile="include/governance/policy_review.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a3cec1af9924cae59d4c982e623d1d0c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyReview::reviewer</definition>
+        <argsstring></argsstring>
+        <name>reviewer</name>
+        <qualifiedname>themis::governance::PolicyReview::reviewer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="30" column="17" bodyfile="include/governance/policy_review.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a6a532ec280adcb604bee62a27d2381de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyReview::requester</definition>
+        <argsstring></argsstring>
+        <name>requester</name>
+        <qualifiedname>themis::governance::PolicyReview::requester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="31" column="17" bodyfile="include/governance/policy_review.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a4700532f3c86b21a09fe853f28f7d6e1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyReview::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::governance::PolicyReview::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="32" column="13" bodyfile="include/governance/policy_review.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a31038eebd266c7b3c8f862cbeb60ce4e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyReview::due_date</definition>
+        <argsstring></argsstring>
+        <name>due_date</name>
+        <qualifiedname>themis::governance::PolicyReview::due_date</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="33" column="13" bodyfile="include/governance/policy_review.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a3921c1c3ae11d29030a68fab6d3a1934" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyReview::completed_at</definition>
+        <argsstring></argsstring>
+        <name>completed_at</name>
+        <qualifiedname>themis::governance::PolicyReview::completed_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="34" column="13" bodyfile="include/governance/policy_review.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1aa8cf85383e9186d418c010771a40ba50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyReview::review_notes</definition>
+        <argsstring></argsstring>
+        <name>review_notes</name>
+        <qualifiedname>themis::governance::PolicyReview::review_notes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="35" column="17" bodyfile="include/governance/policy_review.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_review_1a726bfa825338ff51abc8771204de157d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyReview::rejection_reason</definition>
+        <argsstring></argsstring>
+        <name>rejection_reason</name>
+        <qualifiedname>themis::governance::PolicyReview::rejection_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="36" column="17" bodyfile="include/governance/policy_review.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_review_1a3da54de5a6571382fee06efe699c0a0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyReview::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyReview::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="42" column="20" bodyfile="src/governance/policy_review.cpp" bodystart="38" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_review_1acff236ea3282e49d7b84fcebafbb84b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref></type>
+        <definition>PolicyReview themis::governance::PolicyReview::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::PolicyReview::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="48" column="25" bodyfile="src/governance/policy_review.cpp" bodystart="59" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_review.h" line="26" column="1" bodyfile="include/governance/policy_review.h" bodystart="26" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a3921c1c3ae11d29030a68fab6d3a1934" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>completed_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a4700532f3c86b21a09fe853f28f7d6e1" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a31038eebd266c7b3c8f862cbeb60ce4e" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>due_date</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1acff236ea3282e49d7b84fcebafbb84b4" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a726bfa825338ff51abc8771204de157d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>rejection_reason</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a6a532ec280adcb604bee62a27d2381de" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>requester</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a1de31631ae9a4fb6a10350297f9d4611" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>review_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1aa8cf85383e9186d418c010771a40ba50" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>review_notes</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a3cec1af9924cae59d4c982e623d1d0c3" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>reviewer</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a8b30d7e91ae4b39f28c96366595e1f85" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a7834b1fdd5e19c130e24c5f8104bbab2" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>status</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_review_1a3da54de5a6571382fee06efe699c0a0e" prot="public" virt="non-virtual"><scope>themis::governance::PolicyReview</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

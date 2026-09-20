@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::graph_helpers::SimpleGraph</compoundname>
+    <includes refid="graph__functions_8h" local="no">graph_functions.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1aed6f7bde4f8ac2ada873edd1e23554a5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::pair&lt;std::string, double&gt; &gt; &gt; themis::query::functions::graph_helpers::SimpleGraph::outEdges_</definition>
+        <argsstring></argsstring>
+        <name>outEdges_</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::outEdges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="139" column="24" bodyfile="include/query/functions/graph_functions.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1af517015a8e013f5b375291e374a8fbe0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::pair&lt;std::string, double&gt; &gt; &gt; themis::query::functions::graph_helpers::SimpleGraph::inEdges_</definition>
+        <argsstring></argsstring>
+        <name>inEdges_</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::inEdges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="140" column="24" bodyfile="include/query/functions/graph_functions.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1aeca868087ca5b09d20d26a49119348ad" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::query::functions::graph_helpers::SimpleGraph::vertices_</definition>
+        <argsstring></argsstring>
+        <name>vertices_</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::vertices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="141" column="24" bodyfile="include/query/functions/graph_functions.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a186e2b8061a66ce6a259c68f0dcd17c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::graph_helpers::SimpleGraph::addEdge</definition>
+        <argsstring>(const std::string &amp;from, const std::string &amp;to, double weight=1.0)</argsstring>
+        <name>addEdge</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::addEdge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="92" column="10" bodyfile="include/query/functions/graph_functions.h" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a037972ca3834f4724eeb1dff466d7427" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::graph_helpers::SimpleGraph::addVertex</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>addVertex</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::addVertex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Add Vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="104" column="10" bodyfile="include/query/functions/graph_functions.h" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a25ea848d87270101bde117aa05e88bd5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &amp; themis::query::functions::graph_helpers::SimpleGraph::outNeighbors</definition>
+        <argsstring>(const std::string &amp;v) const</argsstring>
+        <name>outNeighbors</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::outNeighbors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="108" column="23" bodyfile="include/query/functions/graph_functions.h" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1af7e6863356a239e24cc10f64c5b4156b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &amp; themis::query::functions::graph_helpers::SimpleGraph::inNeighbors</definition>
+        <argsstring>(const std::string &amp;v) const</argsstring>
+        <name>inNeighbors</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::inNeighbors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="114" column="23" bodyfile="include/query/functions/graph_functions.h" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a43005c98e8ed40b55357ec6e3bd087d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; std::string &gt; &amp; themis::query::functions::graph_helpers::SimpleGraph::vertices</definition>
+        <argsstring>() const</argsstring>
+        <name>vertices</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="120" column="30" bodyfile="include/query/functions/graph_functions.h" bodystart="120" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1ac6c050913a0a9440d2671ba884fdca87" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::functions::graph_helpers::SimpleGraph::vertexCount</definition>
+        <argsstring>() const</argsstring>
+        <name>vertexCount</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::vertexCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="124" column="12" bodyfile="include/query/functions/graph_functions.h" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a6241a2afbd814bbea931dcdebd8e7c98" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::functions::graph_helpers::SimpleGraph::outDegree</definition>
+        <argsstring>(const std::string &amp;v) const</argsstring>
+        <name>outDegree</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::outDegree</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="128" column="12" bodyfile="include/query/functions/graph_functions.h" bodystart="128" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1af317a09b065e31de0e8839abdd666c2e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::functions::graph_helpers::SimpleGraph::inDegree</definition>
+        <argsstring>(const std::string &amp;v) const</argsstring>
+        <name>inDegree</name>
+        <qualifiedname>themis::query::functions::graph_helpers::SimpleGraph::inDegree</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="133" column="12" bodyfile="include/query/functions/graph_functions.h" bodystart="133" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/graph_functions.h" line="90" column="1" bodyfile="include/query/functions/graph_functions.h" bodystart="90" bodyend="142"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a186e2b8061a66ce6a259c68f0dcd17c2" prot="public" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>addEdge</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a037972ca3834f4724eeb1dff466d7427" prot="public" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>addVertex</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1af317a09b065e31de0e8839abdd666c2e" prot="public" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>inDegree</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1af517015a8e013f5b375291e374a8fbe0" prot="private" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>inEdges_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1af7e6863356a239e24cc10f64c5b4156b" prot="public" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>inNeighbors</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a6241a2afbd814bbea931dcdebd8e7c98" prot="public" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>outDegree</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1aed6f7bde4f8ac2ada873edd1e23554a5" prot="private" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>outEdges_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a25ea848d87270101bde117aa05e88bd5" prot="public" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>outNeighbors</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1ac6c050913a0a9440d2671ba884fdca87" prot="public" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>vertexCount</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1a43005c98e8ed40b55357ec6e3bd087d9" prot="public" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>vertices</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1graph__helpers_1_1_simple_graph_1aeca868087ca5b09d20d26a49119348ad" prot="private" virt="non-virtual"><scope>themis::query::functions::graph_helpers::SimpleGraph</scope><name>vertices_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

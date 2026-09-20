@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_scheduler_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>SchedulerBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_scheduler_benchmark_1ac13f582f100a4cfedf419463ac9f9c4b" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t SchedulerBenchmark::BLOCK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>BLOCK_SIZE</name>
+        <qualifiedname>SchedulerBenchmark::BLOCK_SIZE</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="71" column="29" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_benchmark_1a118416cfab4f9561385a5155a0cd7629" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t SchedulerBenchmark::NUM_BLOCKS</definition>
+        <argsstring></argsstring>
+        <name>NUM_BLOCKS</name>
+        <qualifiedname>SchedulerBenchmark::NUM_BLOCKS</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="72" column="29" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_benchmark_1a4a7be06260a4168bbe0ffcef6825a867" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t SchedulerBenchmark::BATCH_SIZE</definition>
+        <argsstring></argsstring>
+        <name>BATCH_SIZE</name>
+        <qualifiedname>SchedulerBenchmark::BATCH_SIZE</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="73" column="29" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_benchmark_1a954d2acae45dd2edbdf882025745e49b" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t SchedulerBenchmark::MAX_TOKENS</definition>
+        <argsstring></argsstring>
+        <name>MAX_TOKENS</name>
+        <qualifiedname>SchedulerBenchmark::MAX_TOKENS</qualifiedname>
+        <initializer>= 16384</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="74" column="29" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_scheduler_benchmark_1a17cdda43608c497671c04b98460e9f2d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PagedBlockManager&gt; SchedulerBenchmark::block_manager</definition>
+        <argsstring></argsstring>
+        <name>block_manager</name>
+        <qualifiedname>SchedulerBenchmark::block_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="141" column="21" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_benchmark_1ad7c13b960d3d18e40da210a251cf81d7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PagedKVCache&gt; SchedulerBenchmark::kv_cache</definition>
+        <argsstring></argsstring>
+        <name>kv_cache</name>
+        <qualifiedname>SchedulerBenchmark::kv_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="142" column="26" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_benchmark_1ac02639e821b26f0646197e86c6dfd4b4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ContinuousBatchScheduler&gt; SchedulerBenchmark::scheduler</definition>
+        <argsstring></argsstring>
+        <name>scheduler</name>
+        <qualifiedname>SchedulerBenchmark::scheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="143" column="21" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_scheduler_benchmark_1a3609058ef351bfeed4188ff0e9be9272" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchedulerBenchmark::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SchedulerBenchmark::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="76" column="10" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="76" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduler_benchmark_1a30d750b38c24e20d06cc39d73a998aa3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchedulerBenchmark::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SchedulerBenchmark::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="94" column="10" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduler_benchmark_1ab57eb1325303fc5c2bac59a00557be00" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref></type>
+        <definition>InferenceRequest SchedulerBenchmark::makeRequest</definition>
+        <argsstring>(size_t prompt_len=20, size_t max_tok=10)</argsstring>
+        <name>makeRequest</name>
+        <qualifiedname>SchedulerBenchmark::makeRequest</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>prompt_len</declname>
+          <defval>20</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_tok</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="98" column="22" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="98" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduler_benchmark_1ae73ab0bed30eef370a0c7b5004a25cdd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; long long &gt;</type>
+        <definition>std::vector&lt; long long &gt; SchedulerBenchmark::submitN</definition>
+        <argsstring>(size_t n, size_t prompt_len=20)</argsstring>
+        <name>submitN</name>
+        <qualifiedname>SchedulerBenchmark::submitN</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>prompt_len</declname>
+          <defval>20</defval>
+        </param>
+        <briefdescription>
+<para>Helper: submit N requests, record per-call durations (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="107" column="17" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="107" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_scheduler_benchmark_1ad5125dc0eb94c9ee39d4fc5b83c27ef3" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>long long</type>
+        <definition>static long long SchedulerBenchmark::percentile</definition>
+        <argsstring>(std::vector&lt; long long &gt; v, int pct)</argsstring>
+        <name>percentile</name>
+        <qualifiedname>SchedulerBenchmark::percentile</qualifiedname>
+        <param>
+          <type>std::vector&lt; long long &gt;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pct</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="130" column="22" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="130" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SchedulerBenchmark</label>
+        <link refid="class_scheduler_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SchedulerBenchmark</label>
+        <link refid="class_scheduler_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="69" column="1" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="69" bodyend="144"/>
+    <listofallmembers>
+      <member refid="class_scheduler_benchmark_1a4a7be06260a4168bbe0ffcef6825a867" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>BATCH_SIZE</name></member>
+      <member refid="class_scheduler_benchmark_1a17cdda43608c497671c04b98460e9f2d" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>block_manager</name></member>
+      <member refid="class_scheduler_benchmark_1ac13f582f100a4cfedf419463ac9f9c4b" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>BLOCK_SIZE</name></member>
+      <member refid="class_scheduler_benchmark_1ad7c13b960d3d18e40da210a251cf81d7" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>kv_cache</name></member>
+      <member refid="class_scheduler_benchmark_1ab57eb1325303fc5c2bac59a00557be00" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>makeRequest</name></member>
+      <member refid="class_scheduler_benchmark_1a954d2acae45dd2edbdf882025745e49b" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>MAX_TOKENS</name></member>
+      <member refid="class_scheduler_benchmark_1a118416cfab4f9561385a5155a0cd7629" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>NUM_BLOCKS</name></member>
+      <member refid="class_scheduler_benchmark_1ad5125dc0eb94c9ee39d4fc5b83c27ef3" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>percentile</name></member>
+      <member refid="class_scheduler_benchmark_1ac02639e821b26f0646197e86c6dfd4b4" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>scheduler</name></member>
+      <member refid="class_scheduler_benchmark_1a3609058ef351bfeed4188ff0e9be9272" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>SetUp</name></member>
+      <member refid="class_scheduler_benchmark_1ae73ab0bed30eef370a0c7b5004a25cdd" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>submitN</name></member>
+      <member refid="class_scheduler_benchmark_1a30d750b38c24e20d06cc39d73a998aa3" prot="protected" virt="non-virtual"><scope>SchedulerBenchmark</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

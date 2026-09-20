@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsSelectionRouter::Impl</compoundname>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry" prot="public">themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a8f0d7d12419eae855cbf4d624b32456b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" kindref="compound">IEthicsProfileRegistry</ref> *</type>
+        <definition>IEthicsProfileRegistry* themis::plugins::ethics::EthicsSelectionRouter::Impl::registry</definition>
+        <argsstring></argsstring>
+        <name>registry</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="152" column="28" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a6bb24f90f24e9decc6289943499f69dd" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref></type>
+        <definition>RouterConfig themis::plugins::ethics::EthicsSelectionRouter::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="153" column="29" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a327da822dffd76f73c53fd276d36cb08" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::plugins::ethics::EthicsSelectionRouter::Impl::taxonomy_map</definition>
+        <argsstring></argsstring>
+        <name>taxonomy_map</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::taxonomy_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="156" column="24" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a9c40f54d41b786eeff5a656c7e70e0fd" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::plugins::ethics::EthicsSelectionRouter::Impl::domain_class_map</definition>
+        <argsstring></argsstring>
+        <name>domain_class_map</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::domain_class_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="158" column="24" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a37f02679fb5dd85de64091eaa3a0895f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::EthicsSelectionRouter::Impl::always_compliance_on_regulatory</definition>
+        <argsstring></argsstring>
+        <name>always_compliance_on_regulatory</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::always_compliance_on_regulatory</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="160" column="10" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a630dd991cf58292e44418a124a228a11" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::EthicsSelectionRouter::Impl::always_regulatory_auth_on_public</definition>
+        <argsstring></argsstring>
+        <name>always_regulatory_auth_on_public</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::always_regulatory_auth_on_public</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="161" column="10" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1af0654f969673735f572efc376cb16171" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::EthicsSelectionRouter::Impl::always_academic_on_academic</definition>
+        <argsstring></argsstring>
+        <name>always_academic_on_academic</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::always_academic_on_academic</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="162" column="10" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a79afe7aa531c5c25666d75e0f0c6bc94" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::EthicsSelectionRouter::Impl::precedent_mutex</definition>
+        <argsstring></argsstring>
+        <name>precedent_mutex</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::precedent_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="166" column="24" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1aa9544e4769694f2a5b20d4a8325eff82" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry" kindref="compound">PrecedentEntry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, PrecedentEntry&gt; &gt; themis::plugins::ethics::EthicsSelectionRouter::Impl::precedent_store</definition>
+        <argsstring></argsstring>
+        <name>precedent_store</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::precedent_store</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="168" column="2" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ac87e8a89b468ac6e776d3799cd62023d" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1add64b1aa29bac8f15fcbb5f0e05e47d1" kindref="member">EthicsSelectionRouter::EmbeddingFn</ref></type>
+        <definition>EthicsSelectionRouter::EmbeddingFn themis::plugins::ethics::EthicsSelectionRouter::Impl::embedding_fn</definition>
+        <argsstring></argsstring>
+        <name>embedding_fn</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::embedding_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="172" column="40" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a96f2f9bc9964e810e8644943318b3ccb" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1aec39e7e454ec842d80507c7f5a53b222" kindref="member">EthicsSelectionRouter::PrecedentQueryFn</ref></type>
+        <definition>EthicsSelectionRouter::PrecedentQueryFn themis::plugins::ethics::EthicsSelectionRouter::Impl::precedent_query_fn</definition>
+        <argsstring></argsstring>
+        <name>precedent_query_fn</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::precedent_query_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="176" column="45" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ab4e8933d2219017b9e2b81cee091c32e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::EthicsSelectionRouter::Impl::loadTaxonomy</definition>
+        <argsstring>(const std::string &amp;yaml_path)</argsstring>
+        <name>loadTaxonomy</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::loadTaxonomy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Taxonomy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="182" column="10" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="221" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1acd2d4bbc7751e356609f6dda0330e744" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt; std::string &gt; themis::plugins::ethics::EthicsSelectionRouter::Impl::stage1</definition>
+        <argsstring>(const std::string &amp;domain, const std::vector&lt; std::string &gt; &amp;tags, bool regulatory_context) const</argsstring>
+        <name>stage1</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::stage1</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tags</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>regulatory_context</declname>
+        </param>
+        <briefdescription>
+<para>Stage1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">regulatory_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="190" column="14" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="265" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ad2677d8276a3f64cbe64e06c28272ab6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" kindref="compound">RouterCandidate</ref> &gt;</type>
+        <definition>std::vector&lt; RouterCandidate &gt; themis::plugins::ethics::EthicsSelectionRouter::Impl::stage2</definition>
+        <argsstring>(const std::string &amp;dilemma_text, const std::set&lt; std::string &gt; &amp;candidates) const</argsstring>
+        <name>stage2</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::stage2</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_text</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Stage2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dilemma_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="200" column="17" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="352" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a3a59bd4096f66bc7aa7549d570b1dd03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::EthicsSelectionRouter::Impl::stage3</definition>
+        <argsstring>(std::vector&lt; RouterCandidate &gt; &amp;candidates, const std::string &amp;dilemma_domain) const</argsstring>
+        <name>stage3</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::stage3</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" kindref="compound">RouterCandidate</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_domain</declname>
+        </param>
+        <briefdescription>
+<para>Stage3. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dilemma_domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>── Fallback: in-memory precedent store ───────────────────────────────── <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precedent_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="208" column="10" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="486" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::ethics::EthicsSelectionRouter::Impl</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>registry</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ethics::IEthicsProfileRegistry</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry"/>
+      </node>
+      <node id="3">
+        <label>themis::plugins::ethics::RouterConfig</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_router_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/ethics_ai/ethics_selection_router.cpp" line="151" column="1" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="151" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1af0654f969673735f572efc376cb16171" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>always_academic_on_academic</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a37f02679fb5dd85de64091eaa3a0895f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>always_compliance_on_regulatory</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a630dd991cf58292e44418a124a228a11" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>always_regulatory_auth_on_public</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a6bb24f90f24e9decc6289943499f69dd" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a9c40f54d41b786eeff5a656c7e70e0fd" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>domain_class_map</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ac87e8a89b468ac6e776d3799cd62023d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>embedding_fn</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ab4e8933d2219017b9e2b81cee091c32e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>loadTaxonomy</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a79afe7aa531c5c25666d75e0f0c6bc94" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>precedent_mutex</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a96f2f9bc9964e810e8644943318b3ccb" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>precedent_query_fn</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1aa9544e4769694f2a5b20d4a8325eff82" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>precedent_store</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a8f0d7d12419eae855cbf4d624b32456b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>registry</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1acd2d4bbc7751e356609f6dda0330e744" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>stage1</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ad2677d8276a3f64cbe64e06c28272ab6" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>stage2</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a3a59bd4096f66bc7aa7549d570b1dd03" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>stage3</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a327da822dffd76f73c53fd276d36cb08" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl</scope><name>taxonomy_map</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

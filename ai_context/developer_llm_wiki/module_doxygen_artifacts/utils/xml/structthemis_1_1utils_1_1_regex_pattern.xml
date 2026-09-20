@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_regex_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::RegexPattern</compoundname>
+    <includes refid="regex__detection__engine_8h" local="no">regex_detection_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a709267601c383646e08212805832f060" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexPattern::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::utils::RegexPattern::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="26" column="17" bodyfile="include/utils/regex_detection_engine.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a303f6afb1ae6db744c6010cb771d1932" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexPattern::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::utils::RegexPattern::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="27" column="17" bodyfile="include/utils/regex_detection_engine.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a584b3ab3d0d79dd70e17bd5bf2f0be95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexPattern::regex_str</definition>
+        <argsstring></argsstring>
+        <name>regex_str</name>
+        <qualifiedname>themis::utils::RegexPattern::regex_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="28" column="17" bodyfile="include/utils/regex_detection_engine.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a2224bda8ee544176d700bfc757052245" prot="public" static="no" mutable="no">
+        <type>std::regex</type>
+        <definition>std::regex themis::utils::RegexPattern::compiled_regex</definition>
+        <argsstring></argsstring>
+        <name>compiled_regex</name>
+        <qualifiedname>themis::utils::RegexPattern::compiled_regex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="29" column="16" bodyfile="include/utils/regex_detection_engine.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a8386f6cb831d655006e09e44e4b4b481" prot="public" static="no" mutable="no">
+        <type>std::regex::flag_type</type>
+        <definition>std::regex::flag_type themis::utils::RegexPattern::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>themis::utils::RegexPattern::flags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="30" column="27" bodyfile="include/utils/regex_detection_engine.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a138d4bb6cffa245e0c1b12dce1bfeade" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RegexPattern::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::utils::RegexPattern::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="31" column="12" bodyfile="include/utils/regex_detection_engine.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a913b7f99be1089dd71684324be51ef67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexPattern::redaction_mode</definition>
+        <argsstring></argsstring>
+        <name>redaction_mode</name>
+        <qualifiedname>themis::utils::RegexPattern::redaction_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="32" column="17" bodyfile="include/utils/regex_detection_engine.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a225b993cfafc592887af6cc5b56e0132" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::utils::RegexPattern::field_hints</definition>
+        <argsstring></argsstring>
+        <name>field_hints</name>
+        <qualifiedname>themis::utils::RegexPattern::field_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="33" column="17" bodyfile="include/utils/regex_detection_engine.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1a7cd552b108cd3e71959235366883254e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexPattern::validation</definition>
+        <argsstring></argsstring>
+        <name>validation</name>
+        <qualifiedname>themis::utils::RegexPattern::validation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="34" column="17" bodyfile="include/utils/regex_detection_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_regex_pattern_1afa036fe986074c69325b62a2f8c604cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexPattern::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::utils::RegexPattern::enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="35" column="10" bodyfile="include/utils/regex_detection_engine.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single regex pattern. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/regex_detection_engine.h" line="25" column="1" bodyfile="include/utils/regex_detection_engine.h" bodystart="25" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a2224bda8ee544176d700bfc757052245" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>compiled_regex</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a138d4bb6cffa245e0c1b12dce1bfeade" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a303f6afb1ae6db744c6010cb771d1932" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>description</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1afa036fe986074c69325b62a2f8c604cb" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a225b993cfafc592887af6cc5b56e0132" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>field_hints</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a8386f6cb831d655006e09e44e4b4b481" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>flags</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a709267601c383646e08212805832f060" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>name</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a913b7f99be1089dd71684324be51ef67" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>redaction_mode</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a584b3ab3d0d79dd70e17bd5bf2f0be95" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>regex_str</name></member>
+      <member refid="structthemis_1_1utils_1_1_regex_pattern_1a7cd552b108cd3e71959235366883254e" prot="public" virt="non-virtual"><scope>themis::utils::RegexPattern</scope><name>validation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

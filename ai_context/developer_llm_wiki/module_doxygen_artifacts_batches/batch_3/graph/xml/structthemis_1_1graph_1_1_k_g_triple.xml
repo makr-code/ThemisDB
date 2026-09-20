@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_k_g_triple" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::KGTriple</compoundname>
+    <includes refid="rotate__completion_8h" local="no">rotate_completion.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_k_g_triple_1a4c395371ad10b06483a265019d289805" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::KGTriple::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>themis::graph::KGTriple::head</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="29" column="17" bodyfile="include/graph/rotate_completion.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_k_g_triple_1a6f6ab441f8a3b4ae9c5e9eca5b7f9c97" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::KGTriple::relation</definition>
+        <argsstring></argsstring>
+        <name>relation</name>
+        <qualifiedname>themis::graph::KGTriple::relation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="30" column="17" bodyfile="include/graph/rotate_completion.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_k_g_triple_1a0f6e16de16963716af143c694752b951" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::KGTriple::tail</definition>
+        <argsstring></argsstring>
+        <name>tail</name>
+        <qualifiedname>themis::graph::KGTriple::tail</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="31" column="17" bodyfile="include/graph/rotate_completion.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/rotate_completion.h" line="28" column="1" bodyfile="include/graph/rotate_completion.h" bodystart="28" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_k_g_triple_1a4c395371ad10b06483a265019d289805" prot="public" virt="non-virtual"><scope>themis::graph::KGTriple</scope><name>head</name></member>
+      <member refid="structthemis_1_1graph_1_1_k_g_triple_1a6f6ab441f8a3b4ae9c5e9eca5b7f9c97" prot="public" virt="non-virtual"><scope>themis::graph::KGTriple</scope><name>relation</name></member>
+      <member refid="structthemis_1_1graph_1_1_k_g_triple_1a0f6e16de16963716af143c694752b951" prot="public" virt="non-virtual"><scope>themis::graph::KGTriple</scope><name>tail</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

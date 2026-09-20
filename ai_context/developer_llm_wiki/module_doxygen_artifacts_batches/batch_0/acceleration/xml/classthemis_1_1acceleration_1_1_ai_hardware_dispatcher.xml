@@ -1,0 +1,967 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::AiHardwareDispatcher</compoundname>
+    <includes refid="ai__hardware__dispatcher_8h" local="no">ai_hardware_dispatcher.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5e912d1f6b91e6539e37de89435a6e1b" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref>(<ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;)&gt;</type>
+        <definition>using themis::acceleration::AiHardwareDispatcher::AppleANEDispatchFn = std::function&lt;AiInferenceResult(AiInferenceRequest&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AppleANEDispatchFn</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::AppleANEDispatchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="114" column="5" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a3847d89f8fbcd3914c20b50fc97408f9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::acceleration::AiHardwareDispatcher::kCacheTTL</definition>
+        <argsstring></argsstring>
+        <name>kCacheTTL</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::kCacheTTL</qualifiedname>
+        <initializer>= std::chrono::seconds(120)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="116" column="27" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1aca02edb453b09fcb5e5f8c64abeca4b8" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::acceleration::AiHardwareDispatcher::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects capabilities_ and last_probe_time_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="279" column="42" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a9f6c4e2e0ab7ced43ee1e55f34cb44ac" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref> &gt;</type>
+        <definition>std::vector&lt;AiHardwareCapability&gt; themis::acceleration::AiHardwareDispatcher::capabilities_</definition>
+        <argsstring></argsstring>
+        <name>capabilities_</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::capabilities_</qualifiedname>
+        <briefdescription>
+<para>Hardware capabilities in priority order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="280" column="20" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1aa2a81a97c0b4bf9a941b1985705d301e" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::acceleration::AiHardwareDispatcher::last_probe_time_</definition>
+        <argsstring></argsstring>
+        <name>last_probe_time_</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::last_probe_time_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Timestamp of last hardware probe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="281" column="43" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="281" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1afd35beadaca4e26d34f4e018d87907f8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::acceleration::AiHardwareDispatcher::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if <ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ab70f7999fa023b469899056722652467" kindref="member">initialize()</ref> has been called </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="282" column="36" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="282" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a6862dbb4f4f1e907a28c42d448a56faf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AiHardwareDispatcher &amp;</type>
+        <definition>AiHardwareDispatcher &amp; themis::acceleration::AiHardwareDispatcher::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="122" column="33" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="300" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5fa0c918873b5fc2b9a3eeac5d6a87af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::AiHardwareDispatcher::setAppleANEDispatchFn</definition>
+        <argsstring>(AppleANEDispatchFn fn)</argsstring>
+        <name>setAppleANEDispatchFn</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::setAppleANEDispatchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5e912d1f6b91e6539e37de89435a6e1b" kindref="member">AppleANEDispatchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Apple ANEDispatch Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="183" column="17" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="291" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ab70f7999fa023b469899056722652467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::AiHardwareDispatcher::initialize</definition>
+        <argsstring>(bool force=false)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::initialize</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), lock(), load(), reserve(), push_back(), probeAppleANE(), probeIntelNPU(), probeQualcommQNN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="124" column="10" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="314" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a97b8608607494f0f493d60696af873c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref> &gt;</type>
+        <definition>std::vector&lt; AiHardwareCapability &gt; themis::acceleration::AiHardwareDispatcher::probeCapabilities</definition>
+        <argsstring>()</argsstring>
+        <name>probeCapabilities</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeCapabilities</qualifiedname>
+        <briefdescription>
+<para>Probe Capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ab70f7999fa023b469899056722652467" kindref="member">initialize()</ref>, lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="130" column="17" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="368" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1afd312f0e0d57189873d6f4074cdf6b19" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::AiHardwareDispatcher::bestBackend</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bestBackend</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::bestBackend</qualifiedname>
+        <briefdescription>
+<para>Best Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="137" column="17" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="374" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a0dd2845ce665b968d0ef1f75d1715587" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::AiHardwareDispatcher::bestOnnxEP</definition>
+        <argsstring>() const</argsstring>
+        <name>bestOnnxEP</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::bestOnnxEP</qualifiedname>
+        <briefdescription>
+<para>Best Onnx EP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="143" column="17" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="389" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1afa028e463442fa98274aafaf7a6b8b2b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::AiHardwareDispatcher::hasAccelerator</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasAccelerator</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::hasAccelerator</qualifiedname>
+        <briefdescription>
+<para>Has Accelerator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="150" column="10" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="404" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1adc8664506e282c9cda1ac3f044bbfa1d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::AiHardwareDispatcher::hasNPU</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasNPU</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::hasNPU</qualifiedname>
+        <briefdescription>
+<para>Has NPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="157" column="10" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="419" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a3f3506018f961ba7553851fda65c8f78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::run</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::run</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ab70f7999fa023b469899056722652467" kindref="member">initialize()</ref>, lock(), <ref refid="namespacethemis_1_1acceleration_1a178d1309c07075e15bc9f60a4c2394a9" kindref="member">hasPrecision()</ref>, THEMIS_DEBUG(), <ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a7d5528cd8fa7706bbf2955d56eeedb81" kindref="member">runOn()</ref>, THEMIS_WARN(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="164" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="448" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a7d5528cd8fa7706bbf2955d56eeedb81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::runOn</definition>
+        <argsstring>(BackendType backend, AiInferenceRequest &amp;req)</argsstring>
+        <name>runOn</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::runOn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Run On. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dispatchAppleANE(), dispatchIntelNPU(), dispatchQualcommQNN(), dispatchArmEthos(), dispatchNNAPI(), dispatchOnnxRuntime(), dispatchGpuFallback(), dispatchCpuFallback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="172" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="500" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a9b2b16cd53a062c9e0d54779f536f837" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::AiHardwareDispatcher::logCapabilities</definition>
+        <argsstring>() const</argsstring>
+        <name>logCapabilities</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::logCapabilities</qualifiedname>
+        <briefdescription>
+<para>Log Capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="177" column="10" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="537" bodyend="553"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a2db65bf3b1f9ee4177ed9173f050e5ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::AiHardwareDispatcher::AiHardwareDispatcher</definition>
+        <argsstring>()=default</argsstring>
+        <name>AiHardwareDispatcher</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::AiHardwareDispatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="186" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a1401330b744d17457c240c427e7eba6c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::AiHardwareDispatcher::~AiHardwareDispatcher</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AiHardwareDispatcher</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::~AiHardwareDispatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="187" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a934450a3fa353803438be05649f68b67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::AiHardwareDispatcher::AiHardwareDispatcher</definition>
+        <argsstring>(const AiHardwareDispatcher &amp;)=delete</argsstring>
+        <name>AiHardwareDispatcher</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::AiHardwareDispatcher</qualifiedname>
+        <param>
+          <type>const AiHardwareDispatcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="188" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5be14e1b0d786ab38783d6cd07be9663" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AiHardwareDispatcher &amp;</type>
+        <definition>AiHardwareDispatcher &amp; themis::acceleration::AiHardwareDispatcher::operator=</definition>
+        <argsstring>(const AiHardwareDispatcher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::operator=</qualifiedname>
+        <param>
+          <type>const AiHardwareDispatcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="189" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ac7b8549e25a57fc9099713be3e20ee7c" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref></type>
+        <definition>AiHardwareCapability themis::acceleration::AiHardwareDispatcher::probeAppleANE</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>probeAppleANE</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeAppleANE</qualifiedname>
+        <briefdescription>
+<para>Probe Apple ANE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="196" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="559" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1aa85c4a86d712aa69a7cb94d698ef4457" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref></type>
+        <definition>AiHardwareCapability themis::acceleration::AiHardwareDispatcher::probeIntelNPU</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>probeIntelNPU</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeIntelNPU</qualifiedname>
+        <briefdescription>
+<para>Probe Intel NPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="203" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="586" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a986ee3b8e0acb900ccebf301fb3c4ccc" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref></type>
+        <definition>AiHardwareCapability themis::acceleration::AiHardwareDispatcher::probeQualcommQNN</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>probeQualcommQNN</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeQualcommQNN</qualifiedname>
+        <briefdescription>
+<para>Probe Qualcomm QNN. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="210" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="626" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ad83397b31880fe12d6e1062bd9fec39e" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref></type>
+        <definition>AiHardwareCapability themis::acceleration::AiHardwareDispatcher::probeArmEthos</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>probeArmEthos</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeArmEthos</qualifiedname>
+        <briefdescription>
+<para>Probe Arm Ethos. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="217" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="649" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1af8909cf5251c0f343e4210d81351f432" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref></type>
+        <definition>AiHardwareCapability themis::acceleration::AiHardwareDispatcher::probeNNAPI</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>probeNNAPI</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeNNAPI</qualifiedname>
+        <briefdescription>
+<para>Probe NNAPI. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="224" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="682" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1aed9189b1d5c525239660483a1f6dfb4b" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref></type>
+        <definition>AiHardwareCapability themis::acceleration::AiHardwareDispatcher::probeOnnxRuntime</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>probeOnnxRuntime</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeOnnxRuntime</qualifiedname>
+        <briefdescription>
+<para>Probe Onnx Runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="231" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="707" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a68d1f51e0a602cf9b05ba4dbed950e30" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref></type>
+        <definition>AiHardwareCapability themis::acceleration::AiHardwareDispatcher::probeGpuFallback</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>probeGpuFallback</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeGpuFallback</qualifiedname>
+        <briefdescription>
+<para>Probe Gpu Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="238" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="747" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ae65006711e24db695b1193baa8b0d92f" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref></type>
+        <definition>AiHardwareCapability themis::acceleration::AiHardwareDispatcher::probeCpuFallback</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>probeCpuFallback</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::probeCpuFallback</qualifiedname>
+        <briefdescription>
+<para>Probe Cpu Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="245" column="26" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="774" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5190333a51b195bd353d0f045a84c32b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::dispatchAppleANE</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>dispatchAppleANE</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::dispatchAppleANE</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Apple ANE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), fn(), makeError(), std::string(), what(), defined(), std::chrono::steady_clock::now(), AiInferenceResult(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="252" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="806" bodyend="870"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a417cc476fe2d053b10d84779701490b5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::dispatchIntelNPU</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>dispatchIntelNPU</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::dispatchIntelNPU</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="254" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="872" bodyend="916"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ac720b48b7b9c96c9e93d4b3ba8716dab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::dispatchQualcommQNN</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>dispatchQualcommQNN</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::dispatchQualcommQNN</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="256" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="918" bodyend="937"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a7f7bb0000ac05a1c3128e331f93b1753" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::dispatchArmEthos</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>dispatchArmEthos</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::dispatchArmEthos</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="258" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="939" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1af0358ea642b3a5777df32dea467bd25c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::dispatchNNAPI</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>dispatchNNAPI</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::dispatchNNAPI</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="260" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="957" bodyend="987"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ac550ced3d72d10e343a50cb4927c3e36" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::dispatchOnnxRuntime</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>dispatchOnnxRuntime</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::dispatchOnnxRuntime</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Onnx Runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), makeError(), empty(), std::chrono::steady_clock::now(), AiInferenceResult(), OrtGetApiBase(), GetApi(), CreateEnv(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="262" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="995" bodyend="1144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a22293ff5c8240272358f871ef0f0d5d8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::dispatchGpuFallback</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>dispatchGpuFallback</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::dispatchGpuFallback</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Gpu Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isVectorSimilarityTask(), <ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ab70f7999fa023b469899056722652467" kindref="member">initialize()</ref>, THEMIS_WARN(), runCpuVectorSimilarity(), runVectorSimilarityDispatch(), populateANNDispatch(), THEMIS_DEBUG(), dispatchCpuFallback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="269" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="1152" bodyend="1176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a31cdcc054685ce7825f0f3201284df9b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref></type>
+        <definition>AiInferenceResult themis::acceleration::AiHardwareDispatcher::dispatchCpuFallback</definition>
+        <argsstring>(AiInferenceRequest &amp;req)</argsstring>
+        <name>dispatchCpuFallback</name>
+        <qualifiedname>themis::acceleration::AiHardwareDispatcher::dispatchCpuFallback</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Cpu Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isVectorSimilarityTask(), runCpuVectorSimilarity(), makeError(), std::chrono::steady_clock::now(), AiInferenceResult(), assign(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="276" column="23" bodyfile="src/acceleration/ai_hardware_dispatcher.cpp" bodystart="1184" bodyend="1207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/ai_hardware_dispatcher.h" line="112" column="1" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="112" bodyend="283"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a2db65bf3b1f9ee4177ed9173f050e5ac" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>AiHardwareDispatcher</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a934450a3fa353803438be05649f68b67" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>AiHardwareDispatcher</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5e912d1f6b91e6539e37de89435a6e1b" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>AppleANEDispatchFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1afd312f0e0d57189873d6f4074cdf6b19" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>bestBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a0dd2845ce665b968d0ef1f75d1715587" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>bestOnnxEP</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a9f6c4e2e0ab7ced43ee1e55f34cb44ac" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>capabilities_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5190333a51b195bd353d0f045a84c32b" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>dispatchAppleANE</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a7f7bb0000ac05a1c3128e331f93b1753" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>dispatchArmEthos</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a31cdcc054685ce7825f0f3201284df9b" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>dispatchCpuFallback</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a22293ff5c8240272358f871ef0f0d5d8" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>dispatchGpuFallback</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a417cc476fe2d053b10d84779701490b5" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>dispatchIntelNPU</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1af0358ea642b3a5777df32dea467bd25c" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>dispatchNNAPI</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ac550ced3d72d10e343a50cb4927c3e36" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>dispatchOnnxRuntime</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ac720b48b7b9c96c9e93d4b3ba8716dab" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>dispatchQualcommQNN</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1afa028e463442fa98274aafaf7a6b8b2b" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>hasAccelerator</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1adc8664506e282c9cda1ac3f044bbfa1d" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>hasNPU</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ab70f7999fa023b469899056722652467" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1afd35beadaca4e26d34f4e018d87907f8" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a6862dbb4f4f1e907a28c42d448a56faf" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>instance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a3847d89f8fbcd3914c20b50fc97408f9" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>kCacheTTL</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1aa2a81a97c0b4bf9a941b1985705d301e" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>last_probe_time_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a9b2b16cd53a062c9e0d54779f536f837" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>logCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1aca02edb453b09fcb5e5f8c64abeca4b8" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5be14e1b0d786ab38783d6cd07be9663" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ac7b8549e25a57fc9099713be3e20ee7c" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeAppleANE</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ad83397b31880fe12d6e1062bd9fec39e" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeArmEthos</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a97b8608607494f0f493d60696af873c1" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ae65006711e24db695b1193baa8b0d92f" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeCpuFallback</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a68d1f51e0a602cf9b05ba4dbed950e30" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeGpuFallback</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1aa85c4a86d712aa69a7cb94d698ef4457" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeIntelNPU</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1af8909cf5251c0f343e4210d81351f432" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeNNAPI</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1aed9189b1d5c525239660483a1f6dfb4b" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeOnnxRuntime</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a986ee3b8e0acb900ccebf301fb3c4ccc" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>probeQualcommQNN</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a3f3506018f961ba7553851fda65c8f78" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>run</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a7d5528cd8fa7706bbf2955d56eeedb81" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>runOn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5fa0c918873b5fc2b9a3eeac5d6a87af" prot="public" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>setAppleANEDispatchFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a1401330b744d17457c240c427e7eba6c" prot="private" virt="non-virtual"><scope>themis::acceleration::AiHardwareDispatcher</scope><name>~AiHardwareDispatcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

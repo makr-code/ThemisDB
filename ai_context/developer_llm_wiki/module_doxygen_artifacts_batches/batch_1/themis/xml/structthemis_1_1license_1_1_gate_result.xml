@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1license_1_1_gate_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::license::GateResult</compoundname>
+    <includes refid="runtime__license__gate_8h" local="no">runtime_license_gate.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_gate_result_1abba18c9bb20aef2db0346566f30e3f4b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::license::GateResult::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::license::GateResult::allowed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the feature is allowed; false if denied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="87" column="10" bodyfile="include/themis/runtime_license_gate.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_gate_result_1a41dd581fe8895e9008c1e1bfa4239f58" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11" kindref="member">LicenseDenialReason</ref></type>
+        <definition>LicenseDenialReason themis::license::GateResult::denial_reason</definition>
+        <argsstring></argsstring>
+        <name>denial_reason</name>
+        <qualifiedname>themis::license::GateResult::denial_reason</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11ab50339a10e1de285ac99d4c3990b8693" kindref="member">LicenseDenialReason::NONE</ref></initializer>
+        <briefdescription>
+<para>Structured denial reason (NONE when allowed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="90" column="25" bodyfile="include/themis/runtime_license_gate.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1license_1_1_gate_result_1a2c0d1d48e160387b413a5857f4efaad1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::license::GateResult::message</definition>
+        <argsstring>() const</argsstring>
+        <name>message</name>
+        <qualifiedname>themis::license::GateResult::message</qualifiedname>
+        <briefdescription>
+<para>Returns a locale-independent English description of the denial reason suitable for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns &quot;Feature is allowed.&quot; when <computeroutput>allowed</computeroutput> is true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="98" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1license_1_1_gate_result_1a08e0be6cd9d7513848081e91340e18ab" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::license::GateResult::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::license::GateResult::operator bool</qualifiedname>
+        <briefdescription>
+<para>Convenience implicit conversion to bool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="101" column="14" bodyfile="include/themis/runtime_license_gate.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a feature-gate check. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends the simple bool returned by isFeatureAllowed() with a machine-readable denial reason code and a human-readable message.</para>
+<para>Backward-compatible addition: existing callers that use isFeatureAllowed() are unaffected.</para>
+<para>Example: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a27774dfffa5cfdd44d73a95349871173" kindref="member">RuntimeLicenseGate::instance</ref>().<ref refid="classthemis_1_1license_1_1_runtime_license_gate_1aa09ba002672b984d8b8a5b4bb5792bbb" kindref="member">checkFeature</ref>(</highlight><highlight class="stringliteral">&quot;field_encryption&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_WARN(</highlight><highlight class="stringliteral">&quot;Denied:<sp/>{}<sp/>—<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>result.denial_reason_name(),<sp/>result.message());</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/runtime_license_gate.h" line="85" column="1" bodyfile="include/themis/runtime_license_gate.h" bodystart="85" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1license_1_1_gate_result_1abba18c9bb20aef2db0346566f30e3f4b" prot="public" virt="non-virtual"><scope>themis::license::GateResult</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1license_1_1_gate_result_1a41dd581fe8895e9008c1e1bfa4239f58" prot="public" virt="non-virtual"><scope>themis::license::GateResult</scope><name>denial_reason</name></member>
+      <member refid="structthemis_1_1license_1_1_gate_result_1a2c0d1d48e160387b413a5857f4efaad1" prot="public" virt="non-virtual"><scope>themis::license::GateResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1license_1_1_gate_result_1a08e0be6cd9d7513848081e91340e18ab" prot="public" virt="non-virtual"><scope>themis::license::GateResult</scope><name>operator bool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

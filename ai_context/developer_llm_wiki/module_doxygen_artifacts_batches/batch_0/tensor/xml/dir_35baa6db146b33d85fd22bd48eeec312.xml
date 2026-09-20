@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_35baa6db146b33d85fd22bd48eeec312" kind="dir">
+    <compoundname>include/tensor</compoundname>
+    <innerfile refid="adapter__repository_8h">adapter_repository.h</innerfile>
+    <innerfile refid="compression__strategy_8h">compression_strategy.h</innerfile>
+    <innerfile refid="encoder__interface_8h">encoder_interface.h</innerfile>
+    <innerfile refid="hiss__structural__search_8h">hiss_structural_search.h</innerfile>
+    <innerfile refid="hnsw__tt__bridge_8h">hnsw_tt_bridge.h</innerfile>
+    <innerfile refid="ht__index_8h">ht_index.h</innerfile>
+    <innerfile refid="ht__train_8h">ht_train.h</innerfile>
+    <innerfile refid="hyper__index__builder_8h">hyper_index_builder.h</innerfile>
+    <innerfile refid="persistent__tensor__fingerprint__graph_8h">persistent_tensor_fingerprint_graph.h</innerfile>
+    <innerfile refid="tensor__api__contract_8h">tensor_api_contract.h</innerfile>
+    <innerfile refid="tensor__butterfly__operator_8h">tensor_butterfly_operator.h</innerfile>
+    <innerfile refid="tensor__compat_8h">tensor_compat.h</innerfile>
+    <innerfile refid="tensor__compression__routing__accelerator_8h">tensor_compression_routing_accelerator.h</innerfile>
+    <innerfile refid="tensor__core__bridge_8h">tensor_core_bridge.h</innerfile>
+    <innerfile refid="tensor__edge__case__handler_8h">tensor_edge_case_handler.h</innerfile>
+    <innerfile refid="tensor__error__handling_8h">tensor_error_handling.h</innerfile>
+    <innerfile refid="tensor__fingerprint__graph_8h">tensor_fingerprint_graph.h</innerfile>
+    <innerfile refid="tensor__index_8h">tensor_index.h</innerfile>
+    <innerfile refid="tensor__index__manager_8h">tensor_index_manager.h</innerfile>
+    <innerfile refid="tensor__ingestion__bridge_8h">tensor_ingestion_bridge.h</innerfile>
+    <innerfile refid="tensor__mid__layer_8h">tensor_mid_layer.h</innerfile>
+    <innerfile refid="tensor__mmap__bridge_8h">tensor_mmap_bridge.h</innerfile>
+    <innerfile refid="tensor__redundancy__detection_8h">tensor_redundancy_detection.h</innerfile>
+    <innerfile refid="tensor__routing__strategy_8h">tensor_routing_strategy.h</innerfile>
+    <innerfile refid="tensor__summary__types_8h">tensor_summary_types.h</innerfile>
+    <innerfile refid="tensor__workflow__observability_8h">tensor_workflow_observability.h</innerfile>
+    <innerfile refid="tnsr__task_8h">tnsr_task.h</innerfile>
+    <innerfile refid="utr__converter_8h">utr_converter.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/"/>
+  </compounddef>
+</doxygen>

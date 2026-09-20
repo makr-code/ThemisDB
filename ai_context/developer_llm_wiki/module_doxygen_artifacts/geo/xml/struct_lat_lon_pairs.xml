@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_lat_lon_pairs" kind="struct" language="C++" prot="public">
+    <compoundname>LatLonPairs</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_lat_lon_pairs_1ae7e531e01df316dbb4cf10a7c0330f6b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; LatLonPairs::lats1</definition>
+        <argsstring></argsstring>
+        <name>lats1</name>
+        <qualifiedname>LatLonPairs::lats1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_cpu_gpu.cpp" line="83" column="17" bodyfile="benchmarks/geo/bench_geo_cpu_gpu.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_lat_lon_pairs_1a9834c67e624a677a8ad25cd78e7dc6e8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; LatLonPairs::lons1</definition>
+        <argsstring></argsstring>
+        <name>lons1</name>
+        <qualifiedname>LatLonPairs::lons1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_cpu_gpu.cpp" line="83" column="23" bodyfile="benchmarks/geo/bench_geo_cpu_gpu.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_lat_lon_pairs_1adcf3eeb62b14e9e10bdee0f74d361079" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; LatLonPairs::lats2</definition>
+        <argsstring></argsstring>
+        <name>lats2</name>
+        <qualifiedname>LatLonPairs::lats2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_cpu_gpu.cpp" line="83" column="29" bodyfile="benchmarks/geo/bench_geo_cpu_gpu.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_lat_lon_pairs_1acc456395056fee146f216857f493bd60" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; LatLonPairs::lons2</definition>
+        <argsstring></argsstring>
+        <name>lons2</name>
+        <qualifiedname>LatLonPairs::lons2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_cpu_gpu.cpp" line="83" column="35" bodyfile="benchmarks/geo/bench_geo_cpu_gpu.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/geo/bench_geo_cpu_gpu.cpp" line="82" column="1" bodyfile="benchmarks/geo/bench_geo_cpu_gpu.cpp" bodystart="82" bodyend="84"/>
+    <listofallmembers>
+      <member refid="struct_lat_lon_pairs_1ae7e531e01df316dbb4cf10a7c0330f6b" prot="public" virt="non-virtual"><scope>LatLonPairs</scope><name>lats1</name></member>
+      <member refid="struct_lat_lon_pairs_1adcf3eeb62b14e9e10bdee0f74d361079" prot="public" virt="non-virtual"><scope>LatLonPairs</scope><name>lats2</name></member>
+      <member refid="struct_lat_lon_pairs_1a9834c67e624a677a8ad25cd78e7dc6e8" prot="public" virt="non-virtual"><scope>LatLonPairs</scope><name>lons1</name></member>
+      <member refid="struct_lat_lon_pairs_1acc456395056fee146f216857f493bd60" prot="public" virt="non-virtual"><scope>LatLonPairs</scope><name>lons2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

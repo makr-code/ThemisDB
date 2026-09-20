@@ -1,0 +1,586 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__voice__stt__tts__latency_8cpp" kind="file" language="C++">
+    <compoundname>bench_voice_stt_tts_latency.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="benchmark__fixtures_8h" local="yes">benchmarks/voice/benchmark_fixtures.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/voice/bench_voice_stt_tts_latency.cpp</label>
+        <link refid="bench__voice__stt__tts__latency_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>benchmarks/voice/benchmark_fixtures.h</label>
+        <link refid="benchmark__fixtures_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cmath</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="5">
+        <label>cstring</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>queue</label>
+      </node>
+      <node id="6">
+        <label>random</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(STTTTSLatencyFixture, VoiceSTT_SmallAudio100ms)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref></type>
+        </param>
+        <param>
+          <type>VoiceSTT_SmallAudio100ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000056"><xreftitle>Test</xreftitle><xrefdescription><para>BENCHMARK(VoiceSTT, SmallAudio100ms) Measure: audio-in → text-out for 100ms audio Assert: p95 &lt; 2s, p99 &lt; 5s GATE_STT_LATENCY_P95_100ms &lt;= 2000ms GATE_STT_LATENCY_P99_100ms &lt;= 5000ms </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="38" column="1" bodyfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" bodystart="38" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1a2b810aecb5befd9a4d57403507297c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(STTTTSLatencyFixture, VoiceSTT_MediumAudio5s)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref></type>
+        </param>
+        <param>
+          <type>VoiceSTT_MediumAudio5s</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000057"><xreftitle>Test</xreftitle><xrefdescription><para>BENCHMARK(VoiceSTT, MediumAudio5s) Measure: total latency for 5 second audio Assert: p95 &lt; 10s, p99 &lt; 15s GATE_STT_LATENCY_P95_5s &lt;= 10000ms GATE_STT_LATENCY_P99_5s &lt;= 15000ms </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="80" column="1" bodyfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" bodystart="80" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1a15977d845645707751dd95b1fe9f0647" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(STTTTSLatencyFixture, VoiceSTT_LargeAudio60s)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref></type>
+        </param>
+        <param>
+          <type>VoiceSTT_LargeAudio60s</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000058"><xreftitle>Test</xreftitle><xrefdescription><para>BENCHMARK(VoiceSTT, LargeAudio60s) Measure: total latency for 60 second audio Assert: p95 &lt; 60s, p99 &lt; 120s GATE_STT_LATENCY_P95_60s &lt;= 60000ms GATE_STT_LATENCY_P99_60s &lt;= 120000ms </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="118" column="1" bodyfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" bodystart="118" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1a4b4eb3f3f77d354bf4e5fc2703ca955a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(STTTTSLatencyFixture, VoiceSTT_NoiseAudio)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref></type>
+        </param>
+        <param>
+          <type>VoiceSTT_NoiseAudio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000059"><xreftitle>Test</xreftitle><xrefdescription><para>BENCHMARK(VoiceSTT, NoiseAudio) Measure: latency + accuracy impact for noisy input (SNR 5dB) Assert: p95 &lt; 3s, accuracy &gt;= 95% Note: Accuracy simulation - real implementation would measure actual accuracy </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="160" column="1" bodyfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" bodystart="160" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1acb018dbb0db62c93bac4c8aa6369f127" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(STTTTSLatencyFixture, VoiceTTS_ShortText)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref></type>
+        </param>
+        <param>
+          <type>VoiceTTS_ShortText</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000060"><xreftitle>Test</xreftitle><xrefdescription><para>BENCHMARK(VoiceTTS, ShortText) Measure: text-in → audio-out for 10 word response Assert: p95 &lt; 1s, p99 &lt; 2s GATE_TTS_LATENCY_P95_ShortText &lt;= 1000ms GATE_TTS_LATENCY_P99_ShortText &lt;= 2000ms </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="210" column="1" bodyfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" bodystart="210" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1a5c6c58141ff8402949b8abe95c907c6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(STTTTSLatencyFixture, VoiceTTS_MediumText)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref></type>
+        </param>
+        <param>
+          <type>VoiceTTS_MediumText</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000061"><xreftitle>Test</xreftitle><xrefdescription><para>BENCHMARK(VoiceTTS, MediumText) Measure: total latency for 100 word response Assert: p95 &lt; 3s, p99 &lt; 5s GATE_TTS_LATENCY_P95_MediumText &lt;= 3000ms GATE_TTS_LATENCY_P99_MediumText &lt;= 5000ms </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="249" column="1" bodyfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" bodystart="249" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1aec49a31bc94a17a5a47f51eb54695494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(STTTTSLatencyFixture, VoiceTTS_LongText)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref></type>
+        </param>
+        <param>
+          <type>VoiceTTS_LongText</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000062"><xreftitle>Test</xreftitle><xrefdescription><para>BENCHMARK(VoiceTTS, LongText) Measure: total latency for 500 word response Assert: p95 &lt; 10s, p99 &lt; 15s </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="288" column="1" bodyfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" bodystart="288" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1a7e12c19fabbd3c98589809dafadd6835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(STTTTSLatencyFixture, VoiceTTS_RapidFire)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref></type>
+        </param>
+        <param>
+          <type>VoiceTTS_RapidFire</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000063"><xreftitle>Test</xreftitle><xrefdescription><para>BENCHMARK(VoiceTTS, RapidFire) Measure: throughput (calls/sec) for multiple rapid TTS calls Assert: throughput &gt;= 10 calls/sec </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="331" column="1" bodyfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" bodystart="331" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__stt__tts__latency_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp" line="359" column="1" declfile="benchmarks/voice/bench_voice_stt_tts_latency.cpp" declline="359" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Google Benchmark suite for Voice STT and TTS latency measurements. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Benchmarks:<itemizedlist>
+<listitem><para>GATE_STT_LATENCY_P95_100ms &lt;= 2000ms</para>
+</listitem><listitem><para>GATE_STT_LATENCY_P99_100ms &lt;= 5000ms</para>
+</listitem><listitem><para>GATE_STT_LATENCY_P95_5s &lt;= 10000ms</para>
+</listitem><listitem><para>GATE_STT_LATENCY_P99_5s &lt;= 15000ms</para>
+</listitem><listitem><para>GATE_STT_LATENCY_P95_60s &lt;= 60000ms</para>
+</listitem><listitem><para>GATE_STT_LATENCY_P99_60s &lt;= 120000ms</para>
+</listitem><listitem><para>GATE_TTS_LATENCY_P95_ShortText &lt;= 1000ms</para>
+</listitem><listitem><para>GATE_TTS_LATENCY_P99_ShortText &lt;= 2000ms</para>
+</listitem><listitem><para>GATE_TTS_LATENCY_P95_MediumText &lt;= 3000ms</para>
+</listitem><listitem><para>GATE_TTS_LATENCY_P99_MediumText &lt;= 5000ms </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="benchmark__fixtures_8h" kindref="compound">benchmarks/voice/benchmark_fixtures.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1benchmark" kindref="compound">themis::voice::benchmark</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STT<sp/>Latency<sp/>Benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref>,<sp/>VoiceSTT_SmallAudio100ms)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>latencies_ns;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>latencies_ns.reserve(state.max_iterations);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>100ms<sp/>of<sp/>audio<sp/>(1600<sp/>samples<sp/>@<sp/>16kHz)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audio<sp/>=<sp/>generateAudio(100);<sp/><sp/></highlight><highlight class="comment">//<sp/>100ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>STT<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>stt_processor_-&gt;transcribe(audio);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>latency_ns<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latencies_ns.push_back(latency_ns);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sort<sp/>for<sp/>percentile<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(latencies_ns.begin(),<sp/>latencies_ns.end());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calculate<sp/>and<sp/>report<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p95_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" kindref="member">utils::calculateP95</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p99_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" kindref="member">utils::calculateP99</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p95_ns,<sp/>gates::kGateSTTLatencyP95_100ms,<sp/></highlight><highlight class="stringliteral">&quot;GATE_STT_LATENCY_P95_100ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p99_ns,<sp/>gates::kGateSTTLatencyP99_100ms,<sp/></highlight><highlight class="stringliteral">&quot;GATE_STT_LATENCY_P99_100ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p95_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p95_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p99_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;STT<sp/>SmallAudio<sp/>(100ms):<sp/>p95<sp/>&lt;<sp/>2s,<sp/>p99<sp/>&lt;<sp/>5s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref>,<sp/>VoiceSTT_MediumAudio5s)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>latencies_ns;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>latencies_ns.reserve(state.max_iterations);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>5<sp/>seconds<sp/>of<sp/>audio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audio<sp/>=<sp/>generateAudio(5000);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>STT<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>stt_processor_-&gt;transcribe(audio);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>latency_ns<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latencies_ns.push_back(latency_ns);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(latencies_ns.begin(),<sp/>latencies_ns.end());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p95_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" kindref="member">utils::calculateP95</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p99_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" kindref="member">utils::calculateP99</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p95_ns,<sp/>gates::kGateSTTLatencyP95_5s,<sp/></highlight><highlight class="stringliteral">&quot;GATE_STT_LATENCY_P95_5s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p99_ns,<sp/>gates::kGateSTTLatencyP99_5s,<sp/></highlight><highlight class="stringliteral">&quot;GATE_STT_LATENCY_P99_5s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p95_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p95_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p99_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;STT<sp/>MediumAudio<sp/>(5s):<sp/>p95<sp/>&lt;<sp/>10s,<sp/>p99<sp/>&lt;<sp/>15s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref>,<sp/>VoiceSTT_LargeAudio60s)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>latencies_ns;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>latencies_ns.reserve(std::min(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(5)));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>60<sp/>seconds<sp/>of<sp/>audio<sp/>(sample<sp/>only,<sp/>limit<sp/>iterations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audio<sp/>=<sp/>generateAudio(60&apos;000);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>STT<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>stt_processor_-&gt;transcribe(audio);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>latency_ns<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latencies_ns.push_back(latency_ns);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Limit<sp/>iterations<sp/>for<sp/>long-running<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latencies_ns.size()<sp/>&gt;=<sp/>5)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(latencies_ns.begin(),<sp/>latencies_ns.end());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p95_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" kindref="member">utils::calculateP95</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p99_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" kindref="member">utils::calculateP99</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p95_ns,<sp/>gates::kGateSTTLatencyP95_60s,<sp/></highlight><highlight class="stringliteral">&quot;GATE_STT_LATENCY_P95_60s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p99_ns,<sp/>gates::kGateSTTLatencyP99_60s,<sp/></highlight><highlight class="stringliteral">&quot;GATE_STT_LATENCY_P99_60s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p95_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p95_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p99_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;STT<sp/>LargeAudio<sp/>(60s):<sp/>p95<sp/>&lt;<sp/>60s,<sp/>p99<sp/>&lt;<sp/>120s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref>,<sp/>VoiceSTT_NoiseAudio)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>latencies_ns;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>latencies_ns.reserve(state.max_iterations);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>5<sp/>seconds<sp/>of<sp/>audio<sp/>with<sp/>noise<sp/>(simulated<sp/>by<sp/>larger<sp/>buffer)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audio<sp/>=<sp/>generateAudio(5000);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>noise<sp/>simulation<sp/>by<sp/>creating<sp/>a<sp/>noisier<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>:<sp/>audio)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rng_()<sp/>%<sp/>20<sp/>==<sp/>0)<sp/>{<sp/><sp/></highlight><highlight class="comment">//<sp/>5%<sp/>noise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(rng_()<sp/>%<sp/>256);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>STT<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>stt_processor_-&gt;transcribe(audio);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>latency_ns<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latencies_ns.push_back(latency_ns);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(latencies_ns.begin(),<sp/>latencies_ns.end());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p95_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" kindref="member">utils::calculateP95</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>simulated<sp/>accuracy:<sp/>mock<sp/>result<sp/>&gt;=<sp/>95%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mock_accuracy<sp/>=<sp/>0.97;<sp/><sp/></highlight><highlight class="comment">//<sp/>97%<sp/>accuracy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p95_ns,<sp/>3&apos;000&apos;000&apos;000,<sp/></highlight><highlight class="stringliteral">&quot;GATE_STT_LATENCY_P95_NOISE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p95_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p95_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;accuracy_pct&quot;</highlight><highlight class="normal">]<sp/>=<sp/>mock_accuracy<sp/>*<sp/>100.0;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;STT<sp/>NoiseAudio<sp/>(SNR<sp/>5dB):<sp/>p95<sp/>&lt;<sp/>3s,<sp/>accuracy<sp/>&gt;=<sp/>95%&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTS<sp/>Latency<sp/>Benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref>,<sp/>VoiceTTS_ShortText)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>latencies_ns;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>latencies_ns.reserve(state.max_iterations);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10-word<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world<sp/>this<sp/>is<sp/>a<sp/>short<sp/>test<sp/>response&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>TTS<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audio<sp/>=<sp/>tts_processor_-&gt;synthesize(text);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>latency_ns<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latencies_ns.push_back(latency_ns);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(audio);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(latencies_ns.begin(),<sp/>latencies_ns.end());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p95_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" kindref="member">utils::calculateP95</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p99_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" kindref="member">utils::calculateP99</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p95_ns,<sp/>gates::kGateTTSLatencyP95_ShortText,<sp/></highlight><highlight class="stringliteral">&quot;GATE_TTS_LATENCY_P95_ShortText&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p99_ns,<sp/>gates::kGateTTSLatencyP99_ShortText,<sp/></highlight><highlight class="stringliteral">&quot;GATE_TTS_LATENCY_P99_ShortText&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p95_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p95_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p99_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;audio_bytes&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(audio.size(),<sp/>benchmark::Counter::kAvgThreads);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;TTS<sp/>ShortText<sp/>(10<sp/>words):<sp/>p95<sp/>&lt;<sp/>1s,<sp/>p99<sp/>&lt;<sp/>2s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref>,<sp/>VoiceTTS_MediumText)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>latencies_ns;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>latencies_ns.reserve(state.max_iterations);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100-word<sp/>response<sp/>(approximately)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>quick<sp/>brown<sp/>fox<sp/>jumps<sp/>over<sp/>the<sp/>lazy<sp/>dog.<sp/>This<sp/>is<sp/>a<sp/>test<sp/>response<sp/>that<sp/>contains<sp/>approximately<sp/>one<sp/>hundred<sp/>words.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;It<sp/>demonstrates<sp/>typical<sp/>assistant<sp/>response<sp/>length.<sp/>The<sp/>system<sp/>should<sp/>synthesize<sp/>this<sp/>text<sp/>into<sp/>natural-sounding<sp/>audio.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Performance<sp/>is<sp/>critical<sp/>for<sp/>real-time<sp/>interactive<sp/>systems.<sp/>We<sp/>measure<sp/>end-to-end<sp/>latency<sp/>from<sp/>text<sp/>input.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>TTS<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audio<sp/>=<sp/>tts_processor_-&gt;synthesize(text);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>latency_ns<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latencies_ns.push_back(latency_ns);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(audio);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(latencies_ns.begin(),<sp/>latencies_ns.end());</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p95_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" kindref="member">utils::calculateP95</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p99_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" kindref="member">utils::calculateP99</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p95_ns,<sp/>gates::kGateTTSLatencyP95_MediumText,<sp/></highlight><highlight class="stringliteral">&quot;GATE_TTS_LATENCY_P95_MediumText&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p99_ns,<sp/>gates::kGateTTSLatencyP99_MediumText,<sp/></highlight><highlight class="stringliteral">&quot;GATE_TTS_LATENCY_P99_MediumText&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p95_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p95_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p99_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;audio_bytes&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(audio.size(),<sp/>benchmark::Counter::kAvgThreads);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;TTS<sp/>MediumText<sp/>(100<sp/>words):<sp/>p95<sp/>&lt;<sp/>3s,<sp/>p99<sp/>&lt;<sp/>5s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref>,<sp/>VoiceTTS_LongText)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>latencies_ns;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>latencies_ns.reserve(std::min(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(5)));</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>500-word<sp/>response<sp/>(concatenated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>quick<sp/>brown<sp/>fox<sp/>jumps<sp/>over<sp/>the<sp/>lazy<sp/>dog.<sp/>This<sp/>is<sp/>a<sp/>test<sp/>response<sp/>that<sp/>contains<sp/>approximately<sp/>one<sp/>hundred<sp/>words.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;It<sp/>demonstrates<sp/>typical<sp/>assistant<sp/>response<sp/>length.<sp/>The<sp/>system<sp/>should<sp/>synthesize<sp/>this<sp/>text<sp/>into<sp/>natural-sounding<sp/>audio.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Performance<sp/>is<sp/>critical<sp/>for<sp/>real-time<sp/>interactive<sp/>systems.<sp/>We<sp/>measure<sp/>end-to-end<sp/>latency<sp/>from<sp/>text<sp/>input.<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>TTS<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audio<sp/>=<sp/>tts_processor_-&gt;synthesize(text);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>latency_ns<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latencies_ns.push_back(latency_ns);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(audio);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latencies_ns.size()<sp/>&gt;=<sp/>5)<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Limit<sp/>iterations<sp/>for<sp/>long-running<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(latencies_ns.begin(),<sp/>latencies_ns.end());</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p95_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" kindref="member">utils::calculateP95</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>p99_ns<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" kindref="member">utils::calculateP99</ref>(latencies_ns);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p95_ns,<sp/>10&apos;000&apos;000&apos;000,<sp/></highlight><highlight class="stringliteral">&quot;GATE_TTS_LATENCY_P95_LONG&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" kindref="member">utils::checkGate</ref>(p99_ns,<sp/>15&apos;000&apos;000&apos;000,<sp/></highlight><highlight class="stringliteral">&quot;GATE_TTS_LATENCY_P99_LONG&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p95_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p95_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>p99_ns<sp/>/<sp/>1&apos;000&apos;000.0;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;TTS<sp/>LongText<sp/>(500<sp/>words):<sp/>p95<sp/>&lt;<sp/>10s,<sp/>p99<sp/>&lt;<sp/>15s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>(<ref refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" kindref="compound">STTTTSLatencyFixture</ref>,<sp/>VoiceTTS_RapidFire)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>texts<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;benchmark&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;performance&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>total_calls<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>text<sp/>:<sp/>texts)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audio<sp/>=<sp/>tts_processor_-&gt;synthesize(text);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(audio);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++total_calls;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calculate<sp/>throughput:<sp/>calls<sp/>per<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>throughput<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(total_calls)<sp/>/<sp/></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(state.iterations()<sp/>*<sp/>std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds(1)).count()<sp/>/<sp/>1&apos;000&apos;000&apos;000.0);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;calls_per_sec&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(total_calls,<sp/>benchmark::Counter::kAvgIterations);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;TTS<sp/>RapidFire:<sp/>throughput<sp/>&gt;=<sp/>10<sp/>calls/sec&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><ref refid="bench__voice__stt__tts__latency_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/voice/bench_voice_stt_tts_latency.cpp"/>
+  </compounddef>
+</doxygen>

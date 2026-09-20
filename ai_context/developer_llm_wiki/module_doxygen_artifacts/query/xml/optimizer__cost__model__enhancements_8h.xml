@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="optimizer__cost__model__enhancements_8h" kind="file" language="C++">
+    <compoundname>optimizer_cost_model_enhancements.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">algorithm</includes>
+    <includedby refid="geospatial__cost__model_8h" local="yes">include/query/geospatial_cost_model.h</includedby>
+    <includedby refid="optimizer__cost__model__enhancements_8cpp" local="yes">src/query/optimizer_cost_model_enhancements.cpp</includedby>
+    <includedby refid="test__query__optimizer__regression_8cpp" local="yes">tests/query/test_query_optimizer_regression.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>src/query/optimizer_cost_model_enhancements.h</label>
+        <link refid="optimizer__cost__model__enhancements_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/query/bench_geospatial_phase2.cpp</label>
+        <link refid="bench__geospatial__phase2_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/query/geospatial_cost_model.h</label>
+        <link refid="geospatial__cost__model_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/query/geospatial_index_selector.h</label>
+        <link refid="geospatial__index__selector_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/query/geospatial_cost_model.cpp</label>
+        <link refid="geospatial__cost__model_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/query/geospatial_index_selector.cpp</label>
+        <link refid="geospatial__index__selector_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/query/optimizer_cost_model_enhancements.cpp</label>
+        <link refid="optimizer__cost__model__enhancements_8cpp"/>
+      </node>
+      <node id="1">
+        <label>src/query/optimizer_cost_model_enhancements.h</label>
+        <link refid="optimizer__cost__model__enhancements_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>tests/query/test_geospatial_optimizer.cpp</label>
+        <link refid="test__geospatial__optimizer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/query/test_geospatial_phase2_integration.cpp</label>
+        <link refid="test__geospatial__phase2__integration_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/query/test_query_cross_feature_matrix.cpp</label>
+        <link refid="test__query__cross__feature__matrix_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/query/test_query_optimizer_regression.cpp</label>
+        <link refid="test__query__optimizer__regression_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_column_histogram" prot="public">themis::query::ColumnHistogram</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket" prot="public">themis::query::ColumnHistogram::Bucket</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_column_correlation" prot="public">themis::query::ColumnCorrelation</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_estimate_validation" prot="public">themis::query::EstimateValidation</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample" prot="public">themis::query::EstimateValidation::Sample</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_cost_model_enhancements" prot="public">themis::query::CostModelEnhancements</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Cost model refinement helpers for Phase 2: histogram-based estimation, multi-column correlation, and estimate validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Phase 2 Q3 2026 Delivery</para>
+</simplesect>
+ThemisDB | Query Module Phase 2: Optimizer and Planning Hardening </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1query_1_1_column_histogram" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_column_histogram" kindref="compound">ColumnHistogram</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket" kindref="compound">Bucket</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1aa89ed4d5ec39cd38194293d924c1be26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1aa89ed4d5ec39cd38194293d924c1be26" kindref="member">rangeStart</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1ad9b0747c588a7953e79a9dcf2417de9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1ad9b0747c588a7953e79a9dcf2417de9c" kindref="member">rangeEnd</ref>;</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1ac9a58c9e65c07734d427ddf21eb55ef4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1ac9a58c9e65c07734d427ddf21eb55ef4" kindref="member">frequency</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1a13fc10318cd2a6a079314aa3e6370322" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1a13fc10318cd2a6a079314aa3e6370322" kindref="member">distinctValues</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1_column_histogram_1ab7dab40dc7a53ded83f7dfc150ccab0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1ab7dab40dc7a53ded83f7dfc150ccab0a" kindref="member">columnName</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_column_histogram_1aaf377f348728d40aa002b0400c9371e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Bucket&gt;<sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1aaf377f348728d40aa002b0400c9371e6" kindref="member">buckets</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1_column_histogram_1acb1826b88804355f79e22367051eb8bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1acb1826b88804355f79e22367051eb8bf" kindref="member">totalRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1query_1_1_column_histogram_1ab64bd3060dd3d8cb374c64ac928c9844" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1ab64bd3060dd3d8cb374c64ac928c9844" kindref="member">isNumeric</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1a21cf008128fc581bf17e18f3e0832086" kindref="member">estimateSelectivity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>values)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram_1ac2b5fdb5acebc63d87ad63fc41c8f9cb" kindref="member">getDistinctValues</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1query_1_1_column_correlation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_column_correlation" kindref="compound">ColumnCorrelation</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1query_1_1_column_correlation_1a1b26be22723a7c7e67fda26b7345cd3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1a1b26be22723a7c7e67fda26b7345cd3d" kindref="member">column1</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1query_1_1_column_correlation_1aae6e20f83b2dbb588eae61146d704620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1aae6e20f83b2dbb588eae61146d704620" kindref="member">column2</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1query_1_1_column_correlation_1a473f46f3237f0e2d3db3271082de30d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1a473f46f3237f0e2d3db3271082de30d7" kindref="member">correlationCoefficient</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>-1.0<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1query_1_1_column_correlation_1a314d2f4a978049939ebd065dd2933844" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1a314d2f4a978049939ebd065dd2933844" kindref="member">sampleSize</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1query_1_1_column_correlation_1a47ef0785b6266ca2a830d4fe7273ae03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1a47ef0785b6266ca2a830d4fe7273ae03" kindref="member">isPositive</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1a473f46f3237f0e2d3db3271082de30d7" kindref="member">correlationCoefficient</ref><sp/>&gt;<sp/>0.2;<sp/>}</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1query_1_1_column_correlation_1afb35f023f4ad394b17e3983b8bd65c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1afb35f023f4ad394b17e3983b8bd65c27" kindref="member">isNegative</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1a473f46f3237f0e2d3db3271082de30d7" kindref="member">correlationCoefficient</ref><sp/>&lt;<sp/>-0.2;<sp/>}</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1query_1_1_column_correlation_1a66c089c4bf6225a5f19c51142e899ad2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_correlation_1a66c089c4bf6225a5f19c51142e899ad2" kindref="member">isIndependent</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::abs(<ref refid="structthemis_1_1query_1_1_column_correlation_1a473f46f3237f0e2d3db3271082de30d7" kindref="member">correlationCoefficient</ref>)<sp/>&lt;=<sp/>0.2;<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1query_1_1_estimate_validation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_estimate_validation" kindref="compound">EstimateValidation</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample" kindref="compound">Sample</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2a4f7207f26e5afff9ae915c34cfa9c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2a4f7207f26e5afff9ae915c34cfa9c0" kindref="member">estimatedRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a509a3bff408a69e58b5086a97d547e41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a509a3bff408a69e58b5086a97d547e41" kindref="member">actualRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2ce404c9bbc9cd1596dc827abd497673" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2ce404c9bbc9cd1596dc827abd497673" kindref="member">queryTemplate</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a3553830cbb00b94857547688ab1a5ae9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a3553830cbb00b94857547688ab1a5ae9" kindref="member">operationType</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;scan&quot;,<sp/>&quot;filter&quot;,<sp/>&quot;join&quot;,<sp/>&quot;agg&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1ad6311bcbaf07c0f2a2b51998e8586ec1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1ad6311bcbaf07c0f2a2b51998e8586ec1" kindref="member">getError</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a509a3bff408a69e58b5086a97d547e41" kindref="member">actualRows</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2a4f7207f26e5afff9ae915c34cfa9c0" kindref="member">estimatedRows</ref><sp/>==<sp/>0)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>100%<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::abs(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2a4f7207f26e5afff9ae915c34cfa9c0" kindref="member">estimatedRows</ref>)<sp/>-<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a509a3bff408a69e58b5086a97d547e41" kindref="member">actualRows</ref>))<sp/>/</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a509a3bff408a69e58b5086a97d547e41" kindref="member">actualRows</ref>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1query_1_1_estimate_validation_1a96aaaf6e28fcbd62bcf6ca55001ba5e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Sample&gt;<sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1a96aaaf6e28fcbd62bcf6ca55001ba5e2" kindref="member">samples</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1a8351e7d30b2b8091af3b41bcebf3f74b" kindref="member">computeMAPE</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1aa23a5aed91f599ffdae552c6b2e3b4c3" kindref="member">computeP95Error</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1aa1cf242d44fdfa4e2298160d0ab6050c" kindref="member">hasSystematicUnderestimation</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation_1a8432641b8d3aafeeac7ee4dc4dd9615f" kindref="member">hasSystematicOverestimation</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1query_1_1_cost_model_enhancements" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_cost_model_enhancements" kindref="compound">CostModelEnhancements</ref><sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_cost_model_enhancements_1a5da6331ec12e27e354ce59fb47037b00" kindref="member">estimateSelectivityWithHistogram</ref>(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_histogram" kindref="compound">ColumnHistogram</ref>&amp;<sp/>histogram,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_cost_model_enhancements_1a8dc4a25666bea9cdc0cd5195dbdbb2e1" kindref="member">estimateJoinCardinalityWithCorrelation</ref>(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>leftRows,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rightRows,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>baseSelectivity,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_column_correlation" kindref="compound">ColumnCorrelation</ref>*<sp/>correlation<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_cost_model_enhancements_1a0941886cd990b0832d49092c8d2050bd" kindref="member">estimateMultiColumnSelectivity</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ColumnHistogram&gt;&amp;<sp/>histograms,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>predicates,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ColumnCorrelation&gt;&amp;<sp/>correlations);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_cost_model_enhancements_1a6f97748f33bafed0fad090751df01313" kindref="member">recordEstimate</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>actual,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimate,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>queryTemplate,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operationType);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation" kindref="compound">EstimateValidation</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_cost_model_enhancements_1a6327f2c47a5c2abc0d3efb5fac9b5dba" kindref="member">getEstimateMetrics</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_cost_model_enhancements_1ac6ea78716ab4e8ab4c515dfa644faa1f" kindref="member">clearEstimateMetrics</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/query/optimizer_cost_model_enhancements.h"/>
+  </compounddef>
+</doxygen>

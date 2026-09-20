@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockCallTracker</compoundname>
+    <includes refid="mock__provider__factory_8h" local="no">mock_provider_factory.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a5a3927f1a76be66d521f4076672b0afd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::aql::testing::MockCallTracker::total_calls_</definition>
+        <argsstring></argsstring>
+        <name>total_calls_</name>
+        <qualifiedname>themis::aql::testing::MockCallTracker::total_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="102" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a4d54cafa63de9e9353ed6a391d17bbd0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::aql::testing::MockCallTracker::success_calls_</definition>
+        <argsstring></argsstring>
+        <name>success_calls_</name>
+        <qualifiedname>themis::aql::testing::MockCallTracker::success_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="103" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a92716d6b395607b08cdd714053cac787" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::aql::testing::MockCallTracker::failure_calls_</definition>
+        <argsstring></argsstring>
+        <name>failure_calls_</name>
+        <qualifiedname>themis::aql::testing::MockCallTracker::failure_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="104" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1aaa5d508889edec1a512ff5e7f44f09b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockCallTracker::recordCall</definition>
+        <argsstring>(bool success)</argsstring>
+        <name>recordCall</name>
+        <qualifiedname>themis::aql::testing::MockCallTracker::recordCall</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="83" column="10" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="83" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1ac1bcfab05a70d51149b08bf3f149ed99" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockCallTracker::totalCalls</definition>
+        <argsstring>() const</argsstring>
+        <name>totalCalls</name>
+        <qualifiedname>themis::aql::testing::MockCallTracker::totalCalls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="92" column="9" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a8a2da4da81bfb87b16f0a3a6cb85877e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockCallTracker::successCalls</definition>
+        <argsstring>() const</argsstring>
+        <name>successCalls</name>
+        <qualifiedname>themis::aql::testing::MockCallTracker::successCalls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="93" column="9" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a33896982a7f7475b1a175724b0fb169c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockCallTracker::failureCalls</definition>
+        <argsstring>() const</argsstring>
+        <name>failureCalls</name>
+        <qualifiedname>themis::aql::testing::MockCallTracker::failureCalls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="94" column="9" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a6bb73e556030b516312d0a8efc02ef6a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockCallTracker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::aql::testing::MockCallTracker::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="95" column="10" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="95" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/fixtures/mock_provider_factory.h" line="81" column="1" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="81" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a92716d6b395607b08cdd714053cac787" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCallTracker</scope><name>failure_calls_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a33896982a7f7475b1a175724b0fb169c" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCallTracker</scope><name>failureCalls</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1aaa5d508889edec1a512ff5e7f44f09b2" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCallTracker</scope><name>recordCall</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a6bb73e556030b516312d0a8efc02ef6a" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCallTracker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a4d54cafa63de9e9353ed6a391d17bbd0" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCallTracker</scope><name>success_calls_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a8a2da4da81bfb87b16f0a3a6cb85877e" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCallTracker</scope><name>successCalls</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1a5a3927f1a76be66d521f4076672b0afd" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCallTracker</scope><name>total_calls_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker_1ac1bcfab05a70d51149b08bf3f149ed99" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCallTracker</scope><name>totalCalls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

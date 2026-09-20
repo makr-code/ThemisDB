@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_index_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::IndexStatistics</compoundname>
+    <includes refid="geospatial__index__selector_8h" local="no">geospatial_index_selector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::IndexStatistics::indexName</definition>
+        <argsstring></argsstring>
+        <name>indexName</name>
+        <qualifiedname>themis::query::IndexStatistics::indexName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="58" column="17" bodyfile="include/query/geospatial_index_selector.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" kindref="member">SpatialIndexType</ref></type>
+        <definition>SpatialIndexType themis::query::IndexStatistics::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::IndexStatistics::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="59" column="22" bodyfile="include/query/geospatial_index_selector.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1ac02d7141b262790df2fb556f2e77f908" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::IndexStatistics::indexSizeBytes</definition>
+        <argsstring></argsstring>
+        <name>indexSizeBytes</name>
+        <qualifiedname>themis::query::IndexStatistics::indexSizeBytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="60" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1af988f4bf7fa13a2bda2ef706bca4ef49" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::IndexStatistics::creationTime</definition>
+        <argsstring></argsstring>
+        <name>creationTime</name>
+        <qualifiedname>themis::query::IndexStatistics::creationTime</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="61" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1a0baad07c9ac45477f0c7ee719562d3ec" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::IndexStatistics::maintenanceOverhead</definition>
+        <argsstring></argsstring>
+        <name>maintenanceOverhead</name>
+        <qualifiedname>themis::query::IndexStatistics::maintenanceOverhead</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="62" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1ac139a54d88f707151018393bcd2d915c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::IndexStatistics::estimatedNodeCount</definition>
+        <argsstring></argsstring>
+        <name>estimatedNodeCount</name>
+        <qualifiedname>themis::query::IndexStatistics::estimatedNodeCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="63" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1a0a0d314831c074e61990cf26e0a00fbd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::IndexStatistics::averageNodeDensity</definition>
+        <argsstring></argsstring>
+        <name>averageNodeDensity</name>
+        <qualifiedname>themis::query::IndexStatistics::averageNodeDensity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="64" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1ab033c50a2bf09f9248125e622fdf54b6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::IndexStatistics::totalQueriesRun</definition>
+        <argsstring></argsstring>
+        <name>totalQueriesRun</name>
+        <qualifiedname>themis::query::IndexStatistics::totalQueriesRun</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="67" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1a405e54eef8f737ca9c9c18bdb5205283" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::IndexStatistics::indexedQueries</definition>
+        <argsstring></argsstring>
+        <name>indexedQueries</name>
+        <qualifiedname>themis::query::IndexStatistics::indexedQueries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="68" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1a77f61dfd75681bde7ee51222e41f4cda" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::IndexStatistics::fullScanFallbacks</definition>
+        <argsstring></argsstring>
+        <name>fullScanFallbacks</name>
+        <qualifiedname>themis::query::IndexStatistics::fullScanFallbacks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="69" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::IndexStatistics::averageHitRate</definition>
+        <argsstring></argsstring>
+        <name>averageHitRate</name>
+        <qualifiedname>themis::query::IndexStatistics::averageHitRate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="70" column="12" bodyfile="include/query/geospatial_index_selector.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_index_statistics_1a62669919e53e594eeee54a6a1623a8d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::IndexStatistics::getEfficiencyScore</definition>
+        <argsstring>() const</argsstring>
+        <name>getEfficiencyScore</name>
+        <qualifiedname>themis::query::IndexStatistics::getEfficiencyScore</qualifiedname>
+        <briefdescription>
+<para>Get Efficiency Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="76" column="12" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="65" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_index_selector.h" line="57" column="1" bodyfile="include/query/geospatial_index_selector.h" bodystart="57" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>averageHitRate</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1a0a0d314831c074e61990cf26e0a00fbd" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>averageNodeDensity</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1af988f4bf7fa13a2bda2ef706bca4ef49" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>creationTime</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1ac139a54d88f707151018393bcd2d915c" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>estimatedNodeCount</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1a77f61dfd75681bde7ee51222e41f4cda" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>fullScanFallbacks</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1a62669919e53e594eeee54a6a1623a8d0" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>getEfficiencyScore</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1a405e54eef8f737ca9c9c18bdb5205283" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>indexedQueries</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>indexName</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1ac02d7141b262790df2fb556f2e77f908" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>indexSizeBytes</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1a0baad07c9ac45477f0c7ee719562d3ec" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>maintenanceOverhead</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1ab033c50a2bf09f9248125e622fdf54b6" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>totalQueriesRun</name></member>
+      <member refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" prot="public" virt="non-virtual"><scope>themis::query::IndexStatistics</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

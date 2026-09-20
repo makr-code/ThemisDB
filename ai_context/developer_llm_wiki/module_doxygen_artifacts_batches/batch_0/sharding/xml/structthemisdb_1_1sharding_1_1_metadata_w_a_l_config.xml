@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::MetadataWALConfig</compoundname>
+    <includes refid="metadata__wal_8h" local="no">metadata_wal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a129ede2604678da6fb069a273d0f0979" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataWALConfig::wal_directory</definition>
+        <argsstring></argsstring>
+        <name>wal_directory</name>
+        <qualifiedname>themisdb::sharding::MetadataWALConfig::wal_directory</qualifiedname>
+        <briefdescription>
+<para>Directory storing WAL segment files for metadata operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="90" column="17" bodyfile="include/sharding/metadata_wal.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1ae7e2b87d7bb578b4747b4282253da196" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataWALConfig::snapshot_directory</definition>
+        <argsstring></argsstring>
+        <name>snapshot_directory</name>
+        <qualifiedname>themisdb::sharding::MetadataWALConfig::snapshot_directory</qualifiedname>
+        <briefdescription>
+<para>Directory storing metadata snapshot files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="92" column="17" bodyfile="include/sharding/metadata_wal.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a15ce1b315a46e8f674ae3a6735d0efb5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::MetadataWALConfig::segment_size</definition>
+        <argsstring></argsstring>
+        <name>segment_size</name>
+        <qualifiedname>themisdb::sharding::MetadataWALConfig::segment_size</qualifiedname>
+        <initializer>= 16 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum bytes per WAL segment before rotation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="96" column="12" bodyfile="include/sharding/metadata_wal.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1adbb5b1824633810011a00ef27058bb7f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::MetadataWALConfig::write_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>write_buffer_size</name>
+        <qualifiedname>themisdb::sharding::MetadataWALConfig::write_buffer_size</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+<para>Buffered write threshold before flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="98" column="12" bodyfile="include/sharding/metadata_wal.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a74dac8f7900e4d3be3ad93366f966981" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataWALConfig::sync_on_write</definition>
+        <argsstring></argsstring>
+        <name>sync_on_write</name>
+        <qualifiedname>themisdb::sharding::MetadataWALConfig::sync_on_write</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Flush stream on each write for stronger durability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="100" column="10" bodyfile="include/sharding/metadata_wal.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a4ee982da7270f4c29cbc561705859778" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::MetadataWALConfig::snapshot_interval</definition>
+        <argsstring></argsstring>
+        <name>snapshot_interval</name>
+        <qualifiedname>themisdb::sharding::MetadataWALConfig::snapshot_interval</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Operation count threshold triggering snapshot recommendation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="104" column="14" bodyfile="include/sharding/metadata_wal.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1af859852ddc174001f0da7119f2bfd7ff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::MetadataWALConfig::max_snapshots</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots</name>
+        <qualifiedname>themisdb::sharding::MetadataWALConfig::max_snapshots</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum number of retained snapshot files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="106" column="12" bodyfile="include/sharding/metadata_wal.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for metadata WAL persistence and snapshot cadence. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/metadata_wal.h" line="88" column="1" bodyfile="include/sharding/metadata_wal.h" bodystart="88" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1af859852ddc174001f0da7119f2bfd7ff" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALConfig</scope><name>max_snapshots</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a15ce1b315a46e8f674ae3a6735d0efb5" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALConfig</scope><name>segment_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1ae7e2b87d7bb578b4747b4282253da196" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALConfig</scope><name>snapshot_directory</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a4ee982da7270f4c29cbc561705859778" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALConfig</scope><name>snapshot_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a74dac8f7900e4d3be3ad93366f966981" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALConfig</scope><name>sync_on_write</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a129ede2604678da6fb069a273d0f0979" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALConfig</scope><name>wal_directory</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1adbb5b1824633810011a00ef27058bb7f" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALConfig</scope><name>write_buffer_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

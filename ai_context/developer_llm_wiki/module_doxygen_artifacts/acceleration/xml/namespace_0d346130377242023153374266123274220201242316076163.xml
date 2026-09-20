@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d346130377242023153374266123274220201242316076163" kind="namespace" language="C++">
+    <compoundname>@346130377242023153374266123274220201242316076163</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp" line="14" column="1"/>
+  </compounddef>
+</doxygen>

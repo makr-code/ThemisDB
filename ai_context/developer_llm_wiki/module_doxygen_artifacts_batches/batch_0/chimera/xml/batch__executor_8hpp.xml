@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="batch__executor_8hpp" kind="file" language="C++">
+    <compoundname>batch_executor.hpp</compoundname>
+    <includes refid="database__adapter_8hpp" local="yes">chimera/database_adapter.hpp</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="mongodb__adapter_8hpp" local="yes">include/chimera/mongodb_adapter.hpp</includedby>
+    <includedby refid="qdrant__adapter_8hpp" local="yes">include/chimera/qdrant_adapter.hpp</includedby>
+    <includedby refid="batch__executor_8cpp" local="yes">src/chimera/batch_executor.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/chimera/batch_executor.hpp</label>
+        <link refid="batch__executor_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chimera/database_adapter.hpp</label>
+        <link refid="database__adapter_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>future</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>queue</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/chimera/batch_executor.hpp</label>
+        <link refid="batch__executor_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/chimera/mongodb_adapter.hpp</label>
+        <link refid="mongodb__adapter_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/chimera/qdrant_adapter.hpp</label>
+        <link refid="qdrant__adapter_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/chimera/batch_executor.cpp</label>
+        <link refid="batch__executor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/chimera/mongodb_adapter.cpp</label>
+        <link refid="mongodb__adapter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/chimera/qdrant_adapter.cpp</label>
+        <link refid="qdrant__adapter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structchimera_1_1_batch_config" prot="public">chimera::BatchConfig</innerclass>
+    <innerclass refid="structchimera_1_1_batch_statistics" prot="public">chimera::BatchStatistics</innerclass>
+    <innerclass refid="classchimera_1_1_i_batch_adapter" prot="public">chimera::IBatchAdapter</innerclass>
+    <innernamespace refid="namespacechimera">chimera</innernamespace>
+    <briefdescription>
+<para>Batch operation executor for throughput-focused workloads. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps an IDatabaseAdapter and coalesces individual operations into configurable batches, trading per-operation latency for aggregate throughput. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="database__adapter_8hpp" kindref="compound">chimera/database_adapter.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="namespacechimera" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacechimera" kindref="compound">chimera</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="structchimera_1_1_batch_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="structchimera_1_1_batch_config_1ac0391b0bd49b4b3829134ebcb001d3fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_config_1ac0391b0bd49b4b3829134ebcb001d3fc" kindref="member">batch_size</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structchimera_1_1_batch_config_1a8cf2c6700faa1d678ea3ca45aaf652a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_config_1a8cf2c6700faa1d678ea3ca45aaf652a3" kindref="member">pipeline_depth</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structchimera_1_1_batch_config_1a9121041890eeef3f1475944b073358c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structchimera_1_1_batch_config_1a9121041890eeef3f1475944b073358c9" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structchimera_1_1_batch_config_1aa54a86f030c0215d8b20d208a97d651b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_config_1aa54a86f030c0215d8b20d208a97d651b" kindref="member">auto_commit</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structchimera_1_1_batch_config_1a98cb413c96e6a22c1776cc8ad62d8001" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_config_1a98cb413c96e6a22c1776cc8ad62d8001" kindref="member">fail_fast</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structchimera_1_1_batch_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structchimera_1_1_batch_statistics" kindref="compound">BatchStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structchimera_1_1_batch_statistics_1a50fafc437ced3be0011b8e872d954ad2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_statistics_1a50fafc437ced3be0011b8e872d954ad2" kindref="member">rows_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structchimera_1_1_batch_statistics_1a9b037deacf07bd5edf112d66867611cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_statistics_1a9b037deacf07bd5edf112d66867611cf" kindref="member">rows_committed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structchimera_1_1_batch_statistics_1aae52ab88c9cfa361b0ed6404f28941c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_statistics_1aae52ab88c9cfa361b0ed6404f28941c4" kindref="member">rows_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structchimera_1_1_batch_statistics_1a905356b0ede31efff7d2f3d2a4cb8928" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structchimera_1_1_batch_statistics_1a905356b0ede31efff7d2f3d2a4cb8928" kindref="member">total_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structchimera_1_1_batch_statistics_1a8e4033bfb3d3492538afe653e2bc2455" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_statistics_1a8e4033bfb3d3492538afe653e2bc2455" kindref="member">operation_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structchimera_1_1_batch_statistics_1a747773c1ff1897f72242e4a8403c3161" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structchimera_1_1_batch_statistics_1a747773c1ff1897f72242e4a8403c3161" kindref="member">last_error</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classchimera_1_1_i_batch_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classchimera_1_1_i_batch_adapter" kindref="compound">IBatchAdapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53" refid="classchimera_1_1_i_batch_adapter_1a3b13094d4f2875c5682d37ad891c1a0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_i_batch_adapter_1a3b13094d4f2875c5682d37ad891c1a0d" kindref="member">~IBatchAdapter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classchimera_1_1_i_batch_adapter_1a06a669ff9a00cbaf7add1d0b8675b497" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_result" kindref="compound">Result&lt;bool&gt;</ref><sp/><ref refid="classchimera_1_1_i_batch_adapter_1a06a669ff9a00cbaf7add1d0b8675b497" kindref="member">queue_insert</ref>(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref>&amp;<sp/>row</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classchimera_1_1_i_batch_adapter_1ac8c18ce7b1b88be91f753c76909a9891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_result" kindref="compound">Result&lt;bool&gt;</ref><sp/><ref refid="classchimera_1_1_i_batch_adapter_1ac8c18ce7b1b88be91f753c76909a9891" kindref="member">queue_insert_batch</ref>(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RelationalRow&gt;&amp;<sp/>rows</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classchimera_1_1_i_batch_adapter_1a51edda8e8032b7cc1736da4b6a913347" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_result" kindref="compound">Result&lt;bool&gt;</ref><sp/><ref refid="classchimera_1_1_i_batch_adapter_1a51edda8e8032b7cc1736da4b6a913347" kindref="member">queue_update</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref>&amp;<sp/>row,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>where_clause</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classchimera_1_1_i_batch_adapter_1a1e5db3984d63b99cda6c27af6869a936" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_result" kindref="compound">Result&lt;bool&gt;</ref><sp/><ref refid="classchimera_1_1_i_batch_adapter_1a1e5db3984d63b99cda6c27af6869a936" kindref="member">queue_delete</ref>(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>where_clause</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classchimera_1_1_i_batch_adapter_1af9886ab465bca45b2a1e9b167fce345e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_result" kindref="compound">Result&lt;BatchStatistics&gt;</ref><sp/><ref refid="classchimera_1_1_i_batch_adapter_1af9886ab465bca45b2a1e9b167fce345e" kindref="member">flush</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classchimera_1_1_i_batch_adapter_1afe84ae9ea2d76d718cf9f469323f51c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_i_batch_adapter_1afe84ae9ea2d76d718cf9f469323f51c3" kindref="member">get_pending_count</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classchimera_1_1_i_batch_adapter_1abf33b0d9e45a4b4d96d4caa463e2f920" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_result" kindref="compound">Result&lt;bool&gt;</ref><sp/><ref refid="classchimera_1_1_i_batch_adapter_1abf33b0d9e45a4b4d96d4caa463e2f920" kindref="member">set_batch_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classchimera_1_1_i_batch_adapter_1a4072a7f9d05047ad5da5bf06d6e40599" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref>&amp;<sp/><ref refid="classchimera_1_1_i_batch_adapter_1a4072a7f9d05047ad5da5bf06d6e40599" kindref="member">get_batch_config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>chimera</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/chimera/batch_executor.hpp"/>
+  </compounddef>
+</doxygen>

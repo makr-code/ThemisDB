@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_mutation_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MutationValidationResult</compoundname>
+    <includes refid="aql__mutation__validator_8h" local="no">aql_mutation_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_validation_result_1a2dfd8399b3ad635bf189df462e302f76" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::MutationValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::query::MutationValidationResult::valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>False as soon as any error is added. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="20" column="10" bodyfile="include/query/aql_mutation_validator.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_validation_result_1a171097c235a1c46dbdf655f709a8ef54" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::MutationValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::query::MutationValidationResult::errors</qualifiedname>
+        <briefdescription>
+<para>Error messages (empty when valid). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="21" column="17" bodyfile="include/query/aql_mutation_validator.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_validation_result_1a46a7ca3b45815bb0b7459da658545c4c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::MutationValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::query::MutationValidationResult::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-blocking warnings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="22" column="17" bodyfile="include/query/aql_mutation_validator.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_validation_result_1ad9c64834becd94a29148137f79b85ada" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MutationValidationResult::addError</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::query::MutationValidationResult::addError</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Add Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="29" column="10" bodyfile="include/query/aql_mutation_validator.h" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_validation_result_1abda348bf2c384d056f749d7f385e6ccf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MutationValidationResult::addWarning</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>addWarning</name>
+        <qualifiedname>themis::query::MutationValidationResult::addWarning</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Add Warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="39" column="10" bodyfile="include/query/aql_mutation_validator.h" bodystart="39" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_mutation_validator.h" line="19" column="1" bodyfile="include/query/aql_mutation_validator.h" bodystart="19" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_mutation_validation_result_1ad9c64834becd94a29148137f79b85ada" prot="public" virt="non-virtual"><scope>themis::query::MutationValidationResult</scope><name>addError</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_validation_result_1abda348bf2c384d056f749d7f385e6ccf" prot="public" virt="non-virtual"><scope>themis::query::MutationValidationResult</scope><name>addWarning</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_validation_result_1a171097c235a1c46dbdf655f709a8ef54" prot="public" virt="non-virtual"><scope>themis::query::MutationValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_validation_result_1a2dfd8399b3ad635bf189df462e302f76" prot="public" virt="non-virtual"><scope>themis::query::MutationValidationResult</scope><name>valid</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_validation_result_1a46a7ca3b45815bb0b7459da658545c4c" prot="public" virt="non-virtual"><scope>themis::query::MutationValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

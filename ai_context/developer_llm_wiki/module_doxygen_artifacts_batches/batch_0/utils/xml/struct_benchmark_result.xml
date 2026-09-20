@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_benchmark_result" kind="struct" language="C++" prot="public">
+    <compoundname>BenchmarkResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_benchmark_result_1afcdadc39f10224d2e929bb0d9b6c2611" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BenchmarkResult::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>BenchmarkResult::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="38" column="17" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a8d62c66d3e3d965e6e1c15c3cd2abe67" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int BenchmarkResult::iterations</definition>
+        <argsstring></argsstring>
+        <name>iterations</name>
+        <qualifiedname>BenchmarkResult::iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="39" column="9" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1abc0677b855a64d6abcbafadeec0407ae" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long BenchmarkResult::mean_ns</definition>
+        <argsstring></argsstring>
+        <name>mean_ns</name>
+        <qualifiedname>BenchmarkResult::mean_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="40" column="15" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1ac1a203140daee6f67a4c7946525f4016" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long BenchmarkResult::median_ns</definition>
+        <argsstring></argsstring>
+        <name>median_ns</name>
+        <qualifiedname>BenchmarkResult::median_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="41" column="15" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1adbf72ac594bd5f1a4c42e7910d684ac9" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long BenchmarkResult::min_ns</definition>
+        <argsstring></argsstring>
+        <name>min_ns</name>
+        <qualifiedname>BenchmarkResult::min_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="42" column="15" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a58f4206d50181fed0e7dc5105133e03a" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long BenchmarkResult::max_ns</definition>
+        <argsstring></argsstring>
+        <name>max_ns</name>
+        <qualifiedname>BenchmarkResult::max_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="43" column="15" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a0d2ea77f7148058802085c2df78e17f3" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long BenchmarkResult::p95_ns</definition>
+        <argsstring></argsstring>
+        <name>p95_ns</name>
+        <qualifiedname>BenchmarkResult::p95_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="44" column="15" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1ad9f4e777516cca3a6fc560a1a92d955a" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long BenchmarkResult::p99_ns</definition>
+        <argsstring></argsstring>
+        <name>p99_ns</name>
+        <qualifiedname>BenchmarkResult::p99_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="45" column="15" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1ad2e1b13bb39d90548d26a16a50d2092f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchmarkResult::throughput_ops_sec</definition>
+        <argsstring></argsstring>
+        <name>throughput_ops_sec</name>
+        <qualifiedname>BenchmarkResult::throughput_ops_sec</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="46" column="12" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a7d9a2e1164e51c83714e4ec37e5194c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BenchmarkResult::gate_id</definition>
+        <argsstring></argsstring>
+        <name>gate_id</name>
+        <qualifiedname>BenchmarkResult::gate_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="43" column="17" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a72aa9a3e8bbe7afa5f20f13a21dd295f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchmarkResult::mean_us</definition>
+        <argsstring></argsstring>
+        <name>mean_us</name>
+        <qualifiedname>BenchmarkResult::mean_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="45" column="12" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a9098d22febbf8cdda7c858477423762a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchmarkResult::median_us</definition>
+        <argsstring></argsstring>
+        <name>median_us</name>
+        <qualifiedname>BenchmarkResult::median_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="46" column="12" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1aebb633c4b8ada7721a46f65df8bec352" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchmarkResult::min_us</definition>
+        <argsstring></argsstring>
+        <name>min_us</name>
+        <qualifiedname>BenchmarkResult::min_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="47" column="12" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a26941c8a2427578e940b1a69eb7e99e4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchmarkResult::max_us</definition>
+        <argsstring></argsstring>
+        <name>max_us</name>
+        <qualifiedname>BenchmarkResult::max_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="48" column="12" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1aae61fcd50c783b370811723b3832b2e1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchmarkResult::p95_us</definition>
+        <argsstring></argsstring>
+        <name>p95_us</name>
+        <qualifiedname>BenchmarkResult::p95_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="49" column="12" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1aa434cde6cc6f5df5c8c25a89225f8b5c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchmarkResult::p99_us</definition>
+        <argsstring></argsstring>
+        <name>p99_us</name>
+        <qualifiedname>BenchmarkResult::p99_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="50" column="12" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a0ac0d85e5304954c1c87f27fdc129e83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BenchmarkResult::gate_description</definition>
+        <argsstring></argsstring>
+        <name>gate_description</name>
+        <qualifiedname>BenchmarkResult::gate_description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="52" column="17" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a064604a2fcca7c4f1545eea075b56439" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BenchmarkResult::gate_target</definition>
+        <argsstring></argsstring>
+        <name>gate_target</name>
+        <qualifiedname>BenchmarkResult::gate_target</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="53" column="17" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_benchmark_result_1a1c69faf55be01cc8b842bc95c02b26c3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BenchmarkResult::pass</definition>
+        <argsstring></argsstring>
+        <name>pass</name>
+        <qualifiedname>BenchmarkResult::pass</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="54" column="10" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_benchmark_result_1a3a003f292bb5c3cd888a94beb004584d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>json</type>
+        <definition>json BenchmarkResult::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>BenchmarkResult::to_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="48" column="10" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="48" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_benchmark_result_1a3a003f292bb5c3cd888a94beb004584d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>json</type>
+        <definition>json BenchmarkResult::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>BenchmarkResult::to_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/phase_a3_benchmark_runner.cpp" line="56" column="10" bodyfile="benchmarks/utils/phase_a3_benchmark_runner.cpp" bodystart="56" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/utils/benchmark_runner.cpp" line="37" column="1" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="37" bodyend="61"/>
+    <listofallmembers>
+      <member refid="struct_benchmark_result_1a0ac0d85e5304954c1c87f27fdc129e83" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>gate_description</name></member>
+      <member refid="struct_benchmark_result_1a7d9a2e1164e51c83714e4ec37e5194c0" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>gate_id</name></member>
+      <member refid="struct_benchmark_result_1a064604a2fcca7c4f1545eea075b56439" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>gate_target</name></member>
+      <member refid="struct_benchmark_result_1a8d62c66d3e3d965e6e1c15c3cd2abe67" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>iterations</name></member>
+      <member refid="struct_benchmark_result_1a58f4206d50181fed0e7dc5105133e03a" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>max_ns</name></member>
+      <member refid="struct_benchmark_result_1a26941c8a2427578e940b1a69eb7e99e4" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>max_us</name></member>
+      <member refid="struct_benchmark_result_1abc0677b855a64d6abcbafadeec0407ae" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>mean_ns</name></member>
+      <member refid="struct_benchmark_result_1a72aa9a3e8bbe7afa5f20f13a21dd295f" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>mean_us</name></member>
+      <member refid="struct_benchmark_result_1ac1a203140daee6f67a4c7946525f4016" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>median_ns</name></member>
+      <member refid="struct_benchmark_result_1a9098d22febbf8cdda7c858477423762a" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>median_us</name></member>
+      <member refid="struct_benchmark_result_1adbf72ac594bd5f1a4c42e7910d684ac9" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>min_ns</name></member>
+      <member refid="struct_benchmark_result_1aebb633c4b8ada7721a46f65df8bec352" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>min_us</name></member>
+      <member refid="struct_benchmark_result_1afcdadc39f10224d2e929bb0d9b6c2611" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>name</name></member>
+      <member refid="struct_benchmark_result_1a0d2ea77f7148058802085c2df78e17f3" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>p95_ns</name></member>
+      <member refid="struct_benchmark_result_1aae61fcd50c783b370811723b3832b2e1" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>p95_us</name></member>
+      <member refid="struct_benchmark_result_1ad9f4e777516cca3a6fc560a1a92d955a" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>p99_ns</name></member>
+      <member refid="struct_benchmark_result_1aa434cde6cc6f5df5c8c25a89225f8b5c" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>p99_us</name></member>
+      <member refid="struct_benchmark_result_1a1c69faf55be01cc8b842bc95c02b26c3" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>pass</name></member>
+      <member refid="struct_benchmark_result_1ad2e1b13bb39d90548d26a16a50d2092f" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>throughput_ops_sec</name></member>
+      <member refid="struct_benchmark_result_1a3a003f292bb5c3cd888a94beb004584d" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>to_json</name></member>
+      <member refid="struct_benchmark_result_1a3a003f292bb5c3cd888a94beb004584d" prot="public" virt="non-virtual"><scope>BenchmarkResult</scope><name>to_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

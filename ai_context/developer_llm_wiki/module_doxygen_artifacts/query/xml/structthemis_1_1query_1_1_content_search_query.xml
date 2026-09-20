@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_content_search_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ContentSearchQuery</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter" prot="public">themis::query::ContentSearchQuery::MetadataFilter</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1a524428b21c923b62d3604d337308ae8d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentSearchQuery::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::query::ContentSearchQuery::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="155" column="17" bodyfile="include/query/query_engine.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1a3dc06f90a0da66c52cefbe7b2b9e7389" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentSearchQuery::fulltext_field</definition>
+        <argsstring></argsstring>
+        <name>fulltext_field</name>
+        <qualifiedname>themis::query::ContentSearchQuery::fulltext_field</qualifiedname>
+        <initializer>= &quot;content&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="156" column="17" bodyfile="include/query/query_engine.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1a3e33711d91e45a7524b5c4c7b795ba4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentSearchQuery::fulltext_query</definition>
+        <argsstring></argsstring>
+        <name>fulltext_query</name>
+        <qualifiedname>themis::query::ContentSearchQuery::fulltext_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="157" column="17" bodyfile="include/query/query_engine.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1a05069bbedadcbad770aae7e756ebecdf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ContentSearchQuery::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::ContentSearchQuery::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="158" column="12" bodyfile="include/query/query_engine.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1a14c738a568cb0a68d3ebf61c750e0389" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter" kindref="compound">MetadataFilter</ref> &gt;</type>
+        <definition>std::vector&lt;MetadataFilter&gt; themis::query::ContentSearchQuery::metadata_filters</definition>
+        <argsstring></argsstring>
+        <name>metadata_filters</name>
+        <qualifiedname>themis::query::ContentSearchQuery::metadata_filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="167" column="17" bodyfile="include/query/query_engine.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1a5a33923fa84558a391fd110d6ac04c3e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ContentSearchQuery::min_score</definition>
+        <argsstring></argsstring>
+        <name>min_score</name>
+        <qualifiedname>themis::query::ContentSearchQuery::min_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="170" column="12" bodyfile="include/query/query_engine.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="154" column="1" bodyfile="include/query/query_engine.h" bodystart="154" bodyend="171"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1a3dc06f90a0da66c52cefbe7b2b9e7389" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery</scope><name>fulltext_field</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1a3e33711d91e45a7524b5c4c7b795ba4e" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery</scope><name>fulltext_query</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1a05069bbedadcbad770aae7e756ebecdf" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1a14c738a568cb0a68d3ebf61c750e0389" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery</scope><name>metadata_filters</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1a5a33923fa84558a391fd110d6ac04c3e" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery</scope><name>min_score</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1a524428b21c923b62d3604d337308ae8d" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

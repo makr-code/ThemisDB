@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryRewriter::RewriteResult</compoundname>
+    <includes refid="graph__query__rewriter_8h" local="no">graph_query_rewriter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result_1af094f866ed2d17fef55b954862359c5c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::graph::GraphQueryRewriter::RewriteResult::plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::RewriteResult::plan</qualifiedname>
+        <briefdescription>
+<para>Rewritten plan (may equal original if no rule fired). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="61" column="24" bodyfile="include/graph/graph_query_rewriter.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result_1a04abf6505dab018af21801f9bff0e921" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_rewrite_stats" kindref="compound">GraphRewriteStats</ref></type>
+        <definition>GraphRewriteStats themis::graph::GraphQueryRewriter::RewriteResult::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::RewriteResult::stats</qualifiedname>
+        <briefdescription>
+<para>Statistics about applied rules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="62" column="27" bodyfile="include/graph/graph_query_rewriter.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::graph::GraphQueryRewriter::RewriteResult</label>
+        <link refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::GraphRewriteStats</label>
+        <link refid="structthemis_1_1graph_1_1_graph_rewrite_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/graph_query_rewriter.h" line="60" column="5" bodyfile="include/graph/graph_query_rewriter.h" bodystart="60" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result_1af094f866ed2d17fef55b954862359c5c" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter::RewriteResult</scope><name>plan</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result_1a04abf6505dab018af21801f9bff0e921" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter::RewriteResult</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

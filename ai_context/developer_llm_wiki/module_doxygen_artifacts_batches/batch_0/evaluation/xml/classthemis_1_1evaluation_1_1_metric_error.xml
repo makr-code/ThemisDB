@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_metric_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::evaluation::MetricError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_metric_error_1a3caf74e6d1292a7bca61b25228765f08" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" kindref="member">MetricErrorKind</ref></type>
+        <definition>MetricErrorKind themis::evaluation::MetricError::kind_</definition>
+        <argsstring></argsstring>
+        <name>kind_</name>
+        <qualifiedname>themis::evaluation::MetricError::kind_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="86" column="21" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_error_1a600336526c7d9dba9beca5abd3849931" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::MetricError::MetricError</definition>
+        <argsstring>(MetricErrorKind kind, std::string_view what)</argsstring>
+        <name>MetricError</name>
+        <qualifiedname>themis::evaluation::MetricError::MetricError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" kindref="member">MetricErrorKind</ref></type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>what</declname>
+        </param>
+        <briefdescription>
+<para>Metric Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">what</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="80" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="80" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_error_1aa17ea3b56cbf044bf70a250f7c0ae174" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" kindref="member">MetricErrorKind</ref></type>
+        <definition>MetricErrorKind themis::evaluation::MetricError::kind</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::evaluation::MetricError::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="83" column="22" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::MetricError</label>
+        <link refid="classthemis_1_1evaluation_1_1_metric_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::MetricError</label>
+        <link refid="classthemis_1_1evaluation_1_1_metric_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="72" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="72" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_metric_error_1aa17ea3b56cbf044bf70a250f7c0ae174" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricError</scope><name>kind</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_error_1a3caf74e6d1292a7bca61b25228765f08" prot="private" virt="non-virtual"><scope>themis::evaluation::MetricError</scope><name>kind_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_error_1a600336526c7d9dba9beca5abd3849931" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricError</scope><name>MetricError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_connection_leak_tests" kind="class" language="C++" prot="public">
+    <compoundname>ConnectionLeakTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_connection_leak_tests_1a53a3e39599e30bff3098ead2cc856da1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ConnectionLeakTests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ConnectionLeakTests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="95" column="10" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_connection_leak_tests_1a8dbac034eb37ac9a9352a2f0b36254b0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ConnectionLeakTests::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ConnectionLeakTests::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="100" column="10" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="100" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ConnectionLeakTests</label>
+        <link refid="class_connection_leak_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ConnectionLeakTests</label>
+        <link refid="class_connection_leak_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/connection_leak_tests.cpp" line="93" column="1" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="93" bodyend="107"/>
+    <listofallmembers>
+      <member refid="class_connection_leak_tests_1a53a3e39599e30bff3098ead2cc856da1" prot="protected" virt="non-virtual"><scope>ConnectionLeakTests</scope><name>SetUp</name></member>
+      <member refid="class_connection_leak_tests_1a8dbac034eb37ac9a9352a2f0b36254b0" prot="protected" virt="non-virtual"><scope>ConnectionLeakTests</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

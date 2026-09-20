@@ -1,0 +1,593 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_a_q_l_injection_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::AQLInjectionDetector</compoundname>
+    <includes refid="aql__injection__detector_8h" local="no">aql_injection_detector.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_a_q_l_injection_detector_1_1_injection_check_result" prot="public">themis::security::AQLInjectionDetector::InjectionCheckResult</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a17444dd7a7c9b2dab84530a2037d4d0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_a_q_l_injection_detector_1_1_injection_check_result" kindref="compound">InjectionCheckResult</ref></type>
+        <definition>AQLInjectionDetector::InjectionCheckResult themis::security::AQLInjectionDetector::validateParameterizedQuery</definition>
+        <argsstring>(const std::string &amp;aql_template, const std::vector&lt; std::string &gt; &amp;parameters)</argsstring>
+        <name>validateParameterizedQuery</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::validateParameterizedQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_template</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+<para>Validate Parameterized Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_template</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="42" column="26" bodyfile="src/security/aql_injection_detector.cpp" bodystart="43" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1af8ae4170737c80ee1cb048cabd38eea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_a_q_l_injection_detector_1_1_injection_check_result" kindref="compound">InjectionCheckResult</ref></type>
+        <definition>AQLInjectionDetector::InjectionCheckResult themis::security::AQLInjectionDetector::validateAQLAST</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>validateAQLAST</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::validateAQLAST</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Validate AQLAST. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="52" column="26" bodyfile="src/security/aql_injection_detector.cpp" bodystart="88" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a78349dccb10df836a7c9e7494790fffd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_a_q_l_injection_detector_1_1_injection_check_result" kindref="compound">InjectionCheckResult</ref></type>
+        <definition>AQLInjectionDetector::InjectionCheckResult themis::security::AQLInjectionDetector::validateForReadOnlyContext</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>validateForReadOnlyContext</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::validateForReadOnlyContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Validate For Read Only Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="59" column="26" bodyfile="src/security/aql_injection_detector.cpp" bodystart="163" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a7c01dc799de33d1ef03341287e9acc53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_a_q_l_injection_detector_1_1_injection_check_result" kindref="compound">InjectionCheckResult</ref></type>
+        <definition>AQLInjectionDetector::InjectionCheckResult themis::security::AQLInjectionDetector::validateUnboundedForLoops</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>validateUnboundedForLoops</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::validateUnboundedForLoops</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Validate Unbounded For Loops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="66" column="26" bodyfile="src/security/aql_injection_detector.cpp" bodystart="171" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1acd72c4efea39521aa83dd935e2995bf1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AQLInjectionDetector::isValidAQLTemplate</definition>
+        <argsstring>(const std::string &amp;template_str)</argsstring>
+        <name>isValidAQLTemplate</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::isValidAQLTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>template_str</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid AQLTemplate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">template_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">template_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: parseAQL(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="78" column="10" bodyfile="src/security/aql_injection_detector.cpp" bodystart="254" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1aa8f6b97f7c5d4cdb4731e72e43219903" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_a_q_l_injection_detector_1_1_injection_check_result" kindref="compound">InjectionCheckResult</ref></type>
+        <definition>AQLInjectionDetector::InjectionCheckResult themis::security::AQLInjectionDetector::validateParameter</definition>
+        <argsstring>(const std::string &amp;param)</argsstring>
+        <name>validateParameter</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::validateParameter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+<para>Validate Parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="85" column="26" bodyfile="src/security/aql_injection_detector.cpp" bodystart="264" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a4a4679693e21581b8e852a2e17e0f95f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AQLInjectionDetector::containsSuspiciousPatterns</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>containsSuspiciousPatterns</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::containsSuspiciousPatterns</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Contains Suspicious Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex(), std::regex_search(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="92" column="10" bodyfile="src/security/aql_injection_detector.cpp" bodystart="329" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a3aa0b8306331547b3e2d608aceb9a882" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::security::AQLInjectionDetector::extractPatterns</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>extractPatterns</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::extractPatterns</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Extract Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::regex(), std::regex_search(), push_back(), str(), suffix(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="99" column="17" bodyfile="src/security/aql_injection_detector.cpp" bodystart="380" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a2b27701aecd4cb7100d3314550810b07" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AQLInjectionDetector::containsSQLKeywords</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>containsSQLKeywords</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::containsSQLKeywords</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Contains SQLKeywords. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="106" column="10" bodyfile="src/security/aql_injection_detector.cpp" bodystart="414" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a0a2a4272d8fc2c735a82102738b56cf7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AQLInjectionDetector::containsDangerousOperations</definition>
+        <argsstring>(const query::Query &amp;ast)</argsstring>
+        <name>containsDangerousOperations</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::containsDangerousOperations</qualifiedname>
+        <param>
+          <type>const query::Query &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Contains Dangerous Operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: scanExpressionForDangerousOps(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="113" column="10" bodyfile="src/security/aql_injection_detector.cpp" bodystart="445" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1aa60ae848ffb0fc7a137e4b4b90b3c202" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::security::AQLInjectionDetector::extractStringLiterals</definition>
+        <argsstring>(const query::Query &amp;ast)</argsstring>
+        <name>extractStringLiterals</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::extractStringLiterals</qualifiedname>
+        <param>
+          <type>const query::Query &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Extract String Literals. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractStringLiteralsFromExpression(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="120" column="17" bodyfile="src/security/aql_injection_detector.cpp" bodystart="615" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a2cb57a0ce2fd96726ef616c45228c611" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AQLInjectionDetector::extractStringLiteralsFromExpression</definition>
+        <argsstring>(const std::shared_ptr&lt; query::Expression &gt; &amp;expr, std::vector&lt; std::string &gt; &amp;literals)</argsstring>
+        <name>extractStringLiteralsFromExpression</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::extractStringLiteralsFromExpression</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; query::Expression &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>literals</declname>
+        </param>
+        <briefdescription>
+<para>Extract String Literals From Expression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">literals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">literals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getType(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="127" column="10" bodyfile="src/security/aql_injection_detector.cpp" bodystart="653" bodyend="712"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1a3837ab1204f7e972717e82e5c54fd165" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; query::Query &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::Query &gt; &gt; themis::security::AQLInjectionDetector::parseAQL</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>parseAQL</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::parseAQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Parse AQL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parse(), fmt::format(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="137" column="12" bodyfile="src/security/aql_injection_detector.cpp" bodystart="720" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_a_q_l_injection_detector_1aee8703c95d1ac82427bda7979e439ddd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AQLInjectionDetector::scanExpressionForDangerousOps</definition>
+        <argsstring>(const std::shared_ptr&lt; query::Expression &gt; &amp;expr)</argsstring>
+        <name>scanExpressionForDangerousOps</name>
+        <qualifiedname>themis::security::AQLInjectionDetector::scanExpressionForDangerousOps</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; query::Expression &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+<para>Scan Expression For Dangerous Ops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getType(), std::transform(), begin(), end(), std::toupper(), count(), containsDangerousOperations(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/aql_injection_detector.h" line="144" column="10" bodyfile="src/security/aql_injection_detector.cpp" bodystart="519" bodyend="607"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/aql_injection_detector.h" line="25" column="1" bodyfile="include/security/aql_injection_detector.h" bodystart="25" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a0a2a4272d8fc2c735a82102738b56cf7" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>containsDangerousOperations</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a2b27701aecd4cb7100d3314550810b07" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>containsSQLKeywords</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a4a4679693e21581b8e852a2e17e0f95f" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>containsSuspiciousPatterns</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a3aa0b8306331547b3e2d608aceb9a882" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>extractPatterns</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1aa60ae848ffb0fc7a137e4b4b90b3c202" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>extractStringLiterals</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a2cb57a0ce2fd96726ef616c45228c611" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>extractStringLiteralsFromExpression</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1acd72c4efea39521aa83dd935e2995bf1" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>isValidAQLTemplate</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a3837ab1204f7e972717e82e5c54fd165" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>parseAQL</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1aee8703c95d1ac82427bda7979e439ddd" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>scanExpressionForDangerousOps</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1af8ae4170737c80ee1cb048cabd38eea1" prot="public" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>validateAQLAST</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a78349dccb10df836a7c9e7494790fffd" prot="public" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>validateForReadOnlyContext</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1aa8f6b97f7c5d4cdb4731e72e43219903" prot="private" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>validateParameter</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a17444dd7a7c9b2dab84530a2037d4d0c" prot="public" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>validateParameterizedQuery</name></member>
+      <member refid="classthemis_1_1security_1_1_a_q_l_injection_detector_1a7c01dc799de33d1ef03341287e9acc53" prot="public" virt="non-virtual"><scope>themis::security::AQLInjectionDetector</scope><name>validateUnboundedForLoops</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

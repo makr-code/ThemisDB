@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_model_update_determinism_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ModelUpdateDeterminismSpec</compoundname>
+    <includes refid="process__determinism__spec_8h" local="no">process_determinism_spec.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_update_determinism_spec_1ae56f575d7ad6d68ffebeaf87dc3a51c8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref></type>
+        <definition>DeterminismClass themis::process::ModelUpdateDeterminismSpec::determinism</definition>
+        <argsstring></argsstring>
+        <name>determinism</name>
+        <qualifiedname>themis::process::ModelUpdateDeterminismSpec::determinism</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" kindref="member">DeterminismClass::CONFLICT_RESOLVED_DETERMINISTIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="218" column="39" bodyfile="include/process/process_determinism_spec.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_update_determinism_spec_1ae55c0f01376382bfae1ac5be6c289942" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref></type>
+        <definition>ConflictScope themis::process::ModelUpdateDeterminismSpec::conflict_scope</definition>
+        <argsstring></argsstring>
+        <name>conflict_scope</name>
+        <qualifiedname>themis::process::ModelUpdateDeterminismSpec::conflict_scope</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba32b57a949172af7d00a5d576d8c536e6" kindref="member">ConflictScope::MODEL_NAMESPACE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="219" column="36" bodyfile="include/process/process_determinism_spec.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_update_determinism_spec_1a12a2febcaad089a9fe8160a2b2b61af5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::ModelUpdateDeterminismSpec::expected_conflict_probability</definition>
+        <argsstring></argsstring>
+        <name>expected_conflict_probability</name>
+        <qualifiedname>themis::process::ModelUpdateDeterminismSpec::expected_conflict_probability</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+<para>Expected conflict probability under &gt;500 concurrent updates to same model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="222" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_model_update_determinism_spec_1a644a76093ebd6f7ba981552c211c7b31" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::ModelUpdateDeterminismSpec::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::ModelUpdateDeterminismSpec::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="224" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="224" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guarantees for concurrent model updates under churn. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Determinism:</bold> CONFLICT_RESOLVED_DETERMINISTIC <linebreak/>
+ <bold>Mechanism:</bold> Last-Write-Wins with monotonic version clocks <linebreak/>
+ <bold>Ordering:</bold> Version numbers form a total order; no ties</para>
+<para>When two threads concurrently update the same model:<orderedlist>
+<listitem><para>Both updates are stamped with unique version clocks</para>
+</listitem><listitem><para>Higher version number wins (LWW)</para>
+</listitem><listitem><para>Loser either retries or receives conflict error</para>
+</listitem><listitem><para>Outcome is deterministic: same updates with same timing always produce same winner</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="invariant"><para>Version clocks are monotonically increasing </para>
+</simplesect>
+<simplesect kind="invariant"><para>No two updates have same version number </para>
+</simplesect>
+<simplesect kind="invariant"><para>Winner is deterministic given concurrent operation timestamps </para>
+</simplesect>
+<simplesect kind="invariant"><para>Loser receives explicit error (VALIDATION_INCIDENT or implicit LWW) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_determinism_spec.h" line="217" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="217" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_model_update_determinism_spec_1ae55c0f01376382bfae1ac5be6c289942" prot="public" virt="non-virtual"><scope>themis::process::ModelUpdateDeterminismSpec</scope><name>conflict_scope</name></member>
+      <member refid="structthemis_1_1process_1_1_model_update_determinism_spec_1a644a76093ebd6f7ba981552c211c7b31" prot="public" virt="non-virtual"><scope>themis::process::ModelUpdateDeterminismSpec</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_model_update_determinism_spec_1ae56f575d7ad6d68ffebeaf87dc3a51c8" prot="public" virt="non-virtual"><scope>themis::process::ModelUpdateDeterminismSpec</scope><name>determinism</name></member>
+      <member refid="structthemis_1_1process_1_1_model_update_determinism_spec_1a12a2febcaad089a9fe8160a2b2b61af5" prot="public" virt="non-virtual"><scope>themis::process::ModelUpdateDeterminismSpec</scope><name>expected_conflict_probability</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

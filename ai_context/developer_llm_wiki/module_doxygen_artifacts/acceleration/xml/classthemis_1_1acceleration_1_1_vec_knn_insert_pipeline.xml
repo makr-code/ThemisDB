@@ -1,0 +1,657 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::VecKnnInsertPipeline</compoundname>
+    <includes refid="vec__knn_8h" local="no">vec_knn.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a168c79d11c04bb582b45fbe0077f5ec0" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1acceleration_1_1_vec_knn_insert_result" kindref="compound">VecKnnInsertResult</ref>( VectorIndexManager &amp;, const std::vector&lt; BaseEntity &gt; &amp;, std::string_view)&gt;</type>
+        <definition>using themis::acceleration::VecKnnInsertPipeline::AddBatchBridgeFn = std::function&lt;VecKnnInsertResult(
+   VectorIndexManager&amp;,
+   const std::vector&lt;BaseEntity&gt;&amp;,
+   std::string_view)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AddBatchBridgeFn</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::AddBatchBridgeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="161" column="3" bodyfile="include/acceleration/vec_knn.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a520a25b750ccf65618c039e4dc8747b1" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::vector&lt; float &gt; &gt;( const BaseEntity &amp;, std::string_view)&gt;</type>
+        <definition>using themis::acceleration::VecKnnInsertPipeline::ExtractVectorBridgeFn = std::function&lt;std::optional&lt;std::vector&lt;float&gt;&gt;(
+   const BaseEntity&amp;,
+   std::string_view)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExtractVectorBridgeFn</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::ExtractVectorBridgeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="166" column="3" bodyfile="include/acceleration/vec_knn.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a0fb649c81a9ca95e5857aba846f4c55b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config" kindref="compound">VecKnnPipelineConfig</ref></type>
+        <definition>VecKnnPipelineConfig themis::acceleration::VecKnnInsertPipeline::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="245" column="35" bodyfile="include/acceleration/vec_knn.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a1d2cfd295e57cb9f640bf11b9100dd31" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_distance_cache" kindref="compound">DistanceCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistanceCache&gt; themis::acceleration::VecKnnInsertPipeline::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="246" column="21" bodyfile="include/acceleration/vec_knn.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a6f5192b9efe4c9675ac876b174a91dfa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::acceleration::VecKnnInsertPipeline::total_inserted_</definition>
+        <argsstring></argsstring>
+        <name>total_inserted_</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::total_inserted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="247" column="22" bodyfile="include/acceleration/vec_knn.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1ae7c4d4b9901e3eaee04a0a11c84f162f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::acceleration::VecKnnInsertPipeline::total_failed_</definition>
+        <argsstring></argsstring>
+        <name>total_failed_</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::total_failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="248" column="22" bodyfile="include/acceleration/vec_knn.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a799d76977cea771c17a633f7b73656ad" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::VecKnnInsertPipeline::index_mtx_</definition>
+        <argsstring></argsstring>
+        <name>index_mtx_</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::index_mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="250" column="35" bodyfile="include/acceleration/vec_knn.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a322c603968892f857d7c71253e69d090" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VecKnnInsertPipeline::setAddBatchBridgeFn</definition>
+        <argsstring>(AddBatchBridgeFn fn)</argsstring>
+        <name>setAddBatchBridgeFn</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::setAddBatchBridgeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a168c79d11c04bb582b45fbe0077f5ec0" kindref="member">AddBatchBridgeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Add Batch Bridge Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), addBatchBridgeMutex(), addBatchBridgeStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="174" column="15" bodyfile="src/acceleration/vec_knn.cpp" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a2afc5ae89da9681964f364917a425aa9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VecKnnInsertPipeline::clearAddBatchBridgeFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearAddBatchBridgeFn</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::clearAddBatchBridgeFn</qualifiedname>
+        <briefdescription>
+<para>Clear Add Batch Bridge Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), addBatchBridgeMutex(), addBatchBridgeStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="178" column="15" bodyfile="src/acceleration/vec_knn.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a83efb3eb6a096d031507c2ec7d566670" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VecKnnInsertPipeline::setExtractVectorBridgeFn</definition>
+        <argsstring>(ExtractVectorBridgeFn fn)</argsstring>
+        <name>setExtractVectorBridgeFn</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::setExtractVectorBridgeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a520a25b750ccf65618c039e4dc8747b1" kindref="member">ExtractVectorBridgeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Extract Vector Bridge Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), extractVectorBridgeMutex(), extractVectorBridgeStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="184" column="15" bodyfile="src/acceleration/vec_knn.cpp" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a1fc6dbfdd50911223c011b364035e48c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VecKnnInsertPipeline::clearExtractVectorBridgeFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearExtractVectorBridgeFn</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::clearExtractVectorBridgeFn</qualifiedname>
+        <briefdescription>
+<para>Clear Extract Vector Bridge Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), extractVectorBridgeMutex(), extractVectorBridgeStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="188" column="15" bodyfile="src/acceleration/vec_knn.cpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a70842eb355c5e381a8a5c10548ae306c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::VecKnnInsertPipeline::VecKnnInsertPipeline</definition>
+        <argsstring>(VecKnnPipelineConfig config={})</argsstring>
+        <name>VecKnnInsertPipeline</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::VecKnnInsertPipeline</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config" kindref="compound">VecKnnPipelineConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="190" column="14" bodyfile="src/acceleration/vec_knn.cpp" bodystart="422" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a354862b58bf77f3b3294a013b4b33353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::VecKnnInsertPipeline::~VecKnnInsertPipeline</definition>
+        <argsstring>()</argsstring>
+        <name>~VecKnnInsertPipeline</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::~VecKnnInsertPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="191" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a2e437b202c206048d94c85070795e594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::VecKnnInsertPipeline::VecKnnInsertPipeline</definition>
+        <argsstring>(const VecKnnInsertPipeline &amp;)=delete</argsstring>
+        <name>VecKnnInsertPipeline</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::VecKnnInsertPipeline</qualifiedname>
+        <param>
+          <type>const VecKnnInsertPipeline &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="194" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1aeca7050f780b7436c6e34315c5813610" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a70842eb355c5e381a8a5c10548ae306c" kindref="member">VecKnnInsertPipeline</ref> &amp;</type>
+        <definition>VecKnnInsertPipeline &amp; themis::acceleration::VecKnnInsertPipeline::operator=</definition>
+        <argsstring>(const VecKnnInsertPipeline &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a70842eb355c5e381a8a5c10548ae306c" kindref="member">VecKnnInsertPipeline</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="195" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a592bb9880fb7818fae438d6bb61c4beb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_vec_knn_insert_result" kindref="compound">VecKnnInsertResult</ref></type>
+        <definition>VecKnnInsertResult themis::acceleration::VecKnnInsertPipeline::insertBatch</definition>
+        <argsstring>(VectorIndexManager &amp;index, const std::vector&lt; BaseEntity &gt; &amp;entities, std::string_view vectorField=&quot;&quot;)</argsstring>
+        <name>insertBatch</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::insertBatch</qualifiedname>
+        <param>
+          <type>VectorIndexManager &amp;</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>vectorField</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> insertBatch – the main parallel insertion entry point ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectorField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lk(), addBatchBridgeMutex(), addBatchBridgeStorage(), size(), fetch_add(), extractVectorBridgeMutex(), extractVectorBridgeStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="197" column="24" bodyfile="src/acceleration/vec_knn.cpp" bodystart="495" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1abb4f24001cc493e926afead2e49088c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::VecKnnInsertPipeline::computeDistances</definition>
+        <argsstring>(const float *query_vectors, std::size_t numQueries, const float *db_vectors, std::size_t numDB, std::size_t dim) const</argsstring>
+        <name>computeDistances</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::computeDistances</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query_vectors</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>db_vectors</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>numDB</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Compute Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">db_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numDB</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">numDB</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="210" column="17" bodyfile="src/acceleration/vec_knn.cpp" bodystart="468" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1ab0705036b30bf8b8737998985025516a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_distance_cache" kindref="compound">DistanceCache</ref> &amp;</type>
+        <definition>DistanceCache &amp; themis::acceleration::VecKnnInsertPipeline::cache</definition>
+        <argsstring>()</argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::cache</qualifiedname>
+        <briefdescription>
+<para>Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements cache without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="221" column="19" bodyfile="include/acceleration/vec_knn.h" bodystart="221" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1acf829f47094696fd0993b35f4f11ac1f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1acceleration_1_1_distance_cache" kindref="compound">DistanceCache</ref> &amp;</type>
+        <definition>const DistanceCache &amp; themis::acceleration::VecKnnInsertPipeline::cache</definition>
+        <argsstring>() const</argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="222" column="25" bodyfile="include/acceleration/vec_knn.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a14d4cfce1bc83c2edf552493dc9a3b09" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config" kindref="compound">VecKnnPipelineConfig</ref> &amp;</type>
+        <definition>const VecKnnPipelineConfig &amp; themis::acceleration::VecKnnInsertPipeline::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="224" column="32" bodyfile="include/acceleration/vec_knn.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1af8101550e5ae8b313e705ad933e86755" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VecKnnInsertPipeline::setBatchSize</definition>
+        <argsstring>(std::size_t sz)</argsstring>
+        <name>setBatchSize</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::setBatchSize</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>sz</declname>
+        </param>
+        <briefdescription>
+<para>Set Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setBatchSize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="229" column="10" bodyfile="src/acceleration/vec_knn.cpp" bodystart="440" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a91a6380f0cdcfcedc69e4127eaf188ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VecKnnInsertPipeline::setThreadCount</definition>
+        <argsstring>(std::size_t n)</argsstring>
+        <name>setThreadCount</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::setThreadCount</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Set Thread Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::thread::hardware_concurrency(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="234" column="10" bodyfile="src/acceleration/vec_knn.cpp" bodystart="449" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1ae286ef08175acb87a3fa603776feb3ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VecKnnInsertPipeline::enableDistanceCache</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>enableDistanceCache</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::enableDistanceCache</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Enable Distance Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="239" column="10" bodyfile="src/acceleration/vec_knn.cpp" bodystart="458" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1af07a0d4ebbe869bc81dccabfd85fadd7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::acceleration::VecKnnInsertPipeline::totalInserted</definition>
+        <argsstring>() const</argsstring>
+        <name>totalInserted</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::totalInserted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="241" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1ad4382972dd94af2b608f35543923905f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::acceleration::VecKnnInsertPipeline::totalFailed</definition>
+        <argsstring>() const</argsstring>
+        <name>totalFailed</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertPipeline::totalFailed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="242" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vec_knn.h" line="159" column="1" bodyfile="include/acceleration/vec_knn.h" bodystart="159" bodyend="251"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a168c79d11c04bb582b45fbe0077f5ec0" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>AddBatchBridgeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1ab0705036b30bf8b8737998985025516a" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>cache</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1acf829f47094696fd0993b35f4f11ac1f" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>cache</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a1d2cfd295e57cb9f640bf11b9100dd31" prot="private" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a2afc5ae89da9681964f364917a425aa9" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>clearAddBatchBridgeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a1fc6dbfdd50911223c011b364035e48c" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>clearExtractVectorBridgeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1abb4f24001cc493e926afead2e49088c4" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>computeDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a14d4cfce1bc83c2edf552493dc9a3b09" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>config</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a0fb649c81a9ca95e5857aba846f4c55b" prot="private" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>config_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1ae286ef08175acb87a3fa603776feb3ed" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>enableDistanceCache</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a520a25b750ccf65618c039e4dc8747b1" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>ExtractVectorBridgeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a799d76977cea771c17a633f7b73656ad" prot="private" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>index_mtx_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a592bb9880fb7818fae438d6bb61c4beb" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>insertBatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1aeca7050f780b7436c6e34315c5813610" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a322c603968892f857d7c71253e69d090" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>setAddBatchBridgeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1af8101550e5ae8b313e705ad933e86755" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>setBatchSize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a83efb3eb6a096d031507c2ec7d566670" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>setExtractVectorBridgeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a91a6380f0cdcfcedc69e4127eaf188ca" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>setThreadCount</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1ae7c4d4b9901e3eaee04a0a11c84f162f" prot="private" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>total_failed_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a6f5192b9efe4c9675ac876b174a91dfa" prot="private" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>total_inserted_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1ad4382972dd94af2b608f35543923905f" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>totalFailed</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1af07a0d4ebbe869bc81dccabfd85fadd7" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>totalInserted</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a70842eb355c5e381a8a5c10548ae306c" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>VecKnnInsertPipeline</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a2e437b202c206048d94c85070795e594" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>VecKnnInsertPipeline</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vec_knn_insert_pipeline_1a354862b58bf77f3b3294a013b4b33353" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertPipeline</scope><name>~VecKnnInsertPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

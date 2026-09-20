@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_branch_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::BranchInfo</compoundname>
+    <includes refid="prompt__version__control_8h" local="no">prompt_version_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_branch_info_1a18df3f2cfdbd6501e1b46515b521c898" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::BranchInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::BranchInfo::name</qualifiedname>
+        <briefdescription>
+<para>Branch name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="77" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_branch_info_1a9d91fbbed8b6cfb06e32980e59e03bc8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::BranchInfo::head_version</definition>
+        <argsstring></argsstring>
+        <name>head_version</name>
+        <qualifiedname>themis::prompt_engineering::BranchInfo::head_version</qualifiedname>
+        <briefdescription>
+<para>Current HEAD version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="78" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_branch_info_1ae003ba1059bcf30432cb8767c52ac20d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::BranchInfo::base_version</definition>
+        <argsstring></argsstring>
+        <name>base_version</name>
+        <qualifiedname>themis::prompt_engineering::BranchInfo::base_version</qualifiedname>
+        <briefdescription>
+<para>Base version (where branched from). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="79" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_branch_info_1a2d07383a26b4bb52e49758266c23fe92" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::BranchInfo::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::prompt_engineering::BranchInfo::created_at</qualifiedname>
+        <briefdescription>
+<para>When created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="80" column="43" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_branch_info_1a8325818d5fc594ba9c713f338a3d5224" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BranchInfo::commit_count</definition>
+        <argsstring></argsstring>
+        <name>commit_count</name>
+        <qualifiedname>themis::prompt_engineering::BranchInfo::commit_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of commits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="81" column="12" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_branch_info_1a8644490f20221fea2591a53877a4e31f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::BranchInfo::is_merged</definition>
+        <argsstring></argsstring>
+        <name>is_merged</name>
+        <qualifiedname>themis::prompt_engineering::BranchInfo::is_merged</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether merged back. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="82" column="10" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_branch_info_1a08715984c5aea3c1b7db66489a0562aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::BranchInfo::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::BranchInfo::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="87" column="20" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="94" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Branch information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_version_control.h" line="76" column="1" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="76" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_branch_info_1ae003ba1059bcf30432cb8767c52ac20d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BranchInfo</scope><name>base_version</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_branch_info_1a8325818d5fc594ba9c713f338a3d5224" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BranchInfo</scope><name>commit_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_branch_info_1a2d07383a26b4bb52e49758266c23fe92" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BranchInfo</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_branch_info_1a9d91fbbed8b6cfb06e32980e59e03bc8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BranchInfo</scope><name>head_version</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_branch_info_1a8644490f20221fea2591a53877a4e31f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BranchInfo</scope><name>is_merged</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_branch_info_1a18df3f2cfdbd6501e1b46515b521c898" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BranchInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_branch_info_1a08715984c5aea3c1b7db66489a0562aa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BranchInfo</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

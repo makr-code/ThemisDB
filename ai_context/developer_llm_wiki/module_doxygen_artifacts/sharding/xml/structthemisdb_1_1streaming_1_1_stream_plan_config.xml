@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1streaming_1_1_stream_plan_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamPlanConfig</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1a5a32dae008612b1942aa3b51ad93de54" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamPlanConfig::plan_id</definition>
+        <argsstring></argsstring>
+        <name>plan_id</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::plan_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="175" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1a7d2bcffa4b92127e402c94509a95eab6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamPlanConfig::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="176" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1a6b98de42f5c00b149ce18d576b036366" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamPlanConfig::max_concurrent_sessions</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_sessions</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::max_concurrent_sessions</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="179" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1af721f0fda602a3b28c5abdfd90e1bef9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamPlanConfig::max_concurrent_transfers_per_session</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_transfers_per_session</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::max_concurrent_transfers_per_session</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="180" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1a48da86be7a626e316229d60cdec40eec" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamPlanConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="183" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1a37f8db0c7d9343581af8996d89ef6613" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamPlanConfig::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::retry_delay_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="184" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1a5a8e53531a7bbd5c7d0c3d5477603649" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamPlanConfig::retry_on_timeout</definition>
+        <argsstring></argsstring>
+        <name>retry_on_timeout</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::retry_on_timeout</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="185" column="10" bodyfile="include/sharding/stream_protocol.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1ae689f71024680a34276d82fcbb0ae7e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamPlanConfig::notify_on_progress</definition>
+        <argsstring></argsstring>
+        <name>notify_on_progress</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::notify_on_progress</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="188" column="10" bodyfile="include/sharding/stream_protocol.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_plan_config_1a9ab56b3d1d1500d6332e29812d2df56f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamPlanConfig::progress_report_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>progress_report_interval_ms</name>
+        <qualifiedname>themisdb::streaming::StreamPlanConfig::progress_report_interval_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="189" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Stream plan configuration </para>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="174" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="174" bodyend="190"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1a7d2bcffa4b92127e402c94509a95eab6" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>description</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1a6b98de42f5c00b149ce18d576b036366" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>max_concurrent_sessions</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1af721f0fda602a3b28c5abdfd90e1bef9" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>max_concurrent_transfers_per_session</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1a48da86be7a626e316229d60cdec40eec" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>max_retries</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1ae689f71024680a34276d82fcbb0ae7e0" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>notify_on_progress</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1a5a32dae008612b1942aa3b51ad93de54" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>plan_id</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1a9ab56b3d1d1500d6332e29812d2df56f" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>progress_report_interval_ms</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1a37f8db0c7d9343581af8996d89ef6613" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>retry_delay_ms</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_plan_config_1a5a8e53531a7bbd5c7d0c3d5477603649" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamPlanConfig</scope><name>retry_on_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

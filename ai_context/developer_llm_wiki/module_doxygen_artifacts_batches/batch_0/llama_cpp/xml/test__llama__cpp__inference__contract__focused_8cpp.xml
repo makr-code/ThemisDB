@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llama__cpp__inference__contract__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llama_cpp_inference_contract_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llama__cpp__plugin_8h" local="yes">llama_cpp/llama_cpp_plugin.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llama_cpp/llama_cpp_plugin.h</label>
+        <link refid="llama__cpp__plugin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp</label>
+        <link refid="test__llama__cpp__inference__contract__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>llm/llm_plugin_interface.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1ac755abffdf71d9c431acc35868e779a0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; LlamaCppPlugin &gt; make_loaded_plugin</definition>
+        <argsstring>()</argsstring>
+        <name>make_loaded_plugin</name>
+        <briefdescription>
+<para>── helper ──────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadModel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="33" column="24" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="33" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC1_GenerateUnloaded_ReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC1_GenerateUnloaded_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="42" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="42" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1ad18fc71d3186a88aa562a5bf7e58b235" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC2_GenerateLoaded_ReturnsSuccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC2_GenerateLoaded_ReturnsSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="53" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="53" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1aee80ab7af0a321a805c516b6a26462cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC3_GenerateSuccess_TextNotEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC3_GenerateSuccess_TextNotEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="64" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="64" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1aefda654d68c8a3ef89cc4e53cce23052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC4_GenerateSuccess_ErrorMessageEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC4_GenerateSuccess_ErrorMessageEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="77" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="77" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1a78dae41041beebf3cf76f26362a59cd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC5_SystemPrompt_Accepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC5_SystemPrompt_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="90" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="90" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1af39206141adb02837d19b4737b7a1598" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC6_LoRAAdapterHint_Accepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC6_LoRAAdapterHint_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="101" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="101" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1ac6d5585c5aa29fe99a23a2da4f43f1ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC7_StreamingCallback_IsInvoked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC7_StreamingCallback_IsInvoked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="112" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="112" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1ab76e49dedad633b576062b84b501b4cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC8_GenerateRAG_ReturnsResponse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC8_GenerateRAG_ReturnsResponse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="133" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="133" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1a08f11021f70e439614f5f2a79866ed44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC9_GenerateRAG_EmptyContext_NocrASH)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC9_GenerateRAG_EmptyContext_NocrASH</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="151" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="151" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__inference__contract__focused_8cpp_1ad20728ebc81383b77a6392d4a1da2b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppInferenceContractFocusedTests, IC10_JsonSchema_Accepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppInferenceContractFocusedTests</type>
+        </param>
+        <param>
+          <type>IC10_JsonSchema_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" line="162" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp" bodystart="162" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group IC — Inference contract tests for <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates the generate() and generateRAG() output contract under THEMIS_LLAMA_CPP_STUB_MODE:<itemizedlist>
+<listitem><para>Response fields are populated consistently</para>
+</listitem><listitem><para>Failure cases return success==false with a non-empty error_message</para>
+</listitem><listitem><para>Streaming callback is invoked when provided</para>
+</listitem><listitem><para>LoRA adapter hint is accepted without crash</para>
+</listitem><listitem><para>JSON-schema binding is accepted without crash</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests require no real model file. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llama__cpp__plugin_8h" kindref="compound">llama_cpp/llama_cpp_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp" kindref="compound">themis::llamacpp</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;LlamaCppPlugin&gt;<sp/>make_loaded_plugin()<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/>=<sp/>std::make_unique&lt;LlamaCppPlugin&gt;();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>p-&gt;loadModel(</highlight><highlight class="stringliteral">&quot;/stub/model.gguf&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>IC<sp/>—<sp/>Inference<sp/>Contract<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC1:<sp/>generate()<sp/>on<sp/>unloaded<sp/>plugin<sp/>returns<sp/>success==false<sp/>with<sp/>error<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC1_GenerateUnloaded_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.success);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.error_message.empty());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC2:<sp/>generate()<sp/>on<sp/>loaded<sp/>plugin<sp/>returns<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC2_GenerateLoaded_ReturnsSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resp.success);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC3:<sp/>generate()<sp/>response<sp/>text<sp/>is<sp/>non-empty<sp/>when<sp/>successful</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC3_GenerateSuccess_TextNotEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Describe<sp/>the<sp/>sky.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resp.success)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.text.empty());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC4:<sp/>error_message<sp/>is<sp/>empty<sp/>on<sp/>a<sp/>successful<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC4_GenerateSuccess_ErrorMessageEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resp.success)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(resp.error_message.empty());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC5:<sp/>system_prompt<sp/>field<sp/>is<sp/>accepted<sp/>without<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC5_SystemPrompt_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hi&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>req.system_prompt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>a<sp/>helpful<sp/>assistant.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC6:<sp/>lora_adapter_id<sp/>hint<sp/>is<sp/>accepted<sp/>without<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC6_LoRAAdapterHint_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>req.lora_adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dummy-lora-adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC7:<sp/>streaming<sp/>callback<sp/>is<sp/>invoked<sp/>at<sp/>least<sp/>once<sp/>when<sp/>provided</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC7_StreamingCallback_IsInvoked)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Stream<sp/>test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>callback_count{0};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>req.stream_callback<sp/>=<sp/>[&amp;callback_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!chunk.empty())<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++callback_count;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>stub<sp/>mode<sp/>the<sp/>callback<sp/>may<sp/>or<sp/>may<sp/>not<sp/>be<sp/>called;<sp/>the<sp/>key<sp/>invariant<sp/>is<sp/>no<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)resp;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC8:<sp/>generateRAG()<sp/>returns<sp/>a<sp/>response<sp/>without<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC8_GenerateRAG_ReturnsResponse)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>RAGContext<sp/>ctx;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.documents.push_back({</highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stub&quot;</highlight><highlight class="normal">,<sp/>1.0f,<sp/>{}});</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW({</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4cff202310f62ae2b77aeeec084670b8" kindref="member">generateRAG</ref>(ctx,<sp/>req);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(resp.success);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC9:<sp/>generateRAG()<sp/>with<sp/>empty<sp/>context<sp/>does<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC9_GenerateRAG_EmptyContext_NocrASH)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>RAGContext<sp/>ctx;<sp/><sp/></highlight><highlight class="comment">//<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Any<sp/>question?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4cff202310f62ae2b77aeeec084670b8" kindref="member">generateRAG</ref>(ctx,<sp/>req));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IC10:<sp/>json_schema<sp/>binding<sp/>is<sp/>accepted<sp/>without<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kindref="member">TEST</ref>(LlamaCppInferenceContractFocusedTests,<sp/>IC10_JsonSchema_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded_plugin();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Return<sp/>a<sp/>JSON<sp/>object&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>req.json_schema<sp/>=<sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;object&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">,<sp/>json::object()}};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/llama_cpp/tests/test_llama_cpp_inference_contract_focused.cpp"/>
+  </compounddef>
+</doxygen>

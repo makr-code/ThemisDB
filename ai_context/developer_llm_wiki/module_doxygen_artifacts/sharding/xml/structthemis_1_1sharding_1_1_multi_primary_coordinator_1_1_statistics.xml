@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::MultiPrimaryCoordinator::Statistics</compoundname>
+    <includes refid="multi__primary__coordinator_8h" local="no">multi_primary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a1c438a93b420aeede5218db7380dfe7e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::MultiPrimaryCoordinator::Statistics::total_primaries</definition>
+        <argsstring></argsstring>
+        <name>total_primaries</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::Statistics::total_primaries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="174" column="16" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a4763c1784783edf164e5913969a344d9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::MultiPrimaryCoordinator::Statistics::active_primaries</definition>
+        <argsstring></argsstring>
+        <name>active_primaries</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::Statistics::active_primaries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="175" column="16" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a8388b5b8682b45b6fa25f0568ac6f0d3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::MultiPrimaryCoordinator::Statistics::standby_primaries</definition>
+        <argsstring></argsstring>
+        <name>standby_primaries</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::Statistics::standby_primaries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="176" column="16" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1ac2ba4fac46eb88ecd086f7bda78a4df5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::MultiPrimaryCoordinator::Statistics::offline_primaries</definition>
+        <argsstring></argsstring>
+        <name>offline_primaries</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::Statistics::offline_primaries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="177" column="16" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a5bae09ef446cec67990fa5a070360d03" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::MultiPrimaryCoordinator::Statistics::total_writes</definition>
+        <argsstring></argsstring>
+        <name>total_writes</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::Statistics::total_writes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="178" column="18" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a8974bf0e0a304531e89d03064feee0f4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::MultiPrimaryCoordinator::Statistics::conflicts_resolved</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::Statistics::conflicts_resolved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="179" column="18" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Get statistics </para>
+    </detaileddescription>
+    <location file="include/sharding/multi_primary_coordinator.h" line="173" column="5" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="173" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a4763c1784783edf164e5913969a344d9" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator::Statistics</scope><name>active_primaries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a8974bf0e0a304531e89d03064feee0f4" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator::Statistics</scope><name>conflicts_resolved</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1ac2ba4fac46eb88ecd086f7bda78a4df5" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator::Statistics</scope><name>offline_primaries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a8388b5b8682b45b6fa25f0568ac6f0d3" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator::Statistics</scope><name>standby_primaries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a1c438a93b420aeede5218db7380dfe7e" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator::Statistics</scope><name>total_primaries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a5bae09ef446cec67990fa5a070360d03" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator::Statistics</scope><name>total_writes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionMonitoringConfig::AuditConfig</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1aa8a58627589d7f0dc207c10acd6c17bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionMonitoringConfig::AuditConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::AuditConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="150" column="14" bodyfile="include/llm/vision_config.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1af2ed1a4f8abef74c1550d60ed569e17a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::VisionMonitoringConfig::AuditConfig::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::AuditConfig::events</qualifiedname>
+        <briefdescription>
+<para>Events to audit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="151" column="21" bodyfile="include/llm/vision_config.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1a7725f7a474eb79039795f14699eec21d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionMonitoringConfig::AuditConfig::storage_type</definition>
+        <argsstring></argsstring>
+        <name>storage_type</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::AuditConfig::storage_type</qualifiedname>
+        <briefdescription>
+<para>Storage: database, file, syslog. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="152" column="21" bodyfile="include/llm/vision_config.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1a8ce4c3a32fd751b78efcfa8b49905055" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::VisionMonitoringConfig::AuditConfig::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::AuditConfig::retention_days</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Retention period. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="153" column="13" bodyfile="include/llm/vision_config.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1a5e30c67ba2520904eb9118bb7af3fece" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionMonitoringConfig::AuditConfig::compliance_mode</definition>
+        <argsstring></argsstring>
+        <name>compliance_mode</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::AuditConfig::compliance_mode</qualifiedname>
+        <briefdescription>
+<para>Compliance mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="154" column="21" bodyfile="include/llm/vision_config.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1a2a14083f6bcbcf16d317ae3b6db3aca8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionMonitoringConfig::AuditConfig::include_pii</definition>
+        <argsstring></argsstring>
+        <name>include_pii</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::AuditConfig::include_pii</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Include PII in logs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="155" column="14" bodyfile="include/llm/vision_config.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="149" column="5" bodyfile="include/llm/vision_config.h" bodystart="149" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1a5e30c67ba2520904eb9118bb7af3fece" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig::AuditConfig</scope><name>compliance_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1aa8a58627589d7f0dc207c10acd6c17bc" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig::AuditConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1af2ed1a4f8abef74c1550d60ed569e17a" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig::AuditConfig</scope><name>events</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1a2a14083f6bcbcf16d317ae3b6db3aca8" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig::AuditConfig</scope><name>include_pii</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1a8ce4c3a32fd751b78efcfa8b49905055" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig::AuditConfig</scope><name>retention_days</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config_1a7725f7a474eb79039795f14699eec21d" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig::AuditConfig</scope><name>storage_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

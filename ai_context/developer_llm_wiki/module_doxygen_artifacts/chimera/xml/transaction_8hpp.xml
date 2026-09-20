@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="transaction_8hpp" kind="file" language="C++">
+    <compoundname>transaction.hpp</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="mongodb__adapter_8hpp" local="yes">include/chimera/mongodb_adapter.hpp</includedby>
+    <includedby refid="transaction_8cpp" local="yes">src/chimera/transaction.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/chimera/transaction.hpp</label>
+        <link refid="transaction_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/chimera/mongodb_adapter.hpp</label>
+        <link refid="mongodb__adapter_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/chimera/transaction.hpp</label>
+        <link refid="transaction_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/chimera/mongodb_adapter.cpp</label>
+        <link refid="mongodb__adapter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/chimera/transaction.cpp</label>
+        <link refid="transaction_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structchimera_1_1_operation" prot="public">chimera::Operation</innerclass>
+    <innerclass refid="classchimera_1_1_transaction_context" prot="public">chimera::TransactionContext</innerclass>
+    <innerclass refid="classchimera_1_1_transaction_handle" prot="public">chimera::TransactionHandle</innerclass>
+    <innernamespace refid="namespacechimera">chimera</innernamespace>
+    <briefdescription>
+<para>Multi-backend transaction abstraction for the Chimera layer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides IChimeraTransaction, a unified handle for distributed transactions that span heterogeneous backend adapters. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacechimera" kindref="compound">chimera</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kindref="member">IsolationLevel</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a7b5722b7d02a9d8ff3a8bdfcb7d278c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a7b5722b7d02a9d8ff3a8bdfcb7d278c3" kindref="member">READ_UNCOMMITTED</ref><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a1671fb17b5ce9bd0af0cf47f3f4ea337" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">READ_COMMITTED</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81aa4b37efaa1a6b533614ed81660dbf912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81aa4b37efaa1a6b533614ed81660dbf912" kindref="member">REPEATABLE_READ</ref><sp/>=<sp/>2,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81aadfafde622c8622bb72e4ff73e295cdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81aadfafde622c8622bb72e4ff73e295cdb" kindref="member">SERIALIZABLE</ref><sp/>=<sp/>3<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca17130e6c806885e23770df1519b18eb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca17130e6c806885e23770df1519b18eb7" kindref="member">STARTED</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca1c372d13f50af5ca9a935ebc78006e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca1c372d13f50af5ca9a935ebc78006e82" kindref="member">COMMITTED</ref><sp/>=<sp/>2,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca4e6c860e5da10e31c5fd9cb76ddc2025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca4e6c860e5da10e31c5fd9cb76ddc2025" kindref="member">ABORTED</ref><sp/>=<sp/>3,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16cab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16cab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/>=<sp/>4<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structchimera_1_1_operation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structchimera_1_1_operation" kindref="compound">Operation</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structchimera_1_1_operation_1ae0c58fba6dd171aace37d9e4b787c7e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structchimera_1_1_operation_1ae0c58fba6dd171aace37d9e4b787c7e5" kindref="member">op_type</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structchimera_1_1_operation_1a10e9c9c8247be464528547339e05dc5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structchimera_1_1_operation_1a10e9c9c8247be464528547339e05dc5e" kindref="member">target</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structchimera_1_1_operation_1afaaf3b3f2e7c97f56c222f21686ac35a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structchimera_1_1_operation_1afaaf3b3f2e7c97f56c222f21686ac35a" kindref="member">data_snapshot</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structchimera_1_1_operation_1a1b1878dbf740bfd44e734031a1710ce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structchimera_1_1_operation_1a1b1878dbf740bfd44e734031a1710ce7" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structchimera_1_1_operation_1a2df0f48f5b0fe0801a89d54973478210" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structchimera_1_1_operation_1a2df0f48f5b0fe0801a89d54973478210" kindref="member">is_reversible</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classchimera_1_1_transaction_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classchimera_1_1_transaction_context_1aa652c3acfd92b16d37c815677e10c5e3" kindref="member">TransactionContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1aa652c3acfd92b16d37c815677e10c5e3" kindref="member">TransactionContext</ref>(</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_id,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kindref="member">IsolationLevel</ref><sp/>isolation_level<sp/>=<sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classchimera_1_1_transaction_context_1a9036730abfd8205245f75953492803be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classchimera_1_1_transaction_context_1a9036730abfd8205245f75953492803be" kindref="member">~TransactionContext</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classchimera_1_1_transaction_context_1a7e3274bc5e67adbfc382a7cef79a2d62" kindref="member">get_id</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref><sp/><ref refid="classchimera_1_1_transaction_context_1a69b6c3127aaaa83beb965d2d1ab6c19d" kindref="member">get_state</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kindref="member">IsolationLevel</ref><sp/><ref refid="classchimera_1_1_transaction_context_1a2e34144f45def479c1034669d3543227" kindref="member">get_isolation_level</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classchimera_1_1_transaction_context_1a0b70856db4ee6b65bebb987133215c98" kindref="member">get_start_time</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1a85b23ac6d461b7dbc5ed1ce80b47131a" kindref="member">mark_active</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1aa2985bffbc5bf0926e8fedcf35833703" kindref="member">mark_committed</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1af398df61e3129acf5ddebfec7e6d29f8" kindref="member">mark_aborted</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1ab12bc1bd8d06c86f08e697dd8282a68d" kindref="member">mark_failed</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1a26d5525ace634bae9224e71d34c2f9b2" kindref="member">is_active</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1a2649054aad447db756f4109a3a213362" kindref="member">is_terminal</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1aeb17c2de1e4d23ea853d445be347645f" kindref="member">record_operation</ref>(const<sp/><ref refid="structchimera_1_1_operation" kindref="compound">Operation</ref>&amp;<sp/>op)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structchimera_1_1_operation" kindref="compound">Operation</ref>&gt;&amp;<sp/><ref refid="classchimera_1_1_transaction_context_1a02c194db1e36b890d13f9ce382525735" kindref="member">get_operations</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1a7b0f62f03567bed1f77a4799e4034722" kindref="member">clear_operations</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1a572393e7295edb590c476bb392987d52" kindref="member">create_savepoint</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>savepoint_name)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classchimera_1_1_transaction_context_1ab652b22dfcdab6ed7b32a1ae17b7ecb3" kindref="member">get_savepoints</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context_1ae3e1d11783de049af13e7378b5ac2e0b" kindref="member">get_savepoint_operation_count</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>savepoint_name)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>transaction_id_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kindref="member">IsolationLevel</ref><sp/>isolation_level_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref><sp/>state_<sp/>=<sp/><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref>::<ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca17130e6c806885e23770df1519b18eb7" kindref="member">STARTED</ref>;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>start_time_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structchimera_1_1_operation" kindref="compound">Operation</ref>&gt;<sp/>operations_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&gt;<sp/>savepoints_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classchimera_1_1_transaction_handle" refkind="compound"><highlight class="normal">class<sp/><ref refid="classchimera_1_1_transaction_handle_1a181e0cd338ec74f33b616481949635d0" kindref="member">TransactionHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_handle_1a181e0cd338ec74f33b616481949635d0" kindref="member">TransactionHandle</ref>(std::shared_ptr&lt;TransactionContext&gt;<sp/>context)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classchimera_1_1_transaction_context" kindref="compound">TransactionContext</ref>*<sp/><ref refid="classchimera_1_1_transaction_handle_1ac93c945af04680aaa66caebefde74e50" kindref="member">get</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context" kindref="compound">TransactionContext</ref>*<sp/><ref refid="classchimera_1_1_transaction_handle_1ac93c945af04680aaa66caebefde74e50" kindref="member">get</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classchimera_1_1_transaction_context" kindref="compound">TransactionContext</ref>&amp;<sp/><ref refid="classchimera_1_1_transaction_handle_1adb00260294587319b942db7c3085fede" kindref="member">operator*</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context" kindref="compound">TransactionContext</ref>&amp;<sp/><ref refid="classchimera_1_1_transaction_handle_1adb00260294587319b942db7c3085fede" kindref="member">operator*</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classchimera_1_1_transaction_context" kindref="compound">TransactionContext</ref>*<sp/><ref refid="classchimera_1_1_transaction_handle_1a104a6f718a330afdd095f7d961bf5d75" kindref="member">operator-&gt;</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classchimera_1_1_transaction_context" kindref="compound">TransactionContext</ref>*<sp/><ref refid="classchimera_1_1_transaction_handle_1a104a6f718a330afdd095f7d961bf5d75" kindref="member">operator-&gt;</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TransactionContext&gt;<sp/>context_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>chimera</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/chimera/transaction.hpp"/>
+  </compounddef>
+</doxygen>

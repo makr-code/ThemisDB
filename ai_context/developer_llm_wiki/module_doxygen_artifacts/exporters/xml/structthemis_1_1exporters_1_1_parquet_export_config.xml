@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_parquet_export_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::ParquetExportConfig</compoundname>
+    <includes refid="parquet__exporter_8h" local="no">parquet_exporter.h</includes>
+    <innerclass refid="structthemis_1_1exporters_1_1_parquet_export_config_1_1_p_i_i_config" prot="public">themis::exporters::ParquetExportConfig::PIIConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_parquet_export_config_1abb6bbc963ab2434dfa8fad5f6409711c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ParquetExportConfig::row_group_size</definition>
+        <argsstring></argsstring>
+        <name>row_group_size</name>
+        <qualifiedname>themis::exporters::ParquetExportConfig::row_group_size</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="39" column="12" bodyfile="include/exporters/parquet_exporter.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_parquet_export_config_1a27f6bbe9cc81b61688ceed515c8cf7cf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ParquetExportConfig::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::exporters::ParquetExportConfig::compression</qualifiedname>
+        <initializer>= &quot;snappy&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="41" column="17" bodyfile="include/exporters/parquet_exporter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_parquet_export_config_1ac58a68d2abddf2d5f50b36f1e591b7c7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::ParquetExportConfig::auto_detect_schema</definition>
+        <argsstring></argsstring>
+        <name>auto_detect_schema</name>
+        <qualifiedname>themis::exporters::ParquetExportConfig::auto_detect_schema</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="43" column="10" bodyfile="include/exporters/parquet_exporter.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_parquet_export_config_1ac0ba12cc17448cae57817dfcf7b319d5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1exporters_1_1_parquet_column_hint" kindref="compound">ParquetColumnHint</ref> &gt;</type>
+        <definition>std::vector&lt;ParquetColumnHint&gt; themis::exporters::ParquetExportConfig::column_hints</definition>
+        <argsstring></argsstring>
+        <name>column_hints</name>
+        <qualifiedname>themis::exporters::ParquetExportConfig::column_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="45" column="17" bodyfile="include/exporters/parquet_exporter.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_parquet_export_config_1aabe874742b74deca51ab652b898a05ee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::ParquetExportConfig::include_columns</definition>
+        <argsstring></argsstring>
+        <name>include_columns</name>
+        <qualifiedname>themis::exporters::ParquetExportConfig::include_columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="47" column="17" bodyfile="include/exporters/parquet_exporter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_parquet_export_config_1a3a01ba5e9358188b36dade3ee77ae590" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::ParquetExportConfig::exclude_columns</definition>
+        <argsstring></argsstring>
+        <name>exclude_columns</name>
+        <qualifiedname>themis::exporters::ParquetExportConfig::exclude_columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="49" column="17" bodyfile="include/exporters/parquet_exporter.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_parquet_export_config_1abf37f4d31db56fa97956d7fc8557c410" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::exporters::ParquetExportConfig::file_metadata</definition>
+        <argsstring></argsstring>
+        <name>file_metadata</name>
+        <qualifiedname>themis::exporters::ParquetExportConfig::file_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="51" column="14" bodyfile="include/exporters/parquet_exporter.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_parquet_export_config_1a1dc3dc80e5fa5d12a0e9cafd333a1562" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1exporters_1_1_parquet_export_config_1_1_p_i_i_config" kindref="compound">themis::exporters::ParquetExportConfig::PIIConfig</ref></type>
+        <definition>struct themis::exporters::ParquetExportConfig::PIIConfig themis::exporters::ParquetExportConfig::pii_config</definition>
+        <argsstring></argsstring>
+        <name>pii_config</name>
+        <qualifiedname>themis::exporters::ParquetExportConfig::pii_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="66" column="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::exporters::ParquetExportConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_parquet_export_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>pii_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ParquetExportConfig::PIIConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_parquet_export_config_1_1_p_i_i_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/parquet_exporter.h" line="38" column="1" bodyfile="include/exporters/parquet_exporter.h" bodystart="38" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_parquet_export_config_1ac58a68d2abddf2d5f50b36f1e591b7c7" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExportConfig</scope><name>auto_detect_schema</name></member>
+      <member refid="structthemis_1_1exporters_1_1_parquet_export_config_1ac0ba12cc17448cae57817dfcf7b319d5" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExportConfig</scope><name>column_hints</name></member>
+      <member refid="structthemis_1_1exporters_1_1_parquet_export_config_1a27f6bbe9cc81b61688ceed515c8cf7cf" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExportConfig</scope><name>compression</name></member>
+      <member refid="structthemis_1_1exporters_1_1_parquet_export_config_1a3a01ba5e9358188b36dade3ee77ae590" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExportConfig</scope><name>exclude_columns</name></member>
+      <member refid="structthemis_1_1exporters_1_1_parquet_export_config_1abf37f4d31db56fa97956d7fc8557c410" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExportConfig</scope><name>file_metadata</name></member>
+      <member refid="structthemis_1_1exporters_1_1_parquet_export_config_1aabe874742b74deca51ab652b898a05ee" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExportConfig</scope><name>include_columns</name></member>
+      <member refid="structthemis_1_1exporters_1_1_parquet_export_config_1a1dc3dc80e5fa5d12a0e9cafd333a1562" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExportConfig</scope><name>pii_config</name></member>
+      <member refid="structthemis_1_1exporters_1_1_parquet_export_config_1abb6bbc963ab2434dfa8fad5f6409711c" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExportConfig</scope><name>row_group_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

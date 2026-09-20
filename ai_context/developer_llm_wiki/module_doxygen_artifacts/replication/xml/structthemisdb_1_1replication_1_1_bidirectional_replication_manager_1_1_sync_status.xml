@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::BidirectionalReplicationManager::SyncStatus</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1aab0bf11cff17f6b02d32f1e7af9144c9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::BidirectionalReplicationManager::SyncStatus::local_sequence</definition>
+        <argsstring></argsstring>
+        <name>local_sequence</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::SyncStatus::local_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Latest sequence committed on the local node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2301" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a817baaa6ca68e92063935cbe815fe210" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::BidirectionalReplicationManager::SyncStatus::remote_sequence</definition>
+        <argsstring></argsstring>
+        <name>remote_sequence</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::SyncStatus::remote_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Latest sequence acknowledged from the peer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2302" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a014d4f165ffcb9de9e92a3896ee55955" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::BidirectionalReplicationManager::SyncStatus::lag_ms</definition>
+        <argsstring></argsstring>
+        <name>lag_ms</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::SyncStatus::lag_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated replication lag (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2303" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1ac8b218c76e47d66f74957613459821b1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::BidirectionalReplicationManager::SyncStatus::conflicts_detected</definition>
+        <argsstring></argsstring>
+        <name>conflicts_detected</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::SyncStatus::conflicts_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime conflict count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2304" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a31dfae69226f30262bdd77455aac9c48" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::BidirectionalReplicationManager::SyncStatus::conflicts_resolved</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::SyncStatus::conflicts_resolved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Conflicts resolved (including manual overrides). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2305" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a5c9a13be3c8dfc19117465e4c543b15c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::BidirectionalReplicationManager::SyncStatus::conflicts_last_hour</definition>
+        <argsstring></argsstring>
+        <name>conflicts_last_hour</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::SyncStatus::conflicts_last_hour</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Conflicts detected in the last 60 minutes (rolling). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2306" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a77dfc7a387a12d33e51655b1d7f6a5c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::SyncStatus::is_synchronized</definition>
+        <argsstring></argsstring>
+        <name>is_synchronized</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::SyncStatus::is_synchronized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when lag &lt; sync_interval_ms and both nodes healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2307" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a7cd6dc94494cdeee40df9f02ffdf4de4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::SyncStatus::is_running</definition>
+        <argsstring></argsstring>
+        <name>is_running</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::SyncStatus::is_running</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True while <ref refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a2dd2fa9e3f10c1e59d11f06943d95d0a" kindref="member">start()</ref> is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2308" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Synchronisation status snapshot. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="2300" column="5" bodyfile="include/replication/replication_manager.h" bodystart="2300" bodyend="2309"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1ac8b218c76e47d66f74957613459821b1" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::SyncStatus</scope><name>conflicts_detected</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a5c9a13be3c8dfc19117465e4c543b15c" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::SyncStatus</scope><name>conflicts_last_hour</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a31dfae69226f30262bdd77455aac9c48" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::SyncStatus</scope><name>conflicts_resolved</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a7cd6dc94494cdeee40df9f02ffdf4de4" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::SyncStatus</scope><name>is_running</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a77dfc7a387a12d33e51655b1d7f6a5c1" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::SyncStatus</scope><name>is_synchronized</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a014d4f165ffcb9de9e92a3896ee55955" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::SyncStatus</scope><name>lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1aab0bf11cff17f6b02d32f1e7af9144c9" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::SyncStatus</scope><name>local_sequence</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status_1a817baaa6ca68e92063935cbe815fe210" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::SyncStatus</scope><name>remote_sequence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

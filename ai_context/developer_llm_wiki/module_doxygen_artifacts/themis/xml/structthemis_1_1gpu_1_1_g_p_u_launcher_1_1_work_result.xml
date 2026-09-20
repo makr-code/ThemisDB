@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPULauncher::WorkResult</compoundname>
+    <includes refid="launcher_8h" local="no">launcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result_1a31a196dccf76682d4cd763402810a44b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPULauncher::WorkResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="68" column="21" bodyfile="include/themis/gpu/launcher.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result_1aac13063f3262720137a2d1a74cce6ed3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPULauncher::WorkResult::kernel_id</definition>
+        <argsstring></argsstring>
+        <name>kernel_id</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkResult::kernel_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="69" column="21" bodyfile="include/themis/gpu/launcher.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result_1ac78ddbef54534c7cb37d0dd8f0788552" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPULauncher::WorkResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="70" column="21" bodyfile="include/themis/gpu/launcher.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result_1a42071606cc05f40125473954faad066c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::gpu::GPULauncher::WorkResult::elapsed</definition>
+        <argsstring></argsstring>
+        <name>elapsed</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkResult::elapsed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="71" column="35" bodyfile="include/themis/gpu/launcher.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/launcher.h" line="67" column="5" bodyfile="include/themis/gpu/launcher.h" bodystart="67" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result_1a42071606cc05f40125473954faad066c" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkResult</scope><name>elapsed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result_1ac78ddbef54534c7cb37d0dd8f0788552" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result_1aac13063f3262720137a2d1a74cce6ed3" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkResult</scope><name>kernel_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result_1a31a196dccf76682d4cd763402810a44b" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

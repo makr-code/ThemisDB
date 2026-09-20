@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_sequential_utils_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::SequentialUtilsPipeline</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_i_utils_pipeline" prot="public" virt="non-virtual">themis::utils::IUtilsPipeline</basecompoundref>
+    <includes refid="utils__adapters_8h" local="no">utils_adapters.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sequential_utils_pipeline_1a20cf522c095b07052695139a3ee878a2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::SequentialUtilsPipeline::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::utils::SequentialUtilsPipeline::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="248" column="34" bodyfile="include/utils/utils_adapters.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ad5c1159c9f501ca4449f7d52f9a45a4b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_i_utils_stage" kindref="compound">IUtilsStage</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;IUtilsStage&gt; &gt; themis::utils::SequentialUtilsPipeline::stages_</definition>
+        <argsstring></argsstring>
+        <name>stages_</name>
+        <qualifiedname>themis::utils::SequentialUtilsPipeline::stages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="249" column="17" bodyfile="include/utils/utils_adapters.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sequential_utils_pipeline_1aba909bc9313f3b980f447fc85e6c5f78" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::SequentialUtilsPipeline::shutdownCalled_</definition>
+        <argsstring></argsstring>
+        <name>shutdownCalled_</name>
+        <qualifiedname>themis::utils::SequentialUtilsPipeline::shutdownCalled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="250" column="34" bodyfile="include/utils/utils_adapters.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ad0f9aad5a5218a9b0af2085bed812f69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::SequentialUtilsPipeline::SequentialUtilsPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>SequentialUtilsPipeline</name>
+        <qualifiedname>themis::utils::SequentialUtilsPipeline::SequentialUtilsPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="238" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sequential_utils_pipeline_1aae8398475f6ea50150803a233af4cbbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::SequentialUtilsPipeline::~SequentialUtilsPipeline</definition>
+        <argsstring>() override</argsstring>
+        <name>~SequentialUtilsPipeline</name>
+        <qualifiedname>themis::utils::SequentialUtilsPipeline::~SequentialUtilsPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="239" column="5" bodyfile="src/utils/utils_adapters.cpp" bodystart="450" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sequential_utils_pipeline_1a6410b947059845521096e25da2fa4033" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::SequentialUtilsPipeline::registerStage</definition>
+        <argsstring>(std::unique_ptr&lt; IUtilsStage &gt; stage) override</argsstring>
+        <name>registerStage</name>
+        <qualifiedname>themis::utils::SequentialUtilsPipeline::registerStage</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a391f8abf12fa3f9d105216cc8002a01b">registerStage</reimplements>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_i_utils_stage" kindref="compound">IUtilsStage</ref> &gt;</type>
+          <declname>stage</declname>
+        </param>
+        <briefdescription>
+<para>Register Stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="241" column="10" bodyfile="src/utils/utils_adapters.cpp" bodystart="459" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ab236008e7ac64b8acc5045c57d35e417" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1utils_1_1_pipeline_result" kindref="compound">PipelineResult</ref> &gt;</type>
+        <definition>std::future&lt; PipelineResult &gt; themis::utils::SequentialUtilsPipeline::run</definition>
+        <argsstring>() override</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::utils::SequentialUtilsPipeline::run</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a0b7f975d7f4ccd1236857638c9db89c5">run</reimplements>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(), get(), std::async(), execute(), name(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="243" column="17" bodyfile="src/utils/utils_adapters.cpp" bodystart="469" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ad6b83e113080a043b1ab01fe2a723bbb" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::SequentialUtilsPipeline::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::utils::SequentialUtilsPipeline::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_utils_pipeline_1aaa60dead0702b55c6778f322aa6779dc">shutdown</reimplements>
+        <briefdescription>
+<para>Tear down all registered stages (reverse registration order). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must not throw. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="245" column="10" bodyfile="src/utils/utils_adapters.cpp" bodystart="494" bodyend="509"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Concrete <ref refid="classthemis_1_1utils_1_1_i_utils_pipeline" kindref="compound">IUtilsPipeline</ref> that runs stages sequentially on a background thread. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ab236008e7ac64b8acc5045c57d35e417" kindref="member">run()</ref> dispatches a background task that executes all registered stages in registration order. <ref refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ad6b83e113080a043b1ab01fe2a723bbb" kindref="member">shutdown()</ref> tears them down in reverse order and is noexcept. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::IUtilsPipeline</label>
+        <link refid="classthemis_1_1utils_1_1_i_utils_pipeline"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SequentialUtilsPipeline</label>
+        <link refid="classthemis_1_1utils_1_1_sequential_utils_pipeline"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::IUtilsPipeline</label>
+        <link refid="classthemis_1_1utils_1_1_i_utils_pipeline"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SequentialUtilsPipeline</label>
+        <link refid="classthemis_1_1utils_1_1_sequential_utils_pipeline"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/utils_adapters.h" line="236" column="1" bodyfile="include/utils/utils_adapters.h" bodystart="236" bodyend="251"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1a20cf522c095b07052695139a3ee878a2" prot="private" virt="non-virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1a6410b947059845521096e25da2fa4033" prot="public" virt="virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>registerStage</name></member>
+      <member refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ab236008e7ac64b8acc5045c57d35e417" prot="public" virt="virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>run</name></member>
+      <member refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ad0f9aad5a5218a9b0af2085bed812f69" prot="public" virt="non-virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>SequentialUtilsPipeline</name></member>
+      <member refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ad6b83e113080a043b1ab01fe2a723bbb" prot="public" virt="virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1aba909bc9313f3b980f447fc85e6c5f78" prot="private" virt="non-virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>shutdownCalled_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ad5c1159c9f501ca4449f7d52f9a45a4b" prot="private" virt="non-virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>stages_</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a8b955ce6a1b4fa5bcd8eeb66bc13767a" prot="public" virt="virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>~IUtilsPipeline</name></member>
+      <member refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1aae8398475f6ea50150803a233af4cbbc" prot="public" virt="non-virtual"><scope>themis::utils::SequentialUtilsPipeline</scope><name>~SequentialUtilsPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

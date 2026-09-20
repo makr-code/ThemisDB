@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_workload_predictor" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::WorkloadPredictor</compoundname>
+    <includes refid="workload__predictor_8h" local="no">workload_predictor.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config" prot="public">themis::performance::WorkloadPredictor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_workload_predictor_1a6bab5d709708493743937d7021fd7f9d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::performance::WorkloadPredictor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="216" column="12" bodyfile="include/performance/workload_predictor.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_workload_predictor_1a91aa4d345c5327ef29d90e5df45161ad" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::performance::WorkloadPredictor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="217" column="31" bodyfile="include/performance/workload_predictor.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_workload_predictor_1a2a2917632ed5271d7d3e851235a89c6f" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1performance_1_1_workload_snapshot" kindref="compound">WorkloadSnapshot</ref> &gt;</type>
+        <definition>std::deque&lt;WorkloadSnapshot&gt; themis::performance::WorkloadPredictor::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="218" column="16" bodyfile="include/performance/workload_predictor.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1aee0c3944e0c91583b1213d5eade58aec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::WorkloadPredictor::WorkloadPredictor</definition>
+        <argsstring>()</argsstring>
+        <name>WorkloadPredictor</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::WorkloadPredictor</qualifiedname>
+        <briefdescription>
+<para>Construct a predictor with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="148" column="5" bodyfile="src/performance/workload_predictor.cpp" bodystart="26" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1af9625b81a4ff45b8da6355eac6504c07" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::WorkloadPredictor::WorkloadPredictor</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>WorkloadPredictor</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::WorkloadPredictor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a predictor with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="151" column="14" bodyfile="src/performance/workload_predictor.cpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::WorkloadPredictor::record</definition>
+        <argsstring>(const WorkloadSnapshot &amp;snapshot)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::record</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_workload_snapshot" kindref="compound">WorkloadSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record a new workload snapshot. If the sliding window is full the oldest snapshot is evicted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), push_back(), size(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="155" column="10" bodyfile="src/performance/workload_predictor.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref></type>
+        <definition>WorkloadForecast themis::performance::WorkloadPredictor::predict</definition>
+        <argsstring>(uint64_t horizon_us) const</argsstring>
+        <name>predict</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::predict</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>horizon_us</declname>
+        </param>
+        <briefdescription>
+<para>Predict the workload <computeroutput>horizon_us</computeroutput> microseconds into the future. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requires at least 2 observations; returns a zero-confidence forecast when fewer observations are available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>horizon_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prediction horizon in microseconds (e.g. 30&apos;000&apos;000 = 30 s). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref> with predicted values and a confidence score. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="166" column="22" bodyfile="src/performance/workload_predictor.cpp" bodystart="54" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_scale_recommendation" kindref="compound">ScaleRecommendation</ref></type>
+        <definition>ScaleRecommendation themis::performance::WorkloadPredictor::recommend_scaling</definition>
+        <argsstring>(uint32_t current_thread_pool_size, uint64_t current_cache_size_mb) const</argsstring>
+        <name>recommend_scaling</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::recommend_scaling</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>current_thread_pool_size</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_cache_size_mb</declname>
+        </param>
+        <briefdescription>
+<para>Recommend a resource scaling action based on the current trend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluates the forecasted utilization against the configured thresholds and proposes an adjusted thread pool size and cache size.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_thread_pool_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current thread pool size. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>current_cache_size_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current cache size in MiB. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1performance_1_1_scale_recommendation" kindref="compound">ScaleRecommendation</ref> with direction, target sizes, confidence, and reason. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="178" column="25" bodyfile="src/performance/workload_predictor.cpp" bodystart="143" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::WorkloadPredictor::observation_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>observation_count</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::observation_count</qualifiedname>
+        <briefdescription>
+<para>Return the number of observations currently in the sliding window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="182" column="12" bodyfile="src/performance/workload_predictor.cpp" bodystart="220" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1a2db48d8dfaff669158ef7f84e04a04a3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::WorkloadPredictor::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::reset</qualifiedname>
+        <briefdescription>
+<para>Clear all recorded observations and reset internal EMA state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="185" column="10" bodyfile="src/performance/workload_predictor.cpp" bodystart="230" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1a742cc0b5971f1424986299f228fb1b0f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::performance::WorkloadPredictor::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::config</qualifiedname>
+        <briefdescription>
+<para>Return a copy of the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="188" column="12" bodyfile="include/performance/workload_predictor.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1a61470d6e3ad7dc527a63336768263176" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadPredictor::compute_ema</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values) const noexcept</argsstring>
+        <name>compute_ema</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::compute_ema</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Exponential Moving Average over <computeroutput>values</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="196" column="12" bodyfile="src/performance/workload_predictor.cpp" bodystart="244" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1a69e3af0fce2b6bff2381c34483d079c9" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::pair&lt; double, double &gt;</type>
+        <definition>std::pair&lt; double, double &gt; themis::performance::WorkloadPredictor::linear_regression</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values) const noexcept</argsstring>
+        <name>linear_regression</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::linear_regression</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Fit a least-squares line y = a + b*x to <computeroutput>values</computeroutput> (x = 0..n-1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>{slope b, intercept a}. Returns {0, last_value} for &lt; 2 points. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="202" column="15" bodyfile="src/performance/workload_predictor.cpp" bodystart="255" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1a4842dfa4233d041e25ea33a3088eee24" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadPredictor::compute_confidence</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values) const noexcept</argsstring>
+        <name>compute_confidence</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::compute_confidence</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Compute a confidence score ∈ [0, 1] based on the coefficient of variation (CV = stddev / mean) of <computeroutput>values</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Low CV (stable signal) → confidence near 1. High CV (noisy signal) → confidence near 0. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="211" column="12" bodyfile="src/performance/workload_predictor.cpp" bodystart="284" bodyend="308"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_predictor_1ab5ed0b2dc788a926f8f790a548a4c604" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadPredictor::clamp</definition>
+        <argsstring>(double v, double lo, double hi) noexcept</argsstring>
+        <name>clamp</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::clamp</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lo</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>hi</declname>
+        </param>
+        <briefdescription>
+<para>Clamp <computeroutput>v</computeroutput> to [lo, hi]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="214" column="19" bodyfile="src/performance/workload_predictor.cpp" bodystart="310" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ML-based workload predictor for proactive resource scaling. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records a sliding window of <ref refid="structthemis_1_1performance_1_1_workload_snapshot" kindref="compound">WorkloadSnapshot</ref> observations and uses Exponential Moving Average (EMA) smoothing combined with Ordinary Least-Squares (OLS) linear regression to forecast future workload and recommend resource scaling actions.</para>
+<para>Thread-safety: all public methods are thread-safe via an internal mutex.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_workload_predictor_1aee0c3944e0c91583b1213d5eade58aec" kindref="member">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline><highlight class="normal">predictor.record({.timestamp_us<sp/>=<sp/>now_us(),<sp/>.qps<sp/>=<sp/>1200,<sp/>.cpu_utilization<sp/>=<sp/>0.65});</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>record<sp/>more<sp/>snapshots<sp/>over<sp/>time<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>forecast<sp/>=<sp/>predictor.predict(30<sp/>*<sp/>1&apos;000&apos;000ULL);<sp/></highlight><highlight class="comment">//<sp/>predict<sp/>30<sp/>s<sp/>into<sp/>the<sp/>future</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>predictor.recommend_scaling(32,<sp/>4096);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rec.direction<sp/>==<sp/><ref refid="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dafbaedde498cdead4f2780217646e9ba1" kindref="member">ScaleDirection::UP</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resize_thread_pool(rec.recommended_thread_pool_size);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/performance/workload_predictor.h" line="116" column="1" bodyfile="include/performance/workload_predictor.h" bodystart="116" bodyend="219"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1ab5ed0b2dc788a926f8f790a548a4c604" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>clamp</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a4842dfa4233d041e25ea33a3088eee24" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>compute_confidence</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a61470d6e3ad7dc527a63336768263176" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>compute_ema</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a742cc0b5971f1424986299f228fb1b0f" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>config</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a6bab5d709708493743937d7021fd7f9d" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a2a2917632ed5271d7d3e851235a89c6f" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>history_</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a69e3af0fce2b6bff2381c34483d079c9" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>linear_regression</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a91aa4d345c5327ef29d90e5df45161ad" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>observation_count</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>predict</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>recommend_scaling</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>record</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1a2db48d8dfaff669158ef7f84e04a04a3" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>reset</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1aee0c3944e0c91583b1213d5eade58aec" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>WorkloadPredictor</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_predictor_1af9625b81a4ff45b8da6355eac6504c07" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor</scope><name>WorkloadPredictor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

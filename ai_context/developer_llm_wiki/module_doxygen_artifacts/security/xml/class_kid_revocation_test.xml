@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_kid_revocation_test" kind="class" language="C++" prot="public">
+    <compoundname>KidRevocationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_kid_revocation_test_1a62bf60aa2774e37f7662afa6a573d7d1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="struct_r_s_a_fixture" kindref="compound">RSAFixture</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RSAFixture&gt; KidRevocationTest::rsa_fixture_</definition>
+        <argsstring></argsstring>
+        <name>rsa_fixture_</name>
+        <qualifiedname>KidRevocationTest::rsa_fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="378" column="21" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_kid_revocation_test_1a4079a19710f4257c0a7cf78d3e6c8aed" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; JWTValidator &gt;</type>
+        <definition>std::unique_ptr&lt;JWTValidator&gt; KidRevocationTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>KidRevocationTest::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="379" column="21" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_kid_revocation_test_1a4017902e7221b8c7e9afe55cfdb09b7f" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string KidRevocationTest::kid_</definition>
+        <argsstring></argsstring>
+        <name>kid_</name>
+        <qualifiedname>KidRevocationTest::kid_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="380" column="17" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="380" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_kid_revocation_test_1aa7aa40215db214f49cb6251dfd95f500" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void KidRevocationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>KidRevocationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="382" column="10" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="382" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="class_kid_revocation_test_1ae865446119e97d271e1ca7a90fe8585d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string KidRevocationTest::createToken</definition>
+        <argsstring>(const std::string &amp;kid)</argsstring>
+        <name>createToken</name>
+        <qualifiedname>KidRevocationTest::createToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="397" column="17" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="397" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test Kid Revocation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>KidRevocationTest</label>
+        <link refid="class_kid_revocation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>KidRevocationTest</label>
+        <link refid="class_kid_revocation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_jwt_validation_hardening.cpp" line="376" column="1" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="376" bodyend="420"/>
+    <listofallmembers>
+      <member refid="class_kid_revocation_test_1ae865446119e97d271e1ca7a90fe8585d" prot="protected" virt="non-virtual"><scope>KidRevocationTest</scope><name>createToken</name></member>
+      <member refid="class_kid_revocation_test_1a4017902e7221b8c7e9afe55cfdb09b7f" prot="protected" virt="non-virtual"><scope>KidRevocationTest</scope><name>kid_</name></member>
+      <member refid="class_kid_revocation_test_1a62bf60aa2774e37f7662afa6a573d7d1" prot="protected" virt="non-virtual"><scope>KidRevocationTest</scope><name>rsa_fixture_</name></member>
+      <member refid="class_kid_revocation_test_1aa7aa40215db214f49cb6251dfd95f500" prot="protected" virt="non-virtual"><scope>KidRevocationTest</scope><name>SetUp</name></member>
+      <member refid="class_kid_revocation_test_1a4079a19710f4257c0a7cf78d3e6c8aed" prot="protected" virt="non-virtual"><scope>KidRevocationTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

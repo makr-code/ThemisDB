@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_schema_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::SchemaAuditLog</compoundname>
+    <includes refid="schema__audit__log_8h" local="no">schema_audit_log.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_schema_audit_log_1a2d6d80c3fce49fa18c35321766b5aefd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::SchemaAuditLog::kKeyPrefix</definition>
+        <argsstring></argsstring>
+        <name>kKeyPrefix</name>
+        <qualifiedname>themis::SchemaAuditLog::kKeyPrefix</qualifiedname>
+        <initializer>= &quot;audit:schema:&quot;</initializer>
+        <briefdescription>
+<para>RocksDB key prefix used for all audit entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="87" column="39" bodyfile="include/metadata/schema_audit_log.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_schema_audit_log_1a77a098dc4f44613c029f8d64e6bbeb73" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::SchemaAuditLog::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::SchemaAuditLog::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="146" column="20" bodyfile="include/metadata/schema_audit_log.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1ab12c06462616413d2bed8b58701bc93c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaAuditLog::SchemaAuditLog</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>SchemaAuditLog</name>
+        <qualifiedname>themis::SchemaAuditLog::SchemaAuditLog</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct with a storage reference. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB instance (non-owning reference) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="91" column="14" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1a949c5f7055fa9cf6c730a003eafca88b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaAuditLog::~SchemaAuditLog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SchemaAuditLog</name>
+        <qualifiedname>themis::SchemaAuditLog::~SchemaAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1a6e3827f143682663479b258ed69b04f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaAuditLog::SchemaAuditLog</definition>
+        <argsstring>(const SchemaAuditLog &amp;)=delete</argsstring>
+        <name>SchemaAuditLog</name>
+        <qualifiedname>themis::SchemaAuditLog::SchemaAuditLog</qualifiedname>
+        <param>
+          <type>const SchemaAuditLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1aa57802ca7937c16ca1f8c8048d621d67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_schema_audit_log_1ab12c06462616413d2bed8b58701bc93c" kindref="member">SchemaAuditLog</ref> &amp;</type>
+        <definition>SchemaAuditLog &amp; themis::SchemaAuditLog::operator=</definition>
+        <argsstring>(const SchemaAuditLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SchemaAuditLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_schema_audit_log_1ab12c06462616413d2bed8b58701bc93c" kindref="member">SchemaAuditLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="95" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1aeff5fa2caa04918a4341e594883e03ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SchemaAuditLog::record</definition>
+        <argsstring>(std::string_view table_name, std::string_view operation, std::string_view author=&quot;&quot;, std::string_view description=&quot;&quot;, uint64_t version=0, const json &amp;extra_meta=json::object())</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::SchemaAuditLog::record</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>author</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref> &amp;</type>
+          <declname>extra_meta</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record a schema change event. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the affected table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation type: &quot;create&quot;, &quot;update&quot;, &quot;delete&quot;, &quot;rollback&quot;, &quot;import&quot; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Who performed the change (may be empty for system operations) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable description of the change </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Associated schema version number (0 if N/A) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>extra_meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional additional JSON metadata </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; logs a warning and returns false on storage error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extra_meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="109" column="10" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="131" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1ad736c52b1a8036aee9cffb7228857aaf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_schema_audit_entry" kindref="compound">SchemaAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; SchemaAuditEntry &gt; themis::SchemaAuditLog::getHistory</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themis::SchemaAuditLog::getHistory</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all audit entries for a given table, in ascending timestamp order. An empty vector is returned if no entries exist or on storage error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="124" column="17" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="179" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1aa531629c2cb2b1fc6d72020902e2e4e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_schema_audit_entry" kindref="compound">SchemaAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; SchemaAuditEntry &gt; themis::SchemaAuditLog::getFullHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getFullHistory</name>
+        <qualifiedname>themis::SchemaAuditLog::getFullHistory</qualifiedname>
+        <briefdescription>
+<para>Return audit entries across ALL tables, in ascending timestamp order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="127" column="17" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="204" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1a01f5fd737197bb827fc187f91c9454ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_schema_audit_entry" kindref="compound">SchemaAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; SchemaAuditEntry &gt; themis::SchemaAuditLog::getRecentHistory</definition>
+        <argsstring>(std::string_view table_name, size_t limit=50) const</argsstring>
+        <name>getRecentHistory</name>
+        <qualifiedname>themis::SchemaAuditLog::getRecentHistory</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>50</defval>
+        </param>
+        <briefdescription>
+<para>Return the most recent N entries for a table (newest-first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="130" column="17" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="228" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1ad78cc4f370256c7440d9e0b659543a8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::SchemaAuditLog::historyToJSON</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>historyToJSON</name>
+        <qualifiedname>themis::SchemaAuditLog::historyToJSON</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Serialize the audit history for a table as a JSON array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="140" column="10" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="244" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1ae6c2b59a8a548db42fbcf912e01305cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::SchemaAuditLog::fullHistoryToJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>fullHistoryToJSON</name>
+        <qualifiedname>themis::SchemaAuditLog::fullHistoryToJSON</qualifiedname>
+        <briefdescription>
+<para>Serialize the full audit history as a JSON array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="143" column="10" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="252" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1a47dcee9f0c1ffc39b3593f9962358347" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaAuditLog::buildKey</definition>
+        <argsstring>(std::string_view table_name, uint64_t timestamp_ns)</argsstring>
+        <name>buildKey</name>
+        <qualifiedname>themis::SchemaAuditLog::buildKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_ns</declname>
+        </param>
+        <briefdescription>
+<para>Build the full RocksDB key for an entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="149" column="24" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="101" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_audit_log_1aac8ca7171c6a9016f89c437c0c49b14d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaAuditLog::tablePrefix</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>tablePrefix</name>
+        <qualifiedname>themis::SchemaAuditLog::tablePrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Prefix used for scanning all entries of a specific table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Table Prefix.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_audit_log.h" line="152" column="24" bodyfile="src/metadata/schema_audit_log.cpp" bodystart="113" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref> – durable append-only audit trail for schema changes.</para>
+<para>Each entry is stored in RocksDB under: <computeroutput>audit:schema:&lt;table_name&gt;:&lt;timestamp_ns&gt;</computeroutput></para>
+<para>This layout allows efficient prefix-scan retrieval by table name.</para>
+<para>All writes use <computeroutput>RocksDBWrapper::put()</computeroutput>. Reads use prefix-scan iteration.</para>
+<para>Thread-safety: thread-safe for concurrent reads and sequential writes (individual puts are atomic at the RocksDB level).</para>
+<para>Usage: <ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref> audit_log(db); audit_log.record(&quot;users&quot;, &quot;update&quot;, &quot;alice&quot;, &quot;added phone column&quot;, 2); auto history = audit_log.getHistory(&quot;users&quot;); </para>
+    </detaileddescription>
+    <location file="include/metadata/schema_audit_log.h" line="84" column="1" bodyfile="include/metadata/schema_audit_log.h" bodystart="84" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_schema_audit_log_1a47dcee9f0c1ffc39b3593f9962358347" prot="private" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>buildKey</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1a77a098dc4f44613c029f8d64e6bbeb73" prot="private" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1ae6c2b59a8a548db42fbcf912e01305cb" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>fullHistoryToJSON</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1aa531629c2cb2b1fc6d72020902e2e4e4" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>getFullHistory</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1ad736c52b1a8036aee9cffb7228857aaf" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>getHistory</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1a01f5fd737197bb827fc187f91c9454ac" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>getRecentHistory</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1ad78cc4f370256c7440d9e0b659543a8c" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>historyToJSON</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1a2d6d80c3fce49fa18c35321766b5aefd" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>kKeyPrefix</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1aa57802ca7937c16ca1f8c8048d621d67" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1aeff5fa2caa04918a4341e594883e03ce" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>record</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1ab12c06462616413d2bed8b58701bc93c" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>SchemaAuditLog</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1a6e3827f143682663479b258ed69b04f8" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>SchemaAuditLog</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1aac8ca7171c6a9016f89c437c0c49b14d" prot="private" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>tablePrefix</name></member>
+      <member refid="classthemis_1_1_schema_audit_log_1a949c5f7055fa9cf6c730a003eafca88b" prot="public" virt="non-virtual"><scope>themis::SchemaAuditLog</scope><name>~SchemaAuditLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

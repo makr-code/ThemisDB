@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_incident" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoIncident</compoundname>
+    <includes refid="geo__operator__diagnostics_8h" local="no">geo_operator_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_incident_1a0a76b43dd5360cb2aed84292e61ab670" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoIncident::incident_id</definition>
+        <argsstring></argsstring>
+        <name>incident_id</name>
+        <qualifiedname>themis::geo::GeoIncident::incident_id</qualifiedname>
+        <briefdescription>
+<para>Unique incident identifier (e.g. &quot;GEO-ECH-FALLBACK&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_operator_diagnostics.h" line="76" column="26" bodyfile="include/geo/geo_operator_diagnostics.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_incident_1ad8711629df5a3ebfbf4b673da3f85050" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" kindref="member">GeoIncidentSeverity</ref></type>
+        <definition>GeoIncidentSeverity themis::geo::GeoIncident::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::geo::GeoIncident::severity</qualifiedname>
+        <briefdescription>
+<para>Severity level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_operator_diagnostics.h" line="77" column="26" bodyfile="include/geo/geo_operator_diagnostics.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_incident_1a1ae8707b80de229a40de3cfc9ab452a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoIncident::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::geo::GeoIncident::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_operator_diagnostics.h" line="78" column="26" bodyfile="include/geo/geo_operator_diagnostics.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_incident_1ad7362811f362bf0881598d49544f0c6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoIncident::remediation</definition>
+        <argsstring></argsstring>
+        <name>remediation</name>
+        <qualifiedname>themis::geo::GeoIncident::remediation</qualifiedname>
+        <briefdescription>
+<para>Operator remediation hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_operator_diagnostics.h" line="79" column="26" bodyfile="include/geo/geo_operator_diagnostics.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_incident_1ad2ddb54b60302ae7129917e0fd226b38" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::geo::GeoIncident::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::geo::GeoIncident::timestamp_ns</qualifiedname>
+        <briefdescription>
+<para>Unix timestamp in nanoseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_operator_diagnostics.h" line="80" column="26" bodyfile="include/geo/geo_operator_diagnostics.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_incident_1a2ea0159c8342c6ed7b46945ccc5e1bdb" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref> &gt;</type>
+        <definition>std::optional&lt;GeoErrorCode&gt; themis::geo::GeoIncident::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::geo::GeoIncident::error_code</qualifiedname>
+        <briefdescription>
+<para>Associated error code (if any). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_operator_diagnostics.h" line="81" column="19" bodyfile="include/geo/geo_operator_diagnostics.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_operator_diagnostics.h" line="75" column="1" bodyfile="include/geo/geo_operator_diagnostics.h" bodystart="75" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_incident_1a1ae8707b80de229a40de3cfc9ab452a7" prot="public" virt="non-virtual"><scope>themis::geo::GeoIncident</scope><name>description</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_incident_1a2ea0159c8342c6ed7b46945ccc5e1bdb" prot="public" virt="non-virtual"><scope>themis::geo::GeoIncident</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_incident_1a0a76b43dd5360cb2aed84292e61ab670" prot="public" virt="non-virtual"><scope>themis::geo::GeoIncident</scope><name>incident_id</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_incident_1ad7362811f362bf0881598d49544f0c6b" prot="public" virt="non-virtual"><scope>themis::geo::GeoIncident</scope><name>remediation</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_incident_1ad8711629df5a3ebfbf4b673da3f85050" prot="public" virt="non-virtual"><scope>themis::geo::GeoIncident</scope><name>severity</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_incident_1ad2ddb54b60302ae7129917e0fd226b38" prot="public" virt="non-virtual"><scope>themis::geo::GeoIncident</scope><name>timestamp_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

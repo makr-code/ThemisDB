@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_change_record" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ChangeRecord</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref> &gt;</type>
+        <definition>using themisdb::analytics::ChangeRecord::Row = std::unordered_map&lt;std::string, FieldValue&gt;</definition>
+        <argsstring></argsstring>
+        <name>Row</name>
+        <qualifiedname>themisdb::analytics::ChangeRecord::Row</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="94" column="5" bodyfile="include/analytics/incremental_view.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_change_record_1a146c70c49a2cb2d86ba261735eff39c4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309" kindref="member">ChangeType</ref></type>
+        <definition>ChangeType themisdb::analytics::ChangeRecord::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::ChangeRecord::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="96" column="16" bodyfile="include/analytics/incremental_view.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_change_record_1a680a5de9f20f5250d89e6f5ff5d68512" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ChangeRecord::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::analytics::ChangeRecord::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="97" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_change_record_1af43a2ef5a2b1f04bc96c60ac5a22d8ae" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" kindref="member">Row</ref></type>
+        <definition>Row themisdb::analytics::ChangeRecord::before_row</definition>
+        <argsstring></argsstring>
+        <name>before_row</name>
+        <qualifiedname>themisdb::analytics::ChangeRecord::before_row</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="98" column="9" bodyfile="include/analytics/incremental_view.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_change_record_1a890b6010af29b33dd862c3b378c7b091" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" kindref="member">Row</ref></type>
+        <definition>Row themisdb::analytics::ChangeRecord::after_row</definition>
+        <argsstring></argsstring>
+        <name>after_row</name>
+        <qualifiedname>themisdb::analytics::ChangeRecord::after_row</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="99" column="9" bodyfile="include/analytics/incremental_view.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_change_record_1aeb36f11cdb3034b74fdbaee278cbbce7" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::ChangeRecord::change_time</definition>
+        <argsstring></argsstring>
+        <name>change_time</name>
+        <qualifiedname>themisdb::analytics::ChangeRecord::change_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="100" column="43" bodyfile="include/analytics/incremental_view.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/incremental_view.h" line="93" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="93" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_change_record_1a890b6010af29b33dd862c3b378c7b091" prot="public" virt="non-virtual"><scope>themisdb::analytics::ChangeRecord</scope><name>after_row</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_change_record_1af43a2ef5a2b1f04bc96c60ac5a22d8ae" prot="public" virt="non-virtual"><scope>themisdb::analytics::ChangeRecord</scope><name>before_row</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_change_record_1aeb36f11cdb3034b74fdbaee278cbbce7" prot="public" virt="non-virtual"><scope>themisdb::analytics::ChangeRecord</scope><name>change_time</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_change_record_1a680a5de9f20f5250d89e6f5ff5d68512" prot="public" virt="non-virtual"><scope>themisdb::analytics::ChangeRecord</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" prot="public" virt="non-virtual"><scope>themisdb::analytics::ChangeRecord</scope><name>Row</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_change_record_1a146c70c49a2cb2d86ba261735eff39c4" prot="public" virt="non-virtual"><scope>themisdb::analytics::ChangeRecord</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

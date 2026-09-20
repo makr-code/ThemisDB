@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_replace_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ReplaceNode</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_mutation_node" prot="public" virt="non-virtual">themis::query::MutationNode</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_replace_node_1a6582ea4eea8dc072988df2012f002f1c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ReplaceNode::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::ReplaceNode::collection</qualifiedname>
+        <briefdescription>
+<para>Target collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="480" column="17" bodyfile="include/query/aql_parser.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_replace_node_1ac19bedb9b46c22060c18f6bc0ffd40e0" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::ReplaceNode::search_expr</definition>
+        <argsstring></argsstring>
+        <name>search_expr</name>
+        <qualifiedname>themis::query::ReplaceNode::search_expr</qualifiedname>
+        <briefdescription>
+<para>Search expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="481" column="21" bodyfile="include/query/aql_parser.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_replace_node_1aa8ce76f3fd2fc1b907e726b43e128b49" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::ReplaceNode::replacement</definition>
+        <argsstring></argsstring>
+        <name>replacement</name>
+        <qualifiedname>themis::query::ReplaceNode::replacement</qualifiedname>
+        <briefdescription>
+<para>Replacement document expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="482" column="21" bodyfile="include/query/aql_parser.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_replace_node_1a4d2a197be9ccc7290ce6ad1474f939a7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ReplaceNode::return_new</definition>
+        <argsstring></argsstring>
+        <name>return_new</name>
+        <qualifiedname>themis::query::ReplaceNode::return_new</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>RETURN NEW. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="483" column="10" bodyfile="include/query/aql_parser.h" bodystart="483" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_replace_node_1a2d66c8ed691f395c68975f5d1e21db43" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ReplaceNode::return_old</definition>
+        <argsstring></argsstring>
+        <name>return_old</name>
+        <qualifiedname>themis::query::ReplaceNode::return_old</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>RETURN OLD. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="484" column="10" bodyfile="include/query/aql_parser.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_replace_node_1a42de998eb89afc208ea6d21581d2aaaf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::ReplaceNode::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::ReplaceNode::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_node_1a9b4bff2190784e1368f6b31a64cf102c">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="486" column="17" bodyfile="include/query/aql_parser.h" bodystart="486" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_replace_node_1a8f748a91a69c2945f54f1859e8935f5c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::ReplaceNode::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::ReplaceNode::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_node_1a9d3378cb4d267be61a7849f3674d42d4">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="487" column="20" bodyfile="include/query/aql_parser.h" bodystart="487" bodyend="498"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::MutationNode</label>
+        <link refid="structthemis_1_1query_1_1_mutation_node"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ReplaceNode</label>
+        <link refid="structthemis_1_1query_1_1_replace_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::MutationNode</label>
+        <link refid="structthemis_1_1query_1_1_mutation_node"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ReplaceNode</label>
+        <link refid="structthemis_1_1query_1_1_replace_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="479" column="1" bodyfile="include/query/aql_parser.h" bodystart="479" bodyend="499"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_replace_node_1a6582ea4eea8dc072988df2012f002f1c" prot="public" virt="non-virtual"><scope>themis::query::ReplaceNode</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_replace_node_1a42de998eb89afc208ea6d21581d2aaaf" prot="public" virt="virtual"><scope>themis::query::ReplaceNode</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_replace_node_1aa8ce76f3fd2fc1b907e726b43e128b49" prot="public" virt="non-virtual"><scope>themis::query::ReplaceNode</scope><name>replacement</name></member>
+      <member refid="structthemis_1_1query_1_1_replace_node_1a4d2a197be9ccc7290ce6ad1474f939a7" prot="public" virt="non-virtual"><scope>themis::query::ReplaceNode</scope><name>return_new</name></member>
+      <member refid="structthemis_1_1query_1_1_replace_node_1a2d66c8ed691f395c68975f5d1e21db43" prot="public" virt="non-virtual"><scope>themis::query::ReplaceNode</scope><name>return_old</name></member>
+      <member refid="structthemis_1_1query_1_1_replace_node_1ac19bedb9b46c22060c18f6bc0ffd40e0" prot="public" virt="non-virtual"><scope>themis::query::ReplaceNode</scope><name>search_expr</name></member>
+      <member refid="structthemis_1_1query_1_1_replace_node_1a8f748a91a69c2945f54f1859e8935f5c" prot="public" virt="virtual"><scope>themis::query::ReplaceNode</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_node_1a7913ed037b1bd83a2ce5c87f4985acd9" prot="public" virt="virtual"><scope>themis::query::ReplaceNode</scope><name>~MutationNode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::ArgumentChain</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1aec6f0a341688e8f50e078a2b2393556a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ArgumentChain::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentChain::id</qualifiedname>
+        <briefdescription>
+<para>Chain identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="62" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a003864449c87ea9a16d848a016986031" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ArgumentChain::dilemma_id</definition>
+        <argsstring></argsstring>
+        <name>dilemma_id</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentChain::dilemma_id</qualifiedname>
+        <briefdescription>
+<para>Associated dilemma. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="63" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a2b858dbd157c91ac06c51a37106f5524" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::ArgumentChain::argument_ids</definition>
+        <argsstring></argsstring>
+        <name>argument_ids</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentChain::argument_ids</qualifiedname>
+        <briefdescription>
+<para>Ordered list of argument IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="64" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a8091618a53dd2ecf32a0ea23e3842b95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ArgumentChain::chain_type</definition>
+        <argsstring></argsstring>
+        <name>chain_type</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentChain::chain_type</qualifiedname>
+        <briefdescription>
+<para>Type (e.g., &quot;pro&quot;, &quot;contra&quot;, &quot;synthesis&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="65" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1ac86a3a1cac663aba65940b3f1f219613" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::ArgumentChain::coherence_score</definition>
+        <argsstring></argsstring>
+        <name>coherence_score</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentChain::coherence_score</qualifiedname>
+        <briefdescription>
+<para>Chain coherence (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="66" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a16befce7a20812bbcff15d7395700c46" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::ethics::ArgumentChain::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentChain::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="67" column="43" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a47085b188debf6e0df4e8b1b4f707a0b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::ArgumentChain::ArgumentChain</definition>
+        <argsstring>()</argsstring>
+        <name>ArgumentChain</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentChain::ArgumentChain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="69" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="69" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="61" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="61" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a2b858dbd157c91ac06c51a37106f5524" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentChain</scope><name>argument_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a47085b188debf6e0df4e8b1b4f707a0b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentChain</scope><name>ArgumentChain</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a8091618a53dd2ecf32a0ea23e3842b95" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentChain</scope><name>chain_type</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1ac86a3a1cac663aba65940b3f1f219613" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentChain</scope><name>coherence_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a16befce7a20812bbcff15d7395700c46" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentChain</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a003864449c87ea9a16d848a016986031" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentChain</scope><name>dilemma_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1aec6f0a341688e8f50e078a2b2393556a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentChain</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

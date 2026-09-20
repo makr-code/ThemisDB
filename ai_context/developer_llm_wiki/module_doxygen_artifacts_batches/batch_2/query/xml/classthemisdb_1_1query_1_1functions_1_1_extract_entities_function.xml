@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::query::functions::ExtractEntitiesFunction</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IFunction</basecompoundref>
+    <includes refid="ai__ml__functions_8h" local="no">ai_ml_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function_1a6ca58ca23be9604848964240b19ddf7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::query::functions::ExtractEntitiesFunction::~ExtractEntitiesFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ExtractEntitiesFunction</name>
+        <qualifiedname>themisdb::query::functions::ExtractEntitiesFunction::~ExtractEntitiesFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="231" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function_1ae2ffeabe5662286c173abe554364589f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>FunctionSignature</type>
+        <definition>FunctionSignature themisdb::query::functions::ExtractEntitiesFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themisdb::query::functions::ExtractEntitiesFunction::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="232" column="23" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="232" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function_1a02e3ce2756dfa9ef0487747307ed9cab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>JsonValue</type>
+        <definition>JsonValue themisdb::query::functions::ExtractEntitiesFunction::execute</definition>
+        <argsstring>(const std::vector&lt; JsonValue &gt; &amp;args, ExecutionContext &amp;ctx) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::query::functions::ExtractEntitiesFunction::execute</qualifiedname>
+        <param>
+          <type>const std::vector&lt; JsonValue &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>ExecutionContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="243" column="15" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="243" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::ExtractEntitiesFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::ExtractEntitiesFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/ai_ml_functions.h" line="229" column="1" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="229" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function_1a02e3ce2756dfa9ef0487747307ed9cab" prot="public" virt="non-virtual"><scope>themisdb::query::functions::ExtractEntitiesFunction</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function_1ae2ffeabe5662286c173abe554364589f" prot="public" virt="non-virtual"><scope>themisdb::query::functions::ExtractEntitiesFunction</scope><name>signature</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function_1a6ca58ca23be9604848964240b19ddf7f" prot="public" virt="non-virtual"><scope>themisdb::query::functions::ExtractEntitiesFunction</scope><name>~ExtractEntitiesFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceReporter::AccessControlMatrix::Entry</compoundname>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1a9e397a0d6ca41160242fb2d8b2c29b83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::AccessControlMatrix::Entry::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::governance::ComplianceReporter::AccessControlMatrix::Entry::role</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="276" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1a9f5425fbe3356e7028bf3c0db3cc367e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::AccessControlMatrix::Entry::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::governance::ComplianceReporter::AccessControlMatrix::Entry::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="277" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1aa5734b1c5b48594fe0aa41a8ab6b3462" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::ComplianceReporter::AccessControlMatrix::Entry::allowed_actions</definition>
+        <argsstring></argsstring>
+        <name>allowed_actions</name>
+        <qualifiedname>themis::governance::ComplianceReporter::AccessControlMatrix::Entry::allowed_actions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="278" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1ac3cb21545bbe1592187702ab38fa76af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceReporter::AccessControlMatrix::Entry::requires_encryption</definition>
+        <argsstring></argsstring>
+        <name>requires_encryption</name>
+        <qualifiedname>themis::governance::ComplianceReporter::AccessControlMatrix::Entry::requires_encryption</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="279" column="18" bodyfile="include/governance/compliance_reporting.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1aa06da3d3d3fd7fc4416da4dc5dbd113e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceReporter::AccessControlMatrix::Entry::is_audited</definition>
+        <argsstring></argsstring>
+        <name>is_audited</name>
+        <qualifiedname>themis::governance::ComplianceReporter::AccessControlMatrix::Entry::is_audited</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="280" column="18" bodyfile="include/governance/compliance_reporting.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporting.h" line="275" column="9" bodyfile="include/governance/compliance_reporting.h" bodystart="275" bodyend="281"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1aa5734b1c5b48594fe0aa41a8ab6b3462" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::AccessControlMatrix::Entry</scope><name>allowed_actions</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1aa06da3d3d3fd7fc4416da4dc5dbd113e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::AccessControlMatrix::Entry</scope><name>is_audited</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1ac3cb21545bbe1592187702ab38fa76af" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::AccessControlMatrix::Entry</scope><name>requires_encryption</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1a9f5425fbe3356e7028bf3c0db3cc367e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::AccessControlMatrix::Entry</scope><name>resource</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1a9e397a0d6ca41160242fb2d8b2c29b83" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::AccessControlMatrix::Entry</scope><name>role</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

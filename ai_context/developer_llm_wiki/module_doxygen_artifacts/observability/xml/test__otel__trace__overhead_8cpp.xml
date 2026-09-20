@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__otel__trace__overhead_8cpp" kind="file" language="C++">
+    <compoundname>test_otel_trace_overhead.cpp</compoundname>
+    <includes refid="distributed__trace__span_8h" local="yes">observability/distributed_trace_span.h</includes>
+    <includes refid="distributed__tracing__sdk_8h" local="yes">observability/distributed_tracing_sdk.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>observability/distributed_trace_span.h</label>
+        <link refid="distributed__trace__span_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>observability/distributed_tracing_sdk.h</label>
+        <link refid="distributed__tracing__sdk_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/observability/test_otel_trace_overhead.cpp</label>
+        <link refid="test__otel__trace__overhead_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" prot="public">themis::observability::tests::TraceOverheadTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1tests">themis::observability::tests</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>tests/observability/test_otel_trace_overhead.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wave<sp/>D<sp/>Phase<sp/>2A:<sp/>Distributed<sp/>Tracing<sp/>Overhead<sp/>Measurement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gate:<sp/>W4A-TRACE-01<sp/>(overhead<sp/>≤2%<sp/>vs<sp/>Wave<sp/>7<sp/>baseline)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__trace__span_8h" kindref="compound">observability/distributed_trace_span.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__tracing__sdk_8h" kindref="compound">observability/distributed_tracing_sdk.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests" kindref="compound">themis::observability::tests</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Baseline:<sp/>Transaction<sp/>without<sp/>tracing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BaselineTransactionNoTracing(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>transaction<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(100));</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>With<sp/>tracing:<sp/>Same<sp/>transaction<sp/>instrumented<sp/>with<sp/>distributed<sp/>tracing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TransactionWithDistributedTracing(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tracer_config<sp/>=<sp/>DistributedTracingConfig{};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>transaction<sp/>with<sp/>span<sp/>creation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;transaction&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;12345&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(100));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;end&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Span<sp/>destroyed<sp/>here<sp/>(auto-flush)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Span<sp/>creation<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SpanCreationOverhead(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(span);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Event<sp/>recording<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>EventRecordingOverhead(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Baggage<sp/>insertion<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BaggageInsertionOverhead(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1aa55af7e76f94bdbd9eeaea5f371a5c81" kindref="member">BENCHMARK</ref>(BaselineTransactionNoTracing)-&gt;Unit(benchmark::kMicrosecond)-&gt;Repetitions(5);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1aa55af7e76f94bdbd9eeaea5f371a5c81" kindref="member">BENCHMARK</ref>(TransactionWithDistributedTracing)-&gt;Unit(benchmark::kMicrosecond)-&gt;Repetitions(5);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1aa55af7e76f94bdbd9eeaea5f371a5c81" kindref="member">BENCHMARK</ref>(SpanCreationOverhead)-&gt;Unit(benchmark::kNanosecond)-&gt;Repetitions(5);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1aa55af7e76f94bdbd9eeaea5f371a5c81" kindref="member">BENCHMARK</ref>(EventRecordingOverhead)-&gt;Unit(benchmark::kNanosecond)-&gt;Repetitions(5);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1aa55af7e76f94bdbd9eeaea5f371a5c81" kindref="member">BENCHMARK</ref>(BaggageInsertionOverhead)-&gt;Unit(benchmark::kNanosecond)-&gt;Repetitions(5);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Verify<sp/>trace<sp/>overhead<sp/>&lt;=<sp/>2%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test_1a6942267491ed7777a1421a5c9e7a17cb" kindref="member">MAX_OVERHEAD_PCT</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref>,<sp/>SpanCreation)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>span<sp/>can<sp/>be<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;test_operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(span-&gt;spanId().empty());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(span-&gt;traceId().empty());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/>EXPECT_EQ(span-&gt;operationName(),<sp/></highlight><highlight class="stringliteral">&quot;test_operation&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(TraceOverheadTest,<sp/>W3CContextPropagation)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>W3C<sp/>trace<sp/>context<sp/>is<sp/>properly<sp/>structured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parent_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>EXPECT_NE(parent_ctx,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(parent_ctx-&gt;traceId().empty());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(parent_ctx-&gt;parentSpanId().empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Root<sp/>has<sp/>no<sp/>parent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>baggage<sp/>and<sp/>verify<sp/>inheritance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>with_baggage<sp/>=<sp/>parent_ctx-&gt;withBaggage(</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>EXPECT_NE(with_baggage,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(with_baggage-&gt;baggage().empty());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(TraceOverheadTest,<sp/>ParentChildLinking)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>parent<sp/>span</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parent_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parent_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;parent&quot;</highlight><highlight class="normal">,<sp/>parent_ctx);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>child<sp/>span</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>child_ctx<sp/>=<sp/>parent_span-&gt;childContext(</highlight><highlight class="stringliteral">&quot;child&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>child_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;child&quot;</highlight><highlight class="normal">,<sp/>child_ctx);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>parent-child<sp/>relationship</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>EXPECT_EQ(parent_span-&gt;traceId(),<sp/>child_span-&gt;traceId());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>EXPECT_NE(parent_span-&gt;spanId(),<sp/>child_span-&gt;spanId());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(TraceOverheadTest,<sp/>BaggageInheritance)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>parent<sp/>span<sp/>with<sp/>baggage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parent_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parent_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;parent&quot;</highlight><highlight class="normal">,<sp/>parent_ctx);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/>parent_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tenant_abc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>parent_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;priority&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>child<sp/>span<sp/>and<sp/>verify<sp/>baggage<sp/>is<sp/>inherited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>child_ctx<sp/>=<sp/>parent_span-&gt;childContext(</highlight><highlight class="stringliteral">&quot;child&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>EXPECT_EQ(child_ctx-&gt;baggage().size(),<sp/>2);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref>,<sp/>EventRecording)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/>span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/>span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;cache_hit&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;hit_rate&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0.85&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/>span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;end&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;rows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>span-&gt;events();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>EXPECT_EQ(events.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/>EXPECT_EQ(events[0].name,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>EXPECT_EQ(events[1].name,<sp/></highlight><highlight class="stringliteral">&quot;cache_hit&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/>EXPECT_EQ(events[2].name,<sp/></highlight><highlight class="stringliteral">&quot;end&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref>,<sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/>EXPECT_EQ(span-&gt;status(),<sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198ac9f88e098f6fe4e4e112eeb05ccb9671" kindref="member">SpanStatus::Unset</ref>);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/>span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/>EXPECT_EQ(span-&gt;status(),<sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/>span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198a902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">SpanStatus::Error</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Query<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/>EXPECT_EQ(span-&gt;status(),<sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198a902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">SpanStatus::Error</ref>);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>EXPECT_EQ(span-&gt;statusMessage(),<sp/></highlight><highlight class="stringliteral">&quot;Query<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref>,<sp/>SpanDuration)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration_us<sp/>=<sp/>span-&gt;durationMicros();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/>EXPECT_GT(duration_us,<sp/>9000);<sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>9<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref>,<sp/>MaxBaggageLimit)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>128<sp/>baggage<sp/>items<sp/>(limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>128;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;value_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>baggage<sp/>=<sp/>span-&gt;baggage();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/>EXPECT_EQ(baggage.size(),<sp/>128);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>add<sp/>one<sp/>more<sp/>(should<sp/>be<sp/>silently<sp/>dropped)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/>span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;key_128&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value_128&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/>baggage<sp/>=<sp/>span-&gt;baggage();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/>EXPECT_EQ(baggage.size(),<sp/>128);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref>,<sp/>MaxEventLimit)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>100<sp/>events<sp/>(limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;event_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>span-&gt;events();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/>EXPECT_EQ(events.size(),<sp/>100);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>add<sp/>one<sp/>more<sp/>(should<sp/>be<sp/>silently<sp/>dropped)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/>span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;event_100&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/>events<sp/>=<sp/>span-&gt;events();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/>EXPECT_EQ(events.size(),<sp/>100);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref>,<sp/>ThreadSaftyBaggageInsertion)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>threads<sp/>adding<sp/>baggage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.emplace_back([span,<sp/>i]()<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>5;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;thread_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(j),</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;value_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>*<sp/>10<sp/>+<sp/>j));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>baggage<sp/>=<sp/>span-&gt;baggage();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/>EXPECT_GT(baggage.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/>EXPECT_LE(baggage.size(),<sp/>128);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::observability::tests</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/observability/test_otel_trace_overhead.cpp"/>
+  </compounddef>
+</doxygen>

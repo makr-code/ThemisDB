@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::DiffEngine::DiffResult</compoundname>
+    <includes refid="diff__engine_8h" local="no">diff_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1aed4075c089cc5631a0b632e0a8cf7ea7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" kindref="compound">Change</ref> &gt;</type>
+        <definition>std::vector&lt;Change&gt; themis::analytics::DiffEngine::DiffResult::added</definition>
+        <argsstring></argsstring>
+        <name>added</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::added</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="75" column="21" bodyfile="include/analytics/diff_engine.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ab26910f24221e72100f8221708009c13" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" kindref="compound">Change</ref> &gt;</type>
+        <definition>std::vector&lt;Change&gt; themis::analytics::DiffEngine::DiffResult::modified</definition>
+        <argsstring></argsstring>
+        <name>modified</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::modified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="76" column="21" bodyfile="include/analytics/diff_engine.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a7c26f4c0646d398387aac1ef3b4d0a51" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" kindref="compound">Change</ref> &gt;</type>
+        <definition>std::vector&lt;Change&gt; themis::analytics::DiffEngine::DiffResult::deleted</definition>
+        <argsstring></argsstring>
+        <name>deleted</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::deleted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="77" column="21" bodyfile="include/analytics/diff_engine.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a8e77c8c582d4795762b5cdc3635a92a6" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats" kindref="compound">DiffStats</ref></type>
+        <definition>DiffStats themis::analytics::DiffEngine::DiffResult::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="78" column="19" bodyfile="include/analytics/diff_engine.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a78aae523de88f4210a71303f40d1f084" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::analytics::DiffEngine::DiffResult::from_sequence</definition>
+        <argsstring></argsstring>
+        <name>from_sequence</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::from_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="80" column="18" bodyfile="include/analytics/diff_engine.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a5f3dd284d502a0bd2e883983c915d4d7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::analytics::DiffEngine::DiffResult::to_sequence</definition>
+        <argsstring></argsstring>
+        <name>to_sequence</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::to_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="81" column="18" bodyfile="include/analytics/diff_engine.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a15991104ddb224633eca4a4a86d2d613" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::analytics::DiffEngine::DiffResult::from_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>from_timestamp_ms</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::from_timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="82" column="23" bodyfile="include/analytics/diff_engine.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ac022e3b7a8941ee1e071f2375defca5f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::analytics::DiffEngine::DiffResult::to_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>to_timestamp_ms</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::to_timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="83" column="23" bodyfile="include/analytics/diff_engine.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ae82bc09c4716ecc452aa5cfdec9dbd8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref></type>
+        <definition>json themis::analytics::DiffEngine::DiffResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="89" column="14" bodyfile="src/analytics/diff_engine.cpp" bodystart="85" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a71d4e3e0516f57ca81fa939cc837e9e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffEngine::DiffResult themis::analytics::DiffEngine::DiffResult::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffResult::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="95" column="27" bodyfile="src/analytics/diff_engine.cpp" bodystart="126" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::analytics::DiffEngine::DiffResult</label>
+        <link refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::analytics::DiffEngine::DiffStats</label>
+        <link refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/diff_engine.h" line="74" column="5" bodyfile="include/analytics/diff_engine.h" bodystart="74" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1aed4075c089cc5631a0b632e0a8cf7ea7" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>added</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a7c26f4c0646d398387aac1ef3b4d0a51" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>deleted</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a78aae523de88f4210a71303f40d1f084" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>from_sequence</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a15991104ddb224633eca4a4a86d2d613" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>from_timestamp_ms</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a71d4e3e0516f57ca81fa939cc837e9e7" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ab26910f24221e72100f8221708009c13" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>modified</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a8e77c8c582d4795762b5cdc3635a92a6" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>stats</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a5f3dd284d502a0bd2e883983c915d4d7" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>to_sequence</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ac022e3b7a8941ee1e071f2375defca5f" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>to_timestamp_ms</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ae82bc09c4716ecc452aa5cfdec9dbd8d" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

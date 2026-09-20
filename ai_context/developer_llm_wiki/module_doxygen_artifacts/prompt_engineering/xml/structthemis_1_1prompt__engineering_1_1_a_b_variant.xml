@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_a_b_variant" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ABVariant</compoundname>
+    <includes refid="prompt__ab__experiment_8h" local="no">prompt_ab_experiment.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a9282026608a3b5cf357d8c03e9130dad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ABVariant::variantId</definition>
+        <argsstring></argsstring>
+        <name>variantId</name>
+        <qualifiedname>themis::prompt_engineering::ABVariant::variantId</qualifiedname>
+        <briefdescription>
+<para>Stable identifier, e.g. <computeroutput>"control"</computeroutput> / <computeroutput>"treatment"</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="400" column="27" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a805e049ba00ab1611bcfcbf67c3873f5" prot="public" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" kindref="compound">IPromptTemplate</ref> *</type>
+        <definition>const IPromptTemplate* themis::prompt_engineering::ABVariant::templateRef</definition>
+        <argsstring></argsstring>
+        <name>templateRef</name>
+        <qualifiedname>themis::prompt_engineering::ABVariant::templateRef</qualifiedname>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="401" column="27" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_a_b_variant_1aee8ec5200246786af7f7b716c052628e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ABVariant::trafficWeight</definition>
+        <argsstring></argsstring>
+        <name>trafficWeight</name>
+        <qualifiedname>themis::prompt_engineering::ABVariant::trafficWeight</qualifiedname>
+        <briefdescription>
+<para>Fraction of traffic (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="402" column="27" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Variant descriptor returned by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a361fad34b1459956da345230d52f55bf" kindref="member">IPromptABFramework::assignVariant()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a805e049ba00ab1611bcfcbf67c3873f5" kindref="member">templateRef</ref></computeroutput> is a non-owning pointer to the template associated with this variant (may be <computeroutput>nullptr</computeroutput> when the experiment has no associated template). <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1aee8ec5200246786af7f7b716c052628e" kindref="member">trafficWeight</ref></computeroutput> is the configured fraction of traffic (0.0–1.0) assigned to this variant. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::ABVariant</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_a_b_variant"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>templateRef</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptTemplate</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="399" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="399" bodyend="403"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a805e049ba00ab1611bcfcbf67c3873f5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ABVariant</scope><name>templateRef</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1aee8ec5200246786af7f7b716c052628e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ABVariant</scope><name>trafficWeight</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a9282026608a3b5cf357d8c03e9130dad" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ABVariant</scope><name>variantId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

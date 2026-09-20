@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_version_range" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginVersionRange</compoundname>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_version_range_1aef80e10f5e5906b1770824d14450af26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginVersionRange::min_version</definition>
+        <argsstring></argsstring>
+        <name>min_version</name>
+        <qualifiedname>themis::plugins::PluginVersionRange::min_version</qualifiedname>
+        <briefdescription>
+<para>Inclusive lower bound; &quot;&quot; = no lower bound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="215" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_version_range_1a1c207ea4043e92cf68b936367a60ac7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginVersionRange::max_version</definition>
+        <argsstring></argsstring>
+        <name>max_version</name>
+        <qualifiedname>themis::plugins::PluginVersionRange::max_version</qualifiedname>
+        <briefdescription>
+<para>Inclusive upper bound; &quot;&quot; = no upper bound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="216" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_version_range_1aa8b21cfd02031f61e4065716ec53659a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginVersionRange::isUnconstrained</definition>
+        <argsstring>() const</argsstring>
+        <name>isUnconstrained</name>
+        <qualifiedname>themis::plugins::PluginVersionRange::isUnconstrained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="218" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="218" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Inclusive version range constraint for plugin capability negotiation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Both bounds are optional: an empty string means &quot;no constraint&quot; on that bound. Example: {min_version=&quot;1.0.0&quot;, max_version=&quot;2.0.0&quot;} matches any version from 1.0.0 to 2.0.0 inclusive. </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_interface.h" line="214" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="214" bodyend="221"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_version_range_1aa8b21cfd02031f61e4065716ec53659a" prot="public" virt="non-virtual"><scope>themis::plugins::PluginVersionRange</scope><name>isUnconstrained</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_version_range_1a1c207ea4043e92cf68b936367a60ac7e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginVersionRange</scope><name>max_version</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_version_range_1aef80e10f5e5906b1770824d14450af26" prot="public" virt="non-virtual"><scope>themis::plugins::PluginVersionRange</scope><name>min_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

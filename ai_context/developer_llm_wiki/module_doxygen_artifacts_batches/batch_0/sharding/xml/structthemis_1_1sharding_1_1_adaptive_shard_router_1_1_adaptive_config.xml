@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</compoundname>
+    <includes refid="adaptive__shard__router_8h" local="no">adaptive_shard_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a948c9e8182ba8a4c05cfe8285587d134" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdaptiveShardRouter::AdaptiveConfig::enable_adaptive_routing</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_routing</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::enable_adaptive_routing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="56" column="14" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a2ef121946a738f0bf3b1906a715089be" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::max_iterations</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="59" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a5b0cc0435ae0d1f9dde1e11bbdbd4ddf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveConfig::results_per_iteration</definition>
+        <argsstring></argsstring>
+        <name>results_per_iteration</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::results_per_iteration</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="60" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a21a7d434fa5005b80605f5f4e3cb6c54" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::AdaptiveShardRouter::AdaptiveConfig::initial_threshold</definition>
+        <argsstring></argsstring>
+        <name>initial_threshold</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::initial_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="63" column="16" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1ac69dff4423c950b714a9e381381fcebc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::AdaptiveShardRouter::AdaptiveConfig::intermediate_threshold</definition>
+        <argsstring></argsstring>
+        <name>intermediate_threshold</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::intermediate_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="64" column="16" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1accfb661c1e9b70c74a74449674c7e4e5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::AdaptiveShardRouter::AdaptiveConfig::fallback_threshold</definition>
+        <argsstring></argsstring>
+        <name>fallback_threshold</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::fallback_threshold</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="65" column="16" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a3d785baaee91e9ac1f295a47aaad80e2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveConfig::target_result_count</definition>
+        <argsstring></argsstring>
+        <name>target_result_count</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::target_result_count</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="68" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1ae0d9ec89585e2456d9646cdf3a351ac5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::AdaptiveShardRouter::AdaptiveConfig::diminishing_returns_ratio</definition>
+        <argsstring></argsstring>
+        <name>diminishing_returns_ratio</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::diminishing_returns_ratio</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="69" column="16" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a3b600cbff3b934370ef96d61838dbba2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveConfig::per_iteration_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>per_iteration_timeout_ms</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::per_iteration_timeout_ms</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="70" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a20423c30da947de646a5deb97a52f536" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveConfig::total_query_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>total_query_timeout_ms</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::total_query_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="71" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a6618d5bfe8f08c27d3b07465e5871d36" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveConfig::llm_load_freshness_ms</definition>
+        <argsstring></argsstring>
+        <name>llm_load_freshness_ms</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::llm_load_freshness_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="72" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a21e301ea462ddcaae47a7973de0b77dc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdaptiveShardRouter::AdaptiveConfig::fallback_to_scatter_gather</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_scatter_gather</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::fallback_to_scatter_gather</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="75" column="14" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a2c8e2cdc017824f5dec5926b0d90a21b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config" kindref="compound">CapabilityMatcher::Config</ref></type>
+        <definition>CapabilityMatcher::Config themis::sharding::AdaptiveShardRouter::AdaptiveConfig::matcher_config</definition>
+        <argsstring></argsstring>
+        <name>matcher_config</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::matcher_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="78" column="35" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a7e1294629794b404b125f30dc9beb819" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdaptiveShardRouter::AdaptiveConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveConfig::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="83" column="14" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="83" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for adaptive routing </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</label>
+        <link refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>matcher_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::CapabilityMatcher::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/adaptive_shard_router.h" line="54" column="5" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="54" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1ae0d9ec89585e2456d9646cdf3a351ac5" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>diminishing_returns_ratio</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a948c9e8182ba8a4c05cfe8285587d134" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>enable_adaptive_routing</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1accfb661c1e9b70c74a74449674c7e4e5" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>fallback_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a21e301ea462ddcaae47a7973de0b77dc" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>fallback_to_scatter_gather</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a21a7d434fa5005b80605f5f4e3cb6c54" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>initial_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1ac69dff4423c950b714a9e381381fcebc" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>intermediate_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a7e1294629794b404b125f30dc9beb819" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a6618d5bfe8f08c27d3b07465e5871d36" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>llm_load_freshness_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a2c8e2cdc017824f5dec5926b0d90a21b" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>matcher_config</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a2ef121946a738f0bf3b1906a715089be" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a3b600cbff3b934370ef96d61838dbba2" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>per_iteration_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a5b0cc0435ae0d1f9dde1e11bbdbd4ddf" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>results_per_iteration</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a3d785baaee91e9ac1f295a47aaad80e2" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>target_result_count</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config_1a20423c30da947de646a5deb97a52f536" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveConfig</scope><name>total_query_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_t_claims" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWTClaims</compoundname>
+    <includes refid="jwt__validator_8h" local="no">jwt_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTClaims::sub</definition>
+        <argsstring></argsstring>
+        <name>sub</name>
+        <qualifiedname>themis::auth::JWTClaims::sub</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="35" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1a0564bedb61db22c0f429e44025b709af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTClaims::jti</definition>
+        <argsstring></argsstring>
+        <name>jti</name>
+        <qualifiedname>themis::auth::JWTClaims::jti</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="36" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1a301fe2fe87021c1ceb2d6e400084f3fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTClaims::email</definition>
+        <argsstring></argsstring>
+        <name>email</name>
+        <qualifiedname>themis::auth::JWTClaims::email</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="37" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1a2d146f3aad791c8e966d2df5a189e34a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTClaims::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::auth::JWTClaims::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="38" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1aebc8b8ba8385fea402de0c031c125ac5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWTClaims::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::auth::JWTClaims::groups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="39" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1a7ea8dbd6ccdfc4204f9d3c43ae14c6d8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWTClaims::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::auth::JWTClaims::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="40" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1ac0c5015413026c490923f685df19d8f5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWTClaims::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>themis::auth::JWTClaims::scopes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="41" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1a835832623e6a4412bafaa0ec98c8bb43" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTClaims::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::auth::JWTClaims::issuer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="42" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::JWTClaims::expiration</definition>
+        <argsstring></argsstring>
+        <name>expiration</name>
+        <qualifiedname>themis::auth::JWTClaims::expiration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="43" column="43" bodyfile="include/auth/jwt_validator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1ae20212ab0668409892813e070a990082" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::auth::JWTClaims::not_before</definition>
+        <argsstring></argsstring>
+        <name>not_before</name>
+        <qualifiedname>themis::auth::JWTClaims::not_before</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="44" column="19" bodyfile="include/auth/jwt_validator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1ac5a89dbdbf303ed55f210f5869b7c15e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::auth::JWTClaims::issued_at</definition>
+        <argsstring></argsstring>
+        <name>issued_at</name>
+        <qualifiedname>themis::auth::JWTClaims::issued_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="45" column="19" bodyfile="include/auth/jwt_validator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_claims_1a72ca98d1dbf7b6c8fe87a365232bc1fc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWTClaims::audience</definition>
+        <argsstring></argsstring>
+        <name>audience</name>
+        <qualifiedname>themis::auth::JWTClaims::audience</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="46" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_j_w_t_claims_1abd0b0d075fd2f1bc9cbaade88bd88406" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTClaims::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::auth::JWTClaims::isExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="48" column="10" bodyfile="include/auth/jwt_validator.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwt_validator.h" line="34" column="1" bodyfile="include/auth/jwt_validator.h" bodystart="34" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1a72ca98d1dbf7b6c8fe87a365232bc1fc" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>audience</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1a301fe2fe87021c1ceb2d6e400084f3fe" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>email</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>expiration</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1aebc8b8ba8385fea402de0c031c125ac5" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>groups</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1abd0b0d075fd2f1bc9cbaade88bd88406" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac5a89dbdbf303ed55f210f5869b7c15e" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>issued_at</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1a835832623e6a4412bafaa0ec98c8bb43" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1a0564bedb61db22c0f429e44025b709af" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>jti</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1ae20212ab0668409892813e070a990082" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>not_before</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1a7ea8dbd6ccdfc4204f9d3c43ae14c6d8" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>roles</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac0c5015413026c490923f685df19d8f5" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>scopes</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>sub</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_claims_1a2d146f3aad791c8e966d2df5a189e34a" prot="public" virt="non-virtual"><scope>themis::auth::JWTClaims</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::Edge</compoundname>
+    <includes refid="adjacency__list_8h" local="no">adjacency_list.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_1a6b6e746781e6e7880392a32715624935" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+        <definition>VertexId themis::graph::Edge::target</definition>
+        <argsstring></argsstring>
+        <name>target</name>
+        <qualifiedname>themis::graph::Edge::target</qualifiedname>
+        <briefdescription>
+<para>Destination vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="51" column="17" bodyfile="include/graph/adjacency_list.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_1a37bd5d9c9ef733c31590ffc0697c3d35" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1ac6cb1122ddd82fee16915b84d0f2ea58" kindref="member">EdgeWeight</ref></type>
+        <definition>EdgeWeight themis::graph::Edge::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::graph::Edge::weight</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="52" column="17" bodyfile="include/graph/adjacency_list.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_1a9a159b79eb5d2f7c9212b4d0a354a05a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::Edge::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::graph::Edge::label</qualifiedname>
+        <briefdescription>
+<para>Optional semantic label (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="53" column="17" bodyfile="include/graph/adjacency_list.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/adjacency_list.h" line="50" column="1" bodyfile="include/graph/adjacency_list.h" bodystart="50" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_edge_1a9a159b79eb5d2f7c9212b4d0a354a05a" prot="public" virt="non-virtual"><scope>themis::graph::Edge</scope><name>label</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_1a6b6e746781e6e7880392a32715624935" prot="public" virt="non-virtual"><scope>themis::graph::Edge</scope><name>target</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_1a37bd5d9c9ef733c31590ffc0697c3d35" prot="public" virt="non-virtual"><scope>themis::graph::Edge</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

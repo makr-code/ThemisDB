@@ -1,0 +1,412 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_l_l_m_prefix_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LLMPrefixCache</compoundname>
+    <includes refid="llm__prefix__cache_8h" local="no">llm_prefix_cache.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" prot="public">themis::llm::LLMPrefixCache::Config</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_impl" prot="public">themis::llm::LLMPrefixCache::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1af55bbfbcc80c74403e9cfd0cb2aa061d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::LLMPrefixCache::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="136" column="21" bodyfile="include/llm/llm_prefix_cache.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a8efb760191cbd690c3be74c5c94fcb20" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMPrefixCache::LLMPrefixCache</definition>
+        <argsstring>(const std::string &amp;cache_name, const Config &amp;config)</argsstring>
+        <name>LLMPrefixCache</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::LLMPrefixCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>LLMPrefix Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cache. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="84" column="14" bodyfile="src/llm/llm_prefix_cache.cpp" bodystart="375" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a82d44b26ba063ac12a710cae8fc206ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMPrefixCache::~LLMPrefixCache</definition>
+        <argsstring>()</argsstring>
+        <name>~LLMPrefixCache</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::~LLMPrefixCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="85" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a2a3c017903116776a330330abf65907c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPrefixCache::put</definition>
+        <argsstring>(const std::string &amp;prefix, const std::vector&lt; int &gt; &amp;tokens, const std::vector&lt; float &gt; &amp;embedding, const std::vector&lt; float &gt; &amp;precomputed_kv={}, const std::string &amp;generated_text={})</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>precomputed_kv</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>generated_text</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">precomputed_kv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generated_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements put without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="87" column="10" bodyfile="src/llm/llm_prefix_cache.cpp" bodystart="392" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a171bd899a8f6edd0a2bd250d5a2aad98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_prefix_cache_entry" kindref="compound">PrefixCacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; PrefixCacheEntry &gt; themis::llm::LLMPrefixCache::get</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="99" column="19" bodyfile="src/llm/llm_prefix_cache.cpp" bodystart="407" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a967d55fdf7e48eb9d87bb589ce1fab33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_prefix_cache_entry" kindref="compound">PrefixCacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; PrefixCacheEntry &gt; themis::llm::LLMPrefixCache::getLongestMatch</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>getLongestMatch</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::getLongestMatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Get Longest Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getLongestMatch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="108" column="19" bodyfile="src/llm/llm_prefix_cache.cpp" bodystart="419" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a2c7b7e81bf48fc2ddcd6d436ede86fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPrefixCache::touch</definition>
+        <argsstring>(const std::string &amp;prefix)</argsstring>
+        <name>touch</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::touch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Touch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements touch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="115" column="10" bodyfile="src/llm/llm_prefix_cache.cpp" bodystart="429" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1aeffb83853e417cb0444ae646d2735cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPrefixCache::invalidateByPattern</definition>
+        <argsstring>(const std::string &amp;pattern)</argsstring>
+        <name>invalidateByPattern</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::invalidateByPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate By Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements invalidateByPattern without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="121" column="10" bodyfile="src/llm/llm_prefix_cache.cpp" bodystart="438" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1ab5f8f801339034d634d11203a54a68e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPrefixCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="126" column="10" bodyfile="src/llm/llm_prefix_cache.cpp" bodystart="446" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1ad10778e66424a54a2d0f0cd4de125574" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics" kindref="compound">PrefixCacheStatistics</ref></type>
+        <definition>PrefixCacheStatistics themis::llm::LLMPrefixCache::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="132" column="27" bodyfile="src/llm/llm_prefix_cache.cpp" bodystart="450" bodyend="452"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_prefix_cache.h" line="66" column="1" bodyfile="include/llm/llm_prefix_cache.h" bodystart="66" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1ab5f8f801339034d634d11203a54a68e2" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a171bd899a8f6edd0a2bd250d5a2aad98" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a967d55fdf7e48eb9d87bb589ce1fab33" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>getLongestMatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1ad10778e66424a54a2d0f0cd4de125574" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1af55bbfbcc80c74403e9cfd0cb2aa061d" prot="private" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1aeffb83853e417cb0444ae646d2735cda" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>invalidateByPattern</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a8efb760191cbd690c3be74c5c94fcb20" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>LLMPrefixCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a2a3c017903116776a330330abf65907c" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a2c7b7e81bf48fc2ddcd6d436ede86fc0" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>touch</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a82d44b26ba063ac12a710cae8fc206ef" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache</scope><name>~LLMPrefixCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

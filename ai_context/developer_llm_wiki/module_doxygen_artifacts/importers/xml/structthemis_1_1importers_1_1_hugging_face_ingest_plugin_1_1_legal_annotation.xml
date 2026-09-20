@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation_1a794b8a0bc9b32aa19e1a351310a42a96" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalAnnotation::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="130" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation_1a232120064359b0332552e0d7bb324cb5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalAnnotation::label_type</definition>
+        <argsstring></argsstring>
+        <name>label_type</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation::label_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="131" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation_1abadf59f8a70614cbb1498ce3dd8ef6a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalAnnotation::label_value</definition>
+        <argsstring></argsstring>
+        <name>label_value</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation::label_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="132" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation_1aa9db6cf2397876d146007a7b01878486" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::HuggingFaceIngestPlugin::LegalAnnotation::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation::confidence</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="133" column="16" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="129" column="5" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="129" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation_1aa9db6cf2397876d146007a7b01878486" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation_1a794b8a0bc9b32aa19e1a351310a42a96" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation_1a232120064359b0332552e0d7bb324cb5" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation</scope><name>label_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation_1abadf59f8a70614cbb1498ce3dd8ef6a3" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalAnnotation</scope><name>label_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

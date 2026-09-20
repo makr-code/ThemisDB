@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_plugin_manager_1_1_plugin_info" kind="struct" language="C++" prot="public">
+    <compoundname>PluginManager::PluginInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_plugin_manager_1_1_plugin_info_1a30f50b0cd168428f9b3452fa8c1cb11e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginManager::PluginInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>PluginManager::PluginInfo::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="24" column="21" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_plugin_manager_1_1_plugin_info_1a7b49906e1e1e898bc74f2a86101537ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginManager::PluginInfo::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>PluginManager::PluginInfo::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="25" column="21" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_plugin_manager_1_1_plugin_info_1ad9d2ebc4b6788957af2a4889abb03b84" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; PluginManager::PluginInfo::dependencies</definition>
+        <argsstring></argsstring>
+        <name>dependencies</name>
+        <qualifiedname>PluginManager::PluginInfo::dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="26" column="21" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_plugin_manager_1_1_plugin_info_1afd9cc7eac0bf2e2f1e549138be14dee9" prot="public" static="no" mutable="no">
+        <type><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24" kindref="member">PluginState</ref></type>
+        <definition>PluginState PluginManager::PluginInfo::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>PluginManager::PluginInfo::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="27" column="21" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_plugin_manager_1_1_plugin_info_1a42d310dcb9c8927220e936cb01bb8986" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* PluginManager::PluginInfo::handle</definition>
+        <argsstring></argsstring>
+        <name>handle</name>
+        <qualifiedname>PluginManager::PluginInfo::handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="28" column="14" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/plugins/test_plugin_lifecycle.cpp" line="23" column="5" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="23" bodyend="29"/>
+    <listofallmembers>
+      <member refid="struct_plugin_manager_1_1_plugin_info_1ad9d2ebc4b6788957af2a4889abb03b84" prot="public" virt="non-virtual"><scope>PluginManager::PluginInfo</scope><name>dependencies</name></member>
+      <member refid="struct_plugin_manager_1_1_plugin_info_1a42d310dcb9c8927220e936cb01bb8986" prot="public" virt="non-virtual"><scope>PluginManager::PluginInfo</scope><name>handle</name></member>
+      <member refid="struct_plugin_manager_1_1_plugin_info_1a30f50b0cd168428f9b3452fa8c1cb11e" prot="public" virt="non-virtual"><scope>PluginManager::PluginInfo</scope><name>name</name></member>
+      <member refid="struct_plugin_manager_1_1_plugin_info_1afd9cc7eac0bf2e2f1e549138be14dee9" prot="public" virt="non-virtual"><scope>PluginManager::PluginInfo</scope><name>state</name></member>
+      <member refid="struct_plugin_manager_1_1_plugin_info_1a7b49906e1e1e898bc74f2a86101537ca" prot="public" virt="non-virtual"><scope>PluginManager::PluginInfo</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

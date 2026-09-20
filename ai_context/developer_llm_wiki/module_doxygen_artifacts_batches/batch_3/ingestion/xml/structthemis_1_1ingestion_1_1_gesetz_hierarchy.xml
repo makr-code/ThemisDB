@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_gesetz_hierarchy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::GesetzHierarchy</compoundname>
+    <includes refid="legal__domain_8h" local="no">legal_domain.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a6f37036ea25475f4d2d3bb323d7b8824" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::GesetzHierarchy::norm_abbreviation</definition>
+        <argsstring></argsstring>
+        <name>norm_abbreviation</name>
+        <qualifiedname>themis::ingestion::GesetzHierarchy::norm_abbreviation</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;BImSchG&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="59" column="30" bodyfile="include/ingestion/legal_domain.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a9092faccc8750435656da75dc0aebac9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::GesetzHierarchy::full_title</definition>
+        <argsstring></argsstring>
+        <name>full_title</name>
+        <qualifiedname>themis::ingestion::GesetzHierarchy::full_title</qualifiedname>
+        <briefdescription>
+<para>Full official title if found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="60" column="30" bodyfile="include/ingestion/legal_domain.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a4be068c86ec79c9299769d73c32046ec" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref></type>
+        <definition>GesetzNode themis::ingestion::GesetzHierarchy::root</definition>
+        <argsstring></argsstring>
+        <name>root</name>
+        <qualifiedname>themis::ingestion::GesetzHierarchy::root</qualifiedname>
+        <briefdescription>
+<para>GESETZ root node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="61" column="30" bodyfile="include/ingestion/legal_domain.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a9fc2a8e63d5e0d97057a17531a55900c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::GesetzHierarchy::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::ingestion::GesetzHierarchy::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-fatal parse issues. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="62" column="17" bodyfile="include/ingestion/legal_domain.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a full statute parse. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::GesetzHierarchy</label>
+        <link refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>root</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::GesetzNode</label>
+        <link refid="structthemis_1_1ingestion_1_1_gesetz_node"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/legal_domain.h" line="58" column="1" bodyfile="include/ingestion/legal_domain.h" bodystart="58" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a9092faccc8750435656da75dc0aebac9" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzHierarchy</scope><name>full_title</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a6f37036ea25475f4d2d3bb323d7b8824" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzHierarchy</scope><name>norm_abbreviation</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a4be068c86ec79c9299769d73c32046ec" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzHierarchy</scope><name>root</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a9fc2a8e63d5e0d97057a17531a55900c" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzHierarchy</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_result_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ResultSet</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_result_set_1a5caf8442f6f84551eb495d295026114c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ResultSet::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::sharding::ResultSet::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="338" column="20" bodyfile="include/sharding/sharding_interfaces.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_result_set_1a941963b472c944f32f0a7cdf1bc66cf1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResultSet::total_rows</definition>
+        <argsstring></argsstring>
+        <name>total_rows</name>
+        <qualifiedname>themis::sharding::ResultSet::total_rows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="339" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="339" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_result_set_1ade516e5cd64bbe5696233dbe02604a59" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ab042133914861de7d41de64224b34f23" kindref="member">MergeStrategy</ref></type>
+        <definition>MergeStrategy themis::sharding::ResultSet::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::sharding::ResultSet::strategy</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1sharding_1ab042133914861de7d41de64224b34f23aaef12e903e606a4895a16b393bfdec8c" kindref="member">MergeStrategy::Union</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="340" column="19" bodyfile="include/sharding/sharding_interfaces.h" bodystart="340" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Merged result set produced by <ref refid="classthemis_1_1sharding_1_1_i_cross_shard_query_router_1a93832b03ba386c1979a91e189214a5dc" kindref="member">ICrossShardQueryRouter::merge()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="337" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="337" bodyend="341"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_result_set_1a5caf8442f6f84551eb495d295026114c" prot="public" virt="non-virtual"><scope>themis::sharding::ResultSet</scope><name>rows</name></member>
+      <member refid="structthemis_1_1sharding_1_1_result_set_1ade516e5cd64bbe5696233dbe02604a59" prot="public" virt="non-virtual"><scope>themis::sharding::ResultSet</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_result_set_1a941963b472c944f32f0a7cdf1bc66cf1" prot="public" virt="non-virtual"><scope>themis::sharding::ResultSet</scope><name>total_rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

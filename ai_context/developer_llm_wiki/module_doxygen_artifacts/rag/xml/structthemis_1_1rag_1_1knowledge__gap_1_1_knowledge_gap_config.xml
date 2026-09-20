@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::knowledge_gap::KnowledgeGapConfig</compoundname>
+    <includes refid="knowledge__gap__detector_8h" local="no">knowledge_gap_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1aeec2f78f151c5f90c5d1cb5b699b8843" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1aae26486dc6b85ba49669c70e5bd35a10" kindref="member">DetectionMode</ref></type>
+        <definition>DetectionMode themis::rag::knowledge_gap::KnowledgeGapConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1aae26486dc6b85ba49669c70e5bd35a10a0cb4635d100151dcaac6f91db856c402" kindref="member">DetectionMode::BALANCED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="97" column="19" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a4a0f73346448329c30334dab03f8e712" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapConfig::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::similarity_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Minimum similarity score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="100" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1ad8a558a9f7a29b459dfd26d96b69785a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::knowledge_gap::KnowledgeGapConfig::min_documents</definition>
+        <argsstring></argsstring>
+        <name>min_documents</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::min_documents</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Minimum required documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="101" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a6559735a0dd631522b5da528345282f3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapConfig::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::confidence_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Minimum confidence threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="102" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1ababb30db55f2bda738ec1dec5866b6c7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapConfig::coverage_threshold</definition>
+        <argsstring></argsstring>
+        <name>coverage_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::coverage_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Minimum query coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="103" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a601460d357c48091074c45069662e467" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapConfig::enable_token_probability</definition>
+        <argsstring></argsstring>
+        <name>enable_token_probability</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::enable_token_probability</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable token probability tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="106" column="10" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a983e0dd9f01c70e5cf4d58e9e085f056" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapConfig::perplexity_threshold</definition>
+        <argsstring></argsstring>
+        <name>perplexity_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::perplexity_threshold</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+<para>Perplexity anomaly threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="107" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a02b6e6205d4fe59ae430d0389ef8bc29" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::knowledge_gap::KnowledgeGapConfig::perplexity_window_size</definition>
+        <argsstring></argsstring>
+        <name>perplexity_window_size</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::perplexity_window_size</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Sliding window size for perplexity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="108" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a4ef52e60e22fabca54bb9fa3f513686c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapConfig::outlier_zscore_threshold</definition>
+        <argsstring></argsstring>
+        <name>outlier_zscore_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::outlier_zscore_threshold</qualifiedname>
+        <initializer>= 3.0</initializer>
+        <briefdescription>
+<para>Z-score threshold for outlier detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="109" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a528e3680eb3e960d365098e5e0d0e110" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapConfig::enable_ethical_gap_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_ethical_gap_detection</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::enable_ethical_gap_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable ethical perspective gap detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="113" column="10" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1ab744f599d3de4616e79b525f5aea1f9f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::knowledge_gap::KnowledgeGapConfig::min_ethical_perspectives</definition>
+        <argsstring></argsstring>
+        <name>min_ethical_perspectives</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::min_ethical_perspectives</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Minimum diverse perspectives required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="114" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a5fe6f13730acbbb663737b00a70afd42" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapConfig::ethical_diversity_threshold</definition>
+        <argsstring></argsstring>
+        <name>ethical_diversity_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::ethical_diversity_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>Minimum perspective diversity score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="115" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a64ca17f361223372daa52d07c205d661" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::knowledge_gap::KnowledgeGapConfig::ethical_keyword_threshold</definition>
+        <argsstring></argsstring>
+        <name>ethical_keyword_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::ethical_keyword_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Minimum ethical keywords to classify as ethical query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="116" column="9" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1aa5851e80160b707cb060f262671d44af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapConfig::enable_self_consistency_check</definition>
+        <argsstring></argsstring>
+        <name>enable_self_consistency_check</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::enable_self_consistency_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Check answer consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="119" column="10" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a69c2ec0f5974eb57aa94ff86981ae7f5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::knowledge_gap::KnowledgeGapConfig::self_consistency_samples</definition>
+        <argsstring></argsstring>
+        <name>self_consistency_samples</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::self_consistency_samples</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of samples for consistency (3-5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="120" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a0a4bfbd2e11073a5ed94a0205eb26ef9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::rag::knowledge_gap::KnowledgeGapConfig::temperature_range</definition>
+        <argsstring></argsstring>
+        <name>temperature_range</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::temperature_range</qualifiedname>
+        <initializer>= {0.7, 0.8, 0.9}</initializer>
+        <briefdescription>
+<para>Temperature variations for generating diverse samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="121" column="17" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a3954a00d7153c03b61a8afa8185d19bd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapConfig::consistency_threshold</definition>
+        <argsstring></argsstring>
+        <name>consistency_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::consistency_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>Minimum consistency score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="122" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a547ee3a0f178207b23c88da10ca0f7d2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::knowledge_gap::KnowledgeGapConfig::consistency_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>consistency_timeout_ms</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::consistency_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Max timeout per sample (10s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="123" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a146a25645176e633d22bec512fced194" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapConfig::enable_flare</definition>
+        <argsstring></argsstring>
+        <name>enable_flare</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::enable_flare</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable FLARE active retrieval (default: true since v1.4.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="126" column="10" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1acb85a9c94871b25fab3b63a8f00e5024" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::knowledge_gap::KnowledgeGapConfig::max_retrieval_rounds</definition>
+        <argsstring></argsstring>
+        <name>max_retrieval_rounds</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::max_retrieval_rounds</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Max re-retrieval rounds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="127" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1abfe1c394dd72fe09b8b1523c9a31de27" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapConfig::flare_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>flare_confidence_threshold</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::flare_confidence_threshold</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Trigger re-retrieval if confidence &lt; 0.5. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="128" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1abc2dd2670dfb3897a7b11378e32d4e30" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapConfig::enable_claim_verification</definition>
+        <argsstring></argsstring>
+        <name>enable_claim_verification</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::enable_claim_verification</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Verify claims against sources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="131" column="10" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1acc64ad5e2c43eaeddf438fed1bc7418d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapConfig::enable_query_aspect_analysis</definition>
+        <argsstring></argsstring>
+        <name>enable_query_aspect_analysis</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::enable_query_aspect_analysis</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Analyze query aspect coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="132" column="10" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a6d39baf10e3e3afdaaadffc4da1f596a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7" kindref="member">FallbackStrategy</ref> &gt;</type>
+        <definition>std::vector&lt;FallbackStrategy&gt; themis::rag::knowledge_gap::KnowledgeGapConfig::fallback_chain</definition>
+        <argsstring></argsstring>
+        <name>fallback_chain</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::fallback_chain</qualifiedname>
+        <initializer>                           = {
+    <ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7a1d35c50caf4190053a9c5a2232ee3499" kindref="member">FallbackStrategy::EXPAND_SEARCH</ref>,
+    <ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7ad4306b95dcb1a5b514c7cceaea0d9ce6" kindref="member">FallbackStrategy::REFORMULATE_QUERY</ref>,
+    <ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7a27a2700aad54e274903d2ba270cd2d7e" kindref="member">FallbackStrategy::INSUFFICIENT_DATA_RESPONSE</ref>
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="135" column="17" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="135" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a72d42b0011c978551d8f3cd65cf4bdf3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::knowledge_gap::KnowledgeGapConfig::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapConfig::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant identifier threaded through retrieval calls; empty = global/anonymous. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="142" column="17" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration parameters for gap detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_gap_detector.h" line="96" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="96" bodyend="143"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a6559735a0dd631522b5da528345282f3" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a3954a00d7153c03b61a8afa8185d19bd" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>consistency_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a547ee3a0f178207b23c88da10ca0f7d2" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>consistency_timeout_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1ababb30db55f2bda738ec1dec5866b6c7" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>coverage_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1abc2dd2670dfb3897a7b11378e32d4e30" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>enable_claim_verification</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a528e3680eb3e960d365098e5e0d0e110" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>enable_ethical_gap_detection</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a146a25645176e633d22bec512fced194" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>enable_flare</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1acc64ad5e2c43eaeddf438fed1bc7418d" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>enable_query_aspect_analysis</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1aa5851e80160b707cb060f262671d44af" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>enable_self_consistency_check</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a601460d357c48091074c45069662e467" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>enable_token_probability</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a5fe6f13730acbbb663737b00a70afd42" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>ethical_diversity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a64ca17f361223372daa52d07c205d661" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>ethical_keyword_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a6d39baf10e3e3afdaaadffc4da1f596a" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>fallback_chain</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1abfe1c394dd72fe09b8b1523c9a31de27" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>flare_confidence_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1acb85a9c94871b25fab3b63a8f00e5024" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>max_retrieval_rounds</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1ad8a558a9f7a29b459dfd26d96b69785a" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>min_documents</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1ab744f599d3de4616e79b525f5aea1f9f" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>min_ethical_perspectives</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1aeec2f78f151c5f90c5d1cb5b699b8843" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a4ef52e60e22fabca54bb9fa3f513686c" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>outlier_zscore_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a983e0dd9f01c70e5cf4d58e9e085f056" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>perplexity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a02b6e6205d4fe59ae430d0389ef8bc29" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>perplexity_window_size</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a69c2ec0f5974eb57aa94ff86981ae7f5" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>self_consistency_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a4a0f73346448329c30334dab03f8e712" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a0a4bfbd2e11073a5ed94a0205eb26ef9" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>temperature_range</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config_1a72d42b0011c978551d8f3cd65cf4bdf3" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapConfig</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

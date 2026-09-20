@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::GroundTruthAnnotation</compoundname>
+    <includes refid="calibration__manager_8h" local="no">calibration_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1acf1c3586cfd85192967dd92162710043" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::GroundTruthAnnotation::test_id</definition>
+        <argsstring></argsstring>
+        <name>test_id</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::test_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="35" column="17" bodyfile="include/rag/calibration_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1aec645d04d3f6e5878db8d87eb1f797ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::GroundTruthAnnotation::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="36" column="17" bodyfile="include/rag/calibration_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a71cbff08df2ba80241b4b36be6811fa2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::GroundTruthAnnotation::answer</definition>
+        <argsstring></argsstring>
+        <name>answer</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="37" column="17" bodyfile="include/rag/calibration_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1ae5a809f38bb9dfb72331f87d15e51be3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; themis::rag::judge::GroundTruthAnnotation::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="38" column="17" bodyfile="include/rag/calibration_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1af0cabf8246dbcd83d2f2eee3f31429c7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GroundTruthAnnotation::faithfulness_score</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_score</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::faithfulness_score</qualifiedname>
+        <briefdescription>
+<para>Expert annotation (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="41" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a6373f9efc859961acc6a861c1e3e2815" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GroundTruthAnnotation::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::relevance_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="42" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1ab5428e5e957dbec15ce1add380ea1953" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GroundTruthAnnotation::completeness_score</definition>
+        <argsstring></argsstring>
+        <name>completeness_score</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::completeness_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="43" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a91493b3b17d39f20033c2f626e1483e9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GroundTruthAnnotation::coherence_score</definition>
+        <argsstring></argsstring>
+        <name>coherence_score</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::coherence_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="44" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1aa45fbbf12c8acfa2d1f9b3b3462d81cb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GroundTruthAnnotation::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::overall_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="45" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a95f333400660f9d7387a15a8168aade5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::GroundTruthAnnotation::annotators</definition>
+        <argsstring></argsstring>
+        <name>annotators</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::annotators</qualifiedname>
+        <briefdescription>
+<para>List of annotators. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="47" column="17" bodyfile="include/rag/calibration_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a68c3cb0b21a0e6754fd13b02a6a872f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GroundTruthAnnotation::inter_annotator_agreement</definition>
+        <argsstring></argsstring>
+        <name>inter_annotator_agreement</name>
+        <qualifiedname>themis::rag::judge::GroundTruthAnnotation::inter_annotator_agreement</qualifiedname>
+        <briefdescription>
+<para>Agreement score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="48" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Ground truth annotation for calibration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/calibration_manager.h" line="34" column="1" bodyfile="include/rag/calibration_manager.h" bodystart="34" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a95f333400660f9d7387a15a8168aade5" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>annotators</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a71cbff08df2ba80241b4b36be6811fa2" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>answer</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a91493b3b17d39f20033c2f626e1483e9" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>coherence_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1ab5428e5e957dbec15ce1add380ea1953" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>completeness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1ae5a809f38bb9dfb72331f87d15e51be3" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1af0cabf8246dbcd83d2f2eee3f31429c7" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>faithfulness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a68c3cb0b21a0e6754fd13b02a6a872f2" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>inter_annotator_agreement</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1aa45fbbf12c8acfa2d1f9b3b3462d81cb" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1aec645d04d3f6e5878db8d87eb1f797ea" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a6373f9efc859961acc6a861c1e3e2815" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1acf1c3586cfd85192967dd92162710043" prot="public" virt="non-virtual"><scope>themis::rag::judge::GroundTruthAnnotation</scope><name>test_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__similarity__let_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_similarity_let.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/aql/test_aql_similarity_let.cpp</label>
+        <link refid="test__aql__similarity__let_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__similarity__let_8cpp_1a44cc4eda110a69de8b6fc4f6b3630687" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLSimilarityLetTest, DISABLED_SimilarityLetLegacy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLSimilarityLetTest</type>
+        </param>
+        <param>
+          <type>DISABLED_SimilarityLetLegacy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity_let.cpp" line="26" column="1" bodyfile="tests/aql/test_aql_similarity_let.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Disable<sp/>legacy<sp/>AQL<sp/>SIMILARITY<sp/>LET<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_parser.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_translator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;<sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="test__aql__similarity__let_8cpp_1a44cc4eda110a69de8b6fc4f6b3630687" kindref="member">TEST</ref>(AQLSimilarityLetTest,<sp/>TranslateLetSimilaritySortVariable)<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>hotels</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LET<sp/>sim<sp/>=<sp/>SIMILARITY(doc.embedding,<sp/>[0.1,0.2,0.3],<sp/>5)</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>sim<sp/>DESC</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>AQLParser<sp/>p;<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pr<sp/>=<sp/>p.parse(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);<sp/>ASSERT_TRUE(pr.success)<sp/>&lt;&lt;<sp/>pr.error.toString();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tr<sp/>=<sp/>AQLTranslator::translate(pr.query);<sp/>ASSERT_TRUE(tr.success)<sp/>&lt;&lt;<sp/>tr.error_message;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.vector_geo.has_value());</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tr.vector_geo-&gt;k,<sp/>5u);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tr.vector_geo-&gt;spatial_filter);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>legacy<sp/>similarity<sp/>LET<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__aql__similarity__let_8cpp_1a44cc4eda110a69de8b6fc4f6b3630687" kindref="member">TEST</ref>(AQLSimilarityLetTest,<sp/>DISABLED_SimilarityLetLegacy)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>legacy<sp/>AQL<sp/>SIMILARITY<sp/>LET<sp/>tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_similarity_let.cpp"/>
+  </compounddef>
+</doxygen>

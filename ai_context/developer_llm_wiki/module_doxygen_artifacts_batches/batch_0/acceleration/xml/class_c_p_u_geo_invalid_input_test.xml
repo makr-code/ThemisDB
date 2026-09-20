@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_p_u_geo_invalid_input_test" kind="class" language="C++" prot="public">
+    <compoundname>CPUGeoInvalidInputTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_p_u_geo_invalid_input_test_1af801f8816e7942bdc817bde8afd4b939" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" kindref="compound">CPUGeoBackend</ref></type>
+        <definition>CPUGeoBackend CPUGeoInvalidInputTest::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>CPUGeoInvalidInputTest::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_regression.cpp" line="151" column="19" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_p_u_geo_invalid_input_test_1a00792b04a16da928ff9d27638eb9cbb8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CPUGeoInvalidInputTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CPUGeoInvalidInputTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_regression.cpp" line="152" column="10" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_p_u_geo_invalid_input_test_1a70d260093e14833a7b88d3f994d0bc39" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CPUGeoInvalidInputTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CPUGeoInvalidInputTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_regression.cpp" line="153" column="10" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="153" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CPUGeoInvalidInputTest</label>
+        <link refid="class_c_p_u_geo_invalid_input_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CPUGeoInvalidInputTest</label>
+        <link refid="class_c_p_u_geo_invalid_input_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>backend</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::CPUGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_regression.cpp" line="149" column="1" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="149" bodyend="154"/>
+    <listofallmembers>
+      <member refid="class_c_p_u_geo_invalid_input_test_1af801f8816e7942bdc817bde8afd4b939" prot="protected" virt="non-virtual"><scope>CPUGeoInvalidInputTest</scope><name>backend</name></member>
+      <member refid="class_c_p_u_geo_invalid_input_test_1a00792b04a16da928ff9d27638eb9cbb8" prot="protected" virt="non-virtual"><scope>CPUGeoInvalidInputTest</scope><name>SetUp</name></member>
+      <member refid="class_c_p_u_geo_invalid_input_test_1a70d260093e14833a7b88d3f994d0bc39" prot="protected" virt="non-virtual"><scope>CPUGeoInvalidInputTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

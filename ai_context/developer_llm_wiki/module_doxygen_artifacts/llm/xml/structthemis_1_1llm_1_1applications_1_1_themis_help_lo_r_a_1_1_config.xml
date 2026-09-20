@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::applications::ThemisHelpLoRA::Config</compoundname>
+    <includes refid="themis__help__lora_8h" local="no">themis_help_lora.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a7ecdc0f1a18a97ac0558a3750c38cf10" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;model_id)&gt;</type>
+        <definition>using themis::llm::applications::ThemisHelpLoRA::Config::ModelPathProviderFn = std::function&lt;std::string(const std::string&amp; model_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModelPathProviderFn</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::ModelPathProviderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="61" column="9" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1af16cb904f8c351ce9df8b6271e193ec6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Config::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::adapter_id</qualifiedname>
+        <initializer>= &quot;themis_help_lora&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="63" column="21" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a91f3b14ebcdcd3c467c69eb71e876281" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Config::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::base_model_id</qualifiedname>
+        <initializer>= &quot;llama-2-7b&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="64" column="21" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a9cb05a4b131694bdb4fdd43a433efca0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Config::docs_database_path</definition>
+        <argsstring></argsstring>
+        <name>docs_database_path</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::docs_database_path</qualifiedname>
+        <initializer>= &quot;data/docs_database.json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="65" column="21" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a1e8b49362644048074d341494af040dc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a7ecdc0f1a18a97ac0558a3750c38cf10" kindref="member">ModelPathProviderFn</ref></type>
+        <definition>ModelPathProviderFn themis::llm::applications::ThemisHelpLoRA::Config::model_path_provider</definition>
+        <argsstring></argsstring>
+        <name>model_path_provider</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::model_path_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="66" column="29" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1ad4007a568d90d8b26168eeec5bd3ae40" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::applications::ThemisHelpLoRA::Config::enable_remote_loading</definition>
+        <argsstring></argsstring>
+        <name>enable_remote_loading</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::enable_remote_loading</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="69" column="14" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a277d40aa08701fd69e12db908b2e1e07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Config::ollama_url</definition>
+        <argsstring></argsstring>
+        <name>ollama_url</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::ollama_url</qualifiedname>
+        <initializer>= &quot;http://localhost:11434&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="70" column="21" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1ab5e400a79c265bb68d016942db6d6c42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Config::ollama_model_name</definition>
+        <argsstring></argsstring>
+        <name>ollama_model_name</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::ollama_model_name</qualifiedname>
+        <initializer>= &quot;llama2:7b&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="71" column="21" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a5095fff37325f839df078b40879f14eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Config::model_config_yaml</definition>
+        <argsstring></argsstring>
+        <name>model_config_yaml</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::model_config_yaml</qualifiedname>
+        <initializer>= &quot;config/llm_remote_models.yaml&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="72" column="21" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1acb8568d8bed4cc2f7c6dfabd5e841ad8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::applications::ThemisHelpLoRA::Config::auto_download_model</definition>
+        <argsstring></argsstring>
+        <name>auto_download_model</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::auto_download_model</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="73" column="14" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1aa7f0d10e51fb540eb497225c7cdc7978" prot="public" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::llm::applications::ThemisHelpLoRA::Config::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::db</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="76" column="32" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a040a66a6eab1b6675aac1ec5688ab12d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::BlobStorageManager &gt;</type>
+        <definition>std::shared_ptr&lt;storage::BlobStorageManager&gt; themis::llm::applications::ThemisHelpLoRA::Config::blob_manager</definition>
+        <argsstring></argsstring>
+        <name>blob_manager</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::blob_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="77" column="25" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a55bb295253e4498e3df0dee86028b9a7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">lora::LoRAHyperparameters</ref></type>
+        <definition>lora::LoRAHyperparameters themis::llm::applications::ThemisHelpLoRA::Config::hyperparameters</definition>
+        <argsstring></argsstring>
+        <name>hyperparameters</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::hyperparameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="80" column="35" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a750478ccbdeb102ce065e8252a7cb603" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::applications::ThemisHelpLoRA::Config::feedback_batch_size</definition>
+        <argsstring></argsstring>
+        <name>feedback_batch_size</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::feedback_batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="81" column="13" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a831f64c123711dcdbd7ee132e92cbce2" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::llm::applications::ThemisHelpLoRA::Config::training_interval</definition>
+        <argsstring></argsstring>
+        <name>training_interval</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::training_interval</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="82" column="28" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a5a3db908f251062320dfdcbd9bba376e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::applications::ThemisHelpLoRA::Config::min_accuracy_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_accuracy_threshold</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::min_accuracy_threshold</qualifiedname>
+        <initializer>= 0.80f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="85" column="15" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1acf18e88c68494e0d590f00083b904efb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::applications::ThemisHelpLoRA::Config::enable_ab_testing</definition>
+        <argsstring></argsstring>
+        <name>enable_ab_testing</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::enable_ab_testing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="86" column="14" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a3faf9c65c7852e6a398b98ebd6470388" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::applications::ThemisHelpLoRA::Config::enable_auto_rollback</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_rollback</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Config::enable_auto_rollback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="87" column="14" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::applications::ThemisHelpLoRA::Config</label>
+        <link refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>hyperparameters</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LoRAHyperparameters</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/applications/themis_help_lora.h" line="60" column="5" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="60" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1af16cb904f8c351ce9df8b6271e193ec6" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1acb8568d8bed4cc2f7c6dfabd5e841ad8" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>auto_download_model</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a91f3b14ebcdcd3c467c69eb71e876281" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a040a66a6eab1b6675aac1ec5688ab12d" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>blob_manager</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1aa7f0d10e51fb540eb497225c7cdc7978" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>db</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a9cb05a4b131694bdb4fdd43a433efca0" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>docs_database_path</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1acf18e88c68494e0d590f00083b904efb" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>enable_ab_testing</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a3faf9c65c7852e6a398b98ebd6470388" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>enable_auto_rollback</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1ad4007a568d90d8b26168eeec5bd3ae40" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>enable_remote_loading</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a750478ccbdeb102ce065e8252a7cb603" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>feedback_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a55bb295253e4498e3df0dee86028b9a7" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>hyperparameters</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a5a3db908f251062320dfdcbd9bba376e" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>min_accuracy_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a5095fff37325f839df078b40879f14eb" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>model_config_yaml</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a1e8b49362644048074d341494af040dc" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>model_path_provider</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a7ecdc0f1a18a97ac0558a3750c38cf10" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>ModelPathProviderFn</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1ab5e400a79c265bb68d016942db6d6c42" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>ollama_model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a277d40aa08701fd69e12db908b2e1e07" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>ollama_url</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config_1a831f64c123711dcdbd7ee132e92cbce2" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Config</scope><name>training_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

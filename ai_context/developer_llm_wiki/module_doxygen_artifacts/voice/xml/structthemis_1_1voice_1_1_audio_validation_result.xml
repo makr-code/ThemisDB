@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_audio_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::AudioValidationResult</compoundname>
+    <includes refid="audio__preprocessing_8h" local="no">audio_preprocessing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1a53a5cf13b98631b41fcc69608605a9bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::AudioValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::voice::AudioValidationResult::valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="126" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1aa3aa946f0fdbf3c56fa435053036e32c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::AudioValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::voice::AudioValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="127" column="17" bodyfile="include/voice/audio_preprocessing.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1a1a32c70ab1de28fdcd2aaea94178643b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a12df9265b79368d5b81b950e55bbc6f7" kindref="member">DetectedAudioCodec</ref></type>
+        <definition>DetectedAudioCodec themis::voice::AudioValidationResult::detected_codec</definition>
+        <argsstring></argsstring>
+        <name>detected_codec</name>
+        <qualifiedname>themis::voice::AudioValidationResult::detected_codec</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1a12df9265b79368d5b81b950e55bbc6f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">DetectedAudioCodec::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="128" column="24" bodyfile="include/voice/audio_preprocessing.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1a709e364c38997fd319fa7f4b2ea1ec47" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::AudioValidationResult::detected_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>detected_sample_rate</name>
+        <qualifiedname>themis::voice::AudioValidationResult::detected_sample_rate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="129" column="9" bodyfile="include/voice/audio_preprocessing.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1af20bc7d416c6de2852eb7773675e91b6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::AudioValidationResult::detected_channels</definition>
+        <argsstring></argsstring>
+        <name>detected_channels</name>
+        <qualifiedname>themis::voice::AudioValidationResult::detected_channels</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="130" column="9" bodyfile="include/voice/audio_preprocessing.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1af9a62774ff9d780f70bf38811fd60d81" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::AudioValidationResult::detected_bits_per_sample</definition>
+        <argsstring></argsstring>
+        <name>detected_bits_per_sample</name>
+        <qualifiedname>themis::voice::AudioValidationResult::detected_bits_per_sample</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="131" column="9" bodyfile="include/voice/audio_preprocessing.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1acf83ce0962b6cb1fe7f01659b96047e3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::AudioValidationResult::is_malformed_frame_header</definition>
+        <argsstring></argsstring>
+        <name>is_malformed_frame_header</name>
+        <qualifiedname>themis::voice::AudioValidationResult::is_malformed_frame_header</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="132" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1a88ce055330db52ece4a6de59c41e8e9e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::AudioValidationResult::is_truncated</definition>
+        <argsstring></argsstring>
+        <name>is_truncated</name>
+        <qualifiedname>themis::voice::AudioValidationResult::is_truncated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="133" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_validation_result_1a18f06158648bd5e9aae509af40ad8e82" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::AudioValidationResult::is_overflow_attempt</definition>
+        <argsstring></argsstring>
+        <name>is_overflow_attempt</name>
+        <qualifiedname>themis::voice::AudioValidationResult::is_overflow_attempt</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="134" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/audio_preprocessing.h" line="125" column="1" bodyfile="include/voice/audio_preprocessing.h" bodystart="125" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1af9a62774ff9d780f70bf38811fd60d81" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>detected_bits_per_sample</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1af20bc7d416c6de2852eb7773675e91b6" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>detected_channels</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1a1a32c70ab1de28fdcd2aaea94178643b" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>detected_codec</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1a709e364c38997fd319fa7f4b2ea1ec47" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>detected_sample_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1aa3aa946f0fdbf3c56fa435053036e32c" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1acf83ce0962b6cb1fe7f01659b96047e3" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>is_malformed_frame_header</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1a18f06158648bd5e9aae509af40ad8e82" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>is_overflow_attempt</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1a88ce055330db52ece4a6de59c41e8e9e" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>is_truncated</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_validation_result_1a53a5cf13b98631b41fcc69608605a9bc" prot="public" virt="non-virtual"><scope>themis::voice::AudioValidationResult</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

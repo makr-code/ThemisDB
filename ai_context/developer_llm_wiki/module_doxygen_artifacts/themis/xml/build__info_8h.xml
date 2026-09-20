@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="build__info_8h" kind="file" language="C++">
+    <compoundname>build_info.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">functional</includes>
+    <includes refid="edition_8h" local="yes">themis/edition.h</includes>
+    <includes refid="export_8h" local="yes">themis/export.h</includes>
+    <includedby refid="bench__themis__core_8cpp" local="yes">benchmarks/themis/bench_themis_core.cpp</includedby>
+    <includedby refid="build__info_8cpp" local="yes">src/themis/build_info.cpp</includedby>
+    <includedby refid="test__themis__integration_8cpp" local="yes">tests/themis/test_themis_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/build_info.h</label>
+        <link refid="build__info_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis/edition.h</label>
+        <link refid="edition_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis/export.h</label>
+        <link refid="export_8h"/>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>utility</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/themis/bench_themis_core.cpp</label>
+        <link refid="bench__themis__core_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/themis/build_info.h</label>
+        <link refid="build__info_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/themis/build_info.cpp</label>
+        <link refid="build__info_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1build__info_1_1_module_info" prot="public">themis::build_info::ModuleInfo</innerclass>
+    <innerclass refid="structthemis_1_1build__info_1_1_build_configuration" prot="public">themis::build_info::BuildConfiguration</innerclass>
+    <innerclass refid="structthemis_1_1build__info_1_1_reproducibility_info" prot="public">themis::build_info::ReproducibilityInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1build__info">themis::build_info</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>Build<sp/>Information</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>==========================</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>Captures<sp/>compile-time<sp/>configuration<sp/>and<sp/>module<sp/>availability.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>This<sp/>header<sp/>provides<sp/>runtime<sp/>access<sp/>to<sp/>CMake<sp/>build<sp/>flags<sp/>and<sp/>edition<sp/>settings.</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="edition_8h" kindref="compound">themis/edition.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="export_8h" kindref="compound">themis/export.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1build__info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1build__info" kindref="compound">build_info</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MODULE<sp/>BUILD<sp/>STATUS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1build__info_1_1_module_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1build__info_1_1_module_info" kindref="compound">ModuleInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1build__info_1_1_module_info_1a8a0d1f366f404263e4f7be7dd991fd50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_module_info_1a8a0d1f366f404263e4f7be7dd991fd50" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1build__info_1_1_module_info_1a00d77e6c167ae891bcbe97b777a5e235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1build__info_1_1_module_info_1a00d77e6c167ae891bcbe97b777a5e235" kindref="member">compiled_in</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Was<sp/>this<sp/>module<sp/>compiled<sp/>into<sp/>the<sp/>binary?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1build__info_1_1_module_info_1a23348eecabac95cac72b8323f379968a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1build__info_1_1_module_info_1a23348eecabac95cac72b8323f379968a" kindref="member">runtime_enabled</ref>;<sp/></highlight><highlight class="comment">//<sp/>Is<sp/>this<sp/>module<sp/>enabled<sp/>via<sp/>config?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1build__info_1_1_module_info_1a0ddfea07b4835e740695188fb5238983" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_module_info_1a0ddfea07b4835e740695188fb5238983" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1build__info_1_1_build_configuration" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1build__info_1_1_build_configuration" kindref="compound">BuildConfiguration</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edition<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1build__info_1_1_build_configuration_1a4e8fb7a97094ffe39903ea84018b8905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1a4e8fb7a97094ffe39903ea84018b8905" kindref="member">edition_name</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1build__info_1_1_build_configuration_1addbc396a2f4a8062a34b85e12cd37dec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1addbc396a2f4a8062a34b85e12cd37dec" kindref="member">edition_type</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1build__info_1_1_build_configuration_1a89cb8c0afb0088113a431317d61d642d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1a89cb8c0afb0088113a431317d61d642d" kindref="member">gpu_max_vram_gb</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1build__info_1_1_build_configuration_1abda909d3d9bfa453e099171b71ebab78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1abda909d3d9bfa453e099171b71ebab78" kindref="member">sharding_max_nodes</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compiler<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1build__info_1_1_build_configuration_1a7f6859e65339f39bd28765809e688409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1a7f6859e65339f39bd28765809e688409" kindref="member">compiler</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1build__info_1_1_build_configuration_1a3dc53afa723dc4bb84e4700b61321fa1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1a3dc53afa723dc4bb84e4700b61321fa1" kindref="member">compiler_version</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1build__info_1_1_build_configuration_1a14ebdf146a9161e714bb159229bd124d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1a14ebdf146a9161e714bb159229bd124d" kindref="member">build_type</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1build__info_1_1_build_configuration_1a21b4919ef0bc492262fcb95af629591e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1a21b4919ef0bc492262fcb95af629591e" kindref="member">build_timestamp</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Module<sp/>compilation<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1build__info_1_1_build_configuration_1a7daae54aa1946b924eb575a33a1e6d9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ModuleInfo&gt;<sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1a7daae54aa1946b924eb575a33a1e6d9d" kindref="member">modules</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1build__info_1_1_build_configuration_1ac5856e5a3843f7164a39728e633ffae7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>bool&gt;&gt;<sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration_1ac5856e5a3843f7164a39728e633ffae7" kindref="member">compile_flags</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BUILD<sp/>INFORMATION<sp/>COLLECTION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Windows<sp/>DLL<sp/>/<sp/>STL<sp/>ABI<sp/>note:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>The<sp/>APIs<sp/>below<sp/>pass<sp/>and<sp/>return<sp/>STL<sp/>types<sp/>(std::string,<sp/>std::vector,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>std::optional,<sp/>std::map)<sp/>across<sp/>the<sp/>DLL<sp/>boundary.<sp/><sp/>This<sp/>is<sp/>safe<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>when<sp/>the<sp/>consumer<sp/>and<sp/>the<sp/>DLL<sp/>are<sp/>compiled<sp/>with<sp/>the<sp/>*same*<sp/>MSVC<sp/>toolset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>version<sp/>and<sp/>the<sp/>same<sp/>CRT<sp/>linkage<sp/>(default:<sp/>/MD,<sp/>MultiThreadedDLL).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Mixing<sp/>toolset<sp/>versions<sp/>or<sp/>CRT<sp/>flavours<sp/>(/MT<sp/>vs<sp/>/MD)<sp/>will<sp/>cause<sp/>crashes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>or<sp/>heap<sp/>corruption<sp/>at<sp/>runtime.<sp/><sp/>Third-party<sp/>consumers<sp/>must<sp/>therefore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>build<sp/>against<sp/>the<sp/>same<sp/>Visual<sp/>Studio<sp/>version<sp/>that<sp/>produced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>themis_base.dll.<sp/><sp/>A<sp/>stable<sp/>C<sp/>ABI<sp/>wrapper<sp/>is<sp/>planned<sp/>for<sp/>v2.0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration" kindref="compound">BuildConfiguration</ref><sp/><ref refid="namespacethemis_1_1build__info_1a260131a45d3795075fad7e71484d7657" kindref="member">getBuildConfiguration</ref>();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/>std::string<sp/><ref refid="namespacethemis_1_1build__info_1a51e2cf94f58ab2523ec7744072dca60b" kindref="member">formatBuildInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1build__info_1_1_build_configuration" kindref="compound">BuildConfiguration</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/>std::string<sp/><ref refid="namespacethemis_1_1build__info_1a8bfdbe56c62732208d9c6424d389ff4f" kindref="member">getVersionSummary</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MODULE<sp/>STATUS<sp/>QUERIES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1build__info_1a0b82edf368d2881afac5b32d6d925691" kindref="member">isModuleCompiledIn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>module_name);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="namespacethemis_1_1build__info_1a3c4904f04b6337f8e2b2c77a5decdd2a" kindref="member">getCompiledModules</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="namespacethemis_1_1build__info_1a32edd00495dbd52fe5af323b770a91a8" kindref="member">getDisabledModules</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BUILD<sp/>REPRODUCIBILITY<sp/>(Phase<sp/>1<sp/>-<sp/>v1.7.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1build__info_1_1_reproducibility_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1build__info_1_1_reproducibility_info" kindref="compound">ReproducibilityInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1build__info_1_1_reproducibility_info_1a9d98a159a90663588d6b020bb2044c01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1a9d98a159a90663588d6b020bb2044c01" kindref="member">git_commit</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1build__info_1_1_reproducibility_info_1a31fa266715d04b1d384ad62781ba9bbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1a31fa266715d04b1d384ad62781ba9bbc" kindref="member">git_commit_date</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1build__info_1_1_reproducibility_info_1a073f59bc76c4b2d0feab50d089de8171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1a073f59bc76c4b2d0feab50d089de8171" kindref="member">git_branch</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1build__info_1_1_reproducibility_info_1a443a44a643aab139f3d224400b52b30a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1a443a44a643aab139f3d224400b52b30a" kindref="member">git_dirty</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1build__info_1_1_reproducibility_info_1a988c77921f475027fd7c630e11f1080e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1a988c77921f475027fd7c630e11f1080e" kindref="member">build_host</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1build__info_1_1_reproducibility_info_1a90f95d47dbf4b187a4aea9e1cd651cf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1a90f95d47dbf4b187a4aea9e1cd651cf1" kindref="member">build_user</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1build__info_1_1_reproducibility_info_1acc300b6598818b4ca468742a2519013f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1acc300b6598818b4ca468742a2519013f" kindref="member">toolchain</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1build__info_1_1_reproducibility_info_1a7635b845902a39538ec11e17e24f1d14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1a7635b845902a39538ec11e17e24f1d14" kindref="member">dependencies</ref>;<sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1build__info_1_1_reproducibility_info_1a2a62252479245d68b11fc68ae9e14f66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info_1a2a62252479245d68b11fc68ae9e14f66" kindref="member">binary_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/><ref refid="structthemis_1_1build__info_1_1_reproducibility_info" kindref="compound">ReproducibilityInfo</ref><sp/><ref refid="namespacethemis_1_1build__info_1a30f453a0b17e4272e39050f5b9934e7c" kindref="member">getReproducibilityInfo</ref>();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1build__info_1a0e90aa06606028c54c922914fc1cac7a" kindref="member">exportBuildManifest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_path);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1build__info_1af8a4050dd7638736e34205b06bc70789" kindref="member">verifyBuildManifest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>manifest_path);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HSM<sp/>MODULE<sp/>STATUS<sp/>BRIDGE<sp/>(STUB<sp/>#95)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Allows<sp/>the<sp/>server<sp/>startup<sp/>code<sp/>to<sp/>inject<sp/>the<sp/>actual<sp/>runtime<sp/>HSM<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>into<sp/>the<sp/>build-info<sp/>module<sp/>report.<sp/><sp/>When<sp/>the<sp/>bridge<sp/>is<sp/>set,<sp/>the<sp/>HSM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PKCS#11<sp/>module<sp/>entry<sp/>in<sp/>getBuildConfiguration()<sp/>reflects<sp/>the<sp/>live<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>of<sp/>the<sp/>HSM<sp/>provider<sp/>(stub<sp/>vs.<sp/>hardware-backed)<sp/>instead<sp/>of<sp/>the<sp/>static</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>compile-time<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>bridge<sp/>is<sp/>only<sp/>consulted<sp/>in<sp/>builds<sp/>WITHOUT<sp/>THEMIS_ENABLE_HSM_REAL.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>THEMIS_ENABLE_HSM_REAL<sp/>builds<sp/>the<sp/>real<sp/>HSM<sp/>is<sp/>compiled<sp/>in<sp/>and<sp/>always</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>reported<sp/>as<sp/>compiled_in=true.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage<sp/>(server<sp/>startup):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>themis::build_info::setHsmModuleStatusFn([]()<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>bool<sp/>real<sp/>=<sp/>!hsm-&gt;isStubProvider();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>desc<sp/>=<sp/>real<sp/>?<sp/>&quot;HSM<sp/>PKCS#11<sp/>(hardware-backed)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>&quot;HSM<sp/>PKCS#11<sp/>(software<sp/>stub<sp/>–<sp/>dev<sp/>only)&quot;;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>std::make_pair(real,<sp/>desc);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>});</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage<sp/>(tests<sp/>/<sp/>teardown):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>themis::build_info::clearHsmModuleStatusFn();<sp/><sp/>//<sp/>restore<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="namespacethemis_1_1build__info_1ac598bc91fe42164e55717e13e4e95453" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1build__info_1ac598bc91fe42164e55717e13e4e95453" kindref="member">HsmModuleStatusFn</ref><sp/>=<sp/>std::function&lt;std::pair&lt;bool,<sp/>std::string&gt;()&gt;;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1build__info_1adc3136ef834dbe620ecd7dddd8cba253" kindref="member">setHsmModuleStatusFn</ref>(<ref refid="namespacethemis_1_1build__info_1ac598bc91fe42164e55717e13e4e95453" kindref="member">HsmModuleStatusFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1build__info_1ae049c3c9bda92694d5c9e72167ff1c99" kindref="member">clearHsmModuleStatusFn</ref>();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>build_info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/build_info.h"/>
+  </compounddef>
+</doxygen>

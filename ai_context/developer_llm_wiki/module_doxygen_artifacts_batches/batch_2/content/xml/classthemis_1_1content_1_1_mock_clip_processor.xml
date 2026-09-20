@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_mock_clip_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::MockClipProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="mock__clip__processor_8h" local="no">mock_clip_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_mock_clip_processor_1a1e9463ba381dd0266efbc3b5c96de70d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::MockClipProcessor::dim_</definition>
+        <argsstring></argsstring>
+        <name>dim_</name>
+        <qualifiedname>themis::content::MockClipProcessor::dim_</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="33" column="9" bodyfile="include/content/mock_clip_processor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_mock_clip_processor_1ace2711c7b3486116b70f69371abfeff0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::MockClipProcessor::MockClipProcessor</definition>
+        <argsstring>(int dim=512)</argsstring>
+        <name>MockClipProcessor</name>
+        <qualifiedname>themis::content::MockClipProcessor::MockClipProcessor</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dim</declname>
+          <defval>512</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="23" column="5" bodyfile="include/content/mock_clip_processor.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_mock_clip_processor_1a09b42edfc73dee7c69063a72232230b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::MockClipProcessor::~MockClipProcessor</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~MockClipProcessor</name>
+        <qualifiedname>themis::content::MockClipProcessor::~MockClipProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_mock_clip_processor_1a5cf660372e9025b9f1247613bdbeb5ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::MockClipProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::MockClipProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::object(), size(), computeMockEmbedding_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="26" column="22" bodyfile="src/content/mock_clip_processor.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_mock_clip_processor_1a85f5e3b69d3903510f8cad4337687230" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt; nlohmann::json &gt; themis::content::MockClipProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::MockClipProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extraction_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="27" column="17" bodyfile="src/content/mock_clip_processor.cpp" bodystart="47" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_mock_clip_processor_1a8ae0e1118445015f72ececfe723a5aab" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::MockClipProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::MockClipProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: computeMockEmbedding_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="28" column="17" bodyfile="src/content/mock_clip_processor.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_mock_clip_processor_1a107832e0d25bc070857769503a9fa022" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::MockClipProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::MockClipProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="29" column="17" bodyfile="include/content/mock_clip_processor.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_mock_clip_processor_1ab8fce3015a385fc6171352f9205ea69c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::MockClipProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::MockClipProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="30" column="17" bodyfile="include/content/mock_clip_processor.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_mock_clip_processor_1ab6075cc20f7e0d7f6d01641cbb276d01" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::MockClipProcessor::computeMockEmbedding_</definition>
+        <argsstring>(const std::string &amp;data) const</argsstring>
+        <name>computeMockEmbedding_</name>
+        <qualifiedname>themis::content::MockClipProcessor::computeMockEmbedding_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute Mock Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mock_clip_processor.h" line="39" column="17" bodyfile="src/content/mock_clip_processor.cpp" bodystart="69" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::MockClipProcessor</label>
+        <link refid="classthemis_1_1content_1_1_mock_clip_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::MockClipProcessor</label>
+        <link refid="classthemis_1_1content_1_1_mock_clip_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/mock_clip_processor.h" line="21" column="1" bodyfile="include/content/mock_clip_processor.h" bodystart="21" bodyend="40"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1a85f5e3b69d3903510f8cad4337687230" prot="public" virt="virtual"><scope>themis::content::MockClipProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1ab6075cc20f7e0d7f6d01641cbb276d01" prot="private" virt="non-virtual"><scope>themis::content::MockClipProcessor</scope><name>computeMockEmbedding_</name></member>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1a1e9463ba381dd0266efbc3b5c96de70d" prot="private" virt="non-virtual"><scope>themis::content::MockClipProcessor</scope><name>dim_</name></member>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1a5cf660372e9025b9f1247613bdbeb5ac" prot="public" virt="virtual"><scope>themis::content::MockClipProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1a8ae0e1118445015f72ececfe723a5aab" prot="public" virt="virtual"><scope>themis::content::MockClipProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1a107832e0d25bc070857769503a9fa022" prot="public" virt="virtual"><scope>themis::content::MockClipProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1ab8fce3015a385fc6171352f9205ea69c" prot="public" virt="virtual"><scope>themis::content::MockClipProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1ace2711c7b3486116b70f69371abfeff0" prot="public" virt="non-virtual"><scope>themis::content::MockClipProcessor</scope><name>MockClipProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::MockClipProcessor</scope><name>~IContentProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_mock_clip_processor_1a09b42edfc73dee7c69063a72232230b5" prot="public" virt="non-virtual"><scope>themis::content::MockClipProcessor</scope><name>~MockClipProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

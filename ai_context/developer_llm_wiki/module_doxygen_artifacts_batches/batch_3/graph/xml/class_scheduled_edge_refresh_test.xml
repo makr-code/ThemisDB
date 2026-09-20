@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_scheduled_edge_refresh_test" kind="class" language="C++" prot="public">
+    <compoundname>ScheduledEdgeRefreshTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <derivedcompoundref refid="class_similarity_test" prot="public" virt="non-virtual">SimilarityTest</derivedcompoundref>
+    <derivedcompoundref refid="class_temporal_decay_test" prot="public" virt="non-virtual">TemporalDecayTest</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_scheduled_edge_refresh_test_1a307c3fa0b1b9c465f04fa55ca4c8d03b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ScheduledEdgeRefreshTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>ScheduledEdgeRefreshTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="128" column="42" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduled_edge_refresh_test_1a94287f079a87c3682ffb752580e163ac" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ScheduledEdgeRefreshTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ScheduledEdgeRefreshTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="129" column="26" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduled_edge_refresh_test_1a8ea9aa0f79e7755e1735eb4326493b1a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; ScheduledEdgeRefreshTest::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>ScheduledEdgeRefreshTest::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="130" column="23" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_scheduled_edge_refresh_test_1a3eb4a69347d8dc82fd03c58e71099ce5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScheduledEdgeRefreshTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ScheduledEdgeRefreshTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="55" column="10" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="55" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduled_edge_refresh_test_1ab0479ae370eca1ea508a12e31285edc3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScheduledEdgeRefreshTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ScheduledEdgeRefreshTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="84" column="10" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduled_edge_refresh_test_1a8971a52bb0ce46c16118bb9312fe7500" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScheduledEdgeRefreshTest::addEdge</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;from, const std::string &amp;to, double weight=1.0, int64_t created_at_sec=0)</argsstring>
+        <name>addEdge</name>
+        <qualifiedname>ScheduledEdgeRefreshTest::addEdge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight</declname>
+          <defval>1.0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>created_at_sec</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="93" column="10" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="93" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduled_edge_refresh_test_1a45efce0b5c99ee0bec57f6cf8a05b103" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScheduledEdgeRefreshTest::buildSmallGraph</definition>
+        <argsstring>()</argsstring>
+        <name>buildSmallGraph</name>
+        <qualifiedname>ScheduledEdgeRefreshTest::buildSmallGraph</qualifiedname>
+        <briefdescription>
+<para>Build a simple graph: A→B, B→C, C→D, A→D. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="110" column="10" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_scheduled_edge_refresh_test_1a899754ab2fc84e0c4ca87887f4b83524" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1graph_1a6079938a2f38c988cd5df3a11acd9180" kindref="member">NodeEmbeddingProvider</ref></type>
+        <definition>static NodeEmbeddingProvider ScheduledEdgeRefreshTest::makeEmbeddingProvider</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt; &amp;embs)</argsstring>
+        <name>makeEmbeddingProvider</name>
+        <qualifiedname>ScheduledEdgeRefreshTest::makeEmbeddingProvider</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>embs</declname>
+        </param>
+        <briefdescription>
+<para>Minimal always-positive embedding provider. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="118" column="34" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ScheduledEdgeRefreshTest</label>
+        <link refid="class_scheduled_edge_refresh_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>SimilarityTest</label>
+        <link refid="class_similarity_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>TemporalDecayTest</label>
+        <link refid="class_temporal_decay_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ScheduledEdgeRefreshTest</label>
+        <link refid="class_scheduled_edge_refresh_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_scheduled_edge_refresh.cpp" line="53" column="1" bodyfile="tests/graph/test_scheduled_edge_refresh.cpp" bodystart="53" bodyend="131"/>
+    <listofallmembers>
+      <member refid="class_scheduled_edge_refresh_test_1a8971a52bb0ce46c16118bb9312fe7500" prot="protected" virt="non-virtual"><scope>ScheduledEdgeRefreshTest</scope><name>addEdge</name></member>
+      <member refid="class_scheduled_edge_refresh_test_1a45efce0b5c99ee0bec57f6cf8a05b103" prot="protected" virt="non-virtual"><scope>ScheduledEdgeRefreshTest</scope><name>buildSmallGraph</name></member>
+      <member refid="class_scheduled_edge_refresh_test_1a94287f079a87c3682ffb752580e163ac" prot="protected" virt="non-virtual"><scope>ScheduledEdgeRefreshTest</scope><name>db_</name></member>
+      <member refid="class_scheduled_edge_refresh_test_1a8ea9aa0f79e7755e1735eb4326493b1a" prot="protected" virt="non-virtual"><scope>ScheduledEdgeRefreshTest</scope><name>graph_mgr_</name></member>
+      <member refid="class_scheduled_edge_refresh_test_1a899754ab2fc84e0c4ca87887f4b83524" prot="protected" virt="non-virtual"><scope>ScheduledEdgeRefreshTest</scope><name>makeEmbeddingProvider</name></member>
+      <member refid="class_scheduled_edge_refresh_test_1a3eb4a69347d8dc82fd03c58e71099ce5" prot="protected" virt="non-virtual"><scope>ScheduledEdgeRefreshTest</scope><name>SetUp</name></member>
+      <member refid="class_scheduled_edge_refresh_test_1ab0479ae370eca1ea508a12e31285edc3" prot="protected" virt="non-virtual"><scope>ScheduledEdgeRefreshTest</scope><name>TearDown</name></member>
+      <member refid="class_scheduled_edge_refresh_test_1a307c3fa0b1b9c465f04fa55ca4c8d03b" prot="protected" virt="non-virtual"><scope>ScheduledEdgeRefreshTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

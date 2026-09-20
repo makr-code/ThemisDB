@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_schema_dead_weight_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::SchemaDeadWeightDetector</compoundname>
+    <includes refid="schema__dead__weight__detector_8h" local="no">schema_dead_weight_detector.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate" prot="public">themis::storage::SchemaDeadWeightDetector::DeadWeightCandidate</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" prot="public">themis::storage::SchemaDeadWeightDetector::DeadWeightReport</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config" prot="public">themis::storage::SchemaDeadWeightDetector::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1aade8c2fba1a06547438a5b093b83f52f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::storage::SchemaDeadWeightDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="208" column="12" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a46c3cab49e952b8ca24de0b9cbbfb8f5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+        <definition>std::shared_ptr&lt;themis::llm::DecisionRecordYamlProcessor&gt; themis::storage::SchemaDeadWeightDetector::dr_processor_</definition>
+        <argsstring></argsstring>
+        <name>dr_processor_</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::dr_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="209" column="21" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaDeadWeightDetector::SchemaDeadWeightDetector</definition>
+        <argsstring>()</argsstring>
+        <name>SchemaDeadWeightDetector</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::SchemaDeadWeightDetector</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="148" column="5" bodyfile="src/storage/schema_dead_weight_detector.cpp" bodystart="34" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a692b46b75e67c7c2b883f67c60b048e4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaDeadWeightDetector::SchemaDeadWeightDetector</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>SchemaDeadWeightDetector</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::SchemaDeadWeightDetector</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with explicit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Two overloads instead of <computeroutput>= {}</computeroutput> default arg to work around GCC DR1607 (nested struct with non-trivially-constructible default member initialisers used in an enclosing-class declaration). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="157" column="14" bodyfile="src/storage/schema_dead_weight_detector.cpp" bodystart="37" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ac4abebd1b1044ae48873c2a9ac4d4ea2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaDeadWeightDetector::~SchemaDeadWeightDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SchemaDeadWeightDetector</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::~SchemaDeadWeightDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="158" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ae6b3491c38a78b41097a8d7289a9bd19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaDeadWeightDetector::SchemaDeadWeightDetector</definition>
+        <argsstring>(const SchemaDeadWeightDetector &amp;)=delete</argsstring>
+        <name>SchemaDeadWeightDetector</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::SchemaDeadWeightDetector</qualifiedname>
+        <param>
+          <type>const SchemaDeadWeightDetector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="160" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a444878e41b6024034672e6567f594c6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref> &amp;</type>
+        <definition>SchemaDeadWeightDetector &amp; themis::storage::SchemaDeadWeightDetector::operator=</definition>
+        <argsstring>(const SchemaDeadWeightDetector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="161" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ae8d979a31be4b2c45c1d591fa2d8ceae" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaDeadWeightDetector::SchemaDeadWeightDetector</definition>
+        <argsstring>(SchemaDeadWeightDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>SchemaDeadWeightDetector</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::SchemaDeadWeightDetector</qualifiedname>
+        <param>
+          <type>SchemaDeadWeightDetector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="162" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a42e3953113405ac6ff015322bc0ac568" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref> &amp;</type>
+        <definition>SchemaDeadWeightDetector &amp; themis::storage::SchemaDeadWeightDetector::operator=</definition>
+        <argsstring>(SchemaDeadWeightDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="163" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a73a49902eca12a46bc06190ba86bb6d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::SchemaDeadWeightDetector::setDecisionRecordProcessor</definition>
+        <argsstring>(std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt; processor)</argsstring>
+        <name>setDecisionRecordProcessor</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::setDecisionRecordProcessor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+          <declname>processor</declname>
+        </param>
+        <briefdescription>
+<para>Set Decision Record Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="167" column="10" bodyfile="src/storage/schema_dead_weight_detector.cpp" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1aa8155b250e89067b3cd13ae7888c4716" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" kindref="compound">DeadWeightReport</ref></type>
+        <definition>SchemaDeadWeightDetector::DeadWeightReport themis::storage::SchemaDeadWeightDetector::analyze</definition>
+        <argsstring>(const SchemaAccessStats &amp;stats, const GdprFieldRegistry &amp;gdpr_fields) const</argsstring>
+        <name>analyze</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::analyze</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1storage_1aa5362385bfc0f6b7c1e3297b95a2d999" kindref="member">SchemaAccessStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_gdpr_field_registry" kindref="compound">GdprFieldRegistry</ref> &amp;</type>
+          <declname>gdpr_fields</declname>
+        </param>
+        <briefdescription>
+<para>Analyse schema access statistics and produce a dead-weight report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Algorithm:<orderedlist>
+<listitem><para>For each field in <computeroutput>stats</computeroutput>: a. Skip if GDPR-protected. b. Compute <computeroutput>days_since_access</computeroutput> from the most recent <ref refid="namespacethemis_1_1storage_1a365a225413396039b859e230686dd0a5" kindref="member">AccessEntry</ref>. c. Compute <computeroutput>seasonality_score</computeroutput> via <computeroutput><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ab09233e7450bc1204612fb133d823aee" kindref="member">computeSeasonalityScore()</ref></computeroutput>. d. Compute <computeroutput>confidence</computeroutput> using the formula above. e. Skip if <computeroutput>confidence &lt; config_.min_confidence</computeroutput>. f. Skip if <computeroutput>seasonality_score &gt;= config_.seasonality_exclusion_threshold</computeroutput>.</para>
+</listitem><listitem><para>For surviving candidates determine <computeroutput>recommendation</computeroutput>.</para>
+</listitem><listitem><para>Emit a DecisionRecord.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-field access time-series. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gdpr_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Registry of GDPR-protected fields. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Advisory report. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="190" column="22" bodyfile="src/storage/schema_dead_weight_detector.cpp" bodystart="55" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ab09233e7450bc1204612fb133d823aee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::SchemaDeadWeightDetector::computeSeasonalityScore</definition>
+        <argsstring>(const std::vector&lt; AccessEntry &gt; &amp;access_series) const</argsstring>
+        <name>computeSeasonalityScore</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::computeSeasonalityScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1storage_1a365a225413396039b859e230686dd0a5" kindref="member">AccessEntry</ref> &gt; &amp;</type>
+          <declname>access_series</declname>
+        </param>
+        <briefdescription>
+<para>Compute a seasonality score for an access time-series. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a Fourier-coefficient approximation with <computeroutput>config_.fourier_harmonics</computeroutput> harmonics. Returns a score in [0.0, 1.0]; values above 0.5 indicate a significant periodic component.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>access_series</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Chronologically ordered access counts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fraction of total variance explained by the harmonics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="204" column="12" bodyfile="src/storage/schema_dead_weight_detector.cpp" bodystart="134" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a8da471d1fdbb03e8bd1ad90d2a056659" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SchemaDeadWeightDetector::determineRecommendation</definition>
+        <argsstring>(const std::string &amp;field_path, uint32_t days_since_access)</argsstring>
+        <name>determineRecommendation</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::determineRecommendation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_path</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>days_since_access</declname>
+        </param>
+        <briefdescription>
+<para>Determine Recommendation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">days_since_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="211" column="24" bodyfile="src/storage/schema_dead_weight_detector.cpp" bodystart="204" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ada82f7cb88d341d8ffca7ee29f6db0f6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::SchemaDeadWeightDetector::emitDecisionRecord</definition>
+        <argsstring>(const DeadWeightReport &amp;report) const</argsstring>
+        <name>emitDecisionRecord</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::emitDecisionRecord</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" kindref="compound">DeadWeightReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="214" column="10" bodyfile="src/storage/schema_dead_weight_detector.cpp" bodystart="223" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Layer-6 LLM Optimization: schema dead-weight detector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Identifies fields, collections, and indexes that have not been read over a rolling 180-day window, taking into account:</para>
+<para><itemizedlist>
+<listitem><para><bold>GDPR protection</bold> – protected fields are <emphasis>never</emphasis> candidates (0 false negatives invariant).</para>
+</listitem><listitem><para><bold>Seasonality</bold> – fields with periodic access patterns (detected via Fourier-coefficient approximation) are excluded even if the last access is older than the window.</para>
+</listitem></itemizedlist>
+</para>
+<para>The detector produces a <computeroutput><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" kindref="compound">DeadWeightReport</ref></computeroutput> that serves as a DBA advisory; it does <bold>not</bold> execute any DDL.</para>
+<para><heading level="3">Confidence formula</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">confidence<sp/>=<sp/>(days_since_last_access<sp/>/<sp/>180)<sp/>*<sp/>(1<sp/>-<sp/>seasonality_score)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(1<sp/>-<sp/>gdpr_weight)<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>gdpr_weight<sp/>=<sp/>1.0<sp/>iff<sp/>GDPR-protected</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Seasonality detection</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ab09233e7450bc1204612fb133d823aee" kindref="member">computeSeasonalityScore()</ref></computeroutput> fits k=3 Fourier harmonics to the access time-series and returns the fraction of total variance explained by those harmonics. A score &gt; 0.5 indicates a significant periodic component.</para>
+<para><heading level="3">Decision records</heading>
+</para>
+<para>When a <computeroutput>DecisionRecordYamlProcessor</computeroutput> is injected the detector emits one <computeroutput>DecisionRecord{decision_type="SCHEMA_DEAD_WEIGHT"}</computeroutput> per <computeroutput><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1aa8155b250e89067b3cd13ae7888c4716" kindref="member">analyze()</ref></computeroutput> call. </para>
+    </detaileddescription>
+    <location file="include/storage/schema_dead_weight_detector.h" line="87" column="1" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="87" bodyend="215"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1aa8155b250e89067b3cd13ae7888c4716" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>analyze</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ab09233e7450bc1204612fb133d823aee" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>computeSeasonalityScore</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1aade8c2fba1a06547438a5b093b83f52f" prot="private" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a8da471d1fdbb03e8bd1ad90d2a056659" prot="private" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>determineRecommendation</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a46c3cab49e952b8ca24de0b9cbbfb8f5" prot="private" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>dr_processor_</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ada82f7cb88d341d8ffca7ee29f6db0f6" prot="private" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>emitDecisionRecord</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a444878e41b6024034672e6567f594c6b" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a42e3953113405ac6ff015322bc0ac568" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>SchemaDeadWeightDetector</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a692b46b75e67c7c2b883f67c60b048e4" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>SchemaDeadWeightDetector</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ae6b3491c38a78b41097a8d7289a9bd19" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>SchemaDeadWeightDetector</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ae8d979a31be4b2c45c1d591fa2d8ceae" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>SchemaDeadWeightDetector</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a73a49902eca12a46bc06190ba86bb6d9" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>setDecisionRecordProcessor</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ac4abebd1b1044ae48873c2a9ac4d4ea2" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector</scope><name>~SchemaDeadWeightDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

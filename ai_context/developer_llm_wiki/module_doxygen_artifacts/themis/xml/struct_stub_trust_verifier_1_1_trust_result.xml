@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_trust_verifier_1_1_trust_result" kind="struct" language="C++" prot="public">
+    <compoundname>StubTrustVerifier::TrustResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stub_trust_verifier_1_1_trust_result_1af76883786e9b5ff7a485df244c5c3122" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubTrustVerifier::TrustResult::trusted</definition>
+        <argsstring></argsstring>
+        <name>trusted</name>
+        <qualifiedname>StubTrustVerifier::TrustResult::trusted</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="71" column="17" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_trust_verifier_1_1_trust_result_1ae58d61ba3a46ebc1db9420f49e89709a" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t StubTrustVerifier::TrustResult::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>StubTrustVerifier::TrustResult::level</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="72" column="17" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="70" column="5" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="70" bodyend="73"/>
+    <listofallmembers>
+      <member refid="struct_stub_trust_verifier_1_1_trust_result_1ae58d61ba3a46ebc1db9420f49e89709a" prot="public" virt="non-virtual"><scope>StubTrustVerifier::TrustResult</scope><name>level</name></member>
+      <member refid="struct_stub_trust_verifier_1_1_trust_result_1af76883786e9b5ff7a485df244c5c3122" prot="public" virt="non-virtual"><scope>StubTrustVerifier::TrustResult</scope><name>trusted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

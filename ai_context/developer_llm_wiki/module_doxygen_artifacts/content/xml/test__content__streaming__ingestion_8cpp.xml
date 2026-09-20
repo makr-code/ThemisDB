@@ -1,0 +1,1028 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__streaming__ingestion_8cpp" kind="file" language="C++">
+    <compoundname>test_content_streaming_ingestion.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="content__chunker_8h" local="yes">content/pipeline/content_chunker.h</includes>
+    <includes refid="content__validator_8h" local="yes">content/content_validator.h</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>content/content_errors.h</label>
+        <link refid="content__errors_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>content/content_policy.h</label>
+        <link refid="content__policy_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>content/content_validator.h</label>
+        <link refid="content__validator_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>content/pipeline/content_chunker.h</label>
+        <link refid="content__chunker_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_streaming_ingestion.cpp</label>
+        <link refid="test__content__streaming__ingestion_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>map</label>
+      </node>
+      <node id="15">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>sstream</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Chunker_ExactSizeBoundary)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Chunker_ExactSizeBoundary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="35" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="35" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a8ac9392bf6cc01c23446bec82bbd1c60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Chunker_OverlapConfigRoundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Chunker_OverlapConfigRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="49" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a7c95c972906207c9db80e00ee66acf15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Chunker_LargeDataReassembly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Chunker_LargeDataReassembly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="59" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="59" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1aadf4b1ececff93cb2d077366ac06409f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Chunker_UpdateConfigAffectsNextChunk)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Chunker_UpdateConfigAffectsNextChunk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="79" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="79" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a95101053662e5fb8664ead1cca926043" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool isStreamingCapableMime</definition>
+        <argsstring>(const std::string &amp;m)</argsstring>
+        <name>isStreamingCapableMime</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="101" column="13" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1aa08ef858537f1853b7f6f092caa916f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, MimeClassification_StreamingTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>MimeClassification_StreamingTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="110" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="110" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a21ebb54085e2d0ae0b130745c5f7b063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, MimeClassification_NonStreamingTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>MimeClassification_NonStreamingTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="120" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="120" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a1a622f8c8bf9a02a6778337e87d9c516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, StreamState_EmptyStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>StreamState_EmptyStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="133" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="133" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a514382627f1622b2e04d96ba1a4ad19f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, StreamState_SmallStream_ExhaustedInHeaderRead)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>StreamState_SmallStream_ExhaustedInHeaderRead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="142" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="142" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a9f964bf616aed31bd8678dc9cf6e5630" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, StreamState_LargeStream_MultipleReads)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>StreamState_LargeStream_MultipleReads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="155" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="155" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1abd99b872bff5118677d2410d92c5de28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, ChunkedReadFromStream_ReproducesOriginal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>ChunkedReadFromStream_ReproducesOriginal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="172" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="172" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a05c7d092b4441d3dc6fccd9933850a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, TextSegmentSplitting_ProducesCorrectSegments)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>TextSegmentSplitting_ProducesCorrectSegments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="209" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="209" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1af701186e834bd34cd9aec9b36d10d1ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, TextSegmentSplitting_EmptyCarryProducesNoSegments)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>TextSegmentSplitting_EmptyCarryProducesNoSegments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="244" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="244" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1ace79ef2b394bf28483950e29d0a6dded" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, BufferOverflow_DetectedBeforeExceedingLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>BufferOverflow_DetectedBeforeExceedingLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="260" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="260" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a724482ced44a8eba058183d66f3f200b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, BufferOverflow_NotTriggeredWhenWithinLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>BufferOverflow_NotTriggeredWhenWithinLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="289" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="289" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a98d8609eba76908199164d770b3a06fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_ValidMimeType_Accepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_ValidMimeType_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="325" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="325" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a1012378a8b57416dce1f83dfc591bc10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_ValidMimeType_NDJSON_Accepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_ValidMimeType_NDJSON_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="331" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="331" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a414a3f059b17ac1bcf03068360948440" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_ValidMimeType_CSV_Accepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_ValidMimeType_CSV_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="337" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="337" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a2f07ee48ba052fad9b90a2a997ca755c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_EmptyMime_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_EmptyMime_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="343" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="343" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a36fc7a3ccd607b57de0104a3fafbaab5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_OctetStream_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_OctetStream_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="350" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="350" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a23d116233443b23c3f853215af3ca000" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_MalformedMime_NoSlash_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_MalformedMime_NoSlash_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="360" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="360" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a271d955d4400cbadd360dcee95d8f70c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_FormatCheck_TextData_Passes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_FormatCheck_TextData_Passes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="367" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="367" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a475451e97ca6b1e1b1d8b83383458512" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_FormatCheck_TooSmall_Passes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_FormatCheck_TooSmall_Passes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="376" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="376" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1aa4e414e38af80abb946742a581d64714" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_SecurityGate_StreamingTextSkipsMagicCheck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_SecurityGate_StreamingTextSkipsMagicCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="384" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="384" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__streaming__ingestion_8cpp_1a3bdd58b0b5330818956e0f6c28264e85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingIngestionTest, Validator_SecurityGate_NdjsonSkipsMagicCheck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingIngestionTest</type>
+        </param>
+        <param>
+          <type>Validator_SecurityGate_NdjsonSkipsMagicCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_streaming_ingestion.cpp" line="401" column="1" bodyfile="tests/content/test_content_streaming_ingestion.cpp" bodystart="401" bodyend="412"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1content_1_1_content_manager_1ad5e3035922424741dbe72388253b3d02" kindref="member">ContentManager::ingestStream()</ref> – chunked ingestion for large files (Issue #1695 / roadmap Phase 3). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These tests exercise:<orderedlist>
+<listitem><para>Streaming-capable MIME types (text/plain, text/csv, NDJSON) processed without buffering the full content.</para>
+</listitem><listitem><para>Non-streaming MIME types buffered up to max_buffered_bytes.</para>
+</listitem><listitem><para>Back-pressure: rejection when non-streaming content exceeds the limit.</para>
+</listitem><listitem><para>Small-file fast path (stream exhausted in header read).</para>
+</listitem><listitem><para>Empty stream handling.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref>: overlap parameter validation (ensures overlap &lt; chunk_size).</para>
+</listitem><listitem><para><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref>: exact-size boundary (data.size() == chunk_size).</para>
+</listitem><listitem><para><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref> integration: MIME type and format validation in the streaming security gate (<ref refid="content__validator_8cpp" kindref="compound">content_validator.cpp</ref> requirement). </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__chunker_8h" kindref="compound">content/pipeline/content_chunker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__validator_8h" kindref="compound">content/content_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentChunker<sp/>–<sp/>additional<sp/>edge-case<sp/>tests<sp/>for<sp/>the<sp/>streaming<sp/>pipeline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1pipeline" kindref="compound">themis::content::pipeline</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Chunker_ExactSizeBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ContentChunker::ChunkConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" kindref="member">chunk_size</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref><sp/>chunker(cfg);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data(64,<sp/>0xAB);<sp/><sp/></highlight><highlight class="comment">//<sp/>exactly<sp/>one<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/>=<sp/>chunker.chunk(data);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(chunks.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunks[0].data.size(),<sp/>64u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunks[0].total_chunks,<sp/>1u);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunks[0].original_offset,<sp/>0u);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Chunker_OverlapConfigRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ContentChunker::ChunkConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" kindref="member">chunk_size</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1af893e916ea44b9121aa04853b5dbd357" kindref="member">overlap</ref><sp/><sp/><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref><sp/>chunker(cfg);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunker.get_config().overlap,<sp/>128u);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunker.get_config().chunk_size,<sp/>1024u);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Chunker_LargeDataReassembly)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ContentChunker::ChunkConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" kindref="member">chunk_size</ref><sp/>=<sp/>4<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref><sp/>chunker(cfg);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>KB<sp/>of<sp/>sequential<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>original(100<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>original.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>original[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/><sp/><sp/><sp/><sp/>=<sp/>chunker.chunk(original);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reassembled<sp/>=<sp/>chunker.reassemble(chunks);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(original.size(),<sp/>reassembled.size());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(original,<sp/>reassembled);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>ceil(100*1024<sp/>/<sp/>4*1024)<sp/>=<sp/>25<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunks.size(),<sp/>25u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Chunker_UpdateConfigAffectsNextChunk)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref><sp/>chunker;<sp/><sp/></highlight><highlight class="comment">//<sp/>default<sp/>1<sp/>MB<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ContentChunker::ChunkConfig</ref><sp/>small_cfg;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>small_cfg.<ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" kindref="member">chunk_size</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>chunker.<ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a9174fd107fb6f62ef45484efc49b554a" kindref="member">set_config</ref>(small_cfg);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data(25,<sp/>0xFF);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/>=<sp/>chunker.<ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a909b3ac0e19f1b8c51011f4e419e1cff" kindref="member">chunk</ref>(data);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ceil(25/10)<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunks.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stream-building<sp/>helpers<sp/>(no<sp/>ContentManager<sp/>dependency<sp/>needed<sp/>for<sp/>unit<sp/>tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Streaming<sp/>MIME<sp/>type<sp/>classification<sp/>–<sp/>validate<sp/>the<sp/>logic<sp/>used<sp/>in<sp/>ingestStream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isStreamingCapableMime(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>m)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;text/csv&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;text/markdown&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>||</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;text/x-markdown&quot;</highlight><highlight class="normal"><sp/><sp/>||</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.find(</highlight><highlight class="stringliteral">&quot;ndjson&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.find(</highlight><highlight class="stringliteral">&quot;jsonlines&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>MimeClassification_StreamingTypes)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;text/csv&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;text/markdown&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;text/x-markdown&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;application/x-ndjson&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;application/ndjson&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;application/jsonlines&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>MimeClassification_NonStreamingTypes)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;application/octet-stream&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;video/mp4&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(isStreamingCapableMime(</highlight><highlight class="stringliteral">&quot;application/zip&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stream<sp/>state<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>StreamState_EmptyStream)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::istringstream<sp/>empty_stream(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>read<sp/>on<sp/>empty<sp/>stream,<sp/>eof<sp/>should<sp/>be<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buf[8];</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>empty_stream.read(buf,<sp/>8);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(empty_stream.gcount(),<sp/>0);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(empty_stream.eof()<sp/>||<sp/>!empty_stream.good());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>StreamState_SmallStream_ExhaustedInHeaderRead)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>a<sp/>small<sp/>stream<sp/>(&lt;<sp/>8<sp/>KB<sp/>header<sp/>size)<sp/>is<sp/>fully<sp/>read<sp/>in<sp/>one<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>small_content<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Small<sp/>file<sp/>content<sp/>that<sp/>fits<sp/>in<sp/>header.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::istringstream<sp/>stream(small_content);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buf[8192];</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.read(buf,<sp/>8192);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stream.gcount());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(n,<sp/>small_content.size());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stream.eof()<sp/>||<sp/>!stream.good());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>StreamState_LargeStream_MultipleReads)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>a<sp/>stream<sp/>larger<sp/>than<sp/>the<sp/>header<sp/>is<sp/>NOT<sp/>exhausted<sp/>after<sp/>the<sp/>first<sp/>read</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>large_content(16<sp/>*<sp/>1024,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>KB<sp/>&gt;<sp/>8<sp/>KB<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::istringstream<sp/>stream(large_content);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buf[8192];</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.read(buf,<sp/>8192);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stream.gcount());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(n,<sp/>8192u);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stream.good());<sp/><sp/></highlight><highlight class="comment">//<sp/>More<sp/>data<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentChunker<sp/>–<sp/>streaming<sp/>simulation:<sp/>chunked<sp/>read<sp/>+<sp/>reassembly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>ChunkedReadFromStream_ReproducesOriginal)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>what<sp/>ingestStream<sp/>does:<sp/>read<sp/>a<sp/>stream<sp/>in<sp/>4<sp/>KB<sp/>blocks<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>feed<sp/>each<sp/>block<sp/>to<sp/>ContentChunker<sp/>for<sp/>sub-chunk<sp/>splitting.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>original_text(50<sp/>*<sp/>1024,<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>KB<sp/>of<sp/>&apos;X&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::istringstream<sp/>stream(original_text);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ContentChunker::ChunkConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" kindref="member">chunk_size</ref><sp/>=<sp/>4<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref><sp/>chunker(cfg);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>accumulated;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;char&gt;<sp/>read_buf(4<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(stream.good())<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.read(read_buf.data(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::streamsize</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(read_buf.size()));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stream.gcount());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>block(read_buf.data(),<sp/>read_buf.data()<sp/>+<sp/>n);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/>=<sp/>chunker.<ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a909b3ac0e19f1b8c51011f4e419e1cff" kindref="member">chunk</ref>(block);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reassembled<sp/>=<sp/>chunker.<ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1aaf410b9a58b22ed51aa863171766bfd8" kindref="member">reassemble</ref>(chunks);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accumulated.insert(accumulated.end(),<sp/>reassembled.begin(),<sp/>reassembled.end());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulated.size(),<sp/>original_text.size());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result(accumulated.begin(),<sp/>accumulated.end());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/>original_text);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Text-segment<sp/>splitting<sp/>simulation<sp/>(mirrors<sp/>the<sp/>carry-buffer<sp/>logic<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ingestStream<sp/>for<sp/>streaming<sp/>text<sp/>types)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>TextSegmentSplitting_ProducesCorrectSegments)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>1-KB<sp/>text<sp/>with<sp/>10<sp/>newline-delimited<sp/>lines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;Line<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::string(90,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>segment_size<sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>chars<sp/>per<sp/>segment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>carry<sp/>=<sp/>text;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>segments;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(pos<sp/>&lt;<sp/>carry.size())<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>remaining<sp/>=<sp/>carry.size()<sp/>-<sp/>pos;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>pos<sp/>+<sp/>std::min(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(segment_size),<sp/>remaining);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefer<sp/>newline<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(end<sp/>&lt;<sp/>carry.size())<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>nl<sp/>=<sp/>carry.find(</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">,<sp/>end<sp/>&gt;<sp/>0<sp/>?<sp/>end<sp/>-<sp/>1<sp/>:<sp/>0);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(nl<sp/>!=<sp/>std::string::npos<sp/>&amp;&amp;<sp/>nl<sp/>&lt;<sp/>pos<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(segment_size)<sp/>*<sp/>2)</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>end<sp/>=<sp/>nl<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segments.push_back(carry.substr(pos,<sp/>end<sp/>-<sp/>pos));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pos<sp/>=<sp/>end;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>segments<sp/>non-empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(segments.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Concatenated<sp/>segments<sp/>reproduce<sp/>original<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>reconstructed<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>segments)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>reconstructed<sp/>+=<sp/>s;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reconstructed,<sp/>text);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>TextSegmentSplitting_EmptyCarryProducesNoSegments)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>carry<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>segments;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(pos<sp/>&lt;<sp/>carry.size())<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segments.push_back(carry.substr(pos,<sp/>100));</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pos<sp/>+=<sp/>100;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(segments.empty());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Overflow<sp/>guard<sp/>simulation<sp/>(mirrors<sp/>the<sp/>max_buffered_bytes<sp/>check<sp/>in<sp/>ingestStream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>for<sp/>non-streaming<sp/>types)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>BufferOverflow_DetectedBeforeExceedingLimit)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_buffered<sp/>=<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>KB<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>big_content(2<sp/>*<sp/>1024,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>KB<sp/>–<sp/>exceeds<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::istringstream<sp/>stream(big_content);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>chunk_size<sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;char&gt;<sp/>read_buf(chunk_size);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>overflow_detected<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(stream.good())<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.read(read_buf.data(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::streamsize</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(chunk_size));</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stream.gcount());</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(buffer.size()<sp/>+<sp/>n<sp/>&gt;<sp/>max_buffered)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>overflow_detected<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer.append(read_buf.data(),<sp/>n);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(overflow_detected);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(buffer.size(),<sp/>max_buffered);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>BufferOverflow_NotTriggeredWhenWithinLimit)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_buffered<sp/>=<sp/>4096;<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>KB<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref>(2<sp/>*<sp/>1024,<sp/></highlight><highlight class="charliteral">&apos;C&apos;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>KB<sp/>–<sp/>within<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::istringstream<sp/>stream(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buffer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>chunk_size<sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;char&gt;<sp/>read_buf(chunk_size);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>overflow_detected<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(stream.good())<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.read(read_buf.data(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::streamsize</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(chunk_size));</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stream.gcount());</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(buffer.size()<sp/>+<sp/>n<sp/>&gt;<sp/>max_buffered)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>overflow_detected<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer.append(read_buf.data(),<sp/>n);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(overflow_detected);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buffer.size(),<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref>.size());</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentValidator<sp/>security<sp/>gate<sp/>–<sp/>validates<sp/>MIME<sp/>type<sp/>and<sp/>format<sp/>(magic<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>before<sp/>streaming<sp/>ingestion<sp/>proceeds<sp/>(content_validator.cpp<sp/>integration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_ValidMimeType_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.failed())<sp/>&lt;&lt;<sp/>err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_ValidMimeType_NDJSON_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(</highlight><highlight class="stringliteral">&quot;application/x-ndjson&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.failed())<sp/>&lt;&lt;<sp/>err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_ValidMimeType_CSV_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(</highlight><highlight class="stringliteral">&quot;text/csv&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.failed())<sp/>&lt;&lt;<sp/>err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_EmptyMime_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.failed());</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.code,<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6044327440d3f269cccc3ed715db9579" kindref="member">ContentErrorCode::CONTENT_MIME_TYPE_INVALID</ref>);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_OctetStream_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>application/octet-stream<sp/>is<sp/>the<sp/>generic<sp/>fallback<sp/>MIME<sp/>type;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>security<sp/>gate<sp/>rejects<sp/>it<sp/>to<sp/>prevent<sp/>unclassified<sp/>binary<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>through<sp/>the<sp/>streaming<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(</highlight><highlight class="stringliteral">&quot;application/octet-stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.failed());</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.code,<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6044327440d3f269cccc3ed715db9579" kindref="member">ContentErrorCode::CONTENT_MIME_TYPE_INVALID</ref>);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_MalformedMime_NoSlash_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(</highlight><highlight class="stringliteral">&quot;textplain&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>missing<sp/>slash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.failed());</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.code,<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6044327440d3f269cccc3ed715db9579" kindref="member">ContentErrorCode::CONTENT_MIME_TYPE_INVALID</ref>);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_FormatCheck_TextData_Passes)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Text/plain<sp/>content<sp/>has<sp/>no<sp/>magic<sp/>bytes;<sp/>validateFormat<sp/>always<sp/>passes<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>plain<sp/>text<sp/>(the<sp/>format<sp/>check<sp/>does<sp/>nothing<sp/>for<sp/>text/*<sp/>types).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text_data<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>streaming<sp/>world\nLine<sp/>2\nLine<sp/>3\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1a4a675cd7b57753ee797d84d172a67da9" kindref="member">validateFormat</ref>(text_data,<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.failed())<sp/>&lt;&lt;<sp/>err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_FormatCheck_TooSmall_Passes)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>&lt;<sp/>4<sp/>bytes<sp/>is<sp/>always<sp/>accepted<sp/>by<sp/>validateFormat<sp/>(can&apos;t<sp/>check<sp/>magic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tiny<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hi&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1a4a675cd7b57753ee797d84d172a67da9" kindref="member">validateFormat</ref>(tiny,<sp/></highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.failed())<sp/>&lt;&lt;<sp/>err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_SecurityGate_StreamingTextSkipsMagicCheck)<sp/>{</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>streaming<sp/>path<sp/>skips<sp/>magic-bytes<sp/>check<sp/>for<sp/>text/*<sp/>and<sp/>ndjson<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>text/plain<sp/>content<sp/>passes<sp/>both<sp/>MIME<sp/>validation<sp/>AND<sp/>format<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(format<sp/>check<sp/>always<sp/>passes<sp/>for<sp/>text<sp/>types<sp/>since<sp/>they<sp/>have<sp/>no<sp/>binary<sp/>magic<sp/>bytes).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>mime<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Line<sp/>1\nLine<sp/>2\nLine<sp/>3<sp/>–<sp/>no<sp/>magic<sp/>bytes<sp/>needed.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MIME<sp/>validation<sp/>must<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mime_err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(mime);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mime_err.failed())<sp/>&lt;&lt;<sp/>mime_err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Format/magic-bytes<sp/>check<sp/>must<sp/>also<sp/>pass<sp/>for<sp/>plain<sp/>text<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fmt_err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1a4a675cd7b57753ee797d84d172a67da9" kindref="member">validateFormat</ref>(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>,<sp/>mime);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fmt_err.failed())<sp/>&lt;&lt;<sp/>fmt_err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><ref refid="test__content__streaming__ingestion_8cpp_1a2f8e4a12e207612918a77c2a2d3ee95b" kindref="member">TEST</ref>(StreamingIngestionTest,<sp/>Validator_SecurityGate_NdjsonSkipsMagicCheck)<sp/>{</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NDJSON<sp/>is<sp/>a<sp/>streaming-capable<sp/>text<sp/>format;<sp/>verifying<sp/>both<sp/>MIME<sp/>and<sp/>format<sp/>pass.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>mime<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/x-ndjson&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;id\&quot;:1}\n{\&quot;id\&quot;:2}\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mime_err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(mime);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mime_err.failed())<sp/>&lt;&lt;<sp/>mime_err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fmt_err<sp/>=<sp/>validator.<ref refid="classthemis_1_1content_1_1_content_validator_1a4a675cd7b57753ee797d84d172a67da9" kindref="member">validateFormat</ref>(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>,<sp/>mime);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fmt_err.failed())<sp/>&lt;&lt;<sp/>fmt_err.<ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_streaming_ingestion.cpp"/>
+  </compounddef>
+</doxygen>

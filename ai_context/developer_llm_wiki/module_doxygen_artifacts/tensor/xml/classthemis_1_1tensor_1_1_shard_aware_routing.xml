@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_shard_aware_routing" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::ShardAwareRouting</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_routing_strategy" prot="public" virt="non-virtual">themis::tensor::IRoutingStrategy</basecompoundref>
+    <includes refid="tensor__routing__strategy_8h" local="no">tensor_routing_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_shard_aware_routing_1a423e0df0424b32b7da081cf58bc0a70e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ShardAwareRouting::latency_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_threshold_ms</name>
+        <qualifiedname>themis::tensor::ShardAwareRouting::latency_threshold_ms</qualifiedname>
+        <initializer>= 100.0f</initializer>
+        <briefdescription>
+<para>Latency threshold for shard selection (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="287" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_shard_aware_routing_1ad6e5b49c998edec585e6d132565c2f6e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ShardAwareRouting::health_threshold</definition>
+        <argsstring></argsstring>
+        <name>health_threshold</name>
+        <qualifiedname>themis::tensor::ShardAwareRouting::health_threshold</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+<para>Minimum shard health score for inclusion (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="290" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_shard_aware_routing_1af7fc7fce2642f1f884656810741931ac" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ShardAwareRouting::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::ShardAwareRouting::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ae07d5ac8344484ea0e4d85d77c4a4480">name</reimplements>
+        <briefdescription>
+<para>Get the name of this routing strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="292" column="17" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="229" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_shard_aware_routing_1a094cbceb959ad8e45df7935396ecf385" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::tensor::ShardAwareRouting::route</definition>
+        <argsstring>(const std::vector&lt; BaseTensorSummary &gt; &amp;summaries, std::size_t candidate_count, float compression_ratio, const index::AnnQueryContext &amp;query_context) const override</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::tensor::ShardAwareRouting::route</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a4acfd3d094925721f69dfb41f0b2669e">route</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>candidate_count</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>compression_ratio</declname>
+        </param>
+        <param>
+          <type>const index::AnnQueryContext &amp;</type>
+          <declname>query_context</declname>
+        </param>
+        <briefdescription>
+<para>Make a routing decision for tensor-layer results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor summaries produced by compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total candidates before compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compression_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Achieved compression ratio. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original ANN query context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Routing decision specifying where to forward results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="294" column="21" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="233" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_shard_aware_routing_1a97d7df03421ac6a2773df406ee052971" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::ShardAwareRouting::shouldRetryOnFailure</definition>
+        <argsstring>(const std::string &amp;reason, int attempt_count, int max_attempts) const noexcept override</argsstring>
+        <name>shouldRetryOnFailure</name>
+        <qualifiedname>themis::tensor::ShardAwareRouting::shouldRetryOnFailure</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ab7c3f15ff0659c25544328688ec3c671">shouldRetryOnFailure</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt_count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_attempts</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate whether to retry on routing failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Failure reason from primary path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attempt_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of retry attempts so far. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowed retry attempts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if should retry with fallback strategy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="300" column="10" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="264" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Routing strategy aware of shard-level health and latency. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Directs queries toward healthy, low-latency shards and provides fallback hints for unavailable shards. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::IRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_routing_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::ShardAwareRouting</label>
+        <link refid="classthemis_1_1tensor_1_1_shard_aware_routing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::IRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_routing_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::ShardAwareRouting</label>
+        <link refid="classthemis_1_1tensor_1_1_shard_aware_routing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_routing_strategy.h" line="284" column="1" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="284" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_shard_aware_routing_1ad6e5b49c998edec585e6d132565c2f6e" prot="public" virt="non-virtual"><scope>themis::tensor::ShardAwareRouting</scope><name>health_threshold</name></member>
+      <member refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a423e0df0424b32b7da081cf58bc0a70e" prot="public" virt="non-virtual"><scope>themis::tensor::ShardAwareRouting</scope><name>latency_threshold_ms</name></member>
+      <member refid="classthemis_1_1tensor_1_1_shard_aware_routing_1af7fc7fce2642f1f884656810741931ac" prot="public" virt="virtual"><scope>themis::tensor::ShardAwareRouting</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a094cbceb959ad8e45df7935396ecf385" prot="public" virt="virtual"><scope>themis::tensor::ShardAwareRouting</scope><name>route</name></member>
+      <member refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a97d7df03421ac6a2773df406ee052971" prot="public" virt="virtual"><scope>themis::tensor::ShardAwareRouting</scope><name>shouldRetryOnFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a9b1482d4c6307d526debca572c637a5c" prot="public" virt="virtual"><scope>themis::tensor::ShardAwareRouting</scope><name>~IRoutingStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

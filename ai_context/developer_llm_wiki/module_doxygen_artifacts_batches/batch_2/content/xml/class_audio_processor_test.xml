@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_audio_processor_test" kind="class" language="C++" prot="public">
+    <compoundname>AudioProcessorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_audio_processor_test_1a3df9a22124ebf42f0aa9508f3c3b8206" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_audio_processor" kindref="compound">AudioProcessor</ref></type>
+        <definition>AudioProcessor AudioProcessorTest::processor</definition>
+        <argsstring></argsstring>
+        <name>processor</name>
+        <qualifiedname>AudioProcessorTest::processor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="240" column="20" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_audio_processor_test_1a67de553dde9bf60598a7efee50354c5d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AudioProcessorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AudioProcessorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="242" column="10" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="242" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AudioProcessorTest</label>
+        <link refid="class_audio_processor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AudioProcessorTest</label>
+        <link refid="class_audio_processor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>processor</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::content::AudioProcessor</label>
+        <link refid="classthemis_1_1content_1_1_audio_processor"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_audio_processor.cpp" line="238" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="238" bodyend="246"/>
+    <listofallmembers>
+      <member refid="class_audio_processor_test_1a3df9a22124ebf42f0aa9508f3c3b8206" prot="protected" virt="non-virtual"><scope>AudioProcessorTest</scope><name>processor</name></member>
+      <member refid="class_audio_processor_test_1a67de553dde9bf60598a7efee50354c5d" prot="protected" virt="non-virtual"><scope>AudioProcessorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

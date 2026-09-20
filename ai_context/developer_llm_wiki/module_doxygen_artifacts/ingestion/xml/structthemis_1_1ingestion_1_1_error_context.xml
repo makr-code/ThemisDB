@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::ErrorContext</compoundname>
+    <includes refid="ingestion__error__contract_8h" local="no">ingestion_error_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1aa9c9604fc7e2001764f2c663463c0d67" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref></type>
+        <definition>IngestionErrorCode themis::ingestion::ErrorContext::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::ingestion::ErrorContext::error_code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="214" column="24" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1ad2f4b0a55da34d43aa3589d0793ef782" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ErrorContext::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::ingestion::ErrorContext::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="215" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a27e7347571662285038f207d649bcbb9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ErrorContext::component_name</definition>
+        <argsstring></argsstring>
+        <name>component_name</name>
+        <qualifiedname>themis::ingestion::ErrorContext::component_name</qualifiedname>
+        <briefdescription>
+<para>Component that generated the error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="218" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1ad4102b8cd239bbbb850623da091b654a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ErrorContext::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::ingestion::ErrorContext::source_id</qualifiedname>
+        <briefdescription>
+<para>Source being processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="219" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a9773a29fde8109c7b6a82775dacf7c47" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ErrorContext::connector_type</definition>
+        <argsstring></argsstring>
+        <name>connector_type</name>
+        <qualifiedname>themis::ingestion::ErrorContext::connector_type</qualifiedname>
+        <briefdescription>
+<para>Connector type (api, filesystem, kafka, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="220" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a34870dba9c147d44191a0d77134b1ef4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ErrorContext::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::ingestion::ErrorContext::operation</qualifiedname>
+        <briefdescription>
+<para>Operation being performed (enqueue, validate, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="223" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a0c1cdaa213d64f582b176523fbcfb4ee" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::ErrorContext::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::ingestion::ErrorContext::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of retries already attempted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="224" column="19" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a379e2d549f5fe7ec5ea32f7b6d854f67" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::ErrorContext::item_index</definition>
+        <argsstring></argsstring>
+        <name>item_index</name>
+        <qualifiedname>themis::ingestion::ErrorContext::item_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index/ID of item being processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="225" column="19" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1abc08f610f7174ea66112130271ee5aa5" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::ingestion::ErrorContext::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::ingestion::ErrorContext::timestamp</qualifiedname>
+        <initializer>= std::chrono::system_clock::now()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="228" column="43" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a71102944c5f59c3c50b51e8e90debac0" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ingestion::ErrorContext::operation_duration</definition>
+        <argsstring></argsstring>
+        <name>operation_duration</name>
+        <qualifiedname>themis::ingestion::ErrorContext::operation_duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="229" column="31" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="229" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a564c8f4fa12edfb5410f16ff61bcadfc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::ErrorContext::memory_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_percent</name>
+        <qualifiedname>themis::ingestion::ErrorContext::memory_usage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>System memory usage at time of error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="232" column="12" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a757c2e3933e5ca54d02ba260860c4628" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ingestion::ErrorContext::available_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_memory_bytes</name>
+        <qualifiedname>themis::ingestion::ErrorContext::available_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Available memory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="233" column="13" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1a2cbc1e8ccf9de7c6a12aaea0d35002b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ErrorContext::hostname</definition>
+        <argsstring></argsstring>
+        <name>hostname</name>
+        <qualifiedname>themis::ingestion::ErrorContext::hostname</qualifiedname>
+        <briefdescription>
+<para>Host where error occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="234" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_context_1ae6ef3c68df703ad75699ec8f54eda81e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref> &gt;</type>
+        <definition>std::vector&lt;ErrorContext&gt; themis::ingestion::ErrorContext::nested_errors</definition>
+        <argsstring></argsstring>
+        <name>nested_errors</name>
+        <qualifiedname>themis::ingestion::ErrorContext::nested_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="237" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_error_context_1a83cb20c92318af0a187c73151af85e34" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ErrorContext::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::ingestion::ErrorContext::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize error context to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON string representation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="243" column="17" bodyfile="src/ingestion/ingestion_error_contract.cpp" bodystart="407" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_error_context_1a45effe5b5aff08de9b34052657b3fff1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ErrorContext::addNested</definition>
+        <argsstring>(const ErrorContext &amp;nested)</argsstring>
+        <name>addNested</name>
+        <qualifiedname>themis::ingestion::ErrorContext::addNested</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>nested</declname>
+        </param>
+        <briefdescription>
+<para>Add a nested error context (for cascading errors). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nested</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error context to nest </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="249" column="10" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="249" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured error context captured at point of error. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains all relevant information about an error for debugging, logging, and diagnostics. Can be serialized to JSON. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_error_contract.h" line="213" column="1" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="213" bodyend="252"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a45effe5b5aff08de9b34052657b3fff1" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>addNested</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a757c2e3933e5ca54d02ba260860c4628" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>available_memory_bytes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a27e7347571662285038f207d649bcbb9" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>component_name</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a9773a29fde8109c7b6a82775dacf7c47" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>connector_type</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1aa9c9604fc7e2001764f2c663463c0d67" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1ad2f4b0a55da34d43aa3589d0793ef782" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a2cbc1e8ccf9de7c6a12aaea0d35002b3" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>hostname</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a379e2d549f5fe7ec5ea32f7b6d854f67" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>item_index</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a564c8f4fa12edfb5410f16ff61bcadfc" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>memory_usage_percent</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1ae6ef3c68df703ad75699ec8f54eda81e" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>nested_errors</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a34870dba9c147d44191a0d77134b1ef4" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>operation</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a71102944c5f59c3c50b51e8e90debac0" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>operation_duration</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a0c1cdaa213d64f582b176523fbcfb4ee" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1ad4102b8cd239bbbb850623da091b654a" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1abc08f610f7174ea66112130271ee5aa5" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_context_1a83cb20c92318af0a187c73151af85e34" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorContext</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

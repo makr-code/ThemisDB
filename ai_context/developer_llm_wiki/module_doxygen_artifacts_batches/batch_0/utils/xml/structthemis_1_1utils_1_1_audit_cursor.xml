@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_cursor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::AuditCursor</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_cursor_1afc62db446bbf59c1a6a9116ac71520b4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref></type>
+        <definition>EntryId themis::utils::AuditCursor::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::utils::AuditCursor::position</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current sequence position. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="160" column="13" bodyfile="include/utils/utils_interfaces.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_cursor_1a96d94640e0bbbd6bfe2aefe7b4f8766c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditCursor::exhausted</definition>
+        <argsstring></argsstring>
+        <name>exhausted</name>
+        <qualifiedname>themis::utils::AuditCursor::exhausted</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true when no more entries remain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="161" column="10" bodyfile="include/utils/utils_interfaces.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_cursor" kindref="compound">Cursor</ref> position for <ref refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a8835ddb9d91ddfc6e7f23eecae8920d0" kindref="member">IHashChainAuditLog::query()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Cursors are read-only and are invalidated by new appends. </para>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="159" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="159" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_cursor_1a96d94640e0bbbd6bfe2aefe7b4f8766c" prot="public" virt="non-virtual"><scope>themis::utils::AuditCursor</scope><name>exhausted</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_cursor_1afc62db446bbf59c1a6a9116ac71520b4" prot="public" virt="non-virtual"><scope>themis::utils::AuditCursor</scope><name>position</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

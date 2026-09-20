@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1test_1_1_churn_tracker" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::test::ChurnTracker</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1afdf5c53d3e26c14d1017c8530db4a268" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::test::ChurnTracker::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::maintenance::test::ChurnTracker::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="71" column="16" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1add3699fcae3f9b0383f6c4a8b110df11" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; uint32_t, int64_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::pair&lt;uint32_t, int64_t&gt; &gt; themis::maintenance::test::ChurnTracker::counts</definition>
+        <argsstring></argsstring>
+        <name>counts</name>
+        <qualifiedname>themis::maintenance::test::ChurnTracker::counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="72" column="24" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1a5f9011da4d1edc8d5a6979e24b1f5bc3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::maintenance::test::ChurnTracker::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::maintenance::test::ChurnTracker::nowMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="74" column="20" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1a7c3b2ad030b8685a1736ded76e620d17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::maintenance::test::ChurnTracker::check</definition>
+        <argsstring>(const std::string &amp;schedule_id, uint32_t max_per_interval)</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::maintenance::test::ChurnTracker::check</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_per_interval</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if the change is permitted; false if limit exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="80" column="10" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="80" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="70" column="1" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="70" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1a7c3b2ad030b8685a1736ded76e620d17" prot="public" virt="non-virtual"><scope>themis::maintenance::test::ChurnTracker</scope><name>check</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1add3699fcae3f9b0383f6c4a8b110df11" prot="public" virt="non-virtual"><scope>themis::maintenance::test::ChurnTracker</scope><name>counts</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1afdf5c53d3e26c14d1017c8530db4a268" prot="public" virt="non-virtual"><scope>themis::maintenance::test::ChurnTracker</scope><name>mu</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker_1a5f9011da4d1edc8d5a6979e24b1f5bc3" prot="public" virt="non-virtual"><scope>themis::maintenance::test::ChurnTracker</scope><name>nowMs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

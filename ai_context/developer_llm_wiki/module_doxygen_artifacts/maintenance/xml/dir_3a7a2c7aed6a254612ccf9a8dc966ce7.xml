@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3a7a2c7aed6a254612ccf9a8dc966ce7" kind="dir">
+    <compoundname>tests/maintenance</compoundname>
+    <innerfile refid="test__maintenance__churn__hardening__focused_8cpp">test_maintenance_churn_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__maintenance__contract__hardening__focused_8cpp">test_maintenance_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__maintenance__diagnostics__focused_8cpp">test_maintenance_diagnostics_focused.cpp</innerfile>
+    <innerfile refid="test__maintenance__endurance__focused_8cpp">test_maintenance_endurance_focused.cpp</innerfile>
+    <innerfile refid="test__maintenance__hardening__phase23__focused_8cpp">test_maintenance_hardening_phase23_focused.cpp</innerfile>
+    <innerfile refid="test__maintenance__highcardinality__stress_8cpp">test_maintenance_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__maintenance__stress__focused_8cpp">test_maintenance_stress_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/"/>
+  </compounddef>
+</doxygen>

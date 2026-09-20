@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graphql__audit__logger_8h" kind="file" language="C++">
+    <compoundname>graphql_audit_logger.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">iomanip</includes>
+    <includes local="no">fstream</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/api/graphql_audit_logger.h</label>
+        <link refid="graphql__audit__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>iomanip</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>sstream</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1graphql_1_1_audit_log_entry" prot="public">themis::graphql::AuditLogEntry</innerclass>
+    <innerclass refid="classthemis_1_1graphql_1_1_audit_logger" prot="public">themis::graphql::AuditLogger</innerclass>
+    <innerclass refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats" prot="public">themis::graphql::AuditLogger::Stats</innerclass>
+    <innerclass refid="classthemis_1_1graphql_1_1_file_audit_log_handler" prot="public">themis::graphql::FileAuditLogHandler</innerclass>
+    <innerclass refid="classthemis_1_1graphql_1_1_audit_log_builder" prot="public">themis::graphql::AuditLogBuilder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graphql">themis::graphql</innernamespace>
+    <briefdescription>
+<para>Audit logging for GraphQL operations (security, compliance, debugging). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records structured audit events for all GraphQL operations, authentication/authorization events, rate limiting violations, and validation failures.</para>
+<para>Core components:<itemizedlist>
+<listitem><para><computeroutput>AuditLogEntry</computeroutput>: Structured log entry with event type, user/tenant/IP, timestamps</para>
+</listitem><listitem><para><computeroutput>AuditLogger</computeroutput>: Thread-safe audit event sink with optional file output</para>
+</listitem></itemizedlist>
+</para>
+<para>Event types tracked:<itemizedlist>
+<listitem><para>QueryExecution, MutationExecution, SubscriptionCreated</para>
+</listitem><listitem><para>AuthenticationAttempt, AuthorizationFailure</para>
+</listitem><listitem><para>RateLimitExceeded, ValidationFailure</para>
+</listitem><listitem><para>DeprecatedFeatureUsed</para>
+</listitem></itemizedlist>
+</para>
+<para>Log format:<itemizedlist>
+<listitem><para>JSON-serialized for machine parsing</para>
+</listitem><listitem><para>Includes operation name, type, user ID, tenant ID, IP address, timestamps</para>
+</listitem><listitem><para>Query complexity metrics and operation hashes for analytics</para>
+</listitem><listitem><para>Optional metadata map for custom attributes</para>
+</listitem></itemizedlist>
+</para>
+<para>Design goals:<itemizedlist>
+<listitem><para>Non-blocking event recording (background thread or buffering)</para>
+</listitem><listitem><para>Bounded memory consumption (circular buffer or TTL expiration)</para>
+</listitem><listitem><para>PII sanitization: user ID and IP included only if required by policy</para>
+</listitem><listitem><para>Never logs full query text or mutation arguments (prevents credential leakage)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput>AuditLogger</computeroutput> is thread-safe; multiple HTTP handler threads may log concurrently. Logging is asynchronous (buffered or background) to avoid critical-path latency.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AuditLogger<sp/>logger;</highlight></codeline>
+<codeline><highlight class="normal">logger.enableFileOutput(</highlight><highlight class="stringliteral">&quot;/var/log/themisdb/audit.jsonl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">AuditLogEntry<sp/>entry;</highlight></codeline>
+<codeline><highlight class="normal">entry.event_type<sp/>=<sp/>AuditLogEntry::EventType::QueryExecution;</highlight></codeline>
+<codeline><highlight class="normal">entry.operation_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GetEntity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">entry.user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-12345&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">entry.ip_address<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.100&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">entry.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">logger.log(entry);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iomanip&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graphql" kindref="compound">graphql</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1graphql_1_1_audit_log_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graphql_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" kindref="member">EventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa87f3234eaea75cc0883e9b5fc50f444c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa87f3234eaea75cc0883e9b5fc50f444c" kindref="member">QueryExecution</ref>,</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfaacc05a977459bcfd91836131775fa36e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfaacc05a977459bcfd91836131775fa36e" kindref="member">MutationExecution</ref>,</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa26b2307a6ca8175d1ea9a35f87f53815" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa26b2307a6ca8175d1ea9a35f87f53815" kindref="member">SubscriptionCreated</ref>,</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfabbfe21fc78bf10eb314764e7a2f0e8d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfabbfe21fc78bf10eb314764e7a2f0e8d2" kindref="member">AuthenticationAttempt</ref>,</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa61063732a53bca53b189c030b68c99f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa61063732a53bca53b189c030b68c99f7" kindref="member">AuthorizationFailure</ref>,</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfac7433990fc11e0ae16d6974bbf8b2f44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfac7433990fc11e0ae16d6974bbf8b2f44" kindref="member">RateLimitExceeded</ref>,</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa3c1862b16a903ed116ee2ed115f7570b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa3c1862b16a903ed116ee2ed115f7570b" kindref="member">ValidationFailure</ref>,</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa6d52441da3acb1a45c93063f6e6445e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa6d52441da3acb1a45c93063f6e6445e5" kindref="member">DeprecatedFeatureUsed</ref></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a08b04beb2468afc34e3e886a48a18541" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" kindref="member">EventType</ref><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a08b04beb2468afc34e3e886a48a18541" kindref="member">event_type</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1ed22962c024a423f8800873d8a377a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1ed22962c024a423f8800873d8a377a9" kindref="member">operation_name</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a3f65e4ab578b10e6d6cb68e59bfc5ebb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a3f65e4ab578b10e6d6cb68e59bfc5ebb" kindref="member">operation_type</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1graphql_1_1_audit_log_entry_1acad4e6ec483f1dd4d096bbe5e776b231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1acad4e6ec483f1dd4d096bbe5e776b231" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1graphql_1_1_audit_log_entry_1ad3107919634ee0ebdcdfdc8f0bd5ecd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1ad3107919634ee0ebdcdfdc8f0bd5ecd8" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1graphql_1_1_audit_log_entry_1ac0c6bd9e3a958dec059bc817ff76b6c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1ac0c6bd9e3a958dec059bc817ff76b6c5" kindref="member">ip_address</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a58e8d1a9efe2b9743eaa5161fb4adbd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a58e8d1a9efe2b9743eaa5161fb4adbd6" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a89cf0d014c85e1f7f2de1adf07d2e590" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a89cf0d014c85e1f7f2de1adf07d2e590" kindref="member">success</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1a55238a7877bb98e97517f5edceea5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1a55238a7877bb98e97517f5edceea5c" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a20438dc3fea7bb75014c4deba3c57c91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a20438dc3fea7bb75014c4deba3c57c91" kindref="member">query_hash</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a21f77fae7dc76900a351c4cf6dc4696e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a21f77fae7dc76900a351c4cf6dc4696e" kindref="member">query_complexity</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a955fce22deab00d5337264a254f4cf23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a955fce22deab00d5337264a254f4cf23" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a5dfbd387890ce37d8138f9e0d1c72667" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a5dfbd387890ce37d8138f9e0d1c72667" kindref="member">eventTypeToString</ref>(<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" kindref="member">EventType</ref><sp/>type)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(type)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa87f3234eaea75cc0883e9b5fc50f444c" kindref="member">EventType::QueryExecution</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;QueryExecution&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfaacc05a977459bcfd91836131775fa36e" kindref="member">EventType::MutationExecution</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MutationExecution&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa26b2307a6ca8175d1ea9a35f87f53815" kindref="member">EventType::SubscriptionCreated</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SubscriptionCreated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfabbfe21fc78bf10eb314764e7a2f0e8d2" kindref="member">EventType::AuthenticationAttempt</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AuthenticationAttempt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa61063732a53bca53b189c030b68c99f7" kindref="member">EventType::AuthorizationFailure</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AuthorizationFailure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfac7433990fc11e0ae16d6974bbf8b2f44" kindref="member">EventType::RateLimitExceeded</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;RateLimitExceeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa3c1862b16a903ed116ee2ed115f7570b" kindref="member">EventType::ValidationFailure</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ValidationFailure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa6d52441da3acb1a45c93063f6e6445e5" kindref="member">EventType::DeprecatedFeatureUsed</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DeprecatedFeatureUsed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1graphql_1_1_audit_log_entry_1a95a8d7e8b232efeaaf78366a1612abe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a95a8d7e8b232efeaaf78366a1612abe3" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;{&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;event_type\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a5dfbd387890ce37d8138f9e0d1c72667" kindref="member">eventTypeToString</ref>(<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a08b04beb2468afc34e3e886a48a18541" kindref="member">event_type</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;operation_name\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1ed22962c024a423f8800873d8a377a9" kindref="member">operation_name</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;operation_type\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a3f65e4ab578b10e6d6cb68e59bfc5ebb" kindref="member">operation_type</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;user_id\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1acad4e6ec483f1dd4d096bbe5e776b231" kindref="member">user_id</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;tenant_id\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1ad3107919634ee0ebdcdfdc8f0bd5ecd8" kindref="member">tenant_id</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;ip_address\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1ac0c6bd9e3a958dec059bc817ff76b6c5" kindref="member">ip_address</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;timestamp\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>formatTimestamp()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;success\&quot;:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a89cf0d014c85e1f7f2de1adf07d2e590" kindref="member">success</ref><sp/>?<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;error_message\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1a55238a7877bb98e97517f5edceea5c" kindref="member">error_message</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;query_hash\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a20438dc3fea7bb75014c4deba3c57c91" kindref="member">query_hash</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;query_complexity\&quot;:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a21f77fae7dc76900a351c4cf6dc4696e" kindref="member">query_complexity</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a955fce22deab00d5337264a254f4cf23" kindref="member">metadata</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,\&quot;metadata\&quot;:{&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[key,<sp/>value]<sp/>:<sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a955fce22deab00d5337264a254f4cf23" kindref="member">metadata</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!first)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>key<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>value<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatTimestamp()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>time_t<sp/>=<sp/>std::chrono::system_clock::to_time_t(<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a58e8d1a9efe2b9743eaa5161fb4adbd6" kindref="member">timestamp</ref>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/>std::put_time(std::gmtime(&amp;time_t),<sp/></highlight><highlight class="stringliteral">&quot;%Y-%m-%dT%H:%M:%SZ&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1graphql_1_1_audit_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1graphql_1_1_audit_logger_1a0cf2a9ebf7e8ca4189cb0d4c793083df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a0cf2a9ebf7e8ca4189cb0d4c793083df" kindref="member">LogHandler</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1graphql_1_1_audit_logger_1a6f9308ac92a502ccfa5bdfcac2f1c7a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a6f9308ac92a502ccfa5bdfcac2f1c7a1" kindref="member">log</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref>&amp;<sp/>entry)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Copy<sp/>handlers<sp/>under<sp/>lock<sp/>so<sp/>we<sp/>can<sp/>invoke<sp/>them<sp/>without<sp/>holding<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;LogHandler&gt;<sp/>handlers_copy;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handlers_copy<sp/>=<sp/>handlers_;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invoke<sp/>handlers<sp/>outside<sp/>the<sp/>critical<sp/>section.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>handler<sp/>:<sp/>handlers_copy)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handler(entry);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>buffer<sp/>and<sp/>stats<sp/>under<sp/>lock<sp/>—<sp/>both<sp/>are<sp/>fast<sp/>in-memory<sp/>ops.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>in<sp/>memory<sp/>buffer<sp/>(circular<sp/>buffer)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(buffer_.size()<sp/>&gt;=<sp/>buffer_capacity_)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_.erase(buffer_.begin());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_.push_back(entry);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_.total_entries++;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!entry.<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a89cf0d014c85e1f7f2de1adf07d2e590" kindref="member">success</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_.failure_entries++;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1graphql_1_1_audit_logger_1a965e6691dc178592454acd5d45814c7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a965e6691dc178592454acd5d45814c7d" kindref="member">addHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a0cf2a9ebf7e8ca4189cb0d4c793083df" kindref="member">LogHandler</ref>&amp;<sp/>handler)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handlers_.push_back(handler);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1graphql_1_1_audit_logger_1a590986e42b9245580ab263a1c92a6815" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a590986e42b9245580ab263a1c92a6815" kindref="member">clearHandlers</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handlers_.clear();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1graphql_1_1_audit_logger_1a81cf67504daf6cce397440b8a35e5e5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a81cf67504daf6cce397440b8a35e5e5c" kindref="member">addFileHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shared<sp/>state<sp/>so<sp/>the<sp/>lambda<sp/>captures<sp/>by<sp/>value<sp/>without<sp/>copying<sp/>the<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shared_path<sp/>=<sp/>std::make_shared&lt;std::string&gt;(path);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>file_mutex<sp/><sp/>=<sp/>std::make_shared&lt;std::mutex&gt;();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a965e6691dc178592454acd5d45814c7d" kindref="member">addHandler</ref>([shared_path,<sp/>file_mutex](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref>&amp;<sp/>entry)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(*file_mutex);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>ofs(*shared_path,<sp/>std::ios::app);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ofs.is_open())<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ofs<sp/>&lt;&lt;<sp/>entry.<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a95a8d7e8b232efeaaf78366a1612abe3" kindref="member">toJSON</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234" refid="classthemis_1_1graphql_1_1_audit_logger_1a40e9a3174a0d19e2e0a614a05c9df6a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a40e9a3174a0d19e2e0a614a05c9df6a3" kindref="member">getRecent</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>buffer_.size()<sp/>&gt;<sp/>count<sp/>?<sp/>buffer_.size()<sp/>-<sp/>count<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;AuditLogEntry&gt;(buffer_.begin()<sp/>+<sp/>start,<sp/>buffer_.end());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1graphql_1_1_audit_logger_1ae94da41a121e3689e7b1f3fba27fd78d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1ae94da41a121e3689e7b1f3fba27fd78d" kindref="member">searchByUser</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/>results<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entry<sp/>:<sp/>buffer_)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.user_id<sp/>==<sp/>user_id)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.push_back(entry);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>results;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1graphql_1_1_audit_logger_1adfaedcbeb7b930378ff075c67dc607d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1adfaedcbeb7b930378ff075c67dc607d6" kindref="member">searchByEventType</ref>(<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" kindref="member">AuditLogEntry::EventType</ref><sp/>type)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/>results<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entry<sp/>:<sp/>buffer_)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.event_type<sp/>==<sp/>type)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.push_back(entry);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>results;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1graphql_1_1_audit_logger_1a90be21b51a515d5b12be91603cca8c65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a90be21b51a515d5b12be91603cca8c65" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_.clear();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296" refid="classthemis_1_1graphql_1_1_audit_logger_1af68fc96763d62b234df2dbb14468f466" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1af68fc96763d62b234df2dbb14468f466" kindref="member">setBufferCapacity</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>capacity)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_capacity_<sp/>=<sp/>capacity;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trim<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(buffer_.size()<sp/>&gt;<sp/>buffer_capacity_)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_.erase(buffer_.begin());</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306" refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="307" refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1afa793ab204512525d459239d59bd371e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1afa793ab204512525d459239d59bd371e" kindref="member">total_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="308" refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a39a4241c16523fc26c35d5950a7d7ad8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a39a4241c16523fc26c35d5950a7d7ad8" kindref="member">failure_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a8c133a43c9f7d618e8a5ebe8f448933e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a8c133a43c9f7d618e8a5ebe8f448933e" kindref="member">failureRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1afa793ab204512525d459239d59bd371e" kindref="member">total_entries</ref><sp/>&gt;<sp/>0<sp/>?<sp/></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a39a4241c16523fc26c35d5950a7d7ad8" kindref="member">failure_entries</ref>)<sp/>/<sp/><ref refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1afa793ab204512525d459239d59bd371e" kindref="member">total_entries</ref><sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316" refid="classthemis_1_1graphql_1_1_audit_logger_1a4952e76cb9134f7b3b88c81f2cf9e7ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1a4952e76cb9134f7b3b88c81f2cf9e7ee" kindref="member">getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331" refid="classthemis_1_1graphql_1_1_audit_logger_1af08329f0f1a6c9c1daf10d5728a195c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>AuditLogger&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1af08329f0f1a6c9c1daf10d5728a195c5" kindref="member">instance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>AuditLogger<sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1af08329f0f1a6c9c1daf10d5728a195c5" kindref="member">instance</ref>;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1af08329f0f1a6c9c1daf10d5728a195c5" kindref="member">instance</ref>;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger" kindref="compound">AuditLogger</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogHandler&gt;<sp/>handlers_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/>buffer_;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>buffer_capacity_<sp/>=<sp/>1000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>last<sp/>1000<sp/>entries<sp/>in<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="classthemis_1_1graphql_1_1_file_audit_log_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a355183247b92e33b56c9032938dac126" kindref="member">FileAuditLogHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="353" refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a355183247b92e33b56c9032938dac126" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a355183247b92e33b56c9032938dac126" kindref="member">FileAuditLogHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a80e717f631aef915fd7641687cbfdc35" kindref="member">path</ref>)</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>path_(<ref refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a80e717f631aef915fd7641687cbfdc35" kindref="member">path</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356" refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a77e2e93189fb4a02a33e52975dcbe076" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a77e2e93189fb4a02a33e52975dcbe076" kindref="member">operator()</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref>&amp;<sp/>entry)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>ofs(path_,<sp/>std::ios::app);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ofs.is_open())<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ofs<sp/>&lt;&lt;<sp/>entry.<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a95a8d7e8b232efeaaf78366a1612abe3" kindref="member">toJSON</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375" refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a80e717f631aef915fd7641687cbfdc35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a80e717f631aef915fd7641687cbfdc35" kindref="member">path</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path_;<sp/>}</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path_;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382" refid="classthemis_1_1graphql_1_1_audit_log_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="384" refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>(<ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" kindref="member">AuditLogEntry::EventType</ref><sp/>type)</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>entry_{}<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.event_type<sp/>=<sp/>type;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.timestamp<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="397" refid="classthemis_1_1graphql_1_1_audit_log_builder_1a128e4aea7c24aa22903528a775dad3e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a128e4aea7c24aa22903528a775dad3e5" kindref="member">operationName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.operation_name<sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="408" refid="classthemis_1_1graphql_1_1_audit_log_builder_1ae8813fb0006e47a9e2dd2a8fa34d2444" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1ae8813fb0006e47a9e2dd2a8fa34d2444" kindref="member">operationType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type)<sp/>{</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.operation_type<sp/>=<sp/>type;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="419" refid="classthemis_1_1graphql_1_1_audit_log_builder_1a9b448e004321d68a3a47db505be17f57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a9b448e004321d68a3a47db505be17f57" kindref="member">user</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/>{</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.user_id<sp/>=<sp/>user_id;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="430" refid="classthemis_1_1graphql_1_1_audit_log_builder_1af2c7ca3c3a19715fe63cb04d0c34db02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1af2c7ca3c3a19715fe63cb04d0c34db02" kindref="member">tenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/>{</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.tenant_id<sp/>=<sp/>tenant_id;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="441" refid="classthemis_1_1graphql_1_1_audit_log_builder_1ab3fbc6b110dd69fe801c940206592db6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1ab3fbc6b110dd69fe801c940206592db6" kindref="member">ipAddress</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip)<sp/>{</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.ip_address<sp/>=<sp/>ip;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="452" refid="classthemis_1_1graphql_1_1_audit_log_builder_1a080f0fad3a27cfb30899a71e4c1ff394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a080f0fad3a27cfb30899a71e4c1ff394" kindref="member">success</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>succeeded)<sp/>{</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.<ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a080f0fad3a27cfb30899a71e4c1ff394" kindref="member">success</ref><sp/>=<sp/>succeeded;</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="463" refid="classthemis_1_1graphql_1_1_audit_log_builder_1a236ab7609723df26192bda1503c82a5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a236ab7609723df26192bda1503c82a5c" kindref="member">error</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.error_message<sp/>=<sp/>error_msg;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.<ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a080f0fad3a27cfb30899a71e4c1ff394" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="475" refid="classthemis_1_1graphql_1_1_audit_log_builder_1aeaf4346349e0f9116bb80ac5e3a6773a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1aeaf4346349e0f9116bb80ac5e3a6773a" kindref="member">queryHash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hash)<sp/>{</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.query_hash<sp/>=<sp/>hash;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="486" refid="classthemis_1_1graphql_1_1_audit_log_builder_1a5cb968da600dcb153e28028524fa6bb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a5cb968da600dcb153e28028524fa6bb2" kindref="member">complexity</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a5cb968da600dcb153e28028524fa6bb2" kindref="member">complexity</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.query_complexity<sp/>=<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a5cb968da600dcb153e28028524fa6bb2" kindref="member">complexity</ref>;</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="498" refid="classthemis_1_1graphql_1_1_audit_log_builder_1af91b4b9e0013b152d511ee92180c4483" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kindref="member">AuditLogBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1af91b4b9e0013b152d511ee92180c4483" kindref="member">metadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_.<ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1af91b4b9e0013b152d511ee92180c4483" kindref="member">metadata</ref>[key]<sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="507" refid="classthemis_1_1graphql_1_1_audit_log_builder_1ab9eb2b64775f931012e0374652a66720" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1ab9eb2b64775f931012e0374652a66720" kindref="member">log</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graphql_1_1_audit_logger_1af08329f0f1a6c9c1daf10d5728a195c5" kindref="member">AuditLogger::instance</ref>().<ref refid="classthemis_1_1graphql_1_1_audit_logger_1a6f9308ac92a502ccfa5bdfcac2f1c7a1" kindref="member">log</ref>(entry_);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="511" refid="classthemis_1_1graphql_1_1_audit_log_builder_1ae948c2ca63bec629bacd136a213cf6d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref><sp/><ref refid="classthemis_1_1graphql_1_1_audit_log_builder_1ae948c2ca63bec629bacd136a213cf6d8" kindref="member">build</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry_;</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref><sp/>entry_;</highlight></codeline>
+<codeline lineno="517"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graphql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/api/graphql_audit_logger.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_aade1cb4f0d4a566d1bded1dae03970a" kind="dir">
+    <compoundname>src/acceleration</compoundname>
+    <innerfile refid="ai__hardware__dispatcher_8cpp">ai_hardware_dispatcher.cpp</innerfile>
+    <innerfile refid="backend__registry_8cpp">backend_registry.cpp</innerfile>
+    <innerfile refid="break__even__validator_8cc">break_even_validator.cc</innerfile>
+    <innerfile refid="break__even__validator__impl__fallback_8cpp">break_even_validator_impl_fallback.cpp</innerfile>
+    <innerfile refid="compute__backend_8cpp">compute_backend.cpp</innerfile>
+    <innerfile refid="cpu__backend_8cpp">cpu_backend.cpp</innerfile>
+    <innerfile refid="cpu__backend__mt_8cpp">cpu_backend_mt.cpp</innerfile>
+    <innerfile refid="cpu__backend__tbb_8cpp">cpu_backend_tbb.cpp</innerfile>
+    <innerfile refid="cuda__backend_8cpp">cuda_backend.cpp</innerfile>
+    <innerfile refid="device__manager_8cpp">device_manager.cpp</innerfile>
+    <innerfile refid="directx__backend__full_8cpp">directx_backend_full.cpp</innerfile>
+    <innerfile refid="faiss__gpu__backend_8cpp">faiss_gpu_backend.cpp</innerfile>
+    <innerfile refid="geo__acceleration__bridge_8cpp">geo_acceleration_bridge.cpp</innerfile>
+    <innerfile refid="graphics__backends_8cpp">graphics_backends.cpp</innerfile>
+    <innerfile refid="hip__backend_8cpp">hip_backend.cpp</innerfile>
+    <innerfile refid="kernel__registry_8cpp">kernel_registry.cpp</innerfile>
+    <innerfile refid="multi__gpu__backend_8cpp">multi_gpu_backend.cpp</innerfile>
+    <innerfile refid="nccl__vector__backend_8cpp">nccl_vector_backend.cpp</innerfile>
+    <innerfile refid="oneapi__backend_8cpp">oneapi_backend.cpp</innerfile>
+    <innerfile refid="opencl__backend_8cpp">opencl_backend.cpp</innerfile>
+    <innerfile refid="plugin__loader_8cpp">plugin_loader.cpp</innerfile>
+    <innerfile refid="plugin__security_8cpp">plugin_security.cpp</innerfile>
+    <innerfile refid="rccl__vector__backend_8cpp">rccl_vector_backend.cpp</innerfile>
+    <innerfile refid="shader__integrity_8cpp">shader_integrity.cpp</innerfile>
+    <innerfile refid="tensor__core__matmul_8cpp">tensor_core_matmul.cpp</innerfile>
+    <innerfile refid="vec__knn_8cpp">vec_knn.cpp</innerfile>
+    <innerfile refid="vllm__resource__manager_8cpp">vllm_resource_manager.cpp</innerfile>
+    <innerfile refid="vulkan__backend__full_8cpp">vulkan_backend_full.cpp</innerfile>
+    <innerfile refid="zluda__backend_8cpp">zluda_backend.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/"/>
+  </compounddef>
+</doxygen>

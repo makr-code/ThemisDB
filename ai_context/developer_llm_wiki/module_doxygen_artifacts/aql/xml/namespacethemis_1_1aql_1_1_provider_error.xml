@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1_provider_error" kind="namespace" language="C++">
+    <compoundname>themis::aql::ProviderError</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_provider_error_1a21722178ae77c35454fa494b51db8992" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ProviderError::InferFailed</definition>
+        <argsstring></argsstring>
+        <name>InferFailed</name>
+        <qualifiedname>themis::aql::ProviderError::InferFailed</qualifiedname>
+        <initializer>= &quot;InferFailed&quot;</initializer>
+        <briefdescription>
+<para>Inference provider error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="220" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_provider_error_1abd534ee5c735d24612ef3b740c3fa3d1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ProviderError::RAGFailed</definition>
+        <argsstring></argsstring>
+        <name>RAGFailed</name>
+        <qualifiedname>themis::aql::ProviderError::RAGFailed</qualifiedname>
+        <initializer>= &quot;RAGFailed&quot;</initializer>
+        <briefdescription>
+<para>RAG provider error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="221" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_provider_error_1ada1a67d0d9343f9cbe844210263637bc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ProviderError::EmbedFailed</definition>
+        <argsstring></argsstring>
+        <name>EmbedFailed</name>
+        <qualifiedname>themis::aql::ProviderError::EmbedFailed</qualifiedname>
+        <initializer>= &quot;EmbedFailed&quot;</initializer>
+        <briefdescription>
+<para>Embedding provider error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="222" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_provider_error_1a6f59939540f037a27b840fb90a606705" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ProviderError::FinetuneFailed</definition>
+        <argsstring></argsstring>
+        <name>FinetuneFailed</name>
+        <qualifiedname>themis::aql::ProviderError::FinetuneFailed</qualifiedname>
+        <initializer>= &quot;FinetuneFailed&quot;</initializer>
+        <briefdescription>
+<para>Fine-tuning provider error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="223" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_provider_error_1a852be3bbec8fb6a16592469850bdf6fd" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ProviderError::CircuitBreakerOpen</definition>
+        <argsstring></argsstring>
+        <name>CircuitBreakerOpen</name>
+        <qualifiedname>themis::aql::ProviderError::CircuitBreakerOpen</qualifiedname>
+        <initializer>= &quot;CircuitBreakerOpen&quot;</initializer>
+        <briefdescription>
+<para>Circuit breaker is open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="224" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_provider_error_1ad16608d1167b1a2139b896e202bd0a93" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ProviderError::ProviderTimeout</definition>
+        <argsstring></argsstring>
+        <name>ProviderTimeout</name>
+        <qualifiedname>themis::aql::ProviderError::ProviderTimeout</qualifiedname>
+        <initializer>= &quot;ProviderTimeout&quot;</initializer>
+        <briefdescription>
+<para>Provider request timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="225" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_provider_error_1a4c3f663653805bbe53e8743bac38f230" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::ProviderError::ProviderUnavailable</definition>
+        <argsstring></argsstring>
+        <name>ProviderUnavailable</name>
+        <qualifiedname>themis::aql::ProviderError::ProviderUnavailable</qualifiedname>
+        <initializer>= &quot;ProviderUnavailable&quot;</initializer>
+        <briefdescription>
+<para>Provider service unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="226" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_error_types.h" line="219" column="1"/>
+  </compounddef>
+</doxygen>

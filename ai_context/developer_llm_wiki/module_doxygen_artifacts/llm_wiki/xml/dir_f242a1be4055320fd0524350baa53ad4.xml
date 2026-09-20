@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f242a1be4055320fd0524350baa53ad4" kind="dir">
+    <compoundname>src/llm_wiki/wikipedia</compoundname>
+    <innerfile refid="llm__wiki__plugin__factory_8cpp">llm_wiki_plugin_factory.cpp</innerfile>
+    <innerfile refid="llm__wiki__plugin__impl_8cpp">llm_wiki_plugin_impl.cpp</innerfile>
+    <innerfile refid="wiki__workspace__orchestrator_8cpp">wiki_workspace_orchestrator.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm_wiki/wikipedia/"/>
+  </compounddef>
+</doxygen>

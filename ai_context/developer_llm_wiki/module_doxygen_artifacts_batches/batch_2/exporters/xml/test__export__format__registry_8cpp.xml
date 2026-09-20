@@ -1,0 +1,1260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__export__format__registry_8cpp" kind="file" language="C++">
+    <compoundname>test_export_format_registry.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="export__format__registry_8h" local="yes">exporters/export_format_registry.h</includes>
+    <includes refid="jsonl__llm__exporter_8h" local="yes">exporters/jsonl_llm_exporter.h</includes>
+    <includes refid="parquet__exporter_8h" local="yes">exporters/parquet_exporter.h</includes>
+    <includes refid="arrow__ipc__exporter_8h" local="yes">exporters/arrow_ipc_exporter.h</includes>
+    <includes refid="streaming__exporter_8h" local="yes">exporters/streaming_exporter.h</includes>
+    <includes refid="incremental__exporter_8h" local="yes">exporters/incremental_exporter.h</includes>
+    <includes refid="huggingface__exporter_8h" local="yes">exporters/huggingface_exporter.h</includes>
+    <includes refid="format__template_8h" local="yes">exporters/format_template.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <incdepgraph>
+      <node id="29">
+        <label>exporters/arrow_ipc_exporter.h</label>
+        <link refid="arrow__ipc__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>exporters/export_encryption.h</label>
+        <link refid="export__encryption_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>exporters/export_format_registry.h</label>
+        <link refid="export__format__registry_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>exporters/exporter_interface.h</label>
+        <link refid="exporter__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>exporter_metrics.h</label>
+        <link refid="exporter__metrics_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>format_template.h</label>
+        <link refid="format__template_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>exporters/huggingface_exporter.h</label>
+        <link refid="huggingface__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>exporters/incremental_exporter.h</label>
+        <link refid="incremental__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>exporters/jsonl_llm_exporter.h</label>
+        <link refid="jsonl__llm__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>exporters/parquet_exporter.h</label>
+        <link refid="parquet__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>exporters/streaming_exporter.h</label>
+        <link refid="streaming__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/exporters/test_export_format_registry.cpp</label>
+        <link refid="test__export__format__registry_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>cstddef</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="34">
+        <label>filesystem</label>
+      </node>
+      <node id="35">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="17">
+        <label>istream</label>
+      </node>
+      <node id="32">
+        <label>limits</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="25">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>ostream</label>
+      </node>
+      <node id="27">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="13">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="14">
+        <label>security/key_provider.h</label>
+      </node>
+      <node id="20">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_export_format_registry_test" prot="public">ExportFormatRegistryTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, RegisterBuiltinsPopulatesExpectedFormats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterBuiltinsPopulatesExpectedFormats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="30" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="30" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a3b742d5379b1e00d40ec02ac23d7b255" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, RegisterBuiltinsIsIdempotent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterBuiltinsIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="44" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1ad5cc0f05bc42451a13f0c14bba3f8cc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, CreateExporterJsonlReturnsNonNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>CreateExporterJsonlReturnsNonNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="54" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1ad2ad54a5b3ecc00399f21bb41b1b329b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, CreateExporterParquetReturnsNonNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>CreateExporterParquetReturnsNonNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="61" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a9fc0c187701f4c6c20ed6603b0bd9032" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, CreateExporterArrowFileReturnsNonNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>CreateExporterArrowFileReturnsNonNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="68" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1af55628c0e4a119c188bd8663e07b4f4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, CreateExporterArrowStreamReturnsNonNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>CreateExporterArrowStreamReturnsNonNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="74" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="74" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a32e830b1f0d7e327b13bef21ba78ac5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, CreateExporterHuggingFaceReturnsNonNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>CreateExporterHuggingFaceReturnsNonNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="80" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1ad25cf8689657527d04b3a053fabb6fb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, CreateExporterStreamingReturnsNonNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>CreateExporterStreamingReturnsNonNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="87" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a09b92c2535b0ba1b4bdc39167cd1ecc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, CreateExporterIncrementalReturnsNonNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>CreateExporterIncrementalReturnsNonNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="93" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="93" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a86df91014816d1198d8b1555c6634616" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, CreateExporterUnknownFormatThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>CreateExporterUnknownFormatThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="99" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="99" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1adb7059eeb5f860617be553439cf891b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, HasFormatReturnsFalseBeforeRegister)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>HasFormatReturnsFalseBeforeRegister</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="109" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a3823a2ca2e16e0698cb3d6a2908989d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, HasFormatReturnsTrueAfterRegister)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>HasFormatReturnsTrueAfterRegister</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="113" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="113" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1ab2e5f889602dc1e7d339fab07ff5fe1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, RegisterFormatOverridesExisting)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterFormatOverridesExisting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="123" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="123" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1af104715d78f71f0eec56babf3ea19bcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, RegisteredFormatsIsSorted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>RegisteredFormatsIsSorted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="137" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="137" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a72975278a31355e37e1807ef1a80bf5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, ClearRemovesAllFormats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>ClearRemovesAllFormats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="145" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a852bd397a1e478b97fd056c9c5b804f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, BuiltinTemplateAlpacaCreatesCorrectExporter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>BuiltinTemplateAlpacaCreatesCorrectExporter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="154" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="154" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a33b356ea01124b2af2bf4ef868eb8978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, BuiltinTemplateShareGPTCreatesCorrectExporter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>BuiltinTemplateShareGPTCreatesCorrectExporter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="164" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="164" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a2bcb773140a32e8591bce00252b8ef5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, BuiltinTemplateChatMLCreatesCorrectExporter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>BuiltinTemplateChatMLCreatesCorrectExporter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="173" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="173" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a61699d99071207705d4546f15573b0db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, BuiltinTemplateOpenAIFTCreatesCorrectExporter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>BuiltinTemplateOpenAIFTCreatesCorrectExporter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="182" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="182" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1abfa96f8d86faf36732b1b859ebeaa94b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonRegistersNewFormat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonRegistersNewFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="193" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="193" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a49ef7e8317f95af8dd73ddcac74c4698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonCreatesExporterWithCorrectType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonCreatesExporterWithCorrectType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="199" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="199" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a222caa2c7bc746423f07a898587985db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonAppliesFieldMapping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonAppliesFieldMapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="209" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="209" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a4858fa18614fc352a9cd0103ca5ce25f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonMultipleEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonMultipleEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="220" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="220" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a3645ff46a0c3d287deadd26bd8bc6b4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnMissingTemplatesArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonThrowsOnMissingTemplatesArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="228" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="228" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1ab393eb9c54bd8156c1742e61cd914f7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnMissingFormatKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonThrowsOnMissingFormatKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="236" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="236" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a5dafe848d944a6b0f87550e7a9218d76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnMissingTemplateType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonThrowsOnMissingTemplateType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="244" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="244" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a51bd82ccf83cdac1b2ef9114f976a36a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnUnknownTemplateType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonThrowsOnUnknownTemplateType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="252" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="252" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1ab5f2e76e2b6c5c4ce7e2281414626307" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnInvalidJson)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonThrowsOnInvalidJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="260" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="260" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1aeb53a26c391ecd360acea480f8023f43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromJsonIsAtomicOnPartialFailure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromJsonIsAtomicOnPartialFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="267" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="267" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1aee0e20db5d3a7141a013ec100737fea4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromConfigRegistersFormats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromConfigRegistersFormats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="281" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="281" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__export__format__registry_8cpp_1a33a893ed6e16df245fd97ebf8a1bfd6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExportFormatRegistryTest, LoadTemplatesFromConfigThrowsOnMissingFile)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTemplatesFromConfigThrowsOnMissingFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_format_registry.cpp" line="294" column="1" bodyfile="tests/exporters/test_export_format_registry.cpp" bodystart="294" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="export__format__registry_8h" kindref="compound">exporters/export_format_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jsonl__llm__exporter_8h" kindref="compound">exporters/jsonl_llm_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="parquet__exporter_8h" kindref="compound">exporters/parquet_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="arrow__ipc__exporter_8h" kindref="compound">exporters/arrow_ipc_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="streaming__exporter_8h" kindref="compound">exporters/streaming_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="incremental__exporter_8h" kindref="compound">exporters/incremental_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="huggingface__exporter_8h" kindref="compound">exporters/huggingface_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="format__template_8h" kindref="compound">exporters/format_template.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">themis::exporters</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="class_export_format_registry_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_export_format_registry_test_1aeae49fa9b61c2788c1c6d817b4903664" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>test<sp/>starts<sp/>from<sp/>a<sp/>clean<sp/>registry<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1abe1fa970aa4b993657a0058c04da8d52" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_export_format_registry_test_1a1249ba709324803b46399cd27b3627dc" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1abe1fa970aa4b993657a0058c04da8d52" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>registerBuiltins<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>RegisterBuiltinsPopulatesExpectedFormats)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>keys<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a50050ffed9ebbac3fbe7127da178dd12" kindref="member">registeredFormats</ref>();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(keys.empty());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>expected<sp/>:<sp/>{</highlight><highlight class="stringliteral">&quot;jsonl&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;llm_jsonl&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;parquet&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;arrow&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;arrow_stream&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;huggingface&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hf_datasets&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;streaming&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;incremental&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;jsonl_alpaca&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jsonl_sharegpt&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;jsonl_chatml&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jsonl_openai_ft&quot;</highlight><highlight class="normal">})<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(expected))</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>format:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>expected;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>RegisterBuiltinsIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count1<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a50050ffed9ebbac3fbe7127da178dd12" kindref="member">registeredFormats</ref>().size();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count2<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a50050ffed9ebbac3fbe7127da178dd12" kindref="member">registeredFormats</ref>().size();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count1,<sp/>count2);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>createExporter<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>CreateExporterJsonlReturnsNonNull)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;jsonl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exp-&gt;getName(),<sp/></highlight><highlight class="stringliteral">&quot;jsonl_llm_exporter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>CreateExporterParquetReturnsNonNull)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;parquet&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(exp-&gt;getSupportedFormats().empty());</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>CreateExporterArrowFileReturnsNonNull)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;arrow&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>CreateExporterArrowStreamReturnsNonNull)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;arrow_stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>CreateExporterHuggingFaceReturnsNonNull)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;huggingface&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exp-&gt;getName(),<sp/></highlight><highlight class="stringliteral">&quot;huggingface_exporter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>CreateExporterStreamingReturnsNonNull)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;streaming&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>CreateExporterIncrementalReturnsNonNull)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;incremental&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>CreateExporterUnknownFormatThrows)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().createExporter(</highlight><highlight class="stringliteral">&quot;unknown_xyz&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>hasFormat<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>HasFormatReturnsFalseBeforeRegister)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;jsonl&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>HasFormatReturnsTrueAfterRegister)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1af896a154b261f3adc16045d386b1c970" kindref="member">registerFormat</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;custom_fmt&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>-&gt;<sp/>std::unique_ptr&lt;IExporter&gt;<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;JSONLLLMExporter&gt;();<sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;custom_fmt&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>registerFormat<sp/>(override)<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>RegisterFormatOverridesExisting)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Override<sp/>&quot;jsonl&quot;<sp/>with<sp/>a<sp/>streaming<sp/>exporter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1af896a154b261f3adc16045d386b1c970" kindref="member">registerFormat</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;jsonl&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>-&gt;<sp/>std::unique_ptr&lt;IExporter&gt;<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;StreamingExporter&gt;();<sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;jsonl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exp-&gt;getName(),<sp/></highlight><highlight class="stringliteral">&quot;streaming_exporter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>registeredFormats<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>RegisteredFormatsIsSorted)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>keys<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a50050ffed9ebbac3fbe7127da178dd12" kindref="member">registeredFormats</ref>();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_sorted(keys.begin(),<sp/>keys.end()));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>clear<sp/>────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>ClearRemovesAllFormats)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1abe1fa970aa4b993657a0058c04da8d52" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().registeredFormats().empty());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;jsonl&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>built-in<sp/>template<sp/>format<sp/>shortcuts<sp/>───────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>BuiltinTemplateAlpacaCreatesCorrectExporter)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;jsonl_alpaca&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exp-&gt;getName(),<sp/></highlight><highlight class="stringliteral">&quot;jsonl_llm_exporter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>jexp<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" kindref="compound">JSONLLLMExporter</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(exp.get());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(jexp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(jexp-&gt;getConfig().format_template_type,<sp/><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a7c80105b450d2a7097856f0c1a47f684" kindref="member">FormatTemplateType::ALPACA</ref>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>BuiltinTemplateShareGPTCreatesCorrectExporter)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;jsonl_sharegpt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>jexp<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" kindref="compound">JSONLLLMExporter</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(exp.get());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(jexp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(jexp-&gt;getConfig().format_template_type,<sp/><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a6bf102810c451bcbe854d58144f86c92" kindref="member">FormatTemplateType::SHAREGPT</ref>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>BuiltinTemplateChatMLCreatesCorrectExporter)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;jsonl_chatml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>jexp<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" kindref="compound">JSONLLLMExporter</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(exp.get());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(jexp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(jexp-&gt;getConfig().format_template_type,<sp/><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a6992181699746ce78f7ae139068a578a" kindref="member">FormatTemplateType::CHATML</ref>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>BuiltinTemplateOpenAIFTCreatesCorrectExporter)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" kindref="member">registerBuiltins</ref>();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;jsonl_openai_ft&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>jexp<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" kindref="compound">JSONLLLMExporter</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(exp.get());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(jexp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(jexp-&gt;getConfig().format_template_type,<sp/><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a9fefc7a706eb444ecdb92df7afd75743" kindref="member">FormatTemplateType::OPENAI_FINETUNING</ref>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>loadTemplatesFromJson<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonRegistersNewFormat)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;format_key&quot;:<sp/><sp/><sp/><sp/>&quot;jsonl_custom_alpaca&quot;,</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;template_type&quot;:<sp/>&quot;alpaca&quot;</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a30db44512ac89d09bc90134ff4fb7e63" kindref="member">loadTemplatesFromJson</ref>(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>);</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;jsonl_custom_alpaca&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonCreatesExporterWithCorrectType)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;format_key&quot;:<sp/><sp/><sp/><sp/>&quot;jsonl_my_chatml&quot;,</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;template_type&quot;:<sp/>&quot;chatml&quot;</highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a30db44512ac89d09bc90134ff4fb7e63" kindref="member">loadTemplatesFromJson</ref>(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>);</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;jsonl_my_chatml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>jexp<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" kindref="compound">JSONLLLMExporter</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(exp.get());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(jexp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(jexp-&gt;getConfig().format_template_type,<sp/><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a6992181699746ce78f7ae139068a578a" kindref="member">FormatTemplateType::CHATML</ref>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonAppliesFieldMapping)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;format_key&quot;:<sp/><sp/><sp/><sp/>&quot;jsonl_custom_alpaca_mapped&quot;,</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;template_type&quot;:<sp/>&quot;alpaca&quot;,</highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;field_mapping&quot;:<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;instruction_field&quot;:<sp/>&quot;prompt&quot;,</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;output_field&quot;:<sp/><sp/><sp/><sp/><sp/><sp/>&quot;response&quot;</highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="236"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a30db44512ac89d09bc90134ff4fb7e63" kindref="member">loadTemplatesFromJson</ref>(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>);</highlight></codeline>
+<codeline lineno="237"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" kindref="member">createExporter</ref>(</highlight><highlight class="stringliteral">&quot;jsonl_custom_alpaca_mapped&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>jexp<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" kindref="compound">JSONLLLMExporter</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(exp.get());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(jexp,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(jexp-&gt;getConfig().template_field_mapping.instruction_field,<sp/></highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(jexp-&gt;getConfig().template_field_mapping.output_field,<sp/></highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonMultipleEntries)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="247"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="248"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;my_alpaca&quot;,<sp/><sp/><sp/>&quot;template_type&quot;:<sp/>&quot;alpaca&quot;},</highlight></codeline>
+<codeline lineno="249"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;my_sharegpt&quot;,<sp/>&quot;template_type&quot;:<sp/>&quot;sharegpt&quot;},</highlight></codeline>
+<codeline lineno="250"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;my_openai&quot;,<sp/><sp/><sp/>&quot;template_type&quot;:<sp/>&quot;openai_finetuning&quot;}</highlight></codeline>
+<codeline lineno="251"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="252"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="253"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a30db44512ac89d09bc90134ff4fb7e63" kindref="member">loadTemplatesFromJson</ref>(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>);</highlight></codeline>
+<codeline lineno="254"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;my_alpaca&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;my_sharegpt&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;my_openai&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonThrowsOnMissingTemplatesArray)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;not_templates&quot;:<sp/>[]})&quot;;</highlight></codeline>
+<codeline lineno="261"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="262"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().loadTemplatesFromJson(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>),</highlight></codeline>
+<codeline lineno="263"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="264"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="265"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="266"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="267"><highlight class="stringliteral"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonThrowsOnMissingFormatKey)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="269"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="270"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;template_type&quot;:<sp/>&quot;alpaca&quot;}</highlight></codeline>
+<codeline lineno="271"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="272"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="273"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="274"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().loadTemplatesFromJson(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>),</highlight></codeline>
+<codeline lineno="275"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="276"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="277"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="278"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="279"><highlight class="stringliteral"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonThrowsOnMissingTemplateType)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="281"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="282"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;some_key&quot;}</highlight></codeline>
+<codeline lineno="283"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="284"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="285"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="286"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().loadTemplatesFromJson(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>),</highlight></codeline>
+<codeline lineno="287"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="288"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="289"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="290"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="291"><highlight class="stringliteral"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonThrowsOnUnknownTemplateType)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="293"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="294"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;bad&quot;,<sp/>&quot;template_type&quot;:<sp/>&quot;nonexistent_type&quot;}</highlight></codeline>
+<codeline lineno="295"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="296"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="297"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="298"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().loadTemplatesFromJson(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>),</highlight></codeline>
+<codeline lineno="299"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="300"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="301"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="302"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="303"><highlight class="stringliteral"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonThrowsOnInvalidJson)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="305"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().loadTemplatesFromJson(</highlight><highlight class="stringliteral">&quot;not_valid_json{{{&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json::parse_error</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromJsonIsAtomicOnPartialFailure)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>entry<sp/>is<sp/>valid;<sp/>second<sp/>entry<sp/>has<sp/>an<sp/>unknown<sp/>template_type.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Neither<sp/>entry<sp/>should<sp/>be<sp/>registered<sp/>after<sp/>the<sp/>failure<sp/>(all-or-nothing).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="314"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="315"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;good_entry&quot;,<sp/><sp/>&quot;template_type&quot;:<sp/>&quot;alpaca&quot;},</highlight></codeline>
+<codeline lineno="316"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;bad_entry&quot;,<sp/><sp/><sp/>&quot;template_type&quot;:<sp/>&quot;nonexistent_type&quot;}</highlight></codeline>
+<codeline lineno="317"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="318"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="319"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="320"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().loadTemplatesFromJson(<ref refid="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" kindref="member">json</ref>),</highlight></codeline>
+<codeline lineno="321"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="322"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="323"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>valid<sp/>first<sp/>entry<sp/>must<sp/>NOT<sp/>have<sp/>been<sp/>registered.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;good_entry&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>loadTemplatesFromConfig<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromConfigRegistersFormats)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>a<sp/>temporary<sp/>JSON<sp/>config<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmp<sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_test_registry_config.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(tmp);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="335"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;templates&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="336"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;file_alpaca&quot;,<sp/><sp/><sp/>&quot;template_type&quot;:<sp/>&quot;alpaca&quot;},</highlight></codeline>
+<codeline lineno="337"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;format_key&quot;:<sp/>&quot;file_chatml&quot;,<sp/><sp/><sp/><sp/>&quot;template_type&quot;:<sp/>&quot;chatml&quot;}</highlight></codeline>
+<codeline lineno="338"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="339"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="340"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1ac72c3ef10d7fefd3a92ebb31eb53fca7" kindref="member">loadTemplatesFromConfig</ref>(tmp.string());</highlight></codeline>
+<codeline lineno="342"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;file_alpaca&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().hasFormat(</highlight><highlight class="stringliteral">&quot;file_chatml&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(tmp);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__export__format__registry_8cpp_1ab4581200121122d35c9c316ffcb51c9a" kindref="member">TEST_F</ref>(<ref refid="class_export_format_registry_test" kindref="compound">ExportFormatRegistryTest</ref>,<sp/>LoadTemplatesFromConfigThrowsOnMissingFile)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" kindref="member">ExportFormatRegistry::instance</ref>().loadTemplatesFromConfig(</highlight><highlight class="stringliteral">&quot;/nonexistent/path/config.json&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/exporters/test_export_format_registry.cpp"/>
+  </compounddef>
+</doxygen>

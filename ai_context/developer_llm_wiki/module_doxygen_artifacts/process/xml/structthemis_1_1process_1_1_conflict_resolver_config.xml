@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_conflict_resolver_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConflictResolverConfig</compoundname>
+    <includes refid="process__conflict__resolver_8h" local="no">process_conflict_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolver_config_1a0320d8b2fc362a932bb2b66d57119cee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictResolverConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::process::ConflictResolverConfig::strategy</qualifiedname>
+        <initializer>= &quot;LWW&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="28" column="15" bodyfile="include/process/process_conflict_resolver.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolver_config_1a68e10ccbda78ddf6273a83b39262de6d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::ConflictResolverConfig::callback_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>callback_timeout_ms</name>
+        <qualifiedname>themis::process::ConflictResolverConfig::callback_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="29" column="12" bodyfile="include/process/process_conflict_resolver.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolver_config_1a8649c87b40dec88eff55376202fd3e14" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::ConflictResolverConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::process::ConflictResolverConfig::batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="30" column="12" bodyfile="include/process/process_conflict_resolver.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for conflict resolver. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_conflict_resolver.h" line="27" column="1" bodyfile="include/process/process_conflict_resolver.h" bodystart="27" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_conflict_resolver_config_1a8649c87b40dec88eff55376202fd3e14" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolverConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolver_config_1a68e10ccbda78ddf6273a83b39262de6d" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolverConfig</scope><name>callback_timeout_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolver_config_1a0320d8b2fc362a932bb2b66d57119cee" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolverConfig</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

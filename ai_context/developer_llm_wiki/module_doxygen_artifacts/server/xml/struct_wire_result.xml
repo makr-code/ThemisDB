@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_wire_result" kind="struct" language="C++" prot="public">
+    <compoundname>WireResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_wire_result_1af96a60935b67361c3df97f1abd9aec4d" prot="public" static="no" mutable="no">
+        <type><ref refid="test__server__phase5__hardening_8cpp_1aef4cfd36b319654db8eedabae842d282" kindref="member">WireErrorCode</ref></type>
+        <definition>WireErrorCode WireResult::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>WireResult::code</qualifiedname>
+        <initializer>{<ref refid="test__server__phase5__hardening_8cpp_1aef4cfd36b319654db8eedabae842d282ae69fa9a656f76dd8a4d89f21992b2d3a" kindref="member">WireErrorCode::kOk</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="70" column="19" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_wire_result_1a2886080594e9b619d1c4f447518373ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string WireResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>WireResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="71" column="19" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_wire_result_1ac49dfe83b2ff2360701bcf15a48d5925" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int WireResult::attempt</definition>
+        <argsstring></argsstring>
+        <name>attempt</name>
+        <qualifiedname>WireResult::attempt</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>1-based attempt index that produced this result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="72" column="19" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by a single attempt executed through the retry gate. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase5_hardening.cpp" line="69" column="1" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="69" bodyend="73"/>
+    <listofallmembers>
+      <member refid="struct_wire_result_1ac49dfe83b2ff2360701bcf15a48d5925" prot="public" virt="non-virtual"><scope>WireResult</scope><name>attempt</name></member>
+      <member refid="struct_wire_result_1af96a60935b67361c3df97f1abd9aec4d" prot="public" virt="non-virtual"><scope>WireResult</scope><name>code</name></member>
+      <member refid="struct_wire_result_1a2886080594e9b619d1c4f447518373ee" prot="public" virt="non-virtual"><scope>WireResult</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

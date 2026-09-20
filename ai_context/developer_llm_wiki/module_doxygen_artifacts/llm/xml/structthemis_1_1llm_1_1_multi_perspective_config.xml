@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_multi_perspective_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MultiPerspectiveConfig</compoundname>
+    <includes refid="multi__perspective__generator_8h" local="no">multi_perspective_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a684e132b67976f8faf91cd29074049d9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MultiPerspectiveConfig::min_perspectives</definition>
+        <argsstring></argsstring>
+        <name>min_perspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::min_perspectives</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Minimum perspectives to generate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="75" column="9" bodyfile="include/llm/multi_perspective_generator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a4e13ff804f59130fe0467cace65b745e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MultiPerspectiveConfig::max_perspectives</definition>
+        <argsstring></argsstring>
+        <name>max_perspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::max_perspectives</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Maximum perspectives to generate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="76" column="9" bodyfile="include/llm/multi_perspective_generator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a44ddaf1aaaaf7f9ea33d0686971c0a69" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveConfig::auto_select_perspectives</definition>
+        <argsstring></argsstring>
+        <name>auto_select_perspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::auto_select_perspectives</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Auto-select based on query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="77" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a5beaa6da73e3868e27086ea9c277e173" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::MultiPerspectiveConfig::required_perspectives</definition>
+        <argsstring></argsstring>
+        <name>required_perspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::required_perspectives</qualifiedname>
+        <briefdescription>
+<para>Must include these. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="78" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a7908dc458242fa20d0a5b28583548704" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MultiPerspectiveConfig::min_diversity_score</definition>
+        <argsstring></argsstring>
+        <name>min_diversity_score</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::min_diversity_score</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+<para>Minimum diversity score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="81" column="11" bodyfile="include/llm/multi_perspective_generator.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a468216e673a69ae3b5d42f426755de11" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveConfig::require_contrasting_views</definition>
+        <argsstring></argsstring>
+        <name>require_contrasting_views</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::require_contrasting_views</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Must include opposing views. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="82" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1aa9d8a8b995da2db84813cdada83ee58e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveConfig::enable_synthesis</definition>
+        <argsstring></argsstring>
+        <name>enable_synthesis</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::enable_synthesis</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Generate synthesized response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="85" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a010f73000724d342a4061016bb8f2eb9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveConfig::preserve_all_perspectives</definition>
+        <argsstring></argsstring>
+        <name>preserve_all_perspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::preserve_all_perspectives</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include all perspectives in synthesis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="86" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a1d232aa6225a04f435afabb4fc43870f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveConfig::highlight_disagreements</definition>
+        <argsstring></argsstring>
+        <name>highlight_disagreements</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::highlight_disagreements</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Explicitly note disagreements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="87" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a755bc3b0beef9b4ff70c096d8813a40f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveConfig::use_ethical_guidelines_manager</definition>
+        <argsstring></argsstring>
+        <name>use_ethical_guidelines_manager</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::use_ethical_guidelines_manager</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Integrate with <ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="90" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a8c9d2e83904e9d595d21db0667933e36" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveConfig::cache_perspectives</definition>
+        <argsstring></argsstring>
+        <name>cache_perspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::cache_perspectives</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="93" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a1570827a237f49d12017a7003ce97482" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiPerspectiveConfig::max_cache_size</definition>
+        <argsstring></argsstring>
+        <name>max_cache_size</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::max_cache_size</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="94" column="12" bodyfile="include/llm/multi_perspective_generator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_config_1a1f2c3eb6a1c416afa0b70fb58f5f9e44" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveConfig::async_generation</definition>
+        <argsstring></argsstring>
+        <name>async_generation</name>
+        <qualifiedname>themis::llm::MultiPerspectiveConfig::async_generation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="95" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_perspective_generator.h" line="73" column="1" bodyfile="include/llm/multi_perspective_generator.h" bodystart="73" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1f2c3eb6a1c416afa0b70fb58f5f9e44" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>async_generation</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a44ddaf1aaaaf7f9ea33d0686971c0a69" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>auto_select_perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a8c9d2e83904e9d595d21db0667933e36" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>cache_perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1aa9d8a8b995da2db84813cdada83ee58e" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>enable_synthesis</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1d232aa6225a04f435afabb4fc43870f" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>highlight_disagreements</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1570827a237f49d12017a7003ce97482" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>max_cache_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a4e13ff804f59130fe0467cace65b745e" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>max_perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a7908dc458242fa20d0a5b28583548704" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>min_diversity_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a684e132b67976f8faf91cd29074049d9" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>min_perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a010f73000724d342a4061016bb8f2eb9" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>preserve_all_perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a468216e673a69ae3b5d42f426755de11" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>require_contrasting_views</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a5beaa6da73e3868e27086ea9c277e173" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>required_perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_config_1a755bc3b0beef9b4ff70c096d8813a40f" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveConfig</scope><name>use_ethical_guidelines_manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

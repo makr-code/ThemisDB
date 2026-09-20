@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gdpr__subject__rights_8h" kind="file" language="C++">
+    <compoundname>gdpr_subject_rights.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="gdpr__subject__rights_8cpp" local="yes">src/governance/gdpr_subject_rights.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/governance/gdpr_subject_rights.h</label>
+        <link refid="gdpr__subject__rights_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/governance/gdpr_subject_rights.h</label>
+        <link refid="gdpr__subject__rights_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/governance/gdpr_subject_rights.cpp</label>
+        <link refid="gdpr__subject__rights_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1governance_1_1_store_erasure_result" prot="public">themis::governance::StoreErasureResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_erasure_report" prot="public">themis::governance::ErasureReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_portability_package" prot="public">themis::governance::PortabilityPackage</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_i_gdpr_erase_target" prot="public">themis::governance::IGdprEraseTarget</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager" prot="public">themis::governance::GdprSubjectRightsManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Supporting<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4e94c8ad46c8aef1ca637841dfbe2159" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4e94c8ad46c8aef1ca637841dfbe2159" kindref="member">GDPR</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdabbacba025c5700fcfc49b21015cfa98d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdabbacba025c5700fcfc49b21015cfa98d" kindref="member">CCPA</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1governance_1_1_store_erasure_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_store_erasure_result" kindref="compound">StoreErasureResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1governance_1_1_store_erasure_result_1a5f1bcf3b88b1ed3b5f0eb7c0f5412a96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_store_erasure_result_1a5f1bcf3b88b1ed3b5f0eb7c0f5412a96" kindref="member">store_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1governance_1_1_store_erasure_result_1ae764554333020dbe25d4ce7c6700d0c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_store_erasure_result_1ae764554333020dbe25d4ce7c6700d0c6" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1governance_1_1_store_erasure_result_1a2dc727b38686ab2a47f959cad6205b3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_store_erasure_result_1a2dc727b38686ab2a47f959cad6205b3c" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1governance_1_1_store_erasure_result_1a1e302896b0b714a68c930346877dbd6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_store_erasure_result_1a1e302896b0b714a68c930346877dbd6e" kindref="member">records_erased</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1governance_1_1_erasure_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_erasure_report" kindref="compound">ErasureReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1governance_1_1_erasure_report_1a46aa352e2e539bd52dd47c5438b6acae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_erasure_report_1a46aa352e2e539bd52dd47c5438b6acae" kindref="member">subject_id</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1governance_1_1_erasure_report_1ab9e68f3c085a10f8cf0d9e8e915ac1da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref><sp/><sp/><ref refid="structthemis_1_1governance_1_1_erasure_report_1ab9e68f3c085a10f8cf0d9e8e915ac1da" kindref="member">regulation</ref><sp/>=<sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4e94c8ad46c8aef1ca637841dfbe2159" kindref="member">Regulation::GDPR</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1governance_1_1_erasure_report_1a9919d423f04f1c47f4ba5ea78f5eb3f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_erasure_report_1a9919d423f04f1c47f4ba5ea78f5eb3f2" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1governance_1_1_erasure_report_1af057710c460cdb5216c14b79ba93d559" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_erasure_report_1af057710c460cdb5216c14b79ba93d559" kindref="member">operator_id</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1governance_1_1_erasure_report_1acc765b6c410a62cf48813ef845066b77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1governance_1_1_erasure_report_1acc765b6c410a62cf48813ef845066b77" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1governance_1_1_erasure_report_1ab8dff9d8266e48a892698e1ef4b5917a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_erasure_report_1ab8dff9d8266e48a892698e1ef4b5917a" kindref="member">fully_erased</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1governance_1_1_erasure_report_1a516d0959de2ddd5ff414bdd863f21f35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StoreErasureResult&gt;<sp/><ref refid="structthemis_1_1governance_1_1_erasure_report_1a516d0959de2ddd5ff414bdd863f21f35" kindref="member">store_results</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_erasure_report_1ac6b89d5a7ececfaf7d3f5c894a51aaa9" kindref="member">toSummaryMap</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1governance_1_1_portability_package" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_portability_package" kindref="compound">PortabilityPackage</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1governance_1_1_portability_package_1a689c687af5d0767075952f41007ac54f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_portability_package_1a689c687af5d0767075952f41007ac54f" kindref="member">subject_id</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1governance_1_1_portability_package_1a19e8ade118d3faaa0beb91a77319fc89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_portability_package_1a19e8ade118d3faaa0beb91a77319fc89" kindref="member">format</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1governance_1_1_portability_package_1a12762a76910f3152e10ea92c716e94ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1governance_1_1_portability_package_1a12762a76910f3152e10ea92c716e94ae" kindref="member">payload</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1governance_1_1_portability_package_1abeec9704e21cccb973021f4bbed9e14d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1governance_1_1_portability_package_1abeec9704e21cccb973021f4bbed9e14d" kindref="member">tsa_signature</ref>;<sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1governance_1_1_portability_package_1a0f4646d756cce5b77a75364c3385e733" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1governance_1_1_portability_package_1a0f4646d756cce5b77a75364c3385e733" kindref="member">issued_at</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IGdprEraseTarget<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1governance_1_1_i_gdpr_erase_target" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_i_gdpr_erase_target" kindref="compound">IGdprEraseTarget</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a3bcdee8da436a98819bd7b5709b62a78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a3bcdee8da436a98819bd7b5709b62a78" kindref="member">~IGdprEraseTarget</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a49eec9bb9121a576bd57cc6f8d675bf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a49eec9bb9121a576bd57cc6f8d675bf7" kindref="member">storeId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a8d9474355b4eaf1bf19e7281d5a639b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_store_erasure_result" kindref="compound">StoreErasureResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a8d9474355b4eaf1bf19e7281d5a639b2" kindref="member">eraseSubject</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>subject_id,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref><sp/>regulation)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a832e23c8f21e9c293d382ad141428189" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a832e23c8f21e9c293d382ad141428189" kindref="member">exportSubjectData</ref>(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>subject_id,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>format)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GdprSubjectRightsManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" kindref="member">GdprSubjectRightsManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1afa32e95c806dac18d12e846c8d9a3753" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1afa32e95c806dac18d12e846c8d9a3753" kindref="member">TsaSigner</ref><sp/>=<sp/>std::function&lt;std::vector&lt;uint8_t&gt;(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)&gt;;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" kindref="member">GdprSubjectRightsManager</ref>(<ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1afa32e95c806dac18d12e846c8d9a3753" kindref="member">TsaSigner</ref><sp/>tsa_signer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1acec0567f6a7f5c554ce0e1c4a8e2f7f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1acec0567f6a7f5c554ce0e1c4a8e2f7f5" kindref="member">~GdprSubjectRightsManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a6e125a0f59b2794426fc5d596ef46d35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a6e125a0f59b2794426fc5d596ef46d35" kindref="member">GdprSubjectRightsManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" kindref="member">GdprSubjectRightsManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a44b4deb9b8aca24534cabd99d25067a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" kindref="member">GdprSubjectRightsManager</ref>&amp;<sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a44b4deb9b8aca24534cabd99d25067a7" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a66841e5bdf8fcf0451eef74c0b099ba6" kindref="member">GdprSubjectRightsManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ad58adfcdd38666e69dde80cc7c7bfa5a" kindref="member">registerEraseTarget</ref>(std::shared_ptr&lt;IGdprEraseTarget&gt;<sp/>target);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ac7e7e8198ddeb5ea5748aaeebbbd7e22" kindref="member">targetCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Article<sp/>17:<sp/>Right<sp/>to<sp/>Erasure<sp/>─────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_erasure_report" kindref="compound">ErasureReport</ref><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1a611daca3b03f725a610f21b475670bc8" kindref="member">requestErasure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>subject_id,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref><sp/>regulation,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operator_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Article<sp/>20:<sp/>Data<sp/>Portability<sp/>─────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_portability_package" kindref="compound">PortabilityPackage</ref><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1ada3e3871ad5170abef5fbec17b56ece0" kindref="member">requestPortability</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>subject_id,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>format<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;IGdprEraseTarget&gt;&gt;<sp/>targets_;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager_1afa32e95c806dac18d12e846c8d9a3753" kindref="member">TsaSigner</ref><sp/>tsa_signer_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>targets_mutex_;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-subject<sp/>serialisation<sp/>to<sp/>prevent<sp/>concurrent<sp/>erasure<sp/>of<sp/>the<sp/>same<sp/>subject</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::mutex&gt;<sp/>subject_mutexes_;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>subject_map_mutex_;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex&amp;<sp/>getSubjectMutex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>subject_id);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/governance/gdpr_subject_rights.h"/>
+  </compounddef>
+</doxygen>

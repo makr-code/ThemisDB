@@ -1,0 +1,945 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_w_a_l_storage" kind="class" language="C++" prot="public">
+    <compoundname>themis::WALStorage</compoundname>
+    <includes refid="wal__storage_8h" local="no">wal_storage.h</includes>
+    <innerclass refid="structthemis_1_1_w_a_l_storage_1_1_entry" prot="public">themis::WALStorage::Entry</innerclass>
+    <innerclass refid="structthemis_1_1_w_a_l_storage_1_1_config" prot="public">themis::WALStorage::Config</innerclass>
+    <innerclass refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry" prot="public">themis::WALStorage::BatchEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>EntryType</name>
+        <qualifiedname>themis::WALStorage::EntryType</qualifiedname>
+        <enumvalue id="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a3e75383a5992a6d15fb81e872e46e256" prot="public">
+          <name>PUT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Key-value write. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a2bbe23c0e8b3f638f0f5aed4b6864513" prot="public">
+          <name>DEL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Key deletion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a0f15e1247e93ddfa95c008106eb0d22f" prot="public">
+          <name>CHECKPOINT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Flush-point marker. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Logical type of a WAL entry. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="77" column="5" bodyfile="include/storage/wal_storage.h" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1_w_a_l_storage_1_1_entry" kindref="compound">Entry</ref> &amp;)&gt;</type>
+        <definition>using themis::WALStorage::RecoveryCallback = std::function&lt;bool(const Entry&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RecoveryCallback</name>
+        <qualifiedname>themis::WALStorage::RecoveryCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type for recovery replay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called once per WAL entry during <ref refid="classthemis_1_1_w_a_l_storage_1a2e16ed7eea8f2c68e123617841f6b2a7" kindref="member">open()</ref>. Return <computeroutput>false</computeroutput> to abort replay early (e.g. on an unrecoverable application error). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="116" column="5" bodyfile="include/storage/wal_storage.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_w_a_l_storage_1ace9bd1499acb256f7050d6354fab2663" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_w_a_l_storage_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::WALStorage::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::WALStorage::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="220" column="27" bodyfile="include/storage/wal_storage.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_w_a_l_storage_1ab8ddc1733b1a40c11caf2afd6e315513" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::WALStorage::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::WALStorage::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="221" column="27" bodyfile="include/storage/wal_storage.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_w_a_l_storage_1a670cfdf46b3d7fbd49c479d469d4fd60" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::WALStorage::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::WALStorage::fd_</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="222" column="27" bodyfile="include/storage/wal_storage.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_w_a_l_storage_1aaac5db99c5c6b42cec618470ce258686" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WALStorage::current_segment_</definition>
+        <argsstring></argsstring>
+        <name>current_segment_</name>
+        <qualifiedname>themis::WALStorage::current_segment_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="223" column="27" bodyfile="include/storage/wal_storage.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_w_a_l_storage_1a5a6aa47f6cb837dee3ed89933e9d296a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WALStorage::segment_bytes_</definition>
+        <argsstring></argsstring>
+        <name>segment_bytes_</name>
+        <qualifiedname>themis::WALStorage::segment_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="224" column="27" bodyfile="include/storage/wal_storage.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_w_a_l_storage_1a42447e4dc4a8736df3ec66fc0ce24cd8" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WALStorage::next_seq_</definition>
+        <argsstring></argsstring>
+        <name>next_seq_</name>
+        <qualifiedname>themis::WALStorage::next_seq_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="225" column="27" bodyfile="include/storage/wal_storage.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_w_a_l_storage_1a2d3fd55d8a832778f62fccab35c10d27" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::WALStorage::segments_</definition>
+        <argsstring></argsstring>
+        <name>segments_</name>
+        <qualifiedname>themis::WALStorage::segments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="228" column="17" bodyfile="include/storage/wal_storage.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a2e16ed7eea8f2c68e123617841f6b2a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; WALStorage &gt; &gt; themis::WALStorage::open</definition>
+        <argsstring>(const Config &amp;config, RecoveryCallback on_recover=nullptr)</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::WALStorage::open</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_w_a_l_storage_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" kindref="member">RecoveryCallback</ref></type>
+          <declname>on_recover</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Open (or create) the WAL in the given directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Factory method: Strong Exception Guarantee (W5-Storage Hardening) Exception Safety: - If openOrCreate() throws or returns an error, the partial <ref refid="classthemis_1_1_w_a_l_storage" kindref="compound">WALStorage</ref> object is destroyed (unique_ptr cleanup) before returning Err&lt;&gt;.</para>
+<para>On first open, an empty WAL is created. On subsequent opens, existing segments are replayed via <computeroutput>on_recover</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL configuration (directory, rotation threshold, fsync). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>on_recover</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked for each recovered entry; may be null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;std::unique_ptr&lt;WALStorage&gt;&gt; on success, Error on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">on_recover</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<itemizedlist>
+<listitem><para>Caller receives a Result&lt;&gt; that indicates success/failure. - No exception escapes <ref refid="classthemis_1_1_w_a_l_storage_1a2e16ed7eea8f2c68e123617841f6b2a7" kindref="member">open()</ref>; all errors are captured in Result. Thread Safety: - Factory method (static); no concurrent access during construction. no_timeout scanner alert: <ref refid="classthemis_1_1_w_a_l_storage_1a2e16ed7eea8f2c68e123617841f6b2a7" kindref="member">WALStorage::open</ref> is a local-file factory method; it opens a WAL directory on block storage — no network I/O, no timeout needed. Calls: <ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage()</ref>, openOrCreate(), error(), code(), context(), Ok(), std::move(). </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="128" column="19" bodyfile="src/storage/wal_storage.cpp" bodystart="399" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1ab25bec11044648ceca9331e3b29f6ca6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::WALStorage::segmentName</definition>
+        <argsstring>(uint64_t segment_id)</argsstring>
+        <name>segmentName</name>
+        <qualifiedname>themis::WALStorage::segmentName</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>segment_id</declname>
+        </param>
+        <briefdescription>
+<para>Segment Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build the file name for a WAL segment.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">segment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the segment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="198" column="24" bodyfile="src/storage/wal_storage.cpp" bodystart="337" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1aeebfdd0b46d78777ac9ec32b5f090e54" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WALStorage::parseSegmentId</definition>
+        <argsstring>(const std::string &amp;filename)</argsstring>
+        <name>parseSegmentId</name>
+        <qualifiedname>themis::WALStorage::parseSegmentId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Parse Segment Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse the segment ID from a WAL segment file name (returns 0 on error).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: re(), std::regex_match(), std::stoull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="201" column="21" bodyfile="src/storage/wal_storage.cpp" bodystart="349" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1af8758592d003378d3c02170e3ce247c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WALStorage::~WALStorage</definition>
+        <argsstring>()</argsstring>
+        <name>~WALStorage</name>
+        <qualifiedname>themis::WALStorage::~WALStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="133" column="5" bodyfile="src/storage/wal_storage.cpp" bodystart="378" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WALStorage::WALStorage</definition>
+        <argsstring>(const WALStorage &amp;)=delete</argsstring>
+        <name>WALStorage</name>
+        <qualifiedname>themis::WALStorage::WALStorage</qualifiedname>
+        <param>
+          <type>const WALStorage &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a4f43cc1efb810da57d6f562bdd01b68a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref> &amp;</type>
+        <definition>WALStorage &amp; themis::WALStorage::operator=</definition>
+        <argsstring>(const WALStorage &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::WALStorage::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="137" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a12c3934ef0a4db046932f243af1ac77f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; uint64_t &gt;</type>
+        <definition>Result&lt; uint64_t &gt; themis::WALStorage::appendPut</definition>
+        <argsstring>(std::string_view key, std::string_view value)</argsstring>
+        <name>appendPut</name>
+        <qualifiedname>themis::WALStorage::appendPut</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Append a PUT entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Put.</para>
+<para><simplesect kind="return"><para>The sequence number assigned to this entry.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: appendEntry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="146" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="763" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1ad513e0de9e91cb970cdcd49893583ec8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; uint64_t &gt;</type>
+        <definition>Result&lt; uint64_t &gt; themis::WALStorage::appendDelete</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>appendDelete</name>
+        <qualifiedname>themis::WALStorage::appendDelete</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Append a DELETE entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Delete.</para>
+<para><simplesect kind="return"><para>The sequence number assigned to this entry.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: appendEntry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="153" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="774" bodyend="776"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a66ff33005d56ef67a026dd7776a89d71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; uint64_t &gt;</type>
+        <definition>Result&lt; uint64_t &gt; themis::WALStorage::appendBatch</definition>
+        <argsstring>(std::vector&lt; BatchEntry &gt; entries)</argsstring>
+        <name>appendBatch</name>
+        <qualifiedname>themis::WALStorage::appendBatch</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry" kindref="compound">BatchEntry</ref> &gt;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Group-commit: write multiple entries with a single fsync. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Batch.</para>
+<para>All entries in <computeroutput>entries</computeroutput> are serialised and written in sequence, then the WAL file is fsynced exactly once (when <ref refid="structthemis_1_1_w_a_l_storage_1_1_config_1ae7d9f7e1dcf6a99d9da1de21ae5fb78f" kindref="member">Config::fsync_on_write</ref> is true). This amortises fsync overhead across many writes, allowing sustained throughput in the 100k+ ops/s range while retaining ACID durability.</para>
+<para>If the batch spans a segment boundary, a rotation is performed between segments and each segment is individually fsynced before rotation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty span of entries to write atomically. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The sequence number of the <emphasis>last</emphasis> entry in the batch, or an error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), rotateIfNeeded(), THEMIS_WARN(), error(), context(), code(), appendEntryLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="169" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="784" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a4954d8559a2d3e7c7cd56334fb5c477d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; uint64_t &gt;</type>
+        <definition>Result&lt; uint64_t &gt; themis::WALStorage::checkpoint</definition>
+        <argsstring>(bool delete_old_segments=true)</argsstring>
+        <name>checkpoint</name>
+        <qualifiedname>themis::WALStorage::checkpoint</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>delete_old_segments</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Write a CHECKPOINT entry and optionally delete old segments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checkpoint.</para>
+<para>After a successful checkpoint the primary store is guaranteed to contain all mutations up to the returned sequence number. Old WAL segments whose highest sequence number is ≤ the checkpoint sequence may be safely removed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>delete_old_segments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, remove fully-checkpointed segments. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The sequence number of the checkpoint entry.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delete_old_segments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), rotateIfNeeded(), error(), code(), context(), appendEntryLocked(), syncIfRequired(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="182" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="829" bodyend="866"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a449fc8b0a962641a825183b3e2377eca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WALStorage::lastSequence</definition>
+        <argsstring>() const</argsstring>
+        <name>lastSequence</name>
+        <qualifiedname>themis::WALStorage::lastSequence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the sequence number of the last written entry. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="187" column="14" bodyfile="src/storage/wal_storage.cpp" bodystart="872" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a3507456e01285a2f8b2f2eb07a666521" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::WALStorage::segmentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>segmentCount</name>
+        <qualifiedname>themis::WALStorage::segmentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the number of WAL segment files currently on disk. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="190" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="882" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a40e679672e816b0f4a73bc29b0076980" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WALStorage::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::WALStorage::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush buffered I/O to the OS (but not necessarily to disk).</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="193" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="897" bodyend="919"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1affff2c0a58d32425a0bc6a6c4a4e6b23" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WALStorage::WALStorage</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>WALStorage</name>
+        <qualifiedname>themis::WALStorage::WALStorage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_w_a_l_storage_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="204" column="14" bodyfile="src/storage/wal_storage.cpp" bodystart="362" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a7a1408b2400898d2d744519f24426dab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WALStorage::openOrCreate</definition>
+        <argsstring>(RecoveryCallback &amp;on_recover)</argsstring>
+        <name>openOrCreate</name>
+        <qualifiedname>themis::WALStorage::openOrCreate</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" kindref="member">RecoveryCallback</ref> &amp;</type>
+          <declname>on_recover</declname>
+        </param>
+        <briefdescription>
+<para>Open Or Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">on_recover</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::create_directories(), ErrVoid(), message(), clear(), fs::directory_iterator(), is_regular_file(), <ref refid="classthemis_1_1_w_a_l_storage_1aeebfdd0b46d78777ac9ec32b5f090e54" kindref="member">parseSegmentId()</ref>, path(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="206" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="421" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a152f77b4d9f552f8d7f2d0c6c042f01b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WALStorage::replaySegment</definition>
+        <argsstring>(const std::string &amp;path, RecoveryCallback &amp;cb)</argsstring>
+        <name>replaySegment</name>
+        <qualifiedname>themis::WALStorage::replaySegment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" kindref="member">RecoveryCallback</ref> &amp;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Replay Segment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: f(), is_open(), ErrVoid(), std::chrono::steady_clock::now(), std::chrono::minutes(), good(), THEMIS_WARN(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="207" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="482" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a6f8cbe6e4d044566a0de7649c17ac714" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WALStorage::rotateIfNeeded</definition>
+        <argsstring>()</argsstring>
+        <name>rotateIfNeeded</name>
+        <qualifiedname>themis::WALStorage::rotateIfNeeded</qualifiedname>
+        <briefdescription>
+<para>Rotate If Needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: OkVoid(), openNewSegment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="208" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="632" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a092a8f931cdc785fc01e4aa85911eb54" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WALStorage::openNewSegment</definition>
+        <argsstring>(uint64_t segment_id)</argsstring>
+        <name>openNewSegment</name>
+        <qualifiedname>themis::WALStorage::openNewSegment</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>segment_id</declname>
+        </param>
+        <briefdescription>
+<para>Close-Path Locking and Exception Safety (W5-Storage Hardening) openNewSegment() transitions file descriptor and segment state atomically under mutex_: 1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">segment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the segment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Acquire mutex_ (all caller paths hold mutex_ via appendEntry/appendEntryLocked). 2. If fd_ &gt;= 0, fsync old segment (may timeout, but continue anyway). 3. Close old fd_; set fd_ = -1. 4. Open new segment file with O_CLOEXEC (prevents FD leak in fork). 5. On error, return Err&lt;&gt;; caller must retry or abort. 6. On success, update current_segment_, segment_bytes_, fd_. Exception Safety: Strong Guarantee - <ref refid="classthemis_1_1_scoped_file_descriptor" kindref="compound">ScopedFileDescriptor</ref> (next_fd) ensures new fd is closed if exception occurs before fd_ = next_fd.release(). - Old segment is closed before opening new one (no orphaned fds). - State transition is atomic under mutex_; no partial updates visible to readers. - If any step fails, fd_ remains valid (either old or -1), ready for retry. Thread Safety: Race Prevention - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded). - Concurrent writers cannot access fd_/segment state during transition. - fd_ ≥ 0 check is stable under mutex_ (no concurrent close). Calls: std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid(), std::string(), std::strerror(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="209" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="574" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1ad49cc1d6590bfdd08351abf3e8701633" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; uint64_t &gt;</type>
+        <definition>Result&lt; uint64_t &gt; themis::WALStorage::appendEntry</definition>
+        <argsstring>(EntryType type, std::string_view key, std::string_view value)</argsstring>
+        <name>appendEntry</name>
+        <qualifiedname>themis::WALStorage::appendEntry</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" kindref="member">EntryType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Append <ref refid="structthemis_1_1_w_a_l_storage_1_1_entry" kindref="compound">Entry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), rotateIfNeeded(), error(), code(), context(), appendEntryLocked(), syncIfRequired(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="210" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="652" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1aa22866e9b9158d545b9d1a04537e9072" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; uint64_t &gt;</type>
+        <definition>Result&lt; uint64_t &gt; themis::WALStorage::appendEntryLocked</definition>
+        <argsstring>(EntryType type, std::string_view key, std::string_view value)</argsstring>
+        <name>appendEntryLocked</name>
+        <qualifiedname>themis::WALStorage::appendEntryLocked</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" kindref="member">EntryType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write one entry to fd_ WITHOUT locking or syncing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Caller holds mutex_. Calls: size(), encode_u32(), encode_u64(), crc32_update(), data(), write_all_fd(), std::to_string(), Ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="215" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="681" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_w_a_l_storage_1a92f23da52825064d3e5c53de5c5bcb60" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WALStorage::syncIfRequired</definition>
+        <argsstring>()</argsstring>
+        <name>syncIfRequired</name>
+        <qualifiedname>themis::WALStorage::syncIfRequired</qualifiedname>
+        <briefdescription>
+<para>Sync If Required. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="218" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="723" bodyend="750"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Write-Ahead Log (WAL) for storage durability and crash recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_w_a_l_storage" kindref="compound">WALStorage</ref> provides a persistent, append-only log that records every mutation before it is applied to the primary store. On startup the log is replayed to recover any writes that were not yet flushed.</para>
+<sect1 id="classthemis_1_1_w_a_l_storage_1autotoc_md21_1s1"><sect2 id="classthemis_1_1_w_a_l_storage_1autotoc_md21">
+<title>Log entry format (binary, little-endian)</title><para>[4 bytes] magic marker (0xDBAB1234) [8 bytes] sequence number (monotonically increasing) [1 byte] entry type (PUT=1, DELETE=2, CHECKPOINT=3) [4 bytes] key length [N bytes] key data [4 bytes] value length (0 for DELETE and CHECKPOINT) [M bytes] value data [4 bytes] CRC32 checksum over all preceding bytes in this entry</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_w_a_l_storage_1autotoc_md22_1s1"><sect2 id="classthemis_1_1_w_a_l_storage_1autotoc_md22">
+<title>Log rotation</title><para>When the active log file exceeds <computeroutput>rotation_threshold_bytes</computeroutput>, a new log segment is created (e.g. wal_000001.log, wal_000002.log …). After a successful checkpoint the old segments may be deleted.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_w_a_l_storage_1autotoc_md23_1s1"><sect2 id="classthemis_1_1_w_a_l_storage_1autotoc_md23">
+<title>Thread safety</title><para>All public methods are thread-safe. Internally, all access to the file descriptor (fd_), current segment ID, and segment state is protected by mutex_. Exception safety is guaranteed:<itemizedlist>
+<listitem><para><bold><ref refid="classthemis_1_1_w_a_l_storage_1a2e16ed7eea8f2c68e123617841f6b2a7" kindref="member">open()</ref></bold>: Factory method; if openOrCreate() throws, the partial object is cleaned up.</para>
+</listitem><listitem><para><bold>append operations</bold>: If an operation fails, fd_ and segment state remain valid for retry or further operations. No state corruption on exception.</para>
+</listitem><listitem><para><bold>Destructor (~WALStorage)</bold>: Guarantees fd_ is closed even during exception unwinding. Uses RAII (<ref refid="classthemis_1_1_scoped_file_descriptor" kindref="compound">ScopedFileDescriptor</ref>) for file descriptor lifecycle.</para>
+</listitem><listitem><para><bold>Segment open/close</bold>: fd_ transitions are atomic; old segment is fsynced and closed before new segment is activated. fd_=-1 sentinel prevents fd leaks.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_w_a_l_storage_1autotoc_md24_1s1"><sect2 id="classthemis_1_1_w_a_l_storage_1autotoc_md24">
+<title>Exception Safety: Strong Guarantee</title><para><itemizedlist>
+<listitem><para><bold><ref refid="classthemis_1_1_w_a_l_storage_1a2e16ed7eea8f2c68e123617841f6b2a7" kindref="member">open()</ref></bold>: Returns Result; no exception. Factory success == valid <ref refid="classthemis_1_1_w_a_l_storage" kindref="compound">WALStorage</ref> object.</para>
+</listitem><listitem><para><bold>appendPut/appendDelete/appendBatch()</bold>: Return Result. On error, WAL state unchanged and ready for retry.</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1_w_a_l_storage_1a4954d8559a2d3e7c7cd56334fb5c477d" kindref="member">checkpoint()</ref></bold>: Return Result. May write CHECKPOINT entry; fsync is &quot;best-effort&quot; in timeout cases.</para>
+</listitem><listitem><para><bold>Destructor</bold>: No-throw; uses lock (may block but never throws). </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/wal_storage.h" line="74" column="1" bodyfile="include/storage/wal_storage.h" bodystart="74" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_w_a_l_storage_1a66ff33005d56ef67a026dd7776a89d71" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>appendBatch</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1ad513e0de9e91cb970cdcd49893583ec8" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>appendDelete</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1ad49cc1d6590bfdd08351abf3e8701633" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>appendEntry</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1aa22866e9b9158d545b9d1a04537e9072" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>appendEntryLocked</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a12c3934ef0a4db046932f243af1ac77f" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>appendPut</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a4954d8559a2d3e7c7cd56334fb5c477d" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>checkpoint</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1ace9bd1499acb256f7050d6354fab2663" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1aaac5db99c5c6b42cec618470ce258686" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>current_segment_</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>EntryType</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a670cfdf46b3d7fbd49c479d469d4fd60" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a40e679672e816b0f4a73bc29b0076980" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>flush</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a449fc8b0a962641a825183b3e2377eca" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>lastSequence</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1ab8ddc1733b1a40c11caf2afd6e315513" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a42447e4dc4a8736df3ec66fc0ce24cd8" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>next_seq_</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a2e16ed7eea8f2c68e123617841f6b2a7" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>open</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a092a8f931cdc785fc01e4aa85911eb54" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>openNewSegment</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a7a1408b2400898d2d744519f24426dab" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>openOrCreate</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a4f43cc1efb810da57d6f562bdd01b68a" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1aeebfdd0b46d78777ac9ec32b5f090e54" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>parseSegmentId</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>RecoveryCallback</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a152f77b4d9f552f8d7f2d0c6c042f01b" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>replaySegment</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a6f8cbe6e4d044566a0de7649c17ac714" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>rotateIfNeeded</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a5a6aa47f6cb837dee3ed89933e9d296a" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>segment_bytes_</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a3507456e01285a2f8b2f2eb07a666521" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>segmentCount</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1ab25bec11044648ceca9331e3b29f6ca6" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>segmentName</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a2d3fd55d8a832778f62fccab35c10d27" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>segments_</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1a92f23da52825064d3e5c53de5c5bcb60" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>syncIfRequired</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>WALStorage</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1affff2c0a58d32425a0bc6a6c4a4e6b23" prot="private" virt="non-virtual"><scope>themis::WALStorage</scope><name>WALStorage</name></member>
+      <member refid="classthemis_1_1_w_a_l_storage_1af8758592d003378d3c02170e3ce247c2" prot="public" virt="non-virtual"><scope>themis::WALStorage</scope><name>~WALStorage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1_0d030345050037011020261170333265140370075252342244" kind="namespace" language="C++">
+    <compoundname>themis::llm::@030345050037011020261170333265140370075252342244</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/inference_engine_enhanced.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

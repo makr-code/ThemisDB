@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::memory::SlabAllocator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1aa9e14d52db1bd47ef999406719c9f12e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::SlabAllocator::Impl::object_size</definition>
+        <argsstring></argsstring>
+        <name>object_size</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::object_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="484" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1aad5d1a43b7a6609d3a0b7f4b67fc00ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::SlabAllocator::Impl::objects_per_slab</definition>
+        <argsstring></argsstring>
+        <name>objects_per_slab</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::objects_per_slab</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="485" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="485" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1aff094e4e9e4a7b812a4dff8385c82cee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::SlabAllocator::Impl::max_slabs</definition>
+        <argsstring></argsstring>
+        <name>max_slabs</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::max_slabs</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="486" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="486" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1afe388fb7b48f707d09c5fe12e7b28667" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1memory_1_1_slab_allocator_1_1_slab" kindref="compound">Slab</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Slab&gt; themis::memory::SlabAllocator::Impl::head_slab</definition>
+        <argsstring></argsstring>
+        <name>head_slab</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::head_slab</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="488" column="21" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a1cc32a84973b2247eaf00b4f0c75e438" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::SlabAllocator::Impl::slab_count</definition>
+        <argsstring></argsstring>
+        <name>slab_count</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::slab_count</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="489" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="489" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a50d7fa72031bc3b389934eb29ddb0ce0" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::memory::SlabAllocator::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::mutex</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="491" column="16" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="491" bodyend="491"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a2f2261e37a2ebe08294de8d785d1bde6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::SlabAllocator::Impl::Impl</definition>
+        <argsstring>(size_t obj_size, size_t objs_per_slab, size_t max)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::Impl</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>obj_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>objs_per_slab</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="493" column="5" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="493" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a24cb0b6c87868986990e1016d7eca5e5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::SlabAllocator::Impl::~Impl</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="504" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a0d860ecbe201dae3e8d4fe207667220e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::memory::SlabAllocator::Impl::allocate</definition>
+        <argsstring>()</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::allocate</qualifiedname>
+        <briefdescription>
+<para>Allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="511" column="10" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="511" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a5297334876dd7251c1b05d18afe651f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::memory::SlabAllocator::Impl::deallocate</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::memory::SlabAllocator::Impl::deallocate</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: get(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="542" column="10" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="542" bodyend="551"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/memory/pool_allocator.cpp" line="483" column="1" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="483" bodyend="552"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a0d860ecbe201dae3e8d4fe207667220e" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>allocate</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a5297334876dd7251c1b05d18afe651f3" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>deallocate</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1afe388fb7b48f707d09c5fe12e7b28667" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>head_slab</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a2f2261e37a2ebe08294de8d785d1bde6" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1aff094e4e9e4a7b812a4dff8385c82cee" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>max_slabs</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a50d7fa72031bc3b389934eb29ddb0ce0" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1aa9e14d52db1bd47ef999406719c9f12e" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>object_size</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1aad5d1a43b7a6609d3a0b7f4b67fc00ab" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>objects_per_slab</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a1cc32a84973b2247eaf00b4f0c75e438" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>slab_count</name></member>
+      <member refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl_1a24cb0b6c87868986990e1016d7eca5e5" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

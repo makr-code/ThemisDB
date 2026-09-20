@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_source_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::SourceChunk</compoundname>
+    <includes refid="citation__highlighter_8h" local="no">citation_highlighter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_source_chunk_1aa236ba0baad5a288686d5ad275ec413a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SourceChunk::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::rag::judge::SourceChunk::doc_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the parent document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="27" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_source_chunk_1ad9644de3fc5f5816f7f73700a5fb7a03" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::SourceChunk::chunk_index</definition>
+        <argsstring></argsstring>
+        <name>chunk_index</name>
+        <qualifiedname>themis::rag::judge::SourceChunk::chunk_index</qualifiedname>
+        <briefdescription>
+<para>Zero-based chunk index within the document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="28" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_source_chunk_1a3d6d366cb1b6d15bc3565e10aa57a094" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SourceChunk::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::rag::judge::SourceChunk::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Full text of the chunk </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="29" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_source_chunk_1ae4141b00e6f807f7a0c02f1395b9b891" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SourceChunk::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rag::judge::SourceChunk::metadata</qualifiedname>
+        <briefdescription>
+<para>Optional free-form metadata (e.g. page number, section heading). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="31" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single chunk of source text to map answer sentences against. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/citation_highlighter.h" line="26" column="1" bodyfile="include/rag/citation_highlighter.h" bodystart="26" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_source_chunk_1ad9644de3fc5f5816f7f73700a5fb7a03" prot="public" virt="non-virtual"><scope>themis::rag::judge::SourceChunk</scope><name>chunk_index</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_source_chunk_1a3d6d366cb1b6d15bc3565e10aa57a094" prot="public" virt="non-virtual"><scope>themis::rag::judge::SourceChunk</scope><name>content</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_source_chunk_1aa236ba0baad5a288686d5ad275ec413a" prot="public" virt="non-virtual"><scope>themis::rag::judge::SourceChunk</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_source_chunk_1ae4141b00e6f807f7a0c02f1395b9b891" prot="public" virt="non-virtual"><scope>themis::rag::judge::SourceChunk</scope><name>metadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

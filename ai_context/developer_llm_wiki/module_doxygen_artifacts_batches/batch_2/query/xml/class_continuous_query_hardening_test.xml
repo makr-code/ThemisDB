@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_continuous_query_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>ContinuousQueryHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_continuous_query_hardening_test_1af89a0708814c08e7da9ed7236e5bd4b7" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_mock_continuous_query_engine_1_1_config" kindref="compound">MockContinuousQueryEngine::Config</ref></type>
+        <definition>MockContinuousQueryEngine::Config ContinuousQueryHardeningTest::engine_config_</definition>
+        <argsstring></argsstring>
+        <name>engine_config_</name>
+        <qualifiedname>ContinuousQueryHardeningTest::engine_config_</qualifiedname>
+        <initializer>{
+        .max_queue_depth = 10&apos;000,
+        .enable_backpressure = true,
+        .enable_persistence = true,
+        .checkpoint_interval = 1000,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="223" column="39" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="223" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_continuous_query_hardening_test_1acc9dd6ef1b93ec8927a6cc537d0da735" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref></type>
+        <definition>ContinuousQuerySpec ContinuousQueryHardeningTest::makeTestSpec</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>makeTestSpec</name>
+        <qualifiedname>ContinuousQueryHardeningTest::makeTestSpec</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="230" column="25" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="230" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ContinuousQueryHardeningTest</label>
+        <link refid="class_continuous_query_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ContinuousQueryHardeningTest</label>
+        <link refid="class_continuous_query_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>engine_config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>MockContinuousQueryEngine::Config</label>
+        <link refid="struct_mock_continuous_query_engine_1_1_config"/>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_continuous_query_hardening.cpp" line="221" column="1" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="221" bodyend="245"/>
+    <listofallmembers>
+      <member refid="class_continuous_query_hardening_test_1af89a0708814c08e7da9ed7236e5bd4b7" prot="protected" virt="non-virtual"><scope>ContinuousQueryHardeningTest</scope><name>engine_config_</name></member>
+      <member refid="class_continuous_query_hardening_test_1acc9dd6ef1b93ec8927a6cc537d0da735" prot="protected" virt="non-virtual"><scope>ContinuousQueryHardeningTest</scope><name>makeTestSpec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

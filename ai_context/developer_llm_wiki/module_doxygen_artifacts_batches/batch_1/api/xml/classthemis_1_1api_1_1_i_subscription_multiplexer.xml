@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_subscription_multiplexer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::ISubscriptionMultiplexer</compoundname>
+    <includes refid="subscription__multiplexer_8h" local="no">subscription_multiplexer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_subscription_multiplexer_1a84c097bb200fa5bd5c6cc76b89d2e911" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::ISubscriptionMultiplexer::~ISubscriptionMultiplexer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISubscriptionMultiplexer</name>
+        <qualifiedname>themis::api::ISubscriptionMultiplexer::~ISubscriptionMultiplexer</qualifiedname>
+        <briefdescription>
+<para>ISubscription Multiplexer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_subscription_multiplexer_1aeffe6f7349951e50d373d13c50d9a1de" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::ISubscriptionMultiplexer::subscribe</definition>
+        <argsstring>(const std::string &amp;connection_id, const std::vector&lt; SubscriptionFilter &gt; &amp;filters)=0</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themis::api::ISubscriptionMultiplexer::subscribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1api_1_1_subscription_filter" kindref="compound">SubscriptionFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="92" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_subscription_multiplexer_1a85d33d8e6aad644971d6be3c0a6be1d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::ISubscriptionMultiplexer::unsubscribe</definition>
+        <argsstring>(const std::string &amp;connection_id, const std::vector&lt; std::string &gt; &amp;topics={})=0</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themis::api::ISubscriptionMultiplexer::unsubscribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>topics</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="97" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_subscription_multiplexer_1a9c03facd59f2f10ecb3762141961c6a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::api::ISubscriptionMultiplexer::publish</definition>
+        <argsstring>(const SubscriptionEvent &amp;event)=0</argsstring>
+        <name>publish</name>
+        <qualifiedname>themis::api::ISubscriptionMultiplexer::publish</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1api_1_1_subscription_event" kindref="compound">SubscriptionEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Publish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="107" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_subscription_multiplexer_1aead2765296a69f228451eb88acd3a02f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::api::ISubscriptionMultiplexer::subscriberCount</definition>
+        <argsstring>(const std::string &amp;topic) const =0</argsstring>
+        <name>subscriberCount</name>
+        <qualifiedname>themis::api::ISubscriptionMultiplexer::subscriberCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <briefdescription>
+<para>Subscriber Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="114" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_subscription_multiplexer_1ae97be07a9c4f6cecfba3dc94a840910b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::api::ISubscriptionMultiplexer::activeTopics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeTopics</name>
+        <qualifiedname>themis::api::ISubscriptionMultiplexer::activeTopics</qualifiedname>
+        <briefdescription>
+<para>Active Topics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="120" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_subscription_multiplexer_1a6eb9971e93eeb4073751593e770169a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::api::ISubscriptionMultiplexer::connectionCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>connectionCount</name>
+        <qualifiedname>themis::api::ISubscriptionMultiplexer::connectionCount</qualifiedname>
+        <briefdescription>
+<para>Connection Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="126" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/subscription_multiplexer.h" line="78" column="1" bodyfile="include/api/subscription_multiplexer.h" bodystart="78" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1ae97be07a9c4f6cecfba3dc94a840910b" prot="public" virt="pure-virtual"><scope>themis::api::ISubscriptionMultiplexer</scope><name>activeTopics</name></member>
+      <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1a6eb9971e93eeb4073751593e770169a2" prot="public" virt="pure-virtual"><scope>themis::api::ISubscriptionMultiplexer</scope><name>connectionCount</name></member>
+      <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1a9c03facd59f2f10ecb3762141961c6a7" prot="public" virt="pure-virtual"><scope>themis::api::ISubscriptionMultiplexer</scope><name>publish</name></member>
+      <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1aeffe6f7349951e50d373d13c50d9a1de" prot="public" virt="pure-virtual"><scope>themis::api::ISubscriptionMultiplexer</scope><name>subscribe</name></member>
+      <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1aead2765296a69f228451eb88acd3a02f" prot="public" virt="pure-virtual"><scope>themis::api::ISubscriptionMultiplexer</scope><name>subscriberCount</name></member>
+      <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1a85d33d8e6aad644971d6be3c0a6be1d9" prot="public" virt="pure-virtual"><scope>themis::api::ISubscriptionMultiplexer</scope><name>unsubscribe</name></member>
+      <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1a84c097bb200fa5bd5c6cc76b89d2e911" prot="public" virt="virtual"><scope>themis::api::ISubscriptionMultiplexer</scope><name>~ISubscriptionMultiplexer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

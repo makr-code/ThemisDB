@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::test::EdgeCaseConflictResolutionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a8350888756916ec68f6932b7bced17ea" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver" kindref="compound">ThreeWayMergeResolver</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ThreeWayMergeResolver&gt; themisdb::replication::test::EdgeCaseConflictResolutionTest::resolver_</definition>
+        <argsstring></argsstring>
+        <name>resolver_</name>
+        <qualifiedname>themisdb::replication::test::EdgeCaseConflictResolutionTest::resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="426" column="21" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a96b3ed878d651e54bf5a8d437f474151" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref></type>
+        <definition>AdvancedConflictResolver::ResolutionContext themisdb::replication::test::EdgeCaseConflictResolutionTest::default_context_</definition>
+        <argsstring></argsstring>
+        <name>default_context_</name>
+        <qualifiedname>themisdb::replication::test::EdgeCaseConflictResolutionTest::default_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="427" column="49" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="427" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a24be468459a69fe1364a8e324118b121" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::test::EdgeCaseConflictResolutionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::replication::test::EdgeCaseConflictResolutionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="429" column="10" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="429" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a059628a4870fc6e02f965a4d8b3452ef" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>static MMWriteEntry themisdb::replication::test::EdgeCaseConflictResolutionTest::createTestWrite</definition>
+        <argsstring>(const std::string &amp;write_id, const std::string &amp;doc_id, const std::string &amp;collection)</argsstring>
+        <name>createTestWrite</name>
+        <qualifiedname>themisdb::replication::test::EdgeCaseConflictResolutionTest::createTestWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>write_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="435" column="25" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="435" bodyend="448"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RCS-05: Edge Cases and Error Handling</para>
+<para>Tests validate resolver behavior under edge conditions: empty conflicts, degenerate vectors, and malformed input. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::test::EdgeCaseConflictResolutionTest</label>
+        <link refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::AdvancedConflictResolver::ResolutionContext</label>
+        <link refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::test::EdgeCaseConflictResolutionTest</label>
+        <link refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>default_context_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_conflict_focused.cpp" line="424" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="424" bodyend="449"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a059628a4870fc6e02f965a4d8b3452ef" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::EdgeCaseConflictResolutionTest</scope><name>createTestWrite</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a96b3ed878d651e54bf5a8d437f474151" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::EdgeCaseConflictResolutionTest</scope><name>default_context_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a8350888756916ec68f6932b7bced17ea" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::EdgeCaseConflictResolutionTest</scope><name>resolver_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a24be468459a69fe1364a8e324118b121" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::EdgeCaseConflictResolutionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

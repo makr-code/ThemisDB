@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_a_i_generation_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>StubAIGenerationPipeline</compoundname>
+    <innerclass refid="struct_stub_a_i_generation_pipeline_1_1_stats" prot="public">StubAIGenerationPipeline::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_a_i_generation_pipeline_1ae0004581238a4650da005c8c6a331f6e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::underlying_type_t&lt; <ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kindref="member">StubMode</ref> &gt; &gt;</type>
+        <definition>std::atomic&lt;std::underlying_type_t&lt;StubMode&gt; &gt; StubAIGenerationPipeline::mode_</definition>
+        <argsstring></argsstring>
+        <name>mode_</name>
+        <qualifiedname>StubAIGenerationPipeline::mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="193" column="17" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_a_i_generation_pipeline_1ad8081e1835387333f3990dedd2f77bb7" prot="private" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds StubAIGenerationPipeline::simulated_latency_</definition>
+        <argsstring></argsstring>
+        <name>simulated_latency_</name>
+        <qualifiedname>StubAIGenerationPipeline::simulated_latency_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="194" column="31" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_a_i_generation_pipeline_1a797f5d93aa3f8e23708107893adf31d3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; StubAIGenerationPipeline::total_calls_</definition>
+        <argsstring></argsstring>
+        <name>total_calls_</name>
+        <qualifiedname>StubAIGenerationPipeline::total_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="196" column="17" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_a_i_generation_pipeline_1a2fece7e799497ea082e78af310491b3e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; StubAIGenerationPipeline::successes_</definition>
+        <argsstring></argsstring>
+        <name>successes_</name>
+        <qualifiedname>StubAIGenerationPipeline::successes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="197" column="17" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_a_i_generation_pipeline_1a69c83487b845c802a0ba25ff5a7b481d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; StubAIGenerationPipeline::validation_errors_</definition>
+        <argsstring></argsstring>
+        <name>validation_errors_</name>
+        <qualifiedname>StubAIGenerationPipeline::validation_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="198" column="17" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_a_i_generation_pipeline_1af64ee066faddcb58a99751a30838311b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; StubAIGenerationPipeline::transport_errors_</definition>
+        <argsstring></argsstring>
+        <name>transport_errors_</name>
+        <qualifiedname>StubAIGenerationPipeline::transport_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="199" column="17" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_a_i_generation_pipeline_1a34285d8ab57eb8f5639cf074d3f13d90" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; StubAIGenerationPipeline::parse_errors_</definition>
+        <argsstring></argsstring>
+        <name>parse_errors_</name>
+        <qualifiedname>StubAIGenerationPipeline::parse_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="200" column="17" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="200" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_a_i_generation_pipeline_1a597cc08efb11c04417f6d115b867a5cc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubAIGenerationPipeline::StubAIGenerationPipeline</definition>
+        <argsstring>(StubMode mode=StubMode::AlwaysSucceed, std::chrono::microseconds simulated_latency=500us)</argsstring>
+        <name>StubAIGenerationPipeline</name>
+        <qualifiedname>StubAIGenerationPipeline::StubAIGenerationPipeline</qualifiedname>
+        <param>
+          <type><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kindref="member">StubMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kindref="member">StubMode::AlwaysSucceed</ref></defval>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>simulated_latency</declname>
+          <defval>500us</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="119" column="14" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="119" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_a_i_generation_pipeline_1a3374d824e59c582d15375169d2595f6d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_generation_result" kindref="compound">GenerationResult</ref></type>
+        <definition>GenerationResult StubAIGenerationPipeline::call</definition>
+        <argsstring>(std::size_t call_index)</argsstring>
+        <name>call</name>
+        <qualifiedname>StubAIGenerationPipeline::call</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>call_index</declname>
+        </param>
+        <briefdescription>
+<para>Execute one simulated generation call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>call_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequential call index (used for MixedValidInvalid alternation). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_generation_result" kindref="compound">GenerationResult</ref> with outcome and simulated latency. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="128" column="22" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="128" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_a_i_generation_pipeline_1a15870c2e249c28e79725d5c427caf152" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubAIGenerationPipeline::setMode</definition>
+        <argsstring>(StubMode mode)</argsstring>
+        <name>setMode</name>
+        <qualifiedname>StubAIGenerationPipeline::setMode</qualifiedname>
+        <param>
+          <type><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kindref="member">StubMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Switch stub mode (thread-safe via atomic on the underlying integral type). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="174" column="10" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="174" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_a_i_generation_pipeline_1a6a803d008b1561defacdcafb4c01a793" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats StubAIGenerationPipeline::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>StubAIGenerationPipeline::getStats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of accumulated <ref refid="struct_stub_a_i_generation_pipeline_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="180" column="11" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="180" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub for <ref refid="class_a_i_plugin_generator" kindref="compound">AIPluginGenerator</ref> — models the plugin generation pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Simulates the validate → invoke → parse pipeline without a real LLM endpoint. The stub is suitable for soak/load testing the <ref refid="struct_stub_a_i_generation_pipeline_1_1_stats" kindref="compound">Stats</ref> tracking and <ref refid="struct_stub_a_i_generation_pipeline_1_1_stats" kindref="compound">Stats</ref> invariant properties of the production path. </para>
+    </detaileddescription>
+    <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="109" column="1" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="109" bodyend="201"/>
+    <listofallmembers>
+      <member refid="class_stub_a_i_generation_pipeline_1a3374d824e59c582d15375169d2595f6d" prot="public" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>call</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1a6a803d008b1561defacdcafb4c01a793" prot="public" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>getStats</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1ae0004581238a4650da005c8c6a331f6e" prot="private" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>mode_</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1a34285d8ab57eb8f5639cf074d3f13d90" prot="private" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>parse_errors_</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1a15870c2e249c28e79725d5c427caf152" prot="public" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>setMode</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1ad8081e1835387333f3990dedd2f77bb7" prot="private" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>simulated_latency_</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1a597cc08efb11c04417f6d115b867a5cc" prot="public" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>StubAIGenerationPipeline</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1a2fece7e799497ea082e78af310491b3e" prot="private" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>successes_</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1a797f5d93aa3f8e23708107893adf31d3" prot="private" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>total_calls_</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1af64ee066faddcb58a99751a30838311b" prot="private" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>transport_errors_</name></member>
+      <member refid="class_stub_a_i_generation_pipeline_1a69c83487b845c802a0ba25ff5a7b481d" prot="private" virt="non-virtual"><scope>StubAIGenerationPipeline</scope><name>validation_errors_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

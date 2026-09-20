@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parser_edge_test" kind="class" language="C++" prot="public">
+    <compoundname>ParserEdgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="struct_parser_edge_test_1_1_parse_result" prot="protected">ParserEdgeTest::ParseResult</innerclass>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_parser_edge_test_1ae8058c6592ae802530ed8e162e11c033" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_parser_edge_test_1_1_parse_result" kindref="compound">ParseResult</ref></type>
+        <definition>ParseResult ParserEdgeTest::mock_parse_xml</definition>
+        <argsstring>(std::string_view xml)</argsstring>
+        <name>mock_parse_xml</name>
+        <qualifiedname>ParserEdgeTest::mock_parse_xml</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>xml</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_parser_edge_focused.cpp" line="30" column="17" bodyfile="tests/process/test_process_parser_edge_focused.cpp" bodystart="30" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParserEdgeTest</label>
+        <link refid="class_parser_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParserEdgeTest</label>
+        <link refid="class_parser_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_parser_edge_focused.cpp" line="20" column="1" bodyfile="tests/process/test_process_parser_edge_focused.cpp" bodystart="20" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_parser_edge_test_1ae8058c6592ae802530ed8e162e11c033" prot="protected" virt="non-virtual"><scope>ParserEdgeTest</scope><name>mock_parse_xml</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

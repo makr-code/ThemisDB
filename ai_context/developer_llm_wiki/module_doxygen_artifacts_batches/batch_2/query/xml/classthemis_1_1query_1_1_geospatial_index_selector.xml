@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_geospatial_index_selector" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::GeospatialIndexSelector</compoundname>
+    <includes refid="geospatial__index__selector_8h" local="no">geospatial_index_selector.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_index_candidate" kindref="compound">IndexCandidate</ref></type>
+        <definition>IndexCandidate themis::query::GeospatialIndexSelector::selectIndex</definition>
+        <argsstring>(const std::string &amp;predicateType, size_t totalRows, const std::map&lt; std::string, IndexStatistics &gt; &amp;availableIndexes, const DataDistribution &amp;dataDistribution, double geometryParam=0.0)</argsstring>
+        <name>selectIndex</name>
+        <qualifiedname>themis::query::GeospatialIndexSelector::selectIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref> &gt; &amp;</type>
+          <declname>availableIndexes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref> &amp;</type>
+          <declname>dataDistribution</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>geometryParam</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="96" column="27" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="95" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_index_selector_1aa4f34f83a9eac7beed37973171bd2fc4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_index_candidate" kindref="compound">IndexCandidate</ref> &gt;</type>
+        <definition>std::vector&lt; IndexCandidate &gt; themis::query::GeospatialIndexSelector::rankIndexes</definition>
+        <argsstring>(const std::string &amp;predicateType, size_t totalRows, const std::map&lt; std::string, IndexStatistics &gt; &amp;availableIndexes, const DataDistribution &amp;dataDistribution, double geometryParam=0.0)</argsstring>
+        <name>rankIndexes</name>
+        <qualifiedname>themis::query::GeospatialIndexSelector::rankIndexes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref> &gt; &amp;</type>
+          <declname>availableIndexes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref> &amp;</type>
+          <declname>dataDistribution</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>geometryParam</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="103" column="24" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="126" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_index_selector_1a80b1a30f00324d81cd7fb51ef6b9de33" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref> &gt;</type>
+        <definition>std::map&lt; std::string, IndexStatistics &gt; themis::query::GeospatialIndexSelector::getAvailableIndexes</definition>
+        <argsstring>(const std::string &amp;collectionName)</argsstring>
+        <name>getAvailableIndexes</name>
+        <qualifiedname>themis::query::GeospatialIndexSelector::getAvailableIndexes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collectionName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="110" column="21" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="180" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_index_selector_1a61869cd7f4bd653413fe9052ae211199" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref></type>
+        <definition>DataDistribution themis::query::GeospatialIndexSelector::inferDistribution</definition>
+        <argsstring>(const SpatialHistogram &amp;histogram)</argsstring>
+        <name>inferDistribution</name>
+        <qualifiedname>themis::query::GeospatialIndexSelector::inferDistribution</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref> &amp;</type>
+          <declname>histogram</declname>
+        </param>
+        <briefdescription>
+<para>Infer Distribution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::sqrt(), std::min(), <ref refid="structthemis_1_1query_1_1_data_distribution_1a0d088f9a3e323de7384109d22f0e5ab4" kindref="member">DataDistribution::infer()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="118" column="29" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="199" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_index_selector_1afa44da5d5494b4a2cd7ee56dd235aea0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialIndexSelector::calculateSelectivityGain</definition>
+        <argsstring>(SpatialIndexType indexType, size_t totalRows, const std::string &amp;predicateType)</argsstring>
+        <name>calculateSelectivityGain</name>
+        <qualifiedname>themis::query::GeospatialIndexSelector::calculateSelectivityGain</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" kindref="member">SpatialIndexType</ref></type>
+          <declname>indexType</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Selectivity Gain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">indexType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">indexType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::log2(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="128" column="19" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="240" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_index_selector_1ae89fc1b136dc35cac2601dd45e631669" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialIndexSelector::scoreIndex</definition>
+        <argsstring>(const IndexStatistics &amp;index, const std::string &amp;predicateType, const DataDistribution &amp;dataDistribution, size_t totalRows)</argsstring>
+        <name>scoreIndex</name>
+        <qualifiedname>themis::query::GeospatialIndexSelector::scoreIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref> &amp;</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref> &amp;</type>
+          <declname>dataDistribution</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <briefdescription>
+<para>Score Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dataDistribution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dataDistribution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getEfficiencyScore(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="142" column="19" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="280" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_index_selector_1aa2ea1bb139e92d4a12b8d00f40746914" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialIndexSelector::scoreFullScan</definition>
+        <argsstring>(size_t totalRows, const std::string &amp;predicateType)</argsstring>
+        <name>scoreFullScan</name>
+        <qualifiedname>themis::query::GeospatialIndexSelector::scoreFullScan</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <briefdescription>
+<para>Score Full Scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements scoreFullScan without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="154" column="19" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="342" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_index_selector_1a4a24b24a8e6aafd14a2729d7134970c6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialIndexSelector::getIndexTypeCostMultiplier</definition>
+        <argsstring>(SpatialIndexType type, const DataDistribution &amp;distribution)</argsstring>
+        <name>getIndexTypeCostMultiplier</name>
+        <qualifiedname>themis::query::GeospatialIndexSelector::getIndexTypeCostMultiplier</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" kindref="member">SpatialIndexType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref> &amp;</type>
+          <declname>distribution</declname>
+        </param>
+        <briefdescription>
+<para>Get Index Type Cost Multiplier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distribution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distribution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getIndexTypeCostMultiplier without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_index_selector.h" line="164" column="19" bodyfile="src/query/geospatial_index_selector.cpp" bodystart="365" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_index_selector.h" line="94" column="1" bodyfile="include/query/geospatial_index_selector.h" bodystart="94" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_geospatial_index_selector_1afa44da5d5494b4a2cd7ee56dd235aea0" prot="public" virt="non-virtual"><scope>themis::query::GeospatialIndexSelector</scope><name>calculateSelectivityGain</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_index_selector_1a80b1a30f00324d81cd7fb51ef6b9de33" prot="public" virt="non-virtual"><scope>themis::query::GeospatialIndexSelector</scope><name>getAvailableIndexes</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_index_selector_1a4a24b24a8e6aafd14a2729d7134970c6" prot="private" virt="non-virtual"><scope>themis::query::GeospatialIndexSelector</scope><name>getIndexTypeCostMultiplier</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_index_selector_1a61869cd7f4bd653413fe9052ae211199" prot="public" virt="non-virtual"><scope>themis::query::GeospatialIndexSelector</scope><name>inferDistribution</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_index_selector_1aa4f34f83a9eac7beed37973171bd2fc4" prot="public" virt="non-virtual"><scope>themis::query::GeospatialIndexSelector</scope><name>rankIndexes</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_index_selector_1aa2ea1bb139e92d4a12b8d00f40746914" prot="private" virt="non-virtual"><scope>themis::query::GeospatialIndexSelector</scope><name>scoreFullScan</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_index_selector_1ae89fc1b136dc35cac2601dd45e631669" prot="private" virt="non-virtual"><scope>themis::query::GeospatialIndexSelector</scope><name>scoreIndex</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" prot="public" virt="non-virtual"><scope>themis::query::GeospatialIndexSelector</scope><name>selectIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,453 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_replication_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ReplicationCoordinator</compoundname>
+    <includes refid="replication__coordinator_8h" local="no">replication_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result" prot="public">themis::sharding::ReplicationCoordinator::ReplicationResult</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write" prot="private">themis::sharding::ReplicationCoordinator::PendingWrite</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_replication_coordinator_1a9e93d71581e3b161c4bcbc73e5b4f6ac" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WALShipper&gt; themis::sharding::ReplicationCoordinator::shipper_</definition>
+        <argsstring></argsstring>
+        <name>shipper_</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::shipper_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="107" column="21" bodyfile="include/sharding/replication_coordinator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_replication_coordinator_1a4e7091625623adf3b07a3ed2f95b37c6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::ReplicationCoordinator::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::enabled_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="108" column="17" bodyfile="include/sharding/replication_coordinator.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_replication_coordinator_1a01590cd59557a412cfca8140cff78407" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ReplicationCoordinator::pending_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pending_mutex_</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::pending_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="173" column="24" bodyfile="include/sharding/replication_coordinator.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_replication_coordinator_1a2b2452ac279d6821bd4d587b877b4e0d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PendingWrite &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PendingWrite&gt; themis::sharding::ReplicationCoordinator::pending_writes_</definition>
+        <argsstring></argsstring>
+        <name>pending_writes_</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::pending_writes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="174" column="24" bodyfile="include/sharding/replication_coordinator.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_replication_coordinator_1a0c1e5c535f7d4f2576d0cd965f8d3b8b" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::sharding::ReplicationCoordinator::pending_cv_</definition>
+        <argsstring></argsstring>
+        <name>pending_cv_</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::pending_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="175" column="29" bodyfile="include/sharding/replication_coordinator.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1ab62ef6d18da8e651a8fc22bed34b6b93" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ReplicationCoordinator::ReplicationCoordinator</definition>
+        <argsstring>(std::shared_ptr&lt; WALShipper &gt; shipper)</argsstring>
+        <name>ReplicationCoordinator</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::ReplicationCoordinator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref> &gt;</type>
+          <declname>shipper</declname>
+        </param>
+        <briefdescription>
+<para>Construct coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shipper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL shipper used for replica topology and replication signals. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="55" column="14" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="19" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1a6fa1b23d3cc49c40c09501e3cbc50e39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ReplicationCoordinator::~ReplicationCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>~ReplicationCoordinator</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::~ReplicationCoordinator</qualifiedname>
+        <briefdescription>
+<para>Destructor; wakes waiting threads during shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="58" column="5" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="26" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1a3de8d2e3040dec155c9401aac3dfad06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result" kindref="compound">ReplicationResult</ref></type>
+        <definition>ReplicationCoordinator::ReplicationResult themis::sharding::ReplicationCoordinator::waitForReplication</definition>
+        <argsstring>(const LSN &amp;entry_lsn, const WriteConcernConfig &amp;concern)</argsstring>
+        <name>waitForReplication</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::waitForReplication</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>entry_lsn</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_write_concern_config" kindref="compound">WriteConcernConfig</ref> &amp;</type>
+          <declname>concern</declname>
+        </param>
+        <briefdescription>
+<para>Wait For Replication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wait for replicas to acknowledge a write. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> of the written entry. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>concern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Write concern level. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result" kindref="compound">ReplicationResult</ref> with success status and replica count.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">concern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_replication_coordinator_1a5179c337ef430b8706e4101169df2180" kindref="member">getReplicaCount()</ref>, <ref refid="namespacethemis_1_1sharding_1a6bbd515b55ccac5dbad88cbdbed6b424" kindref="member">calculateRequiredReplicas()</ref>, std::chrono::steady_clock::now(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>, lock(), try_emplace(), wait_for(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="66" column="23" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="60" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1a22faeed0311f160bb3093ea2b9db05ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ReplicationCoordinator::recordAcknowledgment</definition>
+        <argsstring>(const std::string &amp;replica_id, const LSN &amp;lsn)</argsstring>
+        <name>recordAcknowledgment</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::recordAcknowledgment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Record Acknowledgment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record replica acknowledgment (called by shipper or apply endpoint) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica that acknowledged (non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> that was acknowledged </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Rejects acknowledgments with empty replica_id (fail-closed guard)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::error(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>, lock(), find(), end(), load(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="77" column="10" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="163" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1a5179c337ef430b8706e4101169df2180" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ReplicationCoordinator::getReplicaCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicaCount</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::getReplicaCount</qualifiedname>
+        <briefdescription>
+<para>Return current replica count excluding primary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of replicas known by WAL shipper. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="83" column="12" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="193" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1aee373cc891080cde2a8100381f5e63a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicaInfo &gt; themis::sharding::ReplicationCoordinator::getReplicaInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicaInfo</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::getReplicaInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current replica topology info (delegates to <ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref>) Returns an empty vector if no shipper is configured. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="89" column="17" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="217" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1ad19edb38c0538c18c3618f7ac6f40e3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats" kindref="compound">WALShipperStats</ref></type>
+        <definition>WALShipperStats themis::sharding::ReplicationCoordinator::getShipperStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getShipperStats</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::getShipperStats</qualifiedname>
+        <briefdescription>
+<para>Return current WAL shipper statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>WAL shipper stats snapshot, or default-initialized stats when unavailable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="95" column="21" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="224" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1a5cd0cb0196e3b51019b1959ab2dbfbf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ReplicationCoordinator::setEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setEnabled</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::setEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable or disable write-concern waiting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New enabled state.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="101" column="10" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="205" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1ac1274e981fa8ddf0156d42e8422b3f40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReplicationCoordinator::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Check whether coordinator is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="104" column="10" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="213" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1a964eb6a3d525888e73a3aff9b3c3ff38" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReplicationCoordinator::hasMetConcern</definition>
+        <argsstring>(const PendingWrite &amp;write, size_t total_replicas) const</argsstring>
+        <name>hasMetConcern</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::hasMetConcern</qualifiedname>
+        <param>
+          <type>const PendingWrite &amp;</type>
+          <declname>write</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_replicas</declname>
+        </param>
+        <briefdescription>
+<para>Check whether current acknowledgment count satisfies write concern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pending write state. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total participants including primary. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when required acknowledgments are reached. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="183" column="10" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replication_coordinator_1ae3747c1ff0a299be0063ee6fa6e5663f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ReplicationCoordinator::cleanupPendingWrites</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupPendingWrites</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::cleanupPendingWrites</qualifiedname>
+        <briefdescription>
+<para>Remove stale or completed pending-write records. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Pending Writes.</para>
+<para>Calls: std::chrono::steady_clock::now(), lock(), count(), load(), push_back(), find(), end(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="186" column="10" bodyfile="src/sharding/replication_coordinator.cpp" bodystart="241" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Coordinates replica acknowledgments for write-concern enforcement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The coordinator tracks pending writes by <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> and blocks callers until the requested write concern is satisfied or times out. </para>
+    </detaileddescription>
+    <location file="include/sharding/replication_coordinator.h" line="38" column="1" bodyfile="include/sharding/replication_coordinator.h" bodystart="38" bodyend="187"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1ae3747c1ff0a299be0063ee6fa6e5663f" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>cleanupPendingWrites</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a4e7091625623adf3b07a3ed2f95b37c6" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>enabled_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a5179c337ef430b8706e4101169df2180" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>getReplicaCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1aee373cc891080cde2a8100381f5e63a4" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>getReplicaInfo</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1ad19edb38c0538c18c3618f7ac6f40e3e" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>getShipperStats</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a964eb6a3d525888e73a3aff9b3c3ff38" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>hasMetConcern</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1ac1274e981fa8ddf0156d42e8422b3f40" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a0c1e5c535f7d4f2576d0cd965f8d3b8b" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>pending_cv_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a01590cd59557a412cfca8140cff78407" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>pending_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a2b2452ac279d6821bd4d587b877b4e0d" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>pending_writes_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a22faeed0311f160bb3093ea2b9db05ae" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>recordAcknowledgment</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1ab62ef6d18da8e651a8fc22bed34b6b93" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>ReplicationCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a5cd0cb0196e3b51019b1959ab2dbfbf6" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>setEnabled</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a9e93d71581e3b161c4bcbc73e5b4f6ac" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>shipper_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a3de8d2e3040dec155c9401aac3dfad06" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>waitForReplication</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replication_coordinator_1a6fa1b23d3cc49c40c09501e3cbc50e39" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator</scope><name>~ReplicationCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

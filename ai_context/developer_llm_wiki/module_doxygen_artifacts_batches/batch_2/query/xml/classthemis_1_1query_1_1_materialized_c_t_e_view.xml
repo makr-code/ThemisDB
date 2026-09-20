@@ -1,0 +1,556 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_materialized_c_t_e_view" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::MaterializedCTEView</compoundname>
+    <includes refid="materialized__cte_8h" local="no">materialized_cte.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1af04e7a931f64374f60c8aff37069fda7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_materialized_c_t_e_def" kindref="compound">MaterializedCTEDef</ref></type>
+        <definition>MaterializedCTEDef themis::query::MaterializedCTEView::def_</definition>
+        <argsstring></argsstring>
+        <name>def_</name>
+        <qualifiedname>themis::query::MaterializedCTEView::def_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="178" column="63" bodyfile="include/query/materialized_cte.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1aaa9321489fc386acb6d52a3941bf48fc" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themisdb::analytics::IncrementalView &gt;</type>
+        <definition>std::unique_ptr&lt;themisdb::analytics::IncrementalView&gt; themis::query::MaterializedCTEView::view_</definition>
+        <argsstring></argsstring>
+        <name>view_</name>
+        <qualifiedname>themis::query::MaterializedCTEView::view_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="179" column="24" bodyfile="include/query/materialized_cte.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1ad3a529dec35cbba900f4196061414070" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MaterializedCTEView::MaterializedCTEView</definition>
+        <argsstring>(const MaterializedCTEDef &amp;def)</argsstring>
+        <name>MaterializedCTEView</name>
+        <qualifiedname>themis::query::MaterializedCTEView::MaterializedCTEView</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_materialized_c_t_e_def" kindref="compound">MaterializedCTEDef</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>Materialized CTEView. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="124" column="14" bodyfile="src/query/materialized_cte.cpp" bodystart="221" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8de75a017ee04504d7ae0e19714f439e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MaterializedCTEView::~MaterializedCTEView</definition>
+        <argsstring>()</argsstring>
+        <name>~MaterializedCTEView</name>
+        <qualifiedname>themis::query::MaterializedCTEView::~MaterializedCTEView</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a98c60ec5a8299dc99b97d5b626f2cc76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MaterializedCTEView::MaterializedCTEView</definition>
+        <argsstring>(const MaterializedCTEView &amp;)=delete</argsstring>
+        <name>MaterializedCTEView</name>
+        <qualifiedname>themis::query::MaterializedCTEView::MaterializedCTEView</qualifiedname>
+        <param>
+          <type>const MaterializedCTEView &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="127" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1ada7569318267d6ec5b12e54337c9771b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1ad3a529dec35cbba900f4196061414070" kindref="member">MaterializedCTEView</ref> &amp;</type>
+        <definition>MaterializedCTEView &amp; themis::query::MaterializedCTEView::operator=</definition>
+        <argsstring>(const MaterializedCTEView &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::MaterializedCTEView::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1ad3a529dec35cbba900f4196061414070" kindref="member">MaterializedCTEView</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="128" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a64899b5803ec9c40756f8970bf58b854" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MaterializedCTEView::applyChange</definition>
+        <argsstring>(const CTEDataChange &amp;change)</argsstring>
+        <name>applyChange</name>
+        <qualifiedname>themis::query::MaterializedCTEView::applyChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_c_t_e_data_change" kindref="compound">CTEDataChange</ref> &amp;</type>
+          <declname>change</declname>
+        </param>
+        <briefdescription>
+<para>Apply Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: toChangeRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="135" column="10" bodyfile="src/query/materialized_cte.cpp" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1aab598719c4ed04eb85e73b076828ab0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::query::MaterializedCTEView::applyChanges</definition>
+        <argsstring>(const std::vector&lt; CTEDataChange &gt; &amp;changes)</argsstring>
+        <name>applyChanges</name>
+        <qualifiedname>themis::query::MaterializedCTEView::applyChanges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_c_t_e_data_change" kindref="compound">CTEDataChange</ref> &gt; &amp;</type>
+          <declname>changes</declname>
+        </param>
+        <briefdescription>
+<para>Apply Changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), toChangeRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="142" column="9" bodyfile="src/query/materialized_cte.cpp" bodystart="245" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a7dacf65d48ba1b5e74bf39d9db5b6f88" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_materialized_c_t_e_result" kindref="compound">MaterializedCTEResult</ref></type>
+        <definition>MaterializedCTEResult themis::query::MaterializedCTEView::query</definition>
+        <argsstring>(int64_t limit=0, int64_t offset=0) const</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::query::MaterializedCTEView::query</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="144" column="27" bodyfile="src/query/materialized_cte.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1aebc9fe0210ac75ec141c7c8daf1838d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_materialized_c_t_e_def" kindref="compound">MaterializedCTEDef</ref> &amp;</type>
+        <definition>const MaterializedCTEDef &amp; themis::query::MaterializedCTEView::definition</definition>
+        <argsstring>() const</argsstring>
+        <name>definition</name>
+        <qualifiedname>themis::query::MaterializedCTEView::definition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="146" column="30" bodyfile="include/query/materialized_cte.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8d7705cf6d9bb339a7f81852801f487c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MaterializedCTEView::isDirty</definition>
+        <argsstring>() const</argsstring>
+        <name>isDirty</name>
+        <qualifiedname>themis::query::MaterializedCTEView::isDirty</qualifiedname>
+        <briefdescription>
+<para>Is Dirty. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="152" column="10" bodyfile="src/query/materialized_cte.cpp" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1af2f2e6ae0808a4224f885d970b9076bb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MaterializedCTEView::isStale</definition>
+        <argsstring>() const</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::query::MaterializedCTEView::isStale</qualifiedname>
+        <briefdescription>
+<para>Is Stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="158" column="10" bodyfile="src/query/materialized_cte.cpp" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a576c1f4a51665bdbfeb39befbb166dcc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::MaterializedCTEView::groupCount</definition>
+        <argsstring>() const</argsstring>
+        <name>groupCount</name>
+        <qualifiedname>themis::query::MaterializedCTEView::groupCount</qualifiedname>
+        <briefdescription>
+<para>Group Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="164" column="13" bodyfile="src/query/materialized_cte.cpp" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1aa325108d03ea1caa5b945d6fd0f0a0a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MaterializedCTEView::changeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>changeCount</name>
+        <qualifiedname>themis::query::MaterializedCTEView::changeCount</qualifiedname>
+        <briefdescription>
+<para>Change Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="170" column="14" bodyfile="src/query/materialized_cte.cpp" bodystart="273" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8df96e5d1d16633268e0b6e639de53a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MaterializedCTEView::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::MaterializedCTEView::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="175" column="10" bodyfile="src/query/materialized_cte.cpp" bodystart="279" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a35e278a2aea99c31c30e9ca3d1f6f467" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::ViewDefinition</type>
+        <definition>themisdb::analytics::ViewDefinition themis::query::MaterializedCTEView::buildViewDef</definition>
+        <argsstring>(const MaterializedCTEDef &amp;def)</argsstring>
+        <name>buildViewDef</name>
+        <qualifiedname>themis::query::MaterializedCTEView::buildViewDef</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_materialized_c_t_e_def" kindref="compound">MaterializedCTEDef</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> type-conversion helpers -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="187" column="48" bodyfile="src/query/materialized_cte.cpp" bodystart="159" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a66785bcf6d1daf01252e5a1b34ee937b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::ViewAggFunc</type>
+        <definition>themisdb::analytics::ViewAggFunc themis::query::MaterializedCTEView::toViewAggFunc</definition>
+        <argsstring>(CTEAggFunc f)</argsstring>
+        <name>toViewAggFunc</name>
+        <qualifiedname>themis::query::MaterializedCTEView::toViewAggFunc</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a420b577862a165a6e35bb29fa60bbe24" kindref="member">CTEAggFunc</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>To View Agg Func. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="195" column="45" bodyfile="src/query/materialized_cte.cpp" bodystart="95" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8d801f8a8a5078c954dc442f1cba6731" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::ViewFilter::Op</type>
+        <definition>themisdb::analytics::ViewFilter::Op themis::query::MaterializedCTEView::toViewFilterOp</definition>
+        <argsstring>(CTEBaseFilter::Op op)</argsstring>
+        <name>toViewFilterOp</name>
+        <qualifiedname>themis::query::MaterializedCTEView::toViewFilterOp</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dc" kindref="member">CTEBaseFilter::Op</ref></type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>To View Filter Op. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="202" column="48" bodyfile="src/query/materialized_cte.cpp" bodystart="108" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a32e447d3e69f3058eb322773d96b997e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::ChangeRecord::Row</type>
+        <definition>themisdb::analytics::ChangeRecord::Row themis::query::MaterializedCTEView::jsonToRow</definition>
+        <argsstring>(const nlohmann::json &amp;json_row)</argsstring>
+        <name>jsonToRow</name>
+        <qualifiedname>themis::query::MaterializedCTEView::jsonToRow</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>json_row</declname>
+        </param>
+        <briefdescription>
+<para>Json To <ref refid="namespacethemis_1_1query_1a1e5822b55f2c69fe4e683b3395dbe3fe" kindref="member">Row</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="210" column="51" bodyfile="src/query/materialized_cte.cpp" bodystart="123" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1af7254715b584579139d2ad8998f5c9dc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::ChangeRecord</type>
+        <definition>themisdb::analytics::ChangeRecord themis::query::MaterializedCTEView::toChangeRecord</definition>
+        <argsstring>(const CTEDataChange &amp;change)</argsstring>
+        <name>toChangeRecord</name>
+        <qualifiedname>themis::query::MaterializedCTEView::toChangeRecord</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_c_t_e_data_change" kindref="compound">CTEDataChange</ref> &amp;</type>
+          <declname>change</declname>
+        </param>
+        <briefdescription>
+<para>To Change Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="218" column="46" bodyfile="src/query/materialized_cte.cpp" bodystart="135" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8ddc13402fca245dbdb2b2d56cd6eeb0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_materialized_c_t_e_result" kindref="compound">MaterializedCTEResult</ref></type>
+        <definition>MaterializedCTEResult themis::query::MaterializedCTEView::fromViewQueryResult</definition>
+        <argsstring>(const themisdb::analytics::ViewQueryResult &amp;vqr, const MaterializedCTEDef &amp;def)</argsstring>
+        <name>fromViewQueryResult</name>
+        <qualifiedname>themis::query::MaterializedCTEView::fromViewQueryResult</qualifiedname>
+        <param>
+          <type>const themisdb::analytics::ViewQueryResult &amp;</type>
+          <declname>vqr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_materialized_c_t_e_def" kindref="compound">MaterializedCTEDef</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>From View <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vqr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="227" column="34" bodyfile="src/query/materialized_cte.cpp" bodystart="186" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_cte.h" line="117" column="1" bodyfile="include/query/materialized_cte.h" bodystart="117" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a64899b5803ec9c40756f8970bf58b854" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>applyChange</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1aab598719c4ed04eb85e73b076828ab0d" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>applyChanges</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a35e278a2aea99c31c30e9ca3d1f6f467" prot="private" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>buildViewDef</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1aa325108d03ea1caa5b945d6fd0f0a0a3" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>changeCount</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8df96e5d1d16633268e0b6e639de53a6" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1af04e7a931f64374f60c8aff37069fda7" prot="private" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>def_</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1aebc9fe0210ac75ec141c7c8daf1838d7" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>definition</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8ddc13402fca245dbdb2b2d56cd6eeb0" prot="private" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>fromViewQueryResult</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a576c1f4a51665bdbfeb39befbb166dcc" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>groupCount</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8d7705cf6d9bb339a7f81852801f487c" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>isDirty</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1af2f2e6ae0808a4224f885d970b9076bb" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>isStale</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a32e447d3e69f3058eb322773d96b997e" prot="private" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>jsonToRow</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1ad3a529dec35cbba900f4196061414070" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>MaterializedCTEView</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a98c60ec5a8299dc99b97d5b626f2cc76" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>MaterializedCTEView</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1ada7569318267d6ec5b12e54337c9771b" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a7dacf65d48ba1b5e74bf39d9db5b6f88" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>query</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1af7254715b584579139d2ad8998f5c9dc" prot="private" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>toChangeRecord</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a66785bcf6d1daf01252e5a1b34ee937b" prot="private" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>toViewAggFunc</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8d801f8a8a5078c954dc442f1cba6731" prot="private" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>toViewFilterOp</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1aaa9321489fc386acb6d52a3941bf48fc" prot="private" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>view_</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_c_t_e_view_1a8de75a017ee04504d7ae0e19714f439e" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEView</scope><name>~MaterializedCTEView</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

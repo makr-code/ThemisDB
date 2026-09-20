@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::CrashRecoveryChaosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test_1a358d73a583cef2aa2129d9848603d771" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::test::CrashRecoveryChaosTest::wal_path_</definition>
+        <argsstring></argsstring>
+        <name>wal_path_</name>
+        <qualifiedname>themis::transaction::test::CrashRecoveryChaosTest::wal_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_coordinator_crash_recovery.cpp" line="313" column="15" bodyfile="tests/transaction/test_coordinator_crash_recovery.cpp" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test_1a380a96ea184bbf6d7462f98c6737df97" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1transaction_1_1_crash_recovery_manager" kindref="compound">CrashRecoveryManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CrashRecoveryManager&gt; themis::transaction::test::CrashRecoveryChaosTest::recovery_mgr_</definition>
+        <argsstring></argsstring>
+        <name>recovery_mgr_</name>
+        <qualifiedname>themis::transaction::test::CrashRecoveryChaosTest::recovery_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_coordinator_crash_recovery.cpp" line="314" column="19" bodyfile="tests/transaction/test_coordinator_crash_recovery.cpp" bodystart="314" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test_1a3fb0bfbd87aede90644bfe20a9357d96" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::CrashRecoveryChaosTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::transaction::test::CrashRecoveryChaosTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_coordinator_crash_recovery.cpp" line="298" column="8" bodyfile="tests/transaction/test_coordinator_crash_recovery.cpp" bodystart="298" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test_1a666793555d66dcdd40224906b8f2888d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::CrashRecoveryChaosTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::transaction::test::CrashRecoveryChaosTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_coordinator_crash_recovery.cpp" line="306" column="8" bodyfile="tests/transaction/test_coordinator_crash_recovery.cpp" bodystart="306" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::CrashRecoveryChaosTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::CrashRecoveryChaosTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_coordinator_crash_recovery.cpp" line="296" column="1" bodyfile="tests/transaction/test_coordinator_crash_recovery.cpp" bodystart="296" bodyend="315"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test_1a380a96ea184bbf6d7462f98c6737df97" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CrashRecoveryChaosTest</scope><name>recovery_mgr_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test_1a3fb0bfbd87aede90644bfe20a9357d96" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CrashRecoveryChaosTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test_1a666793555d66dcdd40224906b8f2888d" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CrashRecoveryChaosTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_crash_recovery_chaos_test_1a358d73a583cef2aa2129d9848603d771" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CrashRecoveryChaosTest</scope><name>wal_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

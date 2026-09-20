@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d021220237223144333366063172167154045241117212037" kind="namespace" language="C++">
+    <compoundname>@021220237223144333366063172167154045241117212037</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_aql_safety_validator.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

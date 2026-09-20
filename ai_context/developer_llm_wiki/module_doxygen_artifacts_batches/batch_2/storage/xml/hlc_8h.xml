@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hlc_8h" kind="file" language="C++">
+    <compoundname>hlc.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">string</includes>
+    <includedby refid="history__manager_8h" local="yes">include/storage/history_manager.h</includedby>
+    <includedby refid="mvcc__store_8h" local="yes">include/storage/mvcc_store.h</includedby>
+    <includedby refid="raft__mvcc__bridge_8h" local="yes">include/storage/raft_mvcc_bridge.h</includedby>
+    <includedby refid="hlc_8cpp" local="yes">src/storage/hlc.cpp</includedby>
+    <includedby refid="test__mvcc__chain__pruner_8cpp" local="yes">tests/storage/test_mvcc_chain_pruner.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/hlc.h</label>
+        <link refid="hlc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/storage/history_manager.h</label>
+        <link refid="history__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/hlc.h</label>
+        <link refid="hlc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/storage/mvcc_chain_pruner.h</label>
+        <link refid="mvcc__chain__pruner_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/storage/mvcc_store.h</label>
+        <link refid="mvcc__store_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/storage/raft_mvcc_bridge.h</label>
+        <link refid="raft__mvcc__bridge_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/storage/history_manager.cpp</label>
+        <link refid="history__manager_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/storage/hlc.cpp</label>
+        <link refid="hlc_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/storage/mvcc_chain_pruner.cpp</label>
+        <link refid="mvcc__chain__pruner_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/storage/mvcc_store.cpp</label>
+        <link refid="mvcc__store_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/storage/raft_mvcc_bridge.cpp</label>
+        <link refid="raft__mvcc__bridge_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/storage/test_mvcc_chain_pruner.cpp</label>
+        <link refid="test__mvcc__chain__pruner_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_h_l_c_timestamp" prot="public">themis::HLCTimestamp</innerclass>
+    <innerclass refid="classthemis_1_1_hybrid_logical_clock" prot="public">themis::HybridLogicalClock</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_h_l_c_timestamp" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>Encoded<sp/>(physical_ms<sp/>&lt;&lt;<sp/>20)<sp/>|<sp/>logical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backwards-compatibility<sp/>fields<sp/>(older<sp/>code<sp/>used<sp/>named<sp/>aggregate<sp/>init)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>are<sp/>kept<sp/>in<sp/>sync<sp/>with<sp/>`value`<sp/>when<sp/>constructors<sp/>are<sp/>used.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_h_l_c_timestamp_1aa9b4da604350249a2d62b6431d79a03c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1aa9b4da604350249a2d62b6431d79a03c" kindref="member">wall_clock_ms</ref>{0};</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_h_l_c_timestamp_1a682f36b61a098082aa5c86bf36f18eae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a682f36b61a098082aa5c86bf36f18eae" kindref="member">logical_clock</ref>{0};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" kindref="member">LOGICAL_BITS</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" kindref="member">LOGICAL_MASK</ref><sp/>=<sp/>(1ULL<sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" kindref="member">LOGICAL_BITS</ref>)<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_h_l_c_timestamp_1a97f24ae3c6b8e80048e3fc79e51ae4cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a97f24ae3c6b8e80048e3fc79e51ae4cd" kindref="member">MAX_LOGICAL</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" kindref="member">LOGICAL_MASK</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1_h_l_c_timestamp_1ac55c37ecfd59320d16abaacc4d88cc9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac55c37ecfd59320d16abaacc4d88cc9a" kindref="member">HLCTimestamp</ref>(uint64_t<sp/>v)<sp/>:<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>(v)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1aa9b4da604350249a2d62b6431d79a03c" kindref="member">wall_clock_ms</ref><sp/>=<sp/>(<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>&gt;&gt;<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" kindref="member">LOGICAL_BITS</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a682f36b61a098082aa5c86bf36f18eae" kindref="member">logical_clock</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>&amp;<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" kindref="member">LOGICAL_MASK</ref>);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1_h_l_c_timestamp_1a8d9aa10e50e26f54759655a791a6b3e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a8d9aa10e50e26f54759655a791a6b3e8" kindref="member">HLCTimestamp</ref>(uint64_t<sp/>physical_ms,<sp/>uint32_t<sp/>logical_cnt)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>((physical_ms<sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" kindref="member">LOGICAL_BITS</ref>)<sp/>|<sp/>(static_cast&lt;uint64_t&gt;(logical_cnt)<sp/>&amp;<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" kindref="member">LOGICAL_MASK</ref>)),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1aa9b4da604350249a2d62b6431d79a03c" kindref="member">wall_clock_ms</ref>(physical_ms),<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a682f36b61a098082aa5c86bf36f18eae" kindref="member">logical_clock</ref>(logical_cnt)<sp/>{}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>avoid<sp/>user-defined<sp/>converting<sp/>constructors<sp/>so<sp/>that<sp/>designated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initializers<sp/>(C-style<sp/>designators)<sp/>remain<sp/>usable<sp/>in<sp/>tests.<sp/>Use<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>factory<sp/>methods<sp/>for<sp/>encoded<sp/>construction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1_h_l_c_timestamp_1adea6279e1234d8beca3bf0859c1e7f5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1adea6279e1234d8beca3bf0859c1e7f5e" kindref="member">physical</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>!=<sp/>0)<sp/>?<sp/>(<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>&gt;&gt;<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" kindref="member">LOGICAL_BITS</ref>)<sp/>:<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1aa9b4da604350249a2d62b6431d79a03c" kindref="member">wall_clock_ms</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_h_l_c_timestamp_1af65c0774359a6383d8c3a0ba300ee58b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1af65c0774359a6383d8c3a0ba300ee58b" kindref="member">logical</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>!=<sp/>0)<sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>&amp;<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" kindref="member">LOGICAL_MASK</ref>)<sp/>:<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a682f36b61a098082aa5c86bf36f18eae" kindref="member">logical_clock</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1_h_l_c_timestamp_1afa9725a0ab52341dff59dd1e0c1de072" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1afa9725a0ab52341dff59dd1e0c1de072" kindref="member">getPhysicalTime</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1adea6279e1234d8beca3bf0859c1e7f5e" kindref="member">physical</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1_h_l_c_timestamp_1afe6356238e8a05653b78f2bc4a4675e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1afe6356238e8a05653b78f2bc4a4675e1" kindref="member">getLogicalCounter</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1af65c0774359a6383d8c3a0ba300ee58b" kindref="member">logical</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_h_l_c_timestamp_1af7764302af1bd082ae5319f9b5ee5f91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1af7764302af1bd082ae5319f9b5ee5f91" kindref="member">from</ref>(uint64_t<sp/>physical_ms,<sp/>uint32_t<sp/>logical_counter)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref><sp/>t;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>=<sp/>(physical_ms<sp/>&lt;&lt;<sp/>LOGICAL_BITS)<sp/>|<sp/>(static_cast&lt;uint64_t&gt;(logical_counter)<sp/>&amp;<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" kindref="member">LOGICAL_MASK</ref>);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1_h_l_c_timestamp_1aa9b4da604350249a2d62b6431d79a03c" kindref="member">wall_clock_ms</ref><sp/>=<sp/>physical_ms;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1_h_l_c_timestamp_1a682f36b61a098082aa5c86bf36f18eae" kindref="member">logical_clock</ref><sp/>=<sp/>logical_counter;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>t;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_h_l_c_timestamp_1a783c1cc583ab65c2ec6b900eb3b2b1fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a783c1cc583ab65c2ec6b900eb3b2b1fb" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>&amp;<sp/>o)</highlight><highlight class="keyword"><sp/><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>&lt;<sp/><sp/>o.<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_h_l_c_timestamp_1add552ac018b5142247a3131daf3e35fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1add552ac018b5142247a3131daf3e35fd" kindref="member">operator&lt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>&amp;<sp/>o)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>&lt;=<sp/>o.<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_h_l_c_timestamp_1a4fccc07d334d9f509917d66a672e28c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a4fccc07d334d9f509917d66a672e28c5" kindref="member">operator&gt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>&amp;<sp/>o)</highlight><highlight class="keyword"><sp/><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>&gt;<sp/><sp/>o.<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_h_l_c_timestamp_1a7750c9d64c990a69fe7c3536ad6b47b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a7750c9d64c990a69fe7c3536ad6b47b2" kindref="member">operator&gt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>&amp;<sp/>o)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>&gt;=<sp/>o.<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_h_l_c_timestamp_1acb9f1d53308ea9f11a8d5a5cc8fb5b48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1acb9f1d53308ea9f11a8d5a5cc8fb5b48" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>&amp;<sp/>o)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>==<sp/>o.<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_h_l_c_timestamp_1a298ebdce331fd0b33cb4be16a2b230cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a298ebdce331fd0b33cb4be16a2b230cc" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>&amp;<sp/>o)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref><sp/>!=<sp/>o.<ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_h_l_c_timestamp_1ac93e39e30bee08162f9553bfadf2a553" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac93e39e30bee08162f9553bfadf2a553" kindref="member">encodeToBytes</ref>(uint8_t<sp/>out[8])</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>v<sp/>=<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>7;<sp/>i<sp/>&gt;=<sp/>0;<sp/>--i)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(v<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v<sp/>&gt;&gt;=<sp/>8;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_h_l_c_timestamp_1a69ac72af9151e9f57762832b85f4a65e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a69ac72af9151e9f57762832b85f4a65e" kindref="member">decodeFromBytes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>in[8])<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>v<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v<sp/>=<sp/>(v<sp/>&lt;&lt;<sp/>8)<sp/>|<sp/>in[i];</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>(v);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_h_l_c_timestamp_1aff253bdb1e99934b284a3d38a7029a42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1aff253bdb1e99934b284a3d38a7029a42" kindref="member">encodeToString</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>s(8,<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>v<sp/>=<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>7;<sp/>i<sp/>&gt;=<sp/>0;<sp/>--i)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(v<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v<sp/>&gt;&gt;=<sp/>8;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1_h_l_c_timestamp_1a0a1f29002f98ea82a81caa5ee8031d13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a0a1f29002f98ea82a81caa5ee8031d13" kindref="member">decodeFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.size()<sp/>&lt;<sp/>8)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>{};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>v<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v<sp/>=<sp/>(v<sp/>&lt;&lt;<sp/>8)<sp/>|<sp/>static_cast&lt;uint8_t&gt;(s[i]);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref>(v);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_h_l_c_timestamp_1a17a7ccd500d8d9c0d411bace4eebf0b6" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1_hybrid_logical_clock" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_hybrid_logical_clock_1ade53469c3bb4d80cae44696d0afd3412" kindref="member">HybridLogicalClock</ref><sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_logical_clock_1ade53469c3bb4d80cae44696d0afd3412" kindref="member">HybridLogicalClock</ref>();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_hybrid_logical_clock_1ae38c1af4ba580e51fb8509facd062126" kindref="member">now</ref>();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_hybrid_logical_clock_1a4f6957860a10d048b083ce5856eb0406" kindref="member">update</ref>(<ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>received);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_hybrid_logical_clock_1ac91221194b156ee575a27f6ff25db549" kindref="member">peek</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single<sp/>atomic<sp/>state<sp/>encodes<sp/>the<sp/>full<sp/>HLCTimestamp<sp/>value:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>bits<sp/>63..20<sp/>=<sp/>physical<sp/>milliseconds<sp/>since<sp/>Unix<sp/>epoch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>bits<sp/>19..<sp/>0<sp/>=<sp/>logical<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>three<sp/>public<sp/>methods<sp/>(now/update/peek)<sp/>operate<sp/>with<sp/>CAS<sp/>loops,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>eliminating<sp/>the<sp/>mutex<sp/>and<sp/>allowing<sp/>lock-free<sp/>reads<sp/>via<sp/>peek().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>state_{0};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/>wallClockMs();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>advanceTo(uint64_t<sp/>phys_ms);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/hlc.h"/>
+  </compounddef>
+</doxygen>

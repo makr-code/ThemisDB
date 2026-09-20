@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_retry_executor" kind="class" language="C++" prot="public">
+    <compoundname>chimera::RetryExecutor</compoundname>
+    <includes refid="retry__executor_8hpp" local="no">retry_executor.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_retry_executor_1a09330bb7231ad1b7a50eb82cd812ea7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::RetryExecutor::RetryExecutor</definition>
+        <argsstring>()=default</argsstring>
+        <name>RetryExecutor</name>
+        <qualifiedname>chimera::RetryExecutor::RetryExecutor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_retry_executor_1a8ebe53fc5ea1ee289e31768f2a6423f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::RetryExecutor::~RetryExecutor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RetryExecutor</name>
+        <qualifiedname>chimera::RetryExecutor::~RetryExecutor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="35" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_retry_executor_1a08bbe57c53a12564f28a2ab0ddd3a6c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>typename std::invoke_result&lt; Func &gt;::type</type>
+        <definition>typename std::invoke_result&lt; Func &gt;::type chimera::RetryExecutor::execute_with_retry</definition>
+        <argsstring>(Func &amp;&amp;fn, const RetryPolicy &amp;policy)</argsstring>
+        <name>execute_with_retry</name>
+        <qualifiedname>chimera::RetryExecutor::execute_with_retry</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_retry_policy" kindref="compound">RetryPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Execute with retry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="44" column="10" bodyfile="include/chimera/retry_executor.hpp" bodystart="44" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classchimera_1_1_retry_executor_1ad6723dd7d366b021839978f111a54f21" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds chimera::RetryExecutor::calculate_backoff</definition>
+        <argsstring>(uint32_t attempt, const RetryPolicy &amp;policy) noexcept</argsstring>
+        <name>calculate_backoff</name>
+        <qualifiedname>chimera::RetryExecutor::calculate_backoff</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>attempt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_retry_policy" kindref="compound">RetryPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Calculate backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">attempt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="73" column="38" bodyfile="src/chimera/retry_executor.cpp" bodystart="17" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_retry_executor_1ad551f1dffd96994b36345a7749048692" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::RetryExecutor::should_retry</definition>
+        <argsstring>(const Result&lt; bool &gt; &amp;result, const RetryPolicy &amp;policy) noexcept</argsstring>
+        <name>should_retry</name>
+        <qualifiedname>chimera::RetryExecutor::should_retry</qualifiedname>
+        <param>
+          <type>const <ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt; &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_retry_policy" kindref="compound">RetryPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Should retry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="85" column="17" bodyfile="src/chimera/retry_executor.cpp" bodystart="41" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classchimera_1_1_retry_executor_1aae6bc14d011997deb4f03cd80f134c53" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double chimera::RetryExecutor::get_jitter</definition>
+        <argsstring>(double factor) noexcept</argsstring>
+        <name>get_jitter</name>
+        <qualifiedname>chimera::RetryExecutor::get_jitter</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>factor</declname>
+        </param>
+        <briefdescription>
+<para>Get jitter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="97" column="19" bodyfile="src/chimera/retry_executor.cpp" bodystart="71" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/retry_executor.hpp" line="32" column="1" bodyfile="include/chimera/retry_executor.hpp" bodystart="32" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_retry_executor_1ad6723dd7d366b021839978f111a54f21" prot="public" virt="non-virtual"><scope>chimera::RetryExecutor</scope><name>calculate_backoff</name></member>
+      <member refid="classchimera_1_1_retry_executor_1a08bbe57c53a12564f28a2ab0ddd3a6c1" prot="public" virt="non-virtual"><scope>chimera::RetryExecutor</scope><name>execute_with_retry</name></member>
+      <member refid="classchimera_1_1_retry_executor_1aae6bc14d011997deb4f03cd80f134c53" prot="private" virt="non-virtual"><scope>chimera::RetryExecutor</scope><name>get_jitter</name></member>
+      <member refid="classchimera_1_1_retry_executor_1a09330bb7231ad1b7a50eb82cd812ea7c" prot="public" virt="non-virtual"><scope>chimera::RetryExecutor</scope><name>RetryExecutor</name></member>
+      <member refid="classchimera_1_1_retry_executor_1ad551f1dffd96994b36345a7749048692" prot="public" virt="non-virtual"><scope>chimera::RetryExecutor</scope><name>should_retry</name></member>
+      <member refid="classchimera_1_1_retry_executor_1a8ebe53fc5ea1ee289e31768f2a6423f8" prot="public" virt="non-virtual"><scope>chimera::RetryExecutor</scope><name>~RetryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

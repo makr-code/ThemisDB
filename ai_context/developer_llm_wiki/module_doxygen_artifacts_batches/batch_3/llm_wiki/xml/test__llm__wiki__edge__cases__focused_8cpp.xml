@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__wiki__edge__cases__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_wiki_edge_cases_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="workspace__state__manager_8h" local="yes">llm_wiki/workspace_state_manager.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm_wiki/workspace_state_manager.h</label>
+        <link refid="workspace__state__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp</label>
+        <link refid="test__llm__wiki__edge__cases__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>filesystem</label>
+      </node>
+      <node id="11">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_llm_wiki_edge_case_test" prot="public">LlmWikiEdgeCaseTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__wiki__edge__cases__focused_8cpp_1a0a925ec0dbf9e0ac45979f33ff8011ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiEdgeCaseTest, WE1_LoadCorruptJson_ReturnsErrorCode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref></type>
+        </param>
+        <param>
+          <type>WE1_LoadCorruptJson_ReturnsErrorCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" line="37" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" bodystart="37" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__edge__cases__focused_8cpp_1a17fdbec07a8d72a45b1a5b10a7ea08db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiEdgeCaseTest, WE2_LoadChecksumMismatch_ReturnsChecksumMismatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref></type>
+        </param>
+        <param>
+          <type>WE2_LoadChecksumMismatch_ReturnsChecksumMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" line="56" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" bodystart="56" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__edge__cases__focused_8cpp_1a4f44407d8200a337be25b0240e5edbe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiEdgeCaseTest, WE3_SaveLargeLinksMap_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref></type>
+        </param>
+        <param>
+          <type>WE3_SaveLargeLinksMap_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" line="76" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" bodystart="76" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__edge__cases__focused_8cpp_1a31678b023a1dc3f2c55d400afbad91fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiEdgeCaseTest, WE4_ValidateChecksum_NonExistentFile_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref></type>
+        </param>
+        <param>
+          <type>WE4_ValidateChecksum_NonExistentFile_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" line="89" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__edge__cases__focused_8cpp_1a8e091dc1d990a2cfb78e2f8bee849a97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiEdgeCaseTest, WE5_WorkspaceStatus_FactoryMethods_ConsistentState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref></type>
+        </param>
+        <param>
+          <type>WE5_WorkspaceStatus_FactoryMethods_ConsistentState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" line="96" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" bodystart="96" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__edge__cases__focused_8cpp_1a72a98964c5654108fb86beb0c192279c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiEdgeCaseTest, WE6_CorruptThenValidSave_RecoversByLoad)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref></type>
+        </param>
+        <param>
+          <type>WE6_CorruptThenValidSave_RecoversByLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" line="111" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp" bodystart="111" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group WE — <ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref> edge-case and corruption tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="workspace__state__manager_8h" kindref="compound">llm_wiki/workspace_state_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm__wiki" kindref="compound">themis::llm_wiki</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>fixture<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="class_llm_wiki_edge_case_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_llm_wiki_edge_case_test_1aabf9b3b1bacb74f7b0fa7359b96004a5" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_llm_wiki_edge_case_test_1a0dc9fe762d04f75b8308c513700d81e1" kindref="member">tmp_dir_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;test_llm_wiki_edge_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_llm_wiki_edge_case_test_1a0dc9fe762d04f75b8308c513700d81e1" kindref="member">tmp_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_llm_wiki_edge_case_test_1a055d16ac436a8c06c4ca89c4acbbc2b3" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_llm_wiki_edge_case_test_1a0dc9fe762d04f75b8308c513700d81e1" kindref="member">tmp_dir_</ref>,<sp/>ec);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_llm_wiki_edge_case_test_1a0dc9fe762d04f75b8308c513700d81e1" kindref="member">tmp_dir_</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>WE<sp/>—<sp/>Edge<sp/>Cases<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WE1:<sp/>Load<sp/>on<sp/>a<sp/>file<sp/>with<sp/>invalid<sp/>JSON<sp/>returns<sp/>InvalidJson<sp/>or<sp/>CorruptState</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__llm__wiki__edge__cases__focused_8cpp_1a0a925ec0dbf9e0ac45979f33ff8011ad" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref>,<sp/>WE1_LoadCorruptJson_ReturnsErrorCode)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state_file<sp/>=<sp/>tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;state.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(state_file);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NOT<sp/>VALID<sp/>JSON<sp/>}{&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>state;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>mgr.load(state);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>either<sp/>InvalidJson<sp/>or<sp/>CorruptState<sp/>—<sp/>not<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>expected_code<sp/>=</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(status.code<sp/>==<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca4f67c44b93cc62755fee6051885d5e5a" kindref="member">WorkspaceStatus::Code::InvalidJson</ref><sp/>||</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>status.code<sp/>==<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca27551f1033382ea4b027e79402e18c7a" kindref="member">WorkspaceStatus::Code::CorruptState</ref>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(expected_code)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>code:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(status.code);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WE2:<sp/>Load<sp/>on<sp/>a<sp/>file<sp/>with<sp/>valid<sp/>JSON<sp/>but<sp/>mismatched<sp/>checksum<sp/>returns<sp/>ChecksumMismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__llm__wiki__edge__cases__focused_8cpp_1a0a925ec0dbf9e0ac45979f33ff8011ad" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref>,<sp/>WE2_LoadChecksumMismatch_ReturnsChecksumMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state_file<sp/>=<sp/>tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;state.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>syntactically<sp/>valid<sp/>JSON<sp/>with<sp/>a<sp/>wrong<sp/>checksum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(state_file);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;version&quot;:&quot;1.0.0&quot;,&quot;workspace_root&quot;:&quot;/tmp&quot;,&quot;checksum&quot;:&quot;deadbeef&quot;})&quot;;</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>state;</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>mgr.load(state);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>indicate<sp/>checksum<sp/>failure<sp/>or<sp/>corrupt<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>expected_code<sp/>=</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(status.code<sp/>==<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca23cd86e43512932a4bc975552c8d17fd" kindref="member">WorkspaceStatus::Code::ChecksumMismatch</ref><sp/>||</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>status.code<sp/>==<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca27551f1033382ea4b027e79402e18c7a" kindref="member">WorkspaceStatus::Code::CorruptState</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(expected_code)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>code:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(status.code);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WE3:<sp/>Save<sp/>with<sp/>an<sp/>extremely<sp/>large<sp/>links<sp/>map<sp/>succeeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__llm__wiki__edge__cases__focused_8cpp_1a0a925ec0dbf9e0ac45979f33ff8011ad" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref>,<sp/>WE3_SaveLargeLinksMap_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>state;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>500;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>page<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;page_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" kindref="member">links</ref>[page]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;refA&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;refB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;refC&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>mgr.save(state);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(status.ok())<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WE4:<sp/>validateChecksum<sp/>on<sp/>a<sp/>non-existent<sp/>file<sp/>returns<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__llm__wiki__edge__cases__focused_8cpp_1a0a925ec0dbf9e0ac45979f33ff8011ad" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref>,<sp/>WE4_ValidateChecksum_NonExistentFile_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>non_existent<sp/>=<sp/>tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;no_such_file.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a4475be79a777fee1728a0edad0b48c60" kindref="member">WorkspaceStateManager::validateChecksum</ref>(non_existent);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WE5:<sp/>WorkspaceStatus<sp/>factory<sp/>methods<sp/>produce<sp/>consistent<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__llm__wiki__edge__cases__focused_8cpp_1a0a925ec0dbf9e0ac45979f33ff8011ad" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref>,<sp/>WE5_WorkspaceStatus_FactoryMethods_ConsistentState)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afb5b412f97c84218b677114304213df6" kindref="member">WorkspaceStatus::Ok</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok.ok());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ok.code,<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaa60852f204ed8028c1c58808b746d115" kindref="member">WorkspaceStatus::Code::Ok</ref>);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">WorkspaceStatus::Error</ref>(</highlight><highlight class="stringliteral">&quot;some<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.ok());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.message.empty());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>corrupt<sp/>=<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca27551f1033382ea4b027e79402e18c7a" kindref="member">WorkspaceStatus::CorruptState</ref>(</highlight><highlight class="stringliteral">&quot;state<sp/>corrupted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(corrupt.ok());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(corrupt.code,<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca27551f1033382ea4b027e79402e18c7a" kindref="member">WorkspaceStatus::Code::CorruptState</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WE6:<sp/>Load<sp/>after<sp/>corrupt-then-valid-save<sp/>recovers<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__llm__wiki__edge__cases__focused_8cpp_1a0a925ec0dbf9e0ac45979f33ff8011ad" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_edge_case_test" kindref="compound">LlmWikiEdgeCaseTest</ref>,<sp/>WE6_CorruptThenValidSave_RecoversByLoad)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>write<sp/>a<sp/>valid<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>original;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.save(original).ok());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrupt<sp/>the<sp/>state<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state_file<sp/>=<sp/>tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;state.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(state_file,<sp/>std::ios::trunc);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CORRUPTED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>save<sp/>again<sp/>—<sp/>should<sp/>overwrite<sp/>the<sp/>corrupt<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>fresh;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>fresh.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>fresh.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.save(fresh).ok());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>should<sp/>now<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>loaded;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>mgr.load(loaded);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(status.ok())<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref>,<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm_wiki/test_llm_wiki_edge_cases_focused.cpp"/>
+  </compounddef>
+</doxygen>

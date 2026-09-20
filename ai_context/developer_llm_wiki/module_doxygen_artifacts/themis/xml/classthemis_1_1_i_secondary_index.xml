@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_secondary_index" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ISecondaryIndex</compoundname>
+    <includes refid="index__interface_8h" local="no">index_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_secondary_index_1aca74015efe77c6e42d3b2710076b9696" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ISecondaryIndex::~ISecondaryIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISecondaryIndex</name>
+        <qualifiedname>themis::ISecondaryIndex::~ISecondaryIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="68" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_secondary_index_1a04626ab39148cb86076ecb0a4c7cb796" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ISecondaryIndex::insert</definition>
+        <argsstring>(std::string_view indexed_value, std::string_view primary_key)=0</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::ISecondaryIndex::insert</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>indexed_value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <briefdescription>
+<para>Insert or update an index entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>indexed_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value being indexed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The primary key of the document/row </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="74" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_secondary_index_1a0c9e66a845b4336f4505d5bfb6cea2f8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ISecondaryIndex::remove</definition>
+        <argsstring>(std::string_view indexed_value, std::string_view primary_key)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::ISecondaryIndex::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>indexed_value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <briefdescription>
+<para>Remove an index entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>indexed_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indexed value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The primary key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if entry existed and was removed, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="81" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_secondary_index_1ae8553b045363c71d26ae77a180594f06" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::ISecondaryIndex::lookup</definition>
+        <argsstring>(std::string_view value) const =0</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::ISecondaryIndex::lookup</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Lookup by exact value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to look up </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching primary keys </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="87" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_secondary_index_1a5a680d7255245e32736689e1a5b95c4e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::ISecondaryIndex::rangeScan</definition>
+        <argsstring>(std::string_view start_value, std::string_view end_value, ScanOrder order=ScanOrder::ASCENDING) const =0</argsstring>
+        <name>rangeScan</name>
+        <qualifiedname>themis::ISecondaryIndex::rangeScan</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_value</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1aac0f30bcb6a9044e4c5f855fbd6d3116" kindref="member">ScanOrder</ref></type>
+          <declname>order</declname>
+          <defval><ref refid="namespacethemis_1aac0f30bcb6a9044e4c5f855fbd6d3116a83ec681a20197326c163ea3b39ef7c32" kindref="member">ScanOrder::ASCENDING</ref></defval>
+        </param>
+        <briefdescription>
+<para>Range scan [start_value, end_value). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of range (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of range (exclusive) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>order</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scan order </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching primary keys in requested order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="94" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_secondary_index_1a8da8d76106389e99fa5f5d6821d412f5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::ISecondaryIndex::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::ISecondaryIndex::getName</qualifiedname>
+        <briefdescription>
+<para>Get index name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Index name/identifier </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="101" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_secondary_index_1a94ac78b4edd0cd058d8d44bdc047e824" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::ISecondaryIndex::getFieldName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getFieldName</name>
+        <qualifiedname>themis::ISecondaryIndex::getFieldName</qualifiedname>
+        <briefdescription>
+<para>Get indexed field name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Field name that this index covers </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="105" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_secondary_index_1afec00abd199f404013331952f57ab428" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::ISecondaryIndex::getStatistics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::ISecondaryIndex::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get index statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON string with statistics (size, cardinality, etc.) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="109" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for secondary indexes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Secondary indexes provide fast lookup by non-primary-key fields. They map indexed field values to primary keys. </para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/index_interface.h" line="66" column="1" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="66" bodyend="110"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_secondary_index_1a94ac78b4edd0cd058d8d44bdc047e824" prot="public" virt="pure-virtual"><scope>themis::ISecondaryIndex</scope><name>getFieldName</name></member>
+      <member refid="classthemis_1_1_i_secondary_index_1a8da8d76106389e99fa5f5d6821d412f5" prot="public" virt="pure-virtual"><scope>themis::ISecondaryIndex</scope><name>getName</name></member>
+      <member refid="classthemis_1_1_i_secondary_index_1afec00abd199f404013331952f57ab428" prot="public" virt="pure-virtual"><scope>themis::ISecondaryIndex</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1_i_secondary_index_1a04626ab39148cb86076ecb0a4c7cb796" prot="public" virt="pure-virtual"><scope>themis::ISecondaryIndex</scope><name>insert</name></member>
+      <member refid="classthemis_1_1_i_secondary_index_1ae8553b045363c71d26ae77a180594f06" prot="public" virt="pure-virtual"><scope>themis::ISecondaryIndex</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1_i_secondary_index_1a5a680d7255245e32736689e1a5b95c4e" prot="public" virt="pure-virtual"><scope>themis::ISecondaryIndex</scope><name>rangeScan</name></member>
+      <member refid="classthemis_1_1_i_secondary_index_1a0c9e66a845b4336f4505d5bfb6cea2f8" prot="public" virt="pure-virtual"><scope>themis::ISecondaryIndex</scope><name>remove</name></member>
+      <member refid="classthemis_1_1_i_secondary_index_1aca74015efe77c6e42d3b2710076b9696" prot="public" virt="virtual"><scope>themis::ISecondaryIndex</scope><name>~ISecondaryIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

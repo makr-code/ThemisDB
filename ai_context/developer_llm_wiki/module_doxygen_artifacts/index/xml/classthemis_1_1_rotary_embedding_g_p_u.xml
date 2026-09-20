@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_rotary_embedding_g_p_u" kind="class" language="C++" prot="public">
+    <compoundname>themis::RotaryEmbeddingGPU</compoundname>
+    <basecompoundref refid="classthemis_1_1_rotary_embedding" prot="public" virt="non-virtual">themis::RotaryEmbedding</basecompoundref>
+    <includes refid="rotary__embeddings__gpu_8h" local="no">rotary_embeddings_gpu.h</includes>
+    <innerclass refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources" prot="public">themis::RotaryEmbeddingGPU::GPUResources</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_g_p_u_1a0121bf1076fcbf63ada2fe732818e405" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a117065299b0764b0adcf80b85542bb9c" kindref="member">GPUBackend</ref></type>
+        <definition>GPUBackend themis::RotaryEmbeddingGPU::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="75" column="16" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_g_p_u_1aaec573126a16f8b9b6250354c618b45b" prot="private" static="no" mutable="yes">
+        <type>bool</type>
+        <definition>bool themis::RotaryEmbeddingGPU::gpu_available_</definition>
+        <argsstring></argsstring>
+        <name>gpu_available_</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::gpu_available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="76" column="18" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_g_p_u_1ae5c4e9f8e29f51501450430b753b747a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RotaryEmbeddingGPU::gpu_batch_threshold_</definition>
+        <argsstring></argsstring>
+        <name>gpu_batch_threshold_</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::gpu_batch_threshold_</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="77" column="12" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_g_p_u_1a82a33847f6d02e8c336a91ad3283b946" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources" kindref="compound">GPUResources</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUResources&gt; themis::RotaryEmbeddingGPU::gpu_resources_</definition>
+        <argsstring></argsstring>
+        <name>gpu_resources_</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::gpu_resources_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="82" column="21" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_g_p_u_1a3bc9e6286c31b2e97aefa40baa2192fb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::RotaryEmbeddingGPU::gpu_mutex_</definition>
+        <argsstring></argsstring>
+        <name>gpu_mutex_</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::gpu_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="83" column="24" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a58657b936b35fce723a49630593c670e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RotaryEmbeddingGPU::RotaryEmbeddingGPU</definition>
+        <argsstring>(const RotationConfig &amp;config, GPUBackend backend=GPUBackend::CUDA)</argsstring>
+        <name>RotaryEmbeddingGPU</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::RotaryEmbeddingGPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_rotation_config" kindref="compound">RotationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a117065299b0764b0adcf80b85542bb9c" kindref="member">GPUBackend</ref></type>
+          <declname>backend</declname>
+          <defval><ref refid="namespacethemis_1a117065299b0764b0adcf80b85542bb9caa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">GPUBackend::CUDA</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="32" column="14" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="25" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a7e32acd82858cca666928c802618b4b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RotaryEmbeddingGPU::~RotaryEmbeddingGPU</definition>
+        <argsstring>()</argsstring>
+        <name>~RotaryEmbeddingGPU</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::~RotaryEmbeddingGPU</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="33" column="5" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1acfc57c3c5645b706f0da7346615f97b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::RotaryEmbeddingGPU::rotateBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;embeddings, const std::vector&lt; size_t &gt; &amp;positions) const</argsstring>
+        <name>rotateBatch</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::rotateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>embeddings</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>positions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="36" column="17" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="65" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a4f712a585c512bc48dc9c7f30b359009" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::RotaryEmbeddingGPU::rotateBatchGPU</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;embeddings, const std::vector&lt; size_t &gt; &amp;positions) const</argsstring>
+        <name>rotateBatchGPU</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::rotateBatchGPU</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>embeddings</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>positions</declname>
+        </param>
+        <briefdescription>
+<para>GPU-accelerated batch rotation (explicit GPU method). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Flat embeddings. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Flat output. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="42" column="17" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="73" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a10028151fb2484483e3655fbb6b3f3a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RotaryEmbeddingGPU::rotateBatchStreamGPU</definition>
+        <argsstring>(const float *d_embeddings, const size_t *d_positions, float *d_output, size_t batch_size, void *stream=nullptr) const</argsstring>
+        <name>rotateBatchStreamGPU</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::rotateBatchStreamGPU</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>d_embeddings</declname>
+        </param>
+        <param>
+          <type>const size_t *</type>
+          <declname>d_positions</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>d_output</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Streaming API for large datasets (advanced users) Operates on device memory directly for maximum performance <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>d_embeddings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device pointer to embeddings (batch_size * hidden_dim floats) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d_positions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device pointer to positions (batch_size size_t values) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device pointer to output buffer (batch_size * hidden_dim floats) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of embeddings to rotate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA/HIP stream for async execution (0 = default stream) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="54" column="10" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="85" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a86701996869f3b2e697a03a22d9268a5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RotaryEmbeddingGPU::isGPUAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isGPUAvailable</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::isGPUAvailable</qualifiedname>
+        <briefdescription>
+<para>Check if GPU is available and initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="63" column="10" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a12f0e71aec94b595de1787c2c4a16d74" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a117065299b0764b0adcf80b85542bb9c" kindref="member">GPUBackend</ref></type>
+        <definition>GPUBackend themis::RotaryEmbeddingGPU::getBackend</definition>
+        <argsstring>() const</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::getBackend</qualifiedname>
+        <briefdescription>
+<para>Get current backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="66" column="16" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a51313aa3da407c9989f78750d506b518" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::RotaryEmbeddingGPU::getGPUBatchThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>getGPUBatchThreshold</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::getGPUBatchThreshold</qualifiedname>
+        <briefdescription>
+<para>Get batch size threshold for GPU acceleration (default: 100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="69" column="12" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1aeeb94555d63a0573993f1b55bd6f406b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RotaryEmbeddingGPU::setGPUBatchThreshold</definition>
+        <argsstring>(size_t threshold)</argsstring>
+        <name>setGPUBatchThreshold</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::setGPUBatchThreshold</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set batch size threshold for GPU acceleration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="72" column="10" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a3d0bb6bc3229970007cd3fe637fc7165" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RotaryEmbeddingGPU::initializeGPU</definition>
+        <argsstring>()</argsstring>
+        <name>initializeGPU</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::initializeGPU</qualifiedname>
+        <briefdescription>
+<para>Initialize GPU resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize GPU.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initializeGPU without additional internal calls.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: hipGetDeviceCount(), hipSetDevice(), uploadThetaCacheToGPU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="86" column="10" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1abc0abb1bfd193d7c6b32b9e20e53e2d9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RotaryEmbeddingGPU::cleanupGPU</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupGPU</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::cleanupGPU</qualifiedname>
+        <briefdescription>
+<para>Clean up GPU resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup GPU.</para>
+<para>Implements cleanupGPU without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="89" column="10" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_g_p_u_1a94d59f5464e9f5cba9778849aeb295d9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RotaryEmbeddingGPU::uploadThetaCacheToGPU</definition>
+        <argsstring>()</argsstring>
+        <name>uploadThetaCacheToGPU</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::uploadThetaCacheToGPU</qualifiedname>
+        <briefdescription>
+<para>Upload theta cache to GPU device memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Upload Theta Cache To GPU.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements uploadThetaCacheToGPU without additional internal calls.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), <ref refid="classthemis_1_1_rotary_embedding_1a26a58fabc6a707462466dc379e598451" kindref="member">getConfig()</ref>, empty(), size(), hipMalloc(), hipMemcpy(), data(), hipFree(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="92" column="10" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>GPU-accelerated Rotary Position Embeddings Provides 10-100x speedup for large batch operations (batch_size &gt; 100) Falls back to CPU automatically for small batches or if GPU unavailable </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::RotaryEmbedding</label>
+        <link refid="classthemis_1_1_rotary_embedding"/>
+      </node>
+      <node id="1">
+        <label>themis::RotaryEmbeddingGPU</label>
+        <link refid="classthemis_1_1_rotary_embedding_g_p_u"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::RotaryEmbedding</label>
+        <link refid="classthemis_1_1_rotary_embedding"/>
+      </node>
+      <node id="1">
+        <label>themis::RotaryEmbeddingGPU</label>
+        <link refid="classthemis_1_1_rotary_embedding_g_p_u"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/rotary_embeddings_gpu.h" line="30" column="1" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="30" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a0121bf1076fcbf63ada2fe732818e405" prot="private" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1abc0abb1bfd193d7c6b32b9e20e53e2d9" prot="private" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>cleanupGPU</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a12f0e71aec94b595de1787c2c4a16d74" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>getBackend</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a26a58fabc6a707462466dc379e598451" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a51313aa3da407c9989f78750d506b518" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>getGPUBatchThreshold</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a145991c63f923097b7539100c0686c68" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1aaec573126a16f8b9b6250354c618b45b" prot="private" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>gpu_available_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1ae5c4e9f8e29f51501450430b753b747a" prot="private" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>gpu_batch_threshold_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a3bc9e6286c31b2e97aefa40baa2192fb" prot="private" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>gpu_mutex_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a82a33847f6d02e8c336a91ad3283b946" prot="private" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>gpu_resources_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a3d0bb6bc3229970007cd3fe637fc7165" prot="private" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>initializeGPU</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a86701996869f3b2e697a03a22d9268a5" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>isGPUAvailable</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a521359d8e492d96e07e05e7dc1cb054f" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>RotaryEmbedding</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a58657b936b35fce723a49630593c670e" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>RotaryEmbeddingGPU</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a2c9143e53742074762cb82daf7927042" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>rotate</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1acfc57c3c5645b706f0da7346615f97b7" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>rotateBatch</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a4f712a585c512bc48dc9c7f30b359009" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>rotateBatchGPU</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a10028151fb2484483e3655fbb6b3f3a5" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>rotateBatchStreamGPU</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a53c07bf4a0d724c5489ecb0083274ba9" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>rotateInverse</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a6c29186ae0026d91b8c114b8f8cc0af8" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>rotateRelational</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1aeeb94555d63a0573993f1b55bd6f406b" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>setGPUBatchThreshold</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a94d59f5464e9f5cba9778849aeb295d9" prot="private" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>uploadThetaCacheToGPU</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_g_p_u_1a7e32acd82858cca666928c802618b4b9" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU</scope><name>~RotaryEmbeddingGPU</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

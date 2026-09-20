@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_i_s_statistic" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ISStatistic</compoundname>
+    <includes refid="information__schema_8h" local="no">information_schema.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_i_s_statistic_1a62b573f60992fb6267bc2d1a4db1754d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISStatistic::table_catalog</definition>
+        <argsstring></argsstring>
+        <name>table_catalog</name>
+        <qualifiedname>themis::ISStatistic::table_catalog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="75" column="17" bodyfile="include/metadata/information_schema.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_statistic_1a7bc9e37412592a63b365d8155914da07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISStatistic::table_schema</definition>
+        <argsstring></argsstring>
+        <name>table_schema</name>
+        <qualifiedname>themis::ISStatistic::table_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="76" column="17" bodyfile="include/metadata/information_schema.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_statistic_1ada45fda849fc217ec7f61ab4e0c4c27d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISStatistic::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::ISStatistic::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="77" column="17" bodyfile="include/metadata/information_schema.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_statistic_1a76813068cf04fd5118a2732a46e86c87" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISStatistic::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::ISStatistic::index_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="78" column="17" bodyfile="include/metadata/information_schema.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_statistic_1acb8ab29e996ab17ba09384916e9d523e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISStatistic::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::ISStatistic::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="79" column="17" bodyfile="include/metadata/information_schema.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_statistic_1ab7179492f8375beab730f7b309b46d6d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::ISStatistic::seq_in_index</definition>
+        <argsstring></argsstring>
+        <name>seq_in_index</name>
+        <qualifiedname>themis::ISStatistic::seq_in_index</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Column position within composite index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="80" column="14" bodyfile="include/metadata/information_schema.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_statistic_1a76bee31b428a8df51dc9626cb684c343" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISStatistic::index_type</definition>
+        <argsstring></argsstring>
+        <name>index_type</name>
+        <qualifiedname>themis::ISStatistic::index_type</qualifiedname>
+        <briefdescription>
+<para>&quot;BTREE&quot;, &quot;HASH&quot;, &quot;FULLTEXT&quot;, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="81" column="17" bodyfile="include/metadata/information_schema.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_statistic_1aaefd5b04d6f9541f0478afd9e6346fb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISStatistic::non_unique</definition>
+        <argsstring></argsstring>
+        <name>non_unique</name>
+        <qualifiedname>themis::ISStatistic::non_unique</qualifiedname>
+        <briefdescription>
+<para>&quot;0&quot; (unique) or &quot;1&quot; (not unique) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="82" column="17" bodyfile="include/metadata/information_schema.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_i_s_statistic_1a59fcdfd40922d70eeea73bd9db7ab7ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ISStatistic::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ISStatistic::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this STATISTICS row to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object representing the row fields. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="88" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="66" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Row model for <computeroutput>INFORMATION_SCHEMA.STATISTICS</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/information_schema.h" line="74" column="1" bodyfile="include/metadata/information_schema.h" bodystart="74" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_i_s_statistic_1acb8ab29e996ab17ba09384916e9d523e" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1_i_s_statistic_1a76813068cf04fd5118a2732a46e86c87" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1_i_s_statistic_1a76bee31b428a8df51dc9626cb684c343" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>index_type</name></member>
+      <member refid="structthemis_1_1_i_s_statistic_1aaefd5b04d6f9541f0478afd9e6346fb2" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>non_unique</name></member>
+      <member refid="structthemis_1_1_i_s_statistic_1ab7179492f8375beab730f7b309b46d6d" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>seq_in_index</name></member>
+      <member refid="structthemis_1_1_i_s_statistic_1a62b573f60992fb6267bc2d1a4db1754d" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>table_catalog</name></member>
+      <member refid="structthemis_1_1_i_s_statistic_1ada45fda849fc217ec7f61ab4e0c4c27d" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_i_s_statistic_1a7bc9e37412592a63b365d8155914da07" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>table_schema</name></member>
+      <member refid="structthemis_1_1_i_s_statistic_1a59fcdfd40922d70eeea73bd9db7ab7ca" prot="public" virt="non-virtual"><scope>themis::ISStatistic</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

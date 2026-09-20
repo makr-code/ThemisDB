@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_i_wasm_component_loader" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::IWasmComponentLoader</compoundname>
+    <includes refid="wasm__component__model_8h" local="no">wasm_component_model.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_wasm_component_loader_1ad0e3d42d9fca67494d3c37cbb969c912" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::IWasmComponentLoader::~IWasmComponentLoader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IWasmComponentLoader</name>
+        <qualifiedname>themis::plugins::IWasmComponentLoader::~IWasmComponentLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="59" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_wasm_component_loader_1a32e6ec450248b5b8d49427721c06848b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1_i_wasm_component_instance" kindref="compound">IWasmComponentInstance</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; IWasmComponentInstance &gt; themis::plugins::IWasmComponentLoader::load</definition>
+        <argsstring>(const ComponentModelConfig &amp;config)=0</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::plugins::IWasmComponentLoader::load</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_component_model_config" kindref="compound">ComponentModelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="60" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_wasm_component_loader_1a9d7d62bcfc56ada55e5d8522e3a4cbf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::IWasmComponentLoader::validate</definition>
+        <argsstring>(const std::string &amp;component_path)=0</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::plugins::IWasmComponentLoader::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="61" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_wasm_component_loader_1a0dc22adf1cdbd56764c9f6486130a96d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1_w_i_t_interface" kindref="compound">WITInterface</ref> &gt;</type>
+        <definition>virtual std::vector&lt; WITInterface &gt; themis::plugins::IWasmComponentLoader::introspect</definition>
+        <argsstring>(const std::string &amp;component_path)=0</argsstring>
+        <name>introspect</name>
+        <qualifiedname>themis::plugins::IWasmComponentLoader::introspect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="62" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I wasm component loader component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/wasm_component_model.h" line="57" column="1" bodyfile="include/plugins/wasm_component_model.h" bodystart="57" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_i_wasm_component_loader_1a0dc22adf1cdbd56764c9f6486130a96d" prot="public" virt="pure-virtual"><scope>themis::plugins::IWasmComponentLoader</scope><name>introspect</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_wasm_component_loader_1a32e6ec450248b5b8d49427721c06848b" prot="public" virt="pure-virtual"><scope>themis::plugins::IWasmComponentLoader</scope><name>load</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_wasm_component_loader_1a9d7d62bcfc56ada55e5d8522e3a4cbf9" prot="public" virt="pure-virtual"><scope>themis::plugins::IWasmComponentLoader</scope><name>validate</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_wasm_component_loader_1ad0e3d42d9fca67494d3c37cbb969c912" prot="public" virt="virtual"><scope>themis::plugins::IWasmComponentLoader</scope><name>~IWasmComponentLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

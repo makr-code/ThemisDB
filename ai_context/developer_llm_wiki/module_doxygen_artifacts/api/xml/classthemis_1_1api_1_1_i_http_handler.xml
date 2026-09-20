@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_http_handler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::IHttpHandler</compoundname>
+    <derivedcompoundref refid="classthemis_1_1api_1_1_middleware_chain" prot="public" virt="non-virtual">themis::api::MiddlewareChain</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1api_1_1_transport_policy_middleware" prot="public" virt="non-virtual">themis::api::TransportPolicyMiddleware</derivedcompoundref>
+    <includes refid="http__handler_8h" local="no">http_handler.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_http_handler_1ae5b094331b6466ed851080010ef82257" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::IHttpHandler::~IHttpHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHttpHandler</name>
+        <qualifiedname>themis::api::IHttpHandler::~IHttpHandler</qualifiedname>
+        <briefdescription>
+<para>IHttp Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="220" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_http_handler_1abb4f14c9e049df893aa53d9c2ad902ec" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>themis::Result&lt; <ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref> &gt;</type>
+        <definition>virtual themis::Result&lt; HttpResponse &gt; themis::api::IHttpHandler::handle</definition>
+        <argsstring>(const HttpRequest &amp;request)=0</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::api::IHttpHandler::handle</qualifiedname>
+        <reimplementedby refid="classthemis_1_1api_1_1_middleware_chain_1a7a1631a8927f1d4d03c99b072cc6312c">handle</reimplementedby>
+        <reimplementedby refid="classthemis_1_1api_1_1_transport_policy_middleware_1aa1055c46c1a5139c837e3d41aa1c905b">handle</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="222" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_http_handler_1a64f3952e037b08e2633f0a7b4f1b7c4e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::IHttpHandler::requiresAuthentication</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>requiresAuthentication</name>
+        <qualifiedname>themis::api::IHttpHandler::requiresAuthentication</qualifiedname>
+        <reimplementedby refid="classthemis_1_1api_1_1_middleware_chain_1af5326702530ffe7e396f5b2a6fee720b">requiresAuthentication</reimplementedby>
+        <reimplementedby refid="classthemis_1_1api_1_1_transport_policy_middleware_1a4e123c6573c05488697245b67d604d09">requiresAuthentication</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="224" column="18" bodyfile="include/api/http_handler.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_http_handler_1a5346bc63057ac9e8a9f1d753a094029f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::api::IHttpHandler::handlerName</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>handlerName</name>
+        <qualifiedname>themis::api::IHttpHandler::handlerName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1api_1_1_middleware_chain_1a6b9449cf75773a182e8a5f32b445151c">handlerName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1api_1_1_transport_policy_middleware_1a385257d97abf265ec936e25dd93496f1">handlerName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="226" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::api::IHttpHandler</label>
+        <link refid="classthemis_1_1api_1_1_i_http_handler"/>
+      </node>
+      <node id="2">
+        <label>themis::api::MiddlewareChain</label>
+        <link refid="classthemis_1_1api_1_1_middleware_chain"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::api::TransportPolicyMiddleware</label>
+        <link refid="classthemis_1_1api_1_1_transport_policy_middleware"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/api/http_handler.h" line="214" column="1" bodyfile="include/api/http_handler.h" bodystart="214" bodyend="227"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_http_handler_1abb4f14c9e049df893aa53d9c2ad902ec" prot="public" virt="pure-virtual"><scope>themis::api::IHttpHandler</scope><name>handle</name></member>
+      <member refid="classthemis_1_1api_1_1_i_http_handler_1a5346bc63057ac9e8a9f1d753a094029f" prot="public" virt="pure-virtual"><scope>themis::api::IHttpHandler</scope><name>handlerName</name></member>
+      <member refid="classthemis_1_1api_1_1_i_http_handler_1a64f3952e037b08e2633f0a7b4f1b7c4e" prot="public" virt="virtual"><scope>themis::api::IHttpHandler</scope><name>requiresAuthentication</name></member>
+      <member refid="classthemis_1_1api_1_1_i_http_handler_1ae5b094331b6466ed851080010ef82257" prot="public" virt="virtual"><scope>themis::api::IHttpHandler</scope><name>~IHttpHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

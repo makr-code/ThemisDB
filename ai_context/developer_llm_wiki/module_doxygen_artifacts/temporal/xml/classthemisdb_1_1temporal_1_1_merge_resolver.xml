@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_merge_resolver" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::temporal::MergeResolver</compoundname>
+    <derivedcompoundref refid="classthemisdb_1_1temporal_1_1_custom_merge_resolver" prot="public" virt="non-virtual">themisdb::temporal::CustomMergeResolver</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1temporal_1_1_l_w_w_field_merge_resolver" prot="public" virt="non-virtual">themisdb::temporal::LWWFieldMergeResolver</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1temporal_1_1_union_merge_resolver" prot="public" virt="non-virtual">themisdb::temporal::UnionMergeResolver</derivedcompoundref>
+    <includes refid="temporal__conflict__resolver_8h" local="no">temporal_conflict_resolver.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_merge_resolver_1ada36d73ccee5159f595f61eb167a81b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::temporal::MergeResolver::~MergeResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MergeResolver</name>
+        <qualifiedname>themisdb::temporal::MergeResolver::~MergeResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="119" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_merge_resolver_1aaabb89741a85668c285c0585b7be664b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>virtual TemporalSnapshot themisdb::temporal::MergeResolver::merge</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote) const =0</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::temporal::MergeResolver::merge</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1temporal_1_1_custom_merge_resolver_1a9223a9de78b403a6fa769ab3a4cacdbf">merge</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1temporal_1_1_l_w_w_field_merge_resolver_1a1b2615c55c1b1aee4b051a81e9f011c9">merge</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1temporal_1_1_union_merge_resolver_1a3811d7357d968ff0c63c3d749708a4a3">merge</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Merge two conflicting snapshots into a single resolved snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The locally-held snapshot version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The remotely-received snapshot version. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></computeroutput> whose <computeroutput>data</computeroutput> represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the &quot;dominant&quot; input. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="131" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract strategy for CRDT-style merge of two conflicting snapshots. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Abstract strategy for CRDT-style merging of two conflicting snapshots.</para>
+<para>A <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_merge_resolver" kindref="compound">MergeResolver</ref></computeroutput> encapsulates the merge function for the CRDT_MERGE conflict-resolution policy. Implementations must be commutative and idempotent to preserve CRDT guarantees:</para>
+<para><itemizedlist>
+<listitem><para>Commutative: merge(a, b) == merge(b, a) (both field orderings converge)</para>
+</listitem><listitem><para>Idempotent: merge(a, a).data == a.data (re-merging is a no-op)</para>
+</listitem></itemizedlist>
+</para>
+<para>The resolver receives the two conflicting snapshots (no guaranteed ordering) and must return the merged result. It may also emit a conflict log entry via the optional <computeroutput>log_entry</computeroutput> out-parameter. </para>
+<para>Implement this interface to provide custom merge semantics (e.g. GCounter accumulation, ORSet union, domain-specific field blending) that replace or extend the built-in LWW-per-field algorithm.</para>
+<sect1 id="classthemisdb_1_1temporal_1_1_merge_resolver_1autotoc_md19_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_merge_resolver_1autotoc_md19">
+<title>Contract</title><para>Implementations MUST satisfy:</para>
+<para>Commutativity: merge(a, b).data == merge(b, a).data (field-level winner identity may differ; the data content must be equivalent)</para>
+<para>Idempotency: merge(a, a).data == a.data</para>
+<para>Determinism: given the same inputs, the output is always the same.</para>
+<para>Thread-safety of the implementation is the responsibility of the concrete subclass. <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver" kindref="compound">TemporalConflictResolver</ref></computeroutput> does NOT hold a lock while calling <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_merge_resolver_1aaabb89741a85668c285c0585b7be664b" kindref="member">merge()</ref></computeroutput>. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::temporal::CustomMergeResolver</label>
+        <link refid="classthemisdb_1_1temporal_1_1_custom_merge_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::LWWFieldMergeResolver</label>
+        <link refid="classthemisdb_1_1temporal_1_1_l_w_w_field_merge_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::temporal::MergeResolver</label>
+        <link refid="classthemisdb_1_1temporal_1_1_merge_resolver"/>
+      </node>
+      <node id="4">
+        <label>themisdb::temporal::UnionMergeResolver</label>
+        <link refid="classthemisdb_1_1temporal_1_1_union_merge_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/temporal/temporal_conflict_resolver.h" line="117" column="1" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="117" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_merge_resolver_1aaabb89741a85668c285c0585b7be664b" prot="public" virt="pure-virtual"><scope>themisdb::temporal::MergeResolver</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_merge_resolver_1ada36d73ccee5159f595f61eb167a81b4" prot="public" virt="virtual"><scope>themisdb::temporal::MergeResolver</scope><name>~MergeResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

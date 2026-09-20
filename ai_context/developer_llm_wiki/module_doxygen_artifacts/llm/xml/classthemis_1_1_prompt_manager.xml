@@ -1,0 +1,536 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_prompt_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::PromptManager</compoundname>
+    <includes refid="prompt__manager_8h" local="no">prompt_manager.h</includes>
+    <innerclass refid="structthemis_1_1_prompt_manager_1_1_prompt_template" prot="public">themis::PromptManager::PromptTemplate</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1_prompt_manager_1a995d4f2f8646c8e89abcf05341fc7c50" prot="private" static="no">
+        <type>tbb::concurrent_hash_map&lt; std::string, <ref refid="structthemis_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref> &gt;</type>
+        <definition>using themis::PromptManager::StoreType = tbb::concurrent_hash_map&lt;std::string, PromptTemplate&gt;</definition>
+        <argsstring></argsstring>
+        <name>StoreType</name>
+        <qualifiedname>themis::PromptManager::StoreType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="125" column="5" bodyfile="include/llm/prompt_manager.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_prompt_manager_1ae1e11f1fbe0f991b991a740936380e26" prot="private" static="no" mutable="yes">
+        <type>StoreType</type>
+        <definition>StoreType themis::PromptManager::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::PromptManager::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="126" column="23" bodyfile="include/llm/prompt_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_prompt_manager_1a2cb263b8016b0d41efde552b132a0af7" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::PromptManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::PromptManager::db_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="129" column="20" bodyfile="include/llm/prompt_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_prompt_manager_1ab90a4678e685203cdadb36d35d879a96" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::PromptManager::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::PromptManager::cf_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="130" column="33" bodyfile="include/llm/prompt_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_prompt_manager_1aac8ad745ccdb2bb37bf301a961c47ab1" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::PromptManager::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::PromptManager::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;prompt_template:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="132" column="33" bodyfile="include/llm/prompt_manager.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1aededf1b3309ad05923e99f01adc72943" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PromptManager::PromptManager</definition>
+        <argsstring>()</argsstring>
+        <name>PromptManager</name>
+        <qualifiedname>themis::PromptManager::PromptManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1a661378802a6a722e13321c3c49c953c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PromptManager::PromptManager</definition>
+        <argsstring>(RocksDBWrapper *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>PromptManager</name>
+        <qualifiedname>themis::PromptManager::PromptManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="57" column="5" bodyfile="src/llm/prompt_manager.cpp" bodystart="30" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1af91ff70b1767a2a964c345d8db23169e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PromptManager::~PromptManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PromptManager</name>
+        <qualifiedname>themis::PromptManager::~PromptManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1adc6a2ac5a5d43d31b1a9b8cae315fb81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref></type>
+        <definition>PromptManager::PromptTemplate themis::PromptManager::createTemplate</definition>
+        <argsstring>(PromptTemplate t)</argsstring>
+        <name>createTemplate</name>
+        <qualifiedname>themis::PromptManager::createTemplate</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Create Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), generateId(), insert(), release(), std::string(), toJson(), dump(), bytes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="66" column="20" bodyfile="src/llm/prompt_manager.cpp" bodystart="39" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1a66aa904a76b5127bdabbed9b33ccec65" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref> &gt;</type>
+        <definition>std::optional&lt; PromptManager::PromptTemplate &gt; themis::PromptManager::getTemplate</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>getTemplate</name>
+        <qualifiedname>themis::PromptManager::getTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Get Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="73" column="19" bodyfile="src/llm/prompt_manager.cpp" bodystart="65" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1a1ad7b8145db26b46066504e507e820e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref> &gt;</type>
+        <definition>std::vector&lt; PromptManager::PromptTemplate &gt; themis::PromptManager::listTemplates</definition>
+        <argsstring>() const</argsstring>
+        <name>listTemplates</name>
+        <qualifiedname>themis::PromptManager::listTemplates</qualifiedname>
+        <briefdescription>
+<para>List Templates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="79" column="17" bodyfile="src/llm/prompt_manager.cpp" bodystart="100" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1a416170687f080eca67de7031e2be1f0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PromptManager::updateTemplate</definition>
+        <argsstring>(const std::string &amp;id, const nlohmann::json &amp;metadata, bool active)</argsstring>
+        <name>updateTemplate</name>
+        <qualifiedname>themis::PromptManager::updateTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>active</declname>
+        </param>
+        <briefdescription>
+<para>Update Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">active</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">active</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), std::string(), toJson(), dump(), bytes(), begin(), end(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="88" column="10" bodyfile="src/llm/prompt_manager.cpp" bodystart="144" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1a691095adae5e9337f885fd9195d3e2c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PromptManager::assignExperiment</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;experiment_id)</argsstring>
+        <name>assignExperiment</name>
+        <qualifiedname>themis::PromptManager::assignExperiment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>experiment_id</declname>
+        </param>
+        <briefdescription>
+<para>Assign Experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the experiment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">experiment_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the experiment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), std::string(), toJson(), dump(), bytes(), begin(), end(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="96" column="10" bodyfile="src/llm/prompt_manager.cpp" bodystart="175" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1a97c9bd3179ee4d3f86e4667f96b710d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::PromptManager::loadFromYAML</definition>
+        <argsstring>(const std::string &amp;yaml_path)</argsstring>
+        <name>loadFromYAML</name>
+        <qualifiedname>themis::PromptManager::loadFromYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load From YAML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::filesystem::exists(), THEMIS_WARN(), YAML::LoadFile(), begin(), end(), nlohmann::json::parse(), c_str(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="103" column="12" bodyfile="src/llm/prompt_manager.cpp" bodystart="218" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1a8df89473a9ed338507d0e3e813ae7430" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::PromptManager::injectContext</definition>
+        <argsstring>(const std::string &amp;template_str, const std::unordered_map&lt; std::string, std::string &gt; &amp;context) const</argsstring>
+        <name>injectContext</name>
+        <qualifiedname>themis::PromptManager::injectContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>template_str</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="105" column="17" bodyfile="src/llm/prompt_manager.cpp" bodystart="275" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1ab31b09c1073b62b43acf8ec4b40bff14" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::PromptManager::getPromptWithContext</definition>
+        <argsstring>(const std::string &amp;id, const std::unordered_map&lt; std::string, std::string &gt; &amp;context) const</argsstring>
+        <name>getPromptWithContext</name>
+        <qualifiedname>themis::PromptManager::getPromptWithContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="108" column="19" bodyfile="src/llm/prompt_manager.cpp" bodystart="294" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1aad0b19cd2bd956f7a4d1258663da2ef3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::PromptManager::buildContextFromSchema</definition>
+        <argsstring>(SchemaManager *schema_mgr, const std::string &amp;edition=&quot;Community&quot;, const std::string &amp;version=&quot;1.5.0&quot;)</argsstring>
+        <name>buildContextFromSchema</name>
+        <qualifiedname>themis::PromptManager::buildContextFromSchema</qualifiedname>
+        <param>
+          <type>SchemaManager *</type>
+          <declname>schema_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edition</declname>
+          <defval>&quot;Community&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;1.5.0&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="112" column="31" bodyfile="src/llm/prompt_manager.cpp" bodystart="311" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_prompt_manager_1a55899ec1fbe4b10c88b3e33de1ca42fa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::PromptManager::generateId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::PromptManager::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_manager.h" line="122" column="17" bodyfile="src/llm/prompt_manager.cpp" bodystart="198" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_manager.h" line="29" column="1" bodyfile="include/llm/prompt_manager.h" bodystart="29" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_prompt_manager_1a691095adae5e9337f885fd9195d3e2c9" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>assignExperiment</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1aad0b19cd2bd956f7a4d1258663da2ef3" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>buildContextFromSchema</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1ab90a4678e685203cdadb36d35d879a96" prot="private" virt="non-virtual"><scope>themis::PromptManager</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1adc6a2ac5a5d43d31b1a9b8cae315fb81" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>createTemplate</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a2cb263b8016b0d41efde552b132a0af7" prot="private" virt="non-virtual"><scope>themis::PromptManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a55899ec1fbe4b10c88b3e33de1ca42fa" prot="private" virt="non-virtual"><scope>themis::PromptManager</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1ab31b09c1073b62b43acf8ec4b40bff14" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>getPromptWithContext</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a66aa904a76b5127bdabbed9b33ccec65" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>getTemplate</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a8df89473a9ed338507d0e3e813ae7430" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>injectContext</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1aac8ad745ccdb2bb37bf301a961c47ab1" prot="private" virt="non-virtual"><scope>themis::PromptManager</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a1ad7b8145db26b46066504e507e820e3" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>listTemplates</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a97c9bd3179ee4d3f86e4667f96b710d7" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>loadFromYAML</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1aededf1b3309ad05923e99f01adc72943" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>PromptManager</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a661378802a6a722e13321c3c49c953c7" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>PromptManager</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1ae1e11f1fbe0f991b991a740936380e26" prot="private" virt="non-virtual"><scope>themis::PromptManager</scope><name>store_</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a995d4f2f8646c8e89abcf05341fc7c50" prot="private" virt="non-virtual"><scope>themis::PromptManager</scope><name>StoreType</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1a416170687f080eca67de7031e2be1f0f" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>updateTemplate</name></member>
+      <member refid="classthemis_1_1_prompt_manager_1af91ff70b1767a2a964c345d8db23169e" prot="public" virt="non-virtual"><scope>themis::PromptManager</scope><name>~PromptManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

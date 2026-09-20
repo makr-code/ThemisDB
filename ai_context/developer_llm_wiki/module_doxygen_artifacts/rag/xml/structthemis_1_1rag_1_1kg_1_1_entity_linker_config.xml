@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::EntityLinkerConfig</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1ab361683666c7bb3235116dd4be0e3a1a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::EntityLinkerConfig::min_entity_length</definition>
+        <argsstring></argsstring>
+        <name>min_entity_length</name>
+        <qualifiedname>themis::rag::kg::EntityLinkerConfig::min_entity_length</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Minimum token length to be considered a candidate entity (chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="155" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a1c63daa1f2e3097bedd756dc2895c734" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::EntityLinkerConfig::min_linking_score</definition>
+        <argsstring></argsstring>
+        <name>min_linking_score</name>
+        <qualifiedname>themis::rag::kg::EntityLinkerConfig::min_linking_score</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Minimum linking score for a match to be accepted [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="158" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a2f06d3535382d131bfe7f040318dd81c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::EntityLinkerConfig::max_entities_per_text</definition>
+        <argsstring></argsstring>
+        <name>max_entities_per_text</name>
+        <qualifiedname>themis::rag::kg::EntityLinkerConfig::max_entities_per_text</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Maximum number of entities to extract per text block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="161" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a40a82f5d259be9ba7c9b400288e1c738" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::kg::EntityLinkerConfig::extract_single_word_entities</definition>
+        <argsstring></argsstring>
+        <name>extract_single_word_entities</name>
+        <qualifiedname>themis::rag::kg::EntityLinkerConfig::extract_single_word_entities</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, also extract single capitalised words as potential entities (in addition to multi-word capitalised sequences). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="165" column="10" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the entity linker. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="153" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="153" bodyend="166"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a40a82f5d259be9ba7c9b400288e1c738" prot="public" virt="non-virtual"><scope>themis::rag::kg::EntityLinkerConfig</scope><name>extract_single_word_entities</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a2f06d3535382d131bfe7f040318dd81c" prot="public" virt="non-virtual"><scope>themis::rag::kg::EntityLinkerConfig</scope><name>max_entities_per_text</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1ab361683666c7bb3235116dd4be0e3a1a" prot="public" virt="non-virtual"><scope>themis::rag::kg::EntityLinkerConfig</scope><name>min_entity_length</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a1c63daa1f2e3097bedd756dc2895c734" prot="public" virt="non-virtual"><scope>themis::rag::kg::EntityLinkerConfig</scope><name>min_linking_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

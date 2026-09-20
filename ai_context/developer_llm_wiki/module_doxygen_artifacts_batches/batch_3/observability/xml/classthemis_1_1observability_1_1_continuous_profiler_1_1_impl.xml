@@ -1,0 +1,575 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ContinuousProfiler::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a0c7b30ecf89a7def20028b99e07e8f7e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::ContinuousProfiler::Impl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="650" column="24" bodyfile="src/observability/continuous_profiler.cpp" bodystart="650" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a12e5f945a27282c83907316b26ad3420" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::observability::ContinuousProfiler::Impl::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="651" column="29" bodyfile="src/observability/continuous_profiler.cpp" bodystart="651" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a8a01a971bb4357dda4f92bf548f75b97" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::observability::ContinuousProfiler::Impl::worker_</definition>
+        <argsstring></argsstring>
+        <name>worker_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::worker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="652" column="17" bodyfile="src/observability/continuous_profiler.cpp" bodystart="652" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a55b25640361b37cce51a7a03ffa9bd5c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ContinuousProfiler::Impl::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::running_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="653" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="653" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a4c1ee728521e010696080a47aa88182a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::observability::ContinuousProfiler::Impl::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::enabled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="654" column="17" bodyfile="src/observability/continuous_profiler.cpp" bodystart="654" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1af0c2b338f80eba6ec65310dd436af7b7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref></type>
+        <definition>ContinuousProfilerConfig themis::observability::ContinuousProfiler::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="656" column="30" bodyfile="src/observability/continuous_profiler.cpp" bodystart="656" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a8fee94afb2e8b4302895de59c1f11309" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::observability::ContinuousProfiler::Impl::cpu_stacks_</definition>
+        <argsstring></argsstring>
+        <name>cpu_stacks_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::cpu_stacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="659" column="14" bodyfile="src/observability/continuous_profiler.cpp" bodystart="659" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a3b292652b5abafb6010d5458e356ae68" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref>, std::vector&lt; <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &gt; &gt;</type>
+        <definition>std::map&lt;ProfileType, std::vector&lt;ProfileSnapshot&gt; &gt; themis::observability::ContinuousProfiler::Impl::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="662" column="14" bodyfile="src/observability/continuous_profiler.cpp" bodystart="662" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a4825de92e0de0728da516bd62acd51ba" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const ProfileSnapshot&amp;, const std::string&amp;)&gt; themis::observability::ContinuousProfiler::Impl::anomaly_cb_</definition>
+        <argsstring></argsstring>
+        <name>anomaly_cb_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::anomaly_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="665" column="19" bodyfile="src/observability/continuous_profiler.cpp" bodystart="665" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a0798e939311acbba69dcf2739e301704" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ContinuousProfiler::Impl::Impl</definition>
+        <argsstring>(const ContinuousProfilerConfig &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="266" column="14" bodyfile="src/observability/continuous_profiler.cpp" bodystart="266" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1ab62a4b125bf6610c3a3b5ac09558fa45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ContinuousProfiler::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="269" column="5" bodyfile="src/observability/continuous_profiler.cpp" bodystart="269" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a7ac1f9b0465a4d93e79dc620b05f4df4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="277" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="277" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a7e74f39dba3bac48b448d255885a688f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: stopInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="290" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="290" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a6187e79127f66d3ef363aa53e0bc3061" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref></type>
+        <definition>ProfileSnapshot themis::observability::ContinuousProfiler::Impl::snapshot</definition>
+        <argsstring>(ProfileType type)</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::snapshot</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), empty(), load(), captureStack(), size(), std::to_string(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="300" column="21" bodyfile="src/observability/continuous_profiler.cpp" bodystart="300" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a01f579d82b5a849311cd14d039a134fc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt; ProfileSnapshot &gt; themis::observability::ContinuousProfiler::Impl::getSnapshots</definition>
+        <argsstring>(ProfileType type, std::chrono::system_clock::time_point from, std::chrono::system_clock::time_point to) const</argsstring>
+        <name>getSnapshots</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::getSnapshots</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="345" column="17" bodyfile="src/observability/continuous_profiler.cpp" bodystart="345" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a7e45c00861c07f058077eebbd5d00319" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_profile_diff" kindref="compound">ProfileDiff</ref></type>
+        <definition>ProfileDiff themis::observability::ContinuousProfiler::Impl::compare</definition>
+        <argsstring>(const ProfileSnapshot &amp;baseline, const ProfileSnapshot &amp;current) const</argsstring>
+        <name>compare</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::compare</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;</type>
+          <declname>baseline</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;</type>
+          <declname>current</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="368" column="17" bodyfile="src/observability/continuous_profiler.cpp" bodystart="368" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1ac73b97ebb32e7809e224617831d166bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::registerAnomalyCallback</definition>
+        <argsstring>(std::function&lt; void(const ProfileSnapshot &amp;, const std::string &amp;)&gt; cb)</argsstring>
+        <name>registerAnomalyCallback</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::registerAnomalyCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;, const std::string &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="429" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="429" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a40b1f8bc0925d0418aa85536235e1e38" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::enable</definition>
+        <argsstring>()</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::enable</qualifiedname>
+        <briefdescription>
+<para>Enable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="444" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="444" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1af194645cc4ae6e3dadbed87cf6a8abef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::disable</definition>
+        <argsstring>()</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::disable</qualifiedname>
+        <briefdescription>
+<para>Disable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="452" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="452" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1aa69f54dc41d78e19596eafc3bb3048dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::ContinuousProfiler::Impl::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="456" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="456" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a8321824e52d47b61cd0f33e7fd031f8f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref></type>
+        <definition>ContinuousProfilerConfig themis::observability::ContinuousProfiler::Impl::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="460" column="30" bodyfile="src/observability/continuous_profiler.cpp" bodystart="460" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1ae0fdfe7a65b85a57739350cb85753f28" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::workerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::workerLoop</qualifiedname>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::milliseconds(), std::chrono::steady_clock::now(), lk(), wait_for(), load(), captureStack(), size(), void(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="476" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="476" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a896e94d83b954f313cb66decdd908214" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref></type>
+        <definition>ProfileSnapshot themis::observability::ContinuousProfiler::Impl::snapshotNoLock</definition>
+        <argsstring>(ProfileType type)</argsstring>
+        <name>snapshotNoLock</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::snapshotNoLock</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Snapshot No Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::to_string(), assign(), begin(), end(), addSnapshot(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="575" column="21" bodyfile="src/observability/continuous_profiler.cpp" bodystart="575" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a37e850d6ec6ab3afe3728d97c130aac2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::addSnapshot</definition>
+        <argsstring>(ProfileType type, const ProfileSnapshot &amp;snap)</argsstring>
+        <name>addSnapshot</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::addSnapshot</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;</type>
+          <declname>snap</declname>
+        </param>
+        <briefdescription>
+<para>Add Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="600" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="600" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a556092e1115117ec117e88e9a18b4ded" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::persistSnapshot</definition>
+        <argsstring>(const ProfileSnapshot &amp;snap)</argsstring>
+        <name>persistSnapshot</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::persistSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;</type>
+          <declname>snap</declname>
+        </param>
+        <briefdescription>
+<para>Persist Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: time_since_epoch(), count(), profileTypeName(), std::to_string(), saveToFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="613" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="613" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1ae1fbb94093ac4b77e1b183c738576c35" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::Impl::stopInternal</definition>
+        <argsstring>()</argsstring>
+        <name>stopInternal</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::Impl::stopInternal</qualifiedname>
+        <briefdescription>
+<para>Stop Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/continuous_profiler.cpp" line="632" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="632" bodyend="644"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/observability/continuous_profiler.cpp" line="259" column="1" bodyfile="src/observability/continuous_profiler.cpp" bodystart="259" bodyend="666"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a37e850d6ec6ab3afe3728d97c130aac2" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>addSnapshot</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a4825de92e0de0728da516bd62acd51ba" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>anomaly_cb_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a7e45c00861c07f058077eebbd5d00319" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>compare</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1af0c2b338f80eba6ec65310dd436af7b7" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a8fee94afb2e8b4302895de59c1f11309" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>cpu_stacks_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a12e5f945a27282c83907316b26ad3420" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1af194645cc4ae6e3dadbed87cf6a8abef" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>disable</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a40b1f8bc0925d0418aa85536235e1e38" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>enable</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a4c1ee728521e010696080a47aa88182a" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>enabled_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a8321824e52d47b61cd0f33e7fd031f8f" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a01f579d82b5a849311cd14d039a134fc" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>getSnapshots</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a3b292652b5abafb6010d5458e356ae68" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>history_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a0798e939311acbba69dcf2739e301704" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1aa69f54dc41d78e19596eafc3bb3048dc" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a0c7b30ecf89a7def20028b99e07e8f7e" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a556092e1115117ec117e88e9a18b4ded" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>persistSnapshot</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1ac73b97ebb32e7809e224617831d166bc" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>registerAnomalyCallback</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a55b25640361b37cce51a7a03ffa9bd5c" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>running_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a6187e79127f66d3ef363aa53e0bc3061" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a896e94d83b954f313cb66decdd908214" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>snapshotNoLock</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a7ac1f9b0465a4d93e79dc620b05f4df4" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>start</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a7e74f39dba3bac48b448d255885a688f" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>stop</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1ae1fbb94093ac4b77e1b183c738576c35" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>stopInternal</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1a8a01a971bb4357dda4f92bf548f75b97" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>worker_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1ae0fdfe7a65b85a57739350cb85753f28" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>workerLoop</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl_1ab62a4b125bf6610c3a3b5ac09558fa45" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

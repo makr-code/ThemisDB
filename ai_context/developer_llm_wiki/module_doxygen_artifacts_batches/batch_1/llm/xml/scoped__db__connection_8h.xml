@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scoped__db__connection_8h" kind="file" language="C++">
+    <compoundname>scoped_db_connection.h</compoundname>
+    <includes local="no">functional</includes>
+    <includedby refid="inference__engine__enhanced_8cpp" local="yes">src/llm/inference_engine_enhanced.cpp</includedby>
+    <includedby refid="test__wave5__llm__raii_8cpp" local="yes">tests/llm/test_wave5_llm_raii.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/scoped_db_connection.h</label>
+        <link refid="scoped__db__connection_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/scoped_db_connection.h</label>
+        <link refid="scoped__db__connection_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/inference_engine_enhanced.cpp</label>
+        <link refid="inference__engine__enhanced_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/llm/test_wave5_llm_raii.cpp</label>
+        <link refid="test__wave5__llm__raii_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_scoped_db_connection" prot="public">themis::llm::ScopedDbConnection</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="classthemis_1_1llm_1_1_scoped_db_connection" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" kindref="member">ScopedDbConnection</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="12" refid="classthemis_1_1llm_1_1_scoped_db_connection_1a797c294480f7346c724dd4b32c5f8804" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a797c294480f7346c724dd4b32c5f8804" kindref="member">ReleaseFunc</ref><sp/>=<sp/>std::function&lt;void()&gt;;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" kindref="member">ScopedDbConnection</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a797c294480f7346c724dd4b32c5f8804" kindref="member">ReleaseFunc</ref><sp/>release_fn)<sp/>noexcept</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>release_fn_(std::move(release_fn)),<sp/>released_(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="classthemis_1_1llm_1_1_scoped_db_connection_1a5b2d59f11b5e87667a260951ada5a1fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a5b2d59f11b5e87667a260951ada5a1fb" kindref="member">~ScopedDbConnection</ref>()<sp/>noexcept<sp/>{<sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a3faaf39d0ad15a667cf504e9730b2100" kindref="member">release</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1llm_1_1_scoped_db_connection_1af655b4854cb937b0197e44f0ba980071" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1af655b4854cb937b0197e44f0ba980071" kindref="member">ScopedDbConnection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" kindref="member">ScopedDbConnection</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22" refid="classthemis_1_1llm_1_1_scoped_db_connection_1aac5a9be6e00ea1430fb1ad24d0feb1ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" kindref="member">ScopedDbConnection</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1aac5a9be6e00ea1430fb1ad24d0feb1ef" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" kindref="member">ScopedDbConnection</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1llm_1_1_scoped_db_connection_1a29c2913ea0a76cec058ce1c5ce03ba26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a29c2913ea0a76cec058ce1c5ce03ba26" kindref="member">ScopedDbConnection</ref>(<ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" kindref="member">ScopedDbConnection</ref>&amp;&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>release_fn_(std::move(other.release_fn_)),<sp/>released_(other.released_)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.released_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1_scoped_db_connection_1a3faaf39d0ad15a667cf504e9730b2100" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a3faaf39d0ad15a667cf504e9730b2100" kindref="member">release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!released_<sp/>&amp;&amp;<sp/>release_fn_)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>released_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>release_fn_();<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1llm_1_1_scoped_db_connection_1adae9294f6530d86e215084e38fd07a3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1adae9294f6530d86e215084e38fd07a3a" kindref="member">isReleased</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>released_;<sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a797c294480f7346c724dd4b32c5f8804" kindref="member">ReleaseFunc</ref><sp/>release_fn_;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>released_;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/scoped_db_connection.h"/>
+  </compounddef>
+</doxygen>

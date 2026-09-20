@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__hybrid__search_8h" kind="file" language="C++">
+    <compoundname>distributed_hybrid_search.h</compoundname>
+    <includes refid="hybrid__search_8h" local="yes">search/hybrid_search.h</includes>
+    <includes refid="search__error__codes_8h" local="yes">search/search_error_codes.h</includes>
+    <includes local="yes">sharding/remote_executor.h</includes>
+    <includes local="yes">sharding/urn_resolver.h</includes>
+    <includes local="yes">sharding/shard_topology.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="bench__search__release__gates_8cpp" local="yes">benchmarks/search/bench_search_release_gates.cpp</includedby>
+    <includedby refid="benchmark__distributed__hybrid__search_8cpp" local="yes">benchmarks/search/benchmark_distributed_hybrid_search.cpp</includedby>
+    <includedby refid="distributed__hybrid__search_8cpp" local="yes">src/search/distributed_hybrid_search.cpp</includedby>
+    <includedby refid="test__search__distributed__merge__phase2_8cpp" local="yes">tests/search/test_search_distributed_merge_phase2.cpp</includedby>
+    <includedby refid="test__search__distributed__merge__stress_8cpp" local="yes">tests/search/test_search_distributed_merge_stress.cpp</includedby>
+    <includedby refid="test__search__edge__cases__distributed_8cpp" local="yes">tests/search/test_search_edge_cases_distributed.cpp</includedby>
+    <includedby refid="test__search__edge__cases__phase3_8cpp" local="yes">tests/search/test_search_edge_cases_phase3.cpp</includedby>
+    <includedby refid="test__search__integration__phase4_8cpp" local="yes">tests/search/test_search_integration_phase4.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/search/distributed_hybrid_search.h</label>
+        <link refid="distributed__hybrid__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>search/hybrid_search.h</label>
+        <link refid="hybrid__search_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>search/search_error_codes.h</label>
+        <link refid="search__error__codes_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>sharding/remote_executor.h</label>
+      </node>
+      <node id="16">
+        <label>sharding/shard_topology.h</label>
+      </node>
+      <node id="15">
+        <label>sharding/urn_resolver.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>themis/export.h</label>
+      </node>
+      <node id="5">
+        <label>themis/search/llm_reranker_factory.h</label>
+      </node>
+      <node id="4">
+        <label>themis/search/llm_reranker_interface.h</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/search/bench_search_release_gates.cpp</label>
+        <link refid="bench__search__release__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/search/benchmark_distributed_hybrid_search.cpp</label>
+        <link refid="benchmark__distributed__hybrid__search_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/search/distributed_hybrid_search.h</label>
+        <link refid="distributed__hybrid__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/search/distributed_hybrid_search.cpp</label>
+        <link refid="distributed__hybrid__search_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/search/test_search_distributed_merge_phase2.cpp</label>
+        <link refid="test__search__distributed__merge__phase2_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/search/test_search_distributed_merge_stress.cpp</label>
+        <link refid="test__search__distributed__merge__stress_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/search/test_search_edge_cases_distributed.cpp</label>
+        <link refid="test__search__edge__cases__distributed_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/search/test_search_edge_cases_phase3.cpp</label>
+        <link refid="test__search__edge__cases__phase3_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/search/test_search_integration_phase4.cpp</label>
+        <link refid="test__search__integration__phase4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_distributed_hybrid_search" prot="public">themis::DistributedHybridSearch</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_hybrid_search_1_1_config" prot="public">themis::DistributedHybridSearch::Config</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result" prot="public">themis::DistributedHybridSearch::ShardSearchResult</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" prot="public">themis::DistributedHybridSearch::SearchStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.2.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 87/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready - v2.2.0 Phase 2 (Core Implementation Hardening) </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hybrid__search_8h" kindref="compound">search/hybrid_search.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="search__error__codes_8h" kindref="compound">search/search_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/remote_executor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/urn_resolver.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/shard_topology.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1_distributed_hybrid_search" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_distributed_hybrid_search_1ab144dd0d66942164bc4a7fde895c632d" kindref="member">DistributedHybridSearch</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1_distributed_hybrid_search_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ae7a942cf2f4e18cbe9a8f901c8426c3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ae7a942cf2f4e18cbe9a8f901c8426c3a" kindref="member">k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ab043b98a05201430b83a0f5d530dba75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ab043b98a05201430b83a0f5d530dba75" kindref="member">rrf_k</ref><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1afe5230c0be6fb6c370ead1c5d151a858" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1afe5230c0be6fb6c370ead1c5d151a858" kindref="member">shard_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1a3bc92d10d4a6e6ba8c365abe12244037" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1a3bc92d10d4a6e6ba8c365abe12244037" kindref="member">max_concurrent_shards</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1adbf8a097320c2cd5eb9f929531fe7edb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1adbf8a097320c2cd5eb9f929531fe7edb" kindref="member">skip_failed_shards</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ac76a7a48c5e52fbd6aeddb98568dca79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ac76a7a48c5e52fbd6aeddb98568dca79" kindref="member">local_shard_id</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ad5b53116edc353378fff6ba2dcbc1e6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ad5b53116edc353378fff6ba2dcbc1e6a" kindref="member">search_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/search/hybrid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result" kindref="compound">ShardSearchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a7087b1baa35f766b3089b5f7fd403dad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a7087b1baa35f766b3089b5f7fd403dad" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a691d98356adee68c115c2817c789428f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a691d98356adee68c115c2817c789428f" kindref="member">results</ref>;<sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a8c6a2dd6d589ea4698ce8044d608c4cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a8c6a2dd6d589ea4698ce8044d608c4cd" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a0d2878a8ba5e7a83b587b0ca826facda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a0d2878a8ba5e7a83b587b0ca826facda" kindref="member">error_msg</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a83c6bfcdeae5d33918043b6adb2f8053" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a83c6bfcdeae5d33918043b6adb2f8053" kindref="member">execution_time_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" kindref="compound">SearchStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" kindref="member">shards_queried</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" kindref="member">shards_succeeded</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" kindref="member">shards_failed</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" kindref="member">partial_result</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Degradation<sp/>visibility<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a011903a9a8f618159f44af52a8931760" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a011903a9a8f618159f44af52a8931760" kindref="member">merge_underflow</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9e648dfc65e6baa2900ca84806b9d681" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9e648dfc65e6baa2900ca84806b9d681" kindref="member">high_overlap_variance</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a4f31d88f9bcaa9d3f878fbe9debaebf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a4f31d88f9bcaa9d3f878fbe9debaebf6" kindref="member">ranking_conflict</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kindref="member">failed_shard_reasons</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_distributed_hybrid_search_1ab144dd0d66942164bc4a7fde895c632d" kindref="member">DistributedHybridSearch</ref>(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref>*<sp/>local_search,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::sharding::URNResolver*<sp/>resolver,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::sharding::RemoteExecutor*<sp/>executor</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_distributed_hybrid_search_1ab144dd0d66942164bc4a7fde895c632d" kindref="member">DistributedHybridSearch</ref>(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref>*<sp/>local_search,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::sharding::URNResolver*<sp/>resolver,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::sharding::RemoteExecutor*<sp/>executor,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/><ref refid="classthemis_1_1_distributed_hybrid_search_1aefb074cc0631bf1dd03b849a07f1adf5" kindref="member">search</ref>(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text_query,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>vector_query<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SearchStats*<sp/>stats<sp/>=<sp/>nullptr</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Merging<sp/>(public<sp/>for<sp/>unit<sp/>testing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/><ref refid="classthemis_1_1_distributed_hybrid_search_1ae34f91464f77b2f1c840d5c2a5da597f" kindref="member">mergeShardResults</ref>(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardSearchResult&gt;&amp;<sp/>shard_results,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SearchStats*<sp/>stats<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1_distributed_hybrid_search_1a245f465b1b7314d79eb9a0390082f1b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1_distributed_hybrid_search_1a245f465b1b7314d79eb9a0390082f1b7" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1_distributed_hybrid_search_1a78a558bea48ef1841265b6a51074f5e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_distributed_hybrid_search_1a78a558bea48ef1841265b6a51074f5e2" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config)<sp/>{<sp/>config_<sp/>=<sp/>config;<sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/><ref refid="classthemis_1_1_distributed_hybrid_search_1a366314bf13fbff8fb7d3c56e688a8bb2" kindref="member">parseShardResponse</ref>(</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>data</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref>*<sp/>local_search_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::sharding::URNResolver*<sp/>resolver_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::sharding::RemoteExecutor*<sp/>executor_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_searches_{0};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_shards_queried_{0};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_shard_failures_{0};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result" kindref="compound">ShardSearchResult</ref><sp/>searchRemoteShard(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::sharding::ShardInfo&amp;<sp/>shard,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text_query,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>vector_query,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/search/distributed_hybrid_search.h"/>
+  </compounddef>
+</doxygen>

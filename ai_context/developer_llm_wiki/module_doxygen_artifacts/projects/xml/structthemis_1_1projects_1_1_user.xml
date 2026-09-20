@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_user" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::User</compoundname>
+    <includes refid="collaboration__manager_8h" local="no">collaboration_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_user_1afb664bfaaac2acbe97517a5ebf8db019" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::User::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::projects::User::id</qualifiedname>
+        <briefdescription>
+<para>Unique user identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="45" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_user_1a4677bb809387db0bba152e43f2da3c1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::User::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::projects::User::name</qualifiedname>
+        <briefdescription>
+<para>Display name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="46" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/collaboration_manager.h" line="44" column="1" bodyfile="include/projects/collaboration_manager.h" bodystart="44" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_user_1afb664bfaaac2acbe97517a5ebf8db019" prot="public" virt="non-virtual"><scope>themis::projects::User</scope><name>id</name></member>
+      <member refid="structthemis_1_1projects_1_1_user_1a4677bb809387db0bba152e43f2da3c1d" prot="public" virt="non-virtual"><scope>themis::projects::User</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

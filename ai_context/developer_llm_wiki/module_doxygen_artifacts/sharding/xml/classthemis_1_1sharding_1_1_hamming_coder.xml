@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_hamming_coder" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::HammingCoder</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_erasure_coder" prot="public" virt="non-virtual">themis::sharding::ErasureCoder</basecompoundref>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hamming_coder_1a350d0546ff0b077c297a997538803a3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::sharding::HammingCoder::encode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t data_shards, uint32_t parity_shards) override</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::sharding::HammingCoder::encode</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_erasure_coder_1a34d0060f7cc4611a3e3540d300ba903e">encode</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+<para>Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode <computeroutput>data</computeroutput> into (data_shards + parity_shards) chunks.</para>
+<para>The first data_shards chunks are systematic (raw data). Chunks at indices [data_shards, data_shards + parity_shards) are parity.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if data is empty or shard counts are 0.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parity_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="511" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1407" bodyend="1446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hamming_coder_1a15a1ab632e19c4a538258d17ce72d6f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::sharding::HammingCoder::decode</definition>
+        <argsstring>(const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;available_chunks, const std::vector&lt; uint32_t &gt; &amp;missing_indices, uint32_t data_shards, uint32_t parity_shards) override</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::sharding::HammingCoder::decode</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_erasure_coder_1a5dfbe05b158429f4c286db593bd5a40d">decode</reimplements>
+        <param>
+          <type>const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>available_chunks</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>missing_indices</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover original data from an incomplete set of chunks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>available_chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of chunk index → chunk bytes for every shard that is present. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>missing_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Indices of shards that are unavailable. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>k (number of data shards used during encode). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parity_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>r (number of parity shards used during encode). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Concatenated recovered data shards (may be zero-padded at the end if encode padded). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if too many data shards are missing to recover. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Present. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">total_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">false</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="529" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1448" bodyend="1587"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Hamming Erasure Coder</para>
+<para>Implements a generalised RAID-2 / Hamming-code erasure coder operating at shard (block) granularity rather than at the bit level.</para>
+<para>Parity assignment: Parity shard p (0-indexed) covers every data shard j (0-indexed) for which bit p is set in the 1-based position (j + 1):</para>
+<para>parity[p] = XOR{ data[j] for all j in [0, data_shards) where ((j + 1) &gt;&gt; p) &amp; 1 == 1 }</para>
+<para>Properties:<itemizedlist>
+<listitem><para>Encode / decode uses pure XOR — no Galois-Field arithmetic needed.</para>
+</listitem><listitem><para>Single data-shard failure can always be recovered via syndrome detection (O(data_shards) work per byte).</para>
+</listitem><listitem><para>A missing parity shard can be recomputed directly from data shards.</para>
+</listitem><listitem><para>Best configured with parity_shards = ceil(log2(data_shards + r + 1)) so that syndromes are unique for every possible single failure.</para>
+</listitem><listitem><para>When more than one data shard is missing the coder attempts iterative repair using parity shards that cover exactly one of the missing shards; if impossible it throws std::runtime_error.</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: 4 data shards → 3 parity shards (Hamming(7,4) shard analogue) </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::ErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_erasure_coder"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::HammingCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_hamming_coder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::ErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_erasure_coder"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::HammingCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_hamming_coder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/redundancy_strategy.h" line="501" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="501" bodyend="535"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1a5248ba694168c808d46a622afeb38359" prot="public" virt="non-virtual"><scope>themis::sharding::HammingCoder</scope><name>create</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hamming_coder_1a15a1ab632e19c4a538258d17ce72d6f0" prot="public" virt="virtual"><scope>themis::sharding::HammingCoder</scope><name>decode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hamming_coder_1a350d0546ff0b077c297a997538803a3c" prot="public" virt="virtual"><scope>themis::sharding::HammingCoder</scope><name>encode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1aeefb61c591a606c2f8fdb23e7e3f933d" prot="public" virt="virtual"><scope>themis::sharding::HammingCoder</scope><name>~ErasureCoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

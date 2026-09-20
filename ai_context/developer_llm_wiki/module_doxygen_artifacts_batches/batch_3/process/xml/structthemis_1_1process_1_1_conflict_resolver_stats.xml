@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_conflict_resolver_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConflictResolverStats</compoundname>
+    <includes refid="process__conflict__resolver_8h" local="no">process_conflict_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolver_stats_1a917546c13b79fcf61700cb24f0980738" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConflictResolverStats::conflicts_detected</definition>
+        <argsstring></argsstring>
+        <name>conflicts_detected</name>
+        <qualifiedname>themis::process::ConflictResolverStats::conflicts_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="54" column="12" bodyfile="include/process/process_conflict_resolver.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolver_stats_1af07351d4f44648cd7f95fd6ad8e36e5b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConflictResolverStats::conflicts_resolved</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved</name>
+        <qualifiedname>themis::process::ConflictResolverStats::conflicts_resolved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="55" column="12" bodyfile="include/process/process_conflict_resolver.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolver_stats_1a65034987b157ce0435a7658022856893" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConflictResolverStats::avg_resolution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_resolution_time_ms</name>
+        <qualifiedname>themis::process::ConflictResolverStats::avg_resolution_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="56" column="12" bodyfile="include/process/process_conflict_resolver.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Conflict resolver statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_conflict_resolver.h" line="53" column="1" bodyfile="include/process/process_conflict_resolver.h" bodystart="53" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_conflict_resolver_stats_1a65034987b157ce0435a7658022856893" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolverStats</scope><name>avg_resolution_time_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolver_stats_1a917546c13b79fcf61700cb24f0980738" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolverStats</scope><name>conflicts_detected</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolver_stats_1af07351d4f44648cd7f95fd6ad8e36e5b" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolverStats</scope><name>conflicts_resolved</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

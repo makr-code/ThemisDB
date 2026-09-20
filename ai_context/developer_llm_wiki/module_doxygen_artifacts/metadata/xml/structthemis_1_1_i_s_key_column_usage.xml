@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_i_s_key_column_usage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ISKeyColumnUsage</compoundname>
+    <includes refid="information__schema_8h" local="no">information_schema.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1a1267f8f7e3406d378e78a8c2b9ba4a53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISKeyColumnUsage::constraint_catalog</definition>
+        <argsstring></argsstring>
+        <name>constraint_catalog</name>
+        <qualifiedname>themis::ISKeyColumnUsage::constraint_catalog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="95" column="17" bodyfile="include/metadata/information_schema.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1a979d616114e06c4a644a2ea1369f48fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISKeyColumnUsage::constraint_schema</definition>
+        <argsstring></argsstring>
+        <name>constraint_schema</name>
+        <qualifiedname>themis::ISKeyColumnUsage::constraint_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="96" column="17" bodyfile="include/metadata/information_schema.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1a101a3397bcd09c19b73678b133b31a61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISKeyColumnUsage::constraint_name</definition>
+        <argsstring></argsstring>
+        <name>constraint_name</name>
+        <qualifiedname>themis::ISKeyColumnUsage::constraint_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="97" column="17" bodyfile="include/metadata/information_schema.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1ab2b9c3980ac1ec782a0dd34f2e9d34f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISKeyColumnUsage::table_schema</definition>
+        <argsstring></argsstring>
+        <name>table_schema</name>
+        <qualifiedname>themis::ISKeyColumnUsage::table_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="98" column="17" bodyfile="include/metadata/information_schema.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1a7f604a821a0ae594519e08b3a6542999" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISKeyColumnUsage::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::ISKeyColumnUsage::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="99" column="17" bodyfile="include/metadata/information_schema.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1acdd802c9e0d482bd773196e18b7888e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISKeyColumnUsage::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::ISKeyColumnUsage::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="100" column="17" bodyfile="include/metadata/information_schema.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1a21ec9a372e0c1b464a26de0b8aeb3cf2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::ISKeyColumnUsage::ordinal_position</definition>
+        <argsstring></argsstring>
+        <name>ordinal_position</name>
+        <qualifiedname>themis::ISKeyColumnUsage::ordinal_position</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="101" column="14" bodyfile="include/metadata/information_schema.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1ac9c6fc7b6d1dc0934d62849db9520ea0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ISKeyColumnUsage::referenced_table_schema</definition>
+        <argsstring></argsstring>
+        <name>referenced_table_schema</name>
+        <qualifiedname>themis::ISKeyColumnUsage::referenced_table_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="102" column="19" bodyfile="include/metadata/information_schema.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1a1f35c70ec54394195c1063c8e7c9fde0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ISKeyColumnUsage::referenced_table_name</definition>
+        <argsstring></argsstring>
+        <name>referenced_table_name</name>
+        <qualifiedname>themis::ISKeyColumnUsage::referenced_table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="103" column="19" bodyfile="include/metadata/information_schema.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_key_column_usage_1a342453ec5c3eb182a863b5ba12f1bc70" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ISKeyColumnUsage::referenced_column_name</definition>
+        <argsstring></argsstring>
+        <name>referenced_column_name</name>
+        <qualifiedname>themis::ISKeyColumnUsage::referenced_column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="104" column="19" bodyfile="include/metadata/information_schema.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_i_s_key_column_usage_1a2218b2dc4753d5c8d2aab2e5caac08ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ISKeyColumnUsage::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ISKeyColumnUsage::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this KEY_COLUMN_USAGE row to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object representing the row fields. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="110" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="83" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Row model for <computeroutput>INFORMATION_SCHEMA.KEY_COLUMN_USAGE</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/information_schema.h" line="94" column="1" bodyfile="include/metadata/information_schema.h" bodystart="94" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1acdd802c9e0d482bd773196e18b7888e3" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1a1267f8f7e3406d378e78a8c2b9ba4a53" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>constraint_catalog</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1a101a3397bcd09c19b73678b133b31a61" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>constraint_name</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1a979d616114e06c4a644a2ea1369f48fb" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>constraint_schema</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1a21ec9a372e0c1b464a26de0b8aeb3cf2" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>ordinal_position</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1a342453ec5c3eb182a863b5ba12f1bc70" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>referenced_column_name</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1a1f35c70ec54394195c1063c8e7c9fde0" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>referenced_table_name</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1ac9c6fc7b6d1dc0934d62849db9520ea0" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>referenced_table_schema</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1a7f604a821a0ae594519e08b3a6542999" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1ab2b9c3980ac1ec782a0dd34f2e9d34f9" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>table_schema</name></member>
+      <member refid="structthemis_1_1_i_s_key_column_usage_1a2218b2dc4753d5c8d2aab2e5caac08ed" prot="public" virt="non-virtual"><scope>themis::ISKeyColumnUsage</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

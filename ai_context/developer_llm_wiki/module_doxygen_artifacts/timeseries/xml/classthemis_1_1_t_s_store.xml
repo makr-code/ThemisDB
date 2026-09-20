@@ -1,0 +1,1466 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_t_s_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::TSStore</compoundname>
+    <includes refid="tsstore_8h" local="no">tsstore.h</includes>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_config" prot="public">themis::TSStore::Config</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_data_point" prot="public">themis::TSStore::DataPoint</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_query_options" prot="public">themis::TSStore::QueryOptions</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_aggregation_result" prot="public">themis::TSStore::AggregationResult</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_stats" prot="public">themis::TSStore::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats" prot="public">themis::TSStore::OutOfOrderStats</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_t_s_row" prot="public">themis::TSStore::TSRow</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_batch_write_result" prot="public">themis::TSStore::BatchWriteResult</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_key_components" prot="private">themis::TSStore::KeyComponents</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionType</name>
+        <qualifiedname>themis::TSStore::CompressionType</qualifiedname>
+        <enumvalue id="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa95f9c2f146f04d4ce9fed7eea8c703de" prot="public">
+          <name>Gorilla</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="133" column="5" bodyfile="include/timeseries/tsstore.h" bodystart="133" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1ad8791b54eb4ad16ab62098a8b5dc6ff6" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::TSStore::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::TSStore::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="475" column="28" bodyfile="include/timeseries/tsstore.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1a208e70d9f0516ceaf1cac7bd7486765d" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::TSStore::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::TSStore::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="476" column="33" bodyfile="include/timeseries/tsstore.h" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1ac43611ba6ff92a0373457aa0b81763b1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::TSStore::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::TSStore::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="477" column="12" bodyfile="include/timeseries/tsstore.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1a756d11fe25fe7dd4ed2b6ba0b2355d6d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TimeSeriesMetrics&gt; themis::TSStore::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::TSStore::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="478" column="21" bodyfile="include/timeseries/tsstore.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1a5c8496641a3933622eeed8f1fd74d476" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;EncryptedChunkStore&gt; themis::TSStore::enc_chunk_store_</definition>
+        <argsstring></argsstring>
+        <name>enc_chunk_store_</name>
+        <qualifiedname>themis::TSStore::enc_chunk_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="479" column="21" bodyfile="include/timeseries/tsstore.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1ac28993190fa8e3ffa3daaf0377a10172" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref> *</type>
+        <definition>TSAutoBuffer* themis::TSStore::auto_buffer_</definition>
+        <argsstring></argsstring>
+        <name>auto_buffer_</name>
+        <qualifiedname>themis::TSStore::auto_buffer_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="480" column="18" bodyfile="include/timeseries/tsstore.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1a2c6ea43bacfb15d7615f0571bfed79c2" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSStore::ooo_accepted_</definition>
+        <argsstring></argsstring>
+        <name>ooo_accepted_</name>
+        <qualifiedname>themis::TSStore::ooo_accepted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="483" column="25" bodyfile="include/timeseries/tsstore.h" bodystart="483" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1aff5b034765fdaae19ac6e48a367fb5a3" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSStore::ooo_rejected_</definition>
+        <argsstring></argsstring>
+        <name>ooo_rejected_</name>
+        <qualifiedname>themis::TSStore::ooo_rejected_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="484" column="25" bodyfile="include/timeseries/tsstore.h" bodystart="484" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1af0b6decdc87d937575ce794233ce239c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TSStore::watermark_mutex_</definition>
+        <argsstring></argsstring>
+        <name>watermark_mutex_</name>
+        <qualifiedname>themis::TSStore::watermark_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="488" column="24" bodyfile="include/timeseries/tsstore.h" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1a2c02bd4eb78ffb968869b19d204006ad" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int64_t&gt; themis::TSStore::watermarks_</definition>
+        <argsstring></argsstring>
+        <name>watermarks_</name>
+        <qualifiedname>themis::TSStore::watermarks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="489" column="24" bodyfile="include/timeseries/tsstore.h" bodystart="489" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1a21fac8e3269070e8d192cd6f2442a993" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::TSStore::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::TSStore::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;ts:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="491" column="33" bodyfile="include/timeseries/tsstore.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1aaedefe9ecf479aa55ef9c903c347c132" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::TSStore::GORILLA_CHUNK_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>GORILLA_CHUNK_PREFIX</name>
+        <qualifiedname>themis::TSStore::GORILLA_CHUNK_PREFIX</qualifiedname>
+        <initializer>= &quot;tsc:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="492" column="33" bodyfile="include/timeseries/tsstore.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_store_1ae1c273bacf087402ca6f8c534f866b4b" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::TSStore::SYS_META_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>SYS_META_PREFIX</name>
+        <qualifiedname>themis::TSStore::SYS_META_PREFIX</qualifiedname>
+        <initializer>= &quot;sys:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="493" column="33" bodyfile="include/timeseries/tsstore.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a22359d7b06dde299ef3236700b3b84f2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSStore::TSStore</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf, Config config)</argsstring>
+        <name>TSStore</name>
+        <qualifiedname>themis::TSStore::TSStore</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB TransactionDB instance (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional column family handle (nullptr = default CF) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression and storage configuration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Main constructor (explicit): accepts DB, optional CF and <ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">cf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="219" column="14" bodyfile="src/timeseries/tsstore.cpp" bodystart="107" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a08ab8bc10bc12c122229487592b62abb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSStore::TSStore</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>TSStore</name>
+        <qualifiedname>themis::TSStore::TSStore</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="223" column="5" bodyfile="src/timeseries/tsstore.cpp" bodystart="118" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1ac62ebffc4ccce508370bdb9ab64dca6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSStore::~TSStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TSStore</name>
+        <qualifiedname>themis::TSStore::~TSStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="225" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a5981793ad0a95391c4f710aac9b27cf4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::TSStore::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::TSStore::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current compression configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="230" column="18" bodyfile="include/timeseries/tsstore.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a2ac274def82fa473e3434b587301e9c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSStore::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::TSStore::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update compression configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Changes only affect new data points; existing data remains unchanged </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="237" column="10" bodyfile="include/timeseries/tsstore.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a126f5b65991cb1a9224b0f9c364d71cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::TSStore::putDataPoint</definition>
+        <argsstring>(const DataPoint &amp;point)</argsstring>
+        <name>putDataPoint</name>
+        <qualifiedname>themis::TSStore::putDataPoint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Write a data point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put Data Point.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data point to store </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error with detailed context</para>
+</simplesect>
+<simplesect kind="note"><para>STORAGE METHOD: Singular RocksDB Entity Single data points are always stored as individual RocksDB entities with key format ts:{metric}:{entity}:{timestamp_ms}, regardless of the compression configuration. For Gorilla compression, use <ref refid="classthemis_1_1_t_s_store_1ae2a0be293f8a2156c1217de0e3c2a824" kindref="member">putDataPoints()</ref> with multiple points for batch compression.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), std::chrono::steady_clock::now(), empty(), recordError(), ErrVoid(), lock(), checkAndUpdateWatermarkLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="250" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="223" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1ae2a0be293f8a2156c1217de0e3c2a824" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::TSStore::putDataPoints</definition>
+        <argsstring>(const std::vector&lt; DataPoint &gt; &amp;points)</argsstring>
+        <name>putDataPoints</name>
+        <qualifiedname>themis::TSStore::putDataPoints</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <briefdescription>
+<para>Write multiple data points (batch operation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put Data Points.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of data points </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error with detailed context</para>
+</simplesect>
+<simplesect kind="note"><para>STORAGE METHOD: Batch with Gorilla Compression (if enabled) When compression is enabled (config.compression = <ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa95f9c2f146f04d4ce9fed7eea8c703de" kindref="member">CompressionType::Gorilla</ref>), points are grouped by metric:entity, sorted by timestamp, and compressed as chunks with key format tsc:{metric}:{entity}:{first_ts}:{last_ts}. This provides 10-20x compression ratio. Without compression, points are stored as individual entities like <ref refid="classthemis_1_1_t_s_store_1a126f5b65991cb1a9224b0f9c364d71cf" kindref="member">putDataPoint()</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), size(), std::chrono::steady_clock::now(), empty(), OkVoid(), ErrVoid(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="264" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="321" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a2b54cb6bf7aeb4a1429a5e0fc6ce3f26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result" kindref="compound">BatchWriteResult</ref> &gt;</type>
+        <definition>Result&lt; TSStore::BatchWriteResult &gt; themis::TSStore::putBatch</definition>
+        <argsstring>(std::span&lt; const TSRow &gt; rows)</argsstring>
+        <name>putBatch</name>
+        <qualifiedname>themis::TSStore::putBatch</qualifiedname>
+        <param>
+          <type>std::span&lt; const <ref refid="structthemis_1_1_t_s_store_1_1_t_s_row" kindref="compound">TSRow</ref> &gt;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>High-throughput zero-copy batch write using <computeroutput>std::span</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put Batch.</para>
+<para>Accepts a span of <computeroutput><ref refid="structthemis_1_1_t_s_store_1_1_t_s_row" kindref="compound">TSRow</ref></computeroutput> values and writes them using a single <computeroutput>rocksdb::WriteBatch</computeroutput> commit, amortising WAL and memtable overhead across the entire batch. All valid rows are committed atomically; invalid rows (empty metric / entity) are reported in the <computeroutput><ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result" kindref="compound">BatchWriteResult</ref></computeroutput> but do not abort the write for the remaining rows.</para>
+<para>When Gorilla compression is enabled the rows are grouped by metric:entity, sorted by timestamp, Gorilla-encoded, and stored as compressed chunks — identical to <computeroutput><ref refid="classthemis_1_1_t_s_store_1ae2a0be293f8a2156c1217de0e3c2a824" kindref="member">putDataPoints()</ref></computeroutput> but without the intermediate <computeroutput>std::vector</computeroutput> allocation at the call site.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Span of <ref refid="structthemis_1_1_t_s_store_1_1_t_s_row" kindref="compound">TSRow</ref> values. String views must remain valid for the duration of the call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;<ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result" kindref="compound">BatchWriteResult</ref>&gt;</computeroutput> — ok() on successful RocksDB write; error() only when the RocksDB <computeroutput>Write()</computeroutput> itself fails.</para>
+</simplesect>
+Performance target: ≥ 1 M rows/s at p99 &lt; 2 ms on an 8-core host (see ROADMAP — Multi-metric batch write API).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), size(), std::chrono::steady_clock::now(), empty(), Ok(), reserve(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="327" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="548" bodyend="757"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a9d8c222e87817c67d8929336e6d2097f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; TSStore::DataPoint &gt; &gt; themis::TSStore::query</definition>
+        <argsstring>(const QueryOptions &amp;options) const</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::TSStore::query</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_query_options" kindref="compound">QueryOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Query data points with filters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query options (time range, entity, tags) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;std::vector&lt;DataPoint&gt;&gt; - data points or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Decode Gorilla-compressed data. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Use <ref refid="classthemis_1_1_gorilla_s_i_m_d_decoder" kindref="compound">GorillaSIMDDecoder</ref> which dispatches at runtime to the best available SIMD path (AVX2 on x86-64, NEON on AArch64) and falls back to the scalar <ref refid="classthemis_1_1_gorilla_decoder" kindref="compound">GorillaDecoder</ref> on other platforms.</para>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="334" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="760" bodyend="984"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a02c43e0f523965ad93011d8e50397d05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result" kindref="compound">AggregationResult</ref> &gt;</type>
+        <definition>Result&lt; TSStore::AggregationResult &gt; themis::TSStore::aggregate</definition>
+        <argsstring>(const QueryOptions &amp;options) const</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themis::TSStore::aggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_query_options" kindref="compound">QueryOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Compute aggregations over time range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;AggregationResult&gt; - aggregation result or error</para>
+</simplesect>
+Automatically uses pre-computed aggregates when available for better performance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="343" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="987" bodyend="989"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1aa4d7316e91b27d81611108edcba59592" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result" kindref="compound">AggregationResult</ref> &gt;</type>
+        <definition>Result&lt; TSStore::AggregationResult &gt; themis::TSStore::aggregateOptimized</definition>
+        <argsstring>(const QueryOptions &amp;options, bool use_optimizer=true) const</argsstring>
+        <name>aggregateOptimized</name>
+        <qualifiedname>themis::TSStore::aggregateOptimized</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_query_options" kindref="compound">QueryOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_optimizer</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Compute aggregations with optimizer hints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query options </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>use_optimizer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enable query optimization (default: true) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;AggregationResult&gt; - aggregation result or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="351" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="992" bodyend="1105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1ad2087c29bcfdb5bec04783b01c92e7af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_t_s_store_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>TSStore::Stats themis::TSStore::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::TSStore::getStats</qualifiedname>
+        <briefdescription>
+<para>Get time-series statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1_t_s_store_1_1_stats" kindref="compound">Stats</ref> struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="359" column="11" bodyfile="src/timeseries/tsstore.cpp" bodystart="1107" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a9533c2e0967e059f0cfa0a3691ce2c85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats" kindref="compound">OutOfOrderStats</ref></type>
+        <definition>TSStore::OutOfOrderStats themis::TSStore::getOutOfOrderStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getOutOfOrderStats</name>
+        <qualifiedname>themis::TSStore::getOutOfOrderStats</qualifiedname>
+        <briefdescription>
+<para>Get out-of-order write statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats" kindref="compound">OutOfOrderStats</ref> with counters for accepted and rejected out-of-order points </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="365" column="21" bodyfile="src/timeseries/tsstore.cpp" bodystart="1159" bodyend="1164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a3b371bbc669a4cdd70e149bc146799c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSStore::deleteOldData</definition>
+        <argsstring>(int64_t before_timestamp_ms)</argsstring>
+        <name>deleteOldData</name>
+        <qualifiedname>themis::TSStore::deleteOldData</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>before_timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Delete data older than specified timestamp (retention policy). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Old Data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Delete data points with timestamp &lt; this value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of data points deleted</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), reset(), NewIterator(), Seek(), Valid(), key(), ToString(), compare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="372" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="1194" bodyend="1251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1acb463ae14ca56c3ebfd7816c38688e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSStore::deleteOldDataForMetric</definition>
+        <argsstring>(const std::string &amp;metric, int64_t before_timestamp_ms)</argsstring>
+        <name>deleteOldDataForMetric</name>
+        <qualifiedname>themis::TSStore::deleteOldDataForMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>before_timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Delete old data for a specific metric (retention policy). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Old Data For Metric.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metric name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Delete data points with timestamp &lt; this value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of data points deleted for that metric</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), reset(), NewIterator(), Seek(), Valid(), key(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="380" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="1260" bodyend="1317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a405481fba859261d08e8956fff682625" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::TSStore::deleteMetric</definition>
+        <argsstring>(const std::string &amp;metric)</argsstring>
+        <name>deleteMetric</name>
+        <qualifiedname>themis::TSStore::deleteMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+<para>Delete all data for a specific metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Metric.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metric name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), ErrVoid(), reset(), NewIterator(), Seek(), Valid(), key(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="387" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="1325" bodyend="1375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a15ebb2f615a8a2a02451d8e6ddd76a4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::TSStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all time-series data (admin operation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: reset(), NewIterator(), Seek(), Valid(), key(), ToString(), compare(), strlen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="392" column="10" bodyfile="src/timeseries/tsstore.cpp" bodystart="1381" bodyend="1417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a782f8ab87749f2ed78d301a996d17f9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSStore::setEncryptedChunkStore</definition>
+        <argsstring>(std::shared_ptr&lt; EncryptedChunkStore &gt; enc_store)</argsstring>
+        <name>setEncryptedChunkStore</name>
+        <qualifiedname>themis::TSStore::setEncryptedChunkStore</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> &gt;</type>
+          <declname>enc_store</declname>
+        </param>
+        <briefdescription>
+<para>Attach an <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> to enable AES-256-GCM encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Encrypted Chunk Store.</para>
+<para>When set, all new Gorilla-compressed chunk writes are encrypted (compress-then-encrypt) and existing encrypted chunks are decrypted transparently on read. Pass nullptr to disable encryption.</para>
+<para>Key access is audited via the AuditLogger that was configured on the provided <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enc_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref>, or nullptr to disable.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enc_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="406" column="10" bodyfile="src/timeseries/tsstore.cpp" bodystart="1180" bodyend="1182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a92782ed39442e70877dea81fd6e6a3c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; EncryptedChunkStore &gt; themis::TSStore::getEncryptedChunkStore</definition>
+        <argsstring>() const</argsstring>
+        <name>getEncryptedChunkStore</name>
+        <qualifiedname>themis::TSStore::getEncryptedChunkStore</qualifiedname>
+        <briefdescription>
+<para>Returns the currently attached <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> (may be null). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="412" column="21" bodyfile="src/timeseries/tsstore.cpp" bodystart="1184" bodyend="1186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a2950e1de2f7c1b4371fe0c04caf09e06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSStore::setMetrics</definition>
+        <argsstring>(std::shared_ptr&lt; TimeSeriesMetrics &gt; metrics)</argsstring>
+        <name>setMetrics</name>
+        <qualifiedname>themis::TSStore::setMetrics</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Set metrics collector for monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to <ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMetrics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="418" column="10" bodyfile="src/timeseries/tsstore.cpp" bodystart="1171" bodyend="1173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a748f20279306961b3dad52646e927f5f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; TimeSeriesMetrics &gt; themis::TSStore::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::TSStore::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get metrics collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to <ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> instance (may be null) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="424" column="21" bodyfile="include/timeseries/tsstore.h" bodystart="424" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a5103559a23ec7a79a00e78bd9c8a8b61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSStore::setAutoBuffer</definition>
+        <argsstring>(TSAutoBuffer *buf)</argsstring>
+        <name>setAutoBuffer</name>
+        <qualifiedname>themis::TSStore::setAutoBuffer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref> *</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Wire a <ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref> to receive single-point inserts when Gorilla compression is enabled. When set, <ref refid="classthemis_1_1_t_s_store_1a126f5b65991cb1a9224b0f9c364d71cf" kindref="member">putDataPoint()</ref> routes through the buffer instead of writing directly to RocksDB, enabling Gorilla compression for IoT / streaming workloads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref> (not owned, must outlive this <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>). Pass nullptr to disable buffering and fall back to direct writes.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAutoBuffer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="435" column="10" bodyfile="include/timeseries/tsstore.h" bodystart="435" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1aa887fd4edd1320f9a37e172ad3622c62" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref> *</type>
+        <definition>TSAutoBuffer * themis::TSStore::getAutoBuffer</definition>
+        <argsstring>() const</argsstring>
+        <name>getAutoBuffer</name>
+        <qualifiedname>themis::TSStore::getAutoBuffer</qualifiedname>
+        <briefdescription>
+<para>Return the currently attached <ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref>, or nullptr if not set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="440" column="18" bodyfile="include/timeseries/tsstore.h" bodystart="440" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a9fa2baa77106bfc565eb0aafedaafdab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::TSStore::putSystemMeta</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>putSystemMeta</name>
+        <qualifiedname>themis::TSStore::putSystemMeta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write a system metadata key-value pair (WAL-durable). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================ System Metadata (WAL-durable key-value store for bookkeeping) ============================================================</para>
+<para>Used internally for persisting small pieces of bookkeeping data (e.g., continuous-aggregate watermarks) in the same RocksDB instance without mixing them with time-series payload keys.</para>
+<para>Keys are stored under the &quot;sys:&quot; prefix and must not begin with that prefix when passed here (it is added automatically).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key (e.g., &quot;wm:cagg:my_aggregate&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value string to store </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, error on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), Put(), ok(), ErrVoid(), fmt::format(), ToString(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="458" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="1427" bodyend="1441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1afcd317f23c6d839e08d669c43344ec82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::optional&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::optional&lt; std::string &gt; &gt; themis::TSStore::getSystemMeta</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getSystemMeta</name>
+        <qualifiedname>themis::TSStore::getSystemMeta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Read a system metadata entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key (same as used in putSystemMeta) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result containing the value string, or std::nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="465" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="1443" bodyend="1461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1aa49924b2ca4f049ea8041d073fa517d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::TSStore::deleteSystemMeta</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>deleteSystemMeta</name>
+        <qualifiedname>themis::TSStore::deleteSystemMeta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete a system metadata entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete System Meta.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, error on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), Delete(), ok(), IsNotFound(), ErrVoid(), fmt::format(), ToString(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="472" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="1469" bodyend="1483"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a68a5124d36221e4486e0dc8a3fd8a309" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TSStore::makeKey</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;entity, int64_t timestamp_ms) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::TSStore::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Key format: &quot;ts:{metric}:{entity}:{timestamp_ms}&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="502" column="17" bodyfile="src/timeseries/tsstore.cpp" bodystart="121" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a44040d7f2f57c8744130730e346e0e00" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; KeyComponents &gt;</type>
+        <definition>std::optional&lt; TSStore::KeyComponents &gt; themis::TSStore::parseKeyInternal</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>parseKeyInternal</name>
+        <qualifiedname>themis::TSStore::parseKeyInternal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Internal helper that returns std::optional for compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="517" column="19" bodyfile="src/timeseries/tsstore.cpp" bodystart="133" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a7ae3dc7a9c02dde31b90f4793ec5305f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; KeyComponents &gt;</type>
+        <definition>Result&lt; TSStore::KeyComponents &gt; themis::TSStore::parseKey</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>parseKey</name>
+        <qualifiedname>themis::TSStore::parseKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Public Result-based API. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="524" column="12" bodyfile="src/timeseries/tsstore.cpp" bodystart="164" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a0d8e9ee019be5c700948892e7065d6e1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TSStore::matchesTagFilter</definition>
+        <argsstring>(const DataPoint &amp;point, const nlohmann::json &amp;tag_filter) const</argsstring>
+        <name>matchesTagFilter</name>
+        <qualifiedname>themis::TSStore::matchesTagFilter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>tag_filter</declname>
+        </param>
+        <briefdescription>
+<para>Check if data point matches tag filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="532" column="10" bodyfile="src/timeseries/tsstore.cpp" bodystart="175" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_store_1a96f34b04f4fc02371dc733821bb00877" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::TSStore::checkAndUpdateWatermarkLocked</definition>
+        <argsstring>(const std::string &amp;wm_key, int64_t timestamp_ms)</argsstring>
+        <name>checkAndUpdateWatermarkLocked</name>
+        <qualifiedname>themis::TSStore::checkAndUpdateWatermarkLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wm_key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Late-arrival enforcement helper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check And Update Watermark Locked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wm_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Checks <computeroutput>timestamp_ms</computeroutput> against the per-series watermark identified by <computeroutput>wm_key</computeroutput> (format: &quot;{metric}:{entity}&quot;) and updates the watermark when the point is newer. Must be called with <computeroutput>watermark_mutex_</computeroutput> held. Returns: -1 data point is too old (outside the late-arrival window) – caller must reject 0 data point is in-order or first write – accepted, watermark updated 1 data point is out-of-order but within window – accepted, watermark NOT updated</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wm_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="541" column="9" bodyfile="src/timeseries/tsstore.cpp" bodystart="200" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Time-Series Storage MVP (Sprint B). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Simple time-series storage for metrics, logs, and events with range queries and aggregations. Designed for observability and monitoring use cases.</para>
+<para>Key Schema: &quot;{metric_name}:{entity_id}:{timestamp_ms}&quot; Value: JSON with fields: {&quot;value&quot;: double, &quot;tags&quot;: {...}, &quot;metadata&quot;: {...}}</para>
+<para>Features:<itemizedlist>
+<listitem><para>Range queries by time interval</para>
+</listitem><listitem><para>Aggregations: min, max, avg, count, sum</para>
+</listitem><listitem><para>Tag-based filtering</para>
+</listitem><listitem><para>Efficient RocksDB range scans</para>
+</listitem></itemizedlist>
+</para>
+<para>MVP Scope (No automatic downsampling/retention yet):<itemizedlist>
+<listitem><para>Raw data storage</para>
+</listitem><listitem><para>Basic aggregations computed on-the-fly</para>
+</listitem><listitem><para>Manual retention via <ref refid="classthemis_1_1_t_s_store_1a3b371bbc669a4cdd70e149bc146799c2" kindref="member">deleteOldData()</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Future Enhancements:<itemizedlist>
+<listitem><para>Continuous aggregates (materialized views)</para>
+</listitem><listitem><para>Automatic retention policies</para>
+</listitem><listitem><para>Downsampling (1m → 1h → 1d)</para>
+</listitem></itemizedlist>
+</para>
+<para>Compression:<itemizedlist>
+<listitem><para>Gorilla compression for float64 time-series (10-20x ratio, +15% CPU)</para>
+</listitem><listitem><para>Configurable per-metric compression strategy</para>
+</listitem><listitem><para>NOTE: Compression only applies to batch inserts (putDataPoints), not single inserts (putDataPoint)</para>
+</listitem></itemizedlist>
+</para>
+<para>Storage Methods:<itemizedlist>
+<listitem><para>Single-point inserts: Stored as individual RocksDB entities (ts:{metric}:{entity}:{timestamp})</para>
+</listitem><listitem><para>Batch inserts with compression: Stored as compressed chunks (tsc:{metric}:{entity}:{first_ts}:{last_ts})</para>
+</listitem><listitem><para>See documentation for details on choosing the appropriate method </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/timeseries/tsstore.h" line="131" column="1" bodyfile="include/timeseries/tsstore.h" bodystart="131" bodyend="542"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_t_s_store_1a02c43e0f523965ad93011d8e50397d05" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>aggregate</name></member>
+      <member refid="classthemis_1_1_t_s_store_1aa4d7316e91b27d81611108edcba59592" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>aggregateOptimized</name></member>
+      <member refid="classthemis_1_1_t_s_store_1ac28993190fa8e3ffa3daaf0377a10172" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>auto_buffer_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a208e70d9f0516ceaf1cac7bd7486765d" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a96f34b04f4fc02371dc733821bb00877" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>checkAndUpdateWatermarkLocked</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a15ebb2f615a8a2a02451d8e6ddd76a4f" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0f" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>CompressionType</name></member>
+      <member refid="classthemis_1_1_t_s_store_1ac43611ba6ff92a0373457aa0b81763b1" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1ad8791b54eb4ad16ab62098a8b5dc6ff6" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a405481fba859261d08e8956fff682625" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>deleteMetric</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a3b371bbc669a4cdd70e149bc146799c2" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>deleteOldData</name></member>
+      <member refid="classthemis_1_1_t_s_store_1acb463ae14ca56c3ebfd7816c38688e82" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>deleteOldDataForMetric</name></member>
+      <member refid="classthemis_1_1_t_s_store_1aa49924b2ca4f049ea8041d073fa517d6" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>deleteSystemMeta</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a5c8496641a3933622eeed8f1fd74d476" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>enc_chunk_store_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1aa887fd4edd1320f9a37e172ad3622c62" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>getAutoBuffer</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a5981793ad0a95391c4f710aac9b27cf4" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a92782ed39442e70877dea81fd6e6a3c1" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>getEncryptedChunkStore</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a748f20279306961b3dad52646e927f5f" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a9533c2e0967e059f0cfa0a3691ce2c85" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>getOutOfOrderStats</name></member>
+      <member refid="classthemis_1_1_t_s_store_1ad2087c29bcfdb5bec04783b01c92e7af" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_t_s_store_1afcd317f23c6d839e08d669c43344ec82" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>getSystemMeta</name></member>
+      <member refid="classthemis_1_1_t_s_store_1aaedefe9ecf479aa55ef9c903c347c132" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>GORILLA_CHUNK_PREFIX</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a21fac8e3269070e8d192cd6f2442a993" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a68a5124d36221e4486e0dc8a3fd8a309" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a0d8e9ee019be5c700948892e7065d6e1" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>matchesTagFilter</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a756d11fe25fe7dd4ed2b6ba0b2355d6d" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a2c6ea43bacfb15d7615f0571bfed79c2" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>ooo_accepted_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1aff5b034765fdaae19ac6e48a367fb5a3" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>ooo_rejected_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a7ae3dc7a9c02dde31b90f4793ec5305f" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>parseKey</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a44040d7f2f57c8744130730e346e0e00" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>parseKeyInternal</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a2b54cb6bf7aeb4a1429a5e0fc6ce3f26" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>putBatch</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a126f5b65991cb1a9224b0f9c364d71cf" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>putDataPoint</name></member>
+      <member refid="classthemis_1_1_t_s_store_1ae2a0be293f8a2156c1217de0e3c2a824" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>putDataPoints</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a9fa2baa77106bfc565eb0aafedaafdab" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>putSystemMeta</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a9d8c222e87817c67d8929336e6d2097f" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>query</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a5103559a23ec7a79a00e78bd9c8a8b61" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>setAutoBuffer</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a2ac274def82fa473e3434b587301e9c3" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a782f8ab87749f2ed78d301a996d17f9b" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>setEncryptedChunkStore</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a2950e1de2f7c1b4371fe0c04caf09e06" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>setMetrics</name></member>
+      <member refid="classthemis_1_1_t_s_store_1ae1c273bacf087402ca6f8c534f866b4b" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>SYS_META_PREFIX</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a22359d7b06dde299ef3236700b3b84f2" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>TSStore</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a08ab8bc10bc12c122229487592b62abb" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>TSStore</name></member>
+      <member refid="classthemis_1_1_t_s_store_1af0b6decdc87d937575ce794233ce239c" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>watermark_mutex_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1a2c02bd4eb78ffb968869b19d204006ad" prot="private" virt="non-virtual"><scope>themis::TSStore</scope><name>watermarks_</name></member>
+      <member refid="classthemis_1_1_t_s_store_1ac62ebffc4ccce508370bdb9ab64dca6c" prot="public" virt="non-virtual"><scope>themis::TSStore</scope><name>~TSStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_revision_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::RevisionStore</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a50c0905e8fc1f2cf63f9002a291221f5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" kindref="compound">ProcessModelRevision</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessModelRevision&gt; themis::process::benchmark::RevisionStore::revisions_</definition>
+        <argsstring></argsstring>
+        <name>revisions_</name>
+        <qualifiedname>themis::process::benchmark::RevisionStore::revisions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="96" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a9b24174a3ed691a0517ff9524265c9f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::RevisionStore::RevisionStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>RevisionStore</name>
+        <qualifiedname>themis::process::benchmark::RevisionStore::RevisionStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a60b79c638d1aaa6f9040a4036396d5f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::benchmark::RevisionStore::addRevision</definition>
+        <argsstring>(const ProcessModelRevision &amp;rev)</argsstring>
+        <name>addRevision</name>
+        <qualifiedname>themis::process::benchmark::RevisionStore::addRevision</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" kindref="compound">ProcessModelRevision</ref> &amp;</type>
+          <declname>rev</declname>
+        </param>
+        <briefdescription>
+<para>Add a new revision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="104" column="10" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a44aa04f016e166f912a5b8f001c0b7cc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" kindref="compound">ProcessModelRevision</ref> &gt;</type>
+        <definition>std::vector&lt; ProcessModelRevision &gt; themis::process::benchmark::RevisionStore::getRevisions</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getRevisions</name>
+        <qualifiedname>themis::process::benchmark::RevisionStore::getRevisions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Get all revisions for a model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="111" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="111" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a9809978bd266b769debced0de49536bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::RevisionStore::rollbackToRevision</definition>
+        <argsstring>(const std::string &amp;model_id, int target_revision)</argsstring>
+        <name>rollbackToRevision</name>
+        <qualifiedname>themis::process::benchmark::RevisionStore::rollbackToRevision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>target_revision</declname>
+        </param>
+        <briefdescription>
+<para>Simulate single-model rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="129" column="10" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="129" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_revision_store_1abea5a06979f93c0a034858256c7886f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::process::benchmark::RevisionStore::batchRollback</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;model_ids, int target_revision)</argsstring>
+        <name>batchRollback</name>
+        <qualifiedname>themis::process::benchmark::RevisionStore::batchRollback</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>model_ids</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>target_revision</declname>
+        </param>
+        <briefdescription>
+<para>Simulate batch rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="150" column="9" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="150" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a643843fd2f89aa52028adfd35b6956c1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::benchmark::RevisionStore::totalRevisions</definition>
+        <argsstring>() const</argsstring>
+        <name>totalRevisions</name>
+        <qualifiedname>themis::process::benchmark::RevisionStore::totalRevisions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="160" column="12" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="160" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated revision store with rollback capability. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="94" column="1" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="94" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a60b79c638d1aaa6f9040a4036396d5f1" prot="public" virt="non-virtual"><scope>themis::process::benchmark::RevisionStore</scope><name>addRevision</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_revision_store_1abea5a06979f93c0a034858256c7886f7" prot="public" virt="non-virtual"><scope>themis::process::benchmark::RevisionStore</scope><name>batchRollback</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a44aa04f016e166f912a5b8f001c0b7cc" prot="public" virt="non-virtual"><scope>themis::process::benchmark::RevisionStore</scope><name>getRevisions</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a50c0905e8fc1f2cf63f9002a291221f5" prot="private" virt="non-virtual"><scope>themis::process::benchmark::RevisionStore</scope><name>revisions_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a9b24174a3ed691a0517ff9524265c9f7" prot="public" virt="non-virtual"><scope>themis::process::benchmark::RevisionStore</scope><name>RevisionStore</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a9809978bd266b769debced0de49536bd" prot="public" virt="non-virtual"><scope>themis::process::benchmark::RevisionStore</scope><name>rollbackToRevision</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_revision_store_1a643843fd2f89aa52028adfd35b6956c1" prot="public" virt="non-virtual"><scope>themis::process::benchmark::RevisionStore</scope><name>totalRevisions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

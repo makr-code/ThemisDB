@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="snapshot__manager_8h" kind="file" language="C++">
+    <compoundname>snapshot_manager.h</compoundname>
+    <includes refid="temporal__types_8h" local="yes">temporal/temporal_types.h</includes>
+    <includes refid="system__versioned__table_8h" local="yes">temporal/system_versioned_table.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="snapshot__manager_8cpp" local="yes">src/temporal/snapshot_manager.cpp</includedby>
+    <includedby refid="test__snapshot__manager_8cpp" local="yes">tests/temporal/test_snapshot_manager.cpp</includedby>
+    <includedby refid="test__temporal__v18__v19_8cpp" local="yes">tests/temporal/test_temporal_v18_v19.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/temporal/snapshot_manager.h</label>
+        <link refid="snapshot__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>temporal/system_versioned_table.h</label>
+        <link refid="system__versioned__table_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/temporal/snapshot_manager.h</label>
+        <link refid="snapshot__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/temporal/snapshot_manager.cpp</label>
+        <link refid="snapshot__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/temporal/test_snapshot_manager.cpp</label>
+        <link refid="test__snapshot__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/temporal/test_temporal_v18_v19.cpp</label>
+        <link refid="test__temporal__v18__v19_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_snapshot_handle" prot="public">themisdb::temporal::SnapshotHandle</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_snapshot_metadata" prot="public">themisdb::temporal::SnapshotMetadata</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_snapshot_diff" prot="public">themisdb::temporal::SnapshotDiff</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager" prot="public">themisdb::temporal::TemporalSnapshotManager</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff" prot="public">themisdb::temporal::TemporalSnapshotManager::SnapshotDiff</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_data" prot="private">themisdb::temporal::TemporalSnapshotManager::SnapshotData</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1temporal">themisdb::temporal</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__types_8h" kindref="compound">temporal/temporal_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="system__versioned__table_8h" kindref="compound">temporal/system_versioned_table.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1temporal_1_1_snapshot_handle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1ac1302d68b959028b1dd3be8c4c29303d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1ac1302d68b959028b1dd3be8c4c29303d" kindref="member">snapshot_id</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a27f1368473e50bd937cfd791e3a026c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a27f1368473e50bd937cfd791e3a026c1" kindref="member">creation_time</ref>{0};</highlight></codeline>
+<codeline lineno="47" refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a9d803a75d2107cf9664752ccf7e165d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a9d803a75d2107cf9664752ccf7e165d4" kindref="member">included_tables</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a051ffdf4282bade29398f528cd869ac2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a051ffdf4282bade29398f528cd869ac2" kindref="member">version_number</ref>{0};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a9d1f64b387a3bceae509790495c00744" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a9d1f64b387a3bceae509790495c00744" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a051ffdf4282bade29398f528cd869ac2" kindref="member">version_number</ref><sp/>&lt;<sp/>other.version_number;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a15196a68447ae18dc1507ee068068ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a15196a68447ae18dc1507ee068068ced" kindref="member">isValid</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1ac1302d68b959028b1dd3be8c4c29303d" kindref="member">snapshot_id</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1ab3bfbe8a4e4999b52d7cc5f9b1efaa8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1ab3bfbe8a4e4999b52d7cc5f9b1efaa8c" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;snapshot_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1ac1302d68b959028b1dd3be8c4c29303d" kindref="member">snapshot_id</ref>},</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;creation_time&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a27f1368473e50bd937cfd791e3a026c1" kindref="member">creation_time</ref>},</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;included_tables&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a9d803a75d2107cf9664752ccf7e165d4" kindref="member">included_tables</ref>},</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;version_number&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle_1a051ffdf4282bade29398f528cd869ac2" kindref="member">version_number</ref>}};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemisdb_1_1temporal_1_1_snapshot_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata" kindref="compound">SnapshotMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a26b724d7c01cdf77b8926f412e63f419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a26b724d7c01cdf77b8926f412e63f419" kindref="member">handle</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1ab8f4182b6dacfebbe183add3b9ca9ad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1ab8f4182b6dacfebbe183add3b9ca9ad1" kindref="member">total_tables</ref>{0};</highlight></codeline>
+<codeline lineno="70" refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a079038138df8368f4a90c06f992c803a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a079038138df8368f4a90c06f992c803a" kindref="member">total_rows</ref>{0};</highlight></codeline>
+<codeline lineno="71" refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a17be05e83b81182c8c5ac64a1d06b4a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a17be05e83b81182c8c5ac64a1d06b4a7" kindref="member">is_valid</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a5ae32f35d3c856f2b48cacd79fb28434" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a5ae32f35d3c856f2b48cacd79fb28434" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;handle&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a26b724d7c01cdf77b8926f412e63f419" kindref="member">handle</ref>.toJson()},</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_tables&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1ab8f4182b6dacfebbe183add3b9ca9ad1" kindref="member">total_tables</ref>},</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_rows&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a079038138df8368f4a90c06f992c803a" kindref="member">total_rows</ref>},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;is_valid&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a17be05e83b81182c8c5ac64a1d06b4a7" kindref="member">is_valid</ref>}};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemisdb_1_1temporal_1_1_snapshot_diff" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff" kindref="compound">SnapshotDiff</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1ac79febea935400dd4b10654eb1b90cfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VersionedDocument&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1ac79febea935400dd4b10654eb1b90cfe" kindref="member">added</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1aed746a7660efe887cb08f13beef16013" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VersionedDocument&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1aed746a7660efe887cb08f13beef16013" kindref="member">removed</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a82d60c9fdbf01d46048ede05d35dd298" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VersionedDocument&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a82d60c9fdbf01d46048ede05d35dd298" kindref="member">modified</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a40e83df03f30e8e65c5e1ff4a3646317" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a40e83df03f30e8e65c5e1ff4a3646317" kindref="member">empty</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1ac79febea935400dd4b10654eb1b90cfe" kindref="member">added</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1aed746a7660efe887cb08f13beef16013" kindref="member">removed</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a82d60c9fdbf01d46048ede05d35dd298" kindref="member">modified</ref>.empty();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a5b4c1e9be5408a9b88657c7670f57b9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a5b4c1e9be5408a9b88657c7670f57b9c" kindref="member">totalChanges</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1ac79febea935400dd4b10654eb1b90cfe" kindref="member">added</ref>.size()<sp/>+<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1aed746a7660efe887cb08f13beef16013" kindref="member">removed</ref>.size()<sp/>+<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a82d60c9fdbf01d46048ede05d35dd298" kindref="member">modified</ref>.size();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1af7b04edf9116cd467636d0596d3d5840" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1af7b04edf9116cd467636d0596d3d5840" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>to_json_arr<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;VersionedDocument&gt;&amp;<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>arr<sp/>=<sp/>nlohmann::json::array();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>doc<sp/>:<sp/>v)<sp/>{<sp/>arr.push_back(doc.toJson());<sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>arr;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;added&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>to_json_arr(<ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1ac79febea935400dd4b10654eb1b90cfe" kindref="member">added</ref>)},</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;removed&quot;</highlight><highlight class="normal">,<sp/><sp/>to_json_arr(<ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1aed746a7660efe887cb08f13beef16013" kindref="member">removed</ref>)},</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;modified&quot;</highlight><highlight class="normal">,<sp/>to_json_arr(<ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a82d60c9fdbf01d46048ede05d35dd298" kindref="member">modified</ref>)}};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1af823547dd45d73f4c7f9934c5a4efac5" kindref="member">TemporalSnapshotManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128" refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a7c0e62395ffa04f6f1634acbcc403ea4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a7c0e62395ffa04f6f1634acbcc403ea4" kindref="member">ClockFn</ref><sp/>=<sp/>std::function&lt;<ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref>()&gt;;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1af823547dd45d73f4c7f9934c5a4efac5" kindref="member">TemporalSnapshotManager</ref>(<ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a7c0e62395ffa04f6f1634acbcc403ea4" kindref="member">ClockFn</ref><sp/>clock<sp/>=<sp/>&amp;<ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a52342661ade0df861a9f6296bf88b0a0" kindref="member">createSnapshot</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>const<sp/>SystemVersionedTable*&gt;&amp;<sp/>tables);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VersionedDocument&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1aa622121cd04cb6c7e98f10e9a7b168d8" kindref="member">querySnapshot</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref>&amp;<sp/>handle,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>nlohmann::json&gt;&gt;&amp;<sp/>filters<sp/>=<sp/>{})</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a2cccaf9127b5ecaa56f4fe4e941ddfee" kindref="member">releaseSnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref>&amp;<sp/>handle);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a8bfcee9fb00f8f25bb1dbaa1be4a4027" kindref="member">isAlive</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref>&amp;<sp/>handle)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a870ba875ae68495c4df9a41be1779c66" kindref="member">snapshotCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_metadata" kindref="compound">SnapshotMetadata</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a717b6647932a5b030e308da2bd27368e" kindref="member">getSnapshotMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref>&amp;<sp/>handle)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a6a4fe1098b39e3c5a3510bb65eabd08a" kindref="member">garbageCollectByAge</ref>(<ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>max_age_ms);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a61923cbf62243bbe901fb8315bed9c4d" kindref="member">garbageCollectByCount</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_snapshots);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a92aa622fa5cd46165fe1ef5239186224" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Snapshot<sp/>diffing<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff" kindref="compound">SnapshotDiff</ref><sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string<sp/></highlight><highlight class="comment">/*table*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="217" refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a0a032629d8e13d69477fc8c192f2f944" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string<sp/></highlight><highlight class="comment">/*key*/</highlight><highlight class="normal">&gt;&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a0a032629d8e13d69477fc8c192f2f944" kindref="member">modified</ref>;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a6585f18c64e1ecac588e7e17c3c9a5d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a6585f18c64e1ecac588e7e17c3c9a5d5" kindref="member">added</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a07d6478cf90f6a195fd6f7fae4b7b89e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a07d6478cf90f6a195fd6f7fae4b7b89e" kindref="member">removed</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a359c65010a3e0f770176d3421d1ff9b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a359c65010a3e0f770176d3421d1ff9b0" kindref="member">tables_examined</ref>{0};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a499098d15d25921f117f5f5bc5f90525" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a499098d15d25921f117f5f5bc5f90525" kindref="member">empty</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a0a032629d8e13d69477fc8c192f2f944" kindref="member">modified</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a6585f18c64e1ecac588e7e17c3c9a5d5" kindref="member">added</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a07d6478cf90f6a195fd6f7fae4b7b89e" kindref="member">removed</ref>.empty();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a709d35410d24c79cf37068bfc29296dd" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff" kindref="compound">SnapshotDiff</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1ae2aeed304547dde818c8be1d8aab3cd3" kindref="member">diff</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref>&amp;<sp/>base,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SnapshotData<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref><sp/>handle;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Frozen<sp/>copy<sp/>of<sp/>each<sp/>table&apos;s<sp/>scan<sp/>result<sp/>at<sp/>creation<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;VersionedDocument&gt;&gt;<sp/>tables;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1a7c0e62395ffa04f6f1634acbcc403ea4" kindref="member">ClockFn</ref><sp/>clock_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>SnapshotData&gt;<sp/>snapshots_;<sp/></highlight><highlight class="comment">//<sp/>keyed<sp/>by<sp/>snapshot_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>next_version_{1};<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>monotonically<sp/>increasing<sp/>snapshot<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_created_{0};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_released_{0};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_gc_collected_{0};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>generateSnapshotId();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/temporal/snapshot_manager.h"/>
+  </compounddef>
+</doxygen>

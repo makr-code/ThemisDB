@@ -1,0 +1,615 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GradientCheckpointer</compoundname>
+    <includes refid="gradient__checkpointing_8h" local="no">gradient_checkpointing.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ad942167b12487cb985fadbbcae3eca3b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" kindref="compound">CheckpointConfig</ref></type>
+        <definition>CheckpointConfig themis::llm::lora::GradientCheckpointer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="161" column="22" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ab415cd1b3258a1217f6aeec985071f57" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data" kindref="compound">CheckpointData</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int, CheckpointData&gt; themis::llm::lora::GradientCheckpointer::checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>checkpoints_</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::checkpoints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="162" column="24" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a40e56c4df64644fc80e456441475184f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6" kindref="member">LayerType</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int, LayerType&gt; themis::llm::lora::GradientCheckpointer::layer_types_</definition>
+        <argsstring></argsstring>
+        <name>layer_types_</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::layer_types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="163" column="24" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a33c3235cd2d1baf4d0037c4fe8842c5d" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; int &gt;</type>
+        <definition>std::unordered_set&lt;int&gt; themis::llm::lora::GradientCheckpointer::custom_checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>custom_checkpoints_</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::custom_checkpoints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="164" column="24" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a18a2f486cf0048e0e36c2fd1e8568d81" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" kindref="compound">CheckpointStats</ref></type>
+        <definition>CheckpointStats themis::llm::lora::GradientCheckpointer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="165" column="29" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a446f3513392ebc26a32cc0a7a3c36572" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GradientCheckpointer::GradientCheckpointer</definition>
+        <argsstring>(const CheckpointConfig &amp;config)</argsstring>
+        <name>GradientCheckpointer</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::GradientCheckpointer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" kindref="compound">CheckpointConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Gradient Checkpointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="83" column="14" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="23" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a1c4f72fcf86183a088ba3da58140dde4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GradientCheckpointer::shouldCheckpoint</definition>
+        <argsstring>(int layer_id, LayerType layer_type=LayerType::UNKNOWN) const</argsstring>
+        <name>shouldCheckpoint</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::shouldCheckpoint</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6" kindref="member">LayerType</ref></type>
+          <declname>layer_type</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">LayerType::UNKNOWN</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="85" column="10" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="45" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a3b592a9d0ecd2f8a2dd828cda3949e89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientCheckpointer::saveCheckpoint</definition>
+        <argsstring>(int layer_id, const GPUTensor &amp;input, ForwardFunction forward_fn)</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::saveCheckpoint</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a8021be19948014b1a5aef926382e8662" kindref="member">ForwardFunction</ref></type>
+          <declname>forward_fn</declname>
+        </param>
+        <briefdescription>
+<para>Save Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">forward_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">forward_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clone(), size(), std::move(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="93" column="10" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="100" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ae567d83c907ad9c17606a0bad3115df9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GradientCheckpointer::hasCheckpoint</definition>
+        <argsstring>(int layer_id) const</argsstring>
+        <name>hasCheckpoint</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::hasCheckpoint</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer_id</declname>
+        </param>
+        <briefdescription>
+<para>Has Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="100" column="10" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="118" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a48184dd96a34b20fa28493b4e55cbae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GradientCheckpointer::recomputeActivation</definition>
+        <argsstring>(int layer_id)</argsstring>
+        <name>recomputeActivation</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::recomputeActivation</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer_id</declname>
+        </param>
+        <briefdescription>
+<para>Recompute Activation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), std::to_string(), std::chrono::steady_clock::now(), forward_fn(), <ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a833812929a6b482f88eee99e7cf6d087" kindref="member">updateRecomputeTime()</ref>, count(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="107" column="15" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="129" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a6289ee319da6d8223c5038502748b634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientCheckpointer::clearCheckpoint</definition>
+        <argsstring>(int layer_id)</argsstring>
+        <name>clearCheckpoint</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::clearCheckpoint</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(), size(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="113" column="10" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="160" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a8cf790991db296d9da070fa0bb37e87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientCheckpointer::clearAll</definition>
+        <argsstring>()</argsstring>
+        <name>clearAll</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::clearAll</qualifiedname>
+        <briefdescription>
+<para>Clear All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="118" column="10" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="173" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a3329650a17e13d94775ebb27c0979640" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientCheckpointer::addCustomCheckpoint</definition>
+        <argsstring>(int layer_id)</argsstring>
+        <name>addCustomCheckpoint</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::addCustomCheckpoint</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Custom Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="124" column="10" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="186" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a8aa0f7c54757980396ed1952c1562b6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientCheckpointer::setLayerType</definition>
+        <argsstring>(int layer_id, LayerType type)</argsstring>
+        <name>setLayerType</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::setLayerType</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6" kindref="member">LayerType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Set Layer Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setLayerType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="131" column="10" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="197" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1aaec8a5a75690f5b8c9c7f574e142002a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" kindref="compound">CheckpointStats</ref></type>
+        <definition>CheckpointStats themis::llm::lora::GradientCheckpointer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="137" column="21" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="201" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ab7d315d739b8b51c73580479cf4ff7d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GradientCheckpointer::estimateMemorySavings</definition>
+        <argsstring>(size_t avg_activation_size) const</argsstring>
+        <name>estimateMemorySavings</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::estimateMemorySavings</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>avg_activation_size</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Memory Savings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">avg_activation_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="144" column="12" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="225" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1afa35bdef161fbbb83f82bcffe114be08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GradientCheckpointer::estimateComputeOverhead</definition>
+        <argsstring>() const</argsstring>
+        <name>estimateComputeOverhead</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::estimateComputeOverhead</qualifiedname>
+        <briefdescription>
+<para>Estimate Compute Overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="150" column="11" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="238" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a833812929a6b482f88eee99e7cf6d087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientCheckpointer::updateRecomputeTime</definition>
+        <argsstring>(size_t recompute_time_ms)</argsstring>
+        <name>updateRecomputeTime</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::updateRecomputeTime</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>recompute_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Update Recompute Time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recompute_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recompute_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateRecomputeTime without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="156" column="10" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="265" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a95ba84710fddc42a4438d4ad1d65c885" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" kindref="compound">CheckpointConfig</ref> &amp;</type>
+        <definition>const CheckpointConfig &amp; themis::llm::lora::GradientCheckpointer::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="158" column="28" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a313e44a79d2381d458874c14465397f1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::GradientCheckpointer::calculateSqrtNInterval</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateSqrtNInterval</name>
+        <qualifiedname>themis::llm::lora::GradientCheckpointer::calculateSqrtNInterval</qualifiedname>
+        <briefdescription>
+<para>Calculate Sqrt NInterval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="171" column="9" bodyfile="src/llm/lora_framework/gradient_checkpointing.cpp" bodystart="269" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gradient_checkpointing.h" line="76" column="1" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="76" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a3329650a17e13d94775ebb27c0979640" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>addCustomCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a313e44a79d2381d458874c14465397f1" prot="private" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>calculateSqrtNInterval</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ab415cd1b3258a1217f6aeec985071f57" prot="private" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>checkpoints_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a8cf790991db296d9da070fa0bb37e87e" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>clearAll</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a6289ee319da6d8223c5038502748b634" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>clearCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a95ba84710fddc42a4438d4ad1d65c885" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ad942167b12487cb985fadbbcae3eca3b" prot="private" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a33c3235cd2d1baf4d0037c4fe8842c5d" prot="private" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>custom_checkpoints_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1afa35bdef161fbbb83f82bcffe114be08" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>estimateComputeOverhead</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ab7d315d739b8b51c73580479cf4ff7d6" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>estimateMemorySavings</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1aaec8a5a75690f5b8c9c7f574e142002a" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a446f3513392ebc26a32cc0a7a3c36572" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>GradientCheckpointer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ae567d83c907ad9c17606a0bad3115df9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>hasCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a40e56c4df64644fc80e456441475184f" prot="private" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>layer_types_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a48184dd96a34b20fa28493b4e55cbae7" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>recomputeActivation</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a3b592a9d0ecd2f8a2dd828cda3949e89" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a8aa0f7c54757980396ed1952c1562b6d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>setLayerType</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a1c4f72fcf86183a088ba3da58140dde4" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>shouldCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a18a2f486cf0048e0e36c2fd1e8568d81" prot="private" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a833812929a6b482f88eee99e7cf6d087" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientCheckpointer</scope><name>updateRecomputeTime</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

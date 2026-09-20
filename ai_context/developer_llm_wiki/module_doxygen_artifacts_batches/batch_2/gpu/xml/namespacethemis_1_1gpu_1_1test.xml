@@ -1,0 +1,2094 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1gpu_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::gpu::test</compoundname>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test" prot="public">themis::gpu::test::CudaAuditTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" prot="public">themis::gpu::test::CudaErrorHardeningTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" prot="public">themis::gpu::test::CudaWrapperIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test" prot="public">themis::gpu::test::CudaWrapperPerformanceTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" prot="public">themis::gpu::test::CudaWrapperUnitTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" prot="public">themis::gpu::test::GPUBatchA9HardeningTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" prot="public">themis::gpu::test::GPUBatchA9SafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" prot="public">themis::gpu::test::GPUChaosTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" prot="public">themis::gpu::test::GPUMemoryRAIITest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_mock_diagnostic_listener" prot="public">themis::gpu::test::MockDiagnosticListener</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, P2PTransferInitialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P2PTransferInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="148" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="148" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a405de57f576e7e2b62a17d2b0553bdfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, MemoryPoolDefragmentation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryPoolDefragmentation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="160" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="160" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a5efc4acf8944458beaec5727e939a037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, DiagnosticErrorCodeToString)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticErrorCodeToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="188" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="188" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a93b27b8b27cf3030a87f92a0d3d97b45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, DiagnosticEventTypeToString)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticEventTypeToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="195" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="195" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a1eaf047e042ed5ba99049a87f62587ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, DiagnosticErrorCodeToEventType)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticErrorCodeToEventType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="201" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="201" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a8a4a34302aa451408b52b31cb6348353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, FailClosedClassification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>FailClosedClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="212" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="212" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a3dd1c191f5d3dc240d6660efe4a8237b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, ContractAllocationFailureClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractAllocationFailureClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="225" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="225" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1af071c5ecf924fb8dee43b5dcf40c49b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, ContractBackendSelectionFailClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractBackendSelectionFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="230" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="230" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a9ad0dee6497f35bdfe5f2f97d2886c92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, ContractDiagnosticEmissionMandatory)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractDiagnosticEmissionMandatory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="235" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="235" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ad1128241fb4f65fda7984822c62c0361" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, ContractAllocationLatencyBound)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractAllocationLatencyBound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="240" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="240" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1aef45fe8055bdb657a249fb9d3bb6c992" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, ContractDeviceSelectionLatencyBound)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractDeviceSelectionLatencyBound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="246" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="246" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a4ddfa3a63313d490482680467a987ecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, ContractDiagnosticEmissionLatencyBound)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractDiagnosticEmissionLatencyBound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="252" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="252" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1afa7c2ee2b36367dc1457a0aa3361e674" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, UnifiedMemoryAllocatorIntegration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>UnifiedMemoryAllocatorIntegration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="262" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="262" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ac0b1e19e936451902191b0ebe2fdda42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaErrorHardeningTest, GPUMemoryPoolIntegration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kindref="compound">CudaErrorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>GPUMemoryPoolIntegration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="281" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="281" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a9407a23b070e093927522a15fe972e65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperUnitTest, TestCudaStreamGuardDestructorCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" kindref="compound">CudaWrapperUnitTest</ref></type>
+        </param>
+        <param>
+          <type>TestCudaStreamGuardDestructorCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="58" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="58" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a62ecf6da06e0defef5fc5edd63307b2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperUnitTest, TestCudaEventGuardDestructorCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" kindref="compound">CudaWrapperUnitTest</ref></type>
+        </param>
+        <param>
+          <type>TestCudaEventGuardDestructorCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="69" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="69" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ae582ad575f9ac77394d73b9753de9024" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperUnitTest, TestCudaDeviceMemoryGuardDestructorCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" kindref="compound">CudaWrapperUnitTest</ref></type>
+        </param>
+        <param>
+          <type>TestCudaDeviceMemoryGuardDestructorCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="80" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a859aa51a0685bb316e7c5e6377ea28ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperUnitTest, TestErrorCheckWrapperDetectsErrors)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" kindref="compound">CudaWrapperUnitTest</ref></type>
+        </param>
+        <param>
+          <type>TestErrorCheckWrapperDetectsErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="91" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="91" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a6e5c3a3c7974589a2b452b4762b48fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperUnitTest, TestNestedGuardsExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" kindref="compound">CudaWrapperUnitTest</ref></type>
+        </param>
+        <param>
+          <type>TestNestedGuardsExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="101" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1aae1520d97e2bd798925bf821bc2dcb38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperIntegrationTest, TestKernelExecutorStreamGuardAdoption)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" kindref="compound">CudaWrapperIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>TestKernelExecutorStreamGuardAdoption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="144" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="144" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a4e087ac36511fb43824f8e255a1d05d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperIntegrationTest, TestTensorAllocatorMemoryGuardAdoption)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" kindref="compound">CudaWrapperIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>TestTensorAllocatorMemoryGuardAdoption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="154" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="154" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a4437185d993068373c4d04a33591c3e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperIntegrationTest, TestMemoryPoolGuardCoordination)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" kindref="compound">CudaWrapperIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>TestMemoryPoolGuardCoordination</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="164" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="164" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a5e71ef281e1bd72c82601416430f8bd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperIntegrationTest, TestCUDACallAuditCountReduction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" kindref="compound">CudaWrapperIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>TestCUDACallAuditCountReduction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="174" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="174" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a2ab6ac3291ea15465ff2e6d8ffa70498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaWrapperPerformanceTest, TestWrapperLatencyOverhead)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test" kindref="compound">CudaWrapperPerformanceTest</ref></type>
+        </param>
+        <param>
+          <type>TestWrapperLatencyOverhead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="208" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="208" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ab27a3ddc95e91c7d72bd431c0290344e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(CudaAuditTest, TestFinalCUDACallAudit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test" kindref="compound">CudaAuditTest</ref></type>
+        </param>
+        <param>
+          <type>TestFinalCUDACallAudit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="245" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="245" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a81fcb89c7a201e2e59ffb43ec2da0878" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, CUDA_CHECK_ThrowsOnError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CUDA_CHECK_ThrowsOnError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>CUDA_CHECK macro catches errors and throws on failure </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="63" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="63" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1afb87b630df0baec1f418f09bddfbe4b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, DeviceMemoryGuardAllocatesFrees)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>DeviceMemoryGuardAllocatesFrees</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard</ref> allocates and frees GPU memory correctly </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="82" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="82" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a33d27f1fd20c4b79a4c73888ecfc87e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, DeviceMemoryGuardMoveSemantics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>DeviceMemoryGuardMoveSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard</ref> move semantics transfer ownership </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="102" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="102" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1abfd177d8a739460d924702704942a7e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, DeviceMemoryGuardNoCopy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>DeviceMemoryGuardNoCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard</ref> prevents copying (move-only) </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="129" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="129" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1abdb54384ebf67959d0be813862884e5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, KernelTimeoutGuardCompletesInTime)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>KernelTimeoutGuardCompletesInTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard" kindref="compound">KernelTimeoutGuard</ref> monitors timeout correctly </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="139" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="139" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1adaf5b5b8f1186f6a8fdd70d004a10c3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, KernelTimeoutGuardDetectsTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>KernelTimeoutGuardDetectsTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard" kindref="compound">KernelTimeoutGuard</ref> detects timeout </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="156" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="156" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a0b445a958a514cc8590ac9ee40cca84e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, RAIIPreventUseAfterFree)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>RAIIPreventUseAfterFree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>RAII memory guard prevents use-after-free </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="178" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="178" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ad82816f1fac70e3d0fc8e7033e39f0c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, NestedRAIIGuardsNoLeaks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>NestedRAIIGuardsNoLeaks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>Nested RAII guards prevent resource leaks </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="194" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="194" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a5323a5e583d1b5ea85289327ada447b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, KernelTimeoutEnforcerBudget)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>KernelTimeoutEnforcerBudget</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref> enforces timeout budget </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="219" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="219" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a00e78636ac668d1952da2ecd15466e92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, KernelTimeoutEnforcerDetectsSlow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>KernelTimeoutEnforcerDetectsSlow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref> detects slow operations </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="238" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="238" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a327eb2ff802fe3020798f09a13c44599" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, KernelTimeoutEnforcerCPUFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>KernelTimeoutEnforcerCPUFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref> provides CPU fallback </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="258" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="258" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a1046fc4480b0320472a3b6b74cff3b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, GPUErrorCodesFailClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>GPUErrorCodesFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>GPU error codes are fail-closed </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="286" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="286" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a82a461bcebf7eb82ca8881b3fd94d5aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, GPUDispatchContractTimeouts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>GPUDispatchContractTimeouts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>GPU dispatch contract enforcement timeouts </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="300" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="300" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a1f403329403827992f5a22d492250a36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, GPUDispatchContractLockOrdering)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>GPUDispatchContractLockOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>GPU dispatch contract lock ordering prevents deadlocks </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="310" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="310" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ad6d4ab0708b406a75562a138578e0040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, HandleAllocationFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>HandleAllocationFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>Handling of allocation failure (OOM) </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="324" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="324" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a87ada7527bde4f6be88012b3abeb9afc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, ConcurrentGPUOperations)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentGPUOperations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>Concurrent GPU operations with resource constraints </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="350" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="350" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ac7796dcb34b07d86ad324beca83de532" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, CompleteGPUCPUFallbackWorkflow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CompleteGPUCPUFallbackWorkflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>Complete GPU→CPU fallback workflow </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="378" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="378" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a1889e7131ab2d3000e8f57493dd057b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9SafetyTest, RAIITimeoutFallbackIntegration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref></type>
+        </param>
+        <param>
+          <type>RAIITimeoutFallbackIntegration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>RAII + Timeout + Fallback integration </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="404" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="404" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a7db88313674277f9c0e5e5ed7c043005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, GPUMemoryHandleRAII)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>GPUMemoryHandleRAII</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle" kindref="compound">GPUMemoryHandle</ref> RAII wrapper allocates and frees correctly </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="461" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="461" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a7bbd426a38d257b40a64e1d16ba3951e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, GPUMemoryHandleMove)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>GPUMemoryHandleMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle" kindref="compound">GPUMemoryHandle</ref> move semantics work correctly </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="487" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="487" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ac3b6ebcd7f2fdc4f30eba51b103b68cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, GPUStreamHandleLifecycle)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>GPUStreamHandleLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_handle" kindref="compound">GPUStreamHandle</ref> creates and destroys streams </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="506" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="506" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a3a29e2b82d5bacde5671010b208b94c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, GPUEventHandleLifecycle)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>GPUEventHandleLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle" kindref="compound">GPUEventHandle</ref> records and waits for events </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="529" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="529" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a9f8c38ed6c5cadac4804275b340b8844" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, KernelExecutionWithTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>KernelExecutionWithTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>Kernel execution with 5-second timeout enforcement </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="553" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="553" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a6a2583438be9a2371f240b1b5b0bcd01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, KernelTimeoutTriggersCPUFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>KernelTimeoutTriggersCPUFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000024"><xreftitle>Test</xreftitle><xrefdescription><para>Kernel timeout with fallback to CPU </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="584" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="584" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1aad74aa4823265722cf590e192c060e23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, SafeMemoryOperations)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SafeMemoryOperations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000025"><xreftitle>Test</xreftitle><xrefdescription><para>Safe CUDA memory operations with validation </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="613" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="613" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a0e03d503bed498977dc2c5166aa3f93a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, GPUAvailabilityDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>GPUAvailabilityDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000026"><xreftitle>Test</xreftitle><xrefdescription><para>GPU availability detection </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="627" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="627" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a0e3d295074e86b66794f0e8118715daa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, AllocationSizeValidation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>AllocationSizeValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000027"><xreftitle>Test</xreftitle><xrefdescription><para>Allocation size validation </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="638" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="638" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a4bb72ae602cb8622d91e72df4b3a632f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, StreamSyncWithTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>StreamSyncWithTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000028"><xreftitle>Test</xreftitle><xrefdescription><para>Stream synchronization with timeout </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="654" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="654" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a6a33ea9c1108d923bbbbf2387d1b15ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, RAIIGPUOperationSequence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RAIIGPUOperationSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000029"><xreftitle>Test</xreftitle><xrefdescription><para>RAII-based GPU operation sequence </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="669" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="669" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a2d0472b342a6935ff4fc99a36887f5f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, GPUErrorCodeFailSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>GPUErrorCodeFailSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000030"><xreftitle>Test</xreftitle><xrefdescription><para>GPU error code fail-safe semantics </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="696" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="696" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a927e656b93dddce35cceacf61bc1102d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, NestedTimeoutGuards)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>NestedTimeoutGuards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>Nested timeout guards prevent double-timeout </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="704" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="704" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a3a688d8b47e3aae6be5eb01adf994dfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUBatchA9HardeningTest, MemoryAllocationBoundaries)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryAllocationBoundaries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000032"><xreftitle>Test</xreftitle><xrefdescription><para>GPU memory allocation size boundaries </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="728" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="728" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a6d226ebc23e6534e2efbd61a22e94c53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, AllocationFailureFallsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>AllocationFailureFallsClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-001: Verify allocation failure (simulated resource exhaustion) is caught and handled fail-closed.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Attempt to allocate extremely large GPU memory (simulating exhaustion)</para>
+</listitem><listitem><para>Verify <ref refid="classthemis_1_1gpu_1_1_cuda_error" kindref="compound">CudaError</ref> is thrown with appropriate error code</para>
+</listitem><listitem><para>Verify fallback path is available for CPU execution</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: <ref refid="classthemis_1_1gpu_1_1_cuda_error" kindref="compound">CudaError</ref> exception is caught; system degrades gracefully. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="49" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="49" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ad28f7043a4c4ea61fa9a2c9839ab6f6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, KernelTimeoutEnforcement)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>KernelTimeoutEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-002: Verify kernel timeout enforcement.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create <ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard" kindref="compound">KernelExecutionGuard</ref> with 100ms timeout</para>
+</listitem><listitem><para>Simulate kernel execution delay exceeding timeout</para>
+</listitem><listitem><para>Verify has_timed_out() returns true</para>
+</listitem><listitem><para>Verify CPU fallback can be triggered</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: Timeout is detected; CPU fallback is available. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="79" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="79" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a59bebd3fd2f9b5396984b8e27f1c32cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, NoTimeoutWhenDisabled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>NoTimeoutWhenDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-003: Verify no timeout when timeout_ms=0.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create <ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard" kindref="compound">KernelExecutionGuard</ref> with timeout_ms=0 (no timeout)</para>
+</listitem><listitem><para>Wait for extended time</para>
+</listitem><listitem><para>Verify has_timed_out() always returns false</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: Unbounded execution is allowed when timeout is disabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="109" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="109" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a881bf73b054a5a000df3c7f54575dbc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, RAIIResourceCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIIResourceCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-004: Verify RAII resource cleanup on exception.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Attempt to allocate device memory in a try-catch block</para>
+</listitem><listitem><para>Verify that even if allocation succeeds, destructor is called on scope exit</para>
+</listitem><listitem><para>In a real test with hardware, verify no memory leaks occur</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: Resources are cleaned up automatically. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="128" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="128" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a1b6f22ef129d91af21fc86f40d45fe4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, AllGPUErrorsTriggerCPUFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>AllGPUErrorsTriggerCPUFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-005: Verify all GPU failures trigger CPU fallback path.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Simulate various GPU errors (allocation, timeout, launch failure)</para>
+</listitem><listitem><para>For each error, verify that CPU fallback is initiated</para>
+</listitem><listitem><para>Verify no silent failures occur</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: All GPU errors are caught and CPU fallback executes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="163" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="163" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ab563f07caba89b444c751384b566c580" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, ConcurrentErrorHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentErrorHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-006: Verify concurrent error handling (thread safety).</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Spawn multiple threads attempting to trigger errors simultaneously</para>
+</listitem><listitem><para>Verify each thread&apos;s error is handled independently</para>
+</listitem><listitem><para>Verify no deadlocks or race conditions occur</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: Each thread&apos;s error is caught; no cross-contamination. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="216" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="216" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ad0c7de7bf2aa5bb16f12f5369843ad5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, ErrorCodeFailClosedClassification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorCodeFailClosedClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-007: Verify fail-closed error classification.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Test various error codes from <ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref> enum</para>
+</listitem><listitem><para>Verify each non-SUCCESS code is classified as fail-closed</para>
+</listitem><listitem><para>Verify SUCCESS is NOT fail-closed</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: All errors trigger fail-closed behavior. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="261" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="261" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1add39bf5533f7e70324057126e9a6ad27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, ErrorMessageConversion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorMessageConversion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-008: Verify error message conversion.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create <ref refid="classthemis_1_1gpu_1_1_cuda_error" kindref="compound">CudaError</ref> with specific CUDA error codes</para>
+</listitem><listitem><para>Verify error message includes descriptive text</para>
+</listitem><listitem><para>Verify no nullptr or empty strings are returned</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: All errors have descriptive messages. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="287" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="287" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1af000a309c0556e3fcab68bbcdadb4285" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, TimingUtilities)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>TimingUtilities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-009: Verify timing utilities work correctly.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Test ms_to_us conversion</para>
+</listitem><listitem><para>Test us_to_ms conversion</para>
+</listitem><listitem><para>Verify round-trip conversion preserves values</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: Conversions are accurate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="321" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="321" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a6d7d5a0f4a1f35e5c7a758bdac1574e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUChaosTest, StreamGuardSemantics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kindref="compound">GPUChaosTest</ref></type>
+        </param>
+        <param>
+          <type>StreamGuardSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A1-GPU-010: Verify stream guard compiles and has correct semantics.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Verify <ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard" kindref="compound">CudaStreamGuard</ref> can be move-constructed</para>
+</listitem><listitem><para>Verify copy operations are deleted</para>
+</listitem><listitem><para>Verify move semantics work correctly</para>
+</listitem></orderedlist>
+</para>
+<para>Expected outcome: Correct RAII and move semantics. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="342" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="342" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a7a6ece74c0a28b6d03118583bb2c2d9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrDefaultConstructor)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrDefaultConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="60" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ad5698742355e0bd8d2bc4c92c78c7f3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrRawPointer)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrRawPointer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="74" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="74" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ad1c5e462b261618eed86ba15f3e9932e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, MakeUniqueCPUFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>MakeUniqueCPUFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="90" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="90" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a20fd3a7fc8b8a99f1a80ac4358dd1079" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, MakeUniqueZeroCount)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>MakeUniqueZeroCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="108" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="108" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a575f1882f26186efbf833cc027d93524" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrMoveConstructor)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrMoveConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="122" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="122" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a7cd5f352fc69e59a9dbc53a17ea3342e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrMoveAssignment)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrMoveAssignment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="141" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="141" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1afe09d7e4a43b31af59f6501904b48c24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrNoCopy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrNoCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="161" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="161" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a1d8e46b6279fcbe8902a76956f7752a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrRelease)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrRelease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="177" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="177" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1acfd5d8db38a0e83e6e9fbc1e900ef8ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrReset)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="198" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="198" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a5bc264cc4e4df95cd16f9857a9a6ed9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrResetWithNew)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrResetWithNew</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="215" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="215" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a94738b9c20a644d3930367fc1dfae958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, UniquePtrBooleanConversion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrBooleanConversion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="233" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="233" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a837753c26fc7f0fe6e05e78492ac6441" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, ExceptionSafetyDestructorOnScopeExit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>ExceptionSafetyDestructorOnScopeExit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="248" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="248" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a159157f442f43e00dc20b961a7a0a6b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, ExceptionSafetyCleanupOnException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>ExceptionSafetyCleanupOnException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="270" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="270" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a9974c4f46044b43eda6362e2b8928240" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, SwapSemantics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>SwapSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="293" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="293" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a489613bd6d16b97970859f9cb28a9b95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, ComparisonOperators)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>ComparisonOperators</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="313" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="313" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a1a299c6ee4815de0af944733ed50db9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, SharedPtrReferenceCounting)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>SharedPtrReferenceCounting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="331" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="331" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ae038ae8559bcf6733d505766e6b9bc29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, SharedPtrCopyConstructor)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>SharedPtrCopyConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="351" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="351" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a8eecd67514e7e0930c9332e717818b49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, SharedPtrMoveConstructor)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>SharedPtrMoveConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="369" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="369" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a63870eeff75b3ef095e82523bf6948cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, VectorOfUniquePtrMove)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>VectorOfUniquePtrMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="387" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="387" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1af7920a19e3f76bbca18644710a82ec2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unique_gpu_ptr&lt; float &gt;</type>
+        <definition>unique_gpu_ptr&lt; float &gt; themis::gpu::test::AllocateGPUBuffer</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>AllocateGPUBuffer</name>
+        <qualifiedname>themis::gpu::test::AllocateGPUBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="409" column="16" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="409" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1af8b55bd2abe9917bc5fc336acb21e2ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, ReturnUniquePtrFromFunction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>ReturnUniquePtrFromFunction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="413" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="413" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a3226942e50a0c5a6d07c94e9747a6d1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, ConstCorrectness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>ConstCorrectness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="426" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="426" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a59cc261442e6af01cb755efb5972e8c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, MultipleAllocationsIndependent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>MultipleAllocationsIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="442" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="442" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ab6b876c06876f4dec887e458cfb9ff35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, LargeAllocation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>LargeAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="467" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="467" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a0909ecec0683e28b67c384d17d085dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, ZeroLengthAllocationNoLeak)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>ZeroLengthAllocationNoLeak</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="483" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="483" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1ad09a08cfb5a5a56d9ece72e8bd5653f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, AcceptanceCriterion1_NoUseAfterFree)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>AcceptanceCriterion1_NoUseAfterFree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ACCEPTANCE CRITERION 1: All 8 use-after-free findings resolved</para>
+<para>Test: Verify that move-only semantics prevent use-after-free </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="505" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="505" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a2451bbcb6a1a80f2db9900fb5455d51b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, AcceptanceCriterion2_AllAllocationsRAII)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>AcceptanceCriterion2_AllAllocationsRAII</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ACCEPTANCE CRITERION 2: All GPU allocations protected by RAII</para>
+<para>Test: Verify make_unique_gpu covers all allocation paths </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="532" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="532" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1a0298fd86dd75896b66f2fd8cdec8bc2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, AcceptanceCriterion3_NoUninitializedAccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>AcceptanceCriterion3_NoUninitializedAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ACCEPTANCE CRITERION 3: Zero uninitialized access</para>
+<para>Test: Verify all allocations are zero-initialized or checked </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="552" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="552" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1test_1aba51447a9aa021f38a72ee3bd7a3127d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::TEST_F</definition>
+        <argsstring>(GPUMemoryRAIITest, AcceptanceCriterion4_ModernCPPIdioms)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref></type>
+        </param>
+        <param>
+          <type>AcceptanceCriterion4_ModernCPPIdioms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ACCEPTANCE CRITERION 4: C++17 best practices (smart pointers, RAII, move semantics)</para>
+<para>Test: Verify codebase uses modern C++ idioms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="574" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="574" bodyend="592"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_cuda_error_hardening.cpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

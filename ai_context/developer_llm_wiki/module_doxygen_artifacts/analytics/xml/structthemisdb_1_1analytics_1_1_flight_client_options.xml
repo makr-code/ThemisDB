@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_flight_client_options" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::FlightClientOptions</compoundname>
+    <includes refid="arrow__flight_8h" local="no">arrow_flight.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_client_options_1a31cc623371d01d35a95a075b76ad1e6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::FlightClientOptions::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themisdb::analytics::FlightClientOptions::host</qualifiedname>
+        <initializer>= &quot;localhost&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="104" column="17" bodyfile="include/analytics/arrow_flight.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_client_options_1a5701323c91734b1767b991eda9fd230c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::FlightClientOptions::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themisdb::analytics::FlightClientOptions::port</qualifiedname>
+        <initializer>= 8815</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="105" column="9" bodyfile="include/analytics/arrow_flight.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_client_options_1adc403b65a877bd944ce4c13bf9894792" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::FlightClientOptions::prefer_inprocess</definition>
+        <argsstring></argsstring>
+        <name>prefer_inprocess</name>
+        <qualifiedname>themisdb::analytics::FlightClientOptions::prefer_inprocess</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="106" column="10" bodyfile="include/analytics/arrow_flight.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_client_options_1aeb9a1d0c0f8cef9339c1181284364dd5" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::FlightClientOptions::connect_timeout</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout</name>
+        <qualifiedname>themisdb::analytics::FlightClientOptions::connect_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="107" column="31" bodyfile="include/analytics/arrow_flight.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/arrow_flight.h" line="103" column="1" bodyfile="include/analytics/arrow_flight.h" bodystart="103" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_client_options_1aeb9a1d0c0f8cef9339c1181284364dd5" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightClientOptions</scope><name>connect_timeout</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_client_options_1a31cc623371d01d35a95a075b76ad1e6e" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightClientOptions</scope><name>host</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_client_options_1a5701323c91734b1767b991eda9fd230c" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightClientOptions</scope><name>port</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_client_options_1adc403b65a877bd944ce4c13bf9894792" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightClientOptions</scope><name>prefer_inprocess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

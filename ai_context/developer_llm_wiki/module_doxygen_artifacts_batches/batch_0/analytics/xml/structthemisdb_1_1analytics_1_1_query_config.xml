@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_query_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::QueryConfig</compoundname>
+    <includes refid="analytics__engine_8h" local="no">analytics_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_config_1a265fca7cdc4162d4772b6ab8b908bbba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::QueryConfig::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themisdb::analytics::QueryConfig::query_text</qualifiedname>
+        <briefdescription>
+<para>SQL query to execute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="35" column="17" bodyfile="include/analytics/analytics_engine.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_config_1a59fa83fbcd73bcf7478b5504c63e9dab" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::QueryConfig::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themisdb::analytics::QueryConfig::timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Query execution timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="36" column="31" bodyfile="include/analytics/analytics_engine.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_config_1a329e3634780fee12b2dfc798705ab626" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::QueryConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themisdb::analytics::QueryConfig::max_retries</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>Max retries on connection failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="37" column="9" bodyfile="include/analytics/analytics_engine.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_config_1a27e0b085fc33a4c5284170dd5e4b4a59" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::QueryConfig::auto_commit</definition>
+        <argsstring></argsstring>
+        <name>auto_commit</name>
+        <qualifiedname>themisdb::analytics::QueryConfig::auto_commit</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Auto-commit results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="38" column="10" bodyfile="include/analytics/analytics_engine.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/analytics_engine.h" line="34" column="1" bodyfile="include/analytics/analytics_engine.h" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_query_config_1a27e0b085fc33a4c5284170dd5e4b4a59" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryConfig</scope><name>auto_commit</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_query_config_1a329e3634780fee12b2dfc798705ab626" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryConfig</scope><name>max_retries</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_query_config_1a265fca7cdc4162d4772b6ab8b908bbba" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryConfig</scope><name>query_text</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_query_config_1a59fa83fbcd73bcf7478b5504c63e9dab" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryConfig</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

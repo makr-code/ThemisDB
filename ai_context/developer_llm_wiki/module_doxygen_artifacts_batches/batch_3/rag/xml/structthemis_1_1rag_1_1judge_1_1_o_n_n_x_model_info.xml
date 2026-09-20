@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ONNXModelInfo</compoundname>
+    <includes refid="onnx__model__loader_8h" local="no">onnx_model_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1ae787a2a7815d98bdf3c82adc7f9ae430" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ONNXModelInfo::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::rag::judge::ONNXModelInfo::model_name</qualifiedname>
+        <briefdescription>
+<para>Model name/identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="26" column="17" bodyfile="include/rag/onnx_model_loader.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1a2dc4a949d7ad80149ae4a811a691c127" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ONNXModelInfo::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::rag::judge::ONNXModelInfo::model_path</qualifiedname>
+        <briefdescription>
+<para>Local path to ONNX file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="27" column="17" bodyfile="include/rag/onnx_model_loader.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1ad3e5dbb40141ba075b806c1bbc6475a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ONNXModelInfo::tokenizer_path</definition>
+        <argsstring></argsstring>
+        <name>tokenizer_path</name>
+        <qualifiedname>themis::rag::judge::ONNXModelInfo::tokenizer_path</qualifiedname>
+        <briefdescription>
+<para>Path to tokenizer config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="28" column="17" bodyfile="include/rag/onnx_model_loader.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1a55ddcc4a3864a76db525bd5bd9b28b49" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ONNXModelInfo::model_url</definition>
+        <argsstring></argsstring>
+        <name>model_url</name>
+        <qualifiedname>themis::rag::judge::ONNXModelInfo::model_url</qualifiedname>
+        <briefdescription>
+<para>Download URL (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="29" column="17" bodyfile="include/rag/onnx_model_loader.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1aac6e1998fc2f376a1218ce757a1a2e64" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::ONNXModelInfo::model_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>model_size_bytes</name>
+        <qualifiedname>themis::rag::judge::ONNXModelInfo::model_size_bytes</qualifiedname>
+        <briefdescription>
+<para>Model file size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="30" column="12" bodyfile="include/rag/onnx_model_loader.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1a0e387bc16917fa7b4620926fbc263233" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ONNXModelInfo::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::rag::judge::ONNXModelInfo::checksum</qualifiedname>
+        <briefdescription>
+<para>SHA256 checksum for validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="31" column="17" bodyfile="include/rag/onnx_model_loader.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1a33912cdfe8bfdcb3c8bd0fea7d7115b4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::rag::judge::ONNXModelInfo::input_shape</definition>
+        <argsstring></argsstring>
+        <name>input_shape</name>
+        <qualifiedname>themis::rag::judge::ONNXModelInfo::input_shape</qualifiedname>
+        <briefdescription>
+<para>Expected input shape. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="32" column="17" bodyfile="include/rag/onnx_model_loader.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1ac4c72064c0d11873e5e4e6aa704c020a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::ONNXModelInfo::output_names</definition>
+        <argsstring></argsstring>
+        <name>output_names</name>
+        <qualifiedname>themis::rag::judge::ONNXModelInfo::output_names</qualifiedname>
+        <briefdescription>
+<para>Output tensor names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="33" column="17" bodyfile="include/rag/onnx_model_loader.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ONNX model metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/onnx_model_loader.h" line="25" column="1" bodyfile="include/rag/onnx_model_loader.h" bodystart="25" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1a0e387bc16917fa7b4620926fbc263233" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelInfo</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1a33912cdfe8bfdcb3c8bd0fea7d7115b4" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelInfo</scope><name>input_shape</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1ae787a2a7815d98bdf3c82adc7f9ae430" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelInfo</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1a2dc4a949d7ad80149ae4a811a691c127" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelInfo</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1aac6e1998fc2f376a1218ce757a1a2e64" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelInfo</scope><name>model_size_bytes</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1a55ddcc4a3864a76db525bd5bd9b28b49" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelInfo</scope><name>model_url</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1ac4c72064c0d11873e5e4e6aa704c020a" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelInfo</scope><name>output_names</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info_1ad3e5dbb40141ba075b806c1bbc6475a7" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelInfo</scope><name>tokenizer_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

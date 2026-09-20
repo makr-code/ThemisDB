@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="vcc__pki__client_8h" kind="file" language="C++">
+    <compoundname>vcc_pki_client.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="vcc__pki__client_8cpp" local="yes">src/security/vcc_pki_client.cpp</includedby>
+    <includedby refid="test__transport__security__hardening_8cpp" local="yes">tests/security/test_transport_security_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/vcc_pki_client.h</label>
+        <link refid="vcc__pki__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/vcc_pki_client.h</label>
+        <link refid="vcc__pki__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/vcc_pki_client.cpp</label>
+        <link refid="vcc__pki__client_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/security/test_transport_security_hardening.cpp</label>
+        <link refid="test__transport__security__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_x509_certificate" prot="public">themis::X509Certificate</innerclass>
+    <innerclass refid="structthemis_1_1_c_r_l_entry" prot="public">themis::CRLEntry</innerclass>
+    <innerclass refid="structthemis_1_1_certificate_request" prot="public">themis::CertificateRequest</innerclass>
+    <innerclass refid="structthemis_1_1_t_l_s_config" prot="public">themis::TLSConfig</innerclass>
+    <innerclass refid="classthemis_1_1_v_c_c_p_k_i_client" prot="public">themis::VCCPKIClient</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>certificate<sp/>container<sp/>used<sp/>by<sp/>the<sp/>PKI<sp/>client.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1_x509_certificate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_x509_certificate" kindref="compound">X509Certificate</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1_x509_certificate_1a23a929ee2f9168104ba0180aa3e1bff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1_x509_certificate_1adb113f11fe1ed592d7d845809344346d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_x509_certificate_1adb113f11fe1ed592d7d845809344346d" kindref="member">pem</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1_x509_certificate_1a82a57a9ea4ff60fb893f5dbd8b867611" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_x509_certificate_1a82a57a9ea4ff60fb893f5dbd8b867611" kindref="member">subject</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1_x509_certificate_1a5f77abad72fff3a02a974ccb18cac935" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_x509_certificate_1a5f77abad72fff3a02a974ccb18cac935" kindref="member">issuer</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1_x509_certificate_1ac6b48b707e1434aa4d58cb0eb8c77439" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_x509_certificate_1ac6b48b707e1434aa4d58cb0eb8c77439" kindref="member">not_before_ms</ref>{0};</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1_x509_certificate_1a4d0111b3dca5d141b8e31b6cd809f031" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_x509_certificate_1a4d0111b3dca5d141b8e31b6cd809f031" kindref="member">not_after_ms</ref>{0};</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_x509_certificate_1a451e510f794612cc883f054d7b6b0310" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_x509_certificate_1a451e510f794612cc883f054d7b6b0310" kindref="member">key_usage</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_x509_certificate_1a0842737b8cd1ec7609a2da9457c08c49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_x509_certificate_1a0842737b8cd1ec7609a2da9457c08c49" kindref="member">san</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_x509_certificate_1a06c5c6018f3fbea115ccc2c5d4b256fb" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_x509_certificate_1aa7dd6de8264df5f1297656ff42c769b3" kindref="member">isExpired</ref>(int64_t<sp/>now_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_x509_certificate_1acc77332e5b49ca749d15ad355d393b30" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_x509_certificate" kindref="compound">X509Certificate</ref><sp/><ref refid="structthemis_1_1_x509_certificate_1a02844df007dc5279ba7ab55ec996d7ee" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Single<sp/>entry<sp/>in<sp/>a<sp/>certificate<sp/>revocation<sp/>list.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1_c_r_l_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_c_r_l_entry" kindref="compound">CRLEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1_c_r_l_entry_1a2fca0061a04cd566e9c7030e6946720a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_c_r_l_entry_1a2fca0061a04cd566e9c7030e6946720a" kindref="member">serial_number</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_c_r_l_entry_1a06d017ab8fe1d669ddd52866fba1b2ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_c_r_l_entry_1a06d017ab8fe1d669ddd52866fba1b2ca" kindref="member">revocation_time_ms</ref>{0};</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_c_r_l_entry_1ac02b45bc720e0a96c60db2e95f679172" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_c_r_l_entry_1ac02b45bc720e0a96c60db2e95f679172" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_c_r_l_entry_1a67324b4741b60208e67240725016f34f" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_c_r_l_entry" kindref="compound">CRLEntry</ref><sp/><ref refid="structthemis_1_1_c_r_l_entry_1aca6abca290fad39b2c5c85dca9638450" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Request<sp/>payload<sp/>used<sp/>when<sp/>asking<sp/>the<sp/>CA<sp/>for<sp/>a<sp/>new<sp/>certificate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_certificate_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_certificate_request" kindref="compound">CertificateRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_certificate_request_1ae6073e4c0f5e04540555f552b53a05dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_certificate_request_1ae6073e4c0f5e04540555f552b53a05dd" kindref="member">common_name</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_certificate_request_1abd124147fbdfe58f9236bbd4ca08e218" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_certificate_request_1abd124147fbdfe58f9236bbd4ca08e218" kindref="member">organization</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_certificate_request_1ad61d7b25b21c7de37fd2de40617c7bd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_certificate_request_1ad61d7b25b21c7de37fd2de40617c7bd7" kindref="member">san</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_certificate_request_1ae3e447b028572f203130a4b2b95ec9f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_certificate_request_1ae3e447b028572f203130a4b2b95ec9f7" kindref="member">key_usage</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_certificate_request_1a43390110c017e72bc803f41b0a387e83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_certificate_request_1a43390110c017e72bc803f41b0a387e83" kindref="member">validity_days</ref>{0};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_certificate_request_1a2153c8f3fe5f5461ebd40d0c9af89fac" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TLS<sp/>configuration<sp/>used<sp/>by<sp/>the<sp/>PKI<sp/>client.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_t_l_s_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_l_s_config" kindref="compound">TLSConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_t_l_s_config_1a2aaa962e155693f1831745a6b3e5af4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_l_s_config_1a2aaa962e155693f1831745a6b3e5af4a" kindref="member">ca_cert_path</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_t_l_s_config_1a9ce96873118cbc0fcca944d28b6de3cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_l_s_config_1a9ce96873118cbc0fcca944d28b6de3cd" kindref="member">client_cert_path</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_t_l_s_config_1ae81a4cc8df385a02d95164d75c811ed0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_l_s_config_1ae81a4cc8df385a02d95164d75c811ed0" kindref="member">client_key_path</ref>;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_t_l_s_config_1afb61d2bd3d104554c3a5813e9aca3f68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_l_s_config_1afb61d2bd3d104554c3a5813e9aca3f68" kindref="member">verify_server</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1_t_l_s_config_1a53c4c897a189f3680e91f485d03be9ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_l_s_config_1a53c4c897a189f3680e91f485d03be9ee" kindref="member">use_mtls</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1_v_c_c_p_k_i_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a98fd5e7333f2f3fa14c7a31edc8f2b69" kindref="member">VCCPKIClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a98fd5e7333f2f3fa14c7a31edc8f2b69" kindref="member">VCCPKIClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_url,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_l_s_config" kindref="compound">TLSConfig</ref>&amp;<sp/>tls_config,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout_ms);</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1_v_c_c_p_k_i_client_1aff6968e3ffa7b88adba49b410322f349" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1aff6968e3ffa7b88adba49b410322f349" kindref="member">~VCCPKIClient</ref>();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1_v_c_c_p_k_i_client_1a4ca3ca839eefba7d24ce660292470da0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a4ca3ca839eefba7d24ce660292470da0" kindref="member">VCCPKIClient</ref>(<ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a98fd5e7333f2f3fa14c7a31edc8f2b69" kindref="member">VCCPKIClient</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1_v_c_c_p_k_i_client_1a6d326af5a81ed867dc3dd28bd5a94a71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a98fd5e7333f2f3fa14c7a31edc8f2b69" kindref="member">VCCPKIClient</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a98fd5e7333f2f3fa14c7a31edc8f2b69" kindref="member">VCCPKIClient</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1aa1b357cd40afebb53a6e71a1bc719620" kindref="member">httpGet</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1ad1ddba9e1b636c2fc08c837684e05c43" kindref="member">httpPost</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>path,<sp/>const<sp/>nlohmann::json&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_x509_certificate" kindref="compound">X509Certificate</ref><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a89de9572d8fd02b0c8966056dabbb80d" kindref="member">requestCertificate</ref>(const<sp/><ref refid="structthemis_1_1_certificate_request" kindref="compound">CertificateRequest</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_x509_certificate" kindref="compound">X509Certificate</ref><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1afbf2f6640d1acb3ec7281ea151c15fa2" kindref="member">getCertificate</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>cert_id);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_c_r_l_entry" kindref="compound">CRLEntry</ref>&gt;<sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a5f25a68b87463396aff36de0aae77e70" kindref="member">getCRL</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a2b55e920159d899ed3db22dcbc0dee47" kindref="member">isRevoked</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>cert_id,<sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1_c_r_l_entry" kindref="compound">CRLEntry</ref>&gt;&amp;<sp/>crl)<sp/>const;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a009defd333186feb3c6a717c53834eca" kindref="member">healthCheck</ref>();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_x509_certificate" kindref="compound">X509Certificate</ref><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a669f122d03e16d1dc847846ac6a33c06" kindref="member">parseCertificate</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>pem);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client_1a91c70c2d9e4479435f75172305ede0c8" kindref="member">validateCertChain</ref>(const<sp/><ref refid="structthemis_1_1_x509_certificate" kindref="compound">X509Certificate</ref>&amp;<sp/>cert)<sp/>const;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>base_url_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_l_s_config" kindref="compound">TLSConfig</ref><sp/>tls_config_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout_ms_{0};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/vcc_pki_client.h"/>
+  </compounddef>
+</doxygen>

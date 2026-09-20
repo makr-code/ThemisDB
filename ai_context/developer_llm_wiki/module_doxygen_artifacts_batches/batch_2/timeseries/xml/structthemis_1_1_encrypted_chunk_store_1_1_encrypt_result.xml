@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EncryptedChunkStore::EncryptResult</compoundname>
+    <includes refid="encrypted__chunk__store_8h" local="no">encrypted_chunk_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result_1a030e0333b5d8b466693f05b0c6818dc2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EncryptedChunkStore::EncryptResult::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::EncryptedChunkStore::EncryptResult::key_id</qualifiedname>
+        <briefdescription>
+<para>Master key ID embedded in the blob header. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="134" column="30" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result_1a92eafe6b7a3f78104567085c16892878" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::EncryptedChunkStore::EncryptResult::blob</definition>
+        <argsstring></argsstring>
+        <name>blob</name>
+        <qualifiedname>themis::EncryptedChunkStore::EncryptResult::blob</qualifiedname>
+        <briefdescription>
+<para>Full ciphertext: see class-level doc for layout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/encrypted_chunk_store.h" line="135" column="21" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1_encrypted_chunk_store_1ad8f7368dc13bed9129938382bdbffdd2" kindref="member">encryptChunk()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Bundles the ciphertext blob together with the key_id that was embedded in the blob header so callers never need a second call to <ref refid="classthemis_1_1_encrypted_chunk_store_1af9299d2fa8ef2e280eef64dc3d27a2e5" kindref="member">getCurrentKeyId()</ref> and cannot observe a stale key_id due to rotation. </para>
+    </detaileddescription>
+    <location file="include/timeseries/encrypted_chunk_store.h" line="133" column="5" bodyfile="include/timeseries/encrypted_chunk_store.h" bodystart="133" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result_1a92eafe6b7a3f78104567085c16892878" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore::EncryptResult</scope><name>blob</name></member>
+      <member refid="structthemis_1_1_encrypted_chunk_store_1_1_encrypt_result_1a030e0333b5d8b466693f05b0c6818dc2" prot="public" virt="non-virtual"><scope>themis::EncryptedChunkStore::EncryptResult</scope><name>key_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

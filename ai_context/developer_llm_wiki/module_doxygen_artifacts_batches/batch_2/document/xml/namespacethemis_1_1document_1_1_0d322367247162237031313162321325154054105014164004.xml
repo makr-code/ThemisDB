@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1document_1_1_0d322367247162237031313162321325154054105014164004" kind="namespace" language="C++">
+    <compoundname>themis::document::@322367247162237031313162321325154054105014164004</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/document/round_trip_editor.cpp" line="31" column="1"/>
+  </compounddef>
+</doxygen>

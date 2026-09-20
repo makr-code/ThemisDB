@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classrocksdb_1_1_iterator" kind="class" language="C++" prot="public">
+    <compoundname>rocksdb::Iterator</compoundname>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <briefdescription>
+<para><ref refid="classrocksdb_1_1_iterator" kindref="compound">Iterator</ref> stub - needs to be a real class for unique_ptr to work. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="85" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="85" bodyend="85"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

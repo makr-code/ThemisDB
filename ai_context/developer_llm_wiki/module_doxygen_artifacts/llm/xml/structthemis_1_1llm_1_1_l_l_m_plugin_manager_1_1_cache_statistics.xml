@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMPluginManager::CacheStatistics</compoundname>
+    <includes refid="llm__plugin__manager_8h" local="no">llm_plugin_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1ad820ba7295aa449e0544dc7346daca07" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMPluginManager::CacheStatistics::response_cache_hits</definition>
+        <argsstring></argsstring>
+        <name>response_cache_hits</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CacheStatistics::response_cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="211" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a15d91118cc0ec93c7eb10145d182f112" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMPluginManager::CacheStatistics::response_cache_misses</definition>
+        <argsstring></argsstring>
+        <name>response_cache_misses</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CacheStatistics::response_cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="212" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a22487bdb3ecc2ddc857bf1acff2d3e4f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMPluginManager::CacheStatistics::response_cache_entries</definition>
+        <argsstring></argsstring>
+        <name>response_cache_entries</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CacheStatistics::response_cache_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="213" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a505740114d8c505a8a0cb915a4240e6b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LLMPluginManager::CacheStatistics::response_cache_hit_rate</definition>
+        <argsstring></argsstring>
+        <name>response_cache_hit_rate</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CacheStatistics::response_cache_hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="214" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a384de185fc7780920154de19135d6350" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMPluginManager::CacheStatistics::prefix_cache_hits</definition>
+        <argsstring></argsstring>
+        <name>prefix_cache_hits</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CacheStatistics::prefix_cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="215" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a8d79c0826e246695c56312c76809fdf3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMPluginManager::CacheStatistics::prefix_cache_misses</definition>
+        <argsstring></argsstring>
+        <name>prefix_cache_misses</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CacheStatistics::prefix_cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="216" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a51ca5e18e1de5a41d0a6cc7fc4ff1ec5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMPluginManager::CacheStatistics::prefix_cache_entries</definition>
+        <argsstring></argsstring>
+        <name>prefix_cache_entries</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CacheStatistics::prefix_cache_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="217" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a497c987ab93a46598b22e4f071762564" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LLMPluginManager::CacheStatistics::prefix_cache_hit_rate</definition>
+        <argsstring></argsstring>
+        <name>prefix_cache_hit_rate</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CacheStatistics::prefix_cache_hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="218" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_plugin_manager.h" line="210" column="5" bodyfile="include/llm/llm_plugin_manager.h" bodystart="210" bodyend="219"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a51ca5e18e1de5a41d0a6cc7fc4ff1ec5" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager::CacheStatistics</scope><name>prefix_cache_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a497c987ab93a46598b22e4f071762564" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager::CacheStatistics</scope><name>prefix_cache_hit_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a384de185fc7780920154de19135d6350" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager::CacheStatistics</scope><name>prefix_cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a8d79c0826e246695c56312c76809fdf3" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager::CacheStatistics</scope><name>prefix_cache_misses</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a22487bdb3ecc2ddc857bf1acff2d3e4f" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager::CacheStatistics</scope><name>response_cache_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a505740114d8c505a8a0cb915a4240e6b" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager::CacheStatistics</scope><name>response_cache_hit_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1ad820ba7295aa449e0544dc7346daca07" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager::CacheStatistics</scope><name>response_cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics_1a15d91118cc0ec93c7eb10145d182f112" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager::CacheStatistics</scope><name>response_cache_misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

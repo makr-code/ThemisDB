@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_d_i_concerns_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>DIConcernsBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_d_i_concerns_bench_fixture_1a4ce07fe9e62f85d127eb53284dd2e0cf" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ConcernsContext &gt;</type>
+        <definition>std::shared_ptr&lt;ConcernsContext&gt; DIConcernsBenchFixture::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>DIConcernsBenchFixture::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_di_logging.cpp" line="205" column="21" bodyfile="benchmarks/observability/bench_di_logging.cpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_d_i_concerns_bench_fixture_1a99278d5fd544187283b32b58a4462a03" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DIConcernsBenchFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DIConcernsBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_di_logging.cpp" line="192" column="10" bodyfile="benchmarks/observability/bench_di_logging.cpp" bodystart="192" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="class_d_i_concerns_bench_fixture_1a015695a360bf1c756ffdadf8493e72f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DIConcernsBenchFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DIConcernsBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_di_logging.cpp" line="201" column="10" bodyfile="benchmarks/observability/bench_di_logging.cpp" bodystart="201" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DIConcernsBenchFixture</label>
+        <link refid="class_d_i_concerns_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DIConcernsBenchFixture</label>
+        <link refid="class_d_i_concerns_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/observability/bench_di_logging.cpp" line="190" column="1" bodyfile="benchmarks/observability/bench_di_logging.cpp" bodystart="190" bodyend="206"/>
+    <listofallmembers>
+      <member refid="class_d_i_concerns_bench_fixture_1a4ce07fe9e62f85d127eb53284dd2e0cf" prot="protected" virt="non-virtual"><scope>DIConcernsBenchFixture</scope><name>ctx_</name></member>
+      <member refid="class_d_i_concerns_bench_fixture_1a99278d5fd544187283b32b58a4462a03" prot="public" virt="non-virtual"><scope>DIConcernsBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_d_i_concerns_bench_fixture_1a015695a360bf1c756ffdadf8493e72f0" prot="public" virt="non-virtual"><scope>DIConcernsBenchFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

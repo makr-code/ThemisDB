@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__http__aql__let_8cpp" kind="file" language="C++">
+    <compoundname>test_http_aql_let.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">boost/asio.hpp</includes>
+    <includes local="no">boost/beast.hpp</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="yes">server/http_server.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes local="yes">transaction/transaction_manager.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_http_aql_let.cpp</label>
+        <link refid="test__http__aql__let_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="5">
+        <label>boost/beast.hpp</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="11">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="13">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>server/http_server.h</label>
+      </node>
+      <node id="15">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="10">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>transaction/transaction_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_http_aql_let_test" prot="public">HttpAqlLetTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__http__aql__let_8cpp_1a881bf0607200773519a9f6d4cf54734e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpAqlLetTest, LetAndReturnObjectProjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_aql_let_test" kindref="compound">HttpAqlLetTest</ref></type>
+        </param>
+        <param>
+          <type>LetAndReturnObjectProjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_let.cpp" line="79" column="1" bodyfile="tests/network/test_http_aql_let.cpp" bodystart="79" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__aql__let_8cpp_1abfeecca73126603a95ffa48eea892814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpAqlLetTest, LetUsedInFilter_ReturnsOnlyBerlin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_aql_let_test" kindref="compound">HttpAqlLetTest</ref></type>
+        </param>
+        <param>
+          <type>LetUsedInFilter_ReturnsOnlyBerlin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_let.cpp" line="107" column="1" bodyfile="tests/network/test_http_aql_let.cpp" bodystart="107" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__aql__let_8cpp_1a6bf5949abdb591df32e87fb0098058af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpAqlLetTest, Explain_IncludesLetPreExtractedFlag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_aql_let_test" kindref="compound">HttpAqlLetTest</ref></type>
+        </param>
+        <param>
+          <type>Explain_IncludesLetPreExtractedFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_let.cpp" line="125" column="1" bodyfile="tests/network/test_http_aql_let.cpp" bodystart="125" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/beast.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/http_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/transaction_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">beast<sp/>=<sp/>boost::beast;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/>=<sp/>beast::http;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">net<sp/>=<sp/>boost::asio;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network_1a7c0ea458b8c694bc6d3c7e2c14f67649" kindref="member">tcp</ref><sp/>=<sp/>net::ip::tcp;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_http_aql_let_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_http_aql_let_test" kindref="compound">HttpAqlLetTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_http_aql_let_test_1a9accddf6074c5f9f4533d8e4374c5e2b" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>db_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/themis_http_aql_let_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(db_path);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/>db_path;<sp/>cfg.memtable_size_mb<sp/>=<sp/>64;<sp/>cfg.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref><sp/>=<sp/>std::make_shared&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1a91533926e85fdfc7ae82577b9de6a1e2" kindref="member">secondary_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::SecondaryIndexManager&gt;(*<ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1a33eab2c51db1bba37952798af142d12f" kindref="member">graph_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::GraphIndexManager&gt;(*<ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1a9a374721aa0af29b16ecb270508c11c8" kindref="member">vector_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::VectorIndexManager&gt;(*<ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1ad1106e25c9974150b680ec3e3a4a4b45" kindref="member">tx_manager_</ref><sp/>=<sp/>std::make_shared&lt;themis::TransactionManager&gt;(*<ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref>,<sp/>*<ref refid="class_http_aql_let_test_1a91533926e85fdfc7ae82577b9de6a1e2" kindref="member">secondary_index_</ref>,<sp/>*<ref refid="class_http_aql_let_test_1a33eab2c51db1bba37952798af142d12f" kindref="member">graph_index_</ref>,<sp/>*<ref refid="class_http_aql_let_test_1a9a374721aa0af29b16ecb270508c11c8" kindref="member">vector_index_</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::server::HttpServer::Config<sp/>scfg;<sp/>scfg.host<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;<sp/>scfg.port<sp/>=<sp/>18094;<sp/>scfg.num_threads<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1a1a3ab8d66f09260d1dcd832219f6c546" kindref="member">server_</ref><sp/>=<sp/>std::make_unique&lt;themis::server::HttpServer&gt;(scfg,<sp/><ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref>,<sp/><ref refid="class_http_aql_let_test_1a91533926e85fdfc7ae82577b9de6a1e2" kindref="member">secondary_index_</ref>,<sp/><ref refid="class_http_aql_let_test_1a33eab2c51db1bba37952798af142d12f" kindref="member">graph_index_</ref>,<sp/><ref refid="class_http_aql_let_test_1a9a374721aa0af29b16ecb270508c11c8" kindref="member">vector_index_</ref>,<sp/><ref refid="class_http_aql_let_test_1ad1106e25c9974150b680ec3e3a4a4b45" kindref="member">tx_manager_</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1a1a3ab8d66f09260d1dcd832219f6c546" kindref="member">server_</ref>-&gt;start();<sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1a55ce44fee375f5fbd6b87d052d288e9c" kindref="member">setupData</ref>();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_http_aql_let_test_1a33ebe63b3ed40f7a372450fff5fad36d" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_http_aql_let_test_1a1a3ab8d66f09260d1dcd832219f6c546" kindref="member">server_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1a1a3ab8d66f09260d1dcd832219f6c546" kindref="member">server_</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_http_aql_let_test_1a55ce44fee375f5fbd6b87d052d288e9c" kindref="member">setupData</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;themis::BaseEntity&gt;<sp/>users<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>themis::BaseEntity::FieldMap{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;25&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/>themis::BaseEntity::FieldMap{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;17&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Hamburg&quot;</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>u<sp/>:<sp/>users)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_http_aql_let_test_1a91533926e85fdfc7ae82577b9de6a1e2" kindref="member">secondary_index_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>u).ok);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>data<sp/>is<sp/>flushed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="class_http_aql_let_test_1a4e894cadc1acc49a99b4a2938cf4fe80" kindref="member">post</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>net::io_context<sp/>ioc;<sp/>tcp::resolver<sp/>resolver(ioc);<sp/>beast::tcp_stream<sp/>stream(ioc);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>resolver.resolve(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;18094&quot;</highlight><highlight class="normal">);<sp/>stream.connect(results);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{http::verb::post,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);<sp/>req.set(http::field::content_type,<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.body()<sp/>=<sp/>body.dump();<sp/>req.prepare_payload();<sp/>http::write(stream,<sp/>req);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::flat_buffer<sp/>buf;<sp/>http::response&lt;http::string_body&gt;<sp/>res;<sp/>http::read(stream,<sp/>buf,<sp/>res);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::error_code<sp/>ec;<sp/>stream.socket().shutdown(tcp::socket::shutdown_both,<sp/>ec);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ADD_FAILURE()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;POST<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>e.what();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>http::response&lt;http::string_body&gt;{http::status::internal_server_error,<sp/>11};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::server::HttpServer&gt;<sp/><ref refid="class_http_aql_let_test_1a1a3ab8d66f09260d1dcd832219f6c546" kindref="member">server_</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::RocksDBWrapper&gt;<sp/><ref refid="class_http_aql_let_test_1abad94661861188412d54bffa60af271b" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::SecondaryIndexManager&gt;<sp/><ref refid="class_http_aql_let_test_1a91533926e85fdfc7ae82577b9de6a1e2" kindref="member">secondary_index_</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::GraphIndexManager&gt;<sp/><ref refid="class_http_aql_let_test_1a33eab2c51db1bba37952798af142d12f" kindref="member">graph_index_</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/><ref refid="class_http_aql_let_test_1a9a374721aa0af29b16ecb270508c11c8" kindref="member">vector_index_</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::TransactionManager&gt;<sp/><ref refid="class_http_aql_let_test_1ad1106e25c9974150b680ec3e3a4a4b45" kindref="member">tx_manager_</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__http__aql__let_8cpp_1a881bf0607200773519a9f6d4cf54734e" kindref="member">TEST_F</ref>(<ref refid="class_http_aql_let_test" kindref="compound">HttpAqlLetTest</ref>,<sp/>LetAndReturnObjectProjection)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>req<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>LET<sp/>c<sp/>=<sp/>u.city<sp/>RETURN<sp/>{name:<sp/>u.name,<sp/>city:<sp/>c}&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;allow_full_scan&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>post(</highlight><highlight class="stringliteral">&quot;/query/aql&quot;</highlight><highlight class="normal">,<sp/>req);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.result(),<sp/>http::status::ok)<sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>body<sp/>=<sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body[</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>two<sp/>results<sp/>with<sp/>object<sp/>projection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(body[</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">].size(),<sp/>2)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Response:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>body.dump(2);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>cities;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>names<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>body[</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>ej<sp/>=<sp/>e.is_string()<sp/>?<sp/>json::parse(e.get&lt;std::string&gt;())<sp/>:<sp/>e;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ej.contains(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ej.contains(</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>names.insert(ej[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cities.insert(ej[</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(names.count(</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">)<sp/>==<sp/>1);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(names.count(</highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">)<sp/>==<sp/>1);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cities.count(</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">)<sp/>==<sp/>1);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cities.count(</highlight><highlight class="stringliteral">&quot;Hamburg&quot;</highlight><highlight class="normal">)<sp/>==<sp/>1);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__http__aql__let_8cpp_1a881bf0607200773519a9f6d4cf54734e" kindref="member">TEST_F</ref>(<ref refid="class_http_aql_let_test" kindref="compound">HttpAqlLetTest</ref>,<sp/>LetUsedInFilter_ReturnsOnlyBerlin)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>filter<sp/>to<sp/>only<sp/>the<sp/>user<sp/>from<sp/>Berlin<sp/>(Alice)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>req<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>LET<sp/>c<sp/>=<sp/>u.city<sp/>FILTER<sp/>c<sp/>==<sp/>\&quot;Berlin\&quot;<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;allow_full_scan&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>post(</highlight><highlight class="stringliteral">&quot;/query/aql&quot;</highlight><highlight class="normal">,<sp/>req);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.result(),<sp/>http::status::ok)<sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>body<sp/>=<sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(body[</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(body[</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">].size(),<sp/>1);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>ej<sp/>=<sp/>body[</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">][0].is_string()<sp/>?<sp/>json::parse(body[</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">][0].get&lt;std::string&gt;())<sp/>:<sp/>body[</highlight><highlight class="stringliteral">&quot;entities&quot;</highlight><highlight class="normal">][0];</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ej.contains(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ej[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__http__aql__let_8cpp_1a881bf0607200773519a9f6d4cf54734e" kindref="member">TEST_F</ref>(<ref refid="class_http_aql_let_test" kindref="compound">HttpAqlLetTest</ref>,<sp/>Explain_IncludesLetPreExtractedFlag)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prüft,<sp/>dass<sp/>EXPLAIN<sp/>bei<sp/>LET-in-FILTER<sp/>den<sp/>Plan<sp/>mit<sp/>let_pre_extracted<sp/>=<sp/>true<sp/>liefert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>req<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>LET<sp/>c<sp/>=<sp/>u.city<sp/>FILTER<sp/>c<sp/>==<sp/>\&quot;Berlin\&quot;<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;allow_full_scan&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;explain&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>post(</highlight><highlight class="stringliteral">&quot;/query/aql&quot;</highlight><highlight class="normal">,<sp/>req);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.result(),<sp/>http::status::ok)<sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>body<sp/>=<sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;plan&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>body.dump();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>body[</highlight><highlight class="stringliteral">&quot;plan&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plan.is_object());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plan.contains(</highlight><highlight class="stringliteral">&quot;let_pre_extracted&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan[</highlight><highlight class="stringliteral">&quot;let_pre_extracted&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_http_aql_let.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_snapshot_diff_test" kind="class" language="C++" prot="public">
+    <compoundname>SnapshotDiffTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_snapshot_diff_test_1aeb773b74c4d63e26a5bbb17604119ebc" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager" kindref="compound">TemporalSnapshotManager</ref></type>
+        <definition>TemporalSnapshotManager SnapshotDiffTest::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>SnapshotDiffTest::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_snapshot_manager.cpp" line="402" column="29" bodyfile="tests/temporal/test_snapshot_manager.cpp" bodystart="402" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_snapshot_diff_test_1a908c919183230f608b8a87a5e862257a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref></type>
+        <definition>SystemVersionedTable SnapshotDiffTest::buildTable</definition>
+        <argsstring>(const std::string &amp;name, std::vector&lt; std::pair&lt; std::string, int &gt; &gt; kv)</argsstring>
+        <name>buildTable</name>
+        <qualifiedname>SnapshotDiffTest::buildTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::pair&lt; std::string, int &gt; &gt;</type>
+          <declname>kv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_snapshot_manager.cpp" line="404" column="26" bodyfile="tests/temporal/test_snapshot_manager.cpp" bodystart="404" bodyend="411"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SnapshotDiffTest</label>
+        <link refid="class_snapshot_diff_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SnapshotDiffTest</label>
+        <link refid="class_snapshot_diff_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mgr</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalSnapshotManager</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_snapshot_manager.cpp" line="400" column="1" bodyfile="tests/temporal/test_snapshot_manager.cpp" bodystart="400" bodyend="412"/>
+    <listofallmembers>
+      <member refid="class_snapshot_diff_test_1a908c919183230f608b8a87a5e862257a" prot="protected" virt="non-virtual"><scope>SnapshotDiffTest</scope><name>buildTable</name></member>
+      <member refid="class_snapshot_diff_test_1aeb773b74c4d63e26a5bbb17604119ebc" prot="protected" virt="non-virtual"><scope>SnapshotDiffTest</scope><name>mgr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

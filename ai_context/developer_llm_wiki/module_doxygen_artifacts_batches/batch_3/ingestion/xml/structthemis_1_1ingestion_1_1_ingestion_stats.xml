@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionStats</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_stats_1a0fdb873dcc8055a4e41c2a688ee8e607" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionStats::documents_processed</definition>
+        <argsstring></argsstring>
+        <name>documents_processed</name>
+        <qualifiedname>themis::ingestion::IngestionStats::documents_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="480" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_stats_1a8062b35a12fdf464b2d0bbe7f9812fa9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionStats::documents_failed</definition>
+        <argsstring></argsstring>
+        <name>documents_failed</name>
+        <qualifiedname>themis::ingestion::IngestionStats::documents_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="481" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_stats_1a0439a4a9418b789138465992409b24dd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionStats::bytes_processed</definition>
+        <argsstring></argsstring>
+        <name>bytes_processed</name>
+        <qualifiedname>themis::ingestion::IngestionStats::bytes_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="482" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_stats_1a3c6959baf1334e5f8ad32e569b39729a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionStats::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>themis::ingestion::IngestionStats::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="483" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="483" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_stats_1a67311929d40dbc06103eb329866dd455" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionStats::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::ingestion::IngestionStats::error_message</qualifiedname>
+        <briefdescription>
+<para>Primary error (for backward compatibility). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="484" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref> &gt;</type>
+        <definition>std::vector&lt;IngestionError&gt; themis::ingestion::IngestionStats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::ingestion::IngestionStats::errors</qualifiedname>
+        <briefdescription>
+<para>Structured error log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="485" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_stats_1a4f7f0a9219ca66aed976dbd23d4802d7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics" kindref="compound">IngestionMetrics</ref></type>
+        <definition>IngestionMetrics themis::ingestion::IngestionStats::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::ingestion::IngestionStats::metrics</qualifiedname>
+        <briefdescription>
+<para>Observability counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="486" column="22" bodyfile="include/ingestion/ingestion_manager.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_stats_1af1f9fac2cf8a9e02199a7007552e0b46" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionStats::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::ingestion::IngestionStats::correlation_id</qualifiedname>
+        <briefdescription>
+<para>Unique run ID for distributed tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="487" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_stats_1a918d319608c3e846b65a23e6ff427dc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionStats::IngestionStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>IngestionStats</name>
+        <qualifiedname>themis::ingestion::IngestionStats::IngestionStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="489" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::IngestionStats::addError</definition>
+        <argsstring>(IngestionErrorCode code, IngestionErrorSeverity severity, const std::string &amp;message, const std::string &amp;source_id=&quot;&quot;, const std::string &amp;details=&quot;&quot;)</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::ingestion::IngestionStats::addError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65" kindref="member">IngestionErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a structured error and update backward-compat field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="492" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="492" bodyend="503"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Ingestion statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IngestionMetrics</label>
+        <link refid="structthemis_1_1ingestion_1_1_ingestion_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::IngestionStats</label>
+        <link refid="structthemis_1_1ingestion_1_1_ingestion_stats"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/ingestion_manager.h" line="479" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="479" bodyend="504"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>addError</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a0439a4a9418b789138465992409b24dd" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>bytes_processed</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1af1f9fac2cf8a9e02199a7007552e0b46" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a8062b35a12fdf464b2d0bbe7f9812fa9" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>documents_failed</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a0fdb873dcc8055a4e41c2a688ee8e607" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>documents_processed</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a3c6959baf1334e5f8ad32e569b39729a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>elapsed_seconds</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a67311929d40dbc06103eb329866dd455" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>errors</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a918d319608c3e846b65a23e6ff427dc0" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>IngestionStats</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a4f7f0a9219ca66aed976dbd23d4802d7" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionStats</scope><name>metrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

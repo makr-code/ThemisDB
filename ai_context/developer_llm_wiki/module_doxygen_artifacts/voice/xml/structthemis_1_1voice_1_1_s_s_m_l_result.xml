@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_s_s_m_l_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::SSMLResult</compoundname>
+    <includes refid="voice__tts__customizer_8h" local="no">voice_tts_customizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_s_s_m_l_result_1ad1f87475fbd648ea6a13d87efa84e316" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SSMLResult::plain_text</definition>
+        <argsstring></argsstring>
+        <name>plain_text</name>
+        <qualifiedname>themis::voice::SSMLResult::plain_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="49" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_s_s_m_l_result_1a18c60b84e6669440aa2d06df7751e035" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_prosody_config" kindref="compound">ProsodyConfig</ref> &gt;</type>
+        <definition>std::vector&lt;ProsodyConfig&gt; themis::voice::SSMLResult::segments</definition>
+        <argsstring></argsstring>
+        <name>segments</name>
+        <qualifiedname>themis::voice::SSMLResult::segments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="50" column="17" bodyfile="include/voice/voice_tts_customizer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_s_s_m_l_result_1a07de792be6f9faf1d808a57c58908b56" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::SSMLResult::has_breaks</definition>
+        <argsstring></argsstring>
+        <name>has_breaks</name>
+        <qualifiedname>themis::voice::SSMLResult::has_breaks</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="51" column="10" bodyfile="include/voice/voice_tts_customizer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_s_s_m_l_result_1a8e0fb101d88614aa1c8d69b39ce62d01" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::SSMLResult::has_emphasis</definition>
+        <argsstring></argsstring>
+        <name>has_emphasis</name>
+        <qualifiedname>themis::voice::SSMLResult::has_emphasis</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_tts_customizer.h" line="52" column="10" bodyfile="include/voice/voice_tts_customizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_tts_customizer.h" line="48" column="1" bodyfile="include/voice/voice_tts_customizer.h" bodystart="48" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_s_s_m_l_result_1a07de792be6f9faf1d808a57c58908b56" prot="public" virt="non-virtual"><scope>themis::voice::SSMLResult</scope><name>has_breaks</name></member>
+      <member refid="structthemis_1_1voice_1_1_s_s_m_l_result_1a8e0fb101d88614aa1c8d69b39ce62d01" prot="public" virt="non-virtual"><scope>themis::voice::SSMLResult</scope><name>has_emphasis</name></member>
+      <member refid="structthemis_1_1voice_1_1_s_s_m_l_result_1ad1f87475fbd648ea6a13d87efa84e316" prot="public" virt="non-virtual"><scope>themis::voice::SSMLResult</scope><name>plain_text</name></member>
+      <member refid="structthemis_1_1voice_1_1_s_s_m_l_result_1a18c60b84e6669440aa2d06df7751e035" prot="public" virt="non-virtual"><scope>themis::voice::SSMLResult</scope><name>segments</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

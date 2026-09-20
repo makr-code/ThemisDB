@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::rpc::RPCServiceRegistry</compoundname>
+    <includes refid="rpc__plugin__interface_8h" local="no">rpc_plugin_interface.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a473ab7e175e1d6a709d64ffa4b88d9bd" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, void * &gt;</type>
+        <definition>std::map&lt;std::string, void*&gt; themis::plugins::rpc::RPCServiceRegistry::services_</definition>
+        <argsstring></argsstring>
+        <name>services_</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistry::services_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="289" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1aeb50c2f1142d8331fca3b0bca814d73c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::RPCServiceRegistry::registerService</definition>
+        <argsstring>(const std::string &amp;name, void *impl)</argsstring>
+        <name>registerService</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistry::registerService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+<para>Register a service implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Service.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service implementation pointer</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a294d67a2d3fe24f58e191b47ac0b56b4" kindref="member">RPCServiceRegistryImpl::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="268" column="17" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a721fab5c72dc7a6c7d9d0386d5203a44" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::plugins::rpc::RPCServiceRegistry::getService</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getService</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistry::getService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get registered service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Service.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Service implementation pointer or nullptr</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a294d67a2d3fe24f58e191b47ac0b56b4" kindref="member">RPCServiceRegistryImpl::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="275" column="17" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a6cf3b1847c778f31b0e9d1112dcb1aa4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::RPCServiceRegistry::unregisterService</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterService</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistry::unregisterService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Service.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a294d67a2d3fe24f58e191b47ac0b56b4" kindref="member">RPCServiceRegistryImpl::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="281" column="17" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a0ab7f5c8f485d159db475089824e750c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry" kindref="compound">RPCServiceRegistry</ref> &amp;</type>
+        <definition>RPCServiceRegistry &amp; themis::plugins::rpc::RPCServiceRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Get singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Instance.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="286" column="31" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RPC Service Registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Global registry for RPC services. Allows registration of service implementations that can be used by multiple RPC plugins. </para>
+    </detaileddescription>
+    <location file="include/plugins/rpc_plugin_interface.h" line="261" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="261" bodyend="290"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a721fab5c72dc7a6c7d9d0386d5203a44" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistry</scope><name>getService</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a0ab7f5c8f485d159db475089824e750c" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1aeb50c2f1142d8331fca3b0bca814d73c" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistry</scope><name>registerService</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a473ab7e175e1d6a709d64ffa4b88d9bd" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistry</scope><name>services_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a6cf3b1847c778f31b0e9d1112dcb1aa4" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistry</scope><name>unregisterService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

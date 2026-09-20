@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="unified__memory_8h" kind="file" language="C++">
+    <compoundname>unified_memory.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/unified_memory.h</label>
+        <link refid="unified__memory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator" prot="public">themis::gpu::GPUUnifiedMemoryAllocator</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" prot="public">themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats" prot="public">themis::gpu::GPUUnifiedMemoryAllocator::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>advice<sp/>hints<sp/>(mirrors<sp/>cudaMemoryAdvise<sp/>/<sp/>hipMemoryAdvice)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86e" kindref="member">MemAdvice</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea9665e3a41960cfb896d76b9867b19dda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea9665e3a41960cfb896d76b9867b19dda" kindref="member">SET_PREFERRED_LOCATION</ref>,</highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea967ca8c5925153d3b706bae9e6fd347e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea967ca8c5925153d3b706bae9e6fd347e" kindref="member">SET_ACCESSED_BY</ref>,</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eabf08b9a088350db918688c6aba3515bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eabf08b9a088350db918688c6aba3515bc" kindref="member">SET_READ_MOSTLY</ref>,</highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eae1f2fb5832296d5fe9776b4f4dd12b01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eae1f2fb5832296d5fe9776b4f4dd12b01" kindref="member">UNSET_PREFERRED_LOCATION</ref>,</highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eae458c262f6a87ab3e71cc02e504d012c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eae458c262f6a87ab3e71cc02e504d012c" kindref="member">UNSET_ACCESSED_BY</ref>,</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea367c2d07b0da7a986730df99f50591b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea367c2d07b0da7a986730df99f50591b4" kindref="member">UNSET_READ_MOSTLY</ref>,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-allocation<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" kindref="compound">AllocationRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a1fb1f66929b65d8f30ea14f7fa4b2d22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a1fb1f66929b65d8f30ea14f7fa4b2d22" kindref="member">ptr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a9365bfd31a2f34682b1cda74d64e2682" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a9365bfd31a2f34682b1cda74d64e2682" kindref="member">bytes</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1abe37fe5bd741776fd0847cb7865758ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1abe37fe5bd741776fd0847cb7865758ab" kindref="member">tag</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a025c8ea4b1e275580874a976c9185d3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a025c8ea4b1e275580874a976c9185d3a" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1ae5654515c5e884e3cab10689a417d2c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1ae5654515c5e884e3cab10689a417d2c2" kindref="member">total_allocations</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a531cbeb27053f529611247bc5eeed706" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a531cbeb27053f529611247bc5eeed706" kindref="member">total_frees</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1ab23f1abf88ee2d578023849e73a666df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1ab23f1abf88ee2d578023849e73a666df" kindref="member">allocated_bytes</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a9b8028681c1ed55810107cb7e9a7a560" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a9b8028681c1ed55810107cb7e9a7a560" kindref="member">peak_bytes</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a60fb029f9fa1fc45e7d96eeb1430882c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a60fb029f9fa1fc45e7d96eeb1430882c" kindref="member">prefetch_calls</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1af19b7a295d32b611c9fdf887275c9dd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1af19b7a295d32b611c9fdf887275c9dd0" kindref="member">advise_calls</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a86d1a079e5e595277d5a1fac783592f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a86d1a079e5e595277d5a1fac783592f7" kindref="member">hardware_unified</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Singleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a064a6cbe3339b8ffc9474a7950d5b1ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a064a6cbe3339b8ffc9474a7950d5b1ed" kindref="member">GetInstance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref><sp/>inst;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>inst;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af82572cc53843369be0d869709749300" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af82572cc53843369be0d869709749300" kindref="member">~GPUUnifiedMemoryAllocator</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a39d3cbfa82adae87d642ddac868f3f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a39d3cbfa82adae87d642ddac868f3f40" kindref="member">GPUUnifiedMemoryAllocator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a4c9bb11735dfd5e5d1f11ac0f2a098d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a4c9bb11735dfd5e5d1f11ac0f2a098d7" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capability<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a77fa6cc897932bfa31629d8d3480d9d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a77fa6cc897932bfa31629d8d3480d9d7" kindref="member">isSupported</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocation<sp/>/<sp/>deallocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a00e8dfa607f7c8ca7b7e6f0bbcb346b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a00e8dfa607f7c8ca7b7e6f0bbcb346b1" kindref="member">allocate</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bytes,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>tag<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" kindref="member">free</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Migration<sp/>hints<sp/>(no-ops<sp/>on<sp/>CPU<sp/>fallback<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad57798c05e84b1489238e2c2ebc2c403" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad57798c05e84b1489238e2c2ebc2c403" kindref="member">prefetch</ref>(const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a895a23fe306b1fcc1711e1ea0d6962ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a895a23fe306b1fcc1711e1ea0d6962ef" kindref="member">advise</ref>(const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86e" kindref="member">MemAdvice</ref><sp/>advice,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af79874054aee7853d039fe1467bd5a91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af79874054aee7853d039fe1467bd5a91" kindref="member">getStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a1fa07c39910cc559b3858f1c860e9e0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" kindref="compound">AllocationRecord</ref>&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a1fa07c39910cc559b3858f1c860e9e0c" kindref="member">getActiveAllocations</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad1fbddf51d3235962b0b401f95942614" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad1fbddf51d3235962b0b401f95942614" kindref="member">getTenantBytes</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>tenant_id)<sp/>const;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1aa69ebfa744cea4957585be251e4ab461" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1aa69ebfa744cea4957585be251e4ab461" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" kindref="compound">AllocationRecord</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>active_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>uint64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tenant_bytes_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>total_allocations_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>total_frees_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>allocated_bytes_<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>peak_bytes_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>prefetch_calls_<sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>advise_calls_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/unified_memory.h"/>
+  </compounddef>
+</doxygen>

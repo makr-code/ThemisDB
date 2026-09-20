@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_entity_match_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::EntityMatchScore</compoundname>
+    <includes refid="entity__matcher_8h" local="no">entity_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_entity_match_score_1a88ecfad1027abed24b49fba553cffc90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::EntityMatchScore::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themis::importers::EntityMatchScore::entity_id</qualifiedname>
+        <briefdescription>
+<para>ThemisDB entity UUID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="112" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_entity_match_score_1a8f3f4821af3a12cd6fc09c42e169889e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::EntityMatchScore::overall_confidence</definition>
+        <argsstring></argsstring>
+        <name>overall_confidence</name>
+        <qualifiedname>themis::importers::EntityMatchScore::overall_confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="113" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_entity_match_score_1a7052ec180a2ff9922de55e3a7d175de6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_similarity_score" kindref="compound">SimilarityScore</ref> &gt;</type>
+        <definition>std::vector&lt;SimilarityScore&gt; themis::importers::EntityMatchScore::field_scores</definition>
+        <argsstring></argsstring>
+        <name>field_scores</name>
+        <qualifiedname>themis::importers::EntityMatchScore::field_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="114" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_entity_match_score_1a58a68062246238ec74bf302f618a1d71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::EntityMatchScore::confidence_level</definition>
+        <argsstring></argsstring>
+        <name>confidence_level</name>
+        <qualifiedname>themis::importers::EntityMatchScore::confidence_level</qualifiedname>
+        <briefdescription>
+<para>&quot;low&quot; | &quot;medium&quot; | &quot;high&quot; | &quot;very_high&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="115" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/entity_matcher.h" line="111" column="1" bodyfile="include/importers/entity_matcher.h" bodystart="111" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_entity_match_score_1a58a68062246238ec74bf302f618a1d71" prot="public" virt="non-virtual"><scope>themis::importers::EntityMatchScore</scope><name>confidence_level</name></member>
+      <member refid="structthemis_1_1importers_1_1_entity_match_score_1a88ecfad1027abed24b49fba553cffc90" prot="public" virt="non-virtual"><scope>themis::importers::EntityMatchScore</scope><name>entity_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_entity_match_score_1a7052ec180a2ff9922de55e3a7d175de6" prot="public" virt="non-virtual"><scope>themis::importers::EntityMatchScore</scope><name>field_scores</name></member>
+      <member refid="structthemis_1_1importers_1_1_entity_match_score_1a8f3f4821af3a12cd6fc09c42e169889e" prot="public" virt="non-virtual"><scope>themis::importers::EntityMatchScore</scope><name>overall_confidence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

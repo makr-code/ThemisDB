@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_canary_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::CanaryStatus</compoundname>
+    <includes refid="canary__rollout_8h" local="no">canary_rollout.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a2e79294f4ef5eed80187612c664ccd34" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::CanaryStatus::current_stage</definition>
+        <argsstring></argsstring>
+        <name>current_stage</name>
+        <qualifiedname>themis::updates::CanaryStatus::current_stage</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0-based index of the active stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="81" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1aebca8e27fd59aca2a2f3c4384d155fe5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::CanaryStatus::total_stages</definition>
+        <argsstring></argsstring>
+        <name>total_stages</name>
+        <qualifiedname>themis::updates::CanaryStatus::total_stages</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of configured stages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="84" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1ab172eed169b5f49f71f4123d2657f3b6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryStatus::current_percentage</definition>
+        <argsstring></argsstring>
+        <name>current_percentage</name>
+        <qualifiedname>themis::updates::CanaryStatus::current_percentage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Cumulative percentage of nodes in the active stage (0.0 – 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="87" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a4ee9cf9c3a772397917b8594531e321f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryStatus::this_node_included</definition>
+        <argsstring></argsstring>
+        <name>this_node_included</name>
+        <qualifiedname>themis::updates::CanaryStatus::this_node_included</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this node is included in the active stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="90" column="10" bodyfile="include/updates/canary_rollout.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a825e1879da46049db398089680ffb7e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryStatus::is_complete</definition>
+        <argsstring></argsstring>
+        <name>is_complete</name>
+        <qualifiedname>themis::updates::CanaryStatus::is_complete</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the rollout has completed all stages successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="93" column="10" bodyfile="include/updates/canary_rollout.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a5dc602e5b2e237a7e6a960123915b010" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryStatus::is_rolled_back</definition>
+        <argsstring></argsstring>
+        <name>is_rolled_back</name>
+        <qualifiedname>themis::updates::CanaryStatus::is_rolled_back</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the rollout was rolled back. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="96" column="10" bodyfile="include/updates/canary_rollout.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a3d3f9702f5b2e417db533fa1ebb63409" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CanaryStatus::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::CanaryStatus::version</qualifiedname>
+        <briefdescription>
+<para>Target version being rolled out. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="99" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a4fc6915fe25fc2e2e6755ee81c5dbafb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CanaryStatus::rollback_reason</definition>
+        <argsstring></argsstring>
+        <name>rollback_reason</name>
+        <qualifiedname>themis::updates::CanaryStatus::rollback_reason</qualifiedname>
+        <briefdescription>
+<para>Non-empty only when is_rolled_back is true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="102" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a00ce41dcb3e28f5969568508a420eb14" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryStatus::observed_error_rate</definition>
+        <argsstring></argsstring>
+        <name>observed_error_rate</name>
+        <qualifiedname>themis::updates::CanaryStatus::observed_error_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Current observed error rate (successes + errors tracked via reportSuccess() / reportError()). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="106" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a5671bab311fe9349d68ce7668fd6b785" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::CanaryStatus::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::updates::CanaryStatus::sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of events observed since the last stage advance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="109" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_status_1a8888a1e3df528be6d93922a396a8a431" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CanaryStatus::rollback_id</definition>
+        <argsstring></argsstring>
+        <name>rollback_id</name>
+        <qualifiedname>themis::updates::CanaryStatus::rollback_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback ID from the last successful <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" kindref="member">HotReloadEngine::applyHotReload</ref>, used to undo the update. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="113" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of a canary rollout&apos;s current state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/canary_rollout.h" line="79" column="1" bodyfile="include/updates/canary_rollout.h" bodystart="79" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1ab172eed169b5f49f71f4123d2657f3b6" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>current_percentage</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a2e79294f4ef5eed80187612c664ccd34" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>current_stage</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a825e1879da46049db398089680ffb7e1" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>is_complete</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a5dc602e5b2e237a7e6a960123915b010" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>is_rolled_back</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a00ce41dcb3e28f5969568508a420eb14" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>observed_error_rate</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a8888a1e3df528be6d93922a396a8a431" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>rollback_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a4fc6915fe25fc2e2e6755ee81c5dbafb" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>rollback_reason</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a5671bab311fe9349d68ce7668fd6b785" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a4ee9cf9c3a772397917b8594531e321f" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>this_node_included</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1aebca8e27fd59aca2a2f3c4384d155fe5" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>total_stages</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_status_1a3d3f9702f5b2e417db533fa1ebb63409" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStatus</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

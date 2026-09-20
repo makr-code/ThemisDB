@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::LLMValidationPipelineFactory</compoundname>
+    <includes refid="llm__validation__pipeline_8h" local="no">llm_validation_pipeline.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory_1a25871a8744c0397e2d1bd64c413494c4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline" kindref="compound">LLMValidationPipeline</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; LLMValidationPipeline &gt; themis::aql::LLMValidationPipelineFactory::create</definition>
+        <argsstring>(std::shared_ptr&lt; query::AQLParserService &gt; parser_service, std::shared_ptr&lt; llm::LLMClient &gt; llm_client)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::aql::LLMValidationPipelineFactory::create</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; query::AQLParserService &gt;</type>
+          <declname>parser_service</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; llm::LLMClient &gt;</type>
+          <declname>llm_client</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parser_service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">llm_client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="156" column="28" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="372" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory_1a1e89856927f24cb16c1e94d8ea00fb2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline" kindref="compound">LLMValidationPipeline</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; LLMValidationPipeline &gt; themis::aql::LLMValidationPipelineFactory::createWithConfig</definition>
+        <argsstring>(std::shared_ptr&lt; query::AQLParserService &gt; parser_service, std::shared_ptr&lt; llm::LLMClient &gt; llm_client, const LLMValidationPipelineConfig &amp;config)</argsstring>
+        <name>createWithConfig</name>
+        <qualifiedname>themis::aql::LLMValidationPipelineFactory::createWithConfig</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; query::AQLParserService &gt;</type>
+          <declname>parser_service</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; llm::LLMClient &gt;</type>
+          <declname>llm_client</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create With Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parser_service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">llm_client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="168" column="28" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="390" bodyend="400"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_validation_pipeline.h" line="148" column="1" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="148" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory_1a25871a8744c0397e2d1bd64c413494c4" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipelineFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory_1a1e89856927f24cb16c1e94d8ea00fb2b" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipelineFactory</scope><name>createWithConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

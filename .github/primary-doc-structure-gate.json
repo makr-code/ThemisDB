@@ -1,0 +1,47 @@
+{
+  "include": [
+    "src/*/README.md",
+    "src/*/ARCHITECTURE.md"
+  ],
+  "exclude": [],
+  "max_scan_lines": 500,
+  "rules": {
+    "README.md": {
+      "required_headings": [
+        "Zweck",
+        "Scope",
+        "Quickstart (Build/Run)",
+        "API/CLI Einstieg",
+        "Integrationsueberblick",
+        "Known Limitations",
+        "Verweise"
+      ],
+      "require_mermaid": true,
+      "max_mermaid_blocks": 3,
+      "require_interpretation_after_mermaid": true,
+      "interpretation_keywords": [
+        "Kurzinterpretation",
+        "Interpretation"
+      ]
+    },
+    "ARCHITECTURE.md": {
+      "required_headings": [
+        "Kontext",
+        "Komponenten",
+        "Schnittstellen",
+        "Datenfluss",
+        "Sequenz (kritischer Ablauf)",
+        "Fehlerpfade und Resilienz",
+        "Nicht-Ziele",
+        "Verweise"
+      ],
+      "require_mermaid": true,
+      "max_mermaid_blocks": 3,
+      "require_interpretation_after_mermaid": true,
+      "interpretation_keywords": [
+        "Kurzinterpretation",
+        "Interpretation"
+      ]
+    }
+  }
+}

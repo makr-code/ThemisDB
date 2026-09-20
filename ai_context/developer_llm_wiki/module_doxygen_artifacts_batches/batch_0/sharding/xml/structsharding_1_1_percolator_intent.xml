@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsharding_1_1_percolator_intent" kind="struct" language="C++" prot="public">
+    <compoundname>sharding::PercolatorIntent</compoundname>
+    <includes refid="transaction__snapshot_8h" local="no">transaction_snapshot.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsharding_1_1_percolator_intent_1afa30a80efbc5cc07ab185a5585aa72ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sharding::PercolatorIntent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>sharding::PercolatorIntent::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="64" column="17" bodyfile="include/sharding/transaction_snapshot.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_percolator_intent_1aff5ba48995b142579474b58735e65afd" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json sharding::PercolatorIntent::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>sharding::PercolatorIntent::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="65" column="20" bodyfile="include/sharding/transaction_snapshot.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_percolator_intent_1afa29caee1f93476de95bfa8f536aa3cf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t sharding::PercolatorIntent::start_timestamp</definition>
+        <argsstring></argsstring>
+        <name>start_timestamp</name>
+        <qualifiedname>sharding::PercolatorIntent::start_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="66" column="14" bodyfile="include/sharding/transaction_snapshot.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_percolator_intent_1a64a31ff866acacf397947ee5f437fc36" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sharding::PercolatorIntent::locked</definition>
+        <argsstring></argsstring>
+        <name>locked</name>
+        <qualifiedname>sharding::PercolatorIntent::locked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="67" column="10" bodyfile="include/sharding/transaction_snapshot.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Percolator write-intent state captured in snapshot metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/transaction_snapshot.h" line="63" column="1" bodyfile="include/sharding/transaction_snapshot.h" bodystart="63" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structsharding_1_1_percolator_intent_1afa30a80efbc5cc07ab185a5585aa72ce" prot="public" virt="non-virtual"><scope>sharding::PercolatorIntent</scope><name>key</name></member>
+      <member refid="structsharding_1_1_percolator_intent_1a64a31ff866acacf397947ee5f437fc36" prot="public" virt="non-virtual"><scope>sharding::PercolatorIntent</scope><name>locked</name></member>
+      <member refid="structsharding_1_1_percolator_intent_1afa29caee1f93476de95bfa8f536aa3cf" prot="public" virt="non-virtual"><scope>sharding::PercolatorIntent</scope><name>start_timestamp</name></member>
+      <member refid="structsharding_1_1_percolator_intent_1aff5ba48995b142579474b58735e65afd" prot="public" virt="non-virtual"><scope>sharding::PercolatorIntent</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

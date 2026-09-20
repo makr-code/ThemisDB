@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::ILLMPluginManager</compoundname>
+    <includes refid="llm__plugin__manager_8h" local="no">llm_plugin_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager_1ae7c0097699fd517caf29d9aeb26f48b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ILLMPluginManager::~ILLMPluginManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILLMPluginManager</name>
+        <qualifiedname>themis::llm::ILLMPluginManager::~ILLMPluginManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_plugin_manager.h" line="14" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager_1af9d1fe27720f6c5eea3fb872d2c38712" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>InferenceResponse</type>
+        <definition>virtual InferenceResponse themis::llm::ILLMPluginManager::generate</definition>
+        <argsstring>(const InferenceRequest &amp;req)=0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llm::ILLMPluginManager::generate</qualifiedname>
+        <param>
+          <type>const InferenceRequest &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_plugin_manager.h" line="15" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager_1a8c1727d5d96ca390fc5af83e26d3f283" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::ILLMPluginManager::pluginVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>pluginVersion</name>
+        <qualifiedname>themis::llm::ILLMPluginManager::pluginVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_plugin_manager.h" line="16" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/llm_plugin_manager.h" line="12" column="1" bodyfile="include/themis/llm/llm_plugin_manager.h" bodystart="12" bodyend="17"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager_1af9d1fe27720f6c5eea3fb872d2c38712" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPluginManager</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager_1a8c1727d5d96ca390fc5af83e26d3f283" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPluginManager</scope><name>pluginVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager_1ae7c0097699fd517caf29d9aeb26f48b9" prot="public" virt="virtual"><scope>themis::llm::ILLMPluginManager</scope><name>~ILLMPluginManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

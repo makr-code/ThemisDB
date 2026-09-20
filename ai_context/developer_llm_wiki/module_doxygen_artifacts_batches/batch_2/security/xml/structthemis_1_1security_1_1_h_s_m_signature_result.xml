@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_h_s_m_signature_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::HSMSignatureResult</compoundname>
+    <includes refid="hsm__provider_8h" local="no">hsm_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_signature_result_1ac94af1f25480ee9b1b2a8dfb649ba7b2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMSignatureResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::security::HSMSignatureResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="53" column="10" bodyfile="include/security/hsm_provider.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_signature_result_1a62358ab431597af48e3fce915be41680" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMSignatureResult::signature_b64</definition>
+        <argsstring></argsstring>
+        <name>signature_b64</name>
+        <qualifiedname>themis::security::HSMSignatureResult::signature_b64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="54" column="17" bodyfile="include/security/hsm_provider.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_signature_result_1a8633acd5ba8d75442757a71de80d4006" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMSignatureResult::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::security::HSMSignatureResult::algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="55" column="17" bodyfile="include/security/hsm_provider.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_signature_result_1af28f6664e655c90decd555e84118acd4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMSignatureResult::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::security::HSMSignatureResult::key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="56" column="17" bodyfile="include/security/hsm_provider.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_signature_result_1af40125ec23f77a7f201acb6bf69f27b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMSignatureResult::cert_serial</definition>
+        <argsstring></argsstring>
+        <name>cert_serial</name>
+        <qualifiedname>themis::security::HSMSignatureResult::cert_serial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="57" column="17" bodyfile="include/security/hsm_provider.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_signature_result_1af896e122c7e8640b08bc1cf5ed7b802c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMSignatureResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::security::HSMSignatureResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="58" column="17" bodyfile="include/security/hsm_provider.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_signature_result_1a9759c1881d7a7f1f93db01101f181f32" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMSignatureResult::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::security::HSMSignatureResult::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="59" column="14" bodyfile="include/security/hsm_provider.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/hsm_provider.h" line="52" column="1" bodyfile="include/security/hsm_provider.h" bodystart="52" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a8633acd5ba8d75442757a71de80d4006" prot="public" virt="non-virtual"><scope>themis::security::HSMSignatureResult</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af40125ec23f77a7f201acb6bf69f27b4" prot="public" virt="non-virtual"><scope>themis::security::HSMSignatureResult</scope><name>cert_serial</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af896e122c7e8640b08bc1cf5ed7b802c" prot="public" virt="non-virtual"><scope>themis::security::HSMSignatureResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af28f6664e655c90decd555e84118acd4" prot="public" virt="non-virtual"><scope>themis::security::HSMSignatureResult</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a62358ab431597af48e3fce915be41680" prot="public" virt="non-virtual"><scope>themis::security::HSMSignatureResult</scope><name>signature_b64</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_signature_result_1ac94af1f25480ee9b1b2a8dfb649ba7b2" prot="public" virt="non-virtual"><scope>themis::security::HSMSignatureResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a9759c1881d7a7f1f93db01101f181f32" prot="public" virt="non-virtual"><scope>themis::security::HSMSignatureResult</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

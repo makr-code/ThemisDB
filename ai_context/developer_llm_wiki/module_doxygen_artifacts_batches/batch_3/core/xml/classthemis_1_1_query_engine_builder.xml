@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_query_engine_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::QueryEngineBuilder</compoundname>
+    <includes refid="query__engine__builder_8h" local="no">query_engine_builder.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_query_engine_builder_1add27d6c078bcfd6fdf5cca343cd6e191" prot="private" static="no" mutable="no">
+        <type>IStorageEnginePtr</type>
+        <definition>IStorageEnginePtr themis::QueryEngineBuilder::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::QueryEngineBuilder::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/query_engine_builder.h" line="97" column="23" bodyfile="include/core/query_engine_builder.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_query_engine_builder_1ad9b4e4065c9671ebfdca4c86094fdbb7" prot="private" static="no" mutable="no">
+        <type>IIndexManagerPtr</type>
+        <definition>IIndexManagerPtr themis::QueryEngineBuilder::index_manager_</definition>
+        <argsstring></argsstring>
+        <name>index_manager_</name>
+        <qualifiedname>themis::QueryEngineBuilder::index_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/query_engine_builder.h" line="98" column="22" bodyfile="include/core/query_engine_builder.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::QueryEngineBuilder::QueryEngineBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>QueryEngineBuilder</name>
+        <qualifiedname>themis::QueryEngineBuilder::QueryEngineBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/query_engine_builder.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_engine_builder_1a4335fd9b6965e3fb30a9b6e59c4c1384" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref> &amp;</type>
+        <definition>QueryEngineBuilder &amp; themis::QueryEngineBuilder::withStorage</definition>
+        <argsstring>(IStorageEnginePtr storage)</argsstring>
+        <name>withStorage</name>
+        <qualifiedname>themis::QueryEngineBuilder::withStorage</qualifiedname>
+        <param>
+          <type>IStorageEnginePtr</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+<para>With Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/query_engine_builder.h" line="55" column="24" bodyfile="include/core/query_engine_builder.h" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_engine_builder_1a43e4d399a85325f18f7e559cf9724a09" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref> &amp;</type>
+        <definition>QueryEngineBuilder &amp; themis::QueryEngineBuilder::withIndexManager</definition>
+        <argsstring>(IIndexManagerPtr index_manager)</argsstring>
+        <name>withIndexManager</name>
+        <qualifiedname>themis::QueryEngineBuilder::withIndexManager</qualifiedname>
+        <param>
+          <type>IIndexManagerPtr</type>
+          <declname>index_manager</declname>
+        </param>
+        <briefdescription>
+<para>With Index Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withIndexManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/query_engine_builder.h" line="66" column="24" bodyfile="include/core/query_engine_builder.h" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_engine_builder_1add1e7233ee44e43a9e84fbad7de36463" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; query::QueryEngine &gt;</type>
+        <definition>std::shared_ptr&lt; query::QueryEngine &gt; themis::QueryEngineBuilder::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::QueryEngineBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements build without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/query_engine_builder.h" line="77" column="21" bodyfile="include/core/query_engine_builder.h" bodystart="77" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_query_engine_builder_1aaceb8331e339bae60aea908d05fa54da" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref></type>
+        <definition>static QueryEngineBuilder themis::QueryEngineBuilder::standard</definition>
+        <argsstring>()</argsstring>
+        <name>standard</name>
+        <qualifiedname>themis::QueryEngineBuilder::standard</qualifiedname>
+        <briefdescription>
+<para>Standard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements standard without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/query_engine_builder.h" line="91" column="31" bodyfile="include/core/query_engine_builder.h" bodystart="91" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/query_engine_builder.h" line="45" column="1" bodyfile="include/core/query_engine_builder.h" bodystart="45" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_query_engine_builder_1add1e7233ee44e43a9e84fbad7de36463" prot="public" virt="non-virtual"><scope>themis::QueryEngineBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1_query_engine_builder_1ad9b4e4065c9671ebfdca4c86094fdbb7" prot="private" virt="non-virtual"><scope>themis::QueryEngineBuilder</scope><name>index_manager_</name></member>
+      <member refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" prot="public" virt="non-virtual"><scope>themis::QueryEngineBuilder</scope><name>QueryEngineBuilder</name></member>
+      <member refid="classthemis_1_1_query_engine_builder_1aaceb8331e339bae60aea908d05fa54da" prot="public" virt="non-virtual"><scope>themis::QueryEngineBuilder</scope><name>standard</name></member>
+      <member refid="classthemis_1_1_query_engine_builder_1add27d6c078bcfd6fdf5cca343cd6e191" prot="private" virt="non-virtual"><scope>themis::QueryEngineBuilder</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1_query_engine_builder_1a43e4d399a85325f18f7e559cf9724a09" prot="public" virt="non-virtual"><scope>themis::QueryEngineBuilder</scope><name>withIndexManager</name></member>
+      <member refid="classthemis_1_1_query_engine_builder_1a4335fd9b6965e3fb30a9b6e59c4c1384" prot="public" virt="non-virtual"><scope>themis::QueryEngineBuilder</scope><name>withStorage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

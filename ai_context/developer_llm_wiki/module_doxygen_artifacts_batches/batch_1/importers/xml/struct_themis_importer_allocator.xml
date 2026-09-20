@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_themis_importer_allocator" kind="struct" language="C++" prot="public">
+    <compoundname>ThemisImporterAllocator</compoundname>
+    <includes refid="importer__plugin_8h" local="no">importer_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_themis_importer_allocator_1a0f149d1f29cdfa9b91213de77cb8681d" prot="public" static="no" mutable="no">
+        <type>void *(*</type>
+        <definition>void *(* ThemisImporterAllocator::alloc) (size_t bytes, void *user_data)</definition>
+        <argsstring>)(size_t bytes, void *user_data)</argsstring>
+        <name>alloc</name>
+        <qualifiedname>ThemisImporterAllocator::alloc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="33" column="5" bodyfile="include/importers/importer_plugin.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_allocator_1afb15221ddc0d5a8e851a84014d1371cc" prot="public" static="no" mutable="no">
+        <type>void(*</type>
+        <definition>void(* ThemisImporterAllocator::free) (void *ptr, void *user_data)</definition>
+        <argsstring>)(void *ptr, void *user_data)</argsstring>
+        <name>free</name>
+        <qualifiedname>ThemisImporterAllocator::free</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="34" column="5" bodyfile="include/importers/importer_plugin.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_allocator_1aae1bb1aacc245246e17c6b08a60d494c" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ThemisImporterAllocator::user_data</definition>
+        <argsstring></argsstring>
+        <name>user_data</name>
+        <qualifiedname>ThemisImporterAllocator::user_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="35" column="10" bodyfile="include/importers/importer_plugin.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_plugin.h" line="32" column="1" bodyfile="include/importers/importer_plugin.h" bodystart="32" bodyend="36"/>
+    <listofallmembers>
+      <member refid="struct_themis_importer_allocator_1a0f149d1f29cdfa9b91213de77cb8681d" prot="public" virt="non-virtual"><scope>ThemisImporterAllocator</scope><name>alloc</name></member>
+      <member refid="struct_themis_importer_allocator_1afb15221ddc0d5a8e851a84014d1371cc" prot="public" virt="non-virtual"><scope>ThemisImporterAllocator</scope><name>free</name></member>
+      <member refid="struct_themis_importer_allocator_1aae1bb1aacc245246e17c6b08a60d494c" prot="public" virt="non-virtual"><scope>ThemisImporterAllocator</scope><name>user_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

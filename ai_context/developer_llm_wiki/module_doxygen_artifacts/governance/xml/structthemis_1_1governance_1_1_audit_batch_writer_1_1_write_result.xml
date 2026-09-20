@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::AuditBatchWriter::WriteResult</compoundname>
+    <includes refid="audit__batch__writer_8h" local="no">audit_batch_writer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a92484e30f554ab0e64bd79db0d3664ad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::AuditBatchWriter::WriteResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::WriteResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="116" column="14" bodyfile="include/governance/audit_batch_writer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a3102b1a2e118b8fcf14ae6181fd4e8ba" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::WriteResult::entries_written</definition>
+        <argsstring></argsstring>
+        <name>entries_written</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::WriteResult::entries_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="117" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a28d23dbc16601381be415678ecdad6af" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::WriteResult::entries_failed</definition>
+        <argsstring></argsstring>
+        <name>entries_failed</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::WriteResult::entries_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="118" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1ae1131b6bc716934f1b5f92f2e798fbbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AuditBatchWriter::WriteResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::WriteResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="119" column="21" bodyfile="include/governance/audit_batch_writer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1aa422fdb4ebc563c753bf9298dc0ccdde" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::AuditBatchWriter::WriteResult::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::WriteResult::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="120" column="24" bodyfile="include/governance/audit_batch_writer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/audit_batch_writer.h" line="115" column="5" bodyfile="include/governance/audit_batch_writer.h" bodystart="115" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a28d23dbc16601381be415678ecdad6af" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::WriteResult</scope><name>entries_failed</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a3102b1a2e118b8fcf14ae6181fd4e8ba" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::WriteResult</scope><name>entries_written</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1ae1131b6bc716934f1b5f92f2e798fbbb" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::WriteResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1aa422fdb4ebc563c753bf9298dc0ccdde" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::WriteResult</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a92484e30f554ab0e64bd79db0d3664ad" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::WriteResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

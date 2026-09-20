@@ -1,0 +1,902 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wire__protocol__backpressure_8cpp" kind="file" language="C++">
+    <compoundname>test_wire_protocol_backpressure.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="wire__protocol__server_8h" local="yes">network/wire_protocol_server.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>network/qos_manager.h</label>
+        <link refid="qos__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>network/wire_protocol_server.h</label>
+        <link refid="wire__protocol__server_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_wire_protocol_backpressure.cpp</label>
+        <link refid="test__wire__protocol__backpressure_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="5">
+        <label>boost/asio/thread_pool.hpp</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, TcpBacklogDefaultIs128)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>TcpBacklogDefaultIs128</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="33" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a48cc39ae34c46caef20c3aa0f9b370b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, TcpBacklogCustomValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>TcpBacklogCustomValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="42" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a8f8adf56e1dab640779475f3e15c23dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, TcpBacklogHighConcurrency)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>TcpBacklogHighConcurrency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="48" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a4872f532997a3e24691df58396c05ee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, TcpBacklogMinimumOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>TcpBacklogMinimumOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="58" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a8710be2a1a950ba2bf55e7d5357164a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, MaxConnectionsDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>MaxConnectionsDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="68" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="68" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1ae1184432ec58e75d1c1c5f3d81ce3ece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, MaxConnectionsCanBeReduced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>MaxConnectionsCanBeReduced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="73" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a03b1d92e358290ed71220559d888ed98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, MaxConnectionsCanBeSetUnlimited)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>MaxConnectionsCanBeSetUnlimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="79" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1aed31424ffc1731fa77552f7cff26d94b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, StatsRejectedConnectionsDefaultZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>StatsRejectedConnectionsDefaultZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="89" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a075656fc29e8d120b27d6658301aa0a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, StatsAllFieldsDefaultZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>StatsAllFieldsDefaultZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="94" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="94" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a6a101e3bebf84b3eec25acf59a73a409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, NotOverloadedInitially)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>NotOverloadedInitially</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="151" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a7a74cb30ef459fdb69d364500190b1cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, OverloadedFlagSetOnFirstRejection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>OverloadedFlagSetOnFirstRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="157" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="157" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a30ddbfe949de606533692f1e05190448" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, RejectedConnectionsAccumulate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>RejectedConnectionsAccumulate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="168" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="168" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a61ca1d4e7e0e29ee085b5dbac13bde03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, RecoveryAfterConnectionClose)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>RecoveryAfterConnectionClose</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="183" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="183" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a34c7d5bb9eb1c05fa29c500d219333ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, AcceptsAgainAfterRecovery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>AcceptsAgainAfterRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="196" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="196" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a11bcb9b628b161b5a47323e7c56060d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, UnlimitedConnectionsNeverOverloaded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>UnlimitedConnectionsNeverOverloaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="213" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="213" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a734f605c4e0663452655ba8cb8416cc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, AllBackpressureFieldsCoexist)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>AllBackpressureFieldsCoexist</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="228" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="228" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a1e41496a5e5b25e0f1073fd7ee797846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, TcpBacklogIndependentOfPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>TcpBacklogIndependentOfPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="243" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="243" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a59845a817331d88b4fe303f4837e7823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, TcpBacklogIndependentOfTLS)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>TcpBacklogIndependentOfTLS</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="252" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="252" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a84ea480267f53f3fd7b5986b19d9e27e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, UnregisterUnknownIpDoesNotUnderflow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>UnregisterUnknownIpDoesNotUnderflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="296" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="296" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1ae9d0db1707e03f00ef5dccc3378ca25a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, UnregisterEmptyIpDoesNotUnderflow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>UnregisterEmptyIpDoesNotUnderflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="307" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="307" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1abbc0992e64bec1ce986606553a7e9ca9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, UnregisterRegisteredIpDecrementsCounter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>UnregisterRegisteredIpDecrementsCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="317" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="317" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__backpressure_8cpp_1a6be1ba1a0569d8c0d021196b9d6ba384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolBackpressure, MixedRegisteredAndUnregisteredCalls)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolBackpressure</type>
+        </param>
+        <param>
+          <type>MixedRegisteredAndUnregisteredCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_backpressure.cpp" line="330" column="1" bodyfile="tests/network/test_wire_protocol_backpressure.cpp" bodystart="330" bodyend="343"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>@file<sp/>test_wire_protocol_backpressure.cpp</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>@brief<sp/>Unit<sp/>tests<sp/>for<sp/>TCP<sp/>backlog<sp/>management<sp/>and<sp/>backpressure<sp/>handling<sp/>in</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WireProtocolServer.</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>These<sp/>tests<sp/>validate<sp/>the<sp/>observable<sp/>configuration<sp/>and<sp/>state-machine<sp/>behaviour</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>introduced<sp/>by<sp/>the<sp/>backpressure<sp/>feature<sp/>without<sp/>requiring<sp/>a<sp/>live<sp/>TCP<sp/>socket:</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/>1.<sp/><sp/>Config<sp/>defaults<sp/>—<sp/>tcp_backlog<sp/>default<sp/>value<sp/>(128)</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/>2.<sp/><sp/>tcp_backlog<sp/>field<sp/>can<sp/>be<sp/>set<sp/>to<sp/>custom<sp/>values</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/><sp/>3.<sp/><sp/>tcp_backlog<sp/>validation:<sp/>positive<sp/>values<sp/>accepted;<sp/>0/negative<sp/>handled</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/><sp/>4.<sp/><sp/>max_connections<sp/>default<sp/>and<sp/>reconfiguration</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/><sp/>5.<sp/><sp/>Backpressure<sp/>state:<sp/>connection<sp/>rejection<sp/>increments<sp/>rejected_connections<sp/>stat</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/><sp/>6.<sp/><sp/>Backpressure<sp/>state:<sp/>overloaded_<sp/>flag<sp/>transitions<sp/>(entering<sp/>/<sp/>recovering)</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/><sp/>7.<sp/><sp/>Backpressure<sp/>+<sp/>per-IP<sp/>limit:<sp/>independent<sp/>rejection<sp/>paths</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/><sp/>8.<sp/><sp/>Recovery:<sp/>overloaded_<sp/>cleared<sp/>once<sp/>active<sp/>count<sp/>drops<sp/>below<sp/>max_connections</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/><sp/>9.<sp/><sp/>Stats:<sp/>rejected_connections<sp/>counter<sp/>starts<sp/>at<sp/>zero</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>10.<sp/><sp/>Config:<sp/>all<sp/>backpressure-related<sp/>fields<sp/>coexist<sp/>without<sp/>conflict</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wire__protocol__server_8h" kindref="compound">network/wire_protocol_server.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>tcp_backlog<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>TcpBacklogDefaultIs128)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref>,<sp/>128);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>tcp_backlog<sp/>can<sp/>be<sp/>customized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>TcpBacklogCustomValue)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref>,<sp/>512);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>TcpBacklogHighConcurrency)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref>,<sp/>4096);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>tcp_backlog<sp/>edge<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>TcpBacklogMinimumOne)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>max_connections<sp/>default<sp/>and<sp/>reconfiguration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>MaxConnectionsDefault)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" kindref="member">max_connections</ref>,<sp/>1000u);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>MaxConnectionsCanBeReduced)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" kindref="member">max_connections</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" kindref="member">max_connections</ref>,<sp/>10u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>MaxConnectionsCanBeSetUnlimited)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" kindref="member">max_connections</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>no<sp/>global<sp/>limit<sp/>in<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" kindref="member">max_connections</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>Stats:<sp/>rejected_connections<sp/>starts<sp/>at<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>StatsRejectedConnectionsDefaultZero)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats" kindref="compound">WireProtocolServer::Stats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a2f15459eae0aefd52803fa0493f4e3ef" kindref="member">rejected_connections</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>StatsAllFieldsDefaultZero)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats" kindref="compound">WireProtocolServer::Stats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1ab110899bad56d786277db1d10d6f275a" kindref="member">total_connections</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a4f0f6229884314e5afcfb058a3e9714e" kindref="member">active_connections</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a2f15459eae0aefd52803fa0493f4e3ef" kindref="member">rejected_connections</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a9b46551d194fc47bf50c4cc7453f0254" kindref="member">total_requests</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a561ec1429c670c721f7d12522c357f49" kindref="member">total_errors</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a46eab2982d3260464e3e30ffb1fab353" kindref="member">auth_failures</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a42127a43fbceb92d052cba552af5ad1e" kindref="member">bytes_received</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats_1a82f3c7e2617962c09ae289b8974d022a" kindref="member">bytes_sent</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>Backpressure<sp/>overload<sp/>state<sp/>—<sp/>logic<sp/>mirror</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">BackpressureStateMirror<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>max_connections<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/>active_count{0};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>overloaded{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>rejected{0};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkLimit()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>max_connections<sp/>==<sp/>0<sp/>||</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>active_count.load(std::memory_order_relaxed)<sp/>&lt;<sp/>max_connections;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>accept()<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!checkLimit())<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>rejection:<sp/>set<sp/>overloaded<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>overloaded.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rejected.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>active_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>release()<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>prev<sp/>=<sp/>active_count.fetch_sub(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(overloaded.load(std::memory_order_relaxed)<sp/>&amp;&amp;<sp/>max_connections<sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prev<sp/>-<sp/>1<sp/>&lt;<sp/>max_connections)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>overloaded.store(</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>NotOverloadedInitially)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>BackpressureStateMirror<sp/>bp;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.max_connections<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bp.overloaded.load());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>OverloadedFlagSetOnFirstRejection)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>BackpressureStateMirror<sp/>bp;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.max_connections<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bp.accept());<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>conn<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bp.accept());<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>conn<sp/>2<sp/><sp/>(now<sp/>at<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bp.accept());<sp/><sp/></highlight><highlight class="comment">//<sp/>conn<sp/>3<sp/><sp/>→<sp/>rejected,<sp/>overloaded<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bp.overloaded.load());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bp.rejected.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>RejectedConnectionsAccumulate)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>BackpressureStateMirror<sp/>bp;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.max_connections<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bp.accept());<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>connection<sp/>–<sp/>at<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(bp.accept());<sp/><sp/></highlight><highlight class="comment">//<sp/>all<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bp.rejected.load(),<sp/>5u);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>7.<sp/>Recovery:<sp/>overloaded_<sp/>clears<sp/>when<sp/>count<sp/>drops<sp/>below<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>RecoveryAfterConnectionClose)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>BackpressureStateMirror<sp/>bp;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.max_connections<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.accept();<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>conn<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.accept();<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>conn<sp/>2<sp/>–<sp/>at<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.accept();<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rejected<sp/>→<sp/>overloaded<sp/>=<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bp.overloaded.load());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.release();<sp/><sp/></highlight><highlight class="comment">//<sp/>close<sp/>conn<sp/>2<sp/>→<sp/>active=1,<sp/>below<sp/>limit<sp/>→<sp/>overloaded=false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bp.overloaded.load());</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>AcceptsAgainAfterRecovery)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>BackpressureStateMirror<sp/>bp;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.max_connections<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.accept();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>at<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bp.accept());<sp/></highlight><highlight class="comment">//<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bp.overloaded.load());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.release();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bp.overloaded.load());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bp.accept());<sp/><sp/></highlight><highlight class="comment">//<sp/>can<sp/>accept<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>8.<sp/>No<sp/>global<sp/>limit<sp/>(max_connections<sp/>==<sp/>0)<sp/>→<sp/>never<sp/>overloaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>UnlimitedConnectionsNeverOverloaded)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>BackpressureStateMirror<sp/>bp;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>bp.max_connections<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(bp.accept());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bp.overloaded.load());</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bp.rejected.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>9.<sp/>Config:<sp/>all<sp/>backpressure-related<sp/>fields<sp/>coexist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>AllBackpressureFieldsCoexist)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" kindref="member">max_connections</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a373cf9774751e5bcdac04d677fe4737b" kindref="member">max_connections_per_ip</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" kindref="member">max_connections</ref>,<sp/>500u);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a373cf9774751e5bcdac04d677fe4737b" kindref="member">max_connections_per_ip</ref>,<sp/>5u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref>,<sp/>256);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>10.<sp/>tcp_backlog<sp/>does<sp/>not<sp/>interfere<sp/>with<sp/>other<sp/>Config<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>TcpBacklogIndependentOfPort)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a37b70fb6dec7e8baaf74999300a037b5" kindref="member">port</ref><sp/>=<sp/>9000;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a37b70fb6dec7e8baaf74999300a037b5" kindref="member">port</ref>,<sp/>9000u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref>,<sp/>64);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>TcpBacklogIndependentOfTLS)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a5db69be0eaca94f5b7905b6c37426196" kindref="member">enable_tls</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a5db69be0eaca94f5b7905b6c37426196" kindref="member">enable_tls</ref>);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" kindref="member">tcp_backlog</ref>,<sp/>200);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>11.<sp/>Regression:<sp/>unregisterConnection<sp/>must<sp/>not<sp/>underflow<sp/>when<sp/>called<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>sessions<sp/>that<sp/>were<sp/>never<sp/>registerConnection()-ed<sp/>(e.g.<sp/>rejected<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>start()<sp/>was<sp/>called<sp/>—<sp/>client_ip_<sp/>stays<sp/>&quot;unknown&quot;).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">UnregisterMirror<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>max_connections<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/>active_count{0};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>overloaded{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>uint32_t&gt;<sp/>per_ip;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>registerConn(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>per_ip[ip]++;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>active_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>unregisterConn(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>was_registered<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>per_ip.find(ip);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>per_ip.end()<sp/>&amp;&amp;<sp/>it-&gt;second<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;second--;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>was_registered<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!was_registered)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>BUG<sp/>FIX:<sp/>don&apos;t<sp/>fetch_sub<sp/>when<sp/>not<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>active_count.fetch_sub(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>UnregisterUnknownIpDoesNotUnderflow)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>UnregisterMirror<sp/>m;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>m.active_count.store(0);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>rejected<sp/>session<sp/>whose<sp/>client_ip_<sp/>was<sp/>never<sp/>set<sp/>(&quot;unknown&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>m.unregisterConn(</highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>active_count<sp/>must<sp/>remain<sp/>0,<sp/>NOT<sp/>wrap<sp/>to<sp/>UINT32_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.active_count.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>UnregisterEmptyIpDoesNotUnderflow)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>UnregisterMirror<sp/>m;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>m.active_count.store(0);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>WebSocket-upgraded<sp/>session<sp/>whose<sp/>client_ip_<sp/>was<sp/>cleared</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>m.unregisterConn(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.active_count.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>UnregisterRegisteredIpDecrementsCounter)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>UnregisterMirror<sp/>m;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>m.registerConn(</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>m.registerConn(</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.active_count.load(),<sp/>2u);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>m.unregisterConn(</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.active_count.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>m.unregisterConn(</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.active_count.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__wire__protocol__backpressure_8cpp_1a71d9229f61c17c52f13d27cbf9b2cb8f" kindref="member">TEST</ref>(WireProtocolBackpressure,<sp/>MixedRegisteredAndUnregisteredCalls)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>UnregisterMirror<sp/>m;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>m.registerConn(</highlight><highlight class="stringliteral">&quot;192.168.1.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>m.registerConn(</highlight><highlight class="stringliteral">&quot;192.168.1.2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.active_count.load(),<sp/>2u);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unregister<sp/>a<sp/>session<sp/>that<sp/>was<sp/>never<sp/>registered<sp/>(rejected<sp/>connection)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>m.unregisterConn(</highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.active_count.load(),<sp/>2u);<sp/><sp/></highlight><highlight class="comment">//<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Properly<sp/>unregister<sp/>a<sp/>real<sp/>session</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>m.unregisterConn(</highlight><highlight class="stringliteral">&quot;192.168.1.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.active_count.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_wire_protocol_backpressure.cpp"/>
+  </compounddef>
+</doxygen>

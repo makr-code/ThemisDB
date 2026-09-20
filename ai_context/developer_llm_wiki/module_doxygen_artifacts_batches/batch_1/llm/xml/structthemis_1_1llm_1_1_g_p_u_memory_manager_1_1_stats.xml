@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GPUMemoryManager::Stats</compoundname>
+    <includes refid="gpu__memory__manager_8h" local="no">gpu_memory_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a813a3657c17bb04dd9fcd4c17589aa6e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::total_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_vram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::total_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="120" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a2992bc929e149f171ccac54a4dd2c40f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::used_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_vram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::used_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="121" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1aeee79e93f4d8d6726cfce2a20129f755" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::free_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>free_vram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::free_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="122" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a6ca05ea068914785b69eae0ebf33ddda" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::total_ram_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_ram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::total_ram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="123" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a85fe4b0bc0ffafc174bb1ac71c4e478c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::used_ram_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_ram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::used_ram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="124" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1aee30e681ddadbbbac179210713de4e1a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::free_ram_bytes</definition>
+        <argsstring></argsstring>
+        <name>free_ram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::free_ram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="125" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a4adb4cccc7131cc04eb920cd313d0f13" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::num_allocations</definition>
+        <argsstring></argsstring>
+        <name>num_allocations</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::num_allocations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="126" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1ab39e044fccfe339ecea0a8a71cd1e4ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::num_models</definition>
+        <argsstring></argsstring>
+        <name>num_models</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::num_models</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="127" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a32bb53d35e7209971bed5a9c64271973" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Stats::fragmentation_pct</definition>
+        <argsstring></argsstring>
+        <name>fragmentation_pct</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Stats::fragmentation_pct</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="128" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gpu_memory_manager.h" line="119" column="5" bodyfile="include/llm/gpu_memory_manager.h" bodystart="119" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a32bb53d35e7209971bed5a9c64271973" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>fragmentation_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1aee30e681ddadbbbac179210713de4e1a" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>free_ram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1aeee79e93f4d8d6726cfce2a20129f755" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>free_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a4adb4cccc7131cc04eb920cd313d0f13" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>num_allocations</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1ab39e044fccfe339ecea0a8a71cd1e4ed" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>num_models</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a6ca05ea068914785b69eae0ebf33ddda" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>total_ram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a813a3657c17bb04dd9fcd4c17589aa6e" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>total_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a85fe4b0bc0ffafc174bb1ac71c4e478c" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>used_ram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a2992bc929e149f171ccac54a4dd2c40f" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Stats</scope><name>used_vram_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

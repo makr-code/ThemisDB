@@ -1,0 +1,1031 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__schema__constraints_8cpp" kind="file" language="C++">
+    <compoundname>test_schema_constraints.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includes refid="schema__constraints_8h" local="yes">metadata/schema_constraints.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>metadata/schema_constraints.h</label>
+        <link refid="schema__constraints_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_schema_constraints.cpp</label>
+        <link refid="test__schema__constraints_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_schema_constraints_test" prot="public">SchemaConstraintsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1abf1e955b3e4bd647bbb8a75e267da9c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConstraintFactoryTest, MakeNotNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConstraintFactoryTest</type>
+        </param>
+        <param>
+          <type>MakeNotNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="16" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="16" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a572fa59d899f8f876fcd647f6745a7b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConstraintFactoryTest, MakeUnique)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConstraintFactoryTest</type>
+        </param>
+        <param>
+          <type>MakeUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="22" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1adbb2a8943a91ee17a2f6960baa3db80f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConstraintFactoryTest, MakeCheck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConstraintFactoryTest</type>
+        </param>
+        <param>
+          <type>MakeCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="28" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1ad609598980d86d89135c187d82749262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConstraintFactoryTest, MakeDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConstraintFactoryTest</type>
+        </param>
+        <param>
+          <type>MakeDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="36" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="36" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a35c0700d5371aacccbac5510798a1528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConstraintFactoryTest, MakeForeignKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConstraintFactoryTest</type>
+        </param>
+        <param>
+          <type>MakeForeignKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="44" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="44" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, AddAndGetColumnConstraints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>AddAndGetColumnConstraints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="62" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1ae43db7943adc02c8b2e91f3801e9a622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, AddMultipleConstraintsToColumn)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>AddMultipleConstraintsToColumn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="72" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="72" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1af6300e2cffc96cd0b7be6ce6105f751e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, GetTableConstraints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>GetTableConstraints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="82" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="82" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a4c5778a93b367362daf4b0380d3479c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, GetConstraintsMissingTable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>GetConstraintsMissingTable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="92" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="92" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a52d1767a75c90579f049dbc70595dc71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, RemoveColumnConstraints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveColumnConstraints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="100" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="100" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a10f7c0ea9242cfc4da00ef9bb943466d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, RemoveTableConstraints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveTableConstraints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="108" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="108" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1ada1e6964ad9d6aa0e93b654f321e4fab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceNotNullViolation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceNotNullViolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="121" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="121" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1ac676299c60eaa64e28dd83570bb9c402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceNotNullExplicitNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceNotNullExplicitNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="135" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="135" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a066fa9243ff2a6025a5375f3e1c89cad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceNotNullOK)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceNotNullOK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="147" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="147" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a3d977c7bb7b1015432cd16366274bfdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceCheckViolationGreaterThan)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceCheckViolationGreaterThan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="162" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="162" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1ab13291e88fb085e7c783cde5e49ab6a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceCheckPassGreaterThan)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceCheckPassGreaterThan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="174" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="174" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a636cac59128c08b9e1138caff7403547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceCheckGreaterOrEqual)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceCheckGreaterOrEqual</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="183" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="183" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a1694f62460a22ae3e92d0241a4b925cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceCheckEqual)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceCheckEqual</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="196" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="196" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1abbc0c1fb1281ea1b0f5372e715dad107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceMultipleViolations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceMultipleViolations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="207" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="207" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a1ac57497d40ea5546bfaaa31d97c45cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, EnforceNoConstraintsForTable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceNoConstraintsForTable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="219" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="219" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a719018f272883511b0fc99ce3736dd3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ApplyDefaultsMissingColumn)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ApplyDefaultsMissingColumn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="229" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="229" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1af6827b0cfed8e2556eedd73e4703b456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ApplyDefaultsNullColumn)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ApplyDefaultsNullColumn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="240" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="240" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a8128222e071fdd4a7688dee1e79531e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ApplyDefaultsDoesNotOverwriteExistingValue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ApplyDefaultsDoesNotOverwriteExistingValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="252" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="252" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a9fcadef1e49b6ecff43886a133f0ec73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ApplyDefaultsStringDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ApplyDefaultsStringDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="262" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="262" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1aa45cf222e27eb87fd07451116eb1b14f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ApplyDefaultsIntegerDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ApplyDefaultsIntegerDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="272" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="272" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a8a23452b2efd3d6dafb7110e660d8fed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ToJSONAndFromJSON)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ToJSONAndFromJSON</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="286" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="286" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a8b1c79f49f8fc7fd767e90cc582ddd9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ConstraintViolationToJSON)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ConstraintViolationToJSON</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="324" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="324" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a9bb070bd5a31d0100a665b8827d57aa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ColumnConstraintToJSONNotNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ColumnConstraintToJSONNotNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="339" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="339" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a673729ad63701274e45b2bfe5c27a217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ColumnConstraintToJSONCheck)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ColumnConstraintToJSONCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="346" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="346" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a2b0db9d5d0326f2e3c2707487773612f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ColumnConstraintToJSONDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ColumnConstraintToJSONDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="353" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="353" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints_8cpp_1a08712570a0ec2ddaba113241e6222e10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsTest, ColumnConstraintToJSONForeignKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref></type>
+        </param>
+        <param>
+          <type>ColumnConstraintToJSONForeignKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints.cpp" line="360" column="1" bodyfile="tests/metadata/test_schema_constraints.cpp" bodystart="360" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__constraints_8h" kindref="compound">metadata/schema_constraints.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ColumnConstraint<sp/>factories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1abf1e955b3e4bd647bbb8a75e267da9c3" kindref="member">TEST</ref>(ConstraintFactoryTest,<sp/>MakeNotNull)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6aeed1de8e53bda49dda97e42841cfe6c5" kindref="member">ColumnConstraint::Kind::NOT_NULL</ref>);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.name,<sp/></highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1abf1e955b3e4bd647bbb8a75e267da9c3" kindref="member">TEST</ref>(ConstraintFactoryTest,<sp/>MakeUnique)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1aa165b13268c1da7109c8171d12ce1101" kindref="member">ColumnConstraint::makeUnique</ref>(</highlight><highlight class="stringliteral">&quot;uq_email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a88e3e8040c7cd11b9faffdf34372fa2a" kindref="member">ColumnConstraint::Kind::UNIQUE</ref>);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.name,<sp/></highlight><highlight class="stringliteral">&quot;uq_email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1abf1e955b3e4bd647bbb8a75e267da9c3" kindref="member">TEST</ref>(ConstraintFactoryTest,<sp/>MakeCheck)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a8c46d8d9d3402788403e2f6911153089" kindref="member">ColumnConstraint::Kind::CHECK</ref>);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.name,<sp/></highlight><highlight class="stringliteral">&quot;chk_age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.check_expr.has_value());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*c.check_expr,<sp/></highlight><highlight class="stringliteral">&quot;age<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1abf1e955b3e4bd647bbb8a75e267da9c3" kindref="member">TEST</ref>(ConstraintFactoryTest,<sp/>MakeDefault)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_active&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a5b39c8b553c821e7cddc6da64b5bd2ee" kindref="member">ColumnConstraint::Kind::DEFAULT</ref>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.name,<sp/></highlight><highlight class="stringliteral">&quot;df_active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.default_value.has_value());</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::get&lt;bool&gt;(*c.default_value));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1abf1e955b3e4bd647bbb8a75e267da9c3" kindref="member">TEST</ref>(ConstraintFactoryTest,<sp/>MakeForeignKey)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1a08a87196e60424bfa003a804c83ac6dc" kindref="member">ColumnConstraint::makeForeignKey</ref>(</highlight><highlight class="stringliteral">&quot;fk_dept&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;departments&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6ab5ec1c758d5803d83495713c6f3be569" kindref="member">ColumnConstraint::Kind::FOREIGN_KEY</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.fk_table.has_value());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*c.fk_table,<sp/></highlight><highlight class="stringliteral">&quot;departments&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.fk_column.has_value());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*c.fk_column,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constraint<sp/>management:<sp/>add<sp/>/<sp/>get<sp/>/<sp/>remove</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="class_schema_constraints_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/><ref refid="class_schema_constraints_test_1af2a11f8ea6b53e97e334ed0c980eca82" kindref="member">sc_</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>AddAndGetColumnConstraints)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_users_email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/>sc_.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6aeed1de8e53bda49dda97e42841cfe6c5" kindref="member">ColumnConstraint::Kind::NOT_NULL</ref>);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs[0].name,<sp/></highlight><highlight class="stringliteral">&quot;nn_users_email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>AddMultipleConstraintsToColumn)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1aa165b13268c1da7109c8171d12ce1101" kindref="member">ColumnConstraint::makeUnique</ref>(</highlight><highlight class="stringliteral">&quot;uq_email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/>sc_.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>GetTableConstraints)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_orders_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_amount_pos&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>sc_.getTableConstraints(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>GetConstraintsMissingTable)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/>sc_.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cs.empty());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>sc_.getTableConstraints(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(all.empty());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>RemoveColumnConstraints)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sc_.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.removeColumnConstraints(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sc_.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>RemoveTableConstraints)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c2&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1_column_constraint_1aa165b13268c1da7109c8171d12ce1101" kindref="member">ColumnConstraint::makeUnique</ref>(</highlight><highlight class="stringliteral">&quot;uq2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sc_.getTableConstraints(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">).size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.removeTableConstraints(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sc_.getTableConstraints(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enforcement<sp/>–<sp/>NOT<sp/>NULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceNotNullViolation)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Row<sp/>without<sp/>email<sp/>→<sp/>violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">)}};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>sc_.enforce(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(violations.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(violations[0].constraint_type,<sp/></highlight><highlight class="stringliteral">&quot;NOT_NULL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(violations[0].column_name,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(violations[0].message.empty());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceNotNullExplicitNull)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{std::monostate{}}}<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>NULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>sc_.enforce(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(violations.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(violations[0].constraint_type,<sp/></highlight><highlight class="stringliteral">&quot;NOT_NULL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceNotNullOK)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;a@b.c&quot;</highlight><highlight class="normal">)}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>sc_.enforce(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(violations.empty());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enforcement<sp/>–<sp/>CHECK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceCheckViolationGreaterThan)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_price&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price<sp/>&gt;<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>double(-1.0)}};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>sc_.enforce(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(violations.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(violations[0].constraint_type,<sp/></highlight><highlight class="stringliteral">&quot;CHECK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(violations[0].constraint_name,<sp/></highlight><highlight class="stringliteral">&quot;chk_price&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceCheckPassGreaterThan)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_price&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price<sp/>&gt;<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>double(9.99)}};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>sc_.enforce(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(violations.empty());</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceCheckGreaterOrEqual)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;qty&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_qty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;qty<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zero<sp/>should<sp/>be<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;qty&quot;</highlight><highlight class="normal">,<sp/>int64_t(0)}};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sc_.enforce(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>row).empty());</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Negative<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>row[</highlight><highlight class="stringliteral">&quot;qty&quot;</highlight><highlight class="normal">]<sp/>=<sp/>int64_t(-1);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sc_.enforce(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>row).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceCheckEqual)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;settings&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_ver&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;version<sp/>=<sp/>1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>ok_row<sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/>int64_t(1)}};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>bad_row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/>int64_t(2)}};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sc_.enforce(</highlight><highlight class="stringliteral">&quot;settings&quot;</highlight><highlight class="normal">,<sp/>ok_row).empty());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sc_.enforce(</highlight><highlight class="stringliteral">&quot;settings&quot;</highlight><highlight class="normal">,<sp/>bad_row).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceMultipleViolations)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_amount&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>id<sp/>(missing)<sp/>and<sp/>amount<sp/>(negative)<sp/>violate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>double(-5.0)}};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>sc_.enforce(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(violations.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>EnforceNoConstraintsForTable)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>int64_t(1)}};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>sc_.enforce(</highlight><highlight class="stringliteral">&quot;unconstrained_table&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(violations.empty());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ApplyDefaultsMissingColumn)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_active&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">)}};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>filled<sp/>=<sp/>sc_.applyDefaults(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(filled.count(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::get&lt;bool&gt;(filled.at(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ApplyDefaultsNullColumn)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_role&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{std::string(</highlight><highlight class="stringliteral">&quot;viewer&quot;</highlight><highlight class="normal">)}));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Eve&quot;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{std::monostate{}}}<sp/><sp/></highlight><highlight class="comment">//<sp/>explicit<sp/>NULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>filled<sp/>=<sp/>sc_.applyDefaults(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;std::string&gt;(filled.at(</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">)),<sp/></highlight><highlight class="stringliteral">&quot;viewer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ApplyDefaultsDoesNotOverwriteExistingValue)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_active&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>filled<sp/>=<sp/>sc_.applyDefaults(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>existing<sp/>value<sp/>false<sp/>should<sp/>be<sp/>kept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::get&lt;bool&gt;(filled.at(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ApplyDefaultsStringDefault)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_status&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{std::string(</highlight><highlight class="stringliteral">&quot;draft&quot;</highlight><highlight class="normal">)}));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>filled<sp/>=<sp/>sc_.applyDefaults(</highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(filled.count(</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;std::string&gt;(filled.at(</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">)),<sp/></highlight><highlight class="stringliteral">&quot;draft&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ApplyDefaultsIntegerDefault)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_val&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{int64_t(0)}));</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>row;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>filled<sp/>=<sp/>sc_.applyDefaults(</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">,<sp/>row);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(filled.count(</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;int64_t&gt;(filled.at(</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">)),<sp/>0);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JSON<sp/>serialisation<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ToJSONAndFromJSON)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_role&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{std::string(</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">)}));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>sc_.addConstraint(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;product_id&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1a08a87196e60424bfa003a804c83ac6dc" kindref="member">ColumnConstraint::makeForeignKey</ref>(</highlight><highlight class="stringliteral">&quot;fk_product&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>sc_.toJSON();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc2<sp/>=<sp/><ref refid="classthemis_1_1_schema_constraints_1afbfe622e676ad8d7d64903d93a390612" kindref="member">SchemaConstraints::fromJSON</ref>(j);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user_email<sp/>=<sp/>sc2.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(user_email.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(user_email[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6aeed1de8e53bda49dda97e42841cfe6c5" kindref="member">ColumnConstraint::Kind::NOT_NULL</ref>);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user_age<sp/>=<sp/>sc2.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(user_age.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(user_age[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a8c46d8d9d3402788403e2f6911153089" kindref="member">ColumnConstraint::Kind::CHECK</ref>);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(user_age[0].check_expr.has_value());</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*user_age[0].check_expr,<sp/></highlight><highlight class="stringliteral">&quot;age<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user_role<sp/>=<sp/>sc2.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(user_role.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(user_role[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a5b39c8b553c821e7cddc6da64b5bd2ee" kindref="member">ColumnConstraint::Kind::DEFAULT</ref>);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(user_role[0].default_value.has_value());</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;std::string&gt;(*user_role[0].default_value),<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>order_fk<sp/>=<sp/>sc2.getColumnConstraints(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;product_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(order_fk.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(order_fk[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6ab5ec1c758d5803d83495713c6f3be569" kindref="member">ColumnConstraint::Kind::FOREIGN_KEY</ref>);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(order_fk[0].fk_table.has_value());</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*order_fk[0].fk_table,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ConstraintViolationToJSON)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref><sp/>v;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1_constraint_violation_1a080855d70708effe97ad8c9266302e43" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1_constraint_violation_1ac97806ce059c013c743b91e13db99335" kindref="member">column_name</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1_constraint_violation_1ad9dc68fe7b00cdb6d7739fd72e3ee284" kindref="member">constraint_name</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1_constraint_violation_1ae4bf97be347319cc3e9d7ae26ab22085" kindref="member">constraint_type</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;NOT_NULL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1_constraint_violation_1abe4a02566002275f87ffd4b4e7bf1b2d" kindref="member">message</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;email<sp/>cannot<sp/>be<sp/>null&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>v.<ref refid="structthemis_1_1_constraint_violation_1affa5787df35c41959247f538d6bbc4f1" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;column_name&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;constraint_type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;NOT_NULL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;email<sp/>cannot<sp/>be<sp/>null&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ColumnConstraintToJSONNotNull)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>c.toJSON();</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;kind&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;NOT_NULL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;nn_x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ColumnConstraintToJSONCheck)<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x<sp/>&gt;<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>c.toJSON();</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;kind&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;CHECK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;check_expr&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;x<sp/>&gt;<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ColumnConstraintToJSONDefault)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_x&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{int64_t(42)});</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>c.<ref refid="structthemis_1_1_column_constraint_1acc14bad36e73538116f3102701518db2" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;kind&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DEFAULT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;default_value&quot;</highlight><highlight class="normal">],<sp/>42);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><ref refid="test__schema__constraints_8cpp_1a1eaa28bf166ce2cb7499499d49c3bc3e" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_test" kindref="compound">SchemaConstraintsTest</ref>,<sp/>ColumnConstraintToJSONForeignKey)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/><ref refid="structthemis_1_1_column_constraint_1a08a87196e60424bfa003a804c83ac6dc" kindref="member">ColumnConstraint::makeForeignKey</ref>(</highlight><highlight class="stringliteral">&quot;fk_x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;refs&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>c.toJSON();</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;kind&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOREIGN_KEY&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;fk_table&quot;</highlight><highlight class="normal">],<sp/><sp/></highlight><highlight class="stringliteral">&quot;refs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;fk_column&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_schema_constraints.cpp"/>
+  </compounddef>
+</doxygen>

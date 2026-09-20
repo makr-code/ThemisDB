@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_vote_request" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::VoteRequest</compoundname>
+    <includes refid="consensus__module_8h" local="no">consensus_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_vote_request_1a08ec6b24564ff7ba0f2e512167f119e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::VoteRequest::candidate_id</definition>
+        <argsstring></argsstring>
+        <name>candidate_id</name>
+        <qualifiedname>themisdb::sharding::VoteRequest::candidate_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="76" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_vote_request_1a661d88269ac0f7da2e5530aa06496143" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::VoteRequest::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::VoteRequest::term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="77" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_vote_request_1a9af4f9b429134721a3d27fb0248b94fc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::VoteRequest::last_log_index</definition>
+        <argsstring></argsstring>
+        <name>last_log_index</name>
+        <qualifiedname>themisdb::sharding::VoteRequest::last_log_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="78" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_vote_request_1af74b72f95ab95f2b50932f534d246d95" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::VoteRequest::last_log_term</definition>
+        <argsstring></argsstring>
+        <name>last_log_term</name>
+        <qualifiedname>themisdb::sharding::VoteRequest::last_log_term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="79" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vote request for leader election. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/consensus_module.h" line="75" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="75" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_vote_request_1a08ec6b24564ff7ba0f2e512167f119e8" prot="public" virt="non-virtual"><scope>themisdb::sharding::VoteRequest</scope><name>candidate_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_vote_request_1a9af4f9b429134721a3d27fb0248b94fc" prot="public" virt="non-virtual"><scope>themisdb::sharding::VoteRequest</scope><name>last_log_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_vote_request_1af74b72f95ab95f2b50932f534d246d95" prot="public" virt="non-virtual"><scope>themisdb::sharding::VoteRequest</scope><name>last_log_term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_vote_request_1a661d88269ac0f7da2e5530aa06496143" prot="public" virt="non-virtual"><scope>themisdb::sharding::VoteRequest</scope><name>term</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

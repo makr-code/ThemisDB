@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_operator_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::OperatorProfile</compoundname>
+    <includes refid="query__profiler_8h" local="no">query_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_operator_profile_1ac79c264205addd107edb95b303334ccf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::OperatorProfile::operator_name</definition>
+        <argsstring></argsstring>
+        <name>operator_name</name>
+        <qualifiedname>themis::query::OperatorProfile::operator_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="24" column="17" bodyfile="include/query/query_profiler.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_operator_profile_1ad670f588749361526c021f36610c7dc8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::OperatorProfile::duration_ns</definition>
+        <argsstring></argsstring>
+        <name>duration_ns</name>
+        <qualifiedname>themis::query::OperatorProfile::duration_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="26" column="13" bodyfile="include/query/query_profiler.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_operator_profile_1a8865e47698af2a63b408f5b885c82444" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::OperatorProfile::rows_in</definition>
+        <argsstring></argsstring>
+        <name>rows_in</name>
+        <qualifiedname>themis::query::OperatorProfile::rows_in</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="28" column="12" bodyfile="include/query/query_profiler.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_operator_profile_1a1e73d9ef825efdcfc85090e4451d38f1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::OperatorProfile::rows_out</definition>
+        <argsstring></argsstring>
+        <name>rows_out</name>
+        <qualifiedname>themis::query::OperatorProfile::rows_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="30" column="12" bodyfile="include/query/query_profiler.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_operator_profile_1adc87a2564a6e6d8159736782732d7c56" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::OperatorProfile::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::query::OperatorProfile::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="32" column="12" bodyfile="include/query/query_profiler.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_operator_profile_1abb26f6e7688599892a86993417d469ee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::OperatorProfile::io_reads</definition>
+        <argsstring></argsstring>
+        <name>io_reads</name>
+        <qualifiedname>themis::query::OperatorProfile::io_reads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="34" column="12" bodyfile="include/query/query_profiler.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_profiler.h" line="23" column="1" bodyfile="include/query/query_profiler.h" bodystart="23" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_operator_profile_1ad670f588749361526c021f36610c7dc8" prot="public" virt="non-virtual"><scope>themis::query::OperatorProfile</scope><name>duration_ns</name></member>
+      <member refid="structthemis_1_1query_1_1_operator_profile_1abb26f6e7688599892a86993417d469ee" prot="public" virt="non-virtual"><scope>themis::query::OperatorProfile</scope><name>io_reads</name></member>
+      <member refid="structthemis_1_1query_1_1_operator_profile_1adc87a2564a6e6d8159736782732d7c56" prot="public" virt="non-virtual"><scope>themis::query::OperatorProfile</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_operator_profile_1ac79c264205addd107edb95b303334ccf" prot="public" virt="non-virtual"><scope>themis::query::OperatorProfile</scope><name>operator_name</name></member>
+      <member refid="structthemis_1_1query_1_1_operator_profile_1a8865e47698af2a63b408f5b885c82444" prot="public" virt="non-virtual"><scope>themis::query::OperatorProfile</scope><name>rows_in</name></member>
+      <member refid="structthemis_1_1query_1_1_operator_profile_1a1e73d9ef825efdcfc85090e4451d38f1" prot="public" virt="non-virtual"><scope>themis::query::OperatorProfile</scope><name>rows_out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

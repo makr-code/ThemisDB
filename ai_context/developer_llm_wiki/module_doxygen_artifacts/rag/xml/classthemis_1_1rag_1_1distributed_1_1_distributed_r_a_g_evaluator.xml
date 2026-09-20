@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::distributed::DistributedRAGEvaluator</compoundname>
+    <includes refid="distributed__rag__evaluator_8h" local="no">distributed_rag_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1_1_impl" prot="public">themis::rag::distributed::DistributedRAGEvaluator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a08f9a7989e98dd2632255b1369a38085" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::distributed::DistributedRAGEvaluator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="172" column="21" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::distributed::DistributedRAGEvaluator::DistributedRAGEvaluator</definition>
+        <argsstring>(std::vector&lt; JudgeWorkerConfig &gt; workers, const DistributedEvaluatorConfig &amp;config=DistributedEvaluatorConfig{})</argsstring>
+        <name>DistributedRAGEvaluator</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::DistributedRAGEvaluator</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" kindref="compound">JudgeWorkerConfig</ref> &gt;</type>
+          <declname>workers</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct evaluator with worker specifications and config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>workers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-judge configuration list (at least one required). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Global distribution configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if workers is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="120" column="14" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="49" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aa6e6a6d1340ab36ebf754e3d5f8d77c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::distributed::DistributedRAGEvaluator::~DistributedRAGEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedRAGEvaluator</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::~DistributedRAGEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a5167bbb3950bb4931552ee81a206391e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::distributed::DistributedRAGEvaluator::DistributedRAGEvaluator</definition>
+        <argsstring>(const DistributedRAGEvaluator &amp;)=delete</argsstring>
+        <name>DistributedRAGEvaluator</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::DistributedRAGEvaluator</qualifiedname>
+        <param>
+          <type>const DistributedRAGEvaluator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="128" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ad4d47f123ff44a7a4f2eac0a1116a008" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref> &amp;</type>
+        <definition>DistributedRAGEvaluator &amp; themis::rag::distributed::DistributedRAGEvaluator::operator=</definition>
+        <argsstring>(const DistributedRAGEvaluator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="129" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aa62fb8c084b99d8471fde99774ad457f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::distributed::DistributedRAGEvaluator::DistributedRAGEvaluator</definition>
+        <argsstring>(DistributedRAGEvaluator &amp;&amp;) noexcept=default</argsstring>
+        <name>DistributedRAGEvaluator</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::DistributedRAGEvaluator</qualifiedname>
+        <param>
+          <type>DistributedRAGEvaluator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="130" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a3059a33064b470e95f6a494bd70cd2e4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref> &amp;</type>
+        <definition>DistributedRAGEvaluator &amp; themis::rag::distributed::DistributedRAGEvaluator::operator=</definition>
+        <argsstring>(DistributedRAGEvaluator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="131" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a0bc6b74525d72029496515b05066b37b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref>, <ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" kindref="compound">DistributedEvaluationMeta</ref> &gt;</type>
+        <definition>std::pair&lt; judge::EvaluationResult, DistributedEvaluationMeta &gt; themis::rag::distributed::DistributedRAGEvaluator::evaluate</definition>
+        <argsstring>(const judge::EvaluationInput &amp;input)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">judge::EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a single input across all judges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation context (query + documents + generated answer). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of aggregated result and distribution metadata. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if fewer than min_successful_judges respond. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="140" column="5" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="72" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ab545ace1d66c8e38df46357ca4abab84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref>, <ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" kindref="compound">DistributedEvaluationMeta</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; judge::EvaluationResult, DistributedEvaluationMeta &gt; &gt; themis::rag::distributed::DistributedRAGEvaluator::batchEvaluate</definition>
+        <argsstring>(const std::vector&lt; judge::EvaluationInput &gt; &amp;inputs)</argsstring>
+        <name>batchEvaluate</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::batchEvaluate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">judge::EvaluationInput</ref> &gt; &amp;</type>
+          <declname>inputs</declname>
+        </param>
+        <briefdescription>
+<para>Batch evaluate multiple inputs across all judges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of evaluation inputs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of (aggregated result, metadata) pairs, one per input. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="148" column="5" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="243" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a5d791436f4bbf494048d78ad8034185f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::distributed::DistributedRAGEvaluator::setAggregationStrategy</definition>
+        <argsstring>(AggregationStrategy strategy)</argsstring>
+        <name>setAggregationStrategy</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::setAggregationStrategy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set (or replace) the aggregation strategy at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Aggregation Strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="153" column="10" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="264" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aaf3819bce4baf3d51430e0377fc3d39a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref></type>
+        <definition>DistributedEvaluatorConfig themis::rag::distributed::DistributedRAGEvaluator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="158" column="32" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="270" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1af1165ded928d5a7adae4d31b7aeff735" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::distributed::DistributedRAGEvaluator::judgeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>judgeCount</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::judgeCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of configured judge workers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="163" column="12" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="276" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a18ee87d2affa20828d38c3669a73fd34" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rag::distributed::DistributedRAGEvaluator::totalEvaluations</definition>
+        <argsstring>() const</argsstring>
+        <name>totalEvaluations</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::totalEvaluations</qualifiedname>
+        <briefdescription>
+<para>Total evaluations completed since construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="168" column="14" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="281" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a67a9ed1c2bded7b10c4076aeb14d5eec" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref></type>
+        <definition>judge::EvaluationResult themis::rag::distributed::DistributedRAGEvaluator::aggregateResults</definition>
+        <argsstring>(const std::vector&lt; judge::EvaluationResult &gt; &amp;results, const std::vector&lt; double &gt; &amp;weights, AggregationStrategy strategy) const</argsstring>
+        <name>aggregateResults</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::aggregateResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate a vector of per-judge results using the configured strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="175" column="29" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="290" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ae58f091acc2e0ee350e7ca8d935174c7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::distributed::DistributedRAGEvaluator::computeAgreement</definition>
+        <argsstring>(const std::vector&lt; judge::EvaluationResult &gt; &amp;results)</argsstring>
+        <name>computeAgreement</name>
+        <qualifiedname>themis::rag::distributed::DistributedRAGEvaluator::computeAgreement</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Compute inter-judge agreement on overall_score in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Agreement.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="182" column="19" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="395" bodyend="414"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed RAG evaluator (Issue: #2245). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Distributes a single EvaluationInput to all configured judges, runs them in parallel, and aggregates the results.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">DistributedEvaluatorConfig<sp/>dist_cfg;</highlight></codeline>
+<codeline><highlight class="normal">dist_cfg.aggregation<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae2880ba1551b4949b27658ade2793990" kindref="member">AggregationStrategy::WEIGHTED_MEAN</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;JudgeWorkerConfig&gt;<sp/>workers;</highlight></codeline>
+<codeline><highlight class="normal">workers.push_back({</highlight><highlight class="stringliteral">&quot;judge-fast&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a5fae63f9f5649bccb720fecbf6bdbfbd" kindref="member">judge::RAGJudgeFactory::createFast</ref>()-&gt;getConfig(),<sp/><sp/><sp/><sp/>0.5});</highlight></codeline>
+<codeline><highlight class="normal">workers.push_back({</highlight><highlight class="stringliteral">&quot;judge-thorough&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a4a40478d3a73b8e2291c91d2511c2225" kindref="member">judge::RAGJudgeFactory::createThorough</ref>()-&gt;getConfig(),<sp/>1.5});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref><sp/>evaluator(workers,<sp/>dist_cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[result,<sp/>meta]<sp/>=<sp/>evaluator.evaluate(input);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/distributed_rag_evaluator.h" line="112" column="1" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="112" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a67a9ed1c2bded7b10c4076aeb14d5eec" prot="private" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>aggregateResults</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ab545ace1d66c8e38df46357ca4abab84" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>batchEvaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ae58f091acc2e0ee350e7ca8d935174c7" prot="private" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>computeAgreement</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>DistributedRAGEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a5167bbb3950bb4931552ee81a206391e" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>DistributedRAGEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aa62fb8c084b99d8471fde99774ad457f" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>DistributedRAGEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a0bc6b74525d72029496515b05066b37b" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aaf3819bce4baf3d51430e0377fc3d39a" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a08f9a7989e98dd2632255b1369a38085" prot="private" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1af1165ded928d5a7adae4d31b7aeff735" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>judgeCount</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ad4d47f123ff44a7a4f2eac0a1116a008" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a3059a33064b470e95f6a494bd70cd2e4" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a5d791436f4bbf494048d78ad8034185f" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>setAggregationStrategy</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a18ee87d2affa20828d38c3669a73fd34" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>totalEvaluations</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aa6e6a6d1340ab36ebf754e3d5f8d77c2" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedRAGEvaluator</scope><name>~DistributedRAGEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

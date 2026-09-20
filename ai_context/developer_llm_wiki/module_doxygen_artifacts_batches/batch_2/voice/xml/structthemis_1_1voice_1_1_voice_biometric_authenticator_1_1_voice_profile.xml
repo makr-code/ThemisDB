@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile" kind="struct" language="C++" prot="private">
+    <compoundname>themis::voice::VoiceBiometricAuthenticator::VoiceProfile</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a4fbadc14ef3d6f1191f7e0f66d69a2b3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref></type>
+        <definition>VoiceProfileID themis::voice::VoiceBiometricAuthenticator::VoiceProfile::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceProfile::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="309" column="29" bodyfile="include/voice/voice_auth.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1aa1551cc6dafdc11f0cb5dcfe990b188f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceBiometricAuthenticator::VoiceProfile::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceProfile::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="310" column="29" bodyfile="include/voice/voice_auth.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a0feceb871df60b60047d99c7af23e86d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::voice::VoiceBiometricAuthenticator::VoiceProfile::feature_vector</definition>
+        <argsstring></argsstring>
+        <name>feature_vector</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceProfile::feature_vector</qualifiedname>
+        <briefdescription>
+<para>L2-normalised mean enrollment vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="311" column="22" bodyfile="include/voice/voice_auth.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a4d08bc5729b87903bda70f90cb66a6ee" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::VoiceBiometricAuthenticator::VoiceProfile::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceProfile::quality_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="312" column="29" bodyfile="include/voice/voice_auth.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a5a43122b5d49af92ffc29ea364a476e3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceBiometricAuthenticator::VoiceProfile::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceProfile::created_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="313" column="29" bodyfile="include/voice/voice_auth.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a428908eea38845d3fdc47283e6673257" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::VoiceBiometricAuthenticator::VoiceProfile::num_samples</definition>
+        <argsstring></argsstring>
+        <name>num_samples</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceProfile::num_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="314" column="29" bodyfile="include/voice/voice_auth.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_auth.h" line="308" column="5" bodyfile="include/voice/voice_auth.h" bodystart="308" bodyend="315"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a5a43122b5d49af92ffc29ea364a476e3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator::VoiceProfile</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a0feceb871df60b60047d99c7af23e86d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator::VoiceProfile</scope><name>feature_vector</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a4fbadc14ef3d6f1191f7e0f66d69a2b3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator::VoiceProfile</scope><name>id</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a428908eea38845d3fdc47283e6673257" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator::VoiceProfile</scope><name>num_samples</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1a4d08bc5729b87903bda70f90cb66a6ee" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator::VoiceProfile</scope><name>quality_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile_1aa1551cc6dafdc11f0cb5dcfe990b188f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator::VoiceProfile</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

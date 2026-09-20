@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::FlashLoRA::Config</compoundname>
+    <includes refid="flash__lora_8h" local="no">flash_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a9a65161e75275db5d2c92db7a8505209" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::FlashLoRA::Config::tile_size_m</definition>
+        <argsstring></argsstring>
+        <name>tile_size_m</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::Config::tile_size_m</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="25" column="16" bodyfile="include/llm/lora_framework/flash_lora.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a06175cbeb2d75c45505a2805b6fcd501" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::FlashLoRA::Config::tile_size_k</definition>
+        <argsstring></argsstring>
+        <name>tile_size_k</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::Config::tile_size_k</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="26" column="16" bodyfile="include/llm/lora_framework/flash_lora.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a1311730af25de01e057c37e7cc0c8119" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::FlashLoRA::Config::use_fp16</definition>
+        <argsstring></argsstring>
+        <name>use_fp16</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::Config::use_fp16</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="27" column="14" bodyfile="include/llm/lora_framework/flash_lora.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1afbb7ed0c10042c429859ac529552bb18" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::FlashLoRA::Config::fuse_with_attention</definition>
+        <argsstring></argsstring>
+        <name>fuse_with_attention</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::Config::fuse_with_attention</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="28" column="14" bodyfile="include/llm/lora_framework/flash_lora.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a0fe0ecb22a2eaea765500f270fec90b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::FlashLoRA::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="30" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a5129bf2df2e2ba16be3bdaedafcc113f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::FlashLoRA::Config::auto_tune_for_device</definition>
+        <argsstring>(const std::string &amp;device_name)</argsstring>
+        <name>auto_tune_for_device</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::Config::auto_tune_for_device</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>device_name</declname>
+        </param>
+        <briefdescription>
+<para>Auto tune for device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the device.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the device.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="36" column="14" bodyfile="src/llm/lora_framework/flash_lora.cpp" bodystart="35" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/flash_lora.h" line="24" column="5" bodyfile="include/llm/lora_framework/flash_lora.h" bodystart="24" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a5129bf2df2e2ba16be3bdaedafcc113f" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA::Config</scope><name>auto_tune_for_device</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a0fe0ecb22a2eaea765500f270fec90b6" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1afbb7ed0c10042c429859ac529552bb18" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA::Config</scope><name>fuse_with_attention</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a06175cbeb2d75c45505a2805b6fcd501" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA::Config</scope><name>tile_size_k</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a9a65161e75275db5d2c92db7a8505209" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA::Config</scope><name>tile_size_m</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config_1a1311730af25de01e057c37e7cc0c8119" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA::Config</scope><name>use_fp16</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

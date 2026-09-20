@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ActiveVRAMAllocator::OOMEvent</compoundname>
+    <includes refid="active__vram__allocator_8h" local="no">active_vram_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1abc189a5d030196a8dc7ce8bc914a813f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::OOMEvent::requested_bytes</definition>
+        <argsstring></argsstring>
+        <name>requested_bytes</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::OOMEvent::requested_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="126" column="16" bodyfile="include/llm/active_vram_allocator.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a4b87b4cb42ad690c74e41a72d5f5af82" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fe" kindref="member">OOMRecoveryStrategy</ref></type>
+        <definition>OOMRecoveryStrategy themis::llm::ActiveVRAMAllocator::OOMEvent::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::OOMEvent::strategy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fead7c8c85bf79bbe1b7188497c32c3b0ca" kindref="member">OOMRecoveryStrategy::Failed</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="128" column="29" bodyfile="include/llm/active_vram_allocator.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a82b86317a7ac02e26a9318e813d6f055" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::OOMEvent::recovered</definition>
+        <argsstring></argsstring>
+        <name>recovered</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::OOMEvent::recovered</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="130" column="14" bodyfile="include/llm/active_vram_allocator.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a56d7895a9d749eb33ee72337e45d5e60" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::OOMEvent::bytes_recovered</definition>
+        <argsstring></argsstring>
+        <name>bytes_recovered</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::OOMEvent::bytes_recovered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="132" column="16" bodyfile="include/llm/active_vram_allocator.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/active_vram_allocator.h" line="125" column="5" bodyfile="include/llm/active_vram_allocator.h" bodystart="125" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a56d7895a9d749eb33ee72337e45d5e60" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::OOMEvent</scope><name>bytes_recovered</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a82b86317a7ac02e26a9318e813d6f055" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::OOMEvent</scope><name>recovered</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1abc189a5d030196a8dc7ce8bc914a813f" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::OOMEvent</scope><name>requested_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a4b87b4cb42ad690c74e41a72d5f5af82" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::OOMEvent</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

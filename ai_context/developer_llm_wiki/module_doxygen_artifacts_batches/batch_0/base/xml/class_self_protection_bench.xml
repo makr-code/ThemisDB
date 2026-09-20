@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_self_protection_bench" kind="class" language="C++" prot="public">
+    <compoundname>SelfProtectionBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_self_protection_bench_1a99036e0d05a534ea78a698472295c83b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; DatabaseFixture &gt;</type>
+        <definition>std::unique_ptr&lt;DatabaseFixture&gt; SelfProtectionBench::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>SelfProtectionBench::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2819" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2819" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_self_protection_bench_1a3e6e30fe0c972a695cecf38e5c688d74" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; SelfProtectionBench::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>SelfProtectionBench::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2820" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2820" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_self_protection_bench_1af39e35925067a1dd4b8c8f4b6a16ac65" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SelfProtectionBench::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SelfProtectionBench::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2798" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2798" bodyend="2811"/>
+      </memberdef>
+      <memberdef kind="function" id="class_self_protection_bench_1a3f2c1350af8529ea223afac5390d2fc5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SelfProtectionBench::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SelfProtectionBench::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2813" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2813" bodyend="2816"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Base fixture for self-protection testing </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SelfProtectionBench</label>
+        <link refid="class_self_protection_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SelfProtectionBench</label>
+        <link refid="class_self_protection_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2796" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2796" bodyend="2821"/>
+    <listofallmembers>
+      <member refid="class_self_protection_bench_1a99036e0d05a534ea78a698472295c83b" prot="protected" virt="non-virtual"><scope>SelfProtectionBench</scope><name>fixture_</name></member>
+      <member refid="class_self_protection_bench_1af39e35925067a1dd4b8c8f4b6a16ac65" prot="protected" virt="non-virtual"><scope>SelfProtectionBench</scope><name>SetUp</name></member>
+      <member refid="class_self_protection_bench_1a3e6e30fe0c972a695cecf38e5c688d74" prot="protected" virt="non-virtual"><scope>SelfProtectionBench</scope><name>sim_</name></member>
+      <member refid="class_self_protection_bench_1a3f2c1350af8529ea223afac5390d2fc5" prot="protected" virt="non-virtual"><scope>SelfProtectionBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

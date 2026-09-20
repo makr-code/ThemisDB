@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_optimization_trigger" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::OptimizationTrigger</compoundname>
+    <includes refid="continuous__learning__client_8h" local="no">continuous_learning_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1a8e78c563f853bea5942ed327d2a8789f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::OptimizationTrigger::trigger_type</definition>
+        <argsstring></argsstring>
+        <name>trigger_type</name>
+        <qualifiedname>themis::rag::judge::OptimizationTrigger::trigger_type</qualifiedname>
+        <briefdescription>
+<para>&quot;low_faithfulness&quot;, &quot;low_relevance&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="79" column="17" bodyfile="include/rag/continuous_learning_client.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1a6623bec6fb2b1506a38a628ca03fd321" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::OptimizationTrigger::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::rag::judge::OptimizationTrigger::threshold</qualifiedname>
+        <briefdescription>
+<para>Threshold that was violated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="80" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1af52654ae25532242a9ec53adfddb24b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::OptimizationTrigger::current_value</definition>
+        <argsstring></argsstring>
+        <name>current_value</name>
+        <qualifiedname>themis::rag::judge::OptimizationTrigger::current_value</qualifiedname>
+        <briefdescription>
+<para>Current metric value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="81" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1a2d1b45642bfd961e1fc21391bf130a03" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::OptimizationTrigger::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::rag::judge::OptimizationTrigger::sample_count</qualifiedname>
+        <briefdescription>
+<para>Number of samples in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="82" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1ab4729b7f1712e763600fafb955496579" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::OptimizationTrigger::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::rag::judge::OptimizationTrigger::recommendation</qualifiedname>
+        <briefdescription>
+<para>Recommended action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="83" column="17" bodyfile="include/rag/continuous_learning_client.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Trigger conditions for optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_client.h" line="78" column="1" bodyfile="include/rag/continuous_learning_client.h" bodystart="78" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1af52654ae25532242a9ec53adfddb24b4" prot="public" virt="non-virtual"><scope>themis::rag::judge::OptimizationTrigger</scope><name>current_value</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1ab4729b7f1712e763600fafb955496579" prot="public" virt="non-virtual"><scope>themis::rag::judge::OptimizationTrigger</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1a2d1b45642bfd961e1fc21391bf130a03" prot="public" virt="non-virtual"><scope>themis::rag::judge::OptimizationTrigger</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1a6623bec6fb2b1506a38a628ca03fd321" prot="public" virt="non-virtual"><scope>themis::rag::judge::OptimizationTrigger</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger_1a8e78c563f853bea5942ed327d2a8789f" prot="public" virt="non-virtual"><scope>themis::rag::judge::OptimizationTrigger</scope><name>trigger_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_pci_dss_rule_eval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PciDssRuleEvalResult</compoundname>
+    <includes refid="pci__dss__rules_8h" local="no">pci_dss_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a7b8c2c48e6658da1698e8036accc99ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PciDssRuleEvalResult::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::PciDssRuleEvalResult::rule_id</qualifiedname>
+        <briefdescription>
+<para>ID of the evaluated <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="31" column="17" bodyfile="include/governance/pci_dss_rules.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a7f73d780b7085226bc240cf1b1a04b38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PciDssRuleEvalResult::pci_dss_check_id</definition>
+        <argsstring></argsstring>
+        <name>pci_dss_check_id</name>
+        <qualifiedname>themis::governance::PciDssRuleEvalResult::pci_dss_check_id</qualifiedname>
+        <briefdescription>
+<para>ID of the PCI-DSS rule that was evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="32" column="17" bodyfile="include/governance/pci_dss_rules.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a199e4e8b557e331eb4bef000b81e7f2a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PciDssRuleEvalResult::requirement</definition>
+        <argsstring></argsstring>
+        <name>requirement</name>
+        <qualifiedname>themis::governance::PciDssRuleEvalResult::requirement</qualifiedname>
+        <briefdescription>
+<para>PCI-DSS requirement number (e.g., &quot;req_3&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="33" column="17" bodyfile="include/governance/pci_dss_rules.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1ac5daaa8faf508ceb2db04bc07203a8f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PciDssRuleEvalResult::compliant</definition>
+        <argsstring></argsstring>
+        <name>compliant</name>
+        <qualifiedname>themis::governance::PciDssRuleEvalResult::compliant</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the rule is PCI-DSS compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="34" column="10" bodyfile="include/governance/pci_dss_rules.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1abec7b658f928ec743b5fdfd865e9e75e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PciDssRuleEvalResult::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::PciDssRuleEvalResult::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable result description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="35" column="17" bodyfile="include/governance/pci_dss_rules.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a2fb369af0b07c0748fe73c43fee4850b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PciDssRuleEvalResult::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::governance::PciDssRuleEvalResult::recommendation</qualifiedname>
+        <briefdescription>
+<para>Remediation recommendation if not compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="36" column="17" bodyfile="include/governance/pci_dss_rules.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a82901ac79b2ae67e2c133ceb6da54421" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PciDssRuleEvalResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PciDssRuleEvalResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="42" column="20" bodyfile="src/governance/pci_dss_rules.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/pci_dss_rules.h" line="30" column="1" bodyfile="include/governance/pci_dss_rules.h" bodystart="30" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1ac5daaa8faf508ceb2db04bc07203a8f9" prot="public" virt="non-virtual"><scope>themis::governance::PciDssRuleEvalResult</scope><name>compliant</name></member>
+      <member refid="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1abec7b658f928ec743b5fdfd865e9e75e" prot="public" virt="non-virtual"><scope>themis::governance::PciDssRuleEvalResult</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a7f73d780b7085226bc240cf1b1a04b38" prot="public" virt="non-virtual"><scope>themis::governance::PciDssRuleEvalResult</scope><name>pci_dss_check_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a2fb369af0b07c0748fe73c43fee4850b" prot="public" virt="non-virtual"><scope>themis::governance::PciDssRuleEvalResult</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a199e4e8b557e331eb4bef000b81e7f2a" prot="public" virt="non-virtual"><scope>themis::governance::PciDssRuleEvalResult</scope><name>requirement</name></member>
+      <member refid="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a7b8c2c48e6658da1698e8036accc99ea" prot="public" virt="non-virtual"><scope>themis::governance::PciDssRuleEvalResult</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_pci_dss_rule_eval_result_1a82901ac79b2ae67e2c133ceb6da54421" prot="public" virt="non-virtual"><scope>themis::governance::PciDssRuleEvalResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

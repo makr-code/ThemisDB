@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_malformed_xml_recovery_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::MalformedXmlRecoveryStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1affa9aee1a4bb859feb110cd670c3ea56" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::MalformedXmlRecoveryStress::generateTestInputMissingAttribute</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInputMissingAttribute</name>
+        <qualifiedname>themis::process::MalformedXmlRecoveryStress::generateTestInputMissingAttribute</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with specific malformation type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="185" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1a8e6174d2acf73de81ea17c702ac51df4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::MalformedXmlRecoveryStress::generateTestInputBrokenNesting</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInputBrokenNesting</name>
+        <qualifiedname>themis::process::MalformedXmlRecoveryStress::generateTestInputBrokenNesting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="186" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1a757dbe03f9bdfa86581e8f9af3fd794f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::MalformedXmlRecoveryStress::generateTestInputInvalidAttribute</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInputInvalidAttribute</name>
+        <qualifiedname>themis::process::MalformedXmlRecoveryStress::generateTestInputInvalidAttribute</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="187" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1a5b7059dca99e16da79b542069052ce2c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::MalformedXmlRecoveryStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::MalformedXmlRecoveryStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success (graceful failure with error) for this scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="190" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1a379f8e753c4d82eb85020ccb21802162" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::MalformedXmlRecoveryStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::MalformedXmlRecoveryStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="192" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="192" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Malformed XML recovery scenario for BPMN parser. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> BPMN with missing required attributes, broken nesting, invalid schema <linebreak/>
+ <bold>Varieties:</bold> Missing required attributes, unclosed tags, invalid attribute values <linebreak/>
+ <bold>Expected Behavior:</bold> Explicit error with actionable message (not silent skip) <linebreak/>
+ <bold>Trigger:</bold> <computeroutput>PROC_DESERIALISE_FAILED</computeroutput> with remediation hint <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Error code explicitly returned</para>
+</listitem><listitem><para>Error message is actionable (suggests fix)</para>
+</listitem><listitem><para>No partial/corrupted model state</para>
+</listitem><listitem><para>Latency &lt;100 ms (P95) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="183" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="183" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1a379f8e753c4d82eb85020ccb21802162" prot="public" virt="non-virtual"><scope>themis::process::MalformedXmlRecoveryStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1a8e6174d2acf73de81ea17c702ac51df4" prot="public" virt="non-virtual"><scope>themis::process::MalformedXmlRecoveryStress</scope><name>generateTestInputBrokenNesting</name></member>
+      <member refid="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1a757dbe03f9bdfa86581e8f9af3fd794f" prot="public" virt="non-virtual"><scope>themis::process::MalformedXmlRecoveryStress</scope><name>generateTestInputInvalidAttribute</name></member>
+      <member refid="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1affa9aee1a4bb859feb110cd670c3ea56" prot="public" virt="non-virtual"><scope>themis::process::MalformedXmlRecoveryStress</scope><name>generateTestInputMissingAttribute</name></member>
+      <member refid="structthemis_1_1process_1_1_malformed_xml_recovery_stress_1a5b7059dca99e16da79b542069052ce2c" prot="public" virt="non-virtual"><scope>themis::process::MalformedXmlRecoveryStress</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

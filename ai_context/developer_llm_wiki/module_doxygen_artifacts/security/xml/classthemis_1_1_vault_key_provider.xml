@@ -1,0 +1,1158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_vault_key_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::VaultKeyProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1_signing_provider" prot="public" virt="non-virtual">themis::SigningProvider</basecompoundref>
+    <includes refid="vault__key__provider_8h" local="no">vault_key_provider.h</includes>
+    <innerclass refid="structthemis_1_1_vault_key_provider_1_1_config" prot="public">themis::VaultKeyProvider::Config</innerclass>
+    <innerclass refid="structthemis_1_1_vault_key_provider_1_1_cache_stats" prot="public">themis::VaultKeyProvider::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1_vault_key_provider_1_1_impl" prot="public">themis::VaultKeyProvider::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_vault_key_provider_1a331303f725fdd871d10c1249daa90ef0" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1_vault_key_provider_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::VaultKeyProvider::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::VaultKeyProvider::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="103" column="21" bodyfile="include/security/vault_key_provider.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1ac5ed857dba9d73ad3a3af2dd0e97001b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VaultKeyProvider::VaultKeyProvider</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>VaultKeyProvider</name>
+        <qualifiedname>themis::VaultKeyProvider::VaultKeyProvider</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_vault_key_provider_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Vault Key Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="58" column="14" bodyfile="src/security/vault_key_provider.cpp" bodystart="416" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a3ca51128a26a956d800adf1c0fb9b6bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VaultKeyProvider::VaultKeyProvider</definition>
+        <argsstring>(const std::string &amp;vault_addr, const std::string &amp;vault_token, const std::string &amp;kv_mount_path=&quot;themis&quot;)</argsstring>
+        <name>VaultKeyProvider</name>
+        <qualifiedname>themis::VaultKeyProvider::VaultKeyProvider</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>vault_addr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>vault_token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kv_mount_path</declname>
+          <defval>&quot;themis&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="60" column="5" bodyfile="src/security/vault_key_provider.cpp" bodystart="420" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a62d14376a60f06060a248eb508c45189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VaultKeyProvider::~VaultKeyProvider</definition>
+        <argsstring>() override</argsstring>
+        <name>~VaultKeyProvider</name>
+        <qualifiedname>themis::VaultKeyProvider::~VaultKeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a416bf6b899372a54338abc014c93b83d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::VaultKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::VaultKeyProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="69" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="684" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a20ee9f1fc1cd890d046cc081d307dead" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::VaultKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::VaultKeyProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), try_lock_for(), std::chrono::seconds(), std::string(), <ref refid="classthemis_1_1_vault_key_provider_1a90927ea047a8cd97c360c115ebc0d771" kindref="member">makeCacheKey()</ref>, find(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="70" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="696" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1ae74aa2adbd6c33aa4d82aec1140c6567" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VaultKeyProvider::rotateKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::VaultKeyProvider::rotateKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae">rotateKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_vault_key_provider_1a8b8722936f4ae933ed43baa730c5ec3e" kindref="member">readSecretMetadata()</ref>, <ref refid="classthemis_1_1_vault_key_provider_1a5f077dfe654986abdc1aa0582013093f" kindref="member">parseMetadataFromVaultResponse()</ref>, new_key(), RAND_bytes(), data(), std::string(), base64_encode(), <ref refid="classthemis_1_1_vault_key_provider_1ac760724d1934373bee42ce98cdff0c26" kindref="member">writeSecret()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="71" column="14" bodyfile="src/security/vault_key_provider.cpp" bodystart="748" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1ac8d245fe4d27ae367e9a6b01eba200c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; KeyMetadata &gt; themis::VaultKeyProvider::listKeys</definition>
+        <argsstring>() override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::VaultKeyProvider::listKeys</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810">listKeys</reimplements>
+        <briefdescription>
+<para>List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_vault_key_provider_1a8a7caee0ed96aa1dd5b8b6027c29ba79" kindref="member">listSecrets()</ref>, reserve(), size(), <ref refid="classthemis_1_1_vault_key_provider_1a50c9ef2f9e359a47f4004d59e3f6ab69" kindref="member">getKeyMetadata()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="72" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="784" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a50c9ef2f9e359a47f4004d59e3f6ab69" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref></type>
+        <definition>KeyMetadata themis::VaultKeyProvider::getKeyMetadata</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>getKeyMetadata</name>
+        <qualifiedname>themis::VaultKeyProvider::getKeyMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3">getKeyMetadata</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get Key Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_vault_key_provider_1a8b8722936f4ae933ed43baa730c5ec3e" kindref="member">readSecretMetadata()</ref>, <ref refid="classthemis_1_1_vault_key_provider_1a5f077dfe654986abdc1aa0582013093f" kindref="member">parseMetadataFromVaultResponse()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="73" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="899" bodyend="909"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a67140dbdc27c8448629b5a10ef9faf20" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::VaultKeyProvider::deleteKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>deleteKey</name>
+        <qualifiedname>themis::VaultKeyProvider::deleteKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99">deleteKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_vault_key_provider_1a50c9ef2f9e359a47f4004d59e3f6ab69" kindref="member">getKeyMetadata()</ref>, lock(), curl_easy_duphandle(), CURL_ptr(), get(), curl_easy_setopt(), c_str(), curl_slist_append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="74" column="10" bodyfile="src/security/vault_key_provider.cpp" bodystart="918" bodyend="987"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a50d1cbe8b8b45dd6fb1df86d75baecc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::VaultKeyProvider::hasKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>themis::VaultKeyProvider::hasKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824">hasKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Has Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_vault_key_provider_1a50c9ef2f9e359a47f4004d59e3f6ab69" kindref="member">getKeyMetadata()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="75" column="10" bodyfile="src/security/vault_key_provider.cpp" bodystart="996" bodyend="1003"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1aca7f6e5863ebc5aaaee92d748880b5cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VaultKeyProvider::createKeyFromBytes</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;key_bytes, const KeyMetadata &amp;metadata=KeyMetadata()) override</argsstring>
+        <name>createKeyFromBytes</name>
+        <qualifiedname>themis::VaultKeyProvider::createKeyFromBytes</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243">createKeyFromBytes</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create Key From Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), base64_encode(), dump(), lock(), curl_easy_duphandle(), CURL_ptr(), get(), curl_easy_setopt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="76" column="14" bodyfile="src/security/vault_key_provider.cpp" bodystart="1014" bodyend="1107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a0ec2ca98f351774c5da4e2cd1f1d57cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref></type>
+        <definition>SigningResult themis::VaultKeyProvider::sign</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;data) override</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::VaultKeyProvider::sign</qualifiedname>
+        <reimplements refid="classthemis_1_1_signing_provider_1ad5d80f31cbeb12c58a736023c8ee7bce">sign</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::string(), base64_encode(), rng(), rd(), jitter_dist(), <ref refid="classthemis_1_1_vault_key_provider_1a4a6e4a0700b51eee74460a635d93f10a" kindref="member">httpPost()</ref>, dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="82" column="19" bodyfile="src/security/vault_key_provider.cpp" bodystart="812" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1afbcadb11c4d1404136f4a5cdffb07017" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VaultKeyProvider::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::VaultKeyProvider::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="87" column="10" bodyfile="src/security/vault_key_provider.cpp" bodystart="1113" bodyend="1116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a0572160e444d0de6dc90de6d8bb7dcf4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vault_key_provider_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>VaultKeyProvider::CacheStats themis::VaultKeyProvider::getCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStats</name>
+        <qualifiedname>themis::VaultKeyProvider::getCacheStats</qualifiedname>
+        <briefdescription>
+<para>Get Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="99" column="16" bodyfile="src/security/vault_key_provider.cpp" bodystart="1118" bodyend="1130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1ad9a4c781625c028798c6d0f4e1ce00c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VaultKeyProvider::setTestRequestOverride</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;, const std::string &amp;, const std::string &amp;)&gt; fn)</argsstring>
+        <name>setTestRequestOverride</name>
+        <qualifiedname>themis::VaultKeyProvider::setTestRequestOverride</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;, const std::string &amp;, const std::string &amp;)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="171" column="10" bodyfile="src/security/vault_key_provider.cpp" bodystart="468" bodyend="470"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a6207b6b8b9016f6c5f2852d598c2e5bf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::httpGet</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>themis::VaultKeyProvider::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Http Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: performRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="111" column="25" bodyfile="src/security/vault_key_provider.cpp" bodystart="440" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a4a6e4a0700b51eee74460a635d93f10a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::httpPost</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>themis::VaultKeyProvider::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Http Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: performRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="118" column="25" bodyfile="src/security/vault_key_provider.cpp" bodystart="452" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1ab00467767f33ec790a02d116d5e41260" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::httpList</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>httpList</name>
+        <qualifiedname>themis::VaultKeyProvider::httpList</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Http List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: performRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="124" column="25" bodyfile="src/security/vault_key_provider.cpp" bodystart="463" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a22d9166a49ced71483d9956122aac233" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::readSecret</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0)</argsstring>
+        <name>readSecret</name>
+        <qualifiedname>themis::VaultKeyProvider::readSecret</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Read Secret. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(), <ref refid="classthemis_1_1_vault_key_provider_1a6207b6b8b9016f6c5f2852d598c2e5bf" kindref="member">httpGet()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="127" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="480" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a8b8722936f4ae933ed43baa730c5ec3e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::readSecretMetadata</definition>
+        <argsstring>(const std::string &amp;key_id)</argsstring>
+        <name>readSecretMetadata</name>
+        <qualifiedname>themis::VaultKeyProvider::readSecretMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Read Secret Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_vault_key_provider_1a6207b6b8b9016f6c5f2852d598c2e5bf" kindref="member">httpGet()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="133" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="507" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1ac760724d1934373bee42ce98cdff0c26" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VaultKeyProvider::writeSecret</definition>
+        <argsstring>(const std::string &amp;key_id, const std::string &amp;key_b64, uint32_t version)</argsstring>
+        <name>writeSecret</name>
+        <qualifiedname>themis::VaultKeyProvider::writeSecret</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_b64</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Write Secret. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_vault_key_provider_1a4a6e4a0700b51eee74460a635d93f10a" kindref="member">httpPost()</ref>, dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="140" column="10" bodyfile="src/security/vault_key_provider.cpp" bodystart="527" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a8a7caee0ed96aa1dd5b8b6027c29ba79" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::VaultKeyProvider::listSecrets</definition>
+        <argsstring>()</argsstring>
+        <name>listSecrets</name>
+        <qualifiedname>themis::VaultKeyProvider::listSecrets</qualifiedname>
+        <briefdescription>
+<para>List Secrets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_vault_key_provider_1a6207b6b8b9016f6c5f2852d598c2e5bf" kindref="member">httpGet()</ref>, <ref refid="classthemis_1_1_vault_key_provider_1ab00467767f33ec790a02d116d5e41260" kindref="member">httpList()</ref>, json::parse(), contains(), reserve(), size(), push_back(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="145" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="556" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1ae0e9da0fa498febf42ad2152a416648a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::VaultKeyProvider::parseKeyFromVaultResponse</definition>
+        <argsstring>(const std::string &amp;json_response)</argsstring>
+        <name>parseKeyFromVaultResponse</name>
+        <qualifiedname>themis::VaultKeyProvider::parseKeyFromVaultResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_response</declname>
+        </param>
+        <briefdescription>
+<para>Parse Key From Vault Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: json::parse(), contains(), base64_decode(), empty(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="152" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="593" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a5f077dfe654986abdc1aa0582013093f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref></type>
+        <definition>KeyMetadata themis::VaultKeyProvider::parseMetadataFromVaultResponse</definition>
+        <argsstring>(const std::string &amp;json_response)</argsstring>
+        <name>parseMetadataFromVaultResponse</name>
+        <qualifiedname>themis::VaultKeyProvider::parseMetadataFromVaultResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_response</declname>
+        </param>
+        <briefdescription>
+<para>Parse Metadata From Vault Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: json::parse(), contains(), empty(), std::to_string(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="158" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="629" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_key_provider_1a90927ea047a8cd97c360c115ebc0d771" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::makeCacheKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) const</argsstring>
+        <name>makeCacheKey</name>
+        <qualifiedname>themis::VaultKeyProvider::makeCacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Make Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="166" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="674" bodyend="676"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="3">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningProvider</label>
+        <link refid="classthemis_1_1_signing_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::VaultKeyProvider</label>
+        <link refid="classthemis_1_1_vault_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="3">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningProvider</label>
+        <link refid="classthemis_1_1_signing_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::VaultKeyProvider</label>
+        <link refid="classthemis_1_1_vault_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/vault_key_provider.h" line="23" column="1" bodyfile="include/security/vault_key_provider.h" bodystart="23" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_vault_key_provider_1afbcadb11c4d1404136f4a5cdffb07017" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1aca7f6e5863ebc5aaaee92d748880b5cd" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>createKeyFromBytes</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a67140dbdc27c8448629b5a10ef9faf20" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>deleteKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a0572160e444d0de6dc90de6d8bb7dcf4" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>getCacheStats</name></member>
+      <member refid="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a416bf6b899372a54338abc014c93b83d" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a20ee9f1fc1cd890d046cc081d307dead" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a50c9ef2f9e359a47f4004d59e3f6ab69" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>getKeyMetadata</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a50d1cbe8b8b45dd6fb1df86d75baecc8" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a6207b6b8b9016f6c5f2852d598c2e5bf" prot="protected" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>httpGet</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1ab00467767f33ec790a02d116d5e41260" prot="protected" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>httpList</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a4a6e4a0700b51eee74460a635d93f10a" prot="protected" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>httpPost</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a331303f725fdd871d10c1249daa90ef0" prot="private" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" virt="non-virtual" ambiguityscope="themis::SigningProvider::"><scope>themis::VaultKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" virt="non-virtual" ambiguityscope="themis::SigningProvider::"><scope>themis::VaultKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1ac8d245fe4d27ae367e9a6b01eba200c0" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a8a7caee0ed96aa1dd5b8b6027c29ba79" prot="protected" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>listSecrets</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a90927ea047a8cd97c360c115ebc0d771" prot="protected" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>makeCacheKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" virt="non-virtual" ambiguityscope="themis::SigningProvider::"><scope>themis::VaultKeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1ae0e9da0fa498febf42ad2152a416648a" prot="protected" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>parseKeyFromVaultResponse</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a5f077dfe654986abdc1aa0582013093f" prot="protected" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>parseMetadataFromVaultResponse</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a22d9166a49ced71483d9956122aac233" prot="protected" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>readSecret</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a8b8722936f4ae933ed43baa730c5ec3e" prot="protected" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>readSecretMetadata</name></member>
+      <member refid="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1ae74aa2adbd6c33aa4d82aec1140c6567" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1ad9a4c781625c028798c6d0f4e1ce00c4" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>setTestRequestOverride</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a0ec2ca98f351774c5da4e2cd1f1d57cd" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>sign</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1ac5ed857dba9d73ad3a3af2dd0e97001b" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>VaultKeyProvider</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a3ca51128a26a956d800adf1c0fb9b6bb" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>VaultKeyProvider</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1ac760724d1934373bee42ce98cdff0c26" prot="protected" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>writeSecret</name></member>
+      <member refid="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>~KeyProvider</name></member>
+      <member refid="classthemis_1_1_signing_provider_1a04d029586b2b8c6c53e16dbbad35fc70" prot="public" virt="virtual"><scope>themis::VaultKeyProvider</scope><name>~SigningProvider</name></member>
+      <member refid="classthemis_1_1_vault_key_provider_1a62d14376a60f06060a248eb508c45189" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider</scope><name>~VaultKeyProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

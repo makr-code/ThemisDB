@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::LogicalReplicationManager::Stats</compoundname>
+    <includes refid="logical__replication_8h" local="no">logical_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1af38e544e3e1c22567514a6d4570b617c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LogicalReplicationManager::Stats::changes_enqueued</definition>
+        <argsstring></argsstring>
+        <name>changes_enqueued</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::Stats::changes_enqueued</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="98" column="18" bodyfile="include/replication/logical_replication.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1a8bd820317c2e4bcef6223480b5a3f7ac" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LogicalReplicationManager::Stats::ddl_enqueued</definition>
+        <argsstring></argsstring>
+        <name>ddl_enqueued</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::Stats::ddl_enqueued</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="99" column="18" bodyfile="include/replication/logical_replication.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1ab5fa89b9103ae00e0bd32c5f050a343c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LogicalReplicationManager::Stats::filtered_out</definition>
+        <argsstring></argsstring>
+        <name>filtered_out</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::Stats::filtered_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="100" column="18" bodyfile="include/replication/logical_replication.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1a5b2439dd394b837b5554901edf1e2fe7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LogicalReplicationManager::Stats::slots_loaded</definition>
+        <argsstring></argsstring>
+        <name>slots_loaded</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::Stats::slots_loaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="101" column="18" bodyfile="include/replication/logical_replication.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/logical_replication.h" line="97" column="5" bodyfile="include/replication/logical_replication.h" bodystart="97" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1af38e544e3e1c22567514a6d4570b617c" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::Stats</scope><name>changes_enqueued</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1a8bd820317c2e4bcef6223480b5a3f7ac" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::Stats</scope><name>ddl_enqueued</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1ab5fa89b9103ae00e0bd32c5f050a343c" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::Stats</scope><name>filtered_out</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1a5b2439dd394b837b5554901edf1e2fe7" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::Stats</scope><name>slots_loaded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

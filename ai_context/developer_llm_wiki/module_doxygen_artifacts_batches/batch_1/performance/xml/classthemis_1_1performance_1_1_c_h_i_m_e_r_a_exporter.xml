@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_c_h_i_m_e_r_a_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::CHIMERAExporter</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_c_h_i_m_e_r_a_exporter_1aa03961e902b6300c5978f75bd6124a81" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::performance::CHIMERAExporter::exportMetrics</definition>
+        <argsstring>(const std::vector&lt; MetricsEntry &gt; &amp;metrics_list)</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::performance::CHIMERAExporter::exportMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref> &gt; &amp;</type>
+          <declname>metrics_list</declname>
+        </param>
+        <briefdescription>
+<para>Export Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: good(), std::time(), std::gmtime(), std::put_time(), <ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1aded86837d9ca403a97695ab599a807b5" kindref="member">HardwareCycleCounter::cpu_model()</ref>, <ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a108c9eefbcca61eda1b01905ac365c8b" kindref="member">HardwareCycleCounter::cpu_frequency_hz()</ref>, defined(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/chimera_exporter.cpp" line="32" column="24" bodyfile="src/performance/chimera_exporter.cpp" bodystart="32" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/chimera_exporter.cpp" line="24" column="1" bodyfile="src/performance/chimera_exporter.cpp" bodystart="24" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_c_h_i_m_e_r_a_exporter_1aa03961e902b6300c5978f75bd6124a81" prot="public" virt="non-virtual"><scope>themis::performance::CHIMERAExporter</scope><name>exportMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

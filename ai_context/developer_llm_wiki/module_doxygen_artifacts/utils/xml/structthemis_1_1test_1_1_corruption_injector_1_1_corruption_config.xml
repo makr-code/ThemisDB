@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::CorruptionInjector::CorruptionConfig</compoundname>
+    <basecompoundref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config" prot="public" virt="non-virtual">themis::test::FaultInjector::InjectionConfig</basecompoundref>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config_1a8d70f9c57ba40bd770109dcd4f6c07e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::test::CorruptionInjector::CorruptionConfig::data_field</definition>
+        <argsstring></argsstring>
+        <name>data_field</name>
+        <qualifiedname>themis::test::CorruptionInjector::CorruptionConfig::data_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="406" column="21" bodyfile="tests/utils/fault_injector.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config_1a226e59d5ab3ad72407923f05d49d95fe" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::test::CorruptionInjector::CorruptionConfig::corruption_rate</definition>
+        <argsstring></argsstring>
+        <name>corruption_rate</name>
+        <qualifiedname>themis::test::CorruptionInjector::CorruptionConfig::corruption_rate</qualifiedname>
+        <initializer>{0.1f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="407" column="15" bodyfile="tests/utils/fault_injector.h" bodystart="407" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config_1ab48b46726533e071abb9a1225d2477f2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::test::CorruptionInjector::CorruptionConfig::corrupt_checksum</definition>
+        <argsstring></argsstring>
+        <name>corrupt_checksum</name>
+        <qualifiedname>themis::test::CorruptionInjector::CorruptionConfig::corrupt_checksum</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="408" column="14" bodyfile="tests/utils/fault_injector.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::test::CorruptionInjector::CorruptionConfig</label>
+        <link refid="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::test::CorruptionInjector::CorruptionConfig</label>
+        <link refid="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/fault_injector.h" line="405" column="5" bodyfile="tests/utils/fault_injector.h" bodystart="405" bodyend="409"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a6c02ff42238b1deab7d7c1a0183d5b15" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>auto_recover</name></member>
+      <member refid="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config_1ab48b46726533e071abb9a1225d2477f2" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>corrupt_checksum</name></member>
+      <member refid="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config_1a226e59d5ab3ad72407923f05d49d95fe" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>corruption_rate</name></member>
+      <member refid="structthemis_1_1test_1_1_corruption_injector_1_1_corruption_config_1a8d70f9c57ba40bd770109dcd4f6c07e9" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>data_field</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a58f9575692c545492473abaa8650a2da" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1ac3a0e223056675dc4ed0feea780bdd24" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>duration</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a30c2850dcd882ee4ab10bd0a292c5f42" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>probability</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a06b6f7bce1eebd47f3eb2647fad8c1c4" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>rng_seed</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1ae5203201f0679ba59703f063e36598e9" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>target_component</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a38d8130f04a57247923de7ce01e540de" prot="public" virt="non-virtual"><scope>themis::test::CorruptionInjector::CorruptionConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

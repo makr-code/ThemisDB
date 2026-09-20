@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_slo_reporter_1_1_slo_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::SloReporter::SloState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_reporter_1_1_slo_state_1adfaa933b76ac1096ae724530bb6e3316" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_slo_definition" kindref="compound">SloDefinition</ref></type>
+        <definition>SloDefinition themis::observability::SloReporter::SloState::def</definition>
+        <argsstring></argsstring>
+        <name>def</name>
+        <qualifiedname>themis::observability::SloReporter::SloState::def</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="296" column="23" bodyfile="include/observability/slo_reporter.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_reporter_1_1_slo_state_1a80d269af486b166f184b0420cfa2d056" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; Sample &gt;</type>
+        <definition>std::deque&lt;Sample&gt; themis::observability::SloReporter::SloState::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::observability::SloReporter::SloState::samples</qualifiedname>
+        <briefdescription>
+<para>Ring buffer of recent request samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="298" column="20" bodyfile="include/observability/slo_reporter.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-SLO sliding window state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::SloDefinition</label>
+        <link refid="structthemis_1_1observability_1_1_slo_definition"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::SloReporter::SloState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>def</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/slo_reporter.h" line="295" column="5" bodyfile="include/observability/slo_reporter.h" bodystart="295" bodyend="299"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_slo_reporter_1_1_slo_state_1adfaa933b76ac1096ae724530bb6e3316" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter::SloState</scope><name>def</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_reporter_1_1_slo_state_1a80d269af486b166f184b0420cfa2d056" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter::SloState</scope><name>samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

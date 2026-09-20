@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_resource_limits" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryResourceLimits</compoundname>
+    <includes refid="query__resource__limits_8h" local="no">query_resource_limits.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_resource_limits_1a3f48f730050e9cc74461ed182f4a976c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryResourceLimits::max_rows</definition>
+        <argsstring></argsstring>
+        <name>max_rows</name>
+        <qualifiedname>themis::query::QueryResourceLimits::max_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="22" column="12" bodyfile="include/query/query_resource_limits.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_resource_limits_1a1d6127efd10ec69778bcd76cb2ba7559" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryResourceLimits::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::query::QueryResourceLimits::max_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="24" column="12" bodyfile="include/query/query_resource_limits.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_resource_limits_1a19b6ee1b58b566324bcd1536120005bd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::QueryResourceLimits::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::query::QueryResourceLimits::timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_resource_limits.h" line="26" column="14" bodyfile="include/query/query_resource_limits.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_resource_limits.h" line="21" column="1" bodyfile="include/query/query_resource_limits.h" bodystart="21" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_resource_limits_1a1d6127efd10ec69778bcd76cb2ba7559" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceLimits</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_resource_limits_1a3f48f730050e9cc74461ed182f4a976c" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceLimits</scope><name>max_rows</name></member>
+      <member refid="structthemis_1_1query_1_1_query_resource_limits_1a19b6ee1b58b566324bcd1536120005bd" prot="public" virt="non-virtual"><scope>themis::query::QueryResourceLimits</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

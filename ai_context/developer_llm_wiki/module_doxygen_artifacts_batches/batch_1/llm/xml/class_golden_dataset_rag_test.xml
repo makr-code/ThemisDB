@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_golden_dataset_rag_test" kind="class" language="C++" prot="public">
+    <compoundname>GoldenDatasetRagTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_golden_dataset_rag_test_1a6fd91f26f49ba910954e6ea64f8e9469" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GoldenDatasetRagTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>GoldenDatasetRagTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="519" column="17" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="519" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_golden_dataset_rag_test_1a758e6edc402b98b176c85bed4a4add4b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GoldenDatasetRagTest::golden_path_</definition>
+        <argsstring></argsstring>
+        <name>golden_path_</name>
+        <qualifiedname>GoldenDatasetRagTest::golden_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="520" column="17" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="520" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_golden_dataset_rag_test_1a48a6f4eb7ce102fce889ddd701ccb2c8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_json_wiki_index_reader" kindref="compound">JsonWikiIndexReader</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;JsonWikiIndexReader&gt; GoldenDatasetRagTest::reader_</definition>
+        <argsstring></argsstring>
+        <name>reader_</name>
+        <qualifiedname>GoldenDatasetRagTest::reader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="521" column="21" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="521" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_golden_dataset_rag_test_1ac59d68dce391483adf0f20421072aeae" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; GoldenEntry &gt;</type>
+        <definition>std::vector&lt;GoldenEntry&gt; GoldenDatasetRagTest::golden_entries_</definition>
+        <argsstring></argsstring>
+        <name>golden_entries_</name>
+        <qualifiedname>GoldenDatasetRagTest::golden_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="522" column="17" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="522" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_golden_dataset_rag_test_1af4d760fd29ec8a19d4accaf786039d6e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GoldenDatasetRagTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GoldenDatasetRagTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="489" column="10" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="489" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="class_golden_dataset_rag_test_1ab2ad309cbe740f76c6d579feb9c4ba4c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GoldenDatasetRagTest::skipIfNoDb</definition>
+        <argsstring>()</argsstring>
+        <name>skipIfNoDb</name>
+        <qualifiedname>GoldenDatasetRagTest::skipIfNoDb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_doku_rag.cpp" line="512" column="6" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="512" bodyend="517"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GoldenDatasetRagTest</label>
+        <link refid="class_golden_dataset_rag_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GoldenDatasetRagTest</label>
+        <link refid="class_golden_dataset_rag_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_doku_rag.cpp" line="487" column="1" bodyfile="tests/llm/test_llm_doku_rag.cpp" bodystart="487" bodyend="523"/>
+    <listofallmembers>
+      <member refid="class_golden_dataset_rag_test_1a6fd91f26f49ba910954e6ea64f8e9469" prot="protected" virt="non-virtual"><scope>GoldenDatasetRagTest</scope><name>db_path_</name></member>
+      <member refid="class_golden_dataset_rag_test_1ac59d68dce391483adf0f20421072aeae" prot="protected" virt="non-virtual"><scope>GoldenDatasetRagTest</scope><name>golden_entries_</name></member>
+      <member refid="class_golden_dataset_rag_test_1a758e6edc402b98b176c85bed4a4add4b" prot="protected" virt="non-virtual"><scope>GoldenDatasetRagTest</scope><name>golden_path_</name></member>
+      <member refid="class_golden_dataset_rag_test_1a48a6f4eb7ce102fce889ddd701ccb2c8" prot="protected" virt="non-virtual"><scope>GoldenDatasetRagTest</scope><name>reader_</name></member>
+      <member refid="class_golden_dataset_rag_test_1af4d760fd29ec8a19d4accaf786039d6e" prot="protected" virt="non-virtual"><scope>GoldenDatasetRagTest</scope><name>SetUp</name></member>
+      <member refid="class_golden_dataset_rag_test_1ab2ad309cbe740f76c6d579feb9c4ba4c" prot="protected" virt="non-virtual"><scope>GoldenDatasetRagTest</scope><name>skipIfNoDb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

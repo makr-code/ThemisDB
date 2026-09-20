@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_o_auth_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::OAuthConfig</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_auth_config_1ab1e993da79a5627381c86a2df6b1ed6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::OAuthConfig::token_endpoint</definition>
+        <argsstring></argsstring>
+        <name>token_endpoint</name>
+        <qualifiedname>themis::ingestion::OAuthConfig::token_endpoint</qualifiedname>
+        <briefdescription>
+<para>Token endpoint URL (e.g. <ulink url="https://auth.example.com/token">https://auth.example.com/token</ulink>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="462" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="462" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_auth_config_1a290f0a8c6172c44073d0a8474741596c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::OAuthConfig::client_id</definition>
+        <argsstring></argsstring>
+        <name>client_id</name>
+        <qualifiedname>themis::ingestion::OAuthConfig::client_id</qualifiedname>
+        <briefdescription>
+<para>OAuth client ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="463" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_auth_config_1ad3c5f1f9893163ec2e8dee088e81486d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::OAuthConfig::client_secret</definition>
+        <argsstring></argsstring>
+        <name>client_secret</name>
+        <qualifiedname>themis::ingestion::OAuthConfig::client_secret</qualifiedname>
+        <briefdescription>
+<para>OAuth client secret (empty for public clients). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="464" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_auth_config_1ab62b0dcbb366cf578868b8955f5f1ddf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::OAuthConfig::refresh_token</definition>
+        <argsstring></argsstring>
+        <name>refresh_token</name>
+        <qualifiedname>themis::ingestion::OAuthConfig::refresh_token</qualifiedname>
+        <briefdescription>
+<para>Refresh token for RFC 6749 §6 token refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="465" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="465" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_auth_config_1aca8530dd0e402c96d24e94aff07e6a5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::OAuthConfig::access_token</definition>
+        <argsstring></argsstring>
+        <name>access_token</name>
+        <qualifiedname>themis::ingestion::OAuthConfig::access_token</qualifiedname>
+        <briefdescription>
+<para>Current access token (updated automatically on refresh). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="466" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="466" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_o_auth_config_1a3b35ae2f01db9a1022653c58394b7cf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::OAuthConfig::OAuthConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>OAuthConfig</name>
+        <qualifiedname>themis::ingestion::OAuthConfig::OAuthConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="468" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_o_auth_config_1a7df378dcae37f8ebef7a89273619f94e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::OAuthConfig::isRefreshable</definition>
+        <argsstring>() const</argsstring>
+        <name>isRefreshable</name>
+        <qualifiedname>themis::ingestion::OAuthConfig::isRefreshable</qualifiedname>
+        <briefdescription>
+<para>Returns true when a token refresh can be attempted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="471" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="471" bodyend="473"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>OAuth 2.0 token refresh configuration for ingestion connectors. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When configured, connectors automatically refresh an expired access token using the stored refresh token (RFC 6749 §6) upon receiving HTTP 401. The refreshed access token is cached in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_o_auth_config_1aca8530dd0e402c96d24e94aff07e6a5f" kindref="member">access_token</ref></computeroutput> and used for all subsequent requests within the same ingestion run.</para>
+<para>Set via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a206b09dfa79428f0cedcb321d28304ff" kindref="member">GenericApiConnector::setOAuthConfig()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1ad27b2e3f9a7801885064046692b2709b" kindref="member">HuggingFaceConnector::setOAuthConfig()</ref></computeroutput>.</para>
+<para>Supported <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" kindref="member">SourceConfig::options</ref></computeroutput> keys (alternative to calling setOAuthConfig): <table rows="6" cols="2"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>oauth_token_endpoint</computeroutput>  </para>
+</entry><entry thead="no"><para>Token endpoint URL  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>oauth_client_id</computeroutput>  </para>
+</entry><entry thead="no"><para>OAuth client ID  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>oauth_client_secret</computeroutput>  </para>
+</entry><entry thead="no"><para>OAuth client secret  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>oauth_refresh_token</computeroutput>  </para>
+</entry><entry thead="no"><para>Refresh token obtained during initial auth  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>oauth_access_token</computeroutput>  </para>
+</entry><entry thead="no"><para>Initial access token (optional)  </para>
+</entry></row>
+</table>
+</para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="461" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="461" bodyend="474"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_o_auth_config_1aca8530dd0e402c96d24e94aff07e6a5f" prot="public" virt="non-virtual"><scope>themis::ingestion::OAuthConfig</scope><name>access_token</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_auth_config_1a290f0a8c6172c44073d0a8474741596c" prot="public" virt="non-virtual"><scope>themis::ingestion::OAuthConfig</scope><name>client_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_auth_config_1ad3c5f1f9893163ec2e8dee088e81486d" prot="public" virt="non-virtual"><scope>themis::ingestion::OAuthConfig</scope><name>client_secret</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_auth_config_1a7df378dcae37f8ebef7a89273619f94e" prot="public" virt="non-virtual"><scope>themis::ingestion::OAuthConfig</scope><name>isRefreshable</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_auth_config_1a3b35ae2f01db9a1022653c58394b7cf4" prot="public" virt="non-virtual"><scope>themis::ingestion::OAuthConfig</scope><name>OAuthConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_auth_config_1ab62b0dcbb366cf578868b8955f5f1ddf" prot="public" virt="non-virtual"><scope>themis::ingestion::OAuthConfig</scope><name>refresh_token</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_auth_config_1ab1e993da79a5627381c86a2df6b1ed6a" prot="public" virt="non-virtual"><scope>themis::ingestion::OAuthConfig</scope><name>token_endpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

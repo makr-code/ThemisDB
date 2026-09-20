@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_erasure_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ErasureReport</compoundname>
+    <includes refid="gdpr__subject__rights_8h" local="no">gdpr_subject_rights.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_erasure_report_1a46aa352e2e539bd52dd47c5438b6acae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ErasureReport::subject_id</definition>
+        <argsstring></argsstring>
+        <name>subject_id</name>
+        <qualifiedname>themis::governance::ErasureReport::subject_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="42" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_erasure_report_1ab9e68f3c085a10f8cf0d9e8e915ac1da" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref></type>
+        <definition>Regulation themis::governance::ErasureReport::regulation</definition>
+        <argsstring></argsstring>
+        <name>regulation</name>
+        <qualifiedname>themis::governance::ErasureReport::regulation</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4e94c8ad46c8aef1ca637841dfbe2159" kindref="member">Regulation::GDPR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="43" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_erasure_report_1a9919d423f04f1c47f4ba5ea78f5eb3f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ErasureReport::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::governance::ErasureReport::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="44" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_erasure_report_1af057710c460cdb5216c14b79ba93d559" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ErasureReport::operator_id</definition>
+        <argsstring></argsstring>
+        <name>operator_id</name>
+        <qualifiedname>themis::governance::ErasureReport::operator_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="45" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_erasure_report_1acc765b6c410a62cf48813ef845066b77" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::governance::ErasureReport::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::governance::ErasureReport::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="46" column="43" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_erasure_report_1ab8dff9d8266e48a892698e1ef4b5917a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ErasureReport::fully_erased</definition>
+        <argsstring></argsstring>
+        <name>fully_erased</name>
+        <qualifiedname>themis::governance::ErasureReport::fully_erased</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when ALL stores reported success </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="47" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_erasure_report_1a516d0959de2ddd5ff414bdd863f21f35" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_store_erasure_result" kindref="compound">StoreErasureResult</ref> &gt;</type>
+        <definition>std::vector&lt;StoreErasureResult&gt; themis::governance::ErasureReport::store_results</definition>
+        <argsstring></argsstring>
+        <name>store_results</name>
+        <qualifiedname>themis::governance::ErasureReport::store_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="48" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_erasure_report_1ac6b89d5a7ececfaf7d3f5c894a51aaa9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::governance::ErasureReport::toSummaryMap</definition>
+        <argsstring>() const</argsstring>
+        <name>toSummaryMap</name>
+        <qualifiedname>themis::governance::ErasureReport::toSummaryMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="50" column="24" bodyfile="src/governance/gdpr_subject_rights.cpp" bodystart="26" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/gdpr_subject_rights.h" line="41" column="1" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="41" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_erasure_report_1ab8dff9d8266e48a892698e1ef4b5917a" prot="public" virt="non-virtual"><scope>themis::governance::ErasureReport</scope><name>fully_erased</name></member>
+      <member refid="structthemis_1_1governance_1_1_erasure_report_1af057710c460cdb5216c14b79ba93d559" prot="public" virt="non-virtual"><scope>themis::governance::ErasureReport</scope><name>operator_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_erasure_report_1a9919d423f04f1c47f4ba5ea78f5eb3f2" prot="public" virt="non-virtual"><scope>themis::governance::ErasureReport</scope><name>reason</name></member>
+      <member refid="structthemis_1_1governance_1_1_erasure_report_1ab9e68f3c085a10f8cf0d9e8e915ac1da" prot="public" virt="non-virtual"><scope>themis::governance::ErasureReport</scope><name>regulation</name></member>
+      <member refid="structthemis_1_1governance_1_1_erasure_report_1a516d0959de2ddd5ff414bdd863f21f35" prot="public" virt="non-virtual"><scope>themis::governance::ErasureReport</scope><name>store_results</name></member>
+      <member refid="structthemis_1_1governance_1_1_erasure_report_1a46aa352e2e539bd52dd47c5438b6acae" prot="public" virt="non-virtual"><scope>themis::governance::ErasureReport</scope><name>subject_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_erasure_report_1acc765b6c410a62cf48813ef845066b77" prot="public" virt="non-virtual"><scope>themis::governance::ErasureReport</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1governance_1_1_erasure_report_1ac6b89d5a7ececfaf7d3f5c894a51aaa9" prot="public" virt="non-virtual"><scope>themis::governance::ErasureReport</scope><name>toSummaryMap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

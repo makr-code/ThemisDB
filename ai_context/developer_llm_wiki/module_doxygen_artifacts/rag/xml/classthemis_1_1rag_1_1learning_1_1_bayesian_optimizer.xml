@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::learning::BayesianOptimizer</compoundname>
+    <includes refid="bayesian__optimizer_8h" local="no">bayesian_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1_1_impl" prot="public">themis::rag::learning::BayesianOptimizer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a68cb6bb7e892e6c2bfb61e884154cc32" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::learning::BayesianOptimizer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="84" column="21" bodyfile="include/rag/bayesian_optimizer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1aeece68ee0739852a9481335cf2c73165" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::BayesianOptimizer::BayesianOptimizer</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, ParameterBounds &gt; &amp;param_bounds)</argsstring>
+        <name>BayesianOptimizer</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::BayesianOptimizer</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds" kindref="compound">ParameterBounds</ref> &gt; &amp;</type>
+          <declname>param_bounds</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>param_bounds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of parameter names to their bounds </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="48" column="14" bodyfile="src/rag/bayesian_optimizer.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a506b525c6255ef53cae6c66465d70f50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::BayesianOptimizer::~BayesianOptimizer</definition>
+        <argsstring>()</argsstring>
+        <name>~BayesianOptimizer</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::~BayesianOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1ab3d5b7926cbe9d6512db2a90bd4c4ac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt; std::string, double &gt; themis::rag::learning::BayesianOptimizer::suggest</definition>
+        <argsstring>()</argsstring>
+        <name>suggest</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::suggest</qualifiedname>
+        <briefdescription>
+<para>Suggest next parameter configuration to evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Suggested parameters </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="56" column="24" bodyfile="src/rag/bayesian_optimizer.cpp" bodystart="36" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a68b77da86ad45c2318578e27bca53fd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::BayesianOptimizer::observe</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, double &gt; &amp;params, double objective_value)</argsstring>
+        <name>observe</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::observe</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, double &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>objective_value</declname>
+        </param>
+        <briefdescription>
+<para>Record observation of objective value for given parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parameters that were evaluated </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>objective_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Objective value (higher is better) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="63" column="10" bodyfile="src/rag/bayesian_optimizer.cpp" bodystart="56" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a78563dd95ec3c88f99f6b1de57f76bae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt; std::string, double &gt; themis::rag::learning::BayesianOptimizer::getBestParams</definition>
+        <argsstring>() const</argsstring>
+        <name>getBestParams</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::getBestParams</qualifiedname>
+        <briefdescription>
+<para>Get the best parameters observed so far. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Best parameter configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="69" column="24" bodyfile="src/rag/bayesian_optimizer.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1ad5cbec3822cf3f4c4fd5992ad1f7c451" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::learning::BayesianOptimizer::getBestObjective</definition>
+        <argsstring>() const</argsstring>
+        <name>getBestObjective</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::getBestObjective</qualifiedname>
+        <briefdescription>
+<para>Get the best objective value observed so far. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Best objective value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="75" column="12" bodyfile="src/rag/bayesian_optimizer.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1aae04683ea9210d89d2018c2ce359f717" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::BayesianOptimizer::getNumObservations</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumObservations</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::getNumObservations</qualifiedname>
+        <briefdescription>
+<para>Get number of observations recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="80" column="12" bodyfile="src/rag/bayesian_optimizer.cpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1ac817a65c677ad3200c160b65396649b4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt; std::string, double &gt; themis::rag::learning::BayesianOptimizer::sampleRandom</definition>
+        <argsstring>()</argsstring>
+        <name>sampleRandom</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::sampleRandom</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="87" column="24" bodyfile="src/rag/bayesian_optimizer.cpp" bodystart="81" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a8ddc2cf1d1e4c3ce5fcf1978926da191" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt; std::string, double &gt; themis::rag::learning::BayesianOptimizer::sampleAroundBest</definition>
+        <argsstring>()</argsstring>
+        <name>sampleAroundBest</name>
+        <qualifiedname>themis::rag::learning::BayesianOptimizer::sampleAroundBest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="88" column="24" bodyfile="src/rag/bayesian_optimizer.cpp" bodystart="92" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bayesian optimizer for parameter tuning. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses a simplified Expected Improvement acquisition function with random exploration for practical RAG parameter optimization. </para>
+    </detaileddescription>
+    <location file="include/rag/bayesian_optimizer.h" line="42" column="1" bodyfile="include/rag/bayesian_optimizer.h" bodystart="42" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1aeece68ee0739852a9481335cf2c73165" prot="public" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>BayesianOptimizer</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1ad5cbec3822cf3f4c4fd5992ad1f7c451" prot="public" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>getBestObjective</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a78563dd95ec3c88f99f6b1de57f76bae" prot="public" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>getBestParams</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1aae04683ea9210d89d2018c2ce359f717" prot="public" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>getNumObservations</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a68cb6bb7e892e6c2bfb61e884154cc32" prot="private" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a68b77da86ad45c2318578e27bca53fd7" prot="public" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>observe</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a8ddc2cf1d1e4c3ce5fcf1978926da191" prot="private" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>sampleAroundBest</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1ac817a65c677ad3200c160b65396649b4" prot="private" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>sampleRandom</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1ab3d5b7926cbe9d6512db2a90bd4c4ac9" prot="public" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>suggest</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a506b525c6255ef53cae6c66465d70f50" prot="public" virt="non-virtual"><scope>themis::rag::learning::BayesianOptimizer</scope><name>~BayesianOptimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

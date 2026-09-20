@@ -1,0 +1,513 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_column_lineage_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::ColumnLineageTracker</compoundname>
+    <includes refid="column__lineage_8h" local="no">column_lineage.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a2b1d68913fd34919d06f21412145a691" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::metadata::ColumnLineageTracker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="224" column="24" bodyfile="include/metadata/column_lineage.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a26d7705017b5a5320830c563f496fbae" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref>, std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_lineage_entry" kindref="compound">ColumnLineageEntry</ref> &gt;, <ref refid="structthemis_1_1metadata_1_1_column_ref_hash" kindref="compound">ColumnRefHash</ref> &gt;</type>
+        <definition>std::unordered_map&lt;ColumnRef, std::vector&lt;ColumnLineageEntry&gt;, ColumnRefHash&gt; themis::metadata::ColumnLineageTracker::entries_by_target_</definition>
+        <argsstring></argsstring>
+        <name>entries_by_target_</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::entries_by_target_</qualifiedname>
+        <briefdescription>
+<para>Primary store: target_column key → derivation entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="227" column="24" bodyfile="include/metadata/column_lineage.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a41903f28bc7f87288fcb91c1fb2b5966" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref>, std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &gt;, <ref refid="structthemis_1_1metadata_1_1_column_ref_hash" kindref="compound">ColumnRefHash</ref> &gt;</type>
+        <definition>std::unordered_map&lt;ColumnRef, std::vector&lt;ColumnRef&gt;, ColumnRefHash&gt; themis::metadata::ColumnLineageTracker::targets_by_source_</definition>
+        <argsstring></argsstring>
+        <name>targets_by_source_</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::targets_by_source_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Secondary index: source_column key → set of target ColumnRefs Used by <ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a3eb763563c3a91606845388094844763" kindref="member">getDownstreamColumns()</ref> for efficient traversal </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="231" column="24" bodyfile="include/metadata/column_lineage.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1ae93897074f1a9a27f173b4fa23fabe87" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_lineage_entry" kindref="compound">ColumnLineageEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnLineageEntry&gt; themis::metadata::ColumnLineageTracker::all_entries_</definition>
+        <argsstring></argsstring>
+        <name>all_entries_</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::all_entries_</qualifiedname>
+        <briefdescription>
+<para>All entries in insertion order (for exportAllLineage). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="234" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a3f7b27803898a55a14a8ef23261c5a2a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::metadata::ColumnLineageTracker::next_entry_seq_</definition>
+        <argsstring></argsstring>
+        <name>next_entry_seq_</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::next_entry_seq_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="236" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1aee0fd325f9c1d4aba009f28101cf34e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::ColumnLineageTracker::ColumnLineageTracker</definition>
+        <argsstring>()=default</argsstring>
+        <name>ColumnLineageTracker</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::ColumnLineageTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1abaffa2df32e7e01fc8318ed6793fce3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::ColumnLineageTracker::ColumnLineageTracker</definition>
+        <argsstring>(const ColumnLineageTracker &amp;)=delete</argsstring>
+        <name>ColumnLineageTracker</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::ColumnLineageTracker</qualifiedname>
+        <param>
+          <type>const ColumnLineageTracker &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a2187e34616f52cc0abaf93766dc62d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1aee0fd325f9c1d4aba009f28101cf34e3" kindref="member">ColumnLineageTracker</ref> &amp;</type>
+        <definition>ColumnLineageTracker &amp; themis::metadata::ColumnLineageTracker::operator=</definition>
+        <argsstring>(const ColumnLineageTracker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1aee0fd325f9c1d4aba009f28101cf34e3" kindref="member">ColumnLineageTracker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="148" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1acae9956afee75f501b44267744258673" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::ColumnLineageTracker::ColumnLineageTracker</definition>
+        <argsstring>(ColumnLineageTracker &amp;&amp;) noexcept=delete</argsstring>
+        <name>ColumnLineageTracker</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::ColumnLineageTracker</qualifiedname>
+        <param>
+          <type>ColumnLineageTracker &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="149" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a680677511118cf9314e96d1a7f092543" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1aee0fd325f9c1d4aba009f28101cf34e3" kindref="member">ColumnLineageTracker</ref> &amp;</type>
+        <definition>ColumnLineageTracker &amp; themis::metadata::ColumnLineageTracker::operator=</definition>
+        <argsstring>(ColumnLineageTracker &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1aee0fd325f9c1d4aba009f28101cf34e3" kindref="member">ColumnLineageTracker</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="150" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1abc9171b4e79af902065d3e6dd752359b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::ColumnLineageTracker::recordDerivation</definition>
+        <argsstring>(ColumnLineageEntry entry)</argsstring>
+        <name>recordDerivation</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::recordDerivation</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1metadata_1_1_column_lineage_entry" kindref="compound">ColumnLineageEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Record a derivation step for a target column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Derivation.</para>
+<para>entry.entry_id is auto-assigned if empty. entry.timestamp_ms is auto-assigned to the current wall-clock time if 0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully or partially populated <ref refid="structthemis_1_1metadata_1_1_column_lineage_entry" kindref="compound">ColumnLineageEntry</ref>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), empty(), assignEntryId(), spdlog::info(), <ref refid="namespacethemis_1_1metadata_1a4244e347bd3c10198e0a0fef093ca26c" kindref="member">transformationTypeToString()</ref>, size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="160" column="10" bodyfile="src/metadata/column_lineage.cpp" bodystart="173" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1afb5c52a9f92c36e48854ab925d7a6bf8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1metadata_1_1_column_lineage_record" kindref="compound">ColumnLineageRecord</ref></type>
+        <definition>ColumnLineageRecord themis::metadata::ColumnLineageTracker::getColumnLineage</definition>
+        <argsstring>(const ColumnRef &amp;col) const</argsstring>
+        <name>getColumnLineage</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::getColumnLineage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &amp;</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+<para>Return all recorded derivation entries whose target is <computeroutput>col</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="165" column="25" bodyfile="src/metadata/column_lineage.cpp" bodystart="208" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a02f8284c065162f2a86b4e5b78cb9f82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnRef &gt; themis::metadata::ColumnLineageTracker::getUpstreamColumns</definition>
+        <argsstring>(const ColumnRef &amp;col) const</argsstring>
+        <name>getUpstreamColumns</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::getUpstreamColumns</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &amp;</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+<para>Transitively return all source columns that contributed to <computeroutput>col</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a breadth-first traversal of the lineage DAG from <computeroutput>col</computeroutput> upward (toward roots). The returned set does not include <computeroutput>col</computeroutput> itself.</para>
+<para><simplesect kind="return"><para>Unique <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> values in BFS order (nearest ancestors first). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="175" column="17" bodyfile="src/metadata/column_lineage.cpp" bodystart="224" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a3eb763563c3a91606845388094844763" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnRef &gt; themis::metadata::ColumnLineageTracker::getDownstreamColumns</definition>
+        <argsstring>(const ColumnRef &amp;col) const</argsstring>
+        <name>getDownstreamColumns</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::getDownstreamColumns</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &amp;</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+<para>Transitively return all columns derived from <computeroutput>col</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a breadth-first traversal of the lineage DAG from <computeroutput>col</computeroutput> downward (toward leaves). The returned set does not include <computeroutput>col</computeroutput> itself.</para>
+<para><simplesect kind="return"><para>Unique <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> values in BFS order (nearest descendants first). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="185" column="17" bodyfile="src/metadata/column_lineage.cpp" bodystart="263" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a76a61c81071c07695c5af4cdea696f8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::metadata::ColumnLineageTracker::getColumnProvenance</definition>
+        <argsstring>(const ColumnRef &amp;col) const</argsstring>
+        <name>getColumnProvenance</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::getColumnProvenance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &amp;</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+<para>Return a structured provenance record for <computeroutput>col</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned JSON object contains:<itemizedlist>
+<listitem><para>&quot;column&quot;: the queried column</para>
+</listitem><listitem><para>&quot;entries&quot;: direct derivation entries for this column</para>
+</listitem><listitem><para>&quot;upstream_columns&quot;: all transitive source columns</para>
+</listitem><listitem><para>&quot;downstream_columns&quot;: all transitive derived columns</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column to inspect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON provenance object. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="199" column="20" bodyfile="src/metadata/column_lineage.cpp" bodystart="300" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1ac4f024aa03a5bf35f49df32d6b44dfc0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::metadata::ColumnLineageTracker::exportTableLineage</definition>
+        <argsstring>(const std::string &amp;table_name) const</argsstring>
+        <name>exportTableLineage</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::exportTableLineage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Export all lineage entries for every column in <computeroutput>table_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON array of <ref refid="structthemis_1_1metadata_1_1_column_lineage_record" kindref="compound">ColumnLineageRecord</ref> objects. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="207" column="20" bodyfile="src/metadata/column_lineage.cpp" bodystart="331" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a9e82188bcd5eff1ef2c321f512d868c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::metadata::ColumnLineageTracker::exportAllLineage</definition>
+        <argsstring>() const</argsstring>
+        <name>exportAllLineage</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::exportAllLineage</qualifiedname>
+        <briefdescription>
+<para>Export the full lineage graph as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a JSON object: {&quot;entries&quot;: [...], &quot;total_entries&quot;: N} <simplesect kind="return"><para>JSON object containing all recorded lineage entries. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="215" column="20" bodyfile="src/metadata/column_lineage.cpp" bodystart="352" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1abe9b81f44e484cb249ffc1df5beeeb39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::metadata::ColumnLineageTracker::totalEntryCount</definition>
+        <argsstring>() const</argsstring>
+        <name>totalEntryCount</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::totalEntryCount</qualifiedname>
+        <briefdescription>
+<para>Return the total number of recorded lineage entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Count of append-only derivation records currently stored. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="221" column="12" bodyfile="src/metadata/column_lineage.cpp" bodystart="370" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_column_lineage_tracker_1a7085a24e9834daf51bb8070ea7cd8277" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnLineageTracker::assignEntryId</definition>
+        <argsstring>()</argsstring>
+        <name>assignEntryId</name>
+        <qualifiedname>themis::metadata::ColumnLineageTracker::assignEntryId</qualifiedname>
+        <briefdescription>
+<para>Generate a unique entry_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>─── <ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker" kindref="compound">ColumnLineageTracker</ref> ────────────────────────────────────────────────────</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="239" column="17" bodyfile="src/metadata/column_lineage.cpp" bodystart="161" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Column-level lineage and data provenance tracker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker" kindref="compound">ColumnLineageTracker</ref> is the single point for recording and querying column-level derivation relationships. It builds a directed acyclic graph (DAG) where nodes are <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> values and edges are <ref refid="structthemis_1_1metadata_1_1_column_lineage_entry" kindref="compound">ColumnLineageEntry</ref> records.</para>
+<sect1 id="classthemis_1_1metadata_1_1_column_lineage_tracker_1autotoc_md0_1s1"><sect2 id="classthemis_1_1metadata_1_1_column_lineage_tracker_1autotoc_md0">
+<title>Design constraints</title><para><itemizedlist>
+<listitem><para>Append-only: <ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1abc9171b4e79af902065d3e6dd752359b" kindref="member">recordDerivation()</ref> may never modify or delete an existing entry.</para>
+</listitem><listitem><para>All public methods are thread-safe.</para>
+</listitem><listitem><para>No persistence dependency: the tracker operates in-memory. Callers that need durability should persist the JSON export via their preferred store.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1metadata_1_1_column_lineage_tracker_1autotoc_md1_1s1"><sect2 id="classthemis_1_1metadata_1_1_column_lineage_tracker_1autotoc_md1">
+<title>Integration points</title><para><itemizedlist>
+<listitem><para><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref>: notify on column renames, table schema updates</para>
+</listitem><listitem><para><ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref>: link collected statistics to lineage origin</para>
+</listitem><listitem><para>governance::DataLineageTracker: column-level events complement dataset-level events </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/metadata/column_lineage.h" line="142" column="1" bodyfile="include/metadata/column_lineage.h" bodystart="142" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1ae93897074f1a9a27f173b4fa23fabe87" prot="private" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>all_entries_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a7085a24e9834daf51bb8070ea7cd8277" prot="private" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>assignEntryId</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1aee0fd325f9c1d4aba009f28101cf34e3" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>ColumnLineageTracker</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1abaffa2df32e7e01fc8318ed6793fce3f" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>ColumnLineageTracker</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1acae9956afee75f501b44267744258673" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>ColumnLineageTracker</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a26d7705017b5a5320830c563f496fbae" prot="private" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>entries_by_target_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a9e82188bcd5eff1ef2c321f512d868c2" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>exportAllLineage</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1ac4f024aa03a5bf35f49df32d6b44dfc0" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>exportTableLineage</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1afb5c52a9f92c36e48854ab925d7a6bf8" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>getColumnLineage</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a76a61c81071c07695c5af4cdea696f8e" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>getColumnProvenance</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a3eb763563c3a91606845388094844763" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>getDownstreamColumns</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a02f8284c065162f2a86b4e5b78cb9f82" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>getUpstreamColumns</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a2b1d68913fd34919d06f21412145a691" prot="private" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a3f7b27803898a55a14a8ef23261c5a2a" prot="private" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>next_entry_seq_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a2187e34616f52cc0abaf93766dc62d1a" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a680677511118cf9314e96d1a7f092543" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1abc9171b4e79af902065d3e6dd752359b" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>recordDerivation</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1a41903f28bc7f87288fcb91c1fb2b5966" prot="private" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>targets_by_source_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_column_lineage_tracker_1abe9b81f44e484cb249ffc1df5beeeb39" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageTracker</scope><name>totalEntryCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

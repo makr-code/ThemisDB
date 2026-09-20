@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::pipeline::ContentChunker::ChunkConfig</compoundname>
+    <includes refid="content__chunker_8h" local="no">content_chunker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::pipeline::ContentChunker::ChunkConfig::chunk_size</definition>
+        <argsstring></argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::ChunkConfig::chunk_size</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="27" column="16" bodyfile="include/content/pipeline/content_chunker.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1af893e916ea44b9121aa04853b5dbd357" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::pipeline::ContentChunker::ChunkConfig::overlap</definition>
+        <argsstring></argsstring>
+        <name>overlap</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::ChunkConfig::overlap</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="28" column="16" bodyfile="include/content/pipeline/content_chunker.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a823cf1fea9b8d1831ec9ce93152f896d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::pipeline::ContentChunker::ChunkConfig::content_aware</definition>
+        <argsstring></argsstring>
+        <name>content_aware</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::ChunkConfig::content_aware</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="29" column="14" bodyfile="include/content/pipeline/content_chunker.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pipeline/content_chunker.h" line="26" column="5" bodyfile="include/content/pipeline/content_chunker.h" bodystart="26" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker::ChunkConfig</scope><name>chunk_size</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a823cf1fea9b8d1831ec9ce93152f896d" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker::ChunkConfig</scope><name>content_aware</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1af893e916ea44b9121aa04853b5dbd357" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker::ChunkConfig</scope><name>overlap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

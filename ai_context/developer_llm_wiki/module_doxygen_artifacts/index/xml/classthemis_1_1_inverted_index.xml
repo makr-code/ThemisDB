@@ -1,0 +1,1135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_inverted_index" kind="class" language="C++" prot="public">
+    <compoundname>themis::InvertedIndex</compoundname>
+    <includes refid="inverted__index_8h" local="no">inverted_index.h</includes>
+    <innerclass refid="structthemis_1_1_inverted_index_1_1_status" prot="public">themis::InvertedIndex::Status</innerclass>
+    <innerclass refid="structthemis_1_1_inverted_index_1_1_config" prot="public">themis::InvertedIndex::Config</innerclass>
+    <innerclass refid="structthemis_1_1_inverted_index_1_1_search_result" prot="public">themis::InvertedIndex::SearchResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_inverted_index_1abf9790fb556ca035cf7d638b3e120f09" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::InvertedIndex::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::InvertedIndex::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="240" column="20" bodyfile="include/index/inverted_index.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a45fb864602e7e4847946aaad0747e660" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::InvertedIndex::InvertedIndex</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>InvertedIndex</name>
+        <qualifiedname>themis::InvertedIndex::InvertedIndex</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="72" column="14" bodyfile="src/index/inverted_index.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a3d59a401561959d0dfbe84e54723b25d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref></type>
+        <definition>InvertedIndex::Status themis::InvertedIndex::create</definition>
+        <argsstring>(std::string_view table, std::string_view column)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::InvertedIndex::create</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Create (or overwrite) the index metadata for table/column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref> indicating success or failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="82" column="12" bodyfile="src/index/inverted_index.cpp" bodystart="147" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1ab5e700fc355eca62c6f9a642c9051df1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref></type>
+        <definition>InvertedIndex::Status themis::InvertedIndex::create</definition>
+        <argsstring>(std::string_view table, std::string_view column, Config config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::InvertedIndex::create</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_inverted_index_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create (or overwrite) the index metadata with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration settings for the index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref> indicating success or failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_inverted_index_1_1_status_1a4c1cd55319c81226842a85a319dca894" kindref="member">Status::Error()</ref>, find(), dump(), bytes(), begin(), end(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="91" column="12" bodyfile="src/index/inverted_index.cpp" bodystart="160" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1add58dc946017417aab85e8c6e6cc0096" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref></type>
+        <definition>InvertedIndex::Status themis::InvertedIndex::drop</definition>
+        <argsstring>(std::string_view table, std::string_view column)</argsstring>
+        <name>drop</name>
+        <qualifiedname>themis::InvertedIndex::drop</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Remove the index metadata key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop.</para>
+<para>Posting data is NOT purged here. Call <ref refid="classthemis_1_1_inverted_index_1af24cc20b2e9010f446956af1de01cd86" kindref="member">deindex()</ref> for each document before dropping to avoid orphaned keys. <simplesect kind="return"><para><ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref> indicating success or failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_inverted_index_1_1_status_1a4c1cd55319c81226842a85a319dca894" kindref="member">Status::Error()</ref>, del(), <ref refid="classthemis_1_1_inverted_index_1aed5d70b1649a02a1bec6790eebff8683" kindref="member">makeMetaKey()</ref>, THEMIS_INFO(), <ref refid="structthemis_1_1_inverted_index_1_1_status_1aea9f2730b972ed9657f707ce8d5ade70" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="101" column="12" bodyfile="src/index/inverted_index.cpp" bodystart="197" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a82f91a924c09a6b65f87bffa9c462efd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::InvertedIndex::exists</definition>
+        <argsstring>(std::string_view table, std::string_view column) const</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::InvertedIndex::exists</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Check if the index metadata key exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the index exists, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="107" column="10" bodyfile="src/index/inverted_index.cpp" bodystart="207" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1ad18165bbcee41380f2c716d2c71a52db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_inverted_index_1_1_config" kindref="compound">Config</ref> &gt;</type>
+        <definition>std::optional&lt; InvertedIndex::Config &gt; themis::InvertedIndex::getConfig</definition>
+        <argsstring>(std::string_view table, std::string_view column) const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::InvertedIndex::getConfig</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the stored configuration for the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Configuration if the index exists, nullopt if the index does not exist. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="113" column="19" bodyfile="src/index/inverted_index.cpp" bodystart="213" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a88a1eb0740f9c0b8046cc108446a5c4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref></type>
+        <definition>InvertedIndex::Status themis::InvertedIndex::index</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view pk, std::string_view text)</argsstring>
+        <name>index</name>
+        <qualifiedname>themis::InvertedIndex::index</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Index a document field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Index.</para>
+<para>Tokenises <computeroutput>text</computeroutput> and writes posting, TF, and document-length entries for (<computeroutput>table</computeroutput>, <computeroutput>column</computeroutput>, <computeroutput>pk</computeroutput>). Any previously indexed entries for the same pk are removed first (upsert semantics).</para>
+<para><simplesect kind="return"><para>Error if the index does not exist.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_inverted_index_1a82f91a924c09a6b65f87bffa9c462efd" kindref="member">exists()</ref>, <ref refid="structthemis_1_1_inverted_index_1_1_status_1a4c1cd55319c81226842a85a319dca894" kindref="member">Status::Error()</ref>, std::string(), empty(), <ref refid="classthemis_1_1_inverted_index_1ad18165bbcee41380f2c716d2c71a52db" kindref="member">getConfig()</ref>, value_or(), removePostings_(), <ref refid="structthemis_1_1_inverted_index_1_1_status_1aea9f2730b972ed9657f707ce8d5ade70" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="129" column="12" bodyfile="src/index/inverted_index.cpp" bodystart="362" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1af24cc20b2e9010f446956af1de01cd86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref></type>
+        <definition>InvertedIndex::Status themis::InvertedIndex::deindex</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view pk, std::string_view text)</argsstring>
+        <name>deindex</name>
+        <qualifiedname>themis::InvertedIndex::deindex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Remove a document&apos;s posting entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deindex.</para>
+<para>The <computeroutput>text</computeroutput> parameter is retained for API backward compatibility but is <bold>no longer used</bold> internally. Removal is driven entirely by the <computeroutput>ftrev:&lt;table&gt;:&lt;column&gt;:&lt;pk&gt;</computeroutput> reverse-index key written by <ref refid="namespacethemis_1_1index" kindref="compound">index()</ref>. Callers may pass an empty string.</para>
+<para><simplesect kind="return"><para>Error if the index does not exist.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">string_view</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_inverted_index_1a82f91a924c09a6b65f87bffa9c462efd" kindref="member">exists()</ref>, <ref refid="structthemis_1_1_inverted_index_1_1_status_1a4c1cd55319c81226842a85a319dca894" kindref="member">Status::Error()</ref>, std::string(), empty(), removePostings_(), <ref refid="structthemis_1_1_inverted_index_1_1_status_1aea9f2730b972ed9657f707ce8d5ade70" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="142" column="12" bodyfile="src/index/inverted_index.cpp" bodystart="427" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a0425d2b8f0080d685cefe64c026e15ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_inverted_index_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; InvertedIndex::Status, std::vector&lt; InvertedIndex::SearchResult &gt; &gt; themis::InvertedIndex::search</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view query, size_t limit=1000) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::InvertedIndex::search</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>BM25-scored full-text search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All query tokens must appear in a document for it to be returned (AND semantics). Results are sorted by descending BM25 score. <simplesect kind="return"><para>Pair containing <ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref> and vector of search results sorted by score. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="156" column="15" bodyfile="src/index/inverted_index.cpp" bodystart="563" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a9b8bab17a2400be7630458457a2f3cb1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_inverted_index_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; InvertedIndex::Status, std::vector&lt; InvertedIndex::SearchResult &gt; &gt; themis::InvertedIndex::searchPhrase</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view phrase, size_t limit=1000) const</argsstring>
+        <name>searchPhrase</name>
+        <qualifiedname>themis::InvertedIndex::searchPhrase</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>phrase</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>Exact phrase search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Candidates must contain all phrase tokens (AND), then the original field text is checked for the verbatim lowercased phrase substring. <simplesect kind="return"><para>Pair containing <ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref> and vector of phrase search results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="167" column="15" bodyfile="src/index/inverted_index.cpp" bodystart="573" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a22ffac859136c2a3d7b21024ae492dcf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_inverted_index_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; InvertedIndex::Status, std::vector&lt; InvertedIndex::SearchResult &gt; &gt; themis::InvertedIndex::searchFuzzy</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view query, int maxDistance=2, size_t limit=1000) const</argsstring>
+        <name>searchFuzzy</name>
+        <qualifiedname>themis::InvertedIndex::searchFuzzy</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxDistance</declname>
+          <defval>2</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>Fuzzy search using Levenshtein edit distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxDistance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum edit distance (0 = exact, default 2). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair containing <ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref> and vector of fuzzy search results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="181" column="15" bodyfile="src/index/inverted_index.cpp" bodystart="687" bodyend="751"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1af49cc17228bba1373d7eb669371b05f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::InvertedIndex::tokenize</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::InvertedIndex::tokenize</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize text with basic whitespace and punctuation splitting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tokenize.</para>
+<para>Performs whitespace/punctuation split and lowercase conversion. No stemming or stop-word removal. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Text to tokenize. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of lowercase tokens.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::isspace(), std::ispunct(), empty(), std::transform(), begin(), end(), std::tolower(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="198" column="24" bodyfile="src/index/inverted_index.cpp" bodystart="249" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1af50582b4a94d28b90c5544a6a7c226ea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::InvertedIndex::tokenize</definition>
+        <argsstring>(std::string_view text, const Config &amp;config)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::InvertedIndex::tokenize</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_inverted_index_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize text with optional normalisation, stop-word removal, and stemming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tokenize.</para>
+<para>Applies configuration-specific transformations including normalization, stop-word removal, and language-specific stemming. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Text to tokenize. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration settings for tokenization. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of processed tokens.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::Normalizer::normalizeUmlauts(), empty(), std::string_view(), utils::Stopwords::defaults(), utils::Stopwords::merge(), erase(), std::remove_if(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="209" column="24" bodyfile="src/index/inverted_index.cpp" bodystart="278" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1aed5d70b1649a02a1bec6790eebff8683" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::InvertedIndex::makeMetaKey</definition>
+        <argsstring>(std::string_view table, std::string_view column)</argsstring>
+        <name>makeMetaKey</name>
+        <qualifiedname>themis::InvertedIndex::makeMetaKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Make Meta Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="216" column="24" bodyfile="src/index/inverted_index.cpp" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1af646df7833384ecbce3b511c6857c8d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::InvertedIndex::makeIndexKey</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view token, std::string_view pk)</argsstring>
+        <name>makeIndexKey</name>
+        <qualifiedname>themis::InvertedIndex::makeIndexKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Make Index Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="218" column="24" bodyfile="src/index/inverted_index.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1ae89314bc40a5990a1f775b69a8ea576e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::InvertedIndex::makeIndexPrefix</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view token)</argsstring>
+        <name>makeIndexPrefix</name>
+        <qualifiedname>themis::InvertedIndex::makeIndexPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Make Index Prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="222" column="24" bodyfile="src/index/inverted_index.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1abc15788f879515a78093f403dff26c47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::InvertedIndex::makeTFKey</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view token, std::string_view pk)</argsstring>
+        <name>makeTFKey</name>
+        <qualifiedname>themis::InvertedIndex::makeTFKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Make TFKey. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="225" column="24" bodyfile="src/index/inverted_index.cpp" bodystart="98" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1adfd91c828e0063d37aeb33858cdbcdc1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::InvertedIndex::makeDocLenKey</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view pk)</argsstring>
+        <name>makeDocLenKey</name>
+        <qualifiedname>themis::InvertedIndex::makeDocLenKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Make Doc Len Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="229" column="24" bodyfile="src/index/inverted_index.cpp" bodystart="114" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a346c4fc9048a1daaad912d8bb4a5b19f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::InvertedIndex::makeRevKey</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view pk)</argsstring>
+        <name>makeRevKey</name>
+        <qualifiedname>themis::InvertedIndex::makeRevKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Make Rev Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reverse-index key: stores the set of tokens currently indexed for a pk. Key: ftrev:&lt;column&gt;:&lt;pk&gt; → JSON array of token strings.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="235" column="24" bodyfile="src/index/inverted_index.cpp" bodystart="129" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1a1cb317c98815a1c1f6100c7adcfd1cad" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_inverted_index_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_inverted_index_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; InvertedIndex::Status, std::vector&lt; InvertedIndex::SearchResult &gt; &gt; themis::InvertedIndex::computeBM25_</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view query, size_t limit) const</argsstring>
+        <name>computeBM25_</name>
+        <qualifiedname>themis::InvertedIndex::computeBM25_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="243" column="15" bodyfile="src/index/inverted_index.cpp" bodystart="447" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_inverted_index_1af288a1dd83e59495cb6831a3fe4a1197" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::InvertedIndex::removePostings_</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view pk)</argsstring>
+        <name>removePostings_</name>
+        <qualifiedname>themis::InvertedIndex::removePostings_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Remove Postings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_inverted_index_1a346c4fc9048a1daaad912d8bb4a5b19f" kindref="member">makeRevKey()</ref>, get(), empty(), s(), begin(), end(), nlohmann::json::parse(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="248" column="10" bodyfile="src/index/inverted_index.cpp" bodystart="316" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standalone inverted index for full-text search. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides tokenisation, BM25-scored search, exact phrase search, and fuzzy (Levenshtein) search over a RocksDB backend.</para>
+<para>Key schema (compatible with <ref refid="classthemis_1_1_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref> fulltext keys): ftidxmeta:&lt;column&gt; – index configuration (JSON) ftidx:&lt;column&gt;:&lt;token&gt;:&lt;pk&gt; – posting entry fttf:&lt;column&gt;:&lt;token&gt;:&lt;pk&gt; – term frequency (uint32 as string) ftdlen:&lt;column&gt;:&lt;pk&gt; – document length (uint32 as string)</para>
+<para>Thread-safety: a single <ref refid="classthemis_1_1_inverted_index" kindref="compound">InvertedIndex</ref> instance is <bold>not</bold> thread-safe. Use one instance per thread or guard with an external mutex. </para>
+    </detaileddescription>
+    <location file="include/index/inverted_index.h" line="40" column="1" bodyfile="include/index/inverted_index.h" bodystart="40" bodyend="250"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_inverted_index_1a1cb317c98815a1c1f6100c7adcfd1cad" prot="private" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>computeBM25_</name></member>
+      <member refid="classthemis_1_1_inverted_index_1a3d59a401561959d0dfbe84e54723b25d" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>create</name></member>
+      <member refid="classthemis_1_1_inverted_index_1ab5e700fc355eca62c6f9a642c9051df1" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>create</name></member>
+      <member refid="classthemis_1_1_inverted_index_1abf9790fb556ca035cf7d638b3e120f09" prot="private" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_inverted_index_1af24cc20b2e9010f446956af1de01cd86" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>deindex</name></member>
+      <member refid="classthemis_1_1_inverted_index_1add58dc946017417aab85e8c6e6cc0096" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>drop</name></member>
+      <member refid="classthemis_1_1_inverted_index_1a82f91a924c09a6b65f87bffa9c462efd" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>exists</name></member>
+      <member refid="classthemis_1_1_inverted_index_1ad18165bbcee41380f2c716d2c71a52db" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_inverted_index_1a88a1eb0740f9c0b8046cc108446a5c4f" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>index</name></member>
+      <member refid="classthemis_1_1_inverted_index_1a45fb864602e7e4847946aaad0747e660" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>InvertedIndex</name></member>
+      <member refid="classthemis_1_1_inverted_index_1adfd91c828e0063d37aeb33858cdbcdc1" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>makeDocLenKey</name></member>
+      <member refid="classthemis_1_1_inverted_index_1af646df7833384ecbce3b511c6857c8d8" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>makeIndexKey</name></member>
+      <member refid="classthemis_1_1_inverted_index_1ae89314bc40a5990a1f775b69a8ea576e" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>makeIndexPrefix</name></member>
+      <member refid="classthemis_1_1_inverted_index_1aed5d70b1649a02a1bec6790eebff8683" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>makeMetaKey</name></member>
+      <member refid="classthemis_1_1_inverted_index_1a346c4fc9048a1daaad912d8bb4a5b19f" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>makeRevKey</name></member>
+      <member refid="classthemis_1_1_inverted_index_1abc15788f879515a78093f403dff26c47" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>makeTFKey</name></member>
+      <member refid="classthemis_1_1_inverted_index_1af288a1dd83e59495cb6831a3fe4a1197" prot="private" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>removePostings_</name></member>
+      <member refid="classthemis_1_1_inverted_index_1a0425d2b8f0080d685cefe64c026e15ff" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1_inverted_index_1a22ffac859136c2a3d7b21024ae492dcf" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>searchFuzzy</name></member>
+      <member refid="classthemis_1_1_inverted_index_1a9b8bab17a2400be7630458457a2f3cb1" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>searchPhrase</name></member>
+      <member refid="classthemis_1_1_inverted_index_1af49cc17228bba1373d7eb669371b05f7" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>tokenize</name></member>
+      <member refid="classthemis_1_1_inverted_index_1af50582b4a94d28b90c5544a6a7c226ea" prot="public" virt="non-virtual"><scope>themis::InvertedIndex</scope><name>tokenize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

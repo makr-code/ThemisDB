@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1_tier_promotion_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::TierPromotionResult</compoundname>
+    <includes refid="access__tier__interface_8h" local="no">access_tier_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_promotion_result_1a1d331d09deb4d2e8cd3b3770042f11ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::access_model::TierPromotionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::access_model::TierPromotionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="157" column="10" bodyfile="include/access_model/access_tier_interface.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_promotion_result_1ae7436595b4d4d9f007ee0af2dacb61b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::TierPromotionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::access_model::TierPromotionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="159" column="17" bodyfile="include/access_model/access_tier_interface.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_promotion_result_1a7444c99c894914f7fa64659c3d132b2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::TierPromotionResult::promoted_value</definition>
+        <argsstring></argsstring>
+        <name>promoted_value</name>
+        <qualifiedname>themis::access_model::TierPromotionResult::promoted_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="161" column="17" bodyfile="include/access_model/access_tier_interface.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_promotion_result_1a877ae1a4935e6a037290f8c3fd36a137" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::TierPromotionResult::from_tier</definition>
+        <argsstring></argsstring>
+        <name>from_tier</name>
+        <qualifiedname>themis::access_model::TierPromotionResult::from_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="163" column="15" bodyfile="include/access_model/access_tier_interface.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_promotion_result_1aa4c79e1c0350da80fc67118fb59daa54" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::TierPromotionResult::to_tier</definition>
+        <argsstring></argsstring>
+        <name>to_tier</name>
+        <qualifiedname>themis::access_model::TierPromotionResult::to_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="165" column="15" bodyfile="include/access_model/access_tier_interface.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_promotion_result_1ab49f6193df170bceadae6ccb4dff903d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::access_model::TierPromotionResult::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>themis::access_model::TierPromotionResult::total_latency_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="167" column="31" bodyfile="include/access_model/access_tier_interface.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_promotion_result_1a4efd80995d292c214a51a4b3b5ccc758" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::vector&lt;std::chrono::milliseconds&gt; themis::access_model::TierPromotionResult::hop_latencies_ms</definition>
+        <argsstring></argsstring>
+        <name>hop_latencies_ms</name>
+        <qualifiedname>themis::access_model::TierPromotionResult::hop_latencies_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="169" column="17" bodyfile="include/access_model/access_tier_interface.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_promotion_result_1a519cee70682bd9a85f998ee8361b6700" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::TierPromotionResult::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::access_model::TierPromotionResult::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="171" column="17" bodyfile="include/access_model/access_tier_interface.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_tier_interface.h" line="156" column="1" bodyfile="include/access_model/access_tier_interface.h" bodystart="156" bodyend="172"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a519cee70682bd9a85f998ee8361b6700" prot="public" virt="non-virtual"><scope>themis::access_model::TierPromotionResult</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_promotion_result_1ae7436595b4d4d9f007ee0af2dacb61b3" prot="public" virt="non-virtual"><scope>themis::access_model::TierPromotionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a877ae1a4935e6a037290f8c3fd36a137" prot="public" virt="non-virtual"><scope>themis::access_model::TierPromotionResult</scope><name>from_tier</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a4efd80995d292c214a51a4b3b5ccc758" prot="public" virt="non-virtual"><scope>themis::access_model::TierPromotionResult</scope><name>hop_latencies_ms</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a7444c99c894914f7fa64659c3d132b2d" prot="public" virt="non-virtual"><scope>themis::access_model::TierPromotionResult</scope><name>promoted_value</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a1d331d09deb4d2e8cd3b3770042f11ee" prot="public" virt="non-virtual"><scope>themis::access_model::TierPromotionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_promotion_result_1aa4c79e1c0350da80fc67118fb59daa54" prot="public" virt="non-virtual"><scope>themis::access_model::TierPromotionResult</scope><name>to_tier</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_promotion_result_1ab49f6193df170bceadae6ccb4dff903d" prot="public" virt="non-virtual"><scope>themis::access_model::TierPromotionResult</scope><name>total_latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_retention_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::RetentionPolicy</compoundname>
+    <includes refid="retention__manager_8h" local="no">retention_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1aa7701a76d38dac266b646eb4037487e4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6c" kindref="member">RetentionType</ref></type>
+        <definition>RetentionType themisdb::temporal::RetentionPolicy::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca7b13ca71d545e3fb822b4c90a876bb83" kindref="member">RetentionType::TIME_BASED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="106" column="19" bodyfile="include/temporal/retention_manager.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1a7376640799220d4a1e16795b089ffbf6" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::temporal::RetentionPolicy::retention_period</definition>
+        <argsstring></argsstring>
+        <name>retention_period</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::retention_period</qualifiedname>
+        <initializer>{
+        std::chrono::hours(24 * 365)}</initializer>
+        <briefdescription>
+<para>Default: 1 year. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="109" column="31" bodyfile="include/temporal/retention_manager.h" bodystart="109" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1ae0805c0249810e17f184b97e961047f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::RetentionPolicy::max_versions_per_key</definition>
+        <argsstring></argsstring>
+        <name>max_versions_per_key</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::max_versions_per_key</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="113" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1a68e3cd3d162e52fd5ab1817382183175" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::RetentionPolicy::max_storage_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_storage_bytes</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::max_storage_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum total bytes of historical (non-current) versions for the table. When total historical storage exceeds this limit the oldest versions are removed first. 0 means unlimited (no storage-based enforcement). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="119" column="14" bodyfile="include/temporal/retention_manager.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1a2c610899456a735d5aef166e31b7ac0f" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const VersionedDocument&amp;)&gt; themisdb::temporal::RetentionPolicy::should_keep</definition>
+        <argsstring></argsstring>
+        <name>should_keep</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::should_keep</qualifiedname>
+        <briefdescription>
+<para>Return true to keep the version, false to delete it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="123" column="19" bodyfile="include/temporal/retention_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1ac80d24ea136aa9b452b2fac165da213c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::RetentionPolicy::compliance_tag</definition>
+        <argsstring></argsstring>
+        <name>compliance_tag</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::compliance_tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Regulatory label for this policy (e.g. &quot;GDPR&quot;, &quot;HIPAA&quot;). Used as the archive_tag fallback (prefixed with the table name so that getArchivedRecords(&quot;&lt;table&gt;&quot;) can still locate the records) and propagated to <ref refid="structthemisdb_1_1temporal_1_1_archived_record_1a0f06d0e5475e21c94b25e38185193201" kindref="member">ArchivedRecord::archive_tag</ref> when archive_before_delete is set. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="130" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1a799ccadda0633e23088f0a6bb2e5f7df" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::temporal::RetentionPolicy::minimum_retention_period</definition>
+        <argsstring></argsstring>
+        <name>minimum_retention_period</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::minimum_retention_period</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum age a version must reach before it may be deleted by this policy. Versions younger than this are always kept regardless of the primary retention type. Zero means no minimum (default). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="135" column="31" bodyfile="include/temporal/retention_manager.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1aef4759414af66a354ca4aa0a9bd88931" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::RetentionPolicy::incremental_batch_size</definition>
+        <argsstring></argsstring>
+        <name>incremental_batch_size</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::incremental_batch_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of versions deleted in a single enforcement run. 0 means unlimited (delete all eligible versions in one pass). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="140" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1ad5937fac39487d30ff22250b6f9799f4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::temporal::RetentionPolicy::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::max_retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How many times to retry enforcement when errors are encountered. 0 means no retry (single attempt only). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="145" column="9" bodyfile="include/temporal/retention_manager.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1ace20ad76575a9b3689163399200cb1f5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::RetentionPolicy::archive_before_delete</definition>
+        <argsstring></argsstring>
+        <name>archive_before_delete</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::archive_before_delete</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="148" column="10" bodyfile="include/temporal/retention_manager.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_policy_1aa2387b64e1c4a71877c8e285b805c257" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::RetentionPolicy::archive_tag</definition>
+        <argsstring></argsstring>
+        <name>archive_tag</name>
+        <qualifiedname>themisdb::temporal::RetentionPolicy::archive_tag</qualifiedname>
+        <briefdescription>
+<para>Label attached to archived entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="149" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Policy that governs how historical data is cleaned up. </para>
+    </detaileddescription>
+    <location file="include/temporal/retention_manager.h" line="105" column="1" bodyfile="include/temporal/retention_manager.h" bodystart="105" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1ace20ad76575a9b3689163399200cb1f5" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>archive_before_delete</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1aa2387b64e1c4a71877c8e285b805c257" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>archive_tag</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1ac80d24ea136aa9b452b2fac165da213c" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>compliance_tag</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1aef4759414af66a354ca4aa0a9bd88931" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>incremental_batch_size</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1ad5937fac39487d30ff22250b6f9799f4" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>max_retries</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1a68e3cd3d162e52fd5ab1817382183175" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>max_storage_bytes</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1ae0805c0249810e17f184b97e961047f9" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>max_versions_per_key</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1a799ccadda0633e23088f0a6bb2e5f7df" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>minimum_retention_period</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1a7376640799220d4a1e16795b089ffbf6" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>retention_period</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1a2c610899456a735d5aef166e31b7ac0f" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>should_keep</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_policy_1aa7701a76d38dac266b646eb4037487e4" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionPolicy</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

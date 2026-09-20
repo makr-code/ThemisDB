@@ -1,0 +1,538 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_audit_tamper_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::AuditTamperDetector</compoundname>
+    <includes refid="governance__audit__integrity_8h" local="no">governance_audit_integrity.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_tamper_detector_1a082fadb084b97562c1da821fca4e22ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::optional&lt; TamperIncident &gt; themis::governance::AuditTamperDetector::verifyEntry</definition>
+        <argsstring>(const ImmutableAuditEntry &amp;entry, const AuditSigner &amp;signer, const std::optional&lt; ImmutableAuditEntry &gt; &amp;previous_entry=std::nullopt)</argsstring>
+        <name>verifyEntry</name>
+        <qualifiedname>themis::governance::AuditTamperDetector::verifyEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &amp;</type>
+          <declname>signer</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt; &amp;</type>
+          <declname>previous_entry</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Verify Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkSignatureValidity(), checkChainOfCustody(), value(), checkSequenceValidity(), checkTimestampValidity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="228" column="19" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="425" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_tamper_detector_1a910d3a280c97788bd9c2f027f8043018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::vector&lt; TamperIncident &gt; themis::governance::AuditTamperDetector::verifyAuditTrail</definition>
+        <argsstring>(const std::vector&lt; ImmutableAuditEntry &gt; &amp;entries, const AuditSigner &amp;signer)</argsstring>
+        <name>verifyAuditTrail</name>
+        <qualifiedname>themis::governance::AuditTamperDetector::verifyAuditTrail</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &amp;</type>
+          <declname>signer</declname>
+        </param>
+        <briefdescription>
+<para>Verify Audit Trail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), <ref refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a082fadb084b97562c1da821fca4e22ab" kindref="member">verifyEntry()</ref>, push_back(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="240" column="17" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="464" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_tamper_detector_1a9d56eac51ebec239cff218ecfa52f76d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::vector&lt; TamperIncident &gt; themis::governance::AuditTamperDetector::verifyTimeRange</definition>
+        <argsstring>(const std::vector&lt; ImmutableAuditEntry &gt; &amp;entries, const AuditSigner &amp;signer, int64_t start_time_ms, int64_t end_time_ms)</argsstring>
+        <name>verifyTimeRange</name>
+        <qualifiedname>themis::governance::AuditTamperDetector::verifyTimeRange</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &amp;</type>
+          <declname>signer</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Verify Time Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), <ref refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a082fadb084b97562c1da821fca4e22ab" kindref="member">verifyEntry()</ref>, push_back(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="253" column="17" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="492" bodyend="521"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_tamper_detector_1abb84355af43271dbd4116bf3120f4b39" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::AuditTamperDetector::generateTamperReport</definition>
+        <argsstring>(const std::vector&lt; TamperIncident &gt; &amp;incidents)</argsstring>
+        <name>generateTamperReport</name>
+        <qualifiedname>themis::governance::AuditTamperDetector::generateTamperReport</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt; &amp;</type>
+          <declname>incidents</declname>
+        </param>
+        <briefdescription>
+<para>Generate Tamper Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incidents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incidents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="265" column="27" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="529" bodyend="554"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_tamper_detector_1a11c40cdfab8cfe32c4aedc0550153bc4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::optional&lt; TamperIncident &gt; themis::governance::AuditTamperDetector::checkSignatureValidity</definition>
+        <argsstring>(const ImmutableAuditEntry &amp;entry, const AuditSigner &amp;signer)</argsstring>
+        <name>checkSignatureValidity</name>
+        <qualifiedname>themis::governance::AuditTamperDetector::checkSignatureValidity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &amp;</type>
+          <declname>signer</declname>
+        </param>
+        <briefdescription>
+<para>Check Signature Validity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: verifySignature(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="276" column="19" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="563" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_tamper_detector_1ab88e199c9356796f6c71c87abff40109" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::optional&lt; TamperIncident &gt; themis::governance::AuditTamperDetector::checkChainOfCustody</definition>
+        <argsstring>(const ImmutableAuditEntry &amp;entry, const ImmutableAuditEntry &amp;previous_entry)</argsstring>
+        <name>checkChainOfCustody</name>
+        <qualifiedname>themis::governance::AuditTamperDetector::checkChainOfCustody</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>previous_entry</declname>
+        </param>
+        <briefdescription>
+<para>Check Chain Of Custody. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="287" column="19" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="590" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_tamper_detector_1af86732906df6228d53ce7a8e12759129" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::optional&lt; TamperIncident &gt; themis::governance::AuditTamperDetector::checkSequenceValidity</definition>
+        <argsstring>(const ImmutableAuditEntry &amp;entry, const ImmutableAuditEntry &amp;previous_entry)</argsstring>
+        <name>checkSequenceValidity</name>
+        <qualifiedname>themis::governance::AuditTamperDetector::checkSequenceValidity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>previous_entry</declname>
+        </param>
+        <briefdescription>
+<para>Check Sequence Validity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="298" column="19" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="618" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_tamper_detector_1a44deaa1ccc7c9ef7f8d257cb301cb201" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::optional&lt; TamperIncident &gt; themis::governance::AuditTamperDetector::checkTimestampValidity</definition>
+        <argsstring>(const ImmutableAuditEntry &amp;entry, const ImmutableAuditEntry &amp;previous_entry)</argsstring>
+        <name>checkTimestampValidity</name>
+        <qualifiedname>themis::governance::AuditTamperDetector::checkTimestampValidity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>previous_entry</declname>
+        </param>
+        <briefdescription>
+<para>Check Timestamp Validity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="309" column="19" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="647" bodyend="665"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_audit_integrity.h" line="226" column="1" bodyfile="include/governance/governance_audit_integrity.h" bodystart="226" bodyend="313"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_audit_tamper_detector_1ab88e199c9356796f6c71c87abff40109" prot="private" virt="non-virtual"><scope>themis::governance::AuditTamperDetector</scope><name>checkChainOfCustody</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_tamper_detector_1af86732906df6228d53ce7a8e12759129" prot="private" virt="non-virtual"><scope>themis::governance::AuditTamperDetector</scope><name>checkSequenceValidity</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a11c40cdfab8cfe32c4aedc0550153bc4" prot="private" virt="non-virtual"><scope>themis::governance::AuditTamperDetector</scope><name>checkSignatureValidity</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a44deaa1ccc7c9ef7f8d257cb301cb201" prot="private" virt="non-virtual"><scope>themis::governance::AuditTamperDetector</scope><name>checkTimestampValidity</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_tamper_detector_1abb84355af43271dbd4116bf3120f4b39" prot="public" virt="non-virtual"><scope>themis::governance::AuditTamperDetector</scope><name>generateTamperReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a910d3a280c97788bd9c2f027f8043018" prot="public" virt="non-virtual"><scope>themis::governance::AuditTamperDetector</scope><name>verifyAuditTrail</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a082fadb084b97562c1da821fca4e22ab" prot="public" virt="non-virtual"><scope>themis::governance::AuditTamperDetector</scope><name>verifyEntry</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a9d56eac51ebec239cff218ecfa52f76d" prot="public" virt="non-virtual"><scope>themis::governance::AuditTamperDetector</scope><name>verifyTimeRange</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

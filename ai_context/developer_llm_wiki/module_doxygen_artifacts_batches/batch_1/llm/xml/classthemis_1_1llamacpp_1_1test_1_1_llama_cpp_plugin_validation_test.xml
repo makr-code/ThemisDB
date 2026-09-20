@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::llamacpp::test::LlamaCppPluginValidationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test_1a062d91691a35e28c314ad6b66adb3db3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llamacpp_1_1test_1a476c3fcccf6af1fb40509d8b23901f75" kindref="member">json</ref></type>
+        <definition>json themis::llamacpp::test::LlamaCppPluginValidationTest::createDefaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultConfig</name>
+        <qualifiedname>themis::llamacpp::test::LlamaCppPluginValidationTest::createDefaultConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="46" column="10" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test_1aa10b7aa6aa76fbd9793d04d3be517678" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">themis::llm::InferenceRequest</ref></type>
+        <definition>themis::llm::InferenceRequest themis::llamacpp::test::LlamaCppPluginValidationTest::createDefaultRequest</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultRequest</name>
+        <qualifiedname>themis::llamacpp::test::LlamaCppPluginValidationTest::createDefaultRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="55" column="35" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="55" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test_1ab9ed56fa9f637fc753aa998df3ce3193" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llamacpp::test::LlamaCppPluginValidationTest::createTestGGUFFile</definition>
+        <argsstring>(const std::string &amp;path, size_t size=200 *1024 *1024)</argsstring>
+        <name>createTestGGUFFile</name>
+        <qualifiedname>themis::llamacpp::test::LlamaCppPluginValidationTest::createTestGGUFFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+          <defval>200 *1024 *1024</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="65" column="17" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="65" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::llamacpp::test::LlamaCppPluginValidationTest</label>
+        <link refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::llamacpp::test::LlamaCppPluginValidationTest</label>
+        <link refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="44" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="44" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test_1a062d91691a35e28c314ad6b66adb3db3" prot="protected" virt="non-virtual"><scope>themis::llamacpp::test::LlamaCppPluginValidationTest</scope><name>createDefaultConfig</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test_1aa10b7aa6aa76fbd9793d04d3be517678" prot="protected" virt="non-virtual"><scope>themis::llamacpp::test::LlamaCppPluginValidationTest</scope><name>createDefaultRequest</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test_1ab9ed56fa9f637fc753aa998df3ce3193" prot="protected" virt="non-virtual"><scope>themis::llamacpp::test::LlamaCppPluginValidationTest</scope><name>createTestGGUFFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

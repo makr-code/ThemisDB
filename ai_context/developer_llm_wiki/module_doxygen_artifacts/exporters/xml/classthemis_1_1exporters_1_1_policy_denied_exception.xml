@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_policy_denied_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::PolicyDeniedException</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_exporter_exception" prot="public" virt="non-virtual">themis::exporters::ExporterException</basecompoundref>
+    <includes refid="exporter__errors_8h" local="no">exporter_errors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_policy_denied_exception_1ae8c89972b969ac7ae7c753f468b5f6e6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PolicyDeniedException::denial_reason_</definition>
+        <argsstring></argsstring>
+        <name>denial_reason_</name>
+        <qualifiedname>themis::exporters::PolicyDeniedException::denial_reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="212" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_policy_denied_exception_1a0f8f1ef272930ae15787f2cdb950515f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PolicyDeniedException::requesting_user_</definition>
+        <argsstring></argsstring>
+        <name>requesting_user_</name>
+        <qualifiedname>themis::exporters::PolicyDeniedException::requesting_user_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="213" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_policy_denied_exception_1a568f08f139e6618e9a86943d478e1ca6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PolicyDeniedException::collection_</definition>
+        <argsstring></argsstring>
+        <name>collection_</name>
+        <qualifiedname>themis::exporters::PolicyDeniedException::collection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="214" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_policy_denied_exception_1a2e2a9907aeb5f46789d57d7f1195abed" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::PolicyDeniedException::PolicyDeniedException</definition>
+        <argsstring>(const std::string &amp;denial_reason, const std::string &amp;requesting_user=&quot;&quot;, const std::string &amp;collection=&quot;&quot;)</argsstring>
+        <name>PolicyDeniedException</name>
+        <qualifiedname>themis::exporters::PolicyDeniedException::PolicyDeniedException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>denial_reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requesting_user</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1exporters_1_1_policy_denied_exception" kindref="compound">PolicyDeniedException</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>denial_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable denial reason from PolicyEngine::checkExportPermission(). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>requesting_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity of the user/service that requested the export (may be empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection being exported (may be empty). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="189" column="14" bodyfile="include/exporters/exporter_errors.h" bodystart="189" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_policy_denied_exception_1a61cb65c79ac280afbd0a92ea1081df3d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::PolicyDeniedException::getDenialReason</definition>
+        <argsstring>() const</argsstring>
+        <name>getDenialReason</name>
+        <qualifiedname>themis::exporters::PolicyDeniedException::getDenialReason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The denial reason supplied by PolicyEngine. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="203" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_policy_denied_exception_1a25cbb3e169f989852e673b39fbbd5a43" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::PolicyDeniedException::getRequestingUser</definition>
+        <argsstring>() const</argsstring>
+        <name>getRequestingUser</name>
+        <qualifiedname>themis::exporters::PolicyDeniedException::getRequestingUser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The requesting user identity. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="206" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_policy_denied_exception_1a5d46b95bb282907199acc6c95a2b21fb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::PolicyDeniedException::getCollection</definition>
+        <argsstring>() const</argsstring>
+        <name>getCollection</name>
+        <qualifiedname>themis::exporters::PolicyDeniedException::getCollection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The collection name that was being exported. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="209" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Policy denial exception — thrown when an export is rejected by PolicyEngine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This is the concrete typed wrapper used by exporter paths that surface <computeroutput>ERR_EXPORT_POLICY_DENIED</computeroutput> via <computeroutput><ref refid="classthemis_1_1exporters_1_1_exporter_exception" kindref="compound">ExporterException</ref></computeroutput>. Catching <computeroutput><ref refid="classthemis_1_1exporters_1_1_exporter_exception" kindref="compound">ExporterException</ref></computeroutput> remains the stable contract for policy-blocked export operations.</para>
+<para><simplesect kind="note"><para>isResumableError(ExporterErrorCode::EXPORT_ABORTED) == false — policy denials are fail-closed and never resumable. The operator or requesting user must resolve the policy conflict before re-attempting. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::PolicyDeniedException</label>
+        <link refid="classthemis_1_1exporters_1_1_policy_denied_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::PolicyDeniedException</label>
+        <link refid="classthemis_1_1exporters_1_1_policy_denied_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/exporter_errors.h" line="180" column="1" bodyfile="include/exporters/exporter_errors.h" bodystart="180" bodyend="215"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_policy_denied_exception_1a568f08f139e6618e9a86943d478e1ca6" prot="private" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>collection_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a65232c8890228b0b1a9c31d335809c93" prot="protected" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>context_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_policy_denied_exception_1ae8c89972b969ac7ae7c753f468b5f6e6" prot="private" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>denial_reason_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a1a80681187a67958b179e691695209fb" prot="protected" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1aaca93f87150fcb5c565671227d2a9ffd" prot="public" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>ExporterException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_policy_denied_exception_1a5d46b95bb282907199acc6c95a2b21fb" prot="public" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>getCollection</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a2137749c86cb8b65f22035426c15ff94" prot="public" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1exporters_1_1_policy_denied_exception_1a61cb65c79ac280afbd0a92ea1081df3d" prot="public" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>getDenialReason</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a40e41cf979adc5dbb8ab0efc86dd5bb4" prot="public" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>getErrorCode</name></member>
+      <member refid="classthemis_1_1exporters_1_1_policy_denied_exception_1a25cbb3e169f989852e673b39fbbd5a43" prot="public" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>getRequestingUser</name></member>
+      <member refid="classthemis_1_1exporters_1_1_policy_denied_exception_1a2e2a9907aeb5f46789d57d7f1195abed" prot="public" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>PolicyDeniedException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_policy_denied_exception_1a0f8f1ef272930ae15787f2cdb950515f" prot="private" virt="non-virtual"><scope>themis::exporters::PolicyDeniedException</scope><name>requesting_user_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

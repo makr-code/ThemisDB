@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_sign_verify_test" kind="class" language="C++" prot="public">
+    <compoundname>SignVerifyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_sign_verify_test_1ac5635d8cacf167de13efbfed74a18983" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref></type>
+        <definition>CK_FUNCTION_LIST SignVerifyTest::funcs_</definition>
+        <argsstring></argsstring>
+        <name>funcs_</name>
+        <qualifiedname>SignVerifyTest::funcs_</qualifiedname>
+        <initializer>= makeStubFunctions()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="537" column="22" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="537" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_sign_verify_test_1ad28eefc9fecbb77f33e580587b12c8ae" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref></type>
+        <definition>Pkcs11Session SignVerifyTest::makeOpenSession</definition>
+        <argsstring>()</argsstring>
+        <name>makeOpenSession</name>
+        <qualifiedname>SignVerifyTest::makeOpenSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="538" column="19" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="538" bodyend="543"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SignVerifyTest</label>
+        <link refid="class_sign_verify_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>CK_FUNCTION_LIST</label>
+        <link refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t"/>
+      </node>
+      <node id="1">
+        <label>SignVerifyTest</label>
+        <link refid="class_sign_verify_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>funcs_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_pkcs11_wrapper.cpp" line="535" column="1" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="535" bodyend="544"/>
+    <listofallmembers>
+      <member refid="class_sign_verify_test_1ac5635d8cacf167de13efbfed74a18983" prot="protected" virt="non-virtual"><scope>SignVerifyTest</scope><name>funcs_</name></member>
+      <member refid="class_sign_verify_test_1ad28eefc9fecbb77f33e580587b12c8ae" prot="protected" virt="non-virtual"><scope>SignVerifyTest</scope><name>makeOpenSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

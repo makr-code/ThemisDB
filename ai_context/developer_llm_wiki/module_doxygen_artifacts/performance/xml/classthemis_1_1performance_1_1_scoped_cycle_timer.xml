@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_scoped_cycle_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::ScopedCycleTimer</compoundname>
+    <includes refid="cycle__metrics_8h" local="no">cycle_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_scoped_cycle_timer_1acf8e3f59206f5be4ab509e3ec0fc4e59" prot="private" static="no" mutable="no">
+        <type>uint64_t *</type>
+        <definition>uint64_t* themis::performance::ScopedCycleTimer::output_</definition>
+        <argsstring></argsstring>
+        <name>output_</name>
+        <qualifiedname>themis::performance::ScopedCycleTimer::output_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="218" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_scoped_cycle_timer_1ab2e286384aa64d20e8c12353a3c45f5c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ScopedCycleTimer::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::performance::ScopedCycleTimer::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="219" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::ScopedCycleTimer::ScopedCycleTimer</definition>
+        <argsstring>(uint64_t *output) noexcept</argsstring>
+        <name>ScopedCycleTimer</name>
+        <qualifiedname>themis::performance::ScopedCycleTimer::ScopedCycleTimer</qualifiedname>
+        <param>
+          <type>uint64_t *</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="204" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="204" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac409dc7e024dabf3954f477e8073ed26" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::ScopedCycleTimer::~ScopedCycleTimer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedCycleTimer</name>
+        <qualifiedname>themis::performance::ScopedCycleTimer::~ScopedCycleTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="207" column="5" bodyfile="include/performance/cycle_metrics.h" bodystart="207" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_scoped_cycle_timer_1a699ebd0896e8889252cf56a66bfe97f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::ScopedCycleTimer::ScopedCycleTimer</definition>
+        <argsstring>(const ScopedCycleTimer &amp;)=delete</argsstring>
+        <name>ScopedCycleTimer</name>
+        <qualifiedname>themis::performance::ScopedCycleTimer::ScopedCycleTimer</qualifiedname>
+        <param>
+          <type>const ScopedCycleTimer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="214" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_scoped_cycle_timer_1a64e2c3297216e6991974524c3a140eda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" kindref="member">ScopedCycleTimer</ref> &amp;</type>
+        <definition>ScopedCycleTimer &amp; themis::performance::ScopedCycleTimer::operator=</definition>
+        <argsstring>(const ScopedCycleTimer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::ScopedCycleTimer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" kindref="member">ScopedCycleTimer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="215" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII timer for automatic cycle measurement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: uint64_t cycles; { <ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer" kindref="compound">ScopedCycleTimer</ref> timer(&amp;cycles); // ... code to measure ... } // cycles now contains elapsed cycles </para>
+    </detaileddescription>
+    <location file="include/performance/cycle_metrics.h" line="202" column="1" bodyfile="include/performance/cycle_metrics.h" bodystart="202" bodyend="220"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1a64e2c3297216e6991974524c3a140eda" prot="public" virt="non-virtual"><scope>themis::performance::ScopedCycleTimer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1acf8e3f59206f5be4ab509e3ec0fc4e59" prot="private" virt="non-virtual"><scope>themis::performance::ScopedCycleTimer</scope><name>output_</name></member>
+      <member refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" prot="public" virt="non-virtual"><scope>themis::performance::ScopedCycleTimer</scope><name>ScopedCycleTimer</name></member>
+      <member refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1a699ebd0896e8889252cf56a66bfe97f0" prot="public" virt="non-virtual"><scope>themis::performance::ScopedCycleTimer</scope><name>ScopedCycleTimer</name></member>
+      <member refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ab2e286384aa64d20e8c12353a3c45f5c" prot="private" virt="non-virtual"><scope>themis::performance::ScopedCycleTimer</scope><name>start_</name></member>
+      <member refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac409dc7e024dabf3954f477e8073ed26" prot="public" virt="non-virtual"><scope>themis::performance::ScopedCycleTimer</scope><name>~ScopedCycleTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__ingestion__bridge_8h" kind="file" language="C++">
+    <compoundname>aql_ingestion_bridge.h</compoundname>
+    <includes local="yes">toolbox/ingestion_toolbox.h</includes>
+    <includes local="yes">ingestion/base_entity.h</includes>
+    <includes local="yes">ingestion/ingestion_sinks.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="aql__ingestion__bridge_8cpp" local="yes">src/aql/aql_ingestion_bridge.cpp</includedby>
+    <includedby refid="llm__aql__handler_8cpp" local="yes">src/aql/llm_aql_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/aql_ingestion_bridge.h</label>
+        <link refid="aql__ingestion__bridge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ingestion/base_entity.h</label>
+      </node>
+      <node id="4">
+        <label>ingestion/ingestion_sinks.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>toolbox/ingestion_toolbox.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aql/aql_ingestion_bridge.h</label>
+        <link refid="aql__ingestion__bridge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/aql/aql_ingestion_bridge.cpp</label>
+        <link refid="aql__ingestion__bridge_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/aql/llm_aql_handler.cpp</label>
+        <link refid="llm__aql__handler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge" prot="public">themis::aql::AQLIngestionBridge</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;toolbox/ingestion_toolbox.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/ingestion_sinks.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLIngestionBridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>(</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;toolbox::IngestionToolbox&gt;<sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a54307b18e7a03f9436ebf62138b00f90" kindref="member">toolbox</ref>,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><sp/><sp/><sp/><sp/><sp/>graph_writer<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text_field_key<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a1e2f694f776c3b195db7fa1630a38e08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a1e2f694f776c3b195db7fa1630a38e08" kindref="member">~AQLIngestionBridge</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ad587a8aeb3622a9695b1f2e0617ac51f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>(const<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae01f9319396cb1c06111b901723cec48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a59a64cebfb8f36a4ce9b36e5d738c76a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>(<ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a67cd7ff22756ba5acf284e42ee9c1e67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1ae44f6dc2c142888e78e543aab390f4dd" kindref="member">AQLIngestionBridge</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a047e970c448213c71fb039f251ff2b41" kindref="member">enrichInsertPayload</ref>(nlohmann::<ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref>&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ingestion::BaseEntity&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a7b70deccc6726a0042cdc56cd0d124ce" kindref="member">extractEntitiesForContext</ref>(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a879b7b18b4ca12b864994e08b959d9e0" kindref="member">buildEntityContext</ref>(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;ingestion::BaseEntity&gt;&amp;<sp/>entities</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a54307b18e7a03f9436ebf62138b00f90" kindref="member">toolbox</ref>::IngestionToolbox&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a54307b18e7a03f9436ebf62138b00f90" kindref="member">toolbox</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1add7cd8e119b485119fe74b115dbd1f88" kindref="member">graphWriter</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1aql_1_1_a_q_l_ingestion_bridge_1a54307b18e7a03f9436ebf62138b00f90" kindref="member">toolbox</ref>::IngestionToolbox&gt;<sp/>toolbox_;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><sp/><sp/>graph_writer_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text_field_key_;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>entityTypeName(ingestion::EntityType<sp/>et);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/aql_ingestion_bridge.h"/>
+  </compounddef>
+</doxygen>

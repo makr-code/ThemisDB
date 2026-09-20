@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="updates__operator__diagnostics_8h" kind="file" language="C++">
+    <compoundname>updates_operator_diagnostics.h</compoundname>
+    <includes refid="updates__diagnostics_8h" local="yes">updates/updates_diagnostics.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="updates__operator__diagnostics_8cpp" local="yes">src/updates/updates_operator_diagnostics.cpp</includedby>
+    <includedby refid="test__updates__operator__diagnostics__focused_8cpp" local="yes">tests/updates/test_updates_operator_diagnostics_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>updates/update_state_machine.h</label>
+        <link refid="update__state__machine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>updates/updates_diagnostics.h</label>
+        <link refid="updates__diagnostics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/updates/updates_operator_diagnostics.h</label>
+        <link refid="updates__operator__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/updates/updates_operator_diagnostics.h</label>
+        <link refid="updates__operator__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/updates/updates_operator_diagnostics.cpp</label>
+        <link refid="updates__operator__diagnostics_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/updates/test_updates_operator_diagnostics_focused.cpp</label>
+        <link refid="test__updates__operator__diagnostics__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_alerting_rule" prot="public">themis::updates::AlertingRule</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_recovery_procedure" prot="public">themis::updates::RecoveryProcedure</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_operator_diagnostics" prot="public">themis::updates::OperatorDiagnostics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Operator-facing diagnostics module for update incident detection and recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="since"><para>2.4.0 (Q4 2026)</para>
+</simplesect>
+Provides structured failure detection, alerting rules, and recovery procedures for common update scenarios:<itemizedlist>
+<listitem><para>Coordinator unreachability and timeout cycles</para>
+</listitem><listitem><para>Partial migration failures with recovery ambiguity</para>
+</listitem><listitem><para>Canary rollout failures and timeout loops</para>
+</listitem><listitem><para>Node failures during blue-green rollback</para>
+</listitem><listitem><para>Resource exhaustion scenarios</para>
+</listitem><listitem><para>Manifest corruption and degradation</para>
+</listitem><listitem><para>Cluster partition handling</para>
+</listitem><listitem><para>Deadlock/race condition detection</para>
+</listitem></itemizedlist>
+</para>
+<para>Supports machine-parseable alerting rules for observability tools (Prometheus, Grafana).</para>
+<para>Doxygen maturity: 🟢 PRODUCTION-READY </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="updates__diagnostics_8h" kindref="compound">updates/updates_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Failure<sp/>Scenario<sp/>Detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa14e2e5f315d2433967a8b8501b7bf15c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa14e2e5f315d2433967a8b8501b7bf15c" kindref="member">COORDINATOR_UNREACHABLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa5b89ae69537702092f0a50324a7781c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa5b89ae69537702092f0a50324a7781c7" kindref="member">PARTIAL_MIGRATION_FAILURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aaa10e957831f5d40d23df3ed4b09b4ee4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aaa10e957831f5d40d23df3ed4b09b4ee4" kindref="member">CANARY_TIMEOUT_CYCLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa90ff1a1b6d215971134696ea2da3c907" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa90ff1a1b6d215971134696ea2da3c907" kindref="member">BLUE_GREEN_ROLLBACK_FAILURE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aae4298182e52c2b757c6e980a84a72acf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aae4298182e52c2b757c6e980a84a72acf" kindref="member">RESOURCE_EXHAUSTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa2fe963b63d8d2a8165a97d6fae8f55a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa2fe963b63d8d2a8165a97d6fae8f55a3" kindref="member">MANIFEST_CORRUPTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa797b069b1b04ddfbaa9aba018fdc3273" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa797b069b1b04ddfbaa9aba018fdc3273" kindref="member">CLUSTER_PARTITION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa87a52d62b0159f1b141728f36da1dc1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa87a52d62b0159f1b141728f36da1dc1d" kindref="member">DEADLOCK_RACE_CONDITION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8af" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8af" kindref="member">RecoveryAction</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afaf7c607da1cb078ebdbfd6a5f5af30c7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afaf7c607da1cb078ebdbfd6a5f5af30c7d" kindref="member">IMMEDIATE_ABORT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa6c73198023cd851dfeda3f7865d8ccd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa6c73198023cd851dfeda3f7865d8ccd9" kindref="member">ISOLATED_ROLLBACK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa5a3de987a830c29a312b1cbe4d7135b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa5a3de987a830c29a312b1cbe4d7135b0" kindref="member">FULL_CLUSTER_ROLLBACK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afab5b5842849c3388d9c676a7377d3b4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afab5b5842849c3388d9c676a7377d3b4ed" kindref="member">RESOURCE_CLEANUP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa0597701cd80d04f364980f9752bcf070" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa0597701cd80d04f364980f9752bcf070" kindref="member">MANUAL_INTERVENTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afaec7a8dc0566aedc08aab5d272838a636" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afaec7a8dc0566aedc08aab5d272838a636" kindref="member">GRACEFUL_DEGRADE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa448d97e44f52322670fac70cee727f66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa448d97e44f52322670fac70cee727f66" kindref="member">RESTART_COORDINATOR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1updates_1_1_alerting_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_alerting_rule" kindref="compound">AlertingRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1updates_1_1_alerting_rule_1ab9ebd5b583a3fa0f889a1cb178c1a10b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1ab9ebd5b583a3fa0f889a1cb178c1a10b" kindref="member">rule_id</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1updates_1_1_alerting_rule_1acaedac7859d1f173ec759c47f99e7f5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1acaedac7859d1f173ec759c47f99e7f5c" kindref="member">rule_name</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1updates_1_1_alerting_rule_1a603447e350546d97b66f0ebefa55b74c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1a603447e350546d97b66f0ebefa55b74c" kindref="member">scenario</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1updates_1_1_alerting_rule_1a1d491d7eb847c9b87d8077c84d59ab6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1a1d491d7eb847c9b87d8077c84d59ab6a" kindref="member">severity</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1updates_1_1_alerting_rule_1a1595c6d7dfe04e5cb3ea99493652fec7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1a1595c6d7dfe04e5cb3ea99493652fec7" kindref="member">condition</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1updates_1_1_alerting_rule_1aefc3b21bfc77581e37668321ac7d4236" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1aefc3b21bfc77581e37668321ac7d4236" kindref="member">message_template</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1updates_1_1_alerting_rule_1a858dead371f40a456431b06027c3b36f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1a858dead371f40a456431b06027c3b36f" kindref="member">runbook_url</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1updates_1_1_alerting_rule_1abe9cafbbdc429b0528d5f456a02f42f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8af" kindref="member">RecoveryAction</ref><sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1abe9cafbbdc429b0528d5f456a02f42f2" kindref="member">recommended_action</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule_1af3d356ba31b0eea1c491053c7854d172" kindref="member">to_json</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1updates_1_1_recovery_procedure" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_recovery_procedure" kindref="compound">RecoveryProcedure</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1updates_1_1_recovery_procedure_1a6b8d1a2c431941b0e7f262b9d887ee82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/><ref refid="structthemis_1_1updates_1_1_recovery_procedure_1a6b8d1a2c431941b0e7f262b9d887ee82" kindref="member">scenario</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1updates_1_1_recovery_procedure_1ac422c2229e7cf0b90c00156ae40d5697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_recovery_procedure_1ac422c2229e7cf0b90c00156ae40d5697" kindref="member">symptoms</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1updates_1_1_recovery_procedure_1a306c940d9fe71fb41f03825328710934" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_recovery_procedure_1a306c940d9fe71fb41f03825328710934" kindref="member">root_cause_analysis</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1updates_1_1_recovery_procedure_1aa0e343314e0a9613e04fe79c11477db5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_recovery_procedure_1aa0e343314e0a9613e04fe79c11477db5" kindref="member">recovery_steps</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1updates_1_1_recovery_procedure_1afce347c15a6ee58029ae1f67470f55cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_recovery_procedure_1afce347c15a6ee58029ae1f67470f55cf" kindref="member">prevention_tips</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1updates_1_1_recovery_procedure_1ab231e6cc31f04e80f610797f18773b1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_recovery_procedure_1ab231e6cc31f04e80f610797f18773b1c" kindref="member">expected_outcome</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_recovery_procedure_1a64e235c671968c7a5edf0aee2b963a92" kindref="member">to_json</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Operator<sp/>Diagnostics<sp/>Module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1updates_1_1_operator_diagnostics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1updates_1_1_operator_diagnostics_1a5bdd15c5da8c00e3861d639a1543ac6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a5bdd15c5da8c00e3861d639a1543ac6b" kindref="member">~OperatorDiagnostics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1updates_1_1_operator_diagnostics_1a646acb64d093fcc6381e27082c1c0299" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a646acb64d093fcc6381e27082c1c0299" kindref="member">OperatorDiagnostics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1updates_1_1_operator_diagnostics_1a24e68d6ecc273f5e1c3ed5253478b3f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a24e68d6ecc273f5e1c3ed5253478b3f5" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1updates_1_1_operator_diagnostics_1a18bc2fbdd631ee4fcd90a6aa2fe60590" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a18bc2fbdd631ee4fcd90a6aa2fe60590" kindref="member">OperatorDiagnostics</ref>(<ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1updates_1_1_operator_diagnostics_1a05ed7987a8d566756d3add11be97d386" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>Scenario<sp/>Detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1af1b6a7a07e7f5d9cc296143b18af1567" kindref="member">detectScenario</ref>(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1ab573a99328ce8d4bf499060bd202ca52" kindref="member">getScenarioName</ref>(<ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>scenario)<sp/>const;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1acd2f934fb6a6d41744b4fa642a8fec6e" kindref="member">matchesScenario</ref>(<ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>scenario,<sp/>const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery<sp/>Procedures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_recovery_procedure" kindref="compound">RecoveryProcedure</ref><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a5e86622b1911d6a71e3d37d4f494fb23" kindref="member">getRecoveryProcedure</ref>(<ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>scenario)<sp/>const;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8af" kindref="member">RecoveryAction</ref><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a23357667354932f30c5d94b694fac26a" kindref="member">recommendRecoveryAction</ref>(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alerting<sp/>Rules<sp/>for<sp/>Observability<sp/>Tools</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_alerting_rule" kindref="compound">AlertingRule</ref><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1aa8e37e171714f21b7b6a8995c718590f" kindref="member">getAlertingRule</ref>(<ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>scenario)<sp/>const;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1updates_1_1_alerting_rule" kindref="compound">AlertingRule</ref>&gt;<sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a57634c212cdce5727059c1197e11e2b7" kindref="member">getAllAlertingRules</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>Pattern<sp/>Recommendations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a282a9699ecf11d2bf4ce26aefacc0ad4" kindref="member">getLogPatterns</ref>(<ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>scenario)<sp/>const;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1ab9750269c33457e4ebdab8d7807496a9" kindref="member">getMetricsToTrack</ref>(<ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>scenario)<sp/>const;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>Context<sp/>Enrichment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a3361dc09313dea2fe10e5fe891d4c741" kindref="member">enrichErrorContext</ref>(<ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JSON<sp/>Export<sp/>for<sp/>Documentation<sp/>and<sp/>Tools</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a51709491b7109f104588184f0fb886bf" kindref="member">exportScenariosAsJson</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a3278b2fef5dadb83fa740e736d2ac526" kindref="member">exportProceduresAsJson</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a3b9a0fe528312d9679afc39289bd3bed" kindref="member">exportAlertingRulesAsJson</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>detectCoordinatorScenario(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>detectMigrationScenario(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>detectCanaryScenario(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>detectRollbackScenario(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>detectResourceScenario(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>detectManifestScenario(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>detectPartitionScenario(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref><sp/>detectDeadlockScenario(const<sp/><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>recovery<sp/>procedures<sp/>and<sp/>alerting<sp/>rules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeRecoveryProcedures();</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeAlertingRules();</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/updates_operator_diagnostics.h"/>
+  </compounddef>
+</doxygen>

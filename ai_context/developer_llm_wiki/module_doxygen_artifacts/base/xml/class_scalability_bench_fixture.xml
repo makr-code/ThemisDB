@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_scalability_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ScalabilityBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_scalability_bench_fixture_1a4246cbec960a3b2f3b425f6474711808" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path ScalabilityBenchFixture::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ScalabilityBenchFixture::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_scalability_comprehensive.cpp" line="89" column="27" bodyfile="benchmarks/base/bench_scalability_comprehensive.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scalability_bench_fixture_1a9b75bb5fea0c7e82d93bb56c961544b5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ScalabilityBenchFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ScalabilityBenchFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_scalability_comprehensive.cpp" line="90" column="21" bodyfile="benchmarks/base/bench_scalability_comprehensive.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scalability_bench_fixture_1aba65005a663575965ae57aeff9420050" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ScalabilityBenchFixture::dataset_size_</definition>
+        <argsstring></argsstring>
+        <name>dataset_size_</name>
+        <qualifiedname>ScalabilityBenchFixture::dataset_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_scalability_comprehensive.cpp" line="91" column="12" bodyfile="benchmarks/base/bench_scalability_comprehensive.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_scalability_bench_fixture_1a863ba41bc62c4abd90e75562b6d89d7c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScalabilityBenchFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ScalabilityBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_scalability_comprehensive.cpp" line="62" column="10" bodyfile="benchmarks/base/bench_scalability_comprehensive.cpp" bodystart="62" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scalability_bench_fixture_1a3be37ba64bbe02bb423edd7642b86c38" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScalabilityBenchFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ScalabilityBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_scalability_comprehensive.cpp" line="83" column="10" bodyfile="benchmarks/base/bench_scalability_comprehensive.cpp" bodystart="83" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_scalability_bench_fixture_1a55d4d4f7217e5f44bf2a0a0df6cf5afa" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScalabilityBenchFixture::populateDataset</definition>
+        <argsstring>()</argsstring>
+        <name>populateDataset</name>
+        <qualifiedname>ScalabilityBenchFixture::populateDataset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_scalability_comprehensive.cpp" line="93" column="10" bodyfile="benchmarks/base/bench_scalability_comprehensive.cpp" bodystart="93" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ScalabilityBenchFixture</label>
+        <link refid="class_scalability_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ScalabilityBenchFixture</label>
+        <link refid="class_scalability_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_scalability_comprehensive.cpp" line="60" column="1" bodyfile="benchmarks/base/bench_scalability_comprehensive.cpp" bodystart="60" bodyend="104"/>
+    <listofallmembers>
+      <member refid="class_scalability_bench_fixture_1aba65005a663575965ae57aeff9420050" prot="protected" virt="non-virtual"><scope>ScalabilityBenchFixture</scope><name>dataset_size_</name></member>
+      <member refid="class_scalability_bench_fixture_1a9b75bb5fea0c7e82d93bb56c961544b5" prot="protected" virt="non-virtual"><scope>ScalabilityBenchFixture</scope><name>db_</name></member>
+      <member refid="class_scalability_bench_fixture_1a4246cbec960a3b2f3b425f6474711808" prot="protected" virt="non-virtual"><scope>ScalabilityBenchFixture</scope><name>db_path_</name></member>
+      <member refid="class_scalability_bench_fixture_1a55d4d4f7217e5f44bf2a0a0df6cf5afa" prot="protected" virt="non-virtual"><scope>ScalabilityBenchFixture</scope><name>populateDataset</name></member>
+      <member refid="class_scalability_bench_fixture_1a863ba41bc62c4abd90e75562b6d89d7c" prot="public" virt="non-virtual"><scope>ScalabilityBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_scalability_bench_fixture_1a3be37ba64bbe02bb423edd7642b86c38" prot="public" virt="non-virtual"><scope>ScalabilityBenchFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

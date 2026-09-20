@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::SamlAuthProvider::Config</compoundname>
+    <includes refid="saml__auth__provider_8h" local="no">saml_auth_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1ae5c383dfa1ec4fb9429caf9d9399604a" prot="public" static="no" mutable="no">
+        <type>auth::SAMLConfig</type>
+        <definition>auth::SAMLConfig themis::server::SamlAuthProvider::Config::saml</definition>
+        <argsstring></argsstring>
+        <name>saml</name>
+        <qualifiedname>themis::server::SamlAuthProvider::Config::saml</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="30" column="26" bodyfile="include/server/saml_auth_provider.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a9f46b3d15000c727e901966c4b166c3c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::Config::idp_slo_url</definition>
+        <argsstring></argsstring>
+        <name>idp_slo_url</name>
+        <qualifiedname>themis::server::SamlAuthProvider::Config::idp_slo_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="32" column="21" bodyfile="include/server/saml_auth_provider.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a5134cf5e9cddc79cb9edf1b5389f5640" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::Config::sp_slo_url</definition>
+        <argsstring></argsstring>
+        <name>sp_slo_url</name>
+        <qualifiedname>themis::server::SamlAuthProvider::Config::sp_slo_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="34" column="21" bodyfile="include/server/saml_auth_provider.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a0f030b762d9b776cf06db4ba3b79afd0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::Config::org_name</definition>
+        <argsstring></argsstring>
+        <name>org_name</name>
+        <qualifiedname>themis::server::SamlAuthProvider::Config::org_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="36" column="21" bodyfile="include/server/saml_auth_provider.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a8f351b9da35ed3902d431bb0f2619bf4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::Config::org_display_name</definition>
+        <argsstring></argsstring>
+        <name>org_display_name</name>
+        <qualifiedname>themis::server::SamlAuthProvider::Config::org_display_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="37" column="21" bodyfile="include/server/saml_auth_provider.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a6f68e8f3cecbe84322ddd6d6c83767a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::Config::org_url</definition>
+        <argsstring></argsstring>
+        <name>org_url</name>
+        <qualifiedname>themis::server::SamlAuthProvider::Config::org_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="38" column="21" bodyfile="include/server/saml_auth_provider.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1ad863f2962cf0af653739618b78e226df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::Config::contact_email</definition>
+        <argsstring></argsstring>
+        <name>contact_email</name>
+        <qualifiedname>themis::server::SamlAuthProvider::Config::contact_email</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="40" column="21" bodyfile="include/server/saml_auth_provider.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a671db319e814bf9dd4d5678b0b428fd0" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const auth::SAMLClaims &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const auth::SAMLClaims&amp;)&gt; themis::server::SamlAuthProvider::Config::token_factory</definition>
+        <argsstring></argsstring>
+        <name>token_factory</name>
+        <qualifiedname>themis::server::SamlAuthProvider::Config::token_factory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="42" column="23" bodyfile="include/server/saml_auth_provider.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/saml_auth_provider.h" line="29" column="5" bodyfile="include/server/saml_auth_provider.h" bodystart="29" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1ad863f2962cf0af653739618b78e226df" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider::Config</scope><name>contact_email</name></member>
+      <member refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a9f46b3d15000c727e901966c4b166c3c" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider::Config</scope><name>idp_slo_url</name></member>
+      <member refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a8f351b9da35ed3902d431bb0f2619bf4" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider::Config</scope><name>org_display_name</name></member>
+      <member refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a0f030b762d9b776cf06db4ba3b79afd0" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider::Config</scope><name>org_name</name></member>
+      <member refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a6f68e8f3cecbe84322ddd6d6c83767a0" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider::Config</scope><name>org_url</name></member>
+      <member refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1ae5c383dfa1ec4fb9429caf9d9399604a" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider::Config</scope><name>saml</name></member>
+      <member refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a5134cf5e9cddc79cb9edf1b5389f5640" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider::Config</scope><name>sp_slo_url</name></member>
+      <member refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config_1a671db319e814bf9dd4d5678b0b428fd0" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider::Config</scope><name>token_factory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

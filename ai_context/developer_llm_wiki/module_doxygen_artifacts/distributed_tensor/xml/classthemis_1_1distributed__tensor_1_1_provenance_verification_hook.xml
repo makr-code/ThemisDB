@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::distributed_tensor::ProvenanceVerificationHook</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2integrity__verification_8h" local="no">integrity_verification.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook_1a3846945652378aa71f45789b67f5c0ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::ProvenanceVerificationHook::~ProvenanceVerificationHook</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ProvenanceVerificationHook</name>
+        <qualifiedname>themis::distributed_tensor::ProvenanceVerificationHook::~ProvenanceVerificationHook</qualifiedname>
+        <briefdescription>
+<para>Provenance Verification Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="200" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook_1af1baac03e67086f9cd0c76a4b9e0235f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>virtual VerificationResult themis::distributed_tensor::ProvenanceVerificationHook::verifyProvenance</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;content_hash, const std::string &amp;package_lineage_hash)=0</argsstring>
+        <name>verifyProvenance</name>
+        <qualifiedname>themis::distributed_tensor::ProvenanceVerificationHook::verifyProvenance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_hash</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_lineage_hash</declname>
+        </param>
+        <briefdescription>
+<para>Verify Provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">package_lineage_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="209" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook_1a846022d5b0d64e12303bacd0ae9561fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::distributed_tensor::ProvenanceVerificationHook::getCurrentPackageLineage</definition>
+        <argsstring>()=0</argsstring>
+        <name>getCurrentPackageLineage</name>
+        <qualifiedname>themis::distributed_tensor::ProvenanceVerificationHook::getCurrentPackageLineage</qualifiedname>
+        <briefdescription>
+<para>Get Current Package Lineage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="218" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/integrity_verification.h" line="194" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="194" bodyend="219"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook_1a846022d5b0d64e12303bacd0ae9561fc" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::ProvenanceVerificationHook</scope><name>getCurrentPackageLineage</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook_1af1baac03e67086f9cd0c76a4b9e0235f" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::ProvenanceVerificationHook</scope><name>verifyProvenance</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook_1a3846945652378aa71f45789b67f5c0ed" prot="public" virt="virtual"><scope>themis::distributed_tensor::ProvenanceVerificationHook</scope><name>~ProvenanceVerificationHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1core_1_1concerns_1_1context__keys" kind="namespace" language="C++">
+    <compoundname>themis::core::concerns::context_keys</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1context__keys_1afe62bd90500d3e710a9293583c4000b4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::context_keys::kTraceId</definition>
+        <argsstring></argsstring>
+        <name>kTraceId</name>
+        <qualifiedname>themis::core::concerns::context_keys::kTraceId</qualifiedname>
+        <initializer>= &quot;trace_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="70" column="35" bodyfile="include/core/concerns/i_context.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1context__keys_1a77ddd7085b3e99728a5418ca913e9a88" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::context_keys::kSpanId</definition>
+        <argsstring></argsstring>
+        <name>kSpanId</name>
+        <qualifiedname>themis::core::concerns::context_keys::kSpanId</qualifiedname>
+        <initializer>= &quot;span_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="71" column="35" bodyfile="include/core/concerns/i_context.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1context__keys_1a92ce51486a6a9fa351fc5e7bd107914f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::context_keys::kRequestId</definition>
+        <argsstring></argsstring>
+        <name>kRequestId</name>
+        <qualifiedname>themis::core::concerns::context_keys::kRequestId</qualifiedname>
+        <initializer>= &quot;request_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="72" column="35" bodyfile="include/core/concerns/i_context.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1context__keys_1a632f4c9327a7a9da309e00194e937eb0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::context_keys::kUserId</definition>
+        <argsstring></argsstring>
+        <name>kUserId</name>
+        <qualifiedname>themis::core::concerns::context_keys::kUserId</qualifiedname>
+        <initializer>= &quot;user_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="73" column="35" bodyfile="include/core/concerns/i_context.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1context__keys_1a1832156bfed5f15a8b72f962cbee06b3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::context_keys::kTenantId</definition>
+        <argsstring></argsstring>
+        <name>kTenantId</name>
+        <qualifiedname>themis::core::concerns::context_keys::kTenantId</qualifiedname>
+        <initializer>= &quot;tenant_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="74" column="35" bodyfile="include/core/concerns/i_context.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1context__keys_1acd0bbd97ce7a573b453ae3ce3ff7a652" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::context_keys::kOperation</definition>
+        <argsstring></argsstring>
+        <name>kOperation</name>
+        <qualifiedname>themis::core::concerns::context_keys::kOperation</qualifiedname>
+        <initializer>= &quot;operation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="75" column="35" bodyfile="include/core/concerns/i_context.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1context__keys_1a289454465d02bf21ba5735c3b374f9ce" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::context_keys::kService</definition>
+        <argsstring></argsstring>
+        <name>kService</name>
+        <qualifiedname>themis::core::concerns::context_keys::kService</qualifiedname>
+        <initializer>= &quot;service&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="76" column="35" bodyfile="include/core/concerns/i_context.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1context__keys_1ac76e00f2b001418dbb6c29604eef3433" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::context_keys::kSessionId</definition>
+        <argsstring></argsstring>
+        <name>kSessionId</name>
+        <qualifiedname>themis::core::concerns::context_keys::kSessionId</qualifiedname>
+        <initializer>= &quot;session_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="77" column="35" bodyfile="include/core/concerns/i_context.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/i_context.h" line="68" column="1"/>
+  </compounddef>
+</doxygen>

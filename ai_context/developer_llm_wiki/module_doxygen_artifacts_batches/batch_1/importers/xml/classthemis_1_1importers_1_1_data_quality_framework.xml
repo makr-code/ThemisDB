@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_data_quality_framework" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::DataQualityFramework</compoundname>
+    <includes refid="data__quality_8h" local="no">data_quality.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics" prot="public">themis::importers::DataQualityFramework::DataQualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_quality_report" prot="public">themis::importers::DataQualityFramework::QualityReport</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_data_quality_framework_1_1_quality_assessor" prot="public">themis::importers::DataQualityFramework::QualityAssessor</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/data_quality.h" line="42" column="1" bodyfile="include/importers/data_quality.h" bodystart="42" bodyend="128"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

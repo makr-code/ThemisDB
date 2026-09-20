@@ -1,0 +1,690 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__dk__diagnostics__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_dk_diagnostics_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="dk__diagnostic__emitter_8h" local="yes">distributed_knowledge/dk_diagnostic_emitter.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>distributed_knowledge/distributed_knowledge_api_contract.h</label>
+        <link refid="distributed__knowledge__api__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>distributed_knowledge/dk_diagnostic_emitter.h</label>
+        <link refid="dk__diagnostic__emitter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/distributed_knowledge/test_dk_diagnostics_focused.cpp</label>
+        <link refid="test__dk__diagnostics__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>ctime</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_recording_listener" prot="public">RecordingListener</innerclass>
+    <innerclass refid="class_throwing_listener" prot="public">ThrowingListener</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, EmitWithNoListenersDoesNotThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>EmitWithNoListenersDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000028"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-01: emit() with no listeners does not throw. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="79" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="79" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1ab8e3210b0f2a781cb5f40f2d508f6ca9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, AddNullListenerIsNoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>AddNullListenerIsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000029"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-02: addListener(nullptr) is silently ignored. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="90" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1a4c183801a9669a4bf731c0c5fe529f00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, ClearListenersRemovesAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>ClearListenersRemovesAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000030"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-03: clearListeners() removes all registered listeners. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="99" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="99" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1ad0f13fadc66ea4a0feff44f77cf33b7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, ListenerCountIsAccurate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>ListenerCountIsAccurate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-04: listenerCount() reflects add and clear operations. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="111" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="111" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1a8e37ea4519cefd3b15d5a2775608eae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, SingleListenerReceivesEvent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>SingleListenerReceivesEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000032"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-05: A single registered listener receives the emitted event. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="129" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="129" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1ad51cb78776541d018b29ee66d7f2d8dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, MultipleListenersAllReceiveEvent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>MultipleListenersAllReceiveEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000033"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-06: Multiple listeners all receive the same event. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="151" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="151" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1a1f5d475dd8af73b18e3e70c61d1df4a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, ThrowingListenerDoesNotBlockOthers)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>ThrowingListenerDoesNotBlockOthers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000034"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-07: A throwing listener does not prevent subsequent listeners from receiving the event. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="174" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="174" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1a48151c31150c846d73f09b7bfa9387e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, TimestampAutoFilled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>TimestampAutoFilled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000035"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-08: timestamp_utc is populated automatically when left empty. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="194" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="194" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1a2237b57c2b6d37872caad663003297b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, EmitMergeTimeoutPopulatesFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>EmitMergeTimeoutPopulatesFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000036"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-09: emitMergeTimeout fills type, shard_id, operation_id, cause. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="216" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="216" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1a80b7aa82dc218aa98e814bd7cc1894a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, EmitDedupCollisionPopulatesFieldsAndMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>EmitDedupCollisionPopulatesFieldsAndMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000037"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-10: emitDedupCollision populates fields and metadata.key. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="235" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="235" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1a105ec4fbb5e73e5bc02b73d05e2ea386" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, EmitTrustGateRejectHasErrorSeverity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>EmitTrustGateRejectHasErrorSeverity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000038"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-11: emitTrustGateReject sets severity to ERROR. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="255" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="255" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1aa1c79eb7370d4d9889bc6fa56a9ae540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, EmitPartialShardMergePopulatesMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>EmitPartialShardMergePopulatesMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000039"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-12: emitPartialShardMerge populates responding/total shard metadata. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="271" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="271" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1af6a2dcec717f4b4ccfc9a7a4b541a185" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DKDiagnosticsEmitter, EmitFederationRollbackPopulatesFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DKDiagnosticsEmitter</type>
+        </param>
+        <param>
+          <type>EmitFederationRollbackPopulatesFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000040"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-13: emitFederationRollback populates correct fields. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="288" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="288" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dk__diagnostics__focused_8cpp_1ad73403f44f1813aead5fd6d74ebb7faf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MergeHardeningPolicy, IsConstrainedSemantics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref></type>
+        </param>
+        <param>
+          <type>IsConstrainedSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000041"><xreftitle>Test</xreftitle><xrefdescription><para>DKD-14: <ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" kindref="member">MergeHardeningPolicy::isConstrained()</ref> semantics.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies all four constraint scenarios:<itemizedlist>
+<listitem><para>Unconstrained policy (all zeros, BEST_EFFORT) → false</para>
+</listitem><listitem><para>Constrained by max_merge_latency_ms → true</para>
+</listitem><listitem><para>Constrained by dedup_window_size → true</para>
+</listitem><listitem><para>Constrained by FAIL_CLOSED timeout_behavior → true </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="315" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="315" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for <ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref> (DKD-01..DKD-14). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All tests are fully self-contained: no network I/O, no filesystem I/O. Diagnostic listeners are implemented inline as recording stubs.</para>
+<sect1 id="test__dk__diagnostics__focused_8cpp_1autotoc_md10_1s1"><sect2 id="test__dk__diagnostics__focused_8cpp_1autotoc_md10">
+<title>Test families</title><para><heading level="3">DKD-01..04 — Emitter lifecycle</heading>
+</para>
+<para>DKD-01 Empty emitter: emit() with no listeners does not throw DKD-02 addListener(nullptr) is a no-op DKD-03 clearListeners() removes all listeners DKD-04 listenerCount() reflects add and clear operations</para>
+<para><heading level="3">DKD-05..08 — Event dispatch</heading>
+</para>
+<para>DKD-05 Single listener receives emitted event DKD-06 Multiple listeners receive the same event DKD-07 Throwing listener does not prevent subsequent listeners from receiving event DKD-08 timestamp_utc is auto-filled when empty</para>
+<para><heading level="3">DKD-09..11 — Convenience overloads</heading>
+</para>
+<para>DKD-09 emitMergeTimeout populates correct fields DKD-10 emitDedupCollision populates correct fields and metadata DKD-11 emitTrustGateReject populates correct fields with ERROR severity DKD-12 emitPartialShardMerge populates correct fields and metadata DKD-13 emitFederationRollback populates correct fields</para>
+<para><heading level="3">DKD-14 — Policy types</heading>
+</para>
+<para>DKD-14 <ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref> isConstrained() semantics</para>
+<para><simplesect kind="see"><para><ref refid="dk__diagnostic__emitter_8h" kindref="compound">include/distributed_knowledge/dk_diagnostic_emitter.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="distributed__knowledge__api__contract_8h" kindref="compound">include/distributed_knowledge/distributed_knowledge_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/distributed_knowledge/ROADMAP.md — Phase 3 / Q4 2026 </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="dk__diagnostic__emitter_8h" kindref="compound">distributed_knowledge/dk_diagnostic_emitter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Recording<sp/>listener</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="class_recording_listener" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_recording_listener" kindref="compound">RecordingListener</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener" kindref="compound">IDKDiagnosticListener</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_recording_listener_1ac370ae257479ce2ae2e6f2c1f9c6475a" kindref="member">onEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref>&amp;<sp/>event)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_recording_listener_1a8afb2e8557ec6b58ae378a3cd69841db" kindref="member">events</ref>.push_back(event);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DKDiagnosticEvent&gt;<sp/><ref refid="class_recording_listener_1a8afb2e8557ec6b58ae378a3cd69841db" kindref="member">events</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="class_throwing_listener" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_throwing_listener" kindref="compound">ThrowingListener</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener" kindref="compound">IDKDiagnosticListener</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_throwing_listener_1ad969c6acea7aba81800e3662340dd1a1" kindref="member">onEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;listener<sp/>intentionally<sp/>throws&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DKD-01..04<sp/>—<sp/>Emitter<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>EmitWithNoListenersDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" kindref="member">DKDiagnosticEventType::MERGE_TIMEOUT</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" kindref="member">cause</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ab365e63c5a92ea27eb17a08585a4bdd9" kindref="member">emit</ref>(ev));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>AddNullListenerIsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ac3b3499006b551e60d2e396cb7065bd2" kindref="member">listenerCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>ClearListenersRemovesAll)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(std::make_shared&lt;RecordingListener&gt;());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(std::make_shared&lt;RecordingListener&gt;());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ac3b3499006b551e60d2e396cb7065bd2" kindref="member">listenerCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a1c7cb9ac2028e3125d8dd8a6a0f3f994" kindref="member">clearListeners</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ac3b3499006b551e60d2e396cb7065bd2" kindref="member">listenerCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>ListenerCountIsAccurate)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ac3b3499006b551e60d2e396cb7065bd2" kindref="member">listenerCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(std::make_shared&lt;RecordingListener&gt;());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ac3b3499006b551e60d2e396cb7065bd2" kindref="member">listenerCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(std::make_shared&lt;RecordingListener&gt;());</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ac3b3499006b551e60d2e396cb7065bd2" kindref="member">listenerCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a1c7cb9ac2028e3125d8dd8a6a0f3f994" kindref="member">clearListeners</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ac3b3499006b551e60d2e396cb7065bd2" kindref="member">listenerCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DKD-05..08<sp/>—<sp/>Event<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>SingleListenerReceivesEvent)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ac481361e74b8fb938b6d80993180c6ca" kindref="member">DKDiagnosticEventType::DEDUP_COLLISION</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" kindref="member">severity</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa551b723eafd6a31d444fcb2f5920fbd3" kindref="member">DKDiagnosticSeverity::INFO</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ad77d5656f17016bb0df580bbf8260a16" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-01&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ac8daf3920481b35b8dc10c29bf4ed06a" kindref="member">operation_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;op-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" kindref="member">cause</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;duplicate<sp/>doc_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ab365e63c5a92ea27eb17a08585a4bdd9" kindref="member">emit</ref>(ev);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].type,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ac481361e74b8fb938b6d80993180c6ca" kindref="member">DKDiagnosticEventType::DEDUP_COLLISION</ref>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].shard_id,<sp/></highlight><highlight class="stringliteral">&quot;shard-01&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].cause,<sp/></highlight><highlight class="stringliteral">&quot;duplicate<sp/>doc_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>MultipleListenersAllReceiveEvent)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec1<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec2<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec1);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec2);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a549e0d5b792100b22681215d7f952a72" kindref="member">DKDiagnosticEventType::TRUST_GATE_REJECT</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" kindref="member">severity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">DKDiagnosticSeverity::ERROR</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" kindref="member">cause</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;untrusted<sp/>domain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ab365e63c5a92ea27eb17a08585a4bdd9" kindref="member">emit</ref>(ev);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec1-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec2-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec1-&gt;events[0].type,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a549e0d5b792100b22681215d7f952a72" kindref="member">DKDiagnosticEventType::TRUST_GATE_REJECT</ref>);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec2-&gt;events[0].type,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a549e0d5b792100b22681215d7f952a72" kindref="member">DKDiagnosticEventType::TRUST_GATE_REJECT</ref>);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>ThrowingListenerDoesNotBlockOthers)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>thrower<sp/>=<sp/>std::make_shared&lt;ThrowingListener&gt;();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(thrower);<sp/><sp/></highlight><highlight class="comment">//<sp/>registered<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" kindref="member">DKDiagnosticEventType::MERGE_TIMEOUT</ref>;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" kindref="member">cause</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;slow<sp/>shard&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ab365e63c5a92ea27eb17a08585a4bdd9" kindref="member">emit</ref>(ev));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Despite<sp/>the<sp/>throwing<sp/>listener,<sp/>rec<sp/>must<sp/>have<sp/>received<sp/>the<sp/>event.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].type,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" kindref="member">DKDiagnosticEventType::MERGE_TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>TimestampAutoFilled)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a03abcb7bc53a5cceea76d291046dd385" kindref="member">DKDiagnosticEventType::FEDERATION_ROLLBACK</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a0f50a689e663fa2188e119721911233f" kindref="member">timestamp_utc</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>intentionally<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ab365e63c5a92ea27eb17a08585a4bdd9" kindref="member">emit</ref>(ev);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec-&gt;events[0].timestamp_utc.empty())</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;timestamp_utc<sp/>must<sp/>be<sp/>auto-filled<sp/>by<sp/>the<sp/>emitter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DKD-09..13<sp/>—<sp/>Convenience<sp/>overloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>EmitMergeTimeoutPopulatesFields)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a273acc52a24b0eac480997bae6af8a76" kindref="member">emitMergeTimeout</ref>(</highlight><highlight class="stringliteral">&quot;shard-us&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;op-42&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;exceeded<sp/>500<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>=<sp/>rec-&gt;events[0];</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" kindref="member">DKDiagnosticEventType::MERGE_TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" kindref="member">severity</ref>,<sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa059e9861e0400dfbe05c98a841f3f96b" kindref="member">DKDiagnosticSeverity::WARNING</ref>);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ad77d5656f17016bb0df580bbf8260a16" kindref="member">shard_id</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard-us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ac8daf3920481b35b8dc10c29bf4ed06a" kindref="member">operation_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;op-42&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" kindref="member">cause</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;exceeded<sp/>500<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>EmitDedupCollisionPopulatesFieldsAndMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a54230d28c0d724ff9a46efa907fd64cd" kindref="member">emitDedupCollision</ref>(</highlight><highlight class="stringliteral">&quot;shard-eu&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;op-99&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc-dup-007&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>=<sp/>rec-&gt;events[0];</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ac481361e74b8fb938b6d80993180c6ca" kindref="member">DKDiagnosticEventType::DEDUP_COLLISION</ref>);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" kindref="member">severity</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa551b723eafd6a31d444fcb2f5920fbd3" kindref="member">DKDiagnosticSeverity::INFO</ref>);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ad77d5656f17016bb0df580bbf8260a16" kindref="member">shard_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard-eu&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ac8daf3920481b35b8dc10c29bf4ed06a" kindref="member">operation_id</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op-99&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" kindref="member">metadata</ref>.count(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" kindref="member">metadata</ref>.at(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;doc-dup-007&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>EmitTrustGateRejectHasErrorSeverity)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a990c8ee8deaff9c3d646c8aa14ce3498" kindref="member">emitTrustGateReject</ref>(</highlight><highlight class="stringliteral">&quot;shard-x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fed-op-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;domain<sp/>not<sp/>in<sp/>allowlist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].type,<sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a549e0d5b792100b22681215d7f952a72" kindref="member">DKDiagnosticEventType::TRUST_GATE_REJECT</ref>);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].severity,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">DKDiagnosticSeverity::ERROR</ref>);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].shard_id,<sp/></highlight><highlight class="stringliteral">&quot;shard-x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>EmitPartialShardMergePopulatesMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a2e4650abbd3b5ccb19208e812e858320" kindref="member">emitPartialShardMerge</ref>(</highlight><highlight class="stringliteral">&quot;merge-op-5&quot;</highlight><highlight class="normal">,<sp/>3u,<sp/>5u);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>=<sp/>rec-&gt;events[0];</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref>,<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a46865df27a193a241689896dcd0f34da" kindref="member">DKDiagnosticEventType::PARTIAL_SHARD_MERGE</ref>);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" kindref="member">metadata</ref>.at(</highlight><highlight class="stringliteral">&quot;responding_shards&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.<ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" kindref="member">metadata</ref>.at(</highlight><highlight class="stringliteral">&quot;total_shards&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(DKDiagnosticsEmitter,<sp/>EmitFederationRollbackPopulatesFields)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" kindref="compound">DistributedKnowledgeDiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>std::make_shared&lt;RecordingListener&gt;();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1a8086be7a746139f650abc30f47b4fb84" kindref="member">addListener</ref>(rec);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.<ref refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter_1ae2e52ea3b593449d901ceffaf9aff553" kindref="member">emitFederationRollback</ref>(</highlight><highlight class="stringliteral">&quot;round-007&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;quorum<sp/>lost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec-&gt;events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].type,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a03abcb7bc53a5cceea76d291046dd385" kindref="member">DKDiagnosticEventType::FEDERATION_ROLLBACK</ref>);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].severity,<sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">DKDiagnosticSeverity::ERROR</ref>);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].operation_id,<sp/></highlight><highlight class="stringliteral">&quot;round-007&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec-&gt;events[0].cause,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;quorum<sp/>lost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DKD-14<sp/>—<sp/>Policy<sp/>type<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>(<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref>,<sp/>IsConstrainedSemantics)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unconstrained</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref><sp/>unconstrained;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(unconstrained.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Constrained<sp/>by<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref><sp/>latency;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>latency.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a4189f82f7a705b33b1054cac8acac583" kindref="member">max_merge_latency_ms</ref><sp/>=<sp/>500u;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(latency.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Constrained<sp/>by<sp/>dedup<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref><sp/>dedup;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>dedup.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1ae77346caff989a6a01868200d6e3315d" kindref="member">dedup_window_size</ref><sp/>=<sp/>1000u;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dedup.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Constrained<sp/>by<sp/>FAIL_CLOSED<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref><sp/>failClosed;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>failClosed.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1aaa25b4e3fde56a2a98c1046ce6e2d841" kindref="member">timeout_behavior</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79a7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">TimeoutBehavior::FAIL_CLOSED</ref>;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(failClosed.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Constrained<sp/>by<sp/>min<sp/>shard<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref><sp/>minShard;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>minShard.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a10aba593154b9638c2e4537919ca21a3" kindref="member">partial_shard_min_count</ref><sp/>=<sp/>3u;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(minShard.<ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp"/>
+  </compounddef>
+</doxygen>

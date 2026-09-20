@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1_config_change" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::ConfigChange</compoundname>
+    <includes refid="config__hot__reloader_8h" local="no">config_hot_reloader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_config_change_1a8d468fefa935e230387ac55f2b6991a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::ConfigChange::config_key</definition>
+        <argsstring></argsstring>
+        <name>config_key</name>
+        <qualifiedname>themis::core::ConfigChange::config_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="37" column="22" bodyfile="include/core/config_hot_reloader.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_config_change_1a438886e963b98096ada1ea5a3d65ab3f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005" kindref="member">ConfigChangeType</ref></type>
+        <definition>ConfigChangeType themis::core::ConfigChange::change_type</definition>
+        <argsstring></argsstring>
+        <name>change_type</name>
+        <qualifiedname>themis::core::ConfigChange::change_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a40e3819215b52841e19a7cac06b5f065" kindref="member">ConfigChangeType::MODIFIED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="38" column="22" bodyfile="include/core/config_hot_reloader.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_config_change_1ad301432a3e0b9b9dce68f8e1fb7b5852" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::ConfigChange::old_value_json</definition>
+        <argsstring></argsstring>
+        <name>old_value_json</name>
+        <qualifiedname>themis::core::ConfigChange::old_value_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="39" column="22" bodyfile="include/core/config_hot_reloader.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_config_change_1ab98219b47f9da060ef96cc40b8db81f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::ConfigChange::new_value_json</definition>
+        <argsstring></argsstring>
+        <name>new_value_json</name>
+        <qualifiedname>themis::core::ConfigChange::new_value_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="40" column="22" bodyfile="include/core/config_hot_reloader.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_config_change_1a3afeb4504576199d22c6c609b4a7c3bd" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::core::ConfigChange::changed_at</definition>
+        <argsstring></argsstring>
+        <name>changed_at</name>
+        <qualifiedname>themis::core::ConfigChange::changed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="41" column="43" bodyfile="include/core/config_hot_reloader.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/config_hot_reloader.h" line="36" column="1" bodyfile="include/core/config_hot_reloader.h" bodystart="36" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1_config_change_1a438886e963b98096ada1ea5a3d65ab3f" prot="public" virt="non-virtual"><scope>themis::core::ConfigChange</scope><name>change_type</name></member>
+      <member refid="structthemis_1_1core_1_1_config_change_1a3afeb4504576199d22c6c609b4a7c3bd" prot="public" virt="non-virtual"><scope>themis::core::ConfigChange</scope><name>changed_at</name></member>
+      <member refid="structthemis_1_1core_1_1_config_change_1a8d468fefa935e230387ac55f2b6991a2" prot="public" virt="non-virtual"><scope>themis::core::ConfigChange</scope><name>config_key</name></member>
+      <member refid="structthemis_1_1core_1_1_config_change_1ab98219b47f9da060ef96cc40b8db81f3" prot="public" virt="non-virtual"><scope>themis::core::ConfigChange</scope><name>new_value_json</name></member>
+      <member refid="structthemis_1_1core_1_1_config_change_1ad301432a3e0b9b9dce68f8e1fb7b5852" prot="public" virt="non-virtual"><scope>themis::core::ConfigChange</scope><name>old_value_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

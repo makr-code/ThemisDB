@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1data__utils" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::data_utils</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1data__utils_1a7c2be358d6a7d67decab26c76d64a4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt;</type>
+        <definition>std::vector&lt; InstructionDataSample &gt; themis::llm::lora::data_utils::loadAlpacaFormat</definition>
+        <argsstring>(const std::string &amp;json_data)</argsstring>
+        <name>loadAlpacaFormat</name>
+        <qualifiedname>themis::llm::lora::data_utils::loadAlpacaFormat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_data</declname>
+        </param>
+        <briefdescription>
+<para>Load Alpaca Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), is_array(), spdlog::error(), value(), empty(), push_back(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/data_loader.cpp" line="532" column="13" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="532" bodyend="559" declfile="include/llm/lora_framework/data_loader.h" declline="286" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1data__utils_1a27117aba7ed5b40a229d55452e43f847" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt;</type>
+        <definition>std::vector&lt; InstructionDataSample &gt; themis::llm::lora::data_utils::loadShareGPTFormat</definition>
+        <argsstring>(const std::string &amp;json_data)</argsstring>
+        <name>loadShareGPTFormat</name>
+        <qualifiedname>themis::llm::lora::data_utils::loadShareGPTFormat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_data</declname>
+        </param>
+        <briefdescription>
+<para>Load Share GPTFormat. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), is_array(), spdlog::error(), contains(), value(), empty(), push_back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/data_loader.cpp" line="567" column="13" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="567" bodyend="618" declfile="include/llm/lora_framework/data_loader.h" declline="293" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1data__utils_1af807b0fe8fa26d14ae1deeddab196482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt;</type>
+        <definition>std::vector&lt; InstructionDataSample &gt; themis::llm::lora::data_utils::createToyDataset</definition>
+        <argsstring>(size_t num_samples)</argsstring>
+        <name>createToyDataset</name>
+        <qualifiedname>themis::llm::lora::data_utils::createToyDataset</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+        </param>
+        <briefdescription>
+<para>Create Toy Dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), dis(), std::to_string(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/data_loader.cpp" line="626" column="13" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="626" bodyend="664" declfile="include/llm/lora_framework/data_loader.h" declline="300" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1data__utils_1a4c4b87683e68b67de96280c92f442731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt;, std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; InstructionDataSample &gt;, std::vector&lt; InstructionDataSample &gt; &gt; themis::llm::lora::data_utils::trainValSplit</definition>
+        <argsstring>(const std::vector&lt; InstructionDataSample &gt; &amp;samples, float validation_split=0.1f)</argsstring>
+        <name>trainValSplit</name>
+        <qualifiedname>themis::llm::lora::data_utils::trainValSplit</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>validation_split</declname>
+          <defval>0.1f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/data_loader.cpp" line="667" column="1" bodyfile="src/llm/lora_framework/data_loader.cpp" bodystart="667" bodyend="681" declfile="include/llm/lora_framework/data_loader.h" declline="303" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/data_loader.h" line="280" column="1"/>
+  </compounddef>
+</doxygen>

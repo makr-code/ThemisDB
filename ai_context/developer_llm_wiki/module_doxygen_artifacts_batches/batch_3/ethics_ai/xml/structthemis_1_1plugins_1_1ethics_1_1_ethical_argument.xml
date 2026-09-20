@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicalArgument</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a4b1eeeefca441a7f2580bdc125ad59ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalArgument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="43" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1ae3e9147bb038815962f172c0850ae093" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalArgument::philosophy_school</definition>
+        <argsstring></argsstring>
+        <name>philosophy_school</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::philosophy_school</qualifiedname>
+        <briefdescription>
+<para>Philosophy school (e.g., &quot;kant&quot;, &quot;utilitarianism&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="44" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a99a612467a2f33fd3a7cdd2764414e79" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" kindref="member">ArgumentType</ref></type>
+        <definition>ArgumentType themis::plugins::ethics::EthicalArgument::argument_type</definition>
+        <argsstring></argsstring>
+        <name>argument_type</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::argument_type</qualifiedname>
+        <briefdescription>
+<para>Type of argument. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="45" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1abf696a0f14e05b3baa1168bd11c2fb70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalArgument::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::content</qualifiedname>
+        <briefdescription>
+<para>The actual argument text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="46" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1abacce38fccca9da07324fdc5a09e4420" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicalArgument::principle_basis</definition>
+        <argsstring></argsstring>
+        <name>principle_basis</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::principle_basis</qualifiedname>
+        <briefdescription>
+<para>Core philosophical principles invoked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="47" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a23565ceb7cf5150a7b7b57580a7cce77" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48" kindref="member">ArgumentStrength</ref></type>
+        <definition>ArgumentStrength themis::plugins::ethics::EthicalArgument::strength</definition>
+        <argsstring></argsstring>
+        <name>strength</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::strength</qualifiedname>
+        <briefdescription>
+<para>Assessed strength. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="48" column="22" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a4d3672b09a1c90bd1491f171582f59b4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicalArgument::counterarguments</definition>
+        <argsstring></argsstring>
+        <name>counterarguments</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::counterarguments</qualifiedname>
+        <briefdescription>
+<para>IDs of countering arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="49" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1ae973a0c9dd1f48ee65f586c031f63f1e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicalArgument::supports</definition>
+        <argsstring></argsstring>
+        <name>supports</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::supports</qualifiedname>
+        <briefdescription>
+<para>IDs of supported arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="50" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a754d8b4d9c88dc77cf87d81e6adbfb20" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::ethics::EthicalArgument::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::created_at</qualifiedname>
+        <briefdescription>
+<para>Creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="51" column="43" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a1dbaf9ff9cab4ae5d8315295b6090413" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::ethics::EthicalArgument::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="52" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1aa669ef3bd1f68c8507173f0d0d636560" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicalArgument::EthicalArgument</definition>
+        <argsstring>()</argsstring>
+        <name>EthicalArgument</name>
+        <qualifiedname>themis::plugins::ethics::EthicalArgument::EthicalArgument</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="54" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="54" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="42" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="42" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a99a612467a2f33fd3a7cdd2764414e79" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>argument_type</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1abf696a0f14e05b3baa1168bd11c2fb70" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>content</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a4d3672b09a1c90bd1491f171582f59b4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>counterarguments</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a754d8b4d9c88dc77cf87d81e6adbfb20" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1aa669ef3bd1f68c8507173f0d0d636560" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>EthicalArgument</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a4b1eeeefca441a7f2580bdc125ad59ea" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a1dbaf9ff9cab4ae5d8315295b6090413" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1ae3e9147bb038815962f172c0850ae093" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>philosophy_school</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1abacce38fccca9da07324fdc5a09e4420" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>principle_basis</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a23565ceb7cf5150a7b7b57580a7cce77" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>strength</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1ae973a0c9dd1f48ee65f586c031f63f1e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalArgument</scope><name>supports</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

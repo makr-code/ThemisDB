@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_file_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::FilePattern</compoundname>
+    <includes refid="workflow__engine_8h" local="no">workflow_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_pattern_1a9d822fa150d500fc5d53cf8404ad51ac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::FilePattern::mime_types</definition>
+        <argsstring></argsstring>
+        <name>mime_types</name>
+        <qualifiedname>themis::ingestion::FilePattern::mime_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>e.g. [&quot;application/pdf&quot;, &quot;text/html&quot;] Prefix wildcard supported: &quot;application/vnd.openxmlformats*&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="44" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_pattern_1a01dbea292c264177f3799df063641de8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::FilePattern::filename_patterns</definition>
+        <argsstring></argsstring>
+        <name>filename_patterns</name>
+        <qualifiedname>themis::ingestion::FilePattern::filename_patterns</qualifiedname>
+        <briefdescription>
+<para>Shell-style glob patterns, e.g. [&quot;*Gesetz*&quot;, &quot;*Verordnung*&quot;]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="48" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_file_pattern_1add588ab4318bcfbedc6b86f6e649b05a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FilePattern::matches</definition>
+        <argsstring>(const std::string &amp;mime, const std::string &amp;filename) const</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::ingestion::FilePattern::matches</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the file described by the arguments matches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="52" column="10" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="190" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Criteria that determine which files activate a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_workflow_profile" kindref="compound">WorkflowProfile</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A file matches when:<itemizedlist>
+<listitem><para>Its MIME type appears in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_pattern_1a9d822fa150d500fc5d53cf8404ad51ac" kindref="member">mime_types</ref></computeroutput> (or <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_pattern_1a9d822fa150d500fc5d53cf8404ad51ac" kindref="member">mime_types</ref></computeroutput> is empty), AND</para>
+</listitem><listitem><para>Its filename matches at least one glob in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_pattern_1a01dbea292c264177f3799df063641de8" kindref="member">filename_patterns</ref></computeroutput> (or <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_pattern_1a01dbea292c264177f3799df063641de8" kindref="member">filename_patterns</ref></computeroutput> is empty).</para>
+</listitem></itemizedlist>
+</para>
+<para>An empty <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_pattern" kindref="compound">FilePattern</ref></computeroutput> matches every file (used by <computeroutput>default.yaml</computeroutput>). </para>
+    </detaileddescription>
+    <location file="include/ingestion/workflow_engine.h" line="43" column="1" bodyfile="include/ingestion/workflow_engine.h" bodystart="43" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_file_pattern_1a01dbea292c264177f3799df063641de8" prot="public" virt="non-virtual"><scope>themis::ingestion::FilePattern</scope><name>filename_patterns</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_pattern_1add588ab4318bcfbedc6b86f6e649b05a" prot="public" virt="non-virtual"><scope>themis::ingestion::FilePattern</scope><name>matches</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_pattern_1a9d822fa150d500fc5d53cf8404ad51ac" prot="public" virt="non-virtual"><scope>themis::ingestion::FilePattern</scope><name>mime_types</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
